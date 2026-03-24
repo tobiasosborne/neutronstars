@@ -24,7 +24,7 @@ using ..DielectricTensor: polarization_weights_full
 using ..HydrogenOpacity: dBnu_dT
 using ..BlackbodyAtmosphere: planck_Bnu
 
-export mode_opacity, effective_opacity
+export mode_opacity, mode_absorption, mode_scattering, effective_opacity
 export kappa_parallel_mono, kappa_perp_mono
 export rosseland_magnetic, make_rosseland_frequency_grid
 
@@ -52,6 +52,53 @@ function mode_opacity(j::Int, ν::Float64, θ_B::Float64,
     end
 
     return κ / m_H
+end
+
+"""
+    mode_absorption(j, ν, θ_B, B, T, ρ) → κ_j^abs [cm²/g]
+
+Absorption-only opacity for normal mode j (free-free + proton-proton).
+Same polarization weight decomposition as mode_opacity, but excludes scattering.
+"""
+function mode_absorption(j::Int, ν::Float64, θ_B::Float64,
+                          B::Float64, T::Float64, ρ::Float64)::Float64
+    @assert j ∈ (1, 2)
+    ω = 2π * ν
+    n_e = ρ / m_H
+
+    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
+    w = j == 1 ? w1 : w2
+
+    κ = 0.0
+    for (idx, α) in enumerate((-1, 0, 1))
+        σ = sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
+        κ += w[idx] * σ
+    end
+
+    return κ / m_H
+end
+
+"""
+    mode_scattering(j, ν, θ_B, B, T, ρ) → σ_j^scat [cm²/g]
+
+Scattering-only opacity for normal mode j (magnetic Thomson).
+Same polarization weight decomposition as mode_opacity, but only scattering.
+"""
+function mode_scattering(j::Int, ν::Float64, θ_B::Float64,
+                          B::Float64, T::Float64, ρ::Float64)::Float64
+    @assert j ∈ (1, 2)
+    ω = 2π * ν
+    n_e = ρ / m_H
+
+    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
+    w = j == 1 ? w1 : w2
+
+    σ_scat = 0.0
+    for (idx, α) in enumerate((-1, 0, 1))
+        σ_scat += w[idx] * sigma_scat_alpha(α, ω, B)
+    end
+
+    return σ_scat / m_H
 end
 
 """

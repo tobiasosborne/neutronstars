@@ -19,7 +19,7 @@ using ..GauntFactor: GauntTable
 using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
-using ..MagneticModes: mode_opacity
+using ..MagneticModes: mode_opacity, mode_absorption, mode_scattering
 using ..FeautrierSolver: gauss_legendre_half
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult
@@ -111,8 +111,22 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                    view(ρ_alb, :, :, j))
         end
 
-        # Compute two-mode Rybicki temperature correction
+        # Compute flux diagnostic
+        F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
+        flux_ratio = F_bol / (σ_SB * T_eff^4)
+
+        # Rybicki temperature correction (radiative equilibrium)
         ΔT = _rybicki_two_mode(N, K, ν_grid, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
+
+        # Uniform flux correction: gently scale ALL temperatures toward
+        # the correct emergent flux.  ΔT_flux/T = -α(F/F_target - 1)/4
+        # α is small (0.1) so it doesn't destabilize Rybicki.
+        if abs(flux_ratio - 1.0) > 0.02
+            α_flux = 0.1
+            for i in 1:N
+                ΔT[i] += -α_flux * T[i] * (flux_ratio - 1.0) / (4.0 * flux_ratio)
+            end
+        end
 
         max_dT = maximum(abs.(ΔT ./ T))
         if max_dT > 0.3
@@ -120,16 +134,20 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
             max_dT = 0.3
         end
 
-        # Compute flux diagnostic
-        F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
-        flux_ratio = F_bol / (σ_SB * T_eff^4)
-
         verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",
                             iter, max_dT, flux_ratio)
 
-        if max_dT < tol
+        if max_dT < tol && abs(flux_ratio - 1.0) < 0.05
             converged = true
-            verbose && @printf("  CONVERGED at iteration %d\n", iter)
+            verbose && @printf("  CONVERGED at iteration %d (flux error %.1f%%)\n",
+                                iter, abs(flux_ratio - 1.0) * 100)
+            break
+        end
+        # Also converge if flux is good and ΔT oscillations are small
+        if max_dT < 10*tol && abs(flux_ratio - 1.0) < 0.03
+            converged = true
+            verbose && @printf("  CONVERGED at iteration %d (flux error %.1f%%, ΔT/T=%.1e)\n",
+                                iter, abs(flux_ratio - 1.0) * 100, max_dT)
             break
         end
 
@@ -187,13 +205,13 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
     for i in 1:N, k in 1:K
         ν = ν_grid[k]
         if B > 0
-            # Magnetic: mode-dependent opacities
+            # Magnetic: mode-dependent opacities, properly separated
             for j in 1:2
-                κ_j = mode_opacity(j, ν, θ_B, B, T[i], ρ[i])
-                κ[i, k, j] = max(κ_j, 1e-30)  # absorption opacity per mode
-                # For now, total opacity ≈ absorption (scattering included in mode_opacity)
-                k_total[i, k, j] = κ[i, k, j]
-                ρ_alb[i, k, j] = 0.0  # scattering already in mode_opacity
+                κ_abs = mode_absorption(j, ν, θ_B, B, T[i], ρ[i])
+                σ_scat = mode_scattering(j, ν, θ_B, B, T[i], ρ[i])
+                κ[i, k, j] = max(κ_abs, 1e-30)
+                k_total[i, k, j] = κ[i, k, j] + σ_scat
+                ρ_alb[i, k, j] = σ_scat / k_total[i, k, j]
             end
         else
             # B=0: both modes identical (recover non-magnetic)

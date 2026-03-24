@@ -71,10 +71,10 @@ export DipoleModel, surface_temperature, surface_Bfield, magnetic_colatitude
 export GauntFactor, load_gaunt_table, gaunt_ff
 export HydrogenOpacity, kappa_ff, sigma_thomson, total_opacity, rosseland_mean
 export MagneticFF, cyclotron_freq_e, cyclotron_freq_p, sigma_ff_alpha, sigma_total_alpha
-export MagneticModes, rosseland_magnetic, mode_opacity, effective_opacity
+export MagneticModes, rosseland_magnetic, mode_opacity, mode_absorption, mode_scattering, effective_opacity
 export AtmosphereStructure, AtmosphereColumn, build_atmosphere, update_atmosphere!
 export make_frequency_grid
-export FeautrierSolver, solve_feautrier_all, gauss_legendre_half
+export FeautrierSolver, solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
 export TemperatureCorrection, compute_temperature_correction
 export RTAtmosphere, solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
 export MagneticAtmosphere, solve_magnetic_atmosphere, MagneticAtmosphereResult
@@ -84,8 +84,13 @@ export CIE_sRGB, load_cie_cmfs, spectrum_to_XYZ, XYZ_to_linear_sRGB
 export linear_sRGB_to_sRGB, tone_map_reinhard, spectrum_to_sRGB
 
 # Pipeline
+include("pipeline/atmosphere_grid.jl")
+using .AtmosphereGrid
+export AtmosphereGrid, AtmosphereSpectrumGrid, build_atmosphere_grid, lookup_spectrum
+
 include("pipeline/render.jl")
 using .Renderer
-export Renderer, render_neutron_star, NSParams, RenderResult
+export Renderer, render_neutron_star, render_spectral_cube, NSParams, RenderResult
+export SpectralImageCube, render_cube_rgb, save_cube_ppm
 
 end # module NeutronStar
