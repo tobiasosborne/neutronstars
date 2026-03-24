@@ -1,0 +1,79 @@
+ The equation of state (EOS) and Rosseland opacities of hydrogen are tabulated along isotherms.
+
+ The input parameters are R, T, B;
+   R=rho/T6**3, where rho is the density in g/cm**3, and T6=T/10**6, 
+   T is temperature in K,
+   B is magnetic field strength in G. 
+ The lowest value of the magnetic field is lg(B)=10.5, the highest is lg(B)=15.0.
+ For lg(B) from 10.5 to 12.0:
+   the lowest value of the temperature is lg(T)=4.9, and it increases in steps of 0.1 to lg(T)=7.0;
+ For lg(B) from 11.9 to 13.5:
+   the lowest value of the temperature is lg(T)=5.3, and it increases in steps of 0.05 to lg(T)=7.0;
+ For lg(B) from 13.5 to 15.0:
+   the lowest value of the temperature is lg(T)=5.7, and it increases in steps of 0.1 to lg(T)=7.6
+ Lg(R) increases in steps of 0.2 from -7.4 to 3.6 (but only to 3.4 for Lg(B) > 13.5).
+ The tables for different values of T and B have identical structure
+   They are concatenated one after another for all values of T at every fixed value of B. 
+   (Note that these files have 2 header lines for lg(B) < 11.9 but 5 header lines for other B values). 
+ The file name reflects lg(B) value: for instance, the file hmag12_5.dat
+   contains the data for lg(B)=12.5
+   Two files with names hmm10a8.dat and hmm11a8.dat correspond to lg(B)=10.845 and 11.845, respectively.
+ 
+ Every table consists of 14 columns, which give different physical quantities as shown in this example:
+
+                      thermodynamic functions              |        number fractions            lg(opacities)
+ lg(R)   lg(P) PV/(NkT) U/(NkT) S/(Nk) Cv/(Nk)  chit  chir    x(H)    x(H0)    x(H2)   x(pert.) long. transv.
+     lg(T)     lg(B)
+     6.000    13.000
+ -7.40   0.8173   1.999   1.256 59.737  2.378  1.001  1.000 3.77E-04 7.15E-05 0.00E+00 7.81E-03 -4.896 -4.896
+ -7.20   1.0173   1.999   1.256 58.818  2.378  1.001  1.000 4.15E-04 8.30E-05 0.00E+00 8.85E-03 -4.872 -4.873
+ -7.00   1.2172   1.998   1.256 57.898  2.378  1.002  1.000 4.55E-04 9.62E-05 0.00E+00 9.99E-03 -4.847 -4.848
+  ...     ...      ...     ...    ...    ...    ...    ...   ...      ...      ...      ...       ...    ...
+ -1.00   7.2090   1.961   1.155 30.364  2.402  1.028  0.993 6.07E-03 5.03E-03 4.79E-13 8.32E-02 -1.933 -2.145
+ -0.80   7.4059   1.947   1.133 29.423  2.417  1.036  0.991 7.26E-03 5.72E-03 1.76E-12 8.11E-02 -1.748 -1.958
+ -0.60   7.6039   1.938   1.105 28.504  2.431  1.043  0.989 8.55E-03 6.40E-03 6.13E-12 8.71E-02 -1.573 -1.781
+ -0.40   7.8015   1.927   1.071 27.583  2.449  1.051  0.987 1.02E-02 7.19E-03 2.03E-11 9.33E-02 -1.403 -1.610
+ -0.20   7.9984   1.914   1.028 26.662  2.473  1.062  0.984 1.19E-02 8.10E-03 6.31E-11 9.91E-02 -1.242 -1.447
+  0.00   8.1949   1.898   0.977 25.736  2.501  1.074  0.980 1.33E-02 9.09E-03 1.77E-10 1.06E-01 -1.091 -1.295
+  0.20   8.3905   1.879   0.915 24.807  2.536  1.088  0.976 1.45E-02 1.01E-02 4.26E-10 1.13E-01 -0.954 -1.158
+  0.40   8.5853   1.857   0.841 23.873  2.575  1.105  0.971 1.51E-02 1.08E-02 8.15E-10 1.21E-01 -0.835 -1.039
+  0.60   8.7793   1.831   0.755 22.935  2.616  1.123  0.966 1.45E-02 1.09E-02 1.09E-09 1.32E-01 -0.738 -0.941
+  0.80   8.9721   1.801   0.654 22.000  2.658  1.142  0.963 1.23E-02 9.97E-03 8.36E-10 1.44E-01 -0.662 -0.866
+  1.00   9.1646   1.770   0.538 21.063  2.699  1.161  0.961 8.92E-03 7.75E-03 2.76E-10 1.55E-01 -0.597 -0.802
+  ...     ...      ...     ...    ...    ...    ...    ...   ...      ...      ...      ...       ...    ...
+  3.00  10.9665   1.122  -1.917 11.401  2.765  1.936  0.691 0.00E+00 0.00E+00 0.00E+00 1.50E-02  2.207  2.039
+  3.20  11.1018   0.967  -2.457 10.364  2.837  2.277  0.670 0.00E+00 0.00E+00 0.00E+00 3.76E-03  3.083  2.904
+  3.40  11.2406   0.839  -3.068  9.333  2.901  2.652  0.734 0.00E+00 0.00E+00 0.00E+00 4.11E-04  4.248  4.055
+  3.60  11.4056   0.775  -3.736  8.301  2.946  2.906  0.975 0.00E+00 0.00E+00 0.00E+00 1.40E-05  5.782  5.574
+
+ The first line contains decimal logarithms (log_{10}=lg) of T and B.
+ Each row then provides:
+  (1) lg(R)      astrophysical density parameter:
+                  density rho [g/cm**3] is given by R*T6**3
+  (2) lg(P)      P is the pressure in bar = 10**6 dyn/cm**2
+  (3) PV/(NkT)   dimensionless pressure parameter:
+                  N is the constant total number of protons (free and bound) in the volume V,
+                  k is the Boltzmann constant; P = PV/(NkT)*rho*T6*8.250E+13 dyn/cm**2
+  (4) U/(NkT)    dimensionless energy parameter:
+                  U is the internal energy, the zero point of energy is the quantum-mechanical continuum;
+                  energy per gram [erg/g] is given by U/(NkT)*T6*8.250E+13
+  (5) S/(Nk)     dimensionless entropy parameter:
+                  S is the entropy; entropy per gram [erg/g/K] is given by S/(Nk)*8.250E+07
+  (6) Cv/(Nk)    reduced heat capacity:
+                  Cv is the heat capacity at constant volume; Cv in [erg/g/K] is given by Cv/(Nk)*8.250E+07
+  (7) chit = (d log P/d log T)_V is the logarithmic derivative of P with respect to T at constant volume
+  (8) chir = (d log P/d log rho)_T is the logarithmic derivative of P with respect to density at constant T
+  (9) x(H)       the atomic fraction: 
+                  the total number of H atoms with non-destroyed energy levels divided by N
+ (10) x(H0)      the ground-state atomic fraction: the number of ground-state H atoms divided by N
+ (11) x(H2)      the molecular fraction: the number of H2 molecules with non-destroyed levels divided by N
+ (12) x(pert.)   the fraction of protons comprised in clusters and strongly perturbed atoms and molecules
+ (13) lg(K0)     K0 is the effective Rosseland mean opacity [cm**2/g] for radiative transport along B
+ (14) lg(K1)     K1 is the Rosseland mean opacity [cm**2/g] for radiative transport perpendicular to B
+
+ Any second-order thermodynamic function can be obtained by combination of (3)-(8).
+ For example, the heat capacity at constant pressure equals Cp = Cv + (PV/T)*chit**2/chir,
+ the adiabatic gradient equals ( d log P / d log T )_S = chit/[chit**2+chir*(Cv/Nk)/(PV/NkT)].
+ The effective Rosseland mean opacity for radiative transport at arbitrary angle theta  to the magnetic
+ field can be obtained as 1/K = (1/K0)*(cos theta)**2 + (1/K1)*(sin theta)**2.
+-----------------------------------------------------------------------------------------------------------
