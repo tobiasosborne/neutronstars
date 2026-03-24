@@ -15,18 +15,28 @@ Compute `I(x, y, ν)` — specific intensity as a function of image-plane positi
 5. **GR ray tracing** — Schwarzschild geodesics via elliptic integrals (Pechenick+ 1983, Beloborodov 2002)
 6. **Rendering** — CIE 1931 colorimetry, sRGB, Reinhard tone mapping
 
-## Spectral Sweep
+## RX J1856.5−3754 — The Nearest Neutron Star
 
-Neutron star imaged across the electromagnetic spectrum — from far infrared (0.001 keV) through soft X-ray to hard X-ray (2.5 keV). Each frame uses real radiative transfer atmosphere spectra, not blackbody approximations.
+Rendered with real radiative transfer atmosphere spectra. M = 1.4 M☉, R = 14 km, B = 10¹³ G, T_pole = 7×10⁵ K, distance = 123 pc.
 
-![Spectral sweep animation](output/ns_spectral_sweep.gif)
+### X-ray rotation (one full period)
+
+The hot magnetic pole sweeps into and out of view as the star rotates, producing the observed X-ray pulsation. False colour: red = 0.1–0.5 keV, green = 0.5–2 keV, blue = 2–10 keV.
+
+![Rotation animation](output/rxj1856_rotation.gif)
+
+### Spectral sweep (far-IR through hard X-ray)
+
+Each frame images the star at a single photon energy, sweeping from 0.001 keV (far infrared) to 2.5 keV (hard X-ray). The hot pole is invisible at low energies but dominates in soft X-rays — explaining why the optical counterpart (HST, V≈25.7) shows weak pulsations while the X-ray lightcurve (Chandra/XMM) pulses strongly.
+
+![Spectral sweep animation](output/rxj1856_spectral_sweep.gif)
 
 ## Current Status
 
 - **Phase 2** (tracer bullet): Complete — TOV, ray tracer, surface model, colorimetry, spectral image cube with modified blackbody
 - **Phase 3a** (non-magnetic atmosphere): Complete — temperature profile matches McPHAC within 1.2%, flux conservation F/σT⁴ = 0.99, frequency-adaptive depth grid (2× faster)
 - **Phase 3b** (magnetic atmosphere): Working — B=10¹² converges (F/σT⁴=1.03), B=10¹⁴ converges (F/σT⁴=1.01), spectral hardening and proton cyclotron features verified against Suleimanov+(2009)
-- **Phase 3c** (SpectralImageCube v2): Complete — real atmosphere spectra replace modified blackbody, 256×256×50 render in 1.3s
+- **Phase 3c** (SpectralImageCube v2): Complete — real atmosphere spectra replace modified blackbody, 512×512×50 render in 4.6s
 
 ## Quick Start
 
