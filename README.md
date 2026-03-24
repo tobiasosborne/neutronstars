@@ -15,11 +15,18 @@ Compute `I(x, y, ν)` — specific intensity as a function of image-plane positi
 5. **GR ray tracing** — Schwarzschild geodesics via elliptic integrals (Pechenick+ 1983, Beloborodov 2002)
 6. **Rendering** — CIE 1931 colorimetry, sRGB, Reinhard tone mapping
 
+## Spectral Sweep
+
+Neutron star imaged across the electromagnetic spectrum — from far infrared (0.001 keV) through soft X-ray to hard X-ray (2.5 keV). Each frame uses real radiative transfer atmosphere spectra, not blackbody approximations.
+
+![Spectral sweep animation](output/ns_spectral_sweep.gif)
+
 ## Current Status
 
 - **Phase 2** (tracer bullet): Complete — TOV, ray tracer, surface model, colorimetry, spectral image cube with modified blackbody
-- **Phase 3a** (non-magnetic atmosphere): Working — temperature profile matches McPHAC within 1.2%, flux conservation F/σT⁴ = 0.99
-- **Phase 3b** (magnetic atmosphere): Framework built, B=0 limit verified (0.06% match)
+- **Phase 3a** (non-magnetic atmosphere): Complete — temperature profile matches McPHAC within 1.2%, flux conservation F/σT⁴ = 0.99, frequency-adaptive depth grid (2× faster)
+- **Phase 3b** (magnetic atmosphere): Working — B=10¹² converges (F/σT⁴=1.03), B=10¹⁴ converges (F/σT⁴=1.01), spectral hardening and proton cyclotron features verified against Suleimanov+(2009)
+- **Phase 3c** (SpectralImageCube v2): Complete — real atmosphere spectra replace modified blackbody, 256×256×50 render in 1.3s
 
 ## Quick Start
 
