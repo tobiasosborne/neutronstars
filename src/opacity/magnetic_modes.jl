@@ -5,6 +5,12 @@ Computes the polarisation-dependent opacity at each angle θ_B, then
 performs the angle and frequency averaging to get Rosseland mean
 opacities K_∥ and K_⊥.
 
+Key fix vs previous version:
+1. Polarization weights from full cold-plasma dielectric tensor
+   (DielectricTensor module) instead of ad-hoc Eq. 26 approximation.
+2. Angle-average each mode SEPARATELY (P&C 2003 Eq. 30), then combine
+   modes via harmonic mean. Previous code combined modes first (wrong).
+
 Source: Potekhin & Chabrier (2003) ApJ 585, 955, Eqs. 25-30.
 =#
 
@@ -14,84 +20,15 @@ using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
 using ..MagneticFF: cyclotron_freq_e, cyclotron_freq_p,
                      sigma_total_alpha, sigma_ff_alpha, sigma_pp_alpha,
                      sigma_scat_alpha
+using ..DielectricTensor: polarization_weights_full
 using ..HydrogenOpacity: dBnu_dT
 using ..BlackbodyAtmosphere: planck_Bnu
 
 export mode_opacity, effective_opacity
 export kappa_parallel_mono, kappa_perp_mono
-export rosseland_magnetic
+export rosseland_magnetic, make_rosseland_frequency_grid
 
 const m_H = m_p + m_e
-
-"""
-    polarisation_weights(ω, B, θ_B, n_e) → (w1, w2)
-
-Compute |e_{j,α}|² weights for the two normal modes (j=1: extraordinary, j=2: ordinary).
-
-In the simplified cold-plasma limit (Eq. 26), the mode parameter q determines
-the decomposition. For |q| >> 1 (far from crossings):
-  Mode 1 (X): |e_{1,+1}|² ≈ sin²θ/(1+cos²θ), |e_{1,-1}|² ≈ 2cos²θ/(1+cos²θ), |e_{1,0}|² ≈ sin²θcos²θ/(...)
-  Mode 2 (O): complementary weights
-
-Returns: (w1[3], w2[3]) where w[α+2] = |e_{j,α}|² for α ∈ {-1, 0, +1}.
-"""
-function polarisation_weights(ω::Float64, B::Float64,
-                               θ_B::Float64, n_e::Float64)
-    ω_ce = cyclotron_freq_e(B)
-    ω_pl2 = 4π * n_e * e_charge^2 / m_e  # plasma frequency squared
-
-    cosθ = cos(θ_B)
-    sinθ = sin(θ_B)
-
-    # Cold plasma approximation for q (Eq. 26 simplified)
-    # q ≈ (ω_ce/ω) × sinθ²/(2cosθ) for ω >> ω_pl
-    if abs(cosθ) < 1e-10
-        # θ_B ≈ 90°: modes are pure linear (along and across B)
-        # Mode 1: α=0 (along B), Mode 2: mix of ±1
-        w1 = [0.0, 1.0, 0.0]  # [α=-1, α=0, α=+1]
-        w2 = [0.5, 0.0, 0.5]
-        return w1, w2
-    end
-
-    q = ω_ce * sinθ^2 / (2ω * abs(cosθ))
-
-    # For large |q|: mode 1 is nearly linearly polarised along B
-    # For small |q|: modes are nearly circularly polarised
-    q2 = q^2
-    sq = sqrt(1.0 + q2)
-
-    # Stokes parameter decomposition (Ginzburg 1970, §10)
-    # Mode 1 (extraordinary): favours α = -1 at small θ, α = 0 at large θ
-    # Mode 2 (ordinary): complementary
-    f = q / (sq + 1.0)  # ∈ [0, 1) as q goes from 0 to ∞
-
-    # Weights for mode 1 (extraordinary)
-    cos2 = cosθ^2
-    sin2 = sinθ^2
-
-    # Simplified decomposition valid away from mode crossings
-    w1_m1 = cos2 / (1.0 + cos2) * (1.0 - f)     # α = -1
-    w1_0  = sin2 * cos2 / (1.0 + cos2) * f * 2   # α = 0
-    w1_p1 = 1.0 / (1.0 + cos2) * (1.0 - f)       # α = +1
-
-    # Normalise
-    s1 = w1_m1 + w1_0 + w1_p1
-    if s1 > 0
-        w1_m1 /= s1; w1_0 /= s1; w1_p1 /= s1
-    end
-
-    # Mode 2 (ordinary): complementary
-    w2_m1 = 1.0 / (1.0 + cos2) * f           # α = -1
-    w2_0  = sin2 / (1.0 + cos2)               # α = 0
-    w2_p1 = cos2 / (1.0 + cos2) * f           # α = +1
-
-    s2 = w2_m1 + w2_0 + w2_p1
-    if s2 > 0
-        w2_m1 /= s2; w2_0 /= s2; w2_p1 /= s2
-    end
-
-    return [w1_m1, w1_0, w1_p1], [w2_m1, w2_0, w2_p1]
-end
 
 """
     mode_opacity(j, ν, θ_B, B, T, ρ) → κ_j [cm²/g]
@@ -105,7 +42,7 @@ function mode_opacity(j::Int, ν::Float64, θ_B::Float64,
     ω = 2π * ν
     n_e = ρ / m_H
 
-    w1, w2 = polarisation_weights(ω, B, θ_B, n_e)
+    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
     w = j == 1 ? w1 : w2
 
     κ = 0.0
@@ -120,7 +57,7 @@ end
 """
     effective_opacity(ν, θ_B, B, T, ρ) → κ_eff [cm²/g]
 
-Effective non-polarised opacity (harmonic mean of two modes).
+Effective non-polarised opacity (harmonic mean of two modes) at a single angle.
 """
 function effective_opacity(ν::Float64, θ_B::Float64,
                            B::Float64, T::Float64, ρ::Float64)::Float64
@@ -134,52 +71,108 @@ function effective_opacity(ν::Float64, θ_B::Float64,
 end
 
 """
-    kappa_parallel_mono(ν, B, T, ρ; N_θ=20) → κ_∥(ν) [cm²/g]
+    kappa_parallel_perp_mono(ν, B, T, ρ; N_θ=40) → (κ_∥, κ_⊥) [cm²/g]
 
-Monochromatic angle-averaged opacity for transport along B.
-P&C 2003 Eq. (30): 1/κ_∥ = (3/4) ∫₀^π cos²θ/κ(θ) sinθ dθ
+Monochromatic angle-averaged opacities for transport along and across B.
+
+CORRECT implementation: angle-average each mode j separately (P&C 2003 Eq. 30),
+then combine modes via harmonic mean.
+
+  1/κ_j^∥ = (3/4) ∫₀^π cos²θ sinθ / κ_j(θ) dθ
+  1/κ_j^⊥ = (3/2) ∫₀^π sin³θ / κ_j(θ) dθ
+  κ_eff^∥ = 2/(1/κ_1^∥ + 1/κ_2^∥)    [harmonic mean over modes]
 """
-function kappa_parallel_mono(ν::Float64, B::Float64, T::Float64,
-                              ρ::Float64; N_θ::Int=20)::Float64
-    # Gauss-Legendre quadrature on [0, π] for the integral
-    inv_κ = 0.0
+function kappa_parallel_perp_mono(ν::Float64, B::Float64, T::Float64,
+                                   ρ::Float64; N_θ::Int=40)
     dθ = π / N_θ
+
+    # Accumulate 1/κ integrals for each mode separately
+    inv_κ1_par = 0.0
+    inv_κ2_par = 0.0
+    inv_κ1_perp = 0.0
+    inv_κ2_perp = 0.0
 
     for i in 1:N_θ
         θ = (i - 0.5) * dθ
-        κ_eff = effective_opacity(ν, θ, B, T, ρ)
-        if κ_eff > 0
-            inv_κ += cos(θ)^2 / κ_eff * sin(θ) * dθ
+        sinθ = sin(θ)
+        cosθ = cos(θ)
+
+        κ1 = mode_opacity(1, ν, θ, B, T, ρ)
+        κ2 = mode_opacity(2, ν, θ, B, T, ρ)
+
+        weight_par = cosθ^2 * sinθ * dθ
+        weight_perp = sinθ^3 * dθ
+
+        if κ1 > 0
+            inv_κ1_par += weight_par / κ1
+            inv_κ1_perp += weight_perp / κ1
+        end
+        if κ2 > 0
+            inv_κ2_par += weight_par / κ2
+            inv_κ2_perp += weight_perp / κ2
         end
     end
 
-    inv_κ *= 3.0 / 4.0
+    inv_κ1_par *= 3.0 / 4.0
+    inv_κ2_par *= 3.0 / 4.0
+    inv_κ1_perp *= 3.0 / 2.0
+    inv_κ2_perp *= 3.0 / 2.0
 
-    return inv_κ > 0 ? 1.0 / inv_κ : 0.0
+    # Per-mode angle-averaged opacities
+    κ1_par = inv_κ1_par > 0 ? 1.0 / inv_κ1_par : 0.0
+    κ2_par = inv_κ2_par > 0 ? 1.0 / inv_κ2_par : 0.0
+    κ1_perp = inv_κ1_perp > 0 ? 1.0 / inv_κ1_perp : 0.0
+    κ2_perp = inv_κ2_perp > 0 ? 1.0 / inv_κ2_perp : 0.0
+
+    # Combine modes via harmonic mean for unpolarised radiation
+    κ_par = harmonic_mean_2(κ1_par, κ2_par)
+    κ_perp = harmonic_mean_2(κ1_perp, κ2_perp)
+
+    return κ_par, κ_perp
+end
+
+# Backwards-compatible wrappers
+function kappa_parallel_mono(ν::Float64, B::Float64, T::Float64,
+                              ρ::Float64; N_θ::Int=40)::Float64
+    κ_par, _ = kappa_parallel_perp_mono(ν, B, T, ρ; N_θ=N_θ)
+    return κ_par
+end
+
+function kappa_perp_mono(ν::Float64, B::Float64, T::Float64,
+                          ρ::Float64; N_θ::Int=40)::Float64
+    _, κ_perp = kappa_parallel_perp_mono(ν, B, T, ρ; N_θ=N_θ)
+    return κ_perp
 end
 
 """
-    kappa_perp_mono(ν, B, T, ρ; N_θ=20) → κ_⊥(ν) [cm²/g]
+    make_rosseland_frequency_grid(B, T; N_base=200, N_resonance=20) → ν_grid
 
-Monochromatic angle-averaged opacity for transport across B.
-P&C 2003 Eq. (30): 1/κ_⊥ = (3/2) ∫₀^π sin³θ/κ(θ) dθ
+Construct a log-spaced frequency grid with extra points near cyclotron resonances.
 """
-function kappa_perp_mono(ν::Float64, B::Float64, T::Float64,
-                          ρ::Float64; N_θ::Int=20)::Float64
-    inv_κ = 0.0
-    dθ = π / N_θ
+function make_rosseland_frequency_grid(B::Float64, T::Float64;
+                                       N_base::Int=200, N_resonance::Int=20)
+    ν_min = 0.01 * k_B * T / h
+    ν_max = 200.0 * k_B * T / h
+    base = [10.0^logν for logν in range(log10(ν_min), log10(ν_max), length=N_base)]
 
-    for i in 1:N_θ
-        θ = (i - 0.5) * dθ
-        κ_eff = effective_opacity(ν, θ, B, T, ρ)
-        if κ_eff > 0
-            inv_κ += sin(θ)^3 / κ_eff * dθ
-        end
+    # Cluster near electron cyclotron frequency
+    ω_ce = e_charge * B / (m_e * c)
+    ν_ce = ω_ce / (2π)
+    if ν_min < ν_ce < ν_max
+        resonance = [ν_ce * 10.0^δ for δ in range(-0.3, 0.3, length=N_resonance)]
+        append!(base, resonance)
     end
 
-    inv_κ *= 3.0 / 2.0
+    # Cluster near proton cyclotron frequency
+    ν_cp = ν_ce * m_e / m_p
+    if ν_min < ν_cp < ν_max
+        resonance = [ν_cp * 10.0^δ for δ in range(-0.3, 0.3, length=N_resonance)]
+        append!(base, resonance)
+    end
 
-    return inv_κ > 0 ? 1.0 / inv_κ : 0.0
+    sort!(base)
+    unique!(base)
+    return base
 end
 
 """
@@ -187,20 +180,22 @@ end
 
 Rosseland mean opacities along and across B.
 These are columns 13-14 of the Potekhin tables.
+
+Uses the combined kappa_parallel_perp_mono which correctly angle-averages
+each mode separately before combining them.
 """
 function rosseland_magnetic(B::Float64, T::Float64, ρ::Float64,
                              ν_grid::AbstractVector{Float64})
-    num_par = 0.0  # ∫ (1/κ_∥) dB/dT dν
+    num_par = 0.0   # ∫ (dB/dT / κ_∥) dν
     num_perp = 0.0
-    den = 0.0      # ∫ dB/dT dν
+    den = 0.0       # ∫ dB/dT dν
 
     for i in 1:length(ν_grid)-1
         ν = 0.5 * (ν_grid[i] + ν_grid[i+1])
         dν = ν_grid[i+1] - ν_grid[i]
         db = dBnu_dT(ν, T)
 
-        κ_par = kappa_parallel_mono(ν, B, T, ρ)
-        κ_perp = kappa_perp_mono(ν, B, T, ρ)
+        κ_par, κ_perp = kappa_parallel_perp_mono(ν, B, T, ρ)
 
         if κ_par > 0
             num_par += db / κ_par * dν
@@ -215,6 +210,16 @@ function rosseland_magnetic(B::Float64, T::Float64, ρ::Float64,
     K_perp = den > 0 && num_perp > 0 ? den / num_perp : 0.0
 
     return K_par, K_perp
+end
+
+# --- Internal helpers ---
+
+"""Harmonic mean of two positive values. Returns 0 if either is zero."""
+function harmonic_mean_2(a::Float64, b::Float64)::Float64
+    if a <= 0 || b <= 0
+        return max(a, b)
+    end
+    return 2.0 / (1.0/a + 1.0/b)
 end
 
 end # module

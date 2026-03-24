@@ -28,6 +28,10 @@ using .MagneticCoulomb
 include("opacity/magnetic_ff.jl")
 using .MagneticFF
 
+# Dielectric tensor for normal mode polarisation (must come before magnetic_modes)
+include("opacity/dielectric_tensor.jl")
+using .DielectricTensor
+
 # Atmosphere (blackbody must come before magnetic_modes which uses planck_Bnu)
 include("atmosphere/blackbody.jl")
 using .BlackbodyAtmosphere
