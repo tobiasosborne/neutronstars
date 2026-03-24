@@ -1,0 +1,693 @@
+\section{Opacities}
+\label{sec:opacities}
+
+This module computes monochromatic and Rosseland-mean radiative opacities
+for fully ionised hydrogen, covering both the non-magnetic ($B=0$) limit
+and the strongly magnetised regime where the field is quantising
+($\beta_e \equiv \hbar\omega_{\mathrm{ce}}/(k_B T) \gg 1$).
+The magnetic treatment follows Potekhin \& Chabrier (2003, hereafter
+PC03)\footnote{A.~Y.~Potekhin \& G.~Chabrier, \emph{ApJ} \textbf{585},
+955 (2003).}, cross-referenced by equation number below.
+The non-magnetic limit uses the Gaunt-factor--based formulae of Haakonsen
+et~al.\ (2012)\footnote{C.~B.~Haakonsen et~al., \emph{ApJ} \textbf{749},
+52 (2012).}.
+Implementation resides in six source files under \texttt{src/opacity/}.
+
+
+%======================================================================
+\subsection{Non-magnetic opacities}
+\label{sec:opacity:nonmag}
+%======================================================================
+
+\subsubsection{Free-free absorption}
+\label{sec:opacity:nonmag:ff}
+
+\noindent
+The non-magnetic free-free absorption opacity per unit mass for fully
+ionised hydrogen is
+(\texttt{hydrogen\_ff.jl}, function \texttt{kappa\_ff}; Haakonsen et~al.\
+Eq.~12):
+%
+\begin{equation}
+\label{eq:kappa_ff_nonmag}
+\kappa_\nu^{\mathrm{ff}}
+  = \frac{4\,e^6}{3\,m_e\,h\,c}
+    \sqrt{\frac{2\pi}{3\,k_B\,m_e}}\;
+    \frac{\rho}{(m_p+m_e)^2}\;
+    \nu^{-3}\;
+    \bigl(1-e^{-u}\bigr)\;\tilde{g}_{\mathrm{ff}}(u,\gamma^2),
+\end{equation}
+%
+where $u = h\nu/(k_B T)$ and $\gamma^2 = \mathrm{Ry}/(k_B T)$ with
+Ry${}= 13.6057$~eV.  The thermally-averaged Gaunt factor
+$\tilde{g}_{\mathrm{ff}}$ is obtained by bilinear interpolation on the
+Sutherland (1998) table (\texttt{gaunt\_ff.jl}, struct
+\texttt{GauntTable}).  Boundary values are clamped to the table edges,
+reproducing the McPHAC convention.
+
+\subsubsection{Thomson scattering}
+\label{sec:opacity:nonmag:thomson}
+
+\noindent
+The reduced Thomson scattering opacity for fully ionised hydrogen
+(Haakonsen Eq.~11 with $f_{\mathrm{ion}}=1$) is
+%
+\begin{equation}
+\label{eq:sigma_thomson_nonmag}
+\sigma_{\mathrm{T},t} = \frac{\sigma_T}{m_p+m_e},
+\end{equation}
+%
+where $\sigma_T = 6.652\times10^{-25}$~cm$^2$ is the non-magnetic Thomson
+cross-section.
+
+\subsubsection{Total opacity and scattering albedo}
+\label{sec:opacity:nonmag:total}
+
+\noindent
+The total extinction opacity is
+%
+\begin{equation}
+\label{eq:k_total_nonmag}
+k_\nu = \kappa_\nu^{\mathrm{ff}} + \sigma_{\mathrm{T},t},
+\end{equation}
+%
+and the scattering albedo (Haakonsen Eq.~6) is
+$\varrho_\nu = \sigma_{\mathrm{T},t}/k_\nu$.
+
+\subsubsection{Non-magnetic Rosseland mean}
+\label{sec:opacity:nonmag:ross}
+
+\noindent
+The Rosseland mean opacity (\texttt{hydrogen\_ff.jl}, function
+\texttt{rosseland\_mean}) is computed by numerical quadrature on a
+discrete frequency grid:
+%
+\begin{equation}
+\label{eq:ross_nonmag}
+\frac{1}{\kappa_R}
+  = \frac{\displaystyle\int_0^\infty
+      \frac{1}{k_\nu}\,\frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu}
+    {\displaystyle\int_0^\infty
+      \frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu},
+\end{equation}
+%
+where the Planck derivative is
+%
+\begin{equation}
+\label{eq:dBdT}
+\frac{\partial B_\nu}{\partial T}
+  = \frac{2h^2\nu^4}{c^2\,k_B\,T^2}\;\frac{e^u}{(e^u - 1)^2}.
+\end{equation}
+%
+The integrals are evaluated by the midpoint rule on a log-spaced grid.
+A fallback to $\sigma_{\mathrm{T},t}$ is returned when the denominator
+vanishes.
+
+
+%======================================================================
+\subsection{Magnetic opacities: basic polarisation cross-sections}
+\label{sec:opacity:mag:basic}
+%======================================================================
+
+In a magnetised plasma, radiative transfer decomposes into three basic
+cyclic polarisations $\alpha\in\{-1,0,+1\}$ (left-circular, longitudinal,
+right-circular with respect to~$\boldsymbol{B}$).  The code defines the
+electron and proton cyclotron frequencies as
+%
+\begin{equation}
+\label{eq:cyclotron}
+\omega_{\mathrm{ce}} = \frac{eB}{m_e c}, \qquad
+\omega_{\mathrm{cp}} = \frac{eB}{m_p c},
+\end{equation}
+%
+and the quantisation parameter (PC03 Eq.~1)
+%
+\begin{equation}
+\label{eq:beta_e}
+\beta_e = \frac{\hbar\omega_{\mathrm{ce}}}{k_B T}.
+\end{equation}
+
+\subsubsection{Magnetic electron scattering}
+\label{sec:opacity:mag:scat_e}
+
+\noindent
+The magnetic Thomson cross-section for polarisation~$\alpha$ is
+(PC03 Eq.~33; \texttt{magnetic\_ff.jl}, function
+\texttt{sigma\_scat\_alpha}):
+%
+\begin{equation}
+\label{eq:sigma_scat_e}
+\sigma_\alpha^{s,e}
+  = \frac{\omega^2}{(\omega + \alpha\,\omega_{\mathrm{ce}})^2
+         + \nu_{e,\alpha}^{s\,2}}\;\sigma_T,
+\end{equation}
+%
+where the natural (radiative) damping frequency is (PC03 Eq.~39)
+%
+\begin{equation}
+\label{eq:nu_e_s}
+\nu_e^s = \frac{2}{3}\,\frac{e^2}{m_e\,c^3}\,\omega^2.
+\end{equation}
+%
+In the non-magnetic limit ($B \to 0$) every polarisation receives
+$\sigma_T/3$.
+
+\subsubsection{Electron free-free absorption}
+\label{sec:opacity:mag:ff}
+
+\noindent
+The magnetic free-free cross-section per polarisation is
+(PC03 Eq.~51; \texttt{magnetic\_ff.jl}, function
+\texttt{sigma\_ff\_alpha}):
+%
+\begin{equation}
+\label{eq:sigma_ff}
+\sigma_\alpha^{\mathrm{ff}}
+  \approx \frac{\omega^2}
+    {(\omega+\alpha\,\omega_{\mathrm{ce}})^2
+     (\omega-\alpha\,\omega_{\mathrm{cp}})^2
+     + \omega^2\,\tilde\nu_\alpha^2}\;
+  \frac{4\pi e^2\,\nu_\alpha^{\mathrm{ff}}}{m_e\,c},
+\end{equation}
+%
+where $\tilde\nu_\alpha$ is the combined damping frequency (PC03 Eq.~52):
+%
+\begin{equation}
+\label{eq:nu_tilde}
+\tilde\nu_\alpha
+  = \nu_\alpha^{\mathrm{ff}}
+  + \Bigl(1 + \alpha\,\frac{\omega_{\mathrm{ce}}}{\omega}\Bigr)\nu_p
+  + \Bigl(1 - \alpha\,\frac{\omega_{\mathrm{cp}}}{\omega}\Bigr)\nu_e,
+\end{equation}
+%
+and the effective free-free collision frequency is (PC03 Eq.~41):
+%
+\begin{equation}
+\label{eq:nu_ff}
+\nu_\alpha^{\mathrm{ff}}
+  = \frac{4}{3}\sqrt{\frac{2\pi}{m_e\,k_B T}}\;
+    \frac{n_e\,e^4}{\hbar\omega}\;
+    (1-e^{-u})\;\Lambda_\alpha^{\mathrm{ff}},
+  \qquad u \equiv \frac{\hbar\omega}{k_B T}.
+\end{equation}
+%
+The factor $(1-e^{-u})$ accounts for induced (stimulated) radiation.
+
+\paragraph{Note on damping terms.}
+In Eq.~\eqref{eq:nu_tilde} the electron damping is
+$\nu_e = \nu_e^s + \nu^{\mathrm{pp}}$
+and the proton damping is
+$\nu_p = \nu_p^s + \nu^{\mathrm{pp}}$,
+where $\nu_p^s = (2/3)(e^2/(m_p c^3))\omega^2$ is the proton radiative
+width (analogous to Eq.~\eqref{eq:nu_e_s}).
+The code sets $\nu_e$ and $\nu_p$ from these sums before constructing
+$\tilde\nu_\alpha$.  This is consistent with the structure of PC03
+Eqs.~38--39 and~52, though PC03 do not write out an explicit
+``$\nu_p$'' symbol.
+
+\subsubsection{Proton-proton collisions}
+\label{sec:opacity:mag:pp}
+
+\noindent
+Absorption due to proton-proton collisions is given by
+(PC03 Eq.~46; \texttt{magnetic\_ff.jl}, function
+\texttt{sigma\_pp\_alpha}):
+%
+\begin{equation}
+\label{eq:sigma_pp}
+\sigma_\alpha^{\mathrm{pp}}
+  = \frac{1}{(\omega - \alpha\,\omega_{\mathrm{cp}})^2
+         + \nu_{p,\alpha}^2}\;
+    \frac{4\pi e^2\,\nu^{\mathrm{pp}}}{m_p\,c},
+\end{equation}
+%
+where the proton damping frequency for this channel is
+(PC03 Eq.~53):
+%
+\begin{equation}
+\label{eq:nu_p_alpha}
+\nu_{p,\alpha}
+  = \frac{m_e}{m_p}\,\nu_\alpha^{\mathrm{ff}}
+  + \nu_p^s + \nu^{\mathrm{pp}},
+\end{equation}
+%
+and $\nu^{\mathrm{pp}}$ is the effective proton-proton collision frequency
+(PC03 Eq.~47; \texttt{magnetic\_ff.jl}, function \texttt{nu\_pp}):
+%
+\begin{equation}
+\label{eq:nu_pp}
+\nu^{\mathrm{pp}}
+  = \frac{256}{3}\sqrt{\frac{\pi}{m_p\,k_B T}}\;
+    \frac{n_p\,e^4}{\hbar\omega}\;
+    \frac{k_B T}{m_p c^2}\;
+    (1-e^{-u})\;\Lambda_{\mathrm{pp}}.
+\end{equation}
+
+\subsubsection{Total polarisation cross-section}
+\label{sec:opacity:mag:total_alpha}
+
+\noindent
+For fully ionised hydrogen ($x_H = 0$), the total cross-section per
+polarisation is (\texttt{magnetic\_ff.jl}, function
+\texttt{sigma\_total\_alpha}):
+%
+\begin{equation}
+\label{eq:sigma_total_alpha}
+\sigma_\alpha^{\mathrm{tot}}
+  = \sigma_\alpha^{\mathrm{ff}}
+  + \sigma_\alpha^{\mathrm{pp}}
+  + \sigma_\alpha^{s,e}.
+\end{equation}
+%
+This omits proton scattering $\sigma_\alpha^{s,p}$ (PC03 Eq.~34), which
+scales as $(m_e/m_p)^2\approx 3\times 10^{-7}$ relative to
+$\sigma_\alpha^{s,e}$ and is negligible away from the proton cyclotron
+resonance.
+
+
+%======================================================================
+\subsection{Coulomb logarithms}
+\label{sec:opacity:coulomb}
+%======================================================================
+
+\subsubsection{Classical (non-magnetic) Coulomb logarithm}
+\label{sec:opacity:coulomb:classical}
+
+\noindent
+In the $B=0$ limit, the thermally averaged Coulomb logarithm is
+(PC03 Eq.~43; \texttt{coulomb\_magnetic.jl}, function
+\texttt{coulomb\_log\_classical\_safe}):
+%
+\begin{equation}
+\label{eq:lambda_cl}
+\Lambda_{\mathrm{cl}}^{\mathrm{ff}}
+  = e^{u/2}\,K_0(u/2),
+\end{equation}
+%
+where $K_0$ is the modified Bessel function of the second kind.  For
+$u/2 > 300$ the code uses the asymptotic form
+$e^x K_0(x) \sim \sqrt{\pi/(2x)}$ to avoid overflow.
+
+\subsubsection{Magnetic Coulomb logarithm}
+\label{sec:opacity:coulomb:magnetic}
+
+\noindent
+When the field is quantising ($\beta_e > 0.1$), the Born-approximation
+Coulomb logarithm replaces $\Lambda_{\mathrm{cl}}^{\mathrm{ff}}$
+(PC03 Eq.~44a; \texttt{coulomb\_magnetic.jl}, function
+\texttt{coulomb\_log\_magnetic}):
+%
+\begin{equation}
+\label{eq:lambda_mag}
+\Lambda_\alpha^{\mathrm{ff}}
+  = \frac{3}{4}\,e^{u/2}
+    \sum_{n=-\infty}^{\infty}
+    \int_0^\infty Q_n^\alpha(\beta_e,u,y)\;\mathrm{d}y.
+\end{equation}
+%
+The integrand $Q_n^\alpha$ is given by (PC03 Eqs.~44b--e):
+%
+\begin{align}
+Q_n^\alpha &= \frac{y}{\zeta}\;
+  \bigl[(y+\theta+\zeta)\sinh(\beta_e/2)\bigr]^{-|n|}
+  A_n^\alpha,
+  \label{eq:Q_integrand}\\[4pt]
+%
+A_n^0 &= \frac{x_n\,K_1(x_n)}{y + \beta_e/4},
+  \label{eq:A0}\\[4pt]
+%
+A_n^{\pm1} &= \frac{y + \theta + |n|\,\zeta}{\zeta^2}\;K_0(x_n),
+  \label{eq:Apm1}
+\end{align}
+%
+with auxiliary quantities (PC03 Eqs.~44d--e):
+%
+\begin{equation}
+\label{eq:aux_mag_coulomb}
+\zeta = \sqrt{1+2\theta y+y^2},\quad
+\theta = \frac{1+e^{-\beta_e}}{1-e^{-\beta_e}},\quad
+x_n = \frac{|u - n\beta_e|}{\sqrt{0.25 + y/\beta_e}}.
+\end{equation}
+%
+The Landau-level sum is truncated at
+$|n| \le N_{\max} = \min\!\bigl(\max(2,\lceil 3/\beta_e + 2\rceil),
+50\bigr)$;
+for strongly quantising fields ($\beta_e \gg 1$) the $n=0$ term
+dominates.  Each integral is evaluated by adaptive quadrature (QuadGK)
+over $y\in[0,20]$ with a relative tolerance of $10^{-4}$.
+
+\subsubsection{Proton-proton Coulomb logarithm}
+\label{sec:opacity:coulomb:pp}
+
+\noindent
+The proton-proton Coulomb logarithm is the analytic fit
+(PC03 Eq.~48; \texttt{magnetic\_ff.jl}, function
+\texttt{coulomb\_log\_proton}):
+%
+\begin{equation}
+\label{eq:lambda_pp}
+\Lambda_{\mathrm{pp}}
+  \approx 0.6\,\ln\!\bigl(22\,u^{-1} + 9\,u^{-0.3}\bigr)
+  + 0.4\,\sqrt{\pi u},
+\end{equation}
+%
+which is stated to be accurate to ${\sim}1.5\%$ over the full range of~$u$.
+
+
+%======================================================================
+\subsection{Dielectric tensor and polarisation weights}
+\label{sec:opacity:dielectric}
+%======================================================================
+
+\noindent
+The mode-resolved opacity requires the polarisation weights
+$|e_{j,\alpha}|^2$ for the two normal modes ($j=1$: extraordinary,
+$j=2$: ordinary).  These are computed from the cold-plasma dielectric
+tensor (\texttt{dielectric\_tensor.jl}) via the Stix parameters
+(Ginzburg 1970; Shafranov 1967):
+%
+\begin{equation}
+\label{eq:stix}
+S = 1 - \frac{\omega_{pe}^2}{\omega^2-\omega_{\mathrm{ce}}^2}
+      - \frac{\omega_{pi}^2}{\omega^2-\omega_{\mathrm{cp}}^2},\quad
+D = \frac{\omega_{\mathrm{ce}}\,\omega_{pe}^2}
+         {\omega(\omega^2-\omega_{\mathrm{ce}}^2)}
+  - \frac{\omega_{\mathrm{cp}}\,\omega_{pi}^2}
+         {\omega(\omega^2-\omega_{\mathrm{cp}}^2)},\quad
+P = 1 - \frac{\omega_{pe}^2 + \omega_{pi}^2}{\omega^2},
+\end{equation}
+%
+where $\omega_{pe}^2 = 4\pi n_e e^2/m_e$ and
+$\omega_{pi}^2 = 4\pi n_e e^2/m_p$.
+The mode parameter $q$ (PC03 Eq.~25) is
+%
+\begin{equation}
+\label{eq:q_param}
+q = \frac{(P-S)\sin^2\theta_B}{2\,D\cos\theta_B},
+\end{equation}
+%
+where $\theta_B$ is the angle between the photon propagation direction
+and~$\boldsymbol{B}$.  The transverse polarisation ratios follow from the
+quadratic $K^2 + 2qK - 1 = 0$ (Shafranov 1967):
+%
+\begin{equation}
+\label{eq:K_modes}
+K_1 = -q + \sqrt{1+q^2}\quad\text{(extraordinary)},\qquad
+K_2 = -q - \sqrt{1+q^2}\quad\text{(ordinary)}.
+\end{equation}
+%
+Note that $K_1 K_2 = -1$.  The longitudinal component is
+%
+\begin{equation}
+\label{eq:K_z}
+K_{z,j} = -\frac{K_j\,(S - K_j D)\,\sin\theta_B\cos\theta_B}
+               {P - (S - K_j D)\sin^2\theta_B},
+\end{equation}
+%
+from which the cyclic weights are extracted:
+%
+\begin{equation}
+\label{eq:weights}
+|e_{j,+1}|^2 = \frac{(K_j+1)^2}{2\mathcal{N}_j},\qquad
+|e_{j,-1}|^2 = \frac{(K_j-1)^2}{2\mathcal{N}_j},\qquad
+|e_{j,0}|^2  = \frac{K_{z,j}^2}{\mathcal{N}_j},
+\end{equation}
+%
+with normalisation $\mathcal{N}_j = 1 + K_j^2 + K_{z,j}^2$.
+The weights satisfy $\sum_\alpha |e_{j,\alpha}|^2 = 1$ after a safety
+renormalisation clamp.
+
+\paragraph{Limiting cases.}
+At $\theta_B = 0$ the modes are purely circularly polarised:
+mode~1 has all weight on $\alpha=+1$, mode~2 on $\alpha=-1$.
+At $\theta_B = \pi/2$ mode~1 is purely longitudinal ($\alpha=0$) and
+mode~2 is an equal mix of $\alpha=\pm1$.
+These limits are hard-coded as special cases to avoid division by zero
+in Eq.~\eqref{eq:q_param}.
+
+\paragraph{Design choice.}
+An earlier version of this code used the approximate relation
+$q(\omega,\theta_B) \approx \bar q(\omega)\sin^2\theta_B/(2\cos\theta_B)$
+(PC03 Eq.~26), which is inaccurate near cyclotron resonances.
+The current implementation uses the full Stix-parameter formulation
+of Eq.~\eqref{eq:q_param}, which is numerically stable at all densities
+because $q$ is determined primarily by $\omega_{\mathrm{ce}}/\omega$.
+
+
+%======================================================================
+\subsection{Normal-mode opacities and the absorption/scattering split}
+\label{sec:opacity:modes}
+%======================================================================
+
+\noindent
+Given the polarisation weights, the opacity for normal mode~$j$ at
+angle~$\theta_B$ is (PC03 Eq.~27; \texttt{magnetic\_modes.jl}, function
+\texttt{mode\_opacity}):
+%
+\begin{equation}
+\label{eq:kappa_mode}
+\kappa_j(\theta_B)
+  = \frac{1}{m_H} \sum_{\alpha=-1}^{+1}
+    |e_{j,\alpha}(\theta_B)|^2\;\sigma_\alpha^{\mathrm{tot}},
+\end{equation}
+%
+where $m_H = m_p + m_e$ and $\sigma_\alpha^{\mathrm{tot}}$ is given by
+Eq.~\eqref{eq:sigma_total_alpha}.
+
+The code provides a clean \emph{absorption/scattering split} for use by
+the Feautrier transport solver, which requires them separately:
+%
+\begin{align}
+\kappa_j^{\mathrm{abs}}(\theta_B)
+  &= \frac{1}{m_H}\sum_\alpha |e_{j,\alpha}|^2\,
+     \bigl(\sigma_\alpha^{\mathrm{ff}}
+     + \sigma_\alpha^{\mathrm{pp}}\bigr),
+  \label{eq:mode_absorption}\\[4pt]
+\kappa_j^{\mathrm{scat}}(\theta_B)
+  &= \frac{1}{m_H}\sum_\alpha |e_{j,\alpha}|^2\,
+     \sigma_\alpha^{s,e}.
+  \label{eq:mode_scattering}
+\end{align}
+%
+These are implemented as the functions \texttt{mode\_absorption} and
+\texttt{mode\_scattering} in \texttt{magnetic\_modes.jl}.
+By construction,
+$\kappa_j = \kappa_j^{\mathrm{abs}} + \kappa_j^{\mathrm{scat}}$.
+
+\paragraph{Effective (unpolarised) opacity.}
+For unpolarised radiation at a single angle, the effective opacity is the
+harmonic mean of the two normal modes:
+%
+\begin{equation}
+\label{eq:kappa_eff}
+\kappa_{\mathrm{eff}} = \frac{2}{1/\kappa_1 + 1/\kappa_2}.
+\end{equation}
+
+
+%======================================================================
+\subsection{Angle-averaged opacities and Rosseland means}
+\label{sec:opacity:rosseland_mag}
+%======================================================================
+
+\noindent
+The diffusion approximation for transport along ($\parallel$) and across
+($\perp$) the magnetic field introduces angle-averaged opacities for each
+mode separately (PC03 Eq.~30; \texttt{magnetic\_modes.jl}, function
+\texttt{kappa\_parallel\_perp\_mono}):
+%
+\begin{equation}
+\label{eq:angle_avg}
+\frac{1}{\kappa_j^\parallel}
+  = \frac{3}{4}\int_0^\pi
+    \frac{\cos^2\theta_B}{\kappa_j(\theta_B)}\,
+    \sin\theta_B\;\mathrm{d}\theta_B,
+\qquad
+\frac{1}{\kappa_j^\perp}
+  = \frac{3}{2}\int_0^\pi
+    \frac{\sin^3\theta_B}{\kappa_j(\theta_B)}\;
+    \mathrm{d}\theta_B.
+\end{equation}
+%
+These integrals are evaluated by the midpoint rule with $N_\theta = 40$
+uniform panels.  After obtaining $\kappa_j^\parallel$ and $\kappa_j^\perp$
+for each mode $j\in\{1,2\}$, the code forms the harmonic mean over modes:
+%
+\begin{equation}
+\label{eq:harmonic_modes}
+\kappa_{\mathrm{eff}}^\parallel
+  = \frac{2}{1/\kappa_1^\parallel + 1/\kappa_2^\parallel},
+\qquad
+\kappa_{\mathrm{eff}}^\perp
+  = \frac{2}{1/\kappa_1^\perp + 1/\kappa_2^\perp}.
+\end{equation}
+
+\paragraph{Importance of mode-separate averaging.}
+A previous version of the code incorrectly combined the two normal modes
+\emph{before} angle-averaging, which overpredicts the opacity when the two
+modes differ by orders of magnitude (as they typically do near the
+cyclotron resonance).  The current implementation performs the
+angle-average on each mode independently, then combines them, following
+the prescription of PC03 Eq.~30.
+
+\subsubsection{Magnetic Rosseland means}
+
+\noindent
+The Rosseland mean opacities for transport along and across the field are
+(\texttt{magnetic\_modes.jl}, function \texttt{rosseland\_magnetic}):
+%
+\begin{equation}
+\label{eq:ross_mag}
+\frac{1}{K_\parallel}
+  = \frac{\displaystyle\int_0^\infty
+      \frac{1}{\kappa_{\mathrm{eff}}^\parallel(\nu)}\,
+      \frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu}
+    {\displaystyle\int_0^\infty
+      \frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu},
+\qquad
+\frac{1}{K_\perp}
+  = \frac{\displaystyle\int_0^\infty
+      \frac{1}{\kappa_{\mathrm{eff}}^\perp(\nu)}\,
+      \frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu}
+    {\displaystyle\int_0^\infty
+      \frac{\partial B_\nu}{\partial T}\,\mathrm{d}\nu}.
+\end{equation}
+%
+These correspond to columns~13 and~14 of the Potekhin opacity tables
+(PC03, Table~1).
+
+The frequency grid is constructed by \texttt{make\_rosseland\_frequency\_grid}:
+$N_{\mathrm{base}}=200$ logarithmically spaced points spanning
+$[0.01,\,200]\times k_B T/h$, augmented with $N_{\mathrm{res}}=20$
+additional points clustered within $\pm 0.3$~dex of each cyclotron
+resonance ($\nu_{\mathrm{ce}}$ and~$\nu_{\mathrm{cp}}$) to resolve the
+sharp features in the cross-sections near these frequencies.
+
+
+%======================================================================
+\subsection{Summary of equation cross-references}
+\label{sec:opacity:xref}
+%======================================================================
+
+Table~\ref{tab:opacity_xref} maps every implemented equation to
+its source in PC03 and to the corresponding Julia function.
+
+\begin{table}[ht]
+\centering
+\caption{Cross-reference of opacity equations to Potekhin \& Chabrier
+(2003) and source code.}
+\label{tab:opacity_xref}
+\small
+\begin{tabular}{lllp{5.5cm}}
+\hline
+Report Eq. & PC03 Eq. & Source file / function & Description \\
+\hline
+\eqref{eq:beta_e}           & (1)     & \texttt{magnetic\_ff / beta\_e} &
+  Quantisation parameter $\beta_e$ \\
+\eqref{eq:q_param}          & (25)    & \texttt{dielectric\_tensor / polarization\_weights\_full} &
+  Mode parameter $q$ \\
+\eqref{eq:kappa_mode}        & (27)    & \texttt{magnetic\_modes / mode\_opacity} &
+  Mode opacity $\kappa_j(\theta_B)$ \\
+\eqref{eq:angle_avg}        & (30)    & \texttt{magnetic\_modes / kappa\_parallel\_perp\_mono} &
+  Angle-averaged $\kappa_j^{\parallel,\perp}$ \\
+\eqref{eq:sigma_scat_e}     & (33)    & \texttt{magnetic\_ff / sigma\_scat\_alpha} &
+  Magnetic Thomson $\sigma_\alpha^{s,e}$ \\
+\eqref{eq:sigma_ff}         & (37,51) & \texttt{magnetic\_ff / sigma\_ff\_alpha} &
+  Free-free cross-section $\sigma_\alpha^{\mathrm{ff}}$ \\
+\eqref{eq:nu_e_s}           & (39)    & \texttt{magnetic\_ff / sigma\_ff\_alpha} (inline) &
+  Radiative damping $\nu_e^s$ \\
+\eqref{eq:nu_ff}            & (41)    & \texttt{magnetic\_ff / nu\_ff\_alpha} &
+  Free-free collision freq.\ $\nu_\alpha^{\mathrm{ff}}$ \\
+\eqref{eq:lambda_cl}        & (43)    & \texttt{coulomb\_magnetic / coulomb\_log\_classical\_safe} &
+  Classical Coulomb log $\Lambda_{\mathrm{cl}}^{\mathrm{ff}}$ \\
+\eqref{eq:lambda_mag}       & (44a)   & \texttt{coulomb\_magnetic / coulomb\_log\_magnetic} &
+  Magnetic Coulomb log $\Lambda_\alpha^{\mathrm{ff}}$ \\
+\eqref{eq:Q_integrand}--\eqref{eq:aux_mag_coulomb}
+                             & (44b--e)& \texttt{coulomb\_magnetic / \_Q\_n\_alpha} &
+  Integrand components \\
+\eqref{eq:sigma_pp}         & (46)    & \texttt{magnetic\_ff / sigma\_pp\_alpha} &
+  Proton-proton $\sigma_\alpha^{\mathrm{pp}}$ \\
+\eqref{eq:nu_pp}            & (47)    & \texttt{magnetic\_ff / nu\_pp} &
+  Proton collision freq.\ $\nu^{\mathrm{pp}}$ \\
+\eqref{eq:lambda_pp}        & (48)    & \texttt{magnetic\_ff / coulomb\_log\_proton} &
+  Proton Coulomb log $\Lambda_{\mathrm{pp}}$ \\
+\eqref{eq:nu_tilde}         & (52)    & \texttt{magnetic\_ff / sigma\_ff\_alpha} (inline) &
+  Combined damping $\tilde\nu_\alpha$ \\
+\eqref{eq:nu_p_alpha}       & (53)    & \texttt{magnetic\_ff / sigma\_pp\_alpha} (inline) &
+  Proton damping $\nu_{p,\alpha}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+%======================================================================
+\subsection{Discrepancies and implementation notes}
+\label{sec:opacity:discrepancies}
+%======================================================================
+
+\begin{enumerate}
+
+\item \textbf{Proton scattering omitted.}
+  PC03 Eq.~(34) gives the proton scattering cross-section
+  $\sigma_\alpha^{s,p} = (m_e/m_p)^2\,
+  \omega^2/[(\omega-\alpha\omega_{\mathrm{cp}})^2 + \nu_{p,\alpha}^2]
+  \,\sigma_T$.
+  This term is not included in \texttt{sigma\_total\_alpha}
+  (Eq.~\ref{eq:sigma_total_alpha}).
+  The omission is justified: away from the proton cyclotron resonance,
+  $\sigma_\alpha^{s,p}/\sigma_\alpha^{s,e} \sim (m_e/m_p)^2
+  \approx 3\times10^{-7}$.
+  At $\omega \approx \omega_{\mathrm{cp}}$ the proton resonance
+  is already captured in $\sigma_\alpha^{\mathrm{pp}}$
+  (Eq.~\ref{eq:sigma_pp}), so the missing scattering contribution
+  affects only the scattering-vs-absorption decomposition at that
+  resonance, not the total opacity.
+
+\item \textbf{Traditional vs.\ improved free-free formula.}
+  PC03 note that the traditional factorisation (their Eq.~45,
+  $\sigma_\alpha^{\mathrm{a}} = \sigma_\alpha^{\mathrm{ff}} /
+  \sigma_\alpha^{s,e}$) is ``erroneous'' because it misses
+  interference between terms with changing and fixed Landau quantum
+  number~$n$.
+  Our code implements the improved Eq.~(51) directly
+  (Eq.~\ref{eq:sigma_ff}), which correctly incorporates the
+  proton-cyclotron suppression factor $(\omega-\alpha\omega_{\mathrm{cp}})^2$
+  in the denominator.
+
+\item \textbf{$\nu_\alpha^{\mathrm{ff}}$ uses $\hbar\omega$, not $h\nu$.}
+  The magnetic module defines $u = \hbar\omega/(k_B T)$ in
+  Eq.~\eqref{eq:nu_ff}, whereas the non-magnetic module
+  (\texttt{hydrogen\_ff.jl}) uses $u = h\nu/(k_B T)$.
+  Since $\hbar\omega = h\nu$, these are identical; however, the
+  intermediate code in \texttt{nu\_ff\_alpha} divides by $\hbar\omega$
+  (not $h\nu$), which is consistent with the convention of PC03 Eq.~41
+  where frequencies appear as angular frequencies~$\omega$.
+
+\item \textbf{Coulomb logarithm switching threshold.}
+  The code switches from the classical $\Lambda_{\mathrm{cl}}^{\mathrm{ff}}$
+  to the magnetic $\Lambda_\alpha^{\mathrm{ff}}$ at $\beta_e = 0.1$.
+  PC03 state that the non-magnetic Gaunt factor is ``applicable if
+  $\beta_e < 1$'' (their text below Eq.~43).  The code's more conservative
+  threshold of $\beta_e = 0.1$ ensures that the magnetic expression is
+  used whenever the field produces even modest Landau quantisation, at
+  the cost of evaluating the more expensive sum+integral for weakly
+  quantising fields.
+
+\item \textbf{Integral truncation in $\Lambda_\alpha^{\mathrm{ff}}$.}
+  The semi-infinite integral $\int_0^\infty Q_n^\alpha\,\mathrm{d}y$ in
+  Eq.~\eqref{eq:lambda_mag} is truncated at $y=20$ in the code.
+  For $\beta_e \gg 1$ the integrand decays exponentially for $y \gg 1$
+  (via the Bessel functions $K_0,\,K_1$ of argument~$x_n$), so this
+  upper bound is adequate.  For marginally quantising fields
+  ($\beta_e \sim 0.1$--$1$) the decay is slower but the code falls back
+  to $\Lambda_{\mathrm{cl}}^{\mathrm{ff}}$ at $\beta_e < 0.1$, so the
+  truncation error is bounded.
+
+\item \textbf{Gaunt factor source.}
+  The non-magnetic Gaunt factor table
+  (\texttt{gaunt\_ff.jl}) interpolates the Sutherland (1998) numerical
+  table rather than the Hummer (1988) Pad\'e fit used in PC03.
+  For free-free emission by hydrogen at the temperatures of interest
+  ($T \sim 10^{5.3}$--$10^{7}$~K), the two sources agree to better
+  than 1\%, so this difference is inconsequential.
+
+\end{enumerate}

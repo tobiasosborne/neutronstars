@@ -1,0 +1,414 @@
+\section{Neutron Star Structure}
+\label{sec:ns_structure}
+
+This section documents Module~1 of the visualization pipeline: the computation
+of static, spherically symmetric neutron star models via the
+Tolman--Oppenheimer--Volkoff (TOV) equations, closed by the Brussels--Montreal
+BSk unified equations of state.  Every equation implemented in the code is
+stated below, cross-referenced against the source literature, and any
+approximations or discrepancies are flagged.
+
+%==========================================================================
+\subsection{Physical constants}
+\label{sec:constants}
+
+All physical constants are taken in CGS units from the CODATA 2018
+adjustment~\cite{Tiesinga2021}.  The values used are:
+%
+\begin{equation}
+  c = 2.997\,924\,58\times10^{10}\;\text{cm\,s}^{-1},\qquad
+  G = 6.674\,30\times10^{-8}\;\text{cm}^{3}\,\text{g}^{-1}\,\text{s}^{-2}.
+  \label{eq:cG}
+\end{equation}
+%
+The solar mass is set to
+$M_{\odot}=1.988\,92\times10^{33}\;\text{g}$, attributed to IAU 2015 nominal
+values.
+
+\paragraph{Remark.}
+The IAU 2015 nominal solar mass parameter is
+$\mathcal{GM}_{\odot}^{N}=1.327\,124\,4\times10^{26}\;\text{cm}^{3}\,
+\text{s}^{-2}$~\cite{IAU2015},
+which combined with the CODATA 2018 value of $G$ yields
+$M_{\odot}\approx1.988\,48\times10^{33}\;\text{g}$.
+The code value $1.988\,92\times10^{33}\;\text{g}$ is a commonly used older
+estimate and differs by ${\sim}0.02\%$.  This has negligible impact on
+computed stellar masses at the precision of the EOS fit (${\sim}1\%$).
+
+%==========================================================================
+\subsection{BSk equation of state}
+\label{sec:bsk_eos}
+
+The equation of state (EOS) is an analytical representation of the unified
+Brussels--Montreal BSk models, following
+Potekhin et al.\ (2013)~\cite{Potekhin2013} (hereafter P13).
+The code implements three parameter sets---BSk19, BSk20, and BSk21---with
+BSk21 used as the default (stiffest EOS, maximum mass
+$M_{\max}\approx2.27\,M_{\odot}$).
+
+\subsubsection{Pressure--density relation}
+
+Introducing the dimensionless logarithmic variables
+\begin{equation}
+  \xi \equiv \log_{10}\!\bigl(\rho/\text{g\,cm}^{-3}\bigr),\qquad
+  \zeta \equiv \log_{10}\!\bigl(P/\text{dyn\,cm}^{-2}\bigr),
+  \label{eq:xi_zeta_def}
+\end{equation}
+the analytical fit for $P(\rho)$ is given by P13, Eq.~(3):
+%
+\begin{align}
+  \zeta &= \frac{a_1 + a_2\,\xi + a_3\,\xi^{3}}{1 + a_4\,\xi}\;
+           \bigl\{\exp\!\bigl[a_5(\xi - a_6)\bigr]+1\bigr\}^{-1}
+           \notag\\[4pt]
+  &\quad + (a_7 + a_8\,\xi)\;
+           \bigl\{\exp\!\bigl[a_9(a_6 - \xi)\bigr]+1\bigr\}^{-1}
+           \notag\\[4pt]
+  &\quad + (a_{10} + a_{11}\,\xi)\;
+           \bigl\{\exp\!\bigl[a_{12}(a_{13} - \xi)\bigr]+1\bigr\}^{-1}
+           \notag\\[4pt]
+  &\quad + (a_{14} + a_{15}\,\xi)\;
+           \bigl\{\exp\!\bigl[a_{16}(a_{17} - \xi)\bigr]+1\bigr\}^{-1}
+           \notag\\[4pt]
+  &\quad + \frac{a_{18}}{1+\bigl[a_{19}(\xi - a_{20})\bigr]^{2}}
+         + \frac{a_{21}}{1+\bigl[a_{22}(\xi - a_{23})\bigr]^{2}}\,.
+  \label{eq:bsk_pressure}
+\end{align}
+%
+The pressure is then $P = 10^{\zeta}$.
+
+\paragraph{Verification against paper.}
+The implementation in \texttt{bsk\_eos.jl} (lines 121--127) reproduces
+Eq.~\eqref{eq:bsk_pressure} term-by-term with no discrepancies.
+Each of the six additive terms matches P13 Eq.~(3) identically:
+four Fermi--Dirac-type terms and two Lorentzian terms.
+
+\paragraph{Validity range.}
+The fit is valid for
+$10^{6}\lesssim\rho\lesssim10^{16}\;\text{g\,cm}^{-3}$
+($6\lesssim\xi\lesssim16$).
+The code enforces $\rho>0$ and $\rho<10^{17}\;\text{g\,cm}^{-3}$ via
+assertions.  Per P13, the typical fit error on $P$ is ${\approx}\,1\%$ for
+$\xi\gtrsim6$, with a maximum of $3.7\%$ at $\xi=9.51$ (the neutron-drip
+transition region).
+
+\subsubsection{Fit parameters}
+
+The 23 parameters $a_1,\ldots,a_{23}$ for each BSk model are taken from
+P13 Table~2.  All parameter values in the code have been checked against the
+published table; the comparison for the preferred BSk21 model is shown in
+Table~\ref{tab:bsk21_params}.
+
+\begin{table}[htbp]
+\centering
+\caption{BSk21 parameters $a_i$: code values versus P13 Table~2.
+All entries match exactly to the published precision.}
+\label{tab:bsk21_params}
+\begin{tabular}{r r r}
+\hline
+$i$ & Code & P13 Table~2 \\
+\hline
+ 1 & $4.857$    & $4.857$ \\
+ 2 & $6.981$    & $6.981$ \\
+ 3 & $0.00706$  & $0.00706$ \\
+ 4 & $0.19351$  & $0.19351$ \\
+ 5 & $4.085$    & $4.085$ \\
+ 6 & $12.065$   & $12.065$ \\
+ 7 & $10.521$   & $10.521$ \\
+ 8 & $1.5905$   & $1.5905$ \\
+ 9 & $4.104$    & $4.104$ \\
+10 & $-28.726$  & $-28.726$ \\
+11 & $2.0845$   & $2.0845$ \\
+12 & $4.89$     & $4.89$ \\
+13 & $14.302$   & $14.302$ \\
+14 & $22.881$   & $22.881$ \\
+15 & $-1.7690$  & $-1.7690$ \\
+16 & $0.989$    & $0.989$ \\
+17 & $15.313$   & $15.313$ \\
+18 & $0.091$    & $0.091$ \\
+19 & $4.68$     & $4.68$ \\
+20 & $11.65$    & $11.65$ \\
+21 & $-0.086$   & $-0.086$ \\
+22 & $10.0$     & $10.0$ \\
+23 & $14.15$    & $14.15$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The same check was performed for BSk19 and BSk20.
+All $3\times23=69$ parameter values match the published table to every
+quoted digit.  No transcription errors were found.
+
+\subsubsection{Energy density}
+
+For the TOV system, the total energy density $\varepsilon$ is required.
+Following P13 Sect.~3.1 (discussion below their Eq.~1), the variable $\rho$
+in the BSk parametrization is the \emph{gravitational mass density}, which
+already incorporates internal (binding) energy contributions.  The
+code therefore uses
+\begin{equation}
+  \varepsilon = \rho\,c^{2}\,,
+  \label{eq:energy_density}
+\end{equation}
+which is the correct identification for this parametrization.
+
+\paragraph{Approximation.}
+This relation is exact within the P13 fitting framework.
+In a more fundamental treatment, one would distinguish rest-mass energy
+density $\rho_0 c^{2}$ from thermal and interaction contributions.
+The BSk fit absorbs these corrections into the definition of $\rho$, so
+Eq.~\eqref{eq:energy_density} is self-consistent.
+
+\subsubsection{Pseudo-enthalpy}
+\label{sec:pseudo_enthalpy}
+
+The pseudo-enthalpy, useful for rotating-star calculations, is defined by
+P13 Eq.~(2):
+\begin{equation}
+  H = \int_{0}^{P}\frac{\mathrm{d}P'}{\rho(P')\,c^{2}+P'}\,.
+  \label{eq:pseudo_enthalpy}
+\end{equation}
+The code evaluates this integral via the trapezoidal rule in $\log_{10}P$
+space with $N=1000$ points (default), using the change of variables
+$\mathrm{d}P' = P'\ln10\;\mathrm{d}(\log_{10}P')$, so that the integrand
+becomes
+\begin{equation}
+  H = \int_{\log_{10}P_{\min}}^{\log_{10}P}
+      \frac{P'\,\ln 10}{\varepsilon(P') + P'}\;\mathrm{d}(\log_{10}P')\,,
+  \label{eq:pseudo_enthalpy_logP}
+\end{equation}
+where $P_{\min}=P(\rho=10^{6}\;\text{g\,cm}^{-3})$ is the lower limit of
+the EOS fit validity.
+
+\paragraph{Verification against paper.}
+Equation~\eqref{eq:pseudo_enthalpy} matches P13 Eq.~(2) identically.
+The logarithmic integration variable is a numerical convenience not
+present in the paper; it improves quadrature accuracy over the many
+decades of pressure spanning the stellar interior.
+
+\paragraph{Approximation.}
+The function $\rho(P)$ required inside the integrand is obtained by
+bisection inversion of $P(\rho)$ (see Eq.~\ref{eq:bsk_pressure}), with
+relative tolerance $10^{-10}$ in $\log_{10}\rho$.  The trapezoidal rule with
+$N=1000$ uniform steps in $\log_{10}P$ yields accuracy well within the
+underlying ${\sim}1\%$ EOS fit error.
+
+\subsubsection{Density inversion}
+
+Since the BSk fit provides $P(\rho)$ analytically but $\rho(P)$ is needed
+for the TOV integration, the inverse function is computed by bisection in
+$\log_{10}\rho$ space:
+\begin{equation}
+  \text{find } \rho^{*} \text{ such that }
+  P(\rho^{*}) = P_{\text{target}},
+  \quad \rho^{*}\in[10^{4},\,10^{16}]\;\text{g\,cm}^{-3}.
+  \label{eq:bisection}
+\end{equation}
+The bracket is automatically extended by factors of~10 if the target
+pressure falls outside the initial range.  Convergence to relative
+tolerance $10^{-10}$ is guaranteed within 200 iterations
+($2^{200}\gg10^{12}$, the bracket ratio in decades).
+
+\paragraph{Approximation.}
+Bisection is unconditionally stable but slower than Newton--Raphson.
+Since $\mathrm{d}P/\mathrm{d}\rho$ is not available analytically from
+the fit (it would require differentiating
+Eq.~\ref{eq:bsk_pressure}), bisection is the simplest robust choice.
+The ${\sim}40$ iterations typically needed add negligible cost compared to
+the RK4 TOV loop.
+
+%==========================================================================
+\subsection{TOV equations}
+\label{sec:tov}
+
+The structure of a static, spherically symmetric star in general relativity is
+governed by the TOV equations
+\cite{Tolman1939,OppenheimerVolkoff1939,ShapiroTeukolsky1983}.
+Following the notation of Shapiro \& Teukolsky (1983), Ch.~5--6:
+
+\begin{align}
+  \frac{\mathrm{d}P}{\mathrm{d}r}
+  &= -\,\frac{G\,(\varepsilon + P)\!
+       \left(m + \dfrac{4\pi\,r^{3}\,P}{c^{2}}\right)}
+       {r\!\left(r\,c^{2} - 2\,G\,m\right)}\,,
+  \label{eq:tov_dPdr}\\[8pt]
+  \frac{\mathrm{d}m}{\mathrm{d}r}
+  &= \frac{4\pi\,r^{2}\,\varepsilon}{c^{2}}\,,
+  \label{eq:tov_dmdr}
+\end{align}
+%
+where $r$ is the circumferential (areal) radius, $m(r)$ is the enclosed
+gravitational mass, $P(r)$ is the pressure, and
+$\varepsilon(r)=\rho(r)\,c^{2}$ is the total energy density.  The system is
+closed by the EOS $P=P(\rho)$ from Sect.~\ref{sec:bsk_eos}.
+
+\paragraph{Verification against paper.}
+The code implementation in \texttt{tov.jl} (lines 167--175) reproduces
+Eqs.~\eqref{eq:tov_dPdr}--\eqref{eq:tov_dmdr} exactly.  The function
+\texttt{tov\_rhs} returns $(dm/dr,\;dP/dr)$ with the signs and grouping
+matching the standard form.  An assertion checks that the denominator
+$r(rc^{2}-2Gm)>0$, i.e.\ that the integration has not crossed the
+Schwarzschild horizon.
+
+\subsubsection{Central boundary conditions}
+\label{sec:central_bc}
+
+At $r=0$ the TOV equations are singular ($0/0$ form).  The code avoids
+this by starting the integration at a small radius $r_{0}$ using a
+Taylor expansion about the centre.  To derive these, one substitutes
+$m(r)=(4\pi/3)(\varepsilon_{c}/c^{2})\,r^{3}+\mathcal{O}(r^{5})$ into
+Eq.~\eqref{eq:tov_dPdr} and expands to leading non-trivial order:
+%
+\begin{align}
+  m(r_0) &= \frac{4\pi}{3}\,\frac{\varepsilon_{c}}{c^{2}}\,r_0^{3}\,,
+  \label{eq:m_central}\\[6pt]
+  P(r_0) &= P_{c} - \frac{2\pi\,G}{3\,c^{4}}\,
+             (\varepsilon_{c}+P_{c})(\varepsilon_{c}+3P_{c})\,r_0^{2}\,.
+  \label{eq:P_central}
+\end{align}
+%
+These are the standard results (see, e.g., Shapiro \& Teukolsky 1983,
+Eq.~(5.7.6); Lindblom 1992~\cite{Lindblom1992}).
+
+\paragraph{Verification against code.}
+The code (\texttt{tov.jl}, lines 73--75) implements:
+\begin{verbatim}
+  m0 = 4pi/3 * eps_c / c^2 * r0^3
+  dP_coeff = -2pi * G * (eps_c + P_c) * (eps_c + 3P_c) / (3 * c^4)
+  P0 = P_c + dP_coeff * r0^2
+\end{verbatim}
+This matches Eqs.~\eqref{eq:m_central}--\eqref{eq:P_central} exactly.
+The default starting radius is $r_0 = 100\;\text{cm} = 1\;\text{m}$, which
+is negligible compared to stellar radii of order $10^{6}\;\text{cm}$ and
+ensures the $\mathcal{O}(r^{4})$ truncation error is of order
+$(r_{0}/R)^{4}\sim10^{-16}$.
+
+\subsubsection{Numerical integration}
+
+The TOV system is integrated outward using a classical fourth-order
+Runge--Kutta (RK4) scheme.  The step size $\Delta r$ is adaptive:
+\begin{equation}
+  \Delta r = \min\!\Bigl(
+    \Delta r_{\max},\;
+    \Delta r_{\text{init}}\cdot\max\!\bigl(1,\,(P/P_{\text{surf}})^{0.3}\bigr),\;
+    0.01\,r
+  \Bigr),
+  \label{eq:adaptive_step}
+\end{equation}
+with defaults $\Delta r_{\text{init}}=100\;\text{cm}$,
+$\Delta r_{\max}=1000\;\text{cm}$.
+The three constraints ensure that steps are (i) bounded above, (ii) small
+near the surface where $P$ changes rapidly, and (iii) never exceed $1\%$ of
+the current radius.
+
+\paragraph{Approximation.}
+The step controller in Eq.~\eqref{eq:adaptive_step} is heuristic rather
+than based on local truncation error estimation.  It does not use
+embedded Runge--Kutta pairs (e.g.\ Dormand--Prince) for rigorous error
+control.  However, the small maximum step size
+($\Delta r_{\max}=10\;\text{m}$, compared to $R\sim10\;\text{km}$) and the
+additional $1\%$-of-$r$ constraint ensure that the integration is well
+resolved.
+
+\paragraph{Surface termination.}
+Integration terminates when $P$ drops below the surface pressure
+$P_{\text{surf}} \equiv P(\rho=10^{6}\;\text{g\,cm}^{-3})$, which
+corresponds to the lower validity limit of the BSk fit.  At the final step,
+a linear interpolation in $r$ locates the exact surface crossing:
+\begin{equation}
+  r_{\text{surf}} = r_{n-1}
+    + \frac{P_{n-1}-P_{\text{surf}}}{P_{n-1}-P_{n}}\;\Delta r\,,
+  \label{eq:surface_interp}
+\end{equation}
+and the mass is interpolated likewise.
+
+\subsubsection{Derived quantities}
+
+From the integration output---the total gravitational mass $M\equiv m(R)$
+and circumferential radius $R\equiv r_{\text{surf}}$---the code computes
+the following:
+
+\paragraph{Compactness.}
+\begin{equation}
+  u \equiv \frac{2\,G\,M}{R\,c^{2}}\,.
+  \label{eq:compactness}
+\end{equation}
+This is the standard relativistic compactness parameter (the ratio of
+Schwarzschild radius to stellar radius).
+
+\paragraph{Surface gravity.}
+\begin{equation}
+  g_{\text{surf}} = \frac{G\,M}{R^{2}\,\sqrt{1-u}}
+                   = \frac{G\,M}{R^{2}}\,
+                     \left(1 - \frac{2\,G\,M}{R\,c^{2}}\right)^{\!-1/2}.
+  \label{eq:surface_gravity}
+\end{equation}
+%
+This is the \emph{local} surface gravity, \emph{not} the
+redshifted gravity $g_{\infty}=g_{\text{surf}}\sqrt{1-u}=GM/R^{2}$
+seen by a distant observer.  The code comment labels it
+``redshifted'', but the formula actually gives the local value---the
+redshifted surface gravity would instead be $g_{\infty}=GM/R^{2}$.
+
+\paragraph{Discrepancy.}
+\emph{The code comment on line 184 of \texttt{tov.jl} describes
+\texttt{g\_surf} as ``surface gravity (redshifted)'', but the implemented
+formula $g = GM/\bigl(R^{2}\sqrt{1-2GM/Rc^{2}}\bigr)$ is the local
+(proper) surface gravity, not the redshifted one.  The formula itself is
+correct for the local surface gravity; only the comment is misleading.}
+
+\subsubsection{Mass--radius curve}
+
+The function \texttt{mass\_radius\_curve} varies the central density
+logarithmically over
+$\log_{10}(\rho_{c}/\text{g\,cm}^{-3})\in[14.0,\,15.8]$ and calls
+\texttt{solve\_tov} at each value to trace the $M(R)$ relation.
+This range spans from $\rho_{c}\approx10^{14}\;\text{g\,cm}^{-3}$
+(slightly below nuclear saturation) to
+$\rho_{c}\approx6.3\times10^{15}\;\text{g\,cm}^{-3}$
+(well above the maximum-mass configuration).
+
+%==========================================================================
+\subsection{Summary of approximations}
+\label{sec:approx_summary}
+
+The key approximations and simplifications in Module~1 are:
+\begin{enumerate}
+  \item \textbf{EOS fit accuracy:} The BSk analytical fit
+    (Eq.~\ref{eq:bsk_pressure}) reproduces the tabulated EOS to
+    ${\sim}1\%$ for $\xi\gtrsim6$, with a worst case of $3.7\%$ at
+    $\xi=9.51$ (P13, Sect.~3.2).
+  \item \textbf{Zero temperature:} The BSk parametrization assumes cold,
+    catalyzed matter ($T=0$).  Thermal corrections are neglected.
+  \item \textbf{Spherical symmetry:} Rotation is neglected; the star is
+    treated as static and spherically symmetric.
+  \item \textbf{Heuristic step control:} The RK4 integrator uses an
+    empirical adaptive step (Eq.~\ref{eq:adaptive_step}) rather than
+    embedded error estimation.
+  \item \textbf{Solar mass value:} $M_{\odot}$ differs from the precise
+    IAU~2015 nominal value by ${\sim}0.02\%$
+    (Sect.~\ref{sec:constants}).
+  \item \textbf{Density inversion by bisection:} $\rho(P)$ is obtained
+    numerically rather than from a separate analytical inverse fit
+    (P13 provide such fits in their Eqs.~6--7, which are not used here).
+\end{enumerate}
+
+\subsection{Summary of discrepancies}
+\label{sec:discrepancies}
+
+\begin{enumerate}
+  \item \textbf{Surface gravity comment (cosmetic):} The code comment on
+    \texttt{tov.jl} line~184 labels \texttt{g\_surf} as
+    ``redshifted'', but the formula computes the local proper surface
+    gravity.  The formula is correct; only the comment is wrong.
+    See Eq.~\eqref{eq:surface_gravity}.
+  \item \textbf{Solar mass value (minor):} $M_{\odot}=1.98892\times
+    10^{33}\;\text{g}$ vs.\ the IAU~2015/CODATA~2018 derived value of
+    $1.98848\times10^{33}\;\text{g}$ (a $0.02\%$ difference).
+  \item \textbf{No discrepancies in physics equations:} All implemented
+    equations---the BSk pressure fit (Eq.~\ref{eq:bsk_pressure}),
+    TOV system (Eqs.~\ref{eq:tov_dPdr}--\ref{eq:tov_dmdr}), central
+    expansion (Eqs.~\ref{eq:m_central}--\ref{eq:P_central}), and
+    pseudo-enthalpy (Eq.~\ref{eq:pseudo_enthalpy})---match the source
+    references exactly.  All 69 BSk fit parameters across three models
+    match P13 Table~2 to every quoted digit.
+\end{enumerate}

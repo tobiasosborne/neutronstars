@@ -1,0 +1,374 @@
+\section{Radiative Transfer}
+\label{sec:radiative_transfer}
+
+This section documents Module~3 of the neutron star visualization pipeline: the self-consistent radiative transfer atmosphere solver. The non-magnetic solver follows the method of \citet{haakonsen2012} (hereafter H12), while the magnetic extension adopts the two-mode formalism of \citet{suleimanov2009} (hereafter SPW09). Throughout, we cite the specific equations from these references that each numerical component implements.
+
+%----------------------------------------------------------------------
+\subsection{Atmosphere Structure}
+\label{sec:atm_structure}
+
+We model a plane-parallel, fully ionised hydrogen atmosphere in hydrostatic and radiative equilibrium. The assumptions are those common to the three standard unmagnetized codes reviewed in H12~\S2: complete ionisation, coherent scattering, no electron conduction, no self-irradiation, and negligible radiation pressure ($T_\mathrm{eff}\ll10^7$~K).
+
+\subsubsection{Hydrostatic equilibrium and equation of state}
+
+Neglecting radiation pressure, the gas pressure at column depth $y$ (measured inward from the surface in $\mathrm{g\,cm^{-2}}$) satisfies
+\begin{equation}
+  P(y) = g_s\, y \,,
+  \label{eq:hydrostatic}
+\end{equation}
+where $g_s$ is the surface gravity, taken to be constant across the atmosphere (H12~Eq.~1; SPW09~Eq.~1 in the $g_\mathrm{rad}\to 0$ limit).
+
+For fully ionised hydrogen the ideal-gas equation of state gives
+\begin{equation}
+  P = (n_e + n_p)\,k_B T = \frac{2\rho}{m_p}\,k_B T
+  \qquad\Longrightarrow\qquad
+  \rho = \frac{m_p\,P}{2\,k_B\,T}\,,
+  \label{eq:eos}
+\end{equation}
+corresponding to a mean molecular weight $\mu = 0.5$. This is the same relation used in H12 (via the OPAL EOS tables, which reduce to Eq.~\eqref{eq:eos} in the fully ionised, low-density regime) and in SPW09~Eq.~11.
+
+The column depth is discretised into $N$ logarithmically spaced points,
+\begin{equation}
+  y_i = 10^{\,\log_{10}y_\mathrm{min} + (i-1)\,\Delta\log y}\,,\qquad
+  i=1,\dots,N\,,
+\end{equation}
+with default bounds $y_\mathrm{min}=10^{-9}\;\mathrm{g\,cm^{-2}}$ and $y_\mathrm{max}=10^{2}\;\mathrm{g\,cm^{-2}}$ (extended automatically until the monochromatic optical depth at the highest frequency exceeds 80; cf.\ H12~\S3.1). Frequency is discretised into $K$ log-spaced points spanning $0.05\,k_BT_\mathrm{eff}/h \le \nu \le 120\,k_BT_\mathrm{eff}/h$, matching the McPHAC grid bounds.
+
+\subsubsection{Eddington temperature profile}
+
+The initial temperature profile is obtained from the Eddington approximation (H12~Eq.~10),
+\begin{equation}
+  T^4(\tau_R) = \tfrac{3}{4}\,T_\mathrm{eff}^4\!\left(\tau_R + \tfrac{2}{3}\right),
+  \label{eq:eddington_T}
+\end{equation}
+where $\tau_R$ is the Rosseland-mean optical depth. The Rosseland mean opacity $k_R$ is computed from the free--free absorption coefficient and the temperature-derivative-weighted frequency integral
+\begin{equation}
+  \frac{1}{k_R}
+  = \frac{\int_0^\infty \frac{1}{k_\nu}\,\frac{\partial B_\nu}{\partial T}\,d\nu}
+         {\int_0^\infty \frac{\partial B_\nu}{\partial T}\,d\nu}\,.
+\end{equation}
+The surface boundary condition $T(y\!=\!0) = 0.265\,T_\mathrm{eff}$ follows the McPHAC convention (H12~\S3.1). Equation~\eqref{eq:eddington_T} is integrated inward by evaluating $\tau_R \approx k_R\,y$ with a self-consistently updated $k_R(T,\rho)$ at each depth.
+
+%----------------------------------------------------------------------
+\subsection{Feautrier Method}
+\label{sec:feautrier}
+
+\subsubsection{Second-order transfer equation}
+
+Defining the Feautrier mean intensity at angle $\mu_j$ and frequency $\nu_k$ as
+\begin{equation}
+  P_\nu(y,\mu) \equiv \tfrac{1}{2}\bigl[I_\nu(y,\mu) + I_\nu(y,-\mu)\bigr]\,,
+  \label{eq:feautrier_P}
+\end{equation}
+the radiative transfer equation can be written in the second-order form (H12~Eq.~2)
+\begin{equation}
+  \mu^2\,\frac{d^2 P_\nu}{d\tau_\nu^2}
+  = P_\nu(y,\mu) - S_\nu(y,\mu)\,,
+  \label{eq:feautrier_ode}
+\end{equation}
+where $d\tau_\nu = k_\nu\,dy$ with $k_\nu = \kappa_\nu + \sigma_{\mathrm{T},r}$ the total (absorption $+$ reduced Thomson scattering) opacity. For coherent, anisotropic dipole Thomson scattering the phase function is (H12~Eq.~16)
+\begin{equation}
+  \frac{d\sigma_{\mathrm{T},r}}{d\mu'}(\mu,\mu_j)
+  = \sigma_{\mathrm{T},r}\,\frac{3}{16}
+    \bigl(3 + 3\mu^2\mu_j^2 - \mu^2 - \mu_j^2\bigr)\,,
+  \label{eq:phase_function}
+\end{equation}
+which replaces the isotropic factor $\sigma_{\mathrm{T},r}/2$ used in earlier codes (Z96, G02, H06). The source function is (H12~Eq.~4)
+\begin{equation}
+  S_\nu(y,\mu) = (1-\rho_\nu)\,B_\nu(T)
+  + 2\rho_\nu \sum_{j'=1}^{M} P_\nu(y,\mu_{j'})\,
+    \frac{d\sigma_{\mathrm{T},r}}{d\mu'}(\mu,\mu_{j'})\,a_{j'}\,,
+  \label{eq:source_function}
+\end{equation}
+where $\rho_\nu = \sigma_{\mathrm{T},r}/k_\nu$ is the scattering albedo (H12~Eq.~6), $B_\nu$ is the Planck function, and $a_{j'}$ are the Gauss--Legendre quadrature weights on $[0,1]$.
+
+\subsubsection{Block-tridiagonal system}
+
+Discretising Eq.~\eqref{eq:feautrier_ode} on the column-depth grid following \citet{auer1976} (H12~\S3.3, Eq.~13) gives the block-tridiagonal system
+\begin{equation}
+  \mathbf{A}_i\,\mathbf{P}_{i-1}
+  + \mathbf{B}_i\,\mathbf{P}_{i}
+  + \mathbf{C}_i\,\mathbf{P}_{i+1}
+  = \mathbf{Q}_i\,,
+  \qquad i=1,\dots,N_\mathrm{eff}\,,
+  \label{eq:block_tridiag}
+\end{equation}
+where $\mathbf{P}_i$ is the $M$-vector of Feautrier means at depth $y_i$ and the $M\!\times\!M$ matrices encode the finite-difference stencil. For interior points $2\le i < N_\mathrm{eff}$, defining the optical depth increments
+\begin{equation}
+  \Delta\tau_i = \tfrac{1}{2}\bigl(k_\nu(y_i)+k_\nu(y_{i-1})\bigr)(y_i - y_{i-1})
+\end{equation}
+and $\overline{\Delta\tau}_i = \frac{1}{2}(\Delta\tau_i + \Delta\tau_{i+1})$, the matrix elements are (diagonal in the angle index $j$):
+\begin{align}
+  (A_i)_{jj} &= -\frac{\mu_j^2}{\Delta\tau_i\,\overline{\Delta\tau}_i}\,, \\[4pt]
+  (C_i)_{jj} &= -\frac{\mu_j^2}{\Delta\tau_{i+1}\,\overline{\Delta\tau}_i}\,, \\[4pt]
+  (B_i)_{jj} &= -\!(A_i)_{jj} - (C_i)_{jj} + 1\,,
+\end{align}
+with the scattering redistribution contribution
+\begin{equation}
+  (B_i)_{j,j'} \;\longleftarrow\; (B_i)_{j,j'}
+  - 2\,\rho_\nu\,\frac{d\sigma_{\mathrm{T},r}}{d\mu'}(\mu_j,\mu_{j'})\,a_{j'}\,,
+  \label{eq:scattering_matrix}
+\end{equation}
+and the thermal source vector $Q_i = (1-\rho_\nu)\,B_\nu(T_i)\,\mathbf{1}$ (H12~Eqs.~14--15).
+
+\subsubsection{Boundary conditions}
+
+\paragraph{Surface ($i=1$).}
+No incident radiation, $I_{\nu}^{-}(0,\mu)=0$, gives the Auer boundary (H12~\S3.3):
+\begin{equation}
+  \bigl(1 + \delta_j^{-1}\bigr)\,P_1^{(j)} - \delta_j^{-1}\,P_2^{(j)} = 0\,,
+  \qquad\text{where}\quad \delta_j = \Delta\tau_2/\mu_j\,.
+  \label{eq:surface_bc}
+\end{equation}
+The surface carries no thermal source ($Q_1=0$); the emergent intensity is recovered as $I_\nu(0,\mu_j)=2\,P_\nu(y_1,\mu_j)$.
+
+\paragraph{Bottom ($i=N_\mathrm{eff}$).}
+The diffusion (LTE) limit sets $P_\nu = B_\nu(T_{N_\mathrm{eff}})$ for all angles, ensuring isotropic specific intensity at great depth (H12~\S3.3). The effective depth $N_\mathrm{eff}$ is chosen so that $\tau_{\nu,\max}=80$ at each frequency.
+
+\subsubsection{Forward elimination and back-substitution}
+
+The system~\eqref{eq:block_tridiag} is solved by Gaussian elimination on the block matrices. Define the modified quantities recursively:
+\begin{align}
+  \tilde{\mathbf{B}}_1 &= \mathbf{B}_1\,,\qquad
+  \tilde{\mathbf{Q}}_1 = \mathbf{Q}_1\,, \\[3pt]
+  \tilde{\mathbf{B}}_i &= \mathbf{B}_i
+    - \mathbf{A}_i\,\tilde{\mathbf{B}}_{i-1}^{-1}\,\mathbf{C}_{i-1}\,,
+    \label{eq:forward_B}\\[3pt]
+  \tilde{\mathbf{Q}}_i &= \mathbf{Q}_i
+    - \mathbf{A}_i\,\tilde{\mathbf{B}}_{i-1}^{-1}\,\tilde{\mathbf{Q}}_{i-1}\,.
+    \label{eq:forward_Q}
+\end{align}
+Back-substitution proceeds as
+\begin{equation}
+  \mathbf{P}_{N_\mathrm{eff}} = \tilde{\mathbf{B}}_{N_\mathrm{eff}}^{-1}\,
+    \tilde{\mathbf{Q}}_{N_\mathrm{eff}}\,,\qquad
+  \mathbf{P}_i = \tilde{\mathbf{B}}_i^{-1}\!\bigl(
+    \tilde{\mathbf{Q}}_i - \mathbf{C}_i\,\mathbf{P}_{i+1}\bigr)\,.
+  \label{eq:back_sub}
+\end{equation}
+A positivity clamp $P_{i,j}\leftarrow\max(P_{i,j},0)$ is applied after back-substitution to ensure physical specific intensities. Gauss--Legendre quadrature over the outward hemisphere then yields the moments
+\begin{equation}
+  J_\nu(y_i) = \sum_{j=1}^{M} a_j\,P_\nu(y_i,\mu_j)\,,\qquad
+  f_\nu = \frac{\sum_j \mu_j^2\,a_j\,P_j}{J_\nu}\,,\qquad
+  h_\nu = \frac{\sum_j \mu_j\,a_j\,P_j}{J_\nu}\,,
+  \label{eq:eddington_factors}
+\end{equation}
+where $f_\nu$ and $h_\nu$ are the Eddington factors (H12~Eqs.~19--20, 22).
+
+%----------------------------------------------------------------------
+\subsection{Frequency-Adaptive Depth Grid}
+\label{sec:adaptive_grid}
+
+At a given frequency, only column depths with $\tau_\nu \lesssim 80$ contribute to the emergent flux. Different frequencies become optically thick at vastly different physical depths because $\kappa_\mathrm{ff}\propto\nu^{-3}$; a single common grid therefore wastes resolution at some frequencies while under-resolving others.
+
+Following the McPHAC approach (H12~\S3.3), an adaptive variant constructs a per-frequency depth grid. For each frequency $\nu_k$:
+\begin{enumerate}
+  \item Determine $y_{\max,k}$ such that $\tau_{\nu_k}(y_{\max,k})=80$.
+  \item Create $N_\nu$ logarithmically spaced points $\{y^{(\nu)}_i\}$ from $y_\mathrm{min}$ to $y_{\max,k}$.
+  \item Interpolate $T(y)$, $k_\nu(y)$, and $\rho_\nu(y)$ from the common grid onto $\{y^{(\nu)}_i\}$ using log-linear interpolation (logarithmic in $y$, linear in the field quantity).
+  \item Solve the Feautrier system~\eqref{eq:block_tridiag} on the per-frequency grid.
+  \item Interpolate the resulting $J_\nu$, $f_\nu$, $h_\nu$ back to the common grid.
+\end{enumerate}
+This concentrates depth resolution near each frequency's photosphere and improves spectral accuracy from ${\sim}7\%$ (common grid) to ${<}1\%$ (adaptive grid), at the cost of $K$ independent interpolation steps per iteration.
+
+For depths beyond $y_{\max,k}$ the diffusion limit $J_\nu = B_\nu(T)$, $f_\nu = 1/3$, $h_\nu = 0$ is imposed.
+
+%----------------------------------------------------------------------
+\subsection{Rybicki Temperature Correction}
+\label{sec:rybicki}
+
+The Feautrier solution yields $J_\nu$ and $f_\nu$ for a \emph{fixed} temperature profile. To drive the atmosphere toward radiative equilibrium (constant bolometric flux through all depths), we apply the Rybicki temperature correction method \citep{rybicki1971}, following the detailed discretisation in H12~Appendix~A.
+
+\subsubsection{Linearised moment equation}
+
+Integrating the second-order transfer equation over angle (H12~Eq.~A1) and using the Eddington factor closure yields (H12~Eq.~A2)
+\begin{equation}
+  \frac{1}{k_\nu}\,\frac{d}{dy}\!\left(
+    \frac{1}{k_\nu}\,\frac{d}{dy}(f_\nu\,J_\nu)
+  \right)
+  = (J_\nu - B_\nu)\,(1-\rho_\nu)\,.
+  \label{eq:moment_eq}
+\end{equation}
+Radiative equilibrium requires $\int_0^\infty(J_\nu - B_\nu)\,\kappa_\nu\,d\nu = 0$ at every depth (H12~Eq.~A3). Writing $T = T_0 + \Delta T$ and linearising $B_\nu(T)\approx B_\nu(T_0) + (dB_\nu/dT)\,\Delta T$ gives the temperature correction (H12~Eq.~A5):
+\begin{equation}
+  \Delta T(y) = \frac{\displaystyle\int_0^\infty
+    \bigl(J_\nu - B_\nu(T_0)\bigr)\,\kappa_\nu\,d\nu}
+    {\displaystyle\int_0^\infty
+    \frac{dB_\nu}{dT}\,\kappa_\nu\,d\nu}\,.
+  \label{eq:deltaT}
+\end{equation}
+Substituting this back into Eq.~\eqref{eq:moment_eq} and eliminating $\Delta T$ produces a coupled system for $J_\nu$ at all depths and frequencies simultaneously (H12~Eq.~A6).
+
+\subsubsection{Tridiagonal system per frequency}
+
+Discretising Eq.~\eqref{eq:moment_eq} on the column-depth grid and substituting the linearised $\Delta T$ produces, for each frequency $k$, a tridiagonal system (H12~Eq.~A18):
+\begin{equation}
+  \mathbf{T}_k\,\mathbf{J}_k + \mathbf{U}_k\,\bar{\mathbf{J}} = \mathbf{K}_k\,,
+  \label{eq:rybicki_tridiag}
+\end{equation}
+where $\mathbf{J}_k = (J_{k,1},\dots,J_{k,N})^T$ is the mean intensity at frequency $k$, $\bar{\mathbf{J}}$ is the frequency-integrated weighted mean (defined below), and the tridiagonal matrix elements are (H12~Eqs.~A19--A21, with the notation of Eqs.~A12--A14):
+\begin{align}
+  (\mathbf{T}_k)_{i,i-1} &= -\frac{8\,f_k(y_{i-1})}{\pi_i\,\Delta_1}\,,
+  \label{eq:Tk_sub}\\[3pt]
+  (\mathbf{T}_k)_{i,i+1} &= -\frac{8\,f_k(y_{i+1})}{\pi_i\,\Delta_2}\,,
+  \label{eq:Tk_sup}\\[3pt]
+  (\mathbf{T}_k)_{i,i} &= \left[\frac{1-\rho_k}{f_k(y_i)}
+    + \frac{8}{\pi_i\,\Delta_1} + \frac{8}{\pi_i\,\Delta_2}\right]f_k(y_i)\,,
+  \label{eq:Tk_diag}
+\end{align}
+where $\Delta_1 = [k_\nu(y_i)+k_\nu(y_{i-1})]\,(y_i-y_{i-1})$, \; $\Delta_2 = [k_\nu(y_{i+1})+k_\nu(y_i)]\,(y_{i+1}-y_i)$, and $\pi_i = \Delta_1+\Delta_2$ (H12~Eqs.~A12--A14). The coupling vector and source are (H12~Eqs.~A22--A23):
+\begin{align}
+  (U_k)_i &= -\frac{dB_k}{dT}\,(1-\rho_k)\,,
+  \label{eq:Uk}\\[3pt]
+  (K_k)_i &= \left(B_k(T_0) - \frac{dB_k}{dT}\,\bar{B}_i\right)(1-\rho_k)\,,
+  \label{eq:Kk}
+\end{align}
+where
+\begin{equation}
+  \bar{B}_i \equiv
+  \frac{\sum_{k'=1}^{K} B_{k'}(T_0)\,\kappa_{k'}\,b_{k'}}
+       {\sum_{k'=1}^{K} \frac{dB_{k'}}{dT}\,\kappa_{k'}\,b_{k'}}
+  \label{eq:Bbar}
+\end{equation}
+and $b_k$ are the trapezoidal frequency quadrature weights.
+
+\subsubsection{Global $\bar{J}$ system}
+
+The key insight of the Rybicki method is to define the global weighted mean intensity (H12~Eq.~A17)
+\begin{equation}
+  \bar{J}_i = \frac{\sum_{k=1}^{K} J_{k,i}\,\kappa_{k}\,b_k}
+                    {\sum_{k=1}^{K} \frac{dB_k}{dT}\,\kappa_k\,b_k}\,,
+  \label{eq:Jbar}
+\end{equation}
+so that $\Delta T_i = \bar{J}_i - \bar{B}_i$ (from Eq.~\ref{eq:deltaT}). Inverting the tridiagonal $\mathbf{T}_k$ for each frequency and substituting into Eq.~\eqref{eq:rybicki_tridiag} yields a dense $N\!\times\!N$ system (H12~Eq.~A24):
+\begin{equation}
+  \left(\mathbf{I} + \sum_{k=1}^{K}
+    \mathbf{V}_k\,\mathbf{T}_k^{-1}\,\mathrm{diag}(\mathbf{U}_k)
+  \right)\bar{\mathbf{J}}
+  = \sum_{k=1}^{K} \mathbf{V}_k\,\mathbf{T}_k^{-1}\,\mathbf{K}_k\,,
+  \label{eq:global_system}
+\end{equation}
+where $\mathbf{V}_k$ is the diagonal matrix with entries (H12~Eq.~A25)
+\begin{equation}
+  (V_k)_{i,i'} = \frac{\kappa_k\,b_k}
+    {\sum_{k'}\frac{dB_{k'}}{dT}\,\kappa_{k'}\,b_{k'}}\;\delta_{i,i'}\,.
+\end{equation}
+The $\mathbf{T}_k^{-1}$ factors are never formed explicitly. Instead, for each frequency $k$, the Thomas algorithm (LU factorisation of the tridiagonal) is used to solve $\mathbf{T}_k\,\mathbf{x}=\mathbf{K}_k$ and $\mathbf{T}_k\,\mathbf{z}_j = \mathbf{e}_j$ for each column $j$ where $U_{k,j}\neq 0$. This gives the contributions to the right-hand side and the $\mathbf{W}$ matrix,
+\begin{equation}
+  W_{ij} = \sum_k (V_k)_i\,(U_k)_j\,(\mathbf{T}_k^{-1})_{ij}\,,
+\end{equation}
+after which the $N\!\times\!N$ dense system $(\mathbf{W}+\mathbf{I})\,\bar{\mathbf{J}} = \mathbf{r}$ is solved by direct factorisation.
+
+\subsubsection{Boundary conditions for the Rybicki system}
+
+At the surface ($i=1$), the flux boundary condition (H12~Eqs.~A26, A28--A30) is discretised as
+\begin{equation}
+  \left(h_k + \frac{f_k(y_1)}{\Delta_\mathrm{surf}}\right)J_{k,1}
+  - \frac{f_k(y_2)}{\Delta_\mathrm{surf}}\,J_{k,2} = 0\,,
+  \label{eq:rybicki_surface_bc}
+\end{equation}
+where $\Delta_\mathrm{surf} = \frac{1}{2}[k_\nu(y_1)+k_\nu(y_2)]\,(y_2-y_1)$ and $h_k = h_\nu(y_1)$ is the flux Eddington factor from the Feautrier solution. Both $U_{k,1}$ and $K_{k,1}$ vanish at the surface; the surface temperature correction enters solely through the global $\bar{\mathbf{J}}$ coupling.
+
+At the bottom ($i=N$), the LTE condition $J_\nu = B_\nu$ sets $(\mathbf{T}_k)_{N,N}=1$, $K_{k,N}=B_k(T_N)$, $U_{k,N}=0$ (H12~Eqs.~A31--A33).
+
+%----------------------------------------------------------------------
+\subsection{Two-Mode Magnetic Extension}
+\label{sec:magnetic}
+
+In a magnetised atmosphere with field strength $B$ and inclination $\theta_B$ to the surface normal, radiation propagates in two normal modes---the extraordinary (X, $j\!=\!1$) and ordinary (O, $j\!=\!2$)---with distinct, mode-dependent opacities $\kappa^{(j)}_\nu$, $\sigma^{(j)}_\nu$ (SPW09~\S2, Eqs.~5--8). The implementation follows SPW09 for the opacity framework and extends the H12 iteration scheme to two modes.
+
+\subsubsection{Per-mode transfer equation}
+
+Each mode satisfies its own transfer equation (SPW09~Eq.~5):
+\begin{equation}
+  \mu\,\frac{dI^{(j)}_\nu}{d\tau^{(j)}_\nu} = I^{(j)}_\nu - S^{(j)}_\nu\,,
+  \label{eq:mode_transfer}
+\end{equation}
+where $d\tau^{(j)}_\nu = (k^{(j)}_\nu + \sigma^{(j)}_\nu)\,dm$ and the per-mode source function is (SPW09~Eq.~6)
+\begin{equation}
+  S^{(j)}_\nu = \frac{k^{(j)}_\nu}{k^{(j)}_\nu + \sigma^{(j)}_\nu}\,
+  \frac{B_\nu}{2}
+  + \frac{\sigma^{(j)}_\nu}{k^{(j)}_\nu + \sigma^{(j)}_\nu}\,
+  (\text{scattering integral})\,.
+  \label{eq:mode_source}
+\end{equation}
+The factor of $1/2$ in the thermal term arises because unpolarised blackbody emission is split equally between the two modes. This is the key distinction from the non-magnetic case: each mode sees $B_\nu/2$ rather than $B_\nu$ as its thermal source (SPW09~Eq.~6; cf.\ SPW09~Eq.~15 for the bottom boundary $I^{(j)}_\nu(\mu>0) = B_\nu/2$).
+
+The Feautrier equation for mode $j$ at interior points takes the same block-tridiagonal form as Eq.~\eqref{eq:block_tridiag}, with the replacements $k_\nu \to k^{(j)}_\nu + \sigma^{(j)}_\nu$, $\rho_\nu \to \sigma^{(j)}_\nu/(k^{(j)}_\nu + \sigma^{(j)}_\nu)$, and $B_\nu \to B_\nu/2$. The two modes are solved independently at each iteration: the coupling between them enters only through the shared temperature profile and its correction.
+
+\subsubsection{Two-mode Rybicki correction}
+
+Radiative equilibrium in the two-mode case requires (SPW09~Eq.~9, simplified to the plane-parallel case with mode-averaged opacities)
+\begin{equation}
+  \sum_{j=1}^{2}\int_0^\infty
+  \kappa^{(j)}_\nu\!\left(J^{(j)}_\nu - \frac{B_\nu}{2}\right)d\nu = 0
+  \label{eq:rad_eq_2mode}
+\end{equation}
+at every depth. The Rybicki system~\eqref{eq:rybicki_tridiag} is extended by summing over both modes: the global quantities become
+\begin{align}
+  \bar{B}_i &= \frac{\sum_{j=1}^{2}\sum_{k=1}^{K}
+    \frac{1}{2}B_k(T_0)\,\kappa^{(j)}_k\,b_k}
+    {\sum_{j=1}^{2}\sum_{k=1}^{K}
+    \frac{1}{2}\frac{dB_k}{dT}\,\kappa^{(j)}_k\,b_k}\,,
+  \label{eq:Bbar_2mode}\\[4pt]
+  (V_{k,j})_i &= \frac{\kappa^{(j)}_k\,b_k}
+    {\sum_{j'}\sum_{k'}\frac{1}{2}\frac{dB_{k'}}{dT}\,\kappa^{(j')}_{k'}\,b_{k'}}\,,
+  \label{eq:Vk_2mode}
+\end{align}
+and per-mode tridiagonal systems $\mathbf{T}^{(j)}_k$ are built with mode-specific opacities and Eddington factors $f^{(j)}_k$, $h^{(j)}_k$. The per-mode coupling vector and source are
+\begin{align}
+  (U^{(j)}_k)_i &= -\tfrac{1}{2}\frac{dB_k}{dT}\,(1-\rho^{(j)}_k)\,,\\
+  (K^{(j)}_k)_i &= \left(\tfrac{1}{2}B_k
+    - \tfrac{1}{2}\frac{dB_k}{dT}\,\bar{B}_i\right)(1-\rho^{(j)}_k)\,,
+\end{align}
+where $\bar{B}_i$ is the \emph{global} average from Eq.~\eqref{eq:Bbar_2mode} (not a per-mode quantity). The dense system~\eqref{eq:global_system} accumulates contributions from both modes:
+\begin{equation}
+  W_{i,i'} = \sum_{j=1}^{2}\sum_{k=1}^{K}
+    (V_{k,j})_i\,(U^{(j)}_k)_{i'}\,
+    \bigl[(\mathbf{T}^{(j)}_k)^{-1}\bigr]_{i,i'}\,,
+  \label{eq:W_2mode}
+\end{equation}
+and the system $(\mathbf{W}+\mathbf{I})\,\bar{\mathbf{J}} = \mathbf{r}$ is solved identically to the non-magnetic case.
+
+\subsubsection{Uniform flux correction}
+
+In addition to the Rybicki correction, a uniform flux correction is applied when the bolometric flux error exceeds 2\%. The total emergent flux is
+\begin{equation}
+  F_\mathrm{bol} = 2\pi\sum_{j=1}^{2}\sum_{k}\Delta\nu_k
+    \sum_{l=1}^{M} \mu_l\,a_l\;2\,P^{(j)}_{\nu_k}(y_1,\mu_l)\,,
+  \label{eq:Fbol_2mode}
+\end{equation}
+and the correction $\delta T_i = -\alpha\,T_i\,(F_\mathrm{bol}/\sigma T_\mathrm{eff}^4 - 1)/4$ with $\alpha=0.1$ is added to the Rybicki $\Delta T$ before application (cf.\ the Avrett--Krook surface correction of SPW09~\S2). This stabilises convergence when the Rybicki correction alone produces flux drift due to mode-asymmetric opacity structure.
+
+For $B=0$, both modes have identical opacities and $B_\nu/2+B_\nu/2 = B_\nu$, recovering the non-magnetic single-mode result.
+
+%----------------------------------------------------------------------
+\subsection{Convergence Criteria and Iteration Scheme}
+\label{sec:convergence}
+
+The full iteration scheme proceeds as follows.
+
+\begin{enumerate}
+  \item \textbf{Initialise.} Build the column structure (Eq.~\ref{eq:hydrostatic}--\ref{eq:eos}), Eddington $T$-profile (Eq.~\ref{eq:eddington_T}), and compute opacities at all $(y_i, \nu_k)$ grid points.
+
+  \item \textbf{Feautrier solve.} Solve the block-tridiagonal system~\eqref{eq:block_tridiag} at every frequency (and, for the magnetic case, for each mode independently). Extract $J_\nu$, $f_\nu$, $h_\nu$ via Eq.~\eqref{eq:eddington_factors}.
+
+  \item \textbf{Temperature correction.} Compute the Rybicki $\Delta T$ by solving the dense system~\eqref{eq:global_system}. For the magnetic case, accumulate over both modes via Eq.~\eqref{eq:W_2mode} and optionally add the uniform flux correction.
+
+  \item \textbf{Damping.} If $\max_i|\Delta T_i/T_i| > 0.3$, uniformly scale $\Delta T$ so that the maximum fractional correction is 30\%. This prevents divergent oscillations in early iterations.
+
+  \item \textbf{Apply and update.} Set $T_i \leftarrow \max(T_i + \Delta T_i,\; 0.1\,T_\mathrm{eff})$ (floor prevents unphysical cooling). Recompute $\rho$, $\kappa_\nu$, $k_\nu$, $\rho_\nu$, and $\tau_\nu$ from the updated $T$-profile.
+
+  \item \textbf{Check convergence.} The iteration converges when
+  \begin{equation}
+    \max_i\left|\frac{\Delta T_i}{T_i}\right| < \epsilon\,,
+    \label{eq:convergence}
+  \end{equation}
+  with default tolerance $\epsilon = 10^{-4}$ (matching H12~\S3, \S4.3). For the magnetic solver, an additional flux criterion $|F_\mathrm{bol}/\sigma T_\mathrm{eff}^4 - 1| < 0.05$ is required, with a relaxed temperature tolerance of $10\epsilon$ accepted if the flux error is below 3\%.
+
+  \item \textbf{Iterate.} Repeat from step~2 until convergence or a maximum iteration count (default 30) is reached.
+
+  \item \textbf{Final spectrum.} After convergence, perform one last Feautrier solve and extract the emergent specific intensity $I_\nu(\mu_j) = 2\,P_\nu(y_1,\mu_j)$.
+\end{enumerate}
+
+At the default discretisation ($K=50$, $M=10$, $N=100$), convergence to $\epsilon=10^{-4}$ is typically achieved within 5--8 iterations for $T_\mathrm{eff} \sim 10^{5.5}$--$10^{6.5}$~K, consistent with the McPHAC results (H12~Fig.~6). The magnetic solver with $N=200$ depth points and $M=8$ angles generally requires 8--15 iterations due to the stronger opacity gradients introduced by the mode-dependent cross-sections.

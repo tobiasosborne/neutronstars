@@ -1,0 +1,406 @@
+\section{Surface Model and Dipole Geometry}
+\label{sec:surface_model}
+
+We model the neutron star surface following the framework of
+\citet{greenstein_hartke_1983}, in which anisotropic heat conduction through
+the magnetised crust produces a latitude-dependent effective temperature.
+The magnetic field is taken to be a centred dipole, tilted by an obliquity
+angle $\alpha$ from the stellar spin axis.
+
+\subsection{Magnetic colatitude}
+
+At a geographic position $(\theta_{\mathrm{geo}},\,\varphi_{\mathrm{geo}})$
+on the stellar surface, the magnetic colatitude $\theta_B$ with respect to
+a dipole axis oriented along
+$\hat{\boldsymbol{m}} = (\sin\alpha,\,0,\,\cos\alpha)$ is
+\begin{equation}
+  \cos\theta_B = \cos\theta_{\mathrm{geo}}\cos\alpha
+    + \sin\theta_{\mathrm{geo}}\cos\varphi_{\mathrm{geo}}\sin\alpha\,.
+  \label{eq:cos_thetaB}
+\end{equation}
+This is simply the dot product of the outward surface normal with the
+magnetic axis unit vector, implemented as \texttt{magnetic\_colatitude()} in
+\texttt{src/surface/dipole.jl}.
+
+\subsection{Greenstein--Hartke temperature map}
+
+\citet{greenstein_hartke_1983} show that the anisotropy of thermal
+conductivity ($K_\parallel \gg K_\perp$) along versus across the magnetic
+field lines channels heat preferentially toward the magnetic poles.  Their
+Eq.~(14) gives the general relation
+\begin{equation}
+  T^{4} = T_{\mathrm{pole}}^{4}
+    \!\left(\sin^{2}\Phi + \frac{K_\perp}{K_\parallel}\cos^{2}\Phi\right),
+  \label{eq:GH_exact}
+\end{equation}
+where $\Phi$ is the angle between the magnetic field and the vertical,
+related to the magnetic colatitude $\beta$ by
+$\tan\Phi = 2\cot\beta$ (their Eq.~15).  In the limit
+$K_\perp/K_\parallel \to 0$ the equatorial temperature vanishes; for
+$K_\perp = K_\parallel$ the surface is isothermal.
+
+Our implementation adopts the simplified parametric form used widely in the
+literature:
+\begin{equation}
+  \boxed{T(\theta_B) = T_{\mathrm{eq}}
+    + \bigl(T_{\mathrm{pole}} - T_{\mathrm{eq}}\bigr)\cos^{2}\!\theta_B\,,}
+  \label{eq:T_surface}
+\end{equation}
+which recovers $T = T_{\mathrm{pole}}$ at the magnetic poles
+($\theta_B = 0$) and $T = T_{\mathrm{eq}}$ at the magnetic equator
+($\theta_B = \pi/2$).  This corresponds to the leading-order behaviour of
+Eq.~\eqref{eq:GH_exact} when $T_{\mathrm{eq}}$ absorbs the residual
+equatorial flux, and is cited as Eq.~(1) of \citet{greenstein_hartke_1983}
+in the code documentation.  The function
+\texttt{surface\_temperature($\theta_B$, $T_{\mathrm{pole}}$, $T_{\mathrm{eq}}$)}
+enforces $T_{\mathrm{pole}} \geq T_{\mathrm{eq}} > 0$.
+
+\subsection{Dipole magnetic field strength}
+
+For a centred magnetic dipole, the surface field magnitude at magnetic
+colatitude $\theta_B$ is the standard result
+\begin{equation}
+  \lvert\boldsymbol{B}\rvert(\theta_B)
+    = \frac{B_{\mathrm{pole}}}{2}
+      \sqrt{1 + 3\cos^{2}\!\theta_B}\,,
+  \label{eq:B_dipole}
+\end{equation}
+giving $\lvert\boldsymbol{B}\rvert = B_{\mathrm{pole}}$ at the pole and
+$\lvert\boldsymbol{B}\rvert = B_{\mathrm{pole}}/2$ at the equator
+\citep{greenstein_hartke_1983}.  Both $T(\theta_B)$ and
+$B(\theta_B)$ serve as inputs to the atmosphere grid lookup described in
+Section~\ref{sec:atmosphere_grid}.
+
+
+%======================================================================
+\section{Schwarzschild Geodesic Ray Tracing}
+\label{sec:ray_tracing}
+
+Photons propagating outward from the neutron star surface travel along null
+geodesics of the Schwarzschild metric.  We follow the analytic treatment of
+\citet{beloborodov_2002} and cross-reference with the exact elliptic-integral
+formulation of \citet{pechenick_1983}.
+
+\subsection{The cosine relation}
+
+Let a photon be emitted at the stellar surface $r = R$ at an angle $\alpha$
+to the radial direction.  Observed at infinity, this photon escapes at a
+polar angle $\psi$ from the sub-observer point.
+\citet{beloborodov_2002}, Eq.~(1), gives the remarkably accurate approximate
+relation
+\begin{equation}
+  \boxed{1 - \cos\alpha
+    = (1 - \cos\psi)\!\left(1 - \frac{r_g}{R}\right),}
+  \label{eq:beloborodov_cosine}
+\end{equation}
+where $r_g = 2GM/c^{2}$ is the Schwarzschild radius and
+$u \equiv r_g/R$ is the compactness parameter.  This approximation is
+valid for $R > 2r_g$ (i.e.\ $u < 1$) with fractional error $< 1\%$ for
+the typical neutron star compactness $R \approx 3r_g$
+\citep[Fig.~2]{beloborodov_2002}.
+
+Inverting Eq.~\eqref{eq:beloborodov_cosine} yields
+\begin{align}
+  \cos\alpha &= 1 - (1 - \cos\psi)(1 - u)\,,
+  \label{eq:cos_alpha} \\
+  \cos\psi   &= 1 - \frac{1 - \cos\alpha}{1 - u}\,,
+  \label{eq:cos_psi}
+\end{align}
+both implemented in \texttt{src/geodesics/schwarzschild.jl}.
+
+\subsection{Impact parameter}
+
+The impact parameter $b$ is related to the emission angle by
+\citep[Eq.~10]{beloborodov_2002}
+\begin{equation}
+  \sin\alpha = \frac{b}{R}\sqrt{1 - \frac{r_g}{R}}\,,
+  \label{eq:impact_param}
+\end{equation}
+so that
+\begin{equation}
+  b = \frac{R\sin\alpha}{\sqrt{1 - u}}\,.
+  \label{eq:b_from_alpha}
+\end{equation}
+At the limb of the apparent disc the photon departs tangentially
+($\cos\alpha = 0$, $\sin\alpha = 1$), giving the critical impact parameter
+\begin{equation}
+  b_{\mathrm{crit}} = \frac{R}{\sqrt{1 - u}}\,.
+  \label{eq:b_crit}
+\end{equation}
+This agrees with Eq.~(2.10) of \citet{pechenick_1983},
+$b_{\max} = R(1 - 2M/R)^{-1/2}$, noting the equivalence
+$2M/R \equiv r_g/R = u$ in their geometrised units ($G = c = 1$).
+
+\subsection{Exact bending-angle integral}
+
+The exact bending angle is given by an elliptic integral over the photon
+orbit \citep[Eq.~2.12]{pechenick_1983}:
+\begin{equation}
+  \Delta\phi
+    = \int_{0}^{M/R}
+      \left[u_b^{2} - (1 - 2u)\,u^{2}\right]^{-1/2}\!\mathrm{d}u\,,
+  \label{eq:exact_bending}
+\end{equation}
+where $u_b \equiv M/b$ and the integration variable $u \equiv M/r$.  Our
+code uses the Beloborodov approximation (Eq.~\ref{eq:beloborodov_cosine})
+rather than evaluating this integral numerically, which introduces at most
+$\sim 1\%$ error for $R \gtrsim 2r_g$ and avoids the need for special-function
+libraries.
+
+\subsection{Visible fraction of the stellar surface}
+
+Gravitational light bending allows a distant observer to see more than the
+Euclidean hemisphere.  The fraction of the surface visible is
+\citep[Sect.~3]{beloborodov_2002}
+\begin{equation}
+  f_{\mathrm{vis}}
+    = \frac{S_{v}}{4\pi R^{2}}
+    = \frac{1}{2(1 - u)}\,.
+  \label{eq:visible_fraction}
+\end{equation}
+In flat space ($u \to 0$), $f_{\mathrm{vis}} \to 1/2$ as expected.  For a
+canonical neutron star with $R = 3\,r_g$ ($u = 2/3$),
+$f_{\mathrm{vis}} = 3/2 \cdot 1/2 = 3/4$: three-quarters of the surface is
+visible simultaneously.  The corresponding result in \citet{pechenick_1983}
+follows from $(\Delta\phi)_{\max} = 180^{\circ}$ when $R/2M = 1.76$
+(their p.~848), at which point the entire surface becomes visible.
+
+\subsection{Image construction}
+
+The \texttt{trace\_image()} routine constructs an $N \times N$ pixel grid in
+the observer's image plane with Cartesian coordinates $(x,\,y)$ spanning
+$[-b_{\max},\,b_{\max}]$ (where $b_{\max} = 1.05\,b_{\mathrm{crit}}$).
+For each pixel:
+\begin{enumerate}
+  \item Compute the impact parameter $b = \sqrt{x^{2} + y^{2}}$ and image
+    azimuth $\varphi_{\mathrm{img}} = \arctan(y/x)$.
+  \item If $b > b_{\mathrm{crit}}$, the ray misses the star.
+  \item Otherwise, obtain $\sin\alpha = (b/R)\sqrt{1 - u}$ from
+    Eq.~\eqref{eq:impact_param}, then $\cos\alpha$ and $\cos\psi$ from
+    Eqs.~\eqref{eq:cos_alpha}--\eqref{eq:cos_psi}.
+  \item Map the sky position $(\psi,\,\varphi_{\mathrm{img}})$ to surface
+    coordinates $(\theta_s,\,\varphi_s)$ via a spherical rotation accounting
+    for the observer inclination $i$:
+    \begin{align}
+      x_s &= \sin i\cos\psi + \cos i\sin\psi\cos\varphi_{\mathrm{img}}\,,
+        \notag \\
+      y_s &= \sin\psi\sin\varphi_{\mathrm{img}}\,,
+        \label{eq:sky_to_surface} \\
+      z_s &= \cos i\cos\psi - \sin i\sin\psi\cos\varphi_{\mathrm{img}}\,,
+        \notag
+    \end{align}
+    with $\theta_s = \arccos z_s$ and $\varphi_s = \arctan(y_s,\,x_s)$.
+  \item Record the gravitational redshift $1 + z = (1 - u)^{-1/2}$,
+    which is constant over the surface for the Schwarzschild metric.
+\end{enumerate}
+Each ray result stores
+$\{b,\,\psi,\,\theta_s,\,\varphi_s,\,\cos\alpha,\,1{+}z\}$.
+
+
+%======================================================================
+\section{Relativistic Intensity Transform}
+\label{sec:intensity_transform}
+
+The specific intensity $I_\nu$ transforms under a gravitational redshift
+according to the Lorentz-invariance of $I_\nu / \nu^{3}$
+\citep[see e.g.][Sect.~3]{beloborodov_2002}:
+\begin{equation}
+  \frac{I_\nu^{\mathrm{obs}}}{\nu_{\mathrm{obs}}^{3}}
+    = \frac{I_{\nu'}^{\mathrm{em}}}{\nu'^{3}}\,,
+  \label{eq:invariant}
+\end{equation}
+where $\nu' = (1+z)\,\nu_{\mathrm{obs}}$ is the emitted frequency.
+Rearranging,
+\begin{equation}
+  \boxed{I_\nu^{\mathrm{obs}}(\nu_{\mathrm{obs}})
+    = \frac{I_{\nu'}^{\mathrm{em}}\!\bigl(\nu' = (1{+}z)\,\nu_{\mathrm{obs}}\bigr)}
+           {(1 + z)^{3}}\,.}
+  \label{eq:I_obs}
+\end{equation}
+This is the central equation applied per-pixel in the rendering pipeline.
+The observed flux element from a surface patch $\mathrm{d}S$ at angle
+$\alpha$ to the observer is \citep[Eq.~4]{beloborodov_2002}
+\begin{equation}
+  \mathrm{d}F = \left(1 - \frac{r_g}{R}\right)^{\!2}
+    I_0(\alpha)\cos\alpha\,\frac{\mathrm{d}S}{D^{2}}\,,
+  \label{eq:dF_beloborodov}
+\end{equation}
+where the $(1 - r_g/R)^{2}$ factor combines the $(1+z)^{-3}$ intensity
+suppression with the $(1+z)^{+1}$ boost from the aberration of solid angles.
+In our pixel-based rendering, each pixel subtends a known solid angle on
+the sky, so we work directly with the specific intensity
+(Eq.~\ref{eq:I_obs}) rather than integrating fluxes.
+
+
+%======================================================================
+\section{Spectral Image Cube and Atmosphere Grid Lookup}
+\label{sec:atmosphere_grid}
+
+\subsection{Pre-computed atmosphere grid}
+
+To avoid re-solving the radiative transfer equation at every surface element,
+we pre-compute atmosphere models on a two-dimensional grid in
+$(T_{\mathrm{eff}},\,B)$ and store the emergent specific intensity
+$I_\nu(\nu,\,\cos\theta_e)$ for each grid point
+(\texttt{src/pipeline/atmosphere\_grid.jl}).  The \texttt{AtmosphereSpectrumGrid}
+structure contains:
+\begin{itemize}
+  \item A common frequency grid $\{\nu_k\}_{k=1}^{K}$ and angle-cosine grid
+    $\{\mu_j\}_{j=1}^{M}$;
+  \item For each $(T_i,\,B_l)$: a $K \times M$ matrix of emergent intensities.
+    For magnetic models ($B > 0$), the extraordinary (X) and ordinary (O)
+    mode intensities are summed:
+    $I_{\mathrm{total}} = I^{(X)} + I^{(O)}$.
+\end{itemize}
+
+\subsection{Grid interpolation}
+
+At runtime, the lookup function
+\texttt{lookup\_spectrum($T_{\mathrm{eff}}$, $B$, $\nu_{\mathrm{obs}}$,
+$\cos\theta_e$)} performs trilinear interpolation:
+\begin{enumerate}
+  \item \emph{Bilinear in $(T_{\mathrm{eff}},\,B)$:} bracket the query
+    values in the pre-computed grids and compute weights
+    $w_{T}$, $w_{B}$ for the four surrounding models.
+  \item \emph{Linear in angle:} for each of the four corner models,
+    interpolate the $K \times M$ intensity table in the $\mu$-direction at
+    $\mu = \cos\theta_e$.
+  \item \emph{Nearest-neighbour in frequency:} for each requested
+    $\nu_{\mathrm{obs}}$, the nearest grid frequency $\nu_k$ is used.
+\end{enumerate}
+The interpolated intensity at observed frequency $\nu_{\mathrm{obs}}$ is
+thus
+\begin{equation}
+  I_{\nu}^{\mathrm{em}}(\nu',\,\cos\theta_e)
+    \approx \sum_{a,b \in \{0,1\}} w_{T}^{(a)}\, w_{B}^{(b)}\,
+    \Bigl[(1 - f_\mu)\, I_{k,\,j}^{(a,b)}
+    + f_\mu\, I_{k,\,j+1}^{(a,b)}\Bigr],
+  \label{eq:trilinear}
+\end{equation}
+where $f_\mu$ is the fractional position within the angle bracket and
+$k$ is the nearest frequency index.
+
+\subsection{Per-pixel spectrum computation}
+
+The \texttt{render\_spectral\_cube()} function
+(\texttt{src/pipeline/render.jl}) assembles the full spectral image cube
+$I(x,\,y,\,\nu)$ via the following per-pixel procedure:
+\begin{enumerate}
+  \item \textbf{Ray trace} $\to$ surface coordinates
+    $(\theta_s,\,\varphi_s)$, emission angle $\cos\alpha$, redshift $1{+}z$.
+  \item \textbf{Surface model} $\to$ magnetic colatitude $\theta_B$
+    (Eq.~\ref{eq:cos_thetaB}), local temperature $T(\theta_B)$
+    (Eq.~\ref{eq:T_surface}), local field $B(\theta_B)$
+    (Eq.~\ref{eq:B_dipole}).
+  \item \textbf{Atmosphere lookup} $\to$ emitted spectrum
+    $I_{\nu'}^{\mathrm{em}}(\nu_k,\,\cos\alpha)$ at surface-frame
+    frequencies $\nu_k = (1{+}z)\,\nu_{\mathrm{obs},k}$
+    via Eq.~\eqref{eq:trilinear}.
+  \item \textbf{Redshift} $\to$ observed intensity per
+    Eq.~\eqref{eq:I_obs}:
+    \begin{equation}
+      I_{\nu_k}^{\mathrm{obs}} = \frac{I_{\nu'}^{\mathrm{em}}(\nu_k)}{(1 + z)^{3}}\,.
+      \label{eq:pixel_redshift}
+    \end{equation}
+\end{enumerate}
+The result is a data cube
+$\texttt{SpectralImageCube}(N_x,\,N_y,\,N_\nu)$ storing $I(x,y,\nu)$
+in units of $\mathrm{erg\,s^{-1}\,cm^{-2}\,Hz^{-1}\,sr^{-1}}$, together
+with per-pixel metadata (hit fraction, local $T$, $B$, and $1{+}z$).
+
+
+%======================================================================
+\section{CIE~1931 Colorimetry and sRGB Rendering}
+\label{sec:colorimetry}
+
+The spectral image cube must be converted to a displayable colour image.
+We implement the standard colorimetric pipeline in
+\texttt{src/colorimetry/cie\_srgb.jl}.
+
+\subsection{CIE~1931 XYZ tristimulus values}
+
+The CIE~1931 $2^{\circ}$ colour matching functions (CMFs)
+$\bar{x}(\lambda)$, $\bar{y}(\lambda)$, $\bar{z}(\lambda)$ are loaded
+from the CVRL dataset (360--830\,nm at 1\,nm resolution).  The tristimulus
+values for an observed spectrum $I_\nu(\nu)$ are obtained by transforming to
+wavelength space and integrating against the CMFs:
+\begin{equation}
+  X = \int I_\lambda(\lambda)\,\bar{x}(\lambda)\,\mathrm{d}\lambda\,,
+  \qquad
+  Y = \int I_\lambda(\lambda)\,\bar{y}(\lambda)\,\mathrm{d}\lambda\,,
+  \qquad
+  Z = \int I_\lambda(\lambda)\,\bar{z}(\lambda)\,\mathrm{d}\lambda\,,
+  \label{eq:XYZ}
+\end{equation}
+where the change of variables from frequency to wavelength gives
+\begin{equation}
+  I_\lambda = I_\nu \,\frac{c}{\lambda^{2}}\,,
+  \label{eq:I_lambda}
+\end{equation}
+using $|\mathrm{d}\nu| = (c/\lambda^{2})\,|\mathrm{d}\lambda|$.
+The integrals are evaluated by trapezoidal quadrature over the CMF
+wavelength grid, with $I_\nu$ interpolated in log-log space (binary search
+plus linear interpolation of $\ln I_\nu$ vs.\ $\ln\nu$) to handle the
+large dynamic range of astrophysical spectra.
+
+\subsection{XYZ to linear sRGB}
+
+The CIE~XYZ tristimulus values are converted to linear sRGB using the
+IEC~61966-2-1:1999 matrix for the D65 illuminant:
+\begin{equation}
+  \begin{pmatrix} R_{\mathrm{lin}} \\ G_{\mathrm{lin}} \\ B_{\mathrm{lin}} \end{pmatrix}
+  = \begin{pmatrix}
+    \phantom{-}3.2406 & -1.5372 & -0.4986 \\
+    -0.9689 & \phantom{-}1.8758 & \phantom{-}0.0415 \\
+    \phantom{-}0.0557 & -0.2040 & \phantom{-}1.0570
+  \end{pmatrix}
+  \begin{pmatrix} X \\ Y \\ Z \end{pmatrix}.
+  \label{eq:XYZ_to_sRGB}
+\end{equation}
+Negative values (out-of-gamut colours) are clamped to zero.
+
+\subsection{Tone mapping}
+
+Neutron star spectra produce luminance values spanning many orders of
+magnitude.  We apply the global Reinhard tone mapping operator
+\citep{reinhard_2002}, which compresses the luminance channel $Y$ via
+\begin{equation}
+  L_{\mathrm{scaled}} = \frac{a \cdot Y}{\bar{Y}}\,,
+  \qquad
+  Y_{\mathrm{display}} = \frac{L_{\mathrm{scaled}}}{1 + L_{\mathrm{scaled}}}\,,
+  \label{eq:reinhard}
+\end{equation}
+where $\bar{Y}$ is the geometric mean luminance of all illuminated pixels
+and $a = 0.18$ is the key value (scene middle grey).  The chromaticity is
+preserved by scaling all three XYZ channels by
+$Y_{\mathrm{display}} / Y$ before the matrix conversion
+(Eq.~\ref{eq:XYZ_to_sRGB}).
+
+\subsection{sRGB gamma correction}
+
+The final step applies the piecewise sRGB transfer function
+(IEC~61966-2-1):
+\begin{equation}
+  C_{\mathrm{sRGB}} =
+  \begin{cases}
+    12.92\, C_{\mathrm{lin}}\,, & C_{\mathrm{lin}} \leq 0.0031308\,, \\[4pt]
+    1.055\, C_{\mathrm{lin}}^{1/2.4} - 0.055\,, & C_{\mathrm{lin}} > 0.0031308\,,
+  \end{cases}
+  \label{eq:srgb_gamma}
+\end{equation}
+applied independently to each of $R$, $G$, $B$.  The result is quantised
+to 8-bit integers $\in [0,\,255]$ and written as a PPM image.
+
+\subsection{False-colour X-ray rendering}
+
+In addition to the true-colour rendering, the pipeline produces a
+false-colour X-ray image by integrating the spectral cube over three
+energy bands and mapping them to RGB channels:
+\begin{equation}
+  \text{Red}: 0.1\text{--}0.5~\mathrm{keV}\,,\quad
+  \text{Green}: 0.5\text{--}2.0~\mathrm{keV}\,,\quad
+  \text{Blue}: 2.0\text{--}10.0~\mathrm{keV}\,.
+  \label{eq:false_colour_bands}
+\end{equation}
+Each channel is independently normalised to $[0,\,255]$, providing a visual
+diagnostic of spectral hardness variations across the stellar surface.

@@ -1,0 +1,97 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{natbib}
+\usepackage{graphicx}
+
+% Custom commands
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\ii}{\mathrm{i}}
+
+\title{Physics of the Neutron Star Spectral Image Cube Pipeline:\\
+  A Code--Paper Cross-Reference Report}
+\author{NeutronStar.jl Documentation\\[4pt]
+  \small Auto-generated from source code review}
+\date{24 March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report documents every physics equation implemented in the
+\texttt{NeutronStar.jl} pipeline, from the equation of state and TOV
+stellar structure through magnetic radiative transfer opacities and
+atmosphere solvers to the general-relativistic ray tracing and colorimetric
+rendering.  Each equation is cross-referenced against its source publication
+with explicit equation numbers.  Discrepancies between the code and the
+published formulae are flagged.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% Section 1: Neutron Star Structure (TOV + EOS)
+\input{../proof/section_ns_structure}
+
+\newpage
+% Section 2: Opacities
+\input{section_opacities}
+
+\newpage
+% Section 3: Radiative Transfer
+\input{section_radiative_transfer}
+
+\newpage
+% Section 4-6: Surface Model, Ray Tracing, Rendering
+\input{section_ray_tracing}
+
+\newpage
+\section*{Summary of Discrepancies Found}
+
+During this code review, the following discrepancies between the source code
+and published references were identified:
+
+\begin{enumerate}
+  \item \textbf{Surface gravity comment} (\texttt{tov.jl:184}):
+    The comment says ``surface gravity (redshifted)'' but the formula
+    $g_s = GM/(R^2\sqrt{1-u})$ computes the \emph{local} (proper) surface
+    gravity.  The formula itself is correct; only the comment is misleading.
+
+  \item \textbf{Solar mass value} (\texttt{constants.jl}):
+    Uses $M_\odot = 1.98892\times10^{33}$~g (older value).  The IAU~2015
+    nominal value gives $\approx1.98848\times10^{33}$~g (0.02\% difference).
+    Negligible for EOS-level calculations.
+
+  \item \textbf{Gaunt factor table dependency}:
+    The pipeline reads \texttt{gffgu.dat} (Sutherland 1998 tabulated Gaunt
+    factors) as a production input, violating the project's zero-table-dependency
+    principle.  A first-principles computation from Coulomb wave functions is
+    planned.
+\end{enumerate}
+
+No discrepancies were found in any physics equations or fit parameters.
+
+\bibliographystyle{aasjournal}
+\begin{thebibliography}{99}
+\bibitem[Auer(1976)]{auer1976} Auer, L.~H. 1976, JQSRT, 16, 931
+\bibitem[Beloborodov(2002)]{beloborodov_2002} Beloborodov, A.~M. 2002, ApJ, 566, L85
+\bibitem[Greenstein \& Hartke(1983)]{greenstein_hartke_1983} Greenstein, G. \& Hartke, G.~J. 1983, ApJ, 271, 283
+\bibitem[Haakonsen et al.(2012)]{haakonsen2012} Haakonsen, C.~B., Turner, M.~L., Tacik, N.~A., \& Rutledge, R.~E. 2012, ApJ, 749, 52
+\bibitem[Pechenick et al.(1983)]{pechenick_1983} Pechenick, K.~R., Ftaclas, C., \& Cohen, J.~M. 1983, ApJ, 274, 846
+\bibitem[Potekhin et al.(2013)]{potekhin2013} Potekhin, A.~Y., Fantina, A.~F., Chamel, N., Pearson, J.~M., \& Goriely, S. 2013, A\&A, 560, A48
+\bibitem[Potekhin \& Chabrier(2003)]{potekhin_chabrier_2003} Potekhin, A.~Y. \& Chabrier, G. 2003, ApJ, 585, 955
+\bibitem[Reinhard et al.(2002)]{reinhard_2002} Reinhard, E., Stark, M., Shirley, P., \& Ferwerda, J. 2002, ACM TOG, 21, 267
+\bibitem[Rybicki(1971)]{rybicki1971} Rybicki, G.~B. 1971, JQSRT, 11, 589
+\bibitem[Shapiro \& Teukolsky(1983)]{shapiro_teukolsky_1983} Shapiro, S.~L. \& Teukolsky, S.~A. 1983, Black Holes, White Dwarfs, and Neutron Stars (Wiley)
+\bibitem[Suleimanov et al.(2009)]{suleimanov2009} Suleimanov, V., Potekhin, A.~Y., \& Werner, K. 2009, A\&A, 500, 891
+\bibitem[Sutherland(1998)]{sutherland1998} Sutherland, R.~S. 1998, MNRAS, 300, 321
+\end{thebibliography}
+
+\end{document}

@@ -40,6 +40,10 @@ gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
 result = solve_atmosphere(1e6, 2e14, gaunt; K=50, M=8, N=200, verbose=true)'
 ```
 
+## Physics Report
+
+A 30-page [physics report](docs/physics_report.pdf) documents every equation in the pipeline, cross-referenced against the source publications with equation numbers. It also serves as a code review — three discrepancies found (all minor: a misleading comment, an older solar mass constant, and the Gaunt factor table dependency).
+
 ## References
 
 - Haakonsen et al. (2012) ApJ 749:52 — McPHAC (verification target)
