@@ -201,9 +201,10 @@ function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
     # Surface boundary condition (i=1, Eqs. A28-A30)
     # Discretized surface BC: (f₂J₂ - f₁J₁)/Δ_surf = h_k J₁
     # → (h_k + f₁/Δ) J₁ - (f₂/Δ) J₂ = 0  [pure radiation constraint]
-    # Temperature correction at surface still applies via U_k, K_k.
-    # Surface Δ without 1/2 factor (matching paper convention A12)
-    Δ_surf = (col.k_total[2, k] + col.k_total[1, k]) * (col.y[2] - col.y[1])
+    # Surface Δ uses the 0.5 mean-opacity convention (matching McPHAC CalcTt.c):
+    #   Δ_surf = 0.5 × (k₁ + k₂) × (y₂ - y₁)
+    # This differs from the interior Δ which omits the 0.5 factor (Eq. A12).
+    Δ_surf = 0.5 * (col.k_total[2, k] + col.k_total[1, k]) * (col.y[2] - col.y[1])
     h_k = h_ν[1, k]
     f_k1 = f_ν[1, k]
     f_k2 = f_ν[2, k]
@@ -211,12 +212,11 @@ function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
     T_diag[1] = h_k + f_k1 / Δ_surf
     T_sup[1] = -f_k2 / Δ_surf
 
-    ρ_k = col.ρ_alb[1, k]
-    dBdT = dBnu_dT(ν[k], col.T[1])
-    U_k[1] = -dBdT * (1.0 - ρ_k)
-    B_k = planck_Bnu(ν[k], col.T[1])
-    B_bar_1 = denom[1] > 0 ? sum(planck_Bnu(ν[kp], col.T[1]) * col.κ[1, kp] * b[kp] for kp in 1:col.K) / denom[1] : B_k
-    K_k[1] = (B_k - dBdT * B_bar_1) * (1.0 - ρ_k)
+    # Surface BC for U_k and K_k: both zero (McPHAC CalcUt.c line 10, CalcKt.c line 15).
+    # The surface temperature correction comes through the global W coupling,
+    # not through direct local thermal terms.
+    U_k[1] = 0.0
+    K_k[1] = 0.0
 
     # Bottom boundary condition (i=N, Eqs. A31-A33): J_ν = B_ν
     T_diag[N] = 1.0

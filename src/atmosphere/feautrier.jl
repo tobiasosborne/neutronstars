@@ -186,26 +186,23 @@ function _solve_single_frequency(col::AtmosphereColumn, k::Int,
             end
         end
 
-        # Add scattering redistribution to B (off-diagonal)
-        # Haakonsen Eq. 4,7: S contains 2/(κ+σ) × Σ P × dσ/dμ' × w
-        # dσ/dμ' = σ_T × (3/16)(3 + 3μ²μ'² - μ² - μ'²) (aniso, Eq. 16)
-        # dσ/dμ' = σ_T × 1/2 (isotropic, Eq. 17 with g=1/2)
-        # Factor in R matrix: 2ρ × dσ/(σ×dμ') × w
-        if i < N_eff  # not at bottom BC
+        # Add scattering redistribution and thermal source
+        # Surface (i=1): pure radiation BC — no scattering, no thermal source.
+        #   McPHAC: K[0]=0, U[0]=0 (CalcK.c line 16, CalcU.c line 9).
+        #   Outgoing radiation comes through tridiagonal coupling to interior.
+        # Interior (2 ≤ i < N_eff): Q = (1-ρ) B_ν, with scattering in B matrix.
+        if i > 1 && i < N_eff
             for j in 1:M, jp in 1:M
                 if anisotropic
-                    # Haakonsen Eq. 16: cross = (3/16)(3+3μ²μ'²-μ²-μ'²)
                     cross = 3.0/16.0 * (3.0 + 3.0*μ[j]^2*μ[jp]^2 - μ[j]^2 - μ[jp]^2)
                 else
-                    # Isotropic: dσ/dμ' = σ/2, so cross = 1/2
                     cross = 0.5
                 end
                 B[j, jp] -= 2.0 * ρ_alb * cross * w[jp]
             end
-
-            # Thermal source
             Q .= (1.0 - ρ_alb) * Bν
         end
+        # i=1: Q=0, B unchanged (pure radiation BC)
 
         C_store[i] = copy(C)
 

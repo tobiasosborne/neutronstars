@@ -4,8 +4,8 @@ Neutron star atmosphere column structure.
 Hydrostatic equilibrium with ideal gas EOS for fully ionised hydrogen.
 Source: Haakonsen et al. (2012) Sect. 2-3.
 
-APPROXIMATION: Ideal gas ρ = m_p P/(k_B T) instead of OPAL EOS.
-Valid for T > 10⁵ K where Coulomb corrections are small.
+APPROXIMATION: Ideal gas ρ = m_p P/(2 k_B T) for fully ionised H (μ=0.5)
+instead of OPAL EOS. Valid for T > 10⁵ K where Coulomb corrections are small.
 =#
 
 module AtmosphereStructure
@@ -86,8 +86,11 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
     # Start with boundary condition T(0) = 0.265 T_eff (McPHAC)
     T = _eddington_temperature(y, T_eff, g_s, ν_grid, gaunt)
 
-    # Density from ideal gas EOS: P = n k_B T = (ρ/m_p) k_B T
-    ρ = [m_p * P[i] / (k_B * T[i]) for i in 1:N]
+    # Density from ideal gas EOS for fully ionised hydrogen:
+    # P = (n_e + n_p) k_B T = 2(ρ/m_p) k_B T → ρ = m_p P / (2 k_B T)
+    # Mean molecular weight μ = 0.5 for fully ionised H.
+    # McPHAC uses OPAL EOS which gives the same result at these conditions.
+    ρ = [m_p * P[i] / (2.0 * k_B * T[i]) for i in 1:N]
 
     σ_scat = sigma_thomson()
 
@@ -175,7 +178,7 @@ function _eddington_temperature(y::Vector{Float64}, T_eff::Float64,
     T[1] = 0.265 * T_eff
 
     # Estimate initial k_R at surface
-    ρ_surf = m_p * g_s * y[1] / (k_B * T[1])
+    ρ_surf = m_p * g_s * y[1] / (2.0 * k_B * T[1])
     k_R_est = rosseland_mean(T[1], ρ_surf, ν_grid, gaunt)
 
     # Integrate inward using Eddington: T⁴ = (3/4)T_eff⁴(τ_R + 2/3)
@@ -186,7 +189,7 @@ function _eddington_temperature(y::Vector{Float64}, T_eff::Float64,
         T[i] = T4^0.25
 
         # Update k_R estimate using current T and ρ
-        ρ_i = m_p * g_s * y[i] / (k_B * T[i])
+        ρ_i = m_p * g_s * y[i] / (2.0 * k_B * T[i])
         k_R_est = rosseland_mean(T[i], ρ_i, ν_grid, gaunt)
     end
 

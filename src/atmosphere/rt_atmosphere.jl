@@ -148,8 +148,8 @@ function _bolometric_flux(P_all, μ, w, ν_grid)
     for k in 1:K-1
         dν = ν_grid[k+1] - ν_grid[k]
         for j in 1:M
-            # F_ν = 4π ∫ μ I_ν dμ = 4π ∫ μ × 2P_ν(0,μ) × w(μ) dμ
-            F += 4π * μ[j] * 2.0 * P_all[1, j, k] * w[j] * dν
+            # F_ν = 2π ∫₀¹ I_ν(μ) μ dμ where I = 2P at surface
+            F += 2π * μ[j] * 2.0 * P_all[1, j, k] * w[j] * dν
         end
     end
     return F
@@ -161,8 +161,8 @@ Recomputes density, opacities, and optical depths from the new T profile.
 """
 function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
     for i in 1:col.N
-        # Ideal gas: ρ = m_p P/(k_B T)
-        col.ρ[i] = m_p * col.P[i] / (k_B * col.T[i])
+        # Ideal gas for ionised H: ρ = m_p P/(2 k_B T), μ=0.5
+        col.ρ[i] = m_p * col.P[i] / (2.0 * k_B * col.T[i])
 
         # Recompute opacities at each frequency
         for k in 1:col.K
