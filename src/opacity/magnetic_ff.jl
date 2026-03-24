@@ -13,6 +13,7 @@ module MagneticFF
 
 using SpecialFunctions: besselk
 using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
+using ..MagneticCoulomb: coulomb_log_magnetic, coulomb_log_classical_safe
 
 export cyclotron_freq_e, cyclotron_freq_p, beta_e
 export sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha
@@ -62,9 +63,13 @@ function nu_ff_alpha(α::Int, ω::Float64, B::Float64,
     u = ħ * ω / (k_B * T)
     u = max(u, 1e-30)
 
-    # Use classical Coulomb logarithm as first approximation
-    # (correct for β_e < 1; order-of-magnitude for β_e > 1)
-    Λ = coulomb_log_classical(u)
+    # Use full magnetic Coulomb logarithm when field is quantizing
+    β = beta_e(B, T)
+    if β > 0.1
+        Λ = coulomb_log_magnetic(α, u, β)
+    else
+        Λ = coulomb_log_classical_safe(u)
+    end
 
     stimulated = u < 500.0 ? (1.0 - exp(-u)) : 1.0
 

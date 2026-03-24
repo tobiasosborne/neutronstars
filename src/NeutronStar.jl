@@ -22,6 +22,9 @@ using .GauntFactor
 include("opacity/hydrogen_ff.jl")
 using .HydrogenOpacity
 
+include("opacity/coulomb_magnetic.jl")
+using .MagneticCoulomb
+
 include("opacity/magnetic_ff.jl")
 using .MagneticFF
 
