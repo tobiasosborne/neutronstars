@@ -51,6 +51,9 @@ using .TemperatureCorrection
 include("atmosphere/rt_atmosphere.jl")
 using .RTAtmosphere
 
+include("atmosphere/magnetic_atmosphere.jl")
+using .MagneticAtmosphere
+
 # GR ray tracing
 include("geodesics/schwarzschild.jl")
 using .SchwarzschildTracer
@@ -74,6 +77,7 @@ export make_frequency_grid
 export FeautrierSolver, solve_feautrier_all, gauss_legendre_half
 export TemperatureCorrection, compute_temperature_correction
 export RTAtmosphere, solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
+export MagneticAtmosphere, solve_magnetic_atmosphere, MagneticAtmosphereResult
 export BlackbodyAtmosphere, planck_Bnu, modified_blackbody_intensity, emergent_spectrum
 export SchwarzschildTracer, trace_image, RayResult, ImageResult, visible_fraction
 export CIE_sRGB, load_cie_cmfs, spectrum_to_XYZ, XYZ_to_linear_sRGB
