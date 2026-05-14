@@ -15,9 +15,12 @@ Source: Ginzburg (1970) §10, Potekhin & Chabrier (2003) ApJ 585, 955,
 
 module DielectricTensor
 
-using ..PhysicalConstants: e_charge, m_e, m_p, c, ħ
+using ..PhysicalConstants: e_charge, m_e, m_p, c, ħ, α_fine, B_Q
 
-export stix_parameters, polarization_weights_full
+export stix_parameters, vacuum_coefficients
+export cold_polarization_parameter, vacuum_polarization_parameter
+export vacuum_mode_parameters
+export polarization_weights_cold, polarization_weights_vacuum, polarization_weights_full
 
 """
     stix_parameters(ω, B, n_e) → (S, D, P)
@@ -60,8 +63,8 @@ Longitudinal component (from wave equation with n² = S - K_j D):
 
 Returns w1[3], w2[3] where w[1]=|e_{j,-1}|², w[2]=|e_{j,0}|², w[3]=|e_{j,+1}|².
 """
-function polarization_weights_full(ω::Float64, B::Float64,
-                                    θ_B::Float64, n_e::Float64)
+function polarization_weights_cold(ω::Float64, B::Float64,
+                                   θ_B::Float64, n_e::Float64)
     S, D, P = stix_parameters(ω, B, n_e)
 
     cosθ = cos(θ_B)
@@ -90,7 +93,7 @@ function polarization_weights_full(ω::Float64, B::Float64,
         return w1, w2
     end
 
-    q = (P - S) * sinθ^2 / (2.0 * D * cosθ)
+    q = cold_polarization_parameter(ω, B, θ_B, n_e)
 
     # K values from quadratic K² + 2qK - 1 = 0
     sq = sqrt(1.0 + q^2)
@@ -103,6 +106,160 @@ function polarization_weights_full(ω::Float64, B::Float64,
     w2 = compute_weights_from_K(K2, S, D, P, sinθ, cosθ)
 
     return w1, w2
+end
+
+"""
+    polarization_weights_full(ω, B, θ_B, n_e) → (w1, w2)
+
+Compatibility wrapper for the cold-plasma P&C 2003 mode weights.
+"""
+function polarization_weights_full(ω::Float64, B::Float64,
+                                    θ_B::Float64, n_e::Float64)
+    return polarization_weights_cold(ω, B, θ_B, n_e)
+end
+
+"""
+    polarization_weights_vacuum(ω, B, θ_B, n_e) → (w1, w2)
+
+Compute |e_{j,α}|² including the QED vacuum-polarization correction to the
+real dielectric/permeability tensors using Potekhin, Lai & Chabrier (2004)
+Eqs. (A7)-(A9) and the Ho/Lai mode-vector formulae reproduced in their
+Eqs. (20)-(22).
+"""
+function polarization_weights_vacuum(ω::Float64, B::Float64,
+                                     θ_B::Float64, n_e::Float64)
+    if B < 1e6
+        return polarization_weights_cold(ω, B, θ_B, n_e)
+    end
+
+    S, D, P = stix_parameters(ω, B, n_e)
+
+    cosθ = cos(θ_B)
+    sinθ = sin(θ_B)
+
+    # Keep the analytic limiting weights where the β expression is singular.
+    if abs(sinθ) < 1e-8 || abs(cosθ) < 1e-8 || abs(D) < 1e-30
+        return polarization_weights_cold(ω, B, θ_B, n_e)
+    end
+
+    a_hat, q_vac, m_vac = vacuum_coefficients(B)
+    εp = S + a_hat
+    ηp = P + a_hat + q_vac
+
+    if abs(εp) < 1e-30 || abs(ηp) < 1e-30
+        return polarization_weights_cold(ω, B, θ_B, n_e)
+    end
+
+    β, r, K1, K2, Kz1, Kz2 = vacuum_mode_parameters(ω, B, θ_B, n_e)
+
+    w1 = compute_weights_from_K_Kz(K1, Kz1, sinθ, cosθ)
+    w2 = compute_weights_from_K_Kz(K2, Kz2, sinθ, cosθ)
+
+    return w1, w2
+end
+
+"""
+    vacuum_coefficients(B) → (a_hat, q, m)
+
+Vacuum polarization coefficients from Potekhin, Lai & Chabrier (2004)
+Appendix Eqs. (A7)-(A9).  These fits recover the Euler-Heisenberg weak-field
+limits and remain accurate for arbitrary B in the low-frequency limit.
+"""
+function vacuum_coefficients(B::Float64)
+    @assert B >= 0.0
+    b = B / B_Q
+    if b == 0.0
+        return 0.0, 0.0, 0.0
+    end
+
+    a_hat = -2.0 * α_fine / (9π) *
+            log(1.0 + (b^2 / 5.0) *
+                (1.0 + 0.25487 * b^(3/4)) /
+                (1.0 + 0.75 * b^(5/4)))
+    q = 7.0 * α_fine / (45π) * b^2 *
+        (1.0 + 1.2 * b) /
+        (1.0 + 1.33 * b + 0.56 * b^2)
+    m = -α_fine / (3π) * b^2 /
+        (3.75 + 2.7 * b^(5/4) + b^2)
+
+    return a_hat, q, m
+end
+
+"""
+Cold-plasma polarization parameter q used in the P&C 2003 mode quadratic.
+"""
+function cold_polarization_parameter(ω::Float64, B::Float64,
+                                     θ_B::Float64, n_e::Float64)::Float64
+    S, D, P = stix_parameters(ω, B, n_e)
+    cosθ = cos(θ_B)
+    sinθ = sin(θ_B)
+    if abs(D) < 1e-30 || abs(cosθ) < 1e-30
+        return copysign(Inf, (P - S) * D * cosθ)
+    end
+    return (P - S) * sinθ^2 / (2.0 * D * cosθ)
+end
+
+"""
+    vacuum_polarization_parameter(ω, B, θ_B, n_e) → β
+
+Mode polarization parameter including vacuum dielectric and magnetic
+permeability corrections.  This is the β-like parameter in Potekhin, Lai &
+Chabrier (2004), written with the sign convention of the local cold-plasma
+quadratic.
+"""
+function vacuum_polarization_parameter(ω::Float64, B::Float64,
+                                       θ_B::Float64, n_e::Float64)::Float64
+    S, D, P = stix_parameters(ω, B, n_e)
+    a_hat, q_vac, m_vac = vacuum_coefficients(B)
+
+    εp = S + a_hat
+    ηp = P + a_hat + q_vac
+    cosθ = cos(θ_B)
+    sinθ = sin(θ_B)
+
+    if abs(D) < 1e-30 || abs(cosθ) < 1e-30 || abs(ηp) < 1e-30
+        return cold_polarization_parameter(ω, B, θ_B, n_e)
+    end
+
+    numerator = ηp - εp + D^2 / εp + ηp * m_vac / (1.0 + a_hat)
+    return numerator / (2.0 * D) * (εp / ηp) * sinθ^2 / cosθ
+end
+
+"""
+    vacuum_mode_parameters(ω, B, θ_B, n_e) → (β, r, K1, K2, Kz1, Kz2)
+
+Vacuum-corrected normal-mode parameters from Potekhin, Lai & Chabrier
+(2004).  The `K1/K2` branch labels follow their X/O convention,
+`K_j = β[1 + (-1)^j sqrt(1 + r/β²)]`, evaluated in a numerically stable
+form away from and at β=0.
+"""
+function vacuum_mode_parameters(ω::Float64, B::Float64,
+                                θ_B::Float64, n_e::Float64)
+    S, D, P = stix_parameters(ω, B, n_e)
+    a_hat, q_vac, m_vac = vacuum_coefficients(B)
+    sinθ = sin(θ_B)
+    cosθ = cos(θ_B)
+
+    β = vacuum_polarization_parameter(ω, B, θ_B, n_e)
+    r = 1.0 + m_vac / (1.0 + a_hat) * sinθ^2
+    r = max(r, 0.0)
+    sq = sqrt(β^2 + r)
+
+    if β > 0
+        K1 = β - sq
+        K2 = β + sq
+    elseif β < 0
+        K1 = β + sq
+        K2 = β - sq
+    else
+        K1 = -sqrt(r)
+        K2 = sqrt(r)
+    end
+
+    Kz1 = _vacuum_Kz(K1, S, D, P, a_hat, q_vac, sinθ, cosθ)
+    Kz2 = _vacuum_Kz(K2, S, D, P, a_hat, q_vac, sinθ, cosθ)
+
+    return β, r, K1, K2, Kz1, Kz2
 end
 
 """
@@ -122,13 +279,34 @@ function compute_weights_from_K(K::Float64, S::Float64, D::Float64,
 
     Kz = -n² * sinθ * cosθ * K / denom_z
 
-    # Normalisation factor
-    norm = 1.0 + K^2 + Kz^2
+    return compute_weights_from_K_Kz(K, Kz, 0.0, 1.0)
+end
 
-    # Cyclic components
-    wp1 = (K + 1.0)^2 / (2.0 * norm)   # |e_{+1}|²
-    wm1 = (K - 1.0)^2 / (2.0 * norm)   # |e_{-1}|²
-    w0  = Kz^2 / norm                    # |e_0|²
+function _vacuum_Kz(K::Float64, S::Float64, D::Float64, P::Float64,
+                    a_hat::Float64, q_vac::Float64,
+                    sinθ::Float64, cosθ::Float64)::Float64
+    εp = S + a_hat
+    ηp = P + a_hat + q_vac
+    denom = εp * sinθ^2 + ηp * cosθ^2
+    if abs(denom) < 1e-30 * (1.0 + abs(εp) + abs(ηp))
+        return copysign(Inf, -((εp - ηp) * K * cosθ + D) * sinθ)
+    end
+    return -((εp - ηp) * K * cosθ + D) / denom * sinθ
+end
+
+function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
+                                   sinθ::Float64, cosθ::Float64)
+    if !isfinite(K) || !isfinite(Kz)
+        return [0.0, 1.0, 0.0]
+    end
+
+    norm = 1.0 + K^2 + Kz^2
+    transverse = K * cosθ + Kz * sinθ
+    longitudinal = K * sinθ - Kz * cosθ
+
+    wp1 = (transverse + 1.0)^2 / (2.0 * norm)  # |e_{+1}|²
+    wm1 = (transverse - 1.0)^2 / (2.0 * norm)  # |e_{-1}|²
+    w0  = longitudinal^2 / norm                # |e_0|²
 
     # Safety clamp and renormalize
     wp1 = max(0.0, wp1)

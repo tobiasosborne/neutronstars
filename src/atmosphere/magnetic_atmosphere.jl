@@ -19,7 +19,7 @@ using ..GauntFactor: GauntTable
 using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
-using ..MagneticModes: mode_opacity
+using ..MagneticModes: mode_absorption, mode_scattering, effective_opacity
 using ..FeautrierSolver: gauss_legendre_half
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult
@@ -59,6 +59,8 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     K::Int=50, M::Int=8, N::Int=200,
                                     max_iter::Int=30,
                                     tol::Float64=1e-4,
+                                    flux_tol::Float64=1e-2,
+                                    flux_damping::Float64=0.5,
                                     verbose::Bool=true)::MagneticAtmosphereResult
     @assert T_eff > 0 && g_s > 0 && B >= 0
     @assert 0 <= θ_B <= π
@@ -70,14 +72,14 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     μ, w = gauss_legendre_half(M)
 
     # Build initial atmosphere column (Eddington T profile)
-    y, T, ρ, P = _build_initial_column(T_eff, g_s, N, ν_grid, gaunt)
+    y, T, ρ, P = _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B, θ_B)
 
     verbose && @printf("  N=%d, y_max=%.2e, K=%d frequencies\n", N, y[end], K)
 
     # Compute opacities for both modes at all (depth, frequency) points
     # κ_j[i, k]: absorption opacity for mode j at depth i, frequency k
     # σ_j[i, k]: scattering opacity (mode-dependent for B>0)
-    # For B>0: use mode_opacity(j, ν, θ_B, B, T, ρ)
+    # For B>0: split true absorption from scattering extinction.
     # For B=0: both modes have κ_ff + σ_T (recover non-magnetic)
 
     κ = zeros(N, K, 2)      # absorption opacity per mode
@@ -114,20 +116,27 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         # Compute two-mode Rybicki temperature correction
         ΔT = _rybicki_two_mode(N, K, ν_grid, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
 
+        # Suleimanov+ 2009 enforce both radiative equilibrium and the target
+        # surface flux.  The Rybicki correction controls the local balance;
+        # this grey scaling controls the mode-summed flux normalization.
+        F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
+        flux_ratio = F_bol / (σ_SB * T_eff^4)
+        if B > 0 && isfinite(flux_ratio) && flux_ratio > 0
+            raw_flux_scale = flux_ratio^(-0.25)
+            flux_scale = clamp(1.0 + flux_damping * (raw_flux_scale - 1.0), 0.9, 1.1)
+            ΔT .+= (flux_scale - 1.0) .* T
+        end
+
         max_dT = maximum(abs.(ΔT ./ T))
         if max_dT > 0.3
             ΔT .*= 0.3 / max_dT
             max_dT = 0.3
         end
 
-        # Compute flux diagnostic
-        F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
-        flux_ratio = F_bol / (σ_SB * T_eff^4)
-
         verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",
                             iter, max_dT, flux_ratio)
 
-        if max_dT < tol
+        if max_dT < tol && abs(flux_ratio - 1.0) < flux_tol
             converged = true
             verbose && @printf("  CONVERGED at iteration %d\n", iter)
             break
@@ -172,11 +181,91 @@ end
 # --- Internal functions ---
 
 """Build initial atmosphere column using the non-magnetic infrastructure."""
-function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt)
+function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
     # Reuse the non-magnetic build_atmosphere for the initial structure
-    # (proper Eddington T profile with actual Rosseland mean)
-    col = AtmosphereStructure.build_atmosphere(T_eff, g_s, ν_grid, gaunt; N=N)
-    return copy(col.y), copy(col.T), copy(col.ρ), copy(col.P)
+    # (proper Eddington T profile with actual Rosseland mean).  For B>0,
+    # magnetic opacities can be much smaller, so grow the column until every
+    # mode/frequency reaches the diffusion-depth cutoff used by Feautrier.
+    y_max = 1e2
+    max_y = 1e5  # Suleimanov+ 2009 semi-infinite atmosphere depth scale.
+
+    while true
+        col = AtmosphereStructure.build_atmosphere(T_eff, g_s, ν_grid, gaunt;
+                                                   N=N, y_max=y_max)
+        if B <= 0
+            return copy(col.y), copy(col.T), copy(col.ρ), copy(col.P)
+        end
+
+        T_mag = _magnetic_eddington_temperature(col.y, T_eff, g_s, ν_grid, B, θ_B)
+        ρ_mag = [m_p * col.P[i] / (2.0 * k_B * T_mag[i]) for i in 1:N]
+
+        K = length(ν_grid)
+        κ = zeros(N, K, 2)
+        k_total = zeros(N, K, 2)
+        ρ_alb = zeros(N, K, 2)
+        τ = zeros(N, K, 2)
+        _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ,
+                                     col.y, T_mag, ρ_mag, ν_grid, B, θ_B, gaunt)
+
+        τ_min = minimum(τ[end, :, :])
+        if τ_min >= 80.0 || col.y[end] >= max_y
+            return copy(col.y), T_mag, ρ_mag, copy(col.P)
+        end
+
+        scale = (80.0 / max(τ_min, 1.0))^1.2
+        y_max = min(max(col.y[end] * max(scale, 1.5), col.y[end] * 1.5), max_y)
+    end
+end
+
+"""Magnetic grey atmosphere initial guess at the local field-normal angle."""
+function _magnetic_eddington_temperature(y, T_eff, g_s, ν_grid, B, θ_B)
+    N = length(y)
+    T = zeros(N)
+    T[1] = 0.265 * T_eff
+
+    P1 = g_s * y[1]
+    ρ1 = m_p * P1 / (2.0 * k_B * T[1])
+    k_R_prev = _rosseland_directional_magnetic(T[1], ρ1, ν_grid, B, θ_B)
+    τ_R = 0.0
+
+    for i in 2:N
+        dy = y[i] - y[i-1]
+        P_i = g_s * y[i]
+
+        # Fixed-point iteration because the Rosseland opacity depends on T and ρ.
+        T_i = T[i-1]
+        k_R_i = k_R_prev
+        for _ in 1:4
+            τ_trial = τ_R + 0.5 * (k_R_prev + k_R_i) * dy
+            T_i = (0.75 * T_eff^4 * (τ_trial + 2.0/3.0))^0.25
+            ρ_i = m_p * P_i / (2.0 * k_B * T_i)
+            k_R_i = _rosseland_directional_magnetic(T_i, ρ_i, ν_grid, B, θ_B)
+        end
+
+        τ_R += 0.5 * (k_R_prev + k_R_i) * dy
+        T[i] = (0.75 * T_eff^4 * (τ_R + 2.0/3.0))^0.25
+        k_R_prev = k_R_i
+    end
+
+    return T
+end
+
+function _rosseland_directional_magnetic(T, ρ, ν_grid, B, θ_B)
+    numerator = 0.0
+    denominator = 0.0
+
+    for k in 1:length(ν_grid)-1
+        ν = 0.5 * (ν_grid[k] + ν_grid[k+1])
+        dν = ν_grid[k+1] - ν_grid[k]
+        weight = dBnu_dT(ν, T)
+        κ_eff = effective_opacity(ν, θ_B, B, T, ρ)
+        if κ_eff > 0
+            numerator += weight / κ_eff * dν
+            denominator += weight * dν
+        end
+    end
+
+    return denominator > 0 && numerator > 0 ? denominator / numerator : 0.0
 end
 
 """Compute magnetic opacities for both modes at all (depth, freq) points."""
@@ -189,11 +278,13 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
         if B > 0
             # Magnetic: mode-dependent opacities
             for j in 1:2
-                κ_j = mode_opacity(j, ν, θ_B, B, T[i], ρ[i])
-                κ[i, k, j] = max(κ_j, 1e-30)  # absorption opacity per mode
-                # For now, total opacity ≈ absorption (scattering included in mode_opacity)
-                k_total[i, k, j] = κ[i, k, j]
-                ρ_alb[i, k, j] = 0.0  # scattering already in mode_opacity
+                κ_abs = max(mode_absorption(j, ν, θ_B, B, T[i], ρ[i]), 1e-30)
+                σ_scat = max(mode_scattering(j, ν, θ_B, B, T[i], ρ[i]), 0.0)
+                total = max(κ_abs + σ_scat, 1e-30)
+
+                κ[i, k, j] = κ_abs
+                k_total[i, k, j] = total
+                ρ_alb[i, k, j] = σ_scat / total
             end
         else
             # B=0: both modes identical (recover non-magnetic)
@@ -235,12 +326,21 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
             dtau[i] = 0.5 * (k_tot_mode[i, k] + k_tot_mode[i-1, k]) * dy
         end
 
-        # Find effective depth (τ < 80)
+        # Find effective depth.  In scattering-dominated layers, τ_total=80
+        # can still be above the thermalization depth, so require effective
+        # optical depth ∫sqrt(κ_abs k_total)dy to be safely large as well.
         N_eff = N
         τ_cum = 0.0
+        τ_eff_cum = 0.0
         for i in 2:N
             τ_cum += dtau[i]
-            if τ_cum > 80.0
+            κ_abs_prev = k_tot_mode[i-1, k] * (1.0 - ρ_alb_mode[i-1, k])
+            κ_abs_curr = k_tot_mode[i, k] * (1.0 - ρ_alb_mode[i, k])
+            κ_abs_mid = max(0.5 * (κ_abs_prev + κ_abs_curr), 0.0)
+            k_tot_mid = max(0.5 * (k_tot_mode[i-1, k] + k_tot_mode[i, k]), 0.0)
+            dy = y[i] - y[i-1]
+            τ_eff_cum += sqrt(κ_abs_mid * k_tot_mid) * dy
+            if τ_cum > 80.0 && τ_eff_cum > 10.0
                 N_eff = i
                 break
             end

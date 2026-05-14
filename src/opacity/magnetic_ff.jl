@@ -123,8 +123,9 @@ function sigma_ff_alpha(α::Int, ω::Float64, B::Float64,
     # Proton-proton damping
     ν_pp_val = nu_pp(ω, T, n_e)
 
-    # Damping frequencies
-    ν_e = ν_e_s + ν_pp_val
+    # Damping frequencies entering P&C 2003 Eq. (52): ν_e excludes
+    # proton-proton collisions; ν_p includes proton radiative + pp damping.
+    ν_e = ν_e_s
     ν_p = ν_p_s + ν_pp_val
 
     # Combined damping (Eq. 52)

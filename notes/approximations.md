@@ -24,11 +24,11 @@ Every approximation used in the pipeline, with name, validity range, source, and
 **Validity:** Good for T_eff > 5×10⁵ K at B < 10¹³ G (Potekhin & Chabrier 2004).
 **Impact:** MEDIUM — at lower T, bound-free opacity creates absorption features. Deferred to Phase 4.
 
-### A4: No vacuum polarisation
-**Description:** Ignore QED birefringence and vacuum resonance mode conversion.
-**Source:** Ho & Lai (2001). Important for B > 10¹³ G.
-**Validity:** Good for B < 10¹³ G. At higher B, vacuum resonance can redistribute flux between polarisation modes.
-**Impact:** LOW-MEDIUM — affects polarisation structure but not broadband flux for B < 10¹³ G. Deferred to Phase 4.
+### A4: Local vacuum polarisation without mode conversion
+**Description:** Include QED vacuum-polarized local normal-mode vectors in the magnetic opacity weights, but do not yet propagate photons through the vacuum resonance with partial/adiabatic mode conversion.
+**Source:** Potekhin, Lai & Chabrier (2004) for vacuum coefficients and mode vectors; van Adelsberg & Lai (2006) for the B-frame cyclic components and atmosphere treatment.
+**Validity:** Local opacities away from resonance regions are improved. Spectra across the vacuum resonance are incomplete until mode conversion is implemented.
+**Impact:** HIGH for magnetar-strength fields and resonance-region spectra/polarization. The current Fig. 2 metric masks the vacuum-resonance band.
 
 ### A5: Plane-parallel atmosphere
 **Description:** Each surface element has a plane-parallel atmosphere. Ignore curvature.
@@ -50,13 +50,19 @@ Every approximation used in the pipeline, with name, validity range, source, and
 
 ## Phase 3+ (to be updated)
 
-### A8: Ground Landau level only (future)
+### A8: Scalar scattering approximation in magnetic RT
+**Description:** Magnetic RT uses local per-mode scattering extinction/albedo, but not the full angle- and mode-redistribution scattering kernel from the published transfer equations.
+**Source:** Suleimanov, Potekhin & Werner (2009) Eqs. 5-10 describe mode-coupled scattering source terms.
+**Validity:** Useful for flux-normalized smoke tests and local opacity work; not final for physically exact spectra or polarization.
+**Impact:** HIGH for oblique-angle and scattering-dominated branches. Likely relevant to the remaining `theta_B=45 deg` Fig. 2 mismatch.
+
+### A9: Ground Landau level only (future)
 **Description:** Assume all electrons in ground (n=0) Landau level.
 **Validity:** ℏω_c >> kT, i.e., B >> 4.7×10⁸ (T/10⁶)² G.
 **Source:** Mészáros (1992) p.47.
 **Impact:** Simplifies opacity expressions. Valid for B > 10¹⁰ G at T < 10⁷ K.
 
-### A9: No magnetic pressure contribution to hydrostatic equilibrium (future)
+### A10: No magnetic pressure contribution to hydrostatic equilibrium (future)
 **Description:** B²/(8π) << gas pressure in atmosphere.
 **Validity:** B < 10¹⁵ G. For B ~ 10¹² G and T ~ 10⁶ K, P_mag/P_gas ~ 10⁻⁸.
 **Source:** To be verified quantitatively.

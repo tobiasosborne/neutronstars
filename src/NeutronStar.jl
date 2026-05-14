@@ -70,8 +70,10 @@ export TOVSolver, solve_tov, TOVResult
 export DipoleModel, surface_temperature, surface_Bfield, magnetic_colatitude
 export GauntFactor, load_gaunt_table, gaunt_ff
 export HydrogenOpacity, kappa_ff, sigma_thomson, total_opacity, rosseland_mean
-export MagneticFF, cyclotron_freq_e, cyclotron_freq_p, sigma_ff_alpha, sigma_total_alpha
-export MagneticModes, rosseland_magnetic, mode_opacity, effective_opacity
+export MagneticFF, cyclotron_freq_e, cyclotron_freq_p, sigma_ff_alpha, sigma_pp_alpha
+export sigma_scat_alpha, sigma_total_alpha
+export MagneticModes, rosseland_magnetic, mode_absorption, mode_scattering
+export mode_opacity, effective_opacity
 export AtmosphereStructure, AtmosphereColumn, build_atmosphere, update_atmosphere!
 export make_frequency_grid
 export FeautrierSolver, solve_feautrier_all, gauss_legendre_half
