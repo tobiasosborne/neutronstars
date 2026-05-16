@@ -7,9 +7,9 @@ All files checksummed in `CHECKSUMS` (SHA-256).
 | Bibkey | File | Reference | Used for |
 |--------|------|-----------|----------|
 | potekhin_chabrier_2001 | `potekhin_chabrier_2001_eos.pdf` | Potekhin & Chabrier, A&A 374, 213 (2001); arXiv:astro-ph/0105261 | EOS of magnetised fully-ionised plasma (free energy, pressure, entropy) |
-| potekhin_chabrier_2004 | `potekhin_chabrier_2004_ionisation.pdf` | Potekhin & Chabrier, A&A 428, 787 (2004); arXiv:astro-ph/0405383 | H ionisation equilibrium in strong B, occupation probabilities |
+| potekhin_lai_chabrier_ho_2004 | `potekhin_lai_chabrier_ho_2004_polarization.pdf` | Potekhin, Lai, Chabrier & Ho, ApJ 612, 1034 (2004); arXiv:astro-ph/0405383 | Electromagnetic polarization in partially ionized plasmas with strong magnetic fields and neutron star atmosphere models; vacuum-coefficient Appendix A7–A9 (used in `vacuum_coefficients`); B-frame normal-mode equations (used in `polarization_weights_vacuum`) |
 | potekhin_chabrier_2003 | `potekhin_chabrier_2003_ff_opacity.pdf` | Potekhin & Chabrier, A&A 399, 1007 (2003); arXiv:astro-ph/0301218 | Appendix A: free-free absorption cross-sections, both modes |
-| potekhin_chabrier_ho_2014 | `potekhin_chabrier_ho_2014_opacities.pdf` | Potekhin, Chabrier & Ho, A&A 572, A69 (2014); arXiv:1409.5508 | Updated opacities with vacuum polarisation, partial ionisation |
+| van_adelsberg_lai_2006 | `van_adelsberg_lai_2006_magnetic_atm.pdf` | van Adelsberg & Lai, MNRAS 373, 1495 (2006); arXiv:astro-ph/0607168 | Atmosphere models of magnetized neutron stars: QED effects, radiation spectra, and polarization signals; B-frame cyclic mode-vector formulae used in `compute_weights_from_K_Kz` |
 | heinke_2006 | `heinke_2006_nsatmos.pdf` | Heinke et al., ApJ 644, 1090 (2006); arXiv:astro-ph/0602281 | NSATMOS — B=0 reference spectra for verification |
 | suleimanov_2009 | `suleimanov_potekhin_werner_2009_mag_atm.pdf` | Suleimanov, Potekhin & Werner, A&A 500, 891 (2009); arXiv:0905.3276 | Magnetic NS atmosphere numerical scheme, published spectra for verification |
 | potekhin_ho_chabrier_2016 | `potekhin_ho_chabrier_2016_review.pdf` | Potekhin, Ho & Chabrier, JPCS 2016; arXiv:1605.01281 | Review of magnetic atmosphere status, figure comparisons |
@@ -20,7 +20,6 @@ All files checksummed in `CHECKSUMS` (SHA-256).
 | potekhin_2013 | `potekhin_2013_bsk_eos.pdf` | Potekhin et al., A&A 560, A48 (2013); arXiv:1310.0049 | BSk EOS analytical fits, TOV table verification |
 | greenstein_hartke_1983 | `greenstein_hartke_1983_surface_T.pdf` | Greenstein & Hartke, ApJ 271, 283 (1983) | T(θ) for dipole B-field, analytic surface temperature model |
 | potekhin_pons_page_2015 | `potekhin_pons_page_2015_thermal.pdf` | Potekhin, Pons & Page, SSRv 191, 239 (2015); arXiv:1507.06186 | Thermal evolution review, envelope models |
-| ho_lai_2001 | `ho_lai_2001_vacuum_pol.pdf` | Ho & Lai, MNRAS 327, 1081 (2001); arXiv:astro-ph/0104147 | Vacuum resonance, QED birefringence, mode conversion |
 | lai_2001 | `lai_2001_strong_B_review.pdf` | Lai, Rev. Mod. Phys. 73, 629 (2001); arXiv:astro-ph/0009333 | Matter in strong magnetic fields — comprehensive review |
 | riley_2023 | `riley_2023_xpsi.pdf` | Riley et al., JOSS 8(82), 4977 (2023); arXiv:2308.14312 | X-PSI: GR ray tracing verification reference |
 | reinhard_2002 | `reinhard_2002_tonemapping.pdf` | Reinhard et al., SIGGRAPH 2002 (Utah CS tech report) | Photographic tone reproduction operator |

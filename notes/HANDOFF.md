@@ -352,10 +352,16 @@ python3 verification/plot_suleimanov_fig2_clean_validation.py
 
 ## Important Caveats For The Next Agent
 
-- `refs/ho_lai_2001_vacuum_pol.pdf` is **not** Ho & Lai — it is an
-  unrelated quasar paper. Re-download from arXiv.
-- `refs/potekhin_chabrier_ho_2014_opacities.pdf` is mislabeled — it is
-  Boev & Kovalev 2014 (exciton BEC). Re-download from arXiv.
+- `refs/potekhin_chabrier_2004_ionisation.pdf` has been renamed to
+  `refs/potekhin_lai_chabrier_ho_2004_polarization.pdf` — the PDF was
+  mislabeled. Its actual content is Potekhin, Lai, Chabrier & Ho 2004
+  "Electromagnetic polarization in partially ionized plasmas with
+  strong magnetic fields and neutron star atmosphere models"
+  (arXiv:astro-ph/0405383), which is the source for the vacuum
+  coefficient fits (Appendix A7–A9) used in `vacuum_coefficients`.
+- `refs/van_adelsberg_lai_2006_magnetic_atm.pdf` has been added; it
+  supplies the B-frame cyclic mode-vector formulae used in
+  `compute_weights_from_K_Kz`.
 - arXiv source tarballs used during the Fig 2 session were downloaded
   to `/tmp` and are not committed:
   - `/tmp/van_adelsberg_lai_2006_src/ms14.tex`
