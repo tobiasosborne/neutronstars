@@ -85,3 +85,29 @@ mismatch turns out to be initial-guess-sensitive, swap to the grey
 limit and re-benchmark.
 
 **Scope:** Documentation/labelling only — no code change.
+
+## D10: Magnetic atmosphere flux correction — ad-hoc grey scaling, not SPW09 Avrett-Krook
+**Date:** 2026-05-16
+**Context:** reviews/03_code.md B3 (Convergent finding #1) noted that
+`_iterate_magnetic_rybicki` in `src/atmosphere/magnetic_atmosphere.jl`
+applies ΔT += (flux_scale - 1) × T with
+flux_scale = clamp(1 + flux_damping × (flux_ratio^{-1/4} − 1), 0.9, 1.1).
+This was labelled "Suleimanov-style" in HANDOFF and commit history. SPW09
+§2 actually uses depth-resolved Avrett-Krook (their Eq. 19-22) + a Kurucz
+1970 surface correction — neither of which the code implements.
+
+**Decision:** Keep the ad-hoc grey scaling for now and relabel it honestly
+(comments + HANDOFF + CLAUDE). DO NOT implement actual Avrett-Krook in
+this code-review pass. Real Avrett-Krook is a substantive physics
+deliverable (~100-200 LoC, needs per-depth ε_H(m) integral, surface
+correction tuning, validation against Suleimanov Fig 2 at θ_B=45°)
+deserving its own session.
+
+**Rationale:** The heuristic works for B=10^12 G (converges, flux passes
+rtol=0.05). The unresolved θ_B=45° Fig 2 mismatch is the most likely
+place where the heuristic limitation matters — and that's already the
+project's immediate next task (HANDOFF.md). Doing both at once would
+conflate physics improvement with code-review hygiene.
+
+**Scope:** Comments, docstrings, HANDOFF.md, CLAUDE.md — no code
+behaviour change.

@@ -31,8 +31,9 @@ This handoff covers the merge of two parallel work streams:
   multi-parameter verification at 10⁵·³, 10⁶, 10⁶·⁵ K.
 - **Phase 3b (magnetic atmosphere)** — two-mode Feautrier with separated
   absorption / scattering, magnetic-Eddington initial T profile, adaptive
-  column depth to diffusion cutoff, damped Suleimanov-style flux
-  correction, thermalisation-depth guard before LTE bottom BC.
+  column depth to diffusion cutoff, damped ad-hoc grey-body flux scaling
+  (not the real SPW09 Avrett-Krook scheme; see notes/decisions.md D10),
+  thermalisation-depth guard before LTE bottom BC.
   - Smoke test (`B=1×10¹² G`, `θ_B=π/4`): converges in ~60 iterations.
   - B=0 limit recovers non-magnetic to <0.1%.
 - **Phase 3c (SpectralImageCube v2)** — `AtmosphereGrid` precomputes
@@ -79,7 +80,8 @@ Files: `src/opacity/magnetic_modes.jl`, `src/atmosphere/magnetic_atmosphere.jl`,
   the directional Rosseland mean of `effective_opacity`.
 - Initial column depth grows automatically until every (mode, ν) reaches
   τ ≥ 80, capped at `y_max = 1e5 g cm⁻²`.
-- Damped Suleimanov-style flux correction in the iteration loop:
+- Damped ad-hoc grey-body flux scaling in the iteration loop (NOT the
+  real SPW09 Avrett-Krook scheme — see notes/decisions.md D10):
   `ΔT *= 1 + flux_damping · (flux_ratio^(-1/4) − 1)`, clamped to
   [0.9, 1.1]. Knobs are `flux_tol` (default 1e-2) and `flux_damping`
   (default 0.5).
@@ -241,7 +243,7 @@ PhysicalConstants → BSkEOS → TOVSolver → DipoleModel
 | `src/atmosphere/feautrier.jl` | Block-tridiagonal Feautrier RT solver + adaptive variant | Working, verified vs McPHAC |
 | `src/atmosphere/temp_correction.jl` | Rybicki (1971) global temperature correction | Working, verified vs McPHAC |
 | `src/atmosphere/rt_atmosphere.jl` | Non-magnetic atmosphere driver | Working |
-| `src/atmosphere/magnetic_atmosphere.jl` | Two-mode magnetic atmosphere; magnetic-Eddington init; Suleimanov-style flux correction; thermalisation guard | Working for B=0 to 10¹⁴ G |
+| `src/atmosphere/magnetic_atmosphere.jl` | Two-mode magnetic atmosphere; magnetic-Eddington init; ad-hoc grey-body flux scaling (not real SPW09 Avrett-Krook, see decisions.md D10); thermalisation guard | Working for B=0 to 10¹⁴ G |
 | `src/atmosphere/atm_structure.jl` | Column structure, Eddington T profile, opacity computation | Working |
 | `src/atmosphere/blackbody.jl` | Planck function B_ν and modified blackbody | Working |
 

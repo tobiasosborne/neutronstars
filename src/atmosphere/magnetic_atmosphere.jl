@@ -116,9 +116,14 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         # Compute two-mode Rybicki temperature correction
         ΔT = _rybicki_two_mode(N, K, ν_grid, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
 
-        # Suleimanov+ 2009 enforce both radiative equilibrium and the target
-        # surface flux.  The Rybicki correction controls the local balance;
-        # this grey scaling controls the mode-summed flux normalization.
+        # Ad-hoc grey-body flux scaling (NOT the Suleimanov-Potekhin-Werner 2009
+        # Avrett-Krook correction, despite the name we've been using). Motivation:
+        # T_eff ∝ F^{1/4}, so a global flux deficit suggests a uniform temperature
+        # bump. Heuristic — clamped to [0.9, 1.1] to keep iterations from
+        # overshooting; works for B<~10^13 G but may explain the unresolved θ_B=45°
+        # mismatch noted in notes/HANDOFF.md "Immediate Next Task". Implementing
+        # actual SPW09 §2 (depth-resolved Avrett-Krook from their Eq. 19-22 +
+        # Kurucz 1970 surface correction) is deferred — see notes/decisions.md D10.
         F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
         flux_ratio = F_bol / (σ_SB * T_eff^4)
         if B > 0 && isfinite(flux_ratio) && flux_ratio > 0
