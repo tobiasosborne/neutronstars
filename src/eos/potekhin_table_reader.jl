@@ -1,6 +1,14 @@
 #=
 Parser for Potekhin magnetised hydrogen EOS + opacity tables.
 
+NOTE: This module is intentionally NOT included from src/NeutronStar.jl.
+It is verification-only infrastructure, loaded directly by
+verification/potekhin_table_comparison.jl via `include(...)` so it
+doesn't pollute the runtime package. If you find this file via grep
+expecting an orphan, it isn't — see bead B10 in reviews/05_beads.md.
+
+
+
 Reads the .dat files from refs/potekhin_tables/ which contain 14 columns:
   EOS (cols 2-8), ionisation fractions (cols 9-12), Rosseland opacities (cols 13-14).
 
