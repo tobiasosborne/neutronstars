@@ -234,3 +234,20 @@ end
     println("  r_mag.converged=$(r_mag.converged) (max|ΔT/T|=$(round(r_mag.max_dT_over_T, sigdigits=3)), iters=$(r_mag.n_iterations))")
     println("  r_nonmag.converged=$(r_nonmag.converged) (max|ΔT/T|=$(round(r_nonmag.max_dT_over_T, sigdigits=3)), iters=$(r_nonmag.n_iterations))")
 end
+
+@testset "Suleimanov 2009 Fig 2 metric gate" begin
+    # Delegates to verification/check_suleimanov_fig2_metrics.py, which asserts
+    # four free-free opacity thresholds (coverage>=0.45, |median residual|<=0.70 dex,
+    # median abs error<=0.75 dex, robust scatter<=0.60 dex; plus p90<=1.25 dex at θ=90°)
+    # against the checked-in opacity_comparison_metrics.json. PASS → exit 0, FAIL → exit 1.
+    metrics_json = "verification/data/suleimanov_2009_fig2/opacity_comparison_metrics.json"
+    if Sys.which("python3") !== nothing && isfile(metrics_json)
+        proc = run(pipeline(`python3 verification/check_suleimanov_fig2_metrics.py`,
+                            stdout=devnull, stderr=devnull); wait=false)
+        wait(proc)
+        @test proc.exitcode == 0
+    else
+        @warn "Skipping Suleimanov gate: python3 missing or metrics JSON not present"
+        @test_skip true
+    end
+end
