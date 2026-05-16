@@ -8,7 +8,7 @@ Uses modified blackbody atmosphere placeholder.
 module Renderer
 
 using Printf
-using ..PhysicalConstants: G, c, M_sun, k_B, h, keV
+using ..PhysicalConstants: G, c, M_sun, k_B, h, keV, pc
 using ..BSkEOS: BSk21_params
 using ..TOVSolver: solve_tov
 using ..DipoleModel: surface_temperature, surface_Bfield, magnetic_colatitude
@@ -322,7 +322,7 @@ function render_spectral_cube(params::NSParams,
                         n_hit, N*N, 100.0 * n_hit / (N*N))
 
     # Pixel angular scale
-    pixel_scale = 2.0 * R / (params.distance_pc * 3.0856e18) / N  # approximate
+    pixel_scale = 2.0 * R / (params.distance_pc * pc) / N  # approximate
 
     verbose && println("  Spectral cube complete.")
     return SpectralImageCube(N, N, nν, ν_grid_obs, pixel_scale,
