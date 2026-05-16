@@ -16,7 +16,7 @@ Source: Potekhin & Chabrier (2003) ApJ 585, 955, Eqs. 25-30.
 
 module MagneticModes
 
-using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
+using ..PhysicalConstants: e_charge, m_e, m_p, m_H, c, h, ħ, k_B, σ_T
 using ..MagneticFF: cyclotron_freq_e, cyclotron_freq_p,
                      sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha
 using ..DielectricTensor: polarization_weights_vacuum
@@ -26,8 +26,6 @@ using ..BlackbodyAtmosphere: planck_Bnu
 export mode_absorption, mode_scattering, mode_opacity, mode_opacity_split, effective_opacity
 export kappa_parallel_mono, kappa_perp_mono
 export rosseland_magnetic, make_rosseland_frequency_grid
-
-const m_H = m_p + m_e
 
 """
     mode_absorption(j, ν, θ_B, B, T, ρ) → κ_j^a [cm²/g]

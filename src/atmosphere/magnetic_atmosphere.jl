@@ -14,7 +14,7 @@ module MagneticAtmosphere
 
 using Printf
 using LinearAlgebra
-using ..PhysicalConstants: σ_SB, k_B, h, m_p, m_e
+using ..PhysicalConstants: σ_SB, k_B, h, m_p, m_e, m_H
 using ..GauntFactor: GauntTable
 using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid, density_from_PT
 using ..BlackbodyAtmosphere: planck_Bnu
@@ -23,8 +23,6 @@ using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, eff
 using ..FeautrierSolver: gauss_legendre_half
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_spectrum
-
-const m_H = m_p + m_e
 
 """
 Result of a converged magnetic atmosphere calculation.

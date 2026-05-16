@@ -11,7 +11,7 @@ Local: refs/potekhin_chabrier_2003_ff_opacity.pdf
 
 module MagneticFF
 
-using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
+using ..PhysicalConstants: e_charge, m_e, m_p, m_H, c, h, ħ, k_B, σ_T
 using ..MagneticCoulomb: coulomb_log_magnetic, coulomb_log_classical_safe
 
 export cyclotron_freq_e, cyclotron_freq_p, beta_e
@@ -95,7 +95,7 @@ function sigma_ff_alpha(α::Int, ω::Float64, B::Float64,
         return _sigma_ff_nonmag(ω, T, ρ)
     end
 
-    n_e = ρ / (m_p + m_e)
+    n_e = ρ / m_H
     ω_ce = cyclotron_freq_e(B)
     ω_cp = cyclotron_freq_p(B)
 
@@ -136,7 +136,7 @@ end
 Non-magnetic free-free cross-section (B→0 limit) per atom.
 """
 function _sigma_ff_nonmag(ω::Float64, T::Float64, ρ::Float64)::Float64
-    n_e = ρ / (m_p + m_e)
+    n_e = ρ / m_H
     u = ħ * ω / (k_B * T)
     Λ = coulomb_log_classical_safe(max(u, 1e-30))
     stimulated = u < 500.0 ? (1.0 - exp(-u)) : 1.0
@@ -158,7 +158,7 @@ function sigma_pp_alpha(α::Int, ω::Float64, B::Float64,
         return 0.0  # negligible at B=0
     end
 
-    n_p = ρ / (m_p + m_e)
+    n_p = ρ / m_H
     ω_cp = cyclotron_freq_p(B)
 
     ν_pp_val = nu_pp(ω, T, n_p)

@@ -8,7 +8,7 @@ Local: refs/haakonsen_2012_mcphac.pdf
 
 module HydrogenOpacity
 
-using ..PhysicalConstants: e_charge, m_e, m_p, h, c, k_B, σ_T
+using ..PhysicalConstants: e_charge, m_e, m_p, m_H, h, c, k_B, σ_T
 using ..GauntFactor: GauntTable, gaunt_ff
 
 export kappa_ff, sigma_thomson, total_opacity, scattering_albedo
@@ -32,7 +32,7 @@ function kappa_ff(ν::Float64, T::Float64, ρ::Float64,
     # Prefactor (CGS constants)
     # 4e⁶/(3 m_e h c) × √(2π/(3 k_B m_e)) / (m_p + m_e)²
     pref = 4.0 * e_charge^6 / (3.0 * m_e * h * c) *
-           sqrt(2π / (3.0 * k_B * m_e)) / (m_p + m_e)^2
+           sqrt(2π / (3.0 * k_B * m_e)) / m_H^2
 
     x = h * ν / (k_B * T)
     stimulated = x < 500.0 ? (1.0 - exp(-x)) : 1.0
@@ -51,7 +51,7 @@ Haakonsen et al. (2012) Eq. 11 with f_ion = 1:
 σ_{T,t} = σ_T / (m_p + m_e)
 """
 function sigma_thomson()::Float64
-    return σ_T / (m_p + m_e)
+    return σ_T / m_H
 end
 
 """

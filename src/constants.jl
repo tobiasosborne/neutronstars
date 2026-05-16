@@ -34,6 +34,9 @@ const m_p = 1.67262192369e-24
 "Atomic mass unit [g]. CODATA 2018."
 const m_u = 1.66053906660e-24
 
+"Hydrogen atom mass [g]. m_H = m_p + m_e (fully ionised H per-nucleon mass)."
+const m_H = m_p + m_e
+
 "Elementary charge [esu = statcoulomb]. CODATA 2018."
 const e_charge = 4.80320451e-10
 
