@@ -16,6 +16,7 @@ using ..GauntFactor: GauntTable
 using ..RTAtmosphere: solve_atmosphere, AtmosphereResult
 using ..MagneticAtmosphere: solve_magnetic_atmosphere, MagneticAtmosphereResult
 using ..BlackbodyAtmosphere: planck_Bnu
+using ..FeautrierSolver: gauss_legendre_half
 
 export AtmosphereSpectrumGrid, build_atmosphere_grid, lookup_spectrum
 
@@ -164,13 +165,24 @@ end
 
 # --- Internal helpers ---
 
-"""Compute F/σT⁴ from emergent intensity."""
+"""
+Compute F/σT⁴ from emergent specific intensity.
+
+The hemispheric bolometric flux is
+    F = ∫₀^∞ dν · 2π ∫₀¹ I_ν(μ) μ dμ
+which we evaluate with the same Gauss-Legendre quadrature used by the
+Feautrier solver. `gauss_legendre_half(M)` returns nodes/weights on the
+upward hemisphere μ ∈ [0,1] (so the 2π · ∫₀¹ already covers the half-sphere
+of emergent rays; no extra factor of 2 is needed). Frequency integration is
+a simple trapezoid-style left-Riemann sum on the existing ν_grid.
+"""
 function _flux_ratio(I_em, μ, ν_grid, T_eff)
+    _, w = gauss_legendre_half(length(μ))
     F = 0.0
     for k in 1:length(ν_grid)-1
         dν = ν_grid[k+1] - ν_grid[k]
         for j in 1:length(μ)
-            F += 2π * μ[j] * I_em[k, j] * (μ[j] > 0 ? 2.0 : 0.0) * dν  # approximate weight
+            F += 2π * μ[j] * w[j] * I_em[k, j] * dν
         end
     end
     return F / (σ_SB * T_eff^4)
