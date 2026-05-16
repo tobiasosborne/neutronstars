@@ -70,6 +70,86 @@ end
     @test β_low ≈ -2022.0197070158636 rtol=1e-10
 end
 
+@testset "Vacuum resonance density and P_jump (vAL2006 Eq. 2-4 / SPW09 Eq. 16-17)" begin
+    # Test parameters: B = 10^14 G, θ_B = π/4, photon at proton cyclotron
+    # E_Bp ≈ 0.635 keV (SPW09 Eq. 12 with Z = A = 1, B_14 = 1).
+    B = 1.0e14
+    θ_B = π / 4
+    keV = NS.PhysicalConstants.keV
+    ħ = NS.PhysicalConstants.ħ
+
+    # --- ρ_V: vAL2006 Eq. 2: ρ_V = 0.96 Y_e⁻¹ E_1² B_14² f_B⁻² ---
+    E_keV = 0.635          # proton cyclotron energy at B_14 = 1
+    ω = E_keV * keV / ħ
+    ρ_V = NS.DielectricTensor.vacuum_resonance_density(ω, B, θ_B)
+    # Hand-compute: 0.96 × 1 × 0.635² × 1² × 1 ≈ 0.387 g/cm³.
+    @test ρ_V > 0
+    @test isfinite(ρ_V)
+    @test ρ_V ≈ 0.96 * 0.635^2 rtol=1e-12
+
+    # Scale: at E = 1 keV, B_14 = 1, ρ_V = 0.96 g/cm³.
+    ω1 = 1.0 * keV / ħ
+    @test NS.DielectricTensor.vacuum_resonance_density(ω1, 1.0e14, θ_B) ≈ 0.96 rtol=1e-12
+
+    # Scaling: ρ_V ∝ E² B²
+    ω2 = 2.0 * keV / ħ
+    @test NS.DielectricTensor.vacuum_resonance_density(ω2, 1.0e14, θ_B) ≈
+          4.0 * NS.DielectricTensor.vacuum_resonance_density(ω1, 1.0e14, θ_B) rtol=1e-12
+    @test NS.DielectricTensor.vacuum_resonance_density(ω1, 2.0e14, θ_B) ≈
+          4.0 * NS.DielectricTensor.vacuum_resonance_density(ω1, 1.0e14, θ_B) rtol=1e-12
+
+    # θ_B independence of ρ_V (vAL2006 Eq. 2 has no angle).
+    for θ in (0.1, π/4, π/3, 1.4)
+        @test NS.DielectricTensor.vacuum_resonance_density(ω1, B, θ) ≈ 0.96 rtol=1e-12
+    end
+
+    # --- P_jump: vAL2006 Eq. 3-4 / SPW09 Eq. 16-17 ---
+    T = 1.0e6
+    # H_ρ = 1 / dρ/dy; vAL2006 (Eq. 3) uses H_ρ ≡ |ds/d ln ρ|.
+
+    # Adiabatic limit: very long scale length (small dρ/dy) ⇒ E_ad → 0 ⇒ P_jump → 0.
+    P_adiabatic = NS.DielectricTensor.vacuum_resonance_pjump(ω, B, θ_B, T, 1e-30)
+    @test 0.0 <= P_adiabatic < 1e-10
+
+    # Non-adiabatic limit: very short scale length (huge dρ/dy) ⇒ E_ad → ∞ ⇒ P_jump → 1.
+    P_sudden = NS.DielectricTensor.vacuum_resonance_pjump(ω, B, θ_B, T, 1.0e30)
+    @test P_sudden ≈ 1.0 rtol=1e-10
+
+    # Range: 0 ≤ P_jump ≤ 1 across a sweep of intermediate gradients.
+    for dρ_dy in (1e-15, 1e-10, 1e-5, 1.0, 1e5)
+        P = NS.DielectricTensor.vacuum_resonance_pjump(ω, B, θ_B, T, dρ_dy)
+        @test 0.0 <= P <= 1.0
+        @test isfinite(P)
+    end
+
+    # Hand-computed asymptotic point: at E = 1 keV, B = 10^14 G, θ_B = π/4,
+    # H_ρ = 1 cm (i.e. dρ/dy = 1 cm⁻¹). Then E_Bi = 0.63 keV,
+    # |1 - (0.63)²| = 0.6031; tan(π/4) = 1; f_B = 1.
+    # E_ad = 2.52 · (1 · 1 · 0.6031)^(2/3) · 1^(1/3) keV
+    #      = 2.52 · 0.7126 keV
+    #      ≈ 1.7958 keV
+    # exponent = -π/2 · (1.0 / 1.7958)³ = -π/2 · 0.17265 = -0.2712
+    # P_jump = exp(-0.2712) ≈ 0.7626
+    ω_1keV = 1.0 * keV / ħ
+    P_test = NS.DielectricTensor.vacuum_resonance_pjump(ω_1keV, B, θ_B, T, 1.0)
+    cyc = abs(1.0 - 0.63^2)
+    E_ad_hand = 2.52 * (cyc)^(2/3) * 1.0^(1/3)
+    P_hand = exp(-0.5 * π * (1.0 / E_ad_hand)^3)
+    @test P_test ≈ P_hand rtol=1e-10
+
+    # θ_B → 0 limit (along B): tan θ_B → 0 ⇒ E_ad → 0 ⇒ P_jump → 0.
+    P_along = NS.DielectricTensor.vacuum_resonance_pjump(ω, B, 0.0, T, 1.0)
+    @test P_along == 0.0
+
+    # θ_B → π/2 limit: cos θ_B → 0 ⇒ tan θ_B → ∞; treated as P_jump → 1.
+    P_perp = NS.DielectricTensor.vacuum_resonance_pjump(ω, B, π/2, T, 1.0)
+    @test P_perp == 1.0
+
+    # Negative / non-physical gradient ⇒ 0 (no resonance crossing).
+    @test NS.DielectricTensor.vacuum_resonance_pjump(ω, B, θ_B, T, -1.0) == 0.0
+    @test NS.DielectricTensor.vacuum_resonance_pjump(ω, B, θ_B, T, 0.0)  == 0.0
+end
+
 @testset "Magnetic initial column reaches diffusion depth" begin
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     ν_grid = make_frequency_grid(1.0e6, 12)

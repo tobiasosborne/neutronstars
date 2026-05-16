@@ -15,12 +15,13 @@ Source: Ginzburg (1970) §10, Potekhin & Chabrier (2003) ApJ 585, 955,
 
 module DielectricTensor
 
-using ..PhysicalConstants: e_charge, m_e, m_p, c, ħ, α_fine, B_Q
+using ..PhysicalConstants: e_charge, m_e, m_p, c, ħ, α_fine, B_Q, keV
 
 export stix_parameters, vacuum_coefficients
 export cold_polarization_parameter, vacuum_polarization_parameter
 export vacuum_mode_parameters
 export polarization_weights_cold, polarization_weights_vacuum, polarization_weights_full
+export vacuum_resonance_density, vacuum_resonance_pjump
 
 """
     stix_parameters(ω, B, n_e) → (S, D, P)
@@ -385,6 +386,142 @@ function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
     end
 
     return (wm1, w0, wp1)
+end
+
+# ---------------------------------------------------------------------------
+# Vacuum-resonance mode conversion (P_jump)
+#
+# Source: van Adelsberg & Lai (2006) MNRAS 373, 1495 — Eqs. (2), (3), (4).
+#         Suleimanov, Potekhin & Werner (2009) A&A 500, 891 — Eqs. (13), (16),
+#         (17) (which reproduce the vAL2006 formulae verbatim, with the angle
+#         labelled θ_kB ≡ θ_B in our codebase).
+# ---------------------------------------------------------------------------
+
+"""
+    vacuum_resonance_density(ω, B, θ_B; Y_e=1.0, f_B=1.0) → ρ_V [g/cm³]
+
+Density at which the plasma and vacuum contributions to the dielectric
+tensor cancel, i.e. the vacuum-resonance crossing point.
+
+This is van Adelsberg & Lai (2006) Eq. (2):
+
+```
+ρ_V = 0.96 · Y_e⁻¹ · E_1² · B_14² · f_B⁻²   [g cm⁻³]
+```
+
+where `E_1 = E/(1 keV)`, `B_14 = B/(10¹⁴ G)`, and `f_B ≈ 1` is a slowly
+varying function of `B` (vAL2006 references Lai & Ho 2003 Eq. 2.41 for the
+exact expression). We take `f_B = 1` by default, an approximation that is
+accurate to ≲ 10% across `B = 10¹² – 10¹⁵ G` and dominates none of the
+subsequent P_jump physics. SPW09 Eq. (13) uses the same expression
+through their `E_V(ρ)` relation.
+
+The resonance density does **not** depend on `θ_B`; `θ_B` is accepted in
+the signature for symmetry with `vacuum_resonance_pjump`.
+
+Inputs are CGS: `ω` [rad s⁻¹], `B` [G]. Returns `ρ_V` [g/cm³] ≥ 0.
+"""
+function vacuum_resonance_density(ω::Float64, B::Float64, θ_B::Float64;
+                                  Y_e::Float64=1.0, f_B::Float64=1.0)::Float64
+    @assert ω > 0 "ω must be positive, got $ω"
+    @assert B >= 0 "B must be non-negative, got $B"
+    @assert Y_e > 0 "Y_e must be positive, got $Y_e"
+    @assert f_B > 0 "f_B must be positive, got $f_B"
+
+    E_keV = ħ * ω / keV       # photon energy in keV
+    B_14 = B / 1.0e14
+    ρ_V = 0.96 / Y_e * E_keV^2 * B_14^2 / f_B^2
+    @assert isfinite(ρ_V) "vacuum_resonance_density returned non-finite for ω=$ω B=$B"
+    return ρ_V
+end
+
+"""
+    vacuum_resonance_pjump(ω, B, θ_B, T, dρ_dy; Z=1.0, A=1.0, f_B=1.0) → P_jump ∈ [0, 1]
+
+Probability that a photon undergoes mode conversion (X ↔ O) when it
+crosses the vacuum resonance at density `ρ_V`. The plane-parallel
+column-depth gradient is supplied as `dρ_dy` [(g cm⁻³)/(g cm⁻²)] = [cm⁻¹]
+at the resonance layer; the density scale length along the ray (normal
+incidence, `cos θ_e = 1` for the column build) is then `H_ρ = 1/|dρ/dy|`
+in cm (because `dz = dy/ρ` and `ρ d ln ρ/dz = dρ/dz = ρ · dρ/dy`, so
+`H_ρ ≡ |d ln ρ/dz|⁻¹ = 1/|dρ/dy|`).
+
+This is van Adelsberg & Lai (2006) Eqs. (3)-(4):
+
+```
+E_ad   = 2.52 · [ f_B · tan θ_kB · |1 - (E_Bi/E)²| ]^(2/3) · (1 cm / H_ρ)^(1/3)   [keV]
+P_jump = exp[ -π/2 · (E / E_ad)³ ]
+```
+
+with the ion-cyclotron energy `E_Bi = 0.63 · (Z/A) · B_14` keV. SPW09 use
+the same formulae (Eqs. 16-17). `Z = A = 1` for fully ionised hydrogen.
+
+Limits:
+  * `dρ_dy → 0` (very gentle gradient) ⇒ `H_ρ → ∞` ⇒ `E_ad → 0` ⇒
+    `P_jump → 0` (fully adiabatic, modes preserved).
+  * `dρ_dy → ∞` (discontinuous jump)   ⇒ `H_ρ → 0` ⇒ `E_ad → ∞` ⇒
+    `P_jump → 1` (fully non-adiabatic, modes swap).
+  * `θ_B → 0` ⇒ `tan θ_B → 0` ⇒ `E_ad → 0` ⇒ `P_jump → 0` (only photons
+    propagating exactly along B see no mode mixing).
+
+Returns 0 for non-physical inputs (`dρ_dy ≤ 0`, NaN gradient, `θ_B = 0`
+or `π`) — caller treats this as "no resonance crossing in this layer".
+"""
+function vacuum_resonance_pjump(ω::Float64, B::Float64, θ_B::Float64,
+                                T::Float64, dρ_dy::Float64;
+                                Z::Float64=1.0, A::Float64=1.0,
+                                f_B::Float64=1.0)::Float64
+    @assert ω > 0 "ω must be positive, got $ω"
+    @assert B >= 0 "B must be non-negative, got $B"
+    @assert T > 0 "T must be positive, got $T"
+    @assert isfinite(dρ_dy) "dρ_dy must be finite, got $dρ_dy"
+
+    # Degenerate angle: tan θ_kB = 0 (along-B) or undefined at π/2; modes
+    # don't mix at exactly θ_B = 0 (vAL2006 Eq. 3 prefactor vanishes).
+    if abs(sin(θ_B)) < 1e-12 || abs(cos(θ_B)) < 1e-12
+        return abs(cos(θ_B)) < 1e-12 ? 1.0 : 0.0
+        # cos θ_B = 0 (strictly transverse): tan θ_B → ∞ ⇒ E_ad → ∞ ⇒ P_jump → 1.
+        # sin θ_B = 0 (along B):              tan θ_B = 0 ⇒ E_ad → 0   ⇒ P_jump → 0.
+    end
+
+    # No physical resonance crossing in this layer (caller upstream should
+    # have already screened on y_V being inside the grid; this is defence
+    # in depth).
+    if !(dρ_dy > 0) || !isfinite(dρ_dy)
+        return 0.0
+    end
+
+    H_ρ = 1.0 / dρ_dy           # cm; derivation in the docstring.
+    @assert H_ρ > 0 && isfinite(H_ρ) "H_ρ must be positive finite, got $H_ρ"
+
+    E_keV = ħ * ω / keV
+    B_14 = B / 1.0e14
+    E_Bi = 0.63 * (Z / A) * B_14          # ion cyclotron energy, keV
+    cyc_factor = abs(1.0 - (E_Bi / E_keV)^2)
+
+    tanθ = tan(θ_B)
+    # vAL2006 Eq. 3: argument of (·)^(2/3) is always ≥ 0; floor at 0 in
+    # case of round-off at the cyclotron itself (E = E_Bi exactly).
+    arg = f_B * abs(tanθ) * cyc_factor
+    if arg <= 0
+        # E_ad → 0 ⇒ (E/E_ad)³ → ∞ ⇒ P_jump → 0 (perfectly adiabatic).
+        return 0.0
+    end
+
+    E_ad = 2.52 * arg^(2.0/3.0) * (1.0 / H_ρ)^(1.0/3.0)   # keV
+    @assert isfinite(E_ad) && E_ad >= 0 "E_ad must be finite & non-negative, got $E_ad"
+
+    if E_ad <= 0
+        return 0.0
+    end
+
+    # vAL2006 Eq. 4 / SPW09 Eq. 17.
+    exponent = -0.5 * π * (E_keV / E_ad)^3
+    P = exp(exponent)
+    # exp() can underflow to 0 cleanly; clamp tiny round-off above 1.
+    P = clamp(P, 0.0, 1.0)
+    @assert isfinite(P) "P_jump returned non-finite, got $P (E_ad=$E_ad)"
+    return P
 end
 
 end # module
