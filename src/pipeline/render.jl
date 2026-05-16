@@ -309,8 +309,13 @@ function render_spectral_cube(params::NSParams,
         # Emission angle: cos θ_e from ray tracer
         cos_θe = ray.cos_α
 
-        # Look up atmosphere spectrum at emission frequencies
-        I_em = lookup_spectrum(atm_grid, T_local, B_local, ν_grid_em, cos_θe)
+        # Look up atmosphere spectrum at emission frequencies.
+        # IMPORTANT (post-D1): θ_B is the angle between B and the surface
+        # normal at the hit point and is the dominant variable for the
+        # X/O-mode opacity ratio. Pre-D1 this was hardcoded to 0 inside
+        # lookup_spectrum, silently using pole-on opacities for every pixel.
+        I_em = lookup_spectrum(atm_grid, T_local, B_local, θ_B,
+                                ν_grid_em, cos_θe)
 
         # Relativistic transform: I_ν^obs = I_ν'(ν') / (1+z)³
         for k in 1:nν
