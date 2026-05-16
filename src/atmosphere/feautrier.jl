@@ -295,21 +295,23 @@ end
 
 """Log-linear interpolation: log-space in x, linear in y."""
 function _log_interp(x_old::AbstractVector{Float64}, y_old::AbstractVector{Float64},
-                      x_new::AbstractVector{Float64})
+                      x_new::AbstractVector{Float64};
+                      min_x::Float64 = eps(Float64))
+    @assert all(x -> x >= 0, x_old) "_log_interp requires non-negative x_old"
     n_old = length(x_old)
     n_new = length(x_new)
     y_new = zeros(n_new)
-    logx_old = log10.(max.(x_old, 1e-30))
+    logx_old = log10.(max.(x_old, min_x))
 
     for i in 1:n_new
-        logx = log10(max(x_new[i], 1e-30))
+        logx = log10(max(x_new[i], min_x))
         # Find bracketing index
         j = searchsortedlast(logx_old, logx)
         j = clamp(j, 1, n_old - 1)
         if j >= n_old
             y_new[i] = y_old[end]
         else
-            f = (logx - logx_old[j]) / max(logx_old[j+1] - logx_old[j], 1e-30)
+            f = (logx - logx_old[j]) / max(logx_old[j+1] - logx_old[j], min_x)
             f = clamp(f, 0.0, 1.0)
             y_new[i] = (1-f) * y_old[j] + f * y_old[j+1]
         end
