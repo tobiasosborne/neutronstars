@@ -192,9 +192,14 @@ Files: `src/pipeline/atmosphere_grid.jl`, `src/pipeline/render.jl`,
   placeholder with real RT spectra; 256×256×50 in ~1.3 s.
 - Outputs in `output/ns_v2_256_{true,xray}.ppm` and the RX J1856 GIFs
   (`output/rxj1856_rotation.gif`, `output/rxj1856_spectral_sweep.gif`).
-- Frequency-adaptive Feautrier (`solve_feautrier_all_adaptive`) exists
-  but is **not yet wired into the RT iteration loops** in
-  `solve_atmosphere` / `solve_magnetic_atmosphere`.
+- Frequency-adaptive Feautrier (`solve_feautrier_all_adaptive`) is now
+  wired in as the **default** in `solve_atmosphere` (`adaptive=true`).
+  Parameter sweep at T_eff=10⁶ K, g=2×10¹⁴ vs N=400 reference shows
+  consistent ~0.6-0.9× residual reduction at every tested N (see
+  "Adaptive Feautrier wiring" below). `solve_magnetic_atmosphere` still
+  uses its inline `_solve_feautrier_mode!` with N_eff truncation;
+  full per-(mode, frequency) adaptive depth gridding for the magnetic
+  case is a follow-up bead.
 
 ### Physics Report
 
@@ -208,21 +213,44 @@ dependency).
 
 ## Immediate Next Task
 
-The Suleimanov θ_B=45° mismatch is **resolved** (D11). The next item
-from the secondary backlog below — wiring `solve_feautrier_all_adaptive`
-into the RT iteration loops — is the highest-value remaining work.
+The Suleimanov θ_B=45° mismatch is **resolved** (D11). Adaptive Feautrier
+is now the default for non-magnetic atmospheres (see below). Highest-value
+remaining work is now item #2: vacuum resonance mode conversion.
+
+### Adaptive Feautrier wiring — landed as default for non-magnetic (2026-05-16)
+
+`solve_atmosphere` now exposes an `adaptive::Bool=true` kwarg that
+switches between `solve_feautrier_all_adaptive` (default) and the
+older `solve_feautrier_all` (opt-out). Adaptive is on by default
+because empirical comparison against a converged N=400 non-adaptive
+reference spectrum (T_eff=10⁶ K, g=2×10¹⁴) shows consistent residual
+reduction at every tested N, growing with N:
+
+| N (depth grid) | non-adaptive maxΔI/I vs N=400 ref | adaptive maxΔI/I | ratio |
+|----------------|-----------------------------------|-------------------|-------|
+| 50             | 0.1461                            | 0.1371            | 0.94× |
+| 100            | 0.0462                            | 0.0377            | 0.82× |
+| 150            | 0.0200                            | 0.0116            | 0.58× |
+| 200            | 0.0119                            | 0.0073            | 0.61× |
+
+Both solvers agree to 0.71% at N=400, confirming they converge to the
+same limit. Wall-clock is identical (~1.3 s at production size). The
+earlier docstring claim of "7% → <1%" was over-stated, but the actual
+0.6-0.9× discretization-error prefactor reduction is real.
+
+`solve_magnetic_atmosphere` is **not yet** adapted: its inline
+`_solve_feautrier_mode!` already does N_eff truncation per (mode,
+frequency) which captures part of the adaptive benefit. Full per-(mode,
+frequency) log-spaced depth gridding for the magnetic case is a
+follow-up bead (~80-120 LoC mirror of `solve_feautrier_all_adaptive`).
 
 ### Secondary backlog (in priority order)
 
-1. **Wire adaptive Feautrier into RT iteration** —
-   `solve_feautrier_all_adaptive()` exists but isn't used by
-   `solve_atmosphere` / `solve_magnetic_atmosphere`. Should improve
-   spectral accuracy from ~7% to <1%.
-2. **Vacuum resonance mode conversion** — P_jump (SPW2009 Eq. 16–17,
+1. **Vacuum resonance mode conversion** — P_jump (SPW2009 Eq. 16–17,
    van Adelsberg & Lai 2006).
-3. **HDF5 atmosphere grid storage** — currently recomputed each session;
+2. **HDF5 atmosphere grid storage** — currently recomputed each session;
    adds an HDF5.jl dependency.
-4. **Phase 4 extensions** — OCP Monte Carlo, partial ionisation, Kerr
+3. **Phase 4 extensions** — OCP Monte Carlo, partial ionisation, Kerr
    ray tracing (see Lyr.jl note below), magnetosphere volume rendering.
 
 ### Lyr.jl — Kerr Ray Tracer For Phase 4

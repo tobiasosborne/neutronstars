@@ -242,9 +242,14 @@ end
         1.0e6, 2.0e14, 0.0, 0.0, gaunt;
         nν=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
     )
+    # Apples-to-apples: solve_atmosphere defaults to adaptive=true, but the
+    # magnetic solver's inline _solve_feautrier_mode! does not yet have an
+    # adaptive variant. To compare kernel/algorithm equivalence at B=0,
+    # explicitly force adaptive=false here so both solvers run the same
+    # global-y-grid Feautrier path.
     r_nonmag = solve_atmosphere(
         1.0e6, 2.0e14, gaunt;
-        nν=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
+        nν=16, M=4, N=50, max_iter=60, tol=5.0e-4, adaptive=false, verbose=false
     )
 
     # Sum modes for magnetic: unpolarized intensity = mode 1 + mode 2

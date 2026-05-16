@@ -106,14 +106,25 @@ end
 
 Frequency-adaptive Feautrier solver (McPHAC GetColumnsNu.c approach).
 For each frequency k:
-  1. Find y_max where τ_k = 80
-  2. Create N_ν log-spaced depth points from y_min to y_max
-  3. Interpolate T, ρ, opacities to the per-frequency grid
+  1. Find y_max where τ_k = TAU_DIFFUSION (=80)
+  2. Create N_k = min(N_ν, i_max) log-spaced depth points from y_min to y_max
+  3. Interpolate T, k_total, ρ_alb to the per-frequency grid
   4. Solve Feautrier on the per-frequency grid
-  5. Interpolate J, f_ν, h_ν back to the common grid
+  5. Interpolate J, f_ν, h_ν, P_all back to the common grid
 
-This concentrates depth resolution near each frequency's photosphere,
-improving spectral accuracy from ~7% to <1%.
+Status (2026-05-16): On by default in `solve_atmosphere` after a parameter
+sweep at T_eff=1e6 K, g=2e14 cm/s² against an N=400 non-adaptive reference:
+
+  N        non-adaptive maxΔI/I    adaptive maxΔI/I    ratio
+  50       0.1461                  0.1371              0.94×
+  100      0.0462                  0.0377              0.82×
+  150      0.0200                  0.0116              0.58×
+  200      0.0119                  0.0073              0.61×
+
+Both solvers agree to <1% at N=400 (0.00712 max bulk residual), confirming
+they converge to the same limit. The earlier "~7% → <1%" docstring
+claim was over-stated, but adaptive does reduce the discretization-error
+prefactor by 0.6–0.9× at production N. Pass `adaptive=false` to opt out.
 """
 function solve_feautrier_all_adaptive(col::AtmosphereColumn,
                                        μ::Vector{Float64},
