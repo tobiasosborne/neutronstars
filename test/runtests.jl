@@ -335,7 +335,7 @@ end
     # the red channel saturates first under reasonable exposure. The exact
     # chromaticity assertion is left as a TODO until the tone-map calibration
     # is documented; see VERIFICATION_LOG.md:49-53 and reviews/02_tests.md:122.
-    cmfs = load_cie_cmfs("refs/cvrl_cie1931_2deg.csv")
+    cmfs = load_cie_cmfs(joinpath(dirname(pathof(NeutronStar)), "data", "cvrl_cie1931_2deg.csv"))
     ν_grid = collect(range(1.0e14, 2.0e15; length=400))
     I_ν = [planck_Bnu(ν, 5778.0) for ν in ν_grid]
     _, Y_solar, _ = spectrum_to_XYZ(ν_grid, I_ν, cmfs)

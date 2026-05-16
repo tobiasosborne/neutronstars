@@ -120,7 +120,7 @@ function render_neutron_star(params::NSParams, N::Int;
 
     # Step 4: Render true-colour image
     verbose && println("  Computing true-colour rendering...")
-    cmfs_path = joinpath(dirname(dirname(@__DIR__)), "refs", "cvrl_cie1931_2deg.csv")
+    cmfs_path = joinpath(@__DIR__, "..", "data", "cvrl_cie1931_2deg.csv")
     cmfs = load_cie_cmfs(cmfs_path)
 
     # Compute average luminance for tone mapping
@@ -374,7 +374,7 @@ function render_cube_rgb(cube::SpectralImageCube;
     ν_grid = cube.ν_grid
 
     if cmfs_path == ""
-        cmfs_path = joinpath(dirname(dirname(@__DIR__)), "refs", "cvrl_cie1931_2deg.csv")
+        cmfs_path = joinpath(@__DIR__, "..", "data", "cvrl_cie1931_2deg.csv")
     end
     cmfs = load_cie_cmfs(cmfs_path)
 

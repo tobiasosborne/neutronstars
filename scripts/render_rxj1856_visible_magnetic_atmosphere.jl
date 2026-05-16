@@ -63,7 +63,7 @@ function render_rxj1856_visible_magnetic(; image_n::Int=256)
     image = trace_image(M, R, 0.0, image_n)
     lambda_nm = range(830.0, 360.0, length=180)
     ν_grid = [c / (lambda * 1e-7) for lambda in lambda_nm]
-    cmfs = load_cie_cmfs("refs/cvrl_cie1931_2deg.csv")
+    cmfs = load_cie_cmfs(joinpath(dirname(pathof(NeutronStar)), "data", "cvrl_cie1931_2deg.csv"))
 
     spectra = Array{Vector{Float64}}(undef, image_n, image_n)
     Y_values = Float64[]

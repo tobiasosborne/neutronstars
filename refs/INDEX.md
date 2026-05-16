@@ -45,7 +45,7 @@ All files checksummed in `CHECKSUMS` (SHA-256).
 
 | File | Source | Used for |
 |------|--------|----------|
-| `cvrl_cie1931_2deg.csv` | CVRL (cvrl.ioo.ucl.ac.uk) | CIE 1931 2° observer colour matching functions x̄(λ), ȳ(λ), z̄(λ) |
+| `cvrl_cie1931_2deg.csv` | CVRL (cvrl.ioo.ucl.ac.uk) | CIE 1931 2° observer colour matching functions x̄(λ), ȳ(λ), z̄(λ). **Vendored** at `src/data/cvrl_cie1931_2deg.csv` so it ships with the package (E13). |
 
 ## Code repositories
 

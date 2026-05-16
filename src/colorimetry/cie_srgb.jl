@@ -2,7 +2,7 @@
 Colorimetry: CIE 1931 → XYZ → sRGB → tone mapping.
 
 Sources:
-- CIE 1931 2° observer: CVRL data (cvrl.ioo.ucl.ac.uk). Local: refs/cvrl_cie1931_2deg.csv
+- CIE 1931 2° observer: CVRL data (cvrl.ioo.ucl.ac.uk), per CIE 015:2004. Vendored at src/data/cvrl_cie1931_2deg.csv
 - XYZ → sRGB matrix: IEC 61966-2-1:1999 (exact values)
 - sRGB gamma: IEC 61966-2-1:1999
 - Tone mapping: Reinhard et al. SIGGRAPH 2002. Local: refs/reinhard_2002_tonemapping.pdf

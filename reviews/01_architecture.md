@@ -114,6 +114,7 @@ Date: 2026-05-16, commit `95c76b3`.
 - **Why it matters:** Distribution friction; Phase 4 says "extract Lyr.jl as nested module" — package-relative file lookup is at exactly the wrong layer.
 - **Severity:** low–medium.
 - **Suggested fix:** Use Julia `Artifacts` for the CMF data; use `PhysicalConstants.pc` instead of literal.
+- **Status (E13, 2026-05-16):** CMF half resolved — file vendored under `src/data/cvrl_cie1931_2deg.csv` and both load sites switched to `joinpath(@__DIR__, "..", "data", ...)`. Decided against `Artifacts.toml` for a 23 KB CSV: hosting + `LazyArtifacts` overhead is disproportionate, and `src/` content ships automatically with the package. The `3.0856e18` literal is still outstanding.
 
 ### 15. `_flux_ratio` diagnostic in `AtmosphereGrid` is numerically wrong
 - **Where:** `src/pipeline/atmosphere_grid.jl:168-177`.

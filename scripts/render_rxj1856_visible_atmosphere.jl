@@ -67,7 +67,7 @@ function render_rxj1856_visible(; image_n::Int=256,
 
     spectra = Array{Vector{Float64}}(undef, image_n, image_n)
     Y_values = Float64[]
-    cmfs = load_cie_cmfs("refs/cvrl_cie1931_2deg.csv")
+    cmfs = load_cie_cmfs(joinpath(dirname(pathof(NeutronStar)), "data", "cvrl_cie1931_2deg.csv"))
 
     for j in 1:image_n, i in 1:image_n
         ray = image.rays[i, j]
