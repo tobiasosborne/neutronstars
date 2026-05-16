@@ -15,6 +15,8 @@ using ..HydrogenOpacity: kappa_ff, sigma_thomson, total_opacity,
                           rosseland_mean, dBnu_dT
 using ..GauntFactor: GauntTable
 using ..BlackbodyAtmosphere: planck_Bnu
+using ..SolverDefaults: TAU_DIFFUSION, Y_MAX_SEMIINFINITE,
+                         T_SURFACE_FRAC_MCPHAC
 
 export AtmosphereColumn, build_atmosphere, update_atmosphere!
 export make_frequency_grid
@@ -129,11 +131,11 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
     # Rosseland mean at each depth
     k_R = [rosseland_mean(T[i], ρ[i], ν_grid, gaunt) for i in 1:N]
 
-    # Check if τ_max ≥ 80 at highest frequency; extend if needed
+    # Check if τ_max ≥ TAU_DIFFUSION at highest frequency; extend if needed
     τ_max_hf = τ[end, K]
-    if τ_max_hf < 80.0 && y_max < 1e5
-        y_max_new = y_max * (80.0 / max(τ_max_hf, 1.0))^1.2
-        y_max_new = min(y_max_new, 1e5)
+    if τ_max_hf < TAU_DIFFUSION && y_max < Y_MAX_SEMIINFINITE
+        y_max_new = y_max * (TAU_DIFFUSION / max(τ_max_hf, 1.0))^1.2
+        y_max_new = min(y_max_new, Y_MAX_SEMIINFINITE)
         return build_atmosphere(T_eff, g_s, ν_grid, gaunt;
                                 N=N, y_min=y_min, y_max=y_max_new)
     end
@@ -188,7 +190,7 @@ function _eddington_temperature(y::Vector{Float64}, T_eff::Float64,
     T = zeros(N)
 
     # Surface boundary
-    T[1] = 0.265 * T_eff
+    T[1] = T_SURFACE_FRAC_MCPHAC * T_eff
 
     # Estimate initial k_R at surface
     ρ_surf = m_p * g_s * y[1] / (2.0 * k_B * T[1])

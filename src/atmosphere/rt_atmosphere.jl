@@ -24,6 +24,7 @@ using ..FeautrierSolver: solve_feautrier_all, gauss_legendre_half
 using ..TemperatureCorrection: compute_temperature_correction
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, total_opacity
+using ..SolverDefaults: DELTA_T_OVER_T_CAP
 
 export solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
 
@@ -97,10 +98,10 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
 
         # Dampen large corrections to aid convergence
         max_dT = maximum(abs.(ΔT ./ col.T))
-        if max_dT > 0.3
-            damp = 0.3 / max_dT
+        if max_dT > DELTA_T_OVER_T_CAP
+            damp = DELTA_T_OVER_T_CAP / max_dT
             ΔT .*= damp
-            max_dT = 0.3
+            max_dT = DELTA_T_OVER_T_CAP
         end
 
         verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",

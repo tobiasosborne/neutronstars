@@ -21,6 +21,10 @@ using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
 using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, effective_opacity
 using ..FeautrierSolver: gauss_legendre_half
+using ..SolverDefaults: TAU_DIFFUSION, TAU_EFFECTIVE_MIN, T_SURFACE_FRAC_MCPHAC,
+                         Y_MAX_SEMIINFINITE, FLUX_DAMPING_DEFAULT,
+                         FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI,
+                         DELTA_T_OVER_T_CAP, OPACITY_FLOOR
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_spectrum
 
@@ -75,7 +79,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     max_iter::Int=30,
                                     tol::Float64=1e-4,
                                     flux_tol::Float64=1e-2,
-                                    flux_damping::Float64=0.5,
+                                    flux_damping::Float64=FLUX_DAMPING_DEFAULT,
                                     verbose::Bool=true)::MagneticAtmosphereResult
     @assert T_eff > 0 && g_s > 0 && B >= 0
     @assert 0 <= θ_B <= π
@@ -135,11 +139,12 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         # Ad-hoc grey-body flux scaling (NOT the Suleimanov-Potekhin-Werner 2009
         # Avrett-Krook correction, despite the name we've been using). Motivation:
         # T_eff ∝ F^{1/4}, so a global flux deficit suggests a uniform temperature
-        # bump. Heuristic — clamped to [0.9, 1.1] to keep iterations from
-        # overshooting; works for B<~10^13 G but may explain the unresolved θ_B=45°
-        # mismatch noted in notes/HANDOFF.md "Immediate Next Task". Implementing
-        # actual SPW09 §2 (depth-resolved Avrett-Krook from their Eq. 19-22 +
-        # Kurucz 1970 surface correction) is deferred — see notes/decisions.md D10.
+        # bump. Heuristic — clamped to [FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI]
+        # to keep iterations from overshooting; works for B<~10^13 G but may
+        # explain the unresolved θ_B=45° mismatch noted in notes/HANDOFF.md
+        # "Immediate Next Task". Implementing actual SPW09 §2 (depth-resolved
+        # Avrett-Krook from their Eq. 19-22 + Kurucz 1970 surface correction)
+        # is deferred — see notes/decisions.md D10.
         F_bol = _bolometric_flux_2mode(P_all, μ, w, ν_grid)
         flux_ratio = F_bol / (σ_SB * T_eff^4)
         if B > 0 && isfinite(flux_ratio) && flux_ratio > 0
@@ -149,14 +154,14 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                 @warn "magnetic atmosphere flux correction clamped" iter raw_flux_scale flux_ratio raw_scale flux_damping
                 flux_clamp_warned = true
             end
-            flux_scale = clamp(raw_scale, 0.9, 1.1)
+            flux_scale = clamp(raw_scale, FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI)
             ΔT .+= (flux_scale - 1.0) .* T
         end
 
         max_dT = maximum(abs.(ΔT ./ T))
-        if max_dT > 0.3
-            ΔT .*= 0.3 / max_dT
-            max_dT = 0.3
+        if max_dT > DELTA_T_OVER_T_CAP
+            ΔT .*= DELTA_T_OVER_T_CAP / max_dT
+            max_dT = DELTA_T_OVER_T_CAP
         end
 
         verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",
@@ -340,7 +345,7 @@ Gaunt table either). Bead D10.
 """
 function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
     y_max = 1e2
-    max_y = 1e5  # Suleimanov+ 2009 semi-infinite atmosphere depth scale.
+    max_y = Y_MAX_SEMIINFINITE  # Suleimanov+ 2009 semi-infinite atmosphere depth scale.
 
     if B <= 0
         # Non-magnetic: defer to build_atmosphere (requires a Gaunt table).
@@ -353,9 +358,9 @@ function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
     end
 
     # B > 0 path. Grow the column until every mode/frequency reaches the
-    # diffusion-depth cutoff (Feautrier needs τ ≳ 80 at the bottom).
+    # diffusion-depth cutoff (Feautrier needs τ ≳ TAU_DIFFUSION at the bottom).
     # When a Gaunt table is available we reuse `build_atmosphere` (which has
-    # its own non-magnetic τ ≥ 80 auto-grow at the highest frequency); the
+    # its own non-magnetic τ ≥ TAU_DIFFUSION auto-grow at the highest frequency); the
     # resulting (y, P) seeds the magnetic τ-growth loop with a deeper column,
     # which empirically helps convergence. When `gaunt === nothing` (pure-
     # magnetic call) we construct (y, P) directly from log-spacing and
@@ -386,11 +391,11 @@ function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
                                      y_loc, T_mag, ρ_mag, ν_grid, B, θ_B, gaunt)
 
         τ_min = minimum(τ[end, :, :])
-        if τ_min >= 80.0 || y_loc[end] >= max_y
+        if τ_min >= TAU_DIFFUSION || y_loc[end] >= max_y
             return y_loc, T_mag, ρ_mag, P_loc
         end
 
-        scale = (80.0 / max(τ_min, 1.0))^1.2
+        scale = (TAU_DIFFUSION / max(τ_min, 1.0))^1.2
         y_max = min(max(y_loc[end] * max(scale, 1.5), y_loc[end] * 1.5), max_y)
     end
 end
@@ -399,12 +404,13 @@ end
 function _magnetic_eddington_temperature(y, T_eff, g_s, ν_grid, B, θ_B)
     N = length(y)
     T = zeros(N)
-    # Initial guess for the surface temperature. The 0.265 value is the
-    # McPHAC non-magnetic surface limit (H12 §3.1); justified as a starting
-    # point for the iteration, not as a magnetic-atmosphere boundary value.
-    # See notes/decisions.md D9 for the rationale (and why we don't yet use
-    # the grey-atmosphere limit (1/2)^{1/4} T_eff = 0.841 T_eff).
-    T[1] = 0.265 * T_eff
+    # Initial guess for the surface temperature. The T_SURFACE_FRAC_MCPHAC
+    # value (0.265) is the McPHAC non-magnetic surface limit (H12 §3.1);
+    # justified as a starting point for the iteration, not as a magnetic-
+    # atmosphere boundary value. See notes/decisions.md D9 for the rationale
+    # (and why we don't yet use the grey-atmosphere limit (1/2)^{1/4} T_eff
+    # = 0.841 T_eff).
+    T[1] = T_SURFACE_FRAC_MCPHAC * T_eff
 
     P1 = g_s * y[1]
     ρ1 = density_from_PT(P1, T[1])
@@ -462,9 +468,9 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
             # Magnetic: mode-dependent opacities
             for j in 1:2
                 κ_abs_raw, σ_scat_raw = mode_opacity_split(j, ν, θ_B, B, T[i], ρ[i])
-                κ_abs = max(κ_abs_raw, 1e-30)
+                κ_abs = max(κ_abs_raw, OPACITY_FLOOR)
                 σ_scat = max(σ_scat_raw, 0.0)
-                total = max(κ_abs + σ_scat, 1e-30)
+                total = max(κ_abs + σ_scat, OPACITY_FLOOR)
 
                 κ[i, k, j] = κ_abs
                 k_total[i, k, j] = total
@@ -547,7 +553,7 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
             k_tot_mid = max(0.5 * (k_tot_mode[i-1, k] + k_tot_mode[i, k]), 0.0)
             dy = y[i] - y[i-1]
             τ_eff_cum += sqrt(κ_abs_mid * k_tot_mid) * dy
-            if τ_cum > 80.0 && τ_eff_cum > 10.0
+            if τ_cum > TAU_DIFFUSION && τ_eff_cum > TAU_EFFECTIVE_MIN
                 N_eff = i
                 break
             end

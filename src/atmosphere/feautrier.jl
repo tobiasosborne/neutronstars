@@ -15,6 +15,7 @@ using LinearAlgebra
 using ..PhysicalConstants: k_B, h
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..AtmosphereStructure: AtmosphereColumn
+using ..SolverDefaults: TAU_DIFFUSION
 
 export solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
 
@@ -61,10 +62,10 @@ function solve_feautrier_all(col::AtmosphereColumn,
     h_ν = zeros(N, K)
 
     for k in 1:K
-        # Find depth range where τ < τ_max (80)
+        # Find depth range where τ < τ_max (TAU_DIFFUSION)
         N_eff = N
         for i in 2:N
-            if col.τ[i, k] > 80.0
+            if col.τ[i, k] > TAU_DIFFUSION
                 N_eff = i
                 break
             end
@@ -131,10 +132,10 @@ function solve_feautrier_all_adaptive(col::AtmosphereColumn,
     for k in 1:K
         ν = col.ν_grid[k]
 
-        # Find y_max where τ_k reaches 80
+        # Find y_max where τ_k reaches TAU_DIFFUSION
         i_max = N
         for i in 2:N
-            if col.τ[i, k] > 80.0
+            if col.τ[i, k] > TAU_DIFFUSION
                 i_max = i
                 break
             end

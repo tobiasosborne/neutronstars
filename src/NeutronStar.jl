@@ -105,6 +105,11 @@ using .BlackbodyAtmosphere
 include("opacity/magnetic_modes.jl")
 using .MagneticModes
 
+# Numerical thresholds and damping defaults shared across atmosphere solvers
+# (must precede atm_structure / feautrier / rt_atmosphere / magnetic_atmosphere)
+include("atmosphere/solver_defaults.jl")
+using .SolverDefaults
+
 include("atmosphere/atm_structure.jl")
 using .AtmosphereStructure
 
@@ -140,6 +145,10 @@ export MagneticFF, cyclotron_freq_e, cyclotron_freq_p
 export sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha, sigma_total_alpha
 export MagneticModes, rosseland_magnetic
 export mode_absorption, mode_scattering, mode_opacity, mode_opacity_split, effective_opacity
+export SolverDefaults
+export TAU_DIFFUSION, TAU_EFFECTIVE_MIN, T_SURFACE_FRAC_MCPHAC,
+       Y_MAX_SEMIINFINITE, FLUX_DAMPING_DEFAULT, FLUX_SCALE_CLAMP_LO,
+       FLUX_SCALE_CLAMP_HI, DELTA_T_OVER_T_CAP, OPACITY_FLOOR
 export AtmosphereStructure, AtmosphereColumn, build_atmosphere, update_atmosphere!
 export make_frequency_grid, density_from_PT
 export FeautrierSolver, solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
