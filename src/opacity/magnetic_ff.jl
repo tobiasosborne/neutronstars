@@ -181,7 +181,13 @@ Magnetic electron scattering cross-section. P&C 2003 Eq. (33).
 """
 function sigma_scat_alpha(α::Int, ω::Float64, B::Float64)::Float64
     if B < 1e6
-        return σ_T / 3.0  # each polarisation gets 1/3 of Thomson
+        # Non-magnetic Thomson: per-polarization cross section is sigma_T (P&C 2003
+        # Eq. 33, omega_ce -> 0 limit). With the normalized weight sum
+        # Sum_alpha |e_alpha|^2 = 1 used in _mode_cross_section_sum, returning
+        # sigma_T per polarization gives the correct mode opacity sigma_T. The
+        # previous sigma_T/3 was a holdover from an earlier convention summing
+        # 3 polarizations.
+        return σ_T
     end
 
     ω_ce = cyclotron_freq_e(B)
