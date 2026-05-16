@@ -22,18 +22,19 @@ Haakonsen et al. (2012) Eq. 12.
 
 κ_ν = (4e⁶/(3m_e hc)) √(2π/(3k_B m_e)) T^{-1/2} ρ/(m_p+m_e)²
       × ν^{-3} (1 - exp(-hν/(k_BT))) g̃_ff
+
+`::Real` accepted (not only `Float64`) so this kernel composes through
+ForwardDiff `Dual` numbers — see also the E6 magnetic-chain refactor.
 """
-function kappa_ff(ν::Float64, T::Float64, ρ::Float64,
-                  table::GauntTable)::Float64
+function kappa_ff(ν::Real, T::Real, ρ::Real, table::GauntTable)
     gff = gaunt_ff(ν, T, table)
 
-    # Prefactor (CGS constants)
-    # 4e⁶/(3 m_e h c) × √(2π/(3 k_B m_e)) / (m_p + m_e)²
+    # Prefactor (CGS constants) — pure Float64, no AD dependence
     pref = 4.0 * e_charge^6 / (3.0 * m_e * h * c) *
            sqrt(2π / (3.0 * k_B * m_e)) / m_H^2
 
     x = h * ν / (k_B * T)
-    stimulated = x < 500.0 ? (1.0 - exp(-x)) : 1.0
+    stimulated = x < 500.0 ? (1.0 - exp(-x)) : one(x)
 
     κ = pref * T^(-0.5) * ρ * ν^(-3) * stimulated * gff
 
@@ -57,8 +58,7 @@ end
 
 Total extinction opacity: k_ν = κ_ff + σ_thomson.
 """
-function total_opacity(ν::Float64, T::Float64, ρ::Float64,
-                       table::GauntTable)::Float64
+function total_opacity(ν::Real, T::Real, ρ::Real, table::GauntTable)
     return kappa_ff(ν, T, ρ, table) + sigma_thomson()
 end
 
@@ -67,8 +67,7 @@ end
 
 Scattering albedo: ρ_ν = σ / (κ + σ). Haakonsen Eq. 6.
 """
-function scattering_albedo(ν::Float64, T::Float64, ρ::Float64,
-                           table::GauntTable)::Float64
+function scattering_albedo(ν::Real, T::Real, ρ::Real, table::GauntTable)
     σ = sigma_thomson()
     k = kappa_ff(ν, T, ρ, table) + σ
     return σ / k
@@ -79,10 +78,10 @@ end
 
 Derivative of Planck function with respect to temperature.
 """
-function dBnu_dT(ν::Float64, T::Float64)::Float64
+function dBnu_dT(ν::Real, T::Real)
     x = h * ν / (k_B * T)
     if x > 500.0
-        return 0.0
+        return zero(x)
     end
     ex = exp(x)
     return 2h^2 * ν^4 / (c^2 * k_B * T^2) * ex / (ex - 1)^2
@@ -93,11 +92,13 @@ end
 
 Rosseland mean opacity: 1/k_R = ∫(1/k_ν)(dB_ν/dT)dν / ∫(dB_ν/dT)dν
 """
-function rosseland_mean(T::Float64, ρ::Float64,
-                        ν_grid::AbstractVector{Float64},
-                        table::GauntTable)::Float64
-    num = 0.0  # ∫ (1/k_ν) dB/dT dν
-    den = 0.0  # ∫ dB/dT dν
+function rosseland_mean(T::Real, ρ::Real,
+                        ν_grid::AbstractVector{<:Real},
+                        table::GauntTable)
+    # Promote so the accumulators carry the Dual-type if any input is Dual.
+    R = promote_type(typeof(T), typeof(ρ), eltype(ν_grid))
+    num = zero(R)  # ∫ (1/k_ν) dB/dT dν
+    den = zero(R)  # ∫ dB/dT dν
 
     for i in 1:length(ν_grid)-1
         ν = 0.5 * (ν_grid[i] + ν_grid[i+1])
@@ -108,7 +109,7 @@ function rosseland_mean(T::Float64, ρ::Float64,
         den += db * dν
     end
 
-    return den > 0 ? den / num : sigma_thomson()
+    return den > 0 ? den / num : R(sigma_thomson())
 end
 
 end # module

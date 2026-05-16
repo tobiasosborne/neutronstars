@@ -37,19 +37,23 @@ Bead E15: `column` snapshots the full converged `AtmosphereColumn` so that
 downstream analyses (κ vs depth, τ vs depth, k_R, ρ, P, etc.) survive the
 function call. The pre-existing `T_profile` and `y_grid` fields are kept
 for backward compatibility; they are equivalent to `column.T` and `column.y`.
+
+AD-percolation bead: parametric on the floating-point element type `T<:Real`
+so this struct can be returned from `solve_atmosphere` under ForwardDiff.
+For Float64 callers nothing changes (`AtmosphereResult{Float64}`).
 """
-struct AtmosphereResult
-    T_eff::Float64
-    g_s::Float64
+struct AtmosphereResult{T<:Real}
+    T_eff::T
+    g_s::T
     converged::Bool
     n_iterations::Int
-    max_dT_over_T::Float64
-    ν_grid::Vector{Float64}       # nν frequencies [Hz]
-    μ_grid::Vector{Float64}       # M angles
-    I_emergent::Matrix{Float64}   # nν × M emergent specific intensity
-    T_profile::Vector{Float64}    # converged T(y)  (== column.T)
-    y_grid::Vector{Float64}       # column depths   (== column.y)
-    column::AtmosphereColumn      # full converged atmosphere column (E15)
+    max_dT_over_T::T
+    ν_grid::Vector{T}             # nν frequencies [Hz]
+    μ_grid::Vector{T}             # M angles
+    I_emergent::Matrix{T}         # nν × M emergent specific intensity
+    T_profile::Vector{T}          # converged T(y)  (== column.T)
+    y_grid::Vector{T}             # column depths   (== column.y)
+    column::AtmosphereColumn{T}   # full converged atmosphere column (E15)
 end
 
 """
@@ -72,33 +76,45 @@ back-ends:
   per-frequency depth truncation at τ ≥ TAU_DIFFUSION. Kept as an
   opt-out for direct comparison and as a fallback.
 """
-function solve_atmosphere(T_eff::Float64, g_s::Float64,
+function solve_atmosphere(T_eff::T1, g_s::T2,
                           gaunt::GauntTable;
                           nν::Int=50, M::Int=10, N::Int=100,
                           max_iter::Int=30,
-                          tol::Float64=1e-4,
+                          tol::Real=1e-4,
                           anisotropic::Bool=true,
                           adaptive::Bool=true,
                           N_ν_adaptive::Int=200,
-                          verbose::Bool=true)::AtmosphereResult
+                          verbose::Bool=true) where {T1<:Real, T2<:Real}
     @assert T_eff > 0 && g_s > 0
 
+    # Common floating-point type for the solver: promotes Dual when present.
+    Tp = promote_type(typeof(float(T_eff)), typeof(float(g_s)))
+    T_eff_p = Tp(T_eff)
+    g_s_p = Tp(g_s)
+
     return with_solver_logger(verbose) do
+        # Use the underlying values for the format strings (printf-style cannot
+        # consume Dual directly).
         @info @sprintf("RT Atmosphere: T_eff=%.2e K, g_s=%.2e cm/s², nν=%d, M=%d, N=%d, adaptive=%s",
-                       T_eff, g_s, nν, M, N, adaptive)
+                       _val(T_eff_p), _val(g_s_p), nν, M, N, adaptive)
 
         # Set up grids
-        ν_grid = make_frequency_grid(T_eff, nν)
-        μ, w = gauss_legendre_half(M)
+        ν_grid = make_frequency_grid(T_eff_p, nν)
+        μ_f, w_f = gauss_legendre_half(M)
+        # Promote μ, w into the working type so the Feautrier scratch arrays
+        # are allocated in Tp (otherwise Float64 leaks back in and ::Tp
+        # promotion happens piecewise on every operation).
+        μ = Tp[m for m in μ_f]
+        w = Tp[ww for ww in w_f]
 
         # Build initial atmosphere with Eddington T(y)
         @info "  Building initial structure..."
-        col = build_atmosphere(T_eff, g_s, ν_grid, gaunt; N=N)
+        col = build_atmosphere(T_eff_p, g_s_p, ν_grid, gaunt; N=N)
         @info @sprintf("  y_max=%.2e, τ_max(ν_max)=%.1f, N=%d depths",
-                       col.y[end], maximum(col.τ[end, :]), col.N)
+                       _val(col.y[end]), _val(maximum(col.τ[end, :])), col.N)
 
         converged = false
-        max_dT = Inf
+        max_dT = Tp(Inf)
         n_iter = 0
 
         for iter in 1:max_iter
@@ -112,7 +128,7 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
             end
 
             # Compute flux for diagnostics
-            F_target = σ_SB * T_eff^4
+            F_target = σ_SB * T_eff_p^4
             F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
             flux_ratio = F_bol / F_target
 
@@ -124,23 +140,23 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
             if max_dT > DELTA_T_OVER_T_CAP
                 damp = DELTA_T_OVER_T_CAP / max_dT
                 ΔT .*= damp
-                max_dT = DELTA_T_OVER_T_CAP
+                max_dT = Tp(DELTA_T_OVER_T_CAP)
             end
 
             @debug @sprintf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f",
-                            iter, max_dT, flux_ratio)
+                            iter, _val(max_dT), _val(flux_ratio))
 
             # Check convergence
             if max_dT < tol
                 converged = true
                 @info @sprintf("  CONVERGED at iteration %d (max|ΔT/T|=%.2e < %.2e)",
-                               iter, max_dT, tol)
+                               iter, _val(max_dT), float(tol))
                 break
             end
 
             # Apply correction
             for i in 1:col.N
-                col.T[i] = max(col.T[i] + ΔT[i], 0.1 * T_eff)  # floor at 10% of T_eff
+                col.T[i] = max(col.T[i] + ΔT[i], 0.1 * T_eff_p)  # floor at 10% of T_eff
             end
 
             # Update atmospheric structure (density, opacities, optical depths)
@@ -149,7 +165,7 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
 
         if !converged
             @warn @sprintf("  not converged after %d iterations (max|ΔT/T|=%.2e)",
-                           max_iter, max_dT)
+                           max_iter, _val(max_dT))
         end
 
         # Final Feautrier solve for emergent spectrum
@@ -160,24 +176,33 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
         end
 
         # Emergent intensity: I_ν(μ) = 2 P_ν(surface, μ)
-        I_emergent = zeros(nν, M)
+        I_emergent = zeros(eltype(P_all), nν, M)
         for k in 1:nν, j in 1:M
-            I_emergent[k, j] = 2.0 * P_all[1, j, k]
+            I_emergent[k, j] = 2 * P_all[1, j, k]
         end
 
         # Final flux diagnostic
         F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
-        @info @sprintf("  Final F/σT⁴=%.4f", F_bol / (σ_SB * T_eff^4))
+        @info @sprintf("  Final F/σT⁴=%.4f", _val(F_bol / (σ_SB * T_eff_p^4)))
 
-        # Bead E15: snapshot the full converged column so the result carries
-        # κ, ρ, P, τ, k_R alongside T and y. deepcopy detaches from the mutable
-        # scratch column we've been updating in the iteration loop.
         col_snapshot = deepcopy(col)
 
-        return AtmosphereResult(T_eff, g_s, converged, n_iter, max_dT,
-                                 ν_grid, μ, I_emergent,
-                                 col_snapshot.T, col_snapshot.y, col_snapshot)
+        return AtmosphereResult{Tp}(T_eff_p, g_s_p, converged, n_iter, max_dT,
+                                     ν_grid, μ, I_emergent,
+                                     col_snapshot.T, col_snapshot.y, col_snapshot)
     end
+end
+
+# Underlying numerical value for printf — strips ForwardDiff.Dual wrappers
+# (which expose a `.value` field) recursively down to a plain `AbstractFloat`.
+# We deliberately do NOT depend on ForwardDiff to keep src/ free of test-only
+# deps; structural duck-typing on `.value` is sufficient.
+_val(x::AbstractFloat) = x
+function _val(x::Real)
+    if hasproperty(x, :value)
+        return _val(getproperty(x, :value))
+    end
+    return float(x)
 end
 
 """
@@ -186,12 +211,13 @@ Compute bolometric emergent flux from the Feautrier solution.
 function _bolometric_flux(P_all, μ, w, ν_grid)
     nν = length(ν_grid)
     M = length(μ)
-    F = 0.0
+    R = promote_type(eltype(P_all), eltype(μ), eltype(w), eltype(ν_grid))
+    F = zero(R)
     for k in 1:nν-1
         dν = ν_grid[k+1] - ν_grid[k]
         for j in 1:M
             # F_ν = 2π ∫₀¹ I_ν(μ) μ dμ where I = 2P at surface
-            F += 2π * μ[j] * 2.0 * P_all[1, j, k] * w[j] * dν
+            F += 2π * μ[j] * 2 * P_all[1, j, k] * w[j] * dν
         end
     end
     return F
@@ -201,7 +227,7 @@ end
 Update atmospheric structure after a temperature correction.
 Recomputes density, opacities, and optical depths from the new T profile.
 """
-function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
+function _update_structure!(col::AtmosphereColumn{Tp}, gaunt::GauntTable) where {Tp<:Real}
     for i in 1:col.N
         # Ideal gas for ionised H: ρ = m_p P/(2 k_B T), μ=0.5
         col.ρ[i] = density_from_PT(col.P[i], col.T[i])
@@ -217,7 +243,7 @@ function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
 
     # Recompute optical depths from surface
     for k in 1:col.nν
-        col.τ[1, k] = 0.0
+        col.τ[1, k] = zero(Tp)
         for i in 2:col.N
             dy = col.y[i] - col.y[i-1]
             col.τ[i, k] = col.τ[i-1, k] + 0.5 * (col.k_total[i, k] + col.k_total[i-1, k]) * dy

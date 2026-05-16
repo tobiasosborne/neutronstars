@@ -854,3 +854,50 @@ end
         @test abs(dB - dB_fd) / abs(dB_fd) < 1e-3
     end
 end
+
+@testset "ForwardDiff AD through solve_atmosphere (E6 follow-up)" begin
+    # AD-percolation follow-up to bead E6: parametrize the entire non-magnetic
+    # solve_atmosphere chain (AtmosphereColumn, make_frequency_grid,
+    # build_atmosphere, update_atmosphere!, solve_feautrier_all,
+    # solve_feautrier_all_adaptive, _solve_on_grid, _solve_single_frequency,
+    # _log_interp, temperature_correction!, solve_atmosphere) on a Real type
+    # parameter so ForwardDiff Dual numbers flow through end-to-end. Magnetic
+    # solver is explicitly NOT parametrized (separate follow-up).
+    have_fd = try
+        @eval Main using ForwardDiff
+        true
+    catch
+        false
+    end
+    if !have_fd
+        @info "ForwardDiff unavailable — skipping AD smoke (run via `Pkg.test()` for full coverage)"
+        @test_skip true
+    else
+        gaunt = load_gaunt_table(GAUNT_PATH)
+
+        # Closure: T_eff → scalar (sum of emergent intensity over (k, μ)).
+        function loss(T_eff)
+            r = solve_atmosphere(T_eff, 2e14, gaunt;
+                                  nν=8, M=4, N=20, max_iter=4, tol=1e-2,
+                                  verbose=false)
+            return sum(r.I_emergent)
+        end
+
+        # Baseline (Float64) must be positive and finite
+        L0 = loss(1e6)
+        @test isfinite(L0) && L0 > 0
+
+        # AD derivative w.r.t. T_eff must be finite
+        dL_dT = Main.ForwardDiff.derivative(loss, 1e6)
+        @test isfinite(dL_dT)
+
+        # Cross-check vs central finite difference. Tolerance is loose (10%)
+        # because solve_atmosphere only runs max_iter=4 with tol=1e-2 here —
+        # the partially-converged T profile has its own variability under
+        # perturbation. In practice the AD and FD derivatives agree to
+        # ~1e-5 at this configuration (see commit message).
+        h = 1e-3 * 1e6
+        dL_fd = (loss(1e6 + h) - loss(1e6 - h)) / (2h)
+        @test abs(dL_dT - dL_fd) / abs(dL_fd) < 0.1
+    end
+end

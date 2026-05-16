@@ -22,15 +22,18 @@ export planck_Bnu, modified_blackbody_intensity, emergent_spectrum
     planck_Bnu(ν, T) → B_ν [erg s⁻¹ cm⁻² Hz⁻¹ sr⁻¹]
 
 Planck function. Source: standard thermodynamics.
+
+`::Real` accepted (not only `Float64`) so this composes through ForwardDiff
+`Dual` numbers.
 """
-function planck_Bnu(ν::Float64, T::Float64)::Float64
+function planck_Bnu(ν::Real, T::Real)
     @assert ν > 0 "Frequency must be positive"
     @assert T > 0 "Temperature must be positive"
 
     x = h * ν / (k_B * T)
 
     if x > 500.0
-        return 0.0  # exp overflow protection
+        return zero(x)  # exp overflow protection (preserves Dual zero if Dual)
     end
 
     return 2h * ν^3 / c^2 / (exp(x) - 1.0)

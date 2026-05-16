@@ -65,11 +65,15 @@ of length `length(lu_diag)`.
 
 Rows whose pivot magnitude is below `PIVOT_TOL` leave the corresponding
 `x[i]` at zero, matching the original helpers' behaviour.
+
+The output type promotes the input element types so this composes through
+ForwardDiff `Dual` numbers (the AD-percolation follow-up to bead E6).
 """
 function tridiag_lu_back!(lu_diag::AbstractVector, lu_sup::AbstractVector,
                            lu_rhs::AbstractVector)
     N = length(lu_diag)
-    x = zeros(N)
+    R = promote_type(eltype(lu_diag), eltype(lu_sup), eltype(lu_rhs))
+    x = zeros(R, N)
     if abs(lu_diag[N]) > PIVOT_TOL
         x[N] = lu_rhs[N] / lu_diag[N]
     end

@@ -77,8 +77,12 @@ Arguments:
 - `ν`: photon frequency [Hz]
 - `T`: temperature [K]
 - `table`: loaded GauntTable
+
+`::Real` accepted (not only `Float64`) so this kernel composes through
+ForwardDiff `Dual` numbers — the bracketing indices stay `Int`, only the
+interpolation weights and output are Dual-promoted.
 """
-function gaunt_ff(ν::Float64, T::Float64, table::GauntTable)::Float64
+function gaunt_ff(ν::Real, T::Real, table::GauntTable)
     u = h * ν / (k_B * T)
     g2 = Ry_erg / (k_B * T)   # Z=1 for hydrogen
 
@@ -88,7 +92,7 @@ end
 """
 Bilinear interpolation with boundary clamping (matches McPHAC behaviour).
 """
-function _interp_bilinear(u::Float64, g2::Float64, t::GauntTable)::Float64
+function _interp_bilinear(u::Real, g2::Real, t::GauntTable)
     ug = t.u_grid
     gg = t.g2_grid
     Nu = length(ug)
@@ -98,13 +102,13 @@ function _interp_bilinear(u::Float64, g2::Float64, t::GauntTable)::Float64
     u_c = clamp(u, ug[1], ug[end])
     g2_c = clamp(g2, gg[1], gg[end])
 
-    # Find bracketing indices
+    # Find bracketing indices (integer — needs the underlying Float64 value)
     iu = _bracket(ug, u_c)
     ig = _bracket(gg, g2_c)
 
     # Interpolation fractions
-    s = iu < Nu ? (u_c - ug[iu]) / (ug[iu+1] - ug[iu]) : 0.0
-    r = ig < Ng ? (g2_c - gg[ig]) / (gg[ig+1] - gg[ig]) : 0.0
+    s = iu < Nu ? (u_c - ug[iu]) / (ug[iu+1] - ug[iu]) : zero(u_c)
+    r = ig < Ng ? (g2_c - gg[ig]) / (gg[ig+1] - gg[ig]) : zero(g2_c)
 
     iu2 = min(iu + 1, Nu)
     ig2 = min(ig + 1, Ng)
@@ -119,8 +123,12 @@ function _interp_bilinear(u::Float64, g2::Float64, t::GauntTable)::Float64
     return gff
 end
 
-"Find index i such that grid[i] ≤ x < grid[i+1], clamped to [1, N-1]."
-function _bracket(grid::Vector{Float64}, x::Float64)::Int
+"""
+Find index i such that grid[i] ≤ x < grid[i+1], clamped to [1, N-1].
+Accepts `Real` so callers may pass ForwardDiff `Dual` values; the index
+itself is plain `Int` (looked up against the dual's underlying value).
+"""
+function _bracket(grid::Vector{Float64}, x::Real)::Int
     i = searchsortedlast(grid, x)
     return clamp(i, 1, length(grid) - 1)
 end
