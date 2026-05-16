@@ -84,7 +84,9 @@ function _Q_n_alpha(n::Int, α::Int, β_e::Float64, u::Float64, y::Float64)::Flo
     if abs_n > 0
         sinh_half = 0.5 * (exp(min(β_e/2, 300.0)) - exp(-min(β_e/2, 300.0)))
         base = (y + θ + ζ) * sinh_half
-        if base <= 0 || log(base) * abs_n > 300.0
+        # N_max cap (≤ 50) in the outer sum bounds |n|, so base^(-|n|) cannot
+        # overflow for physical β_e; only guard against log(0)/log(<0).
+        if base <= 0
             return 0.0
         end
         landau_factor = base^(-abs_n)
