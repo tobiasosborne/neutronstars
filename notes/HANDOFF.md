@@ -39,6 +39,26 @@
 > `Pkg.test()` vs bare-runner divergence). Test state: `Pkg.test()`
 > → "tests passed".
 
+> **Late evening same day — heavier backlog sweep.** Five more
+> commits. **HDF5 atmosphere grid persistence** (`b97a875`) —
+> `save_atmosphere_grid` / `load_atmosphere_grid` round-trip eliminates
+> the 12-min magnetic grid rebuild per session. **Adaptive Feautrier
+> for the magnetic case** (`c850ada`) — per-(mode, ν) log-spaced depth
+> gridding mirrors the non-mag default; ~25 % faster, 1.9e-4 median
+> agreement with non-adaptive. **AD percolation into non-magnetic
+> `solve_atmosphere`** (`847c18a`, E6 follow-up) — full chain
+> parametrised; `ForwardDiff.derivative(T_eff -> sum(...).I_emergent)`
+> finite and matches FD to 1.5e-5. **Depth-resolved P_jump**
+> (`e5a0f62`) — adds `exp(−τ_V/μ)` Eddington-Barbier weighting so the
+> X↔O swap is correct in the deep-resonance limit; unitarity preserved.
+> **Avrett-Krook (D10): STOP & document** (`19540ba`) — the source
+> material (Kurucz 1970, Mihalas 1978, ATLAS9 source) isn't in `refs/`;
+> per Sacred Principle #1, no implementation. D12 records the four
+> next-session prerequisites. Baseline grey-scaled solver still
+> converges fine (F/σT⁴ = 0.9998 at iter 17). See
+> [`notes/sessions/2026-05-16-heavier-backlog.md`](sessions/2026-05-16-heavier-backlog.md)
+> for per-commit detail.
+
 ## Project Overview
 
 Physically traceable neutron-star atmosphere + rendering pipeline in Julia.
@@ -227,28 +247,29 @@ dependency).
 
 ## Immediate Next Task
 
-P_jump (vacuum-resonance mode conversion) is now **wired** as a
-post-Feautrier X↔O swap (commit `a07818d`, SPW09 Eq. 16-17). The
-five deferred E-beads (E4, E6, E10, E13, E19) all landed in the
-2026-05-16 evening session. Highest-value remaining work is now one
-of (rough priority):
+The 2026-05-16 late-evening sweep landed the HDF5 cache (`b97a875`),
+adaptive magnetic Feautrier (`c850ada`), AD percolation into the
+non-magnetic solver (`847c18a`, E6 follow-up), and depth-resolved
+P_jump (`e5a0f62`). Avrett-Krook (D10) was correctly STOPPED for
+source-availability reasons — see D12. Remaining work, rough priority:
 
-1. **Depth-resolved P_jump** — current post-processing ignores photons
-   emitted above the resonance layer (TODO comment in
-   `src/atmosphere/magnetic_atmosphere.jl`). Proper handling requires
-   a depth-resolved swap during the Feautrier integration.
-2. **Real Avrett-Krook flux correction (D10)** — replace the ad-hoc
-   grey `ΔT *= 1 + flux_damping × (flux_ratio^{-1/4} − 1)` with
-   SPW09's depth-resolved scheme.
-3. **Adaptive Feautrier for the magnetic case** — ~80-120 LoC mirror
-   of `solve_feautrier_all_adaptive` for per-(mode, ν) magnetic depth
-   gridding.
-4. **HDF5 atmosphere grid storage** — `AtmosphereGridProvenance`
-   schema (bead C6) is the starting point; adds an `HDF5.jl` dep.
-5. **AD percolation into atmosphere solvers** (E6 follow-up) — the
-   preallocated `Vector{Float64}` scratch buffers in Feautrier need
-   to be `Vector{T}` parameterised so `ForwardDiff.gradient` can flow
-   through `solve_atmosphere`.
+1. **Real Avrett-Krook flux correction (D10/D12)** — gated on
+   acquiring one of: Kurucz 1970 SAO SR-309, Mihalas 1978 Ch 7.4-7.5
+   (ISBN 0-7167-0359-9), or ATLAS9 Fortran source. **OR** make a
+   project decision to mirror McPHAC's Λ-only scheme and remove the
+   grey scaling (D12 prerequisite #4 — lowest risk, smallest scope).
+2. **AD percolation into `solve_magnetic_atmosphere`** — the magnetic
+   Feautrier has ~13 preallocated scratch buffers per
+   `_solve_feautrier_mode!` call that need `Vector{T}` parameterisation.
+   Mirror of bead E6 + the non-magnetic AD work in `847c18a`.
+3. **Coupled-mode Feautrier at the resonance layer** — the depth-
+   resolved P_jump in `e5a0f62` is still a post-processing
+   approximation. Rigorous treatment needs Feautrier with X↔O
+   coupling near `i_V`. Substantial physics refactor.
+4. **E24 hero render script** — wrap the three GIF + hero PNG renders
+   into `scripts/render_all_hero_assets.jl`. Needs ≥30 min compute.
+5. **Phase 4 extensions** — OCP Monte Carlo, partial ionisation, Kerr
+   ray tracing (see Lyr.jl note), magnetosphere volume rendering.
 
 ### Adaptive Feautrier wiring — landed as default for non-magnetic (2026-05-16)
 
