@@ -88,7 +88,7 @@ export linear_sRGB_to_sRGB, tone_map_reinhard, spectrum_to_sRGB
 # Pipeline
 include("pipeline/atmosphere_grid.jl")
 using .AtmosphereGrid
-export AtmosphereGrid, AtmosphereSpectrumGrid, build_atmosphere_grid, lookup_spectrum
+export AtmosphereGrid, AtmosphereSpectrumGrid, AtmosphereGridProvenance, build_atmosphere_grid, lookup_spectrum
 
 include("pipeline/render.jl")
 using .Renderer
