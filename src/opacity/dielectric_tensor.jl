@@ -456,13 +456,25 @@ P_jump = exp[ -π/2 · (E / E_ad)³ ]
 with the ion-cyclotron energy `E_Bi = 0.63 · (Z/A) · B_14` keV. SPW09 use
 the same formulae (Eqs. 16-17). `Z = A = 1` for fully ionised hydrogen.
 
-Limits:
-  * `dρ_dy → 0` (very gentle gradient) ⇒ `H_ρ → ∞` ⇒ `E_ad → 0` ⇒
-    `P_jump → 0` (fully adiabatic, modes preserved).
-  * `dρ_dy → ∞` (discontinuous jump)   ⇒ `H_ρ → 0` ⇒ `E_ad → ∞` ⇒
-    `P_jump → 1` (fully non-adiabatic, modes swap).
-  * `θ_B → 0` ⇒ `tan θ_B → 0` ⇒ `E_ad → 0` ⇒ `P_jump → 0` (only photons
-    propagating exactly along B see no mode mixing).
+`P_jump` is the **non-conversion (diabatic-jump) probability** in vAL2006
+/ SPW09 notation. Applied to the X/O intensity pair as
+`I_X → P_jump · I_X + (1 - P_jump) · I_O` (SPW09 Eq. 16), so `1 - P_jump`
+is the *mode-conversion* probability. Standard Landau-Zener limits:
+
+  * `dρ_dy → 0` (gentle gradient, slow crossing)   ⇒ `H_ρ → ∞` ⇒
+    `E_ad → 0` ⇒ `E/E_ad → ∞` ⇒ `P_jump → 0`. **Adiabatic** crossing:
+    photon follows the dielectric branches, X/O labels **swap**
+    (`1 - P_jump = 1`).
+  * `dρ_dy → ∞` (sharp gradient, sudden crossing) ⇒ `H_ρ → 0`   ⇒
+    `E_ad → ∞` ⇒ `E/E_ad → 0` ⇒ `P_jump → 1`. **Non-adiabatic /
+    diabatic** crossing: photon jumps the avoided level crossing, X/O
+    labels **preserved** (`1 - P_jump = 0`).
+  * `θ_B → 0` ⇒ `tan θ_B → 0` ⇒ `E_ad → 0` ⇒ `P_jump → 0`. Photons
+    propagating exactly along B see a degenerate resonance and convert
+    fully (`1 - P_jump = 1`).
+  * `θ_B → π/2` ⇒ `tan θ_B → ∞` ⇒ `E_ad → ∞` ⇒ `P_jump → 1`. Photons
+    propagating exactly transverse to B see an effectively sudden
+    crossing and don't mix.
 
 Returns 0 for non-physical inputs (`dρ_dy ≤ 0`, NaN gradient, `θ_B = 0`
 or `π`) — caller treats this as "no resonance crossing in this layer".
@@ -476,12 +488,14 @@ function vacuum_resonance_pjump(ω::Float64, B::Float64, θ_B::Float64,
     @assert T > 0 "T must be positive, got $T"
     @assert isfinite(dρ_dy) "dρ_dy must be finite, got $dρ_dy"
 
-    # Degenerate angle: tan θ_kB = 0 (along-B) or undefined at π/2; modes
-    # don't mix at exactly θ_B = 0 (vAL2006 Eq. 3 prefactor vanishes).
+    # Degenerate angle: tan θ_kB = 0 (along-B) or undefined at π/2.
+    # See limit table in the docstring; sign convention follows SPW09/vAL2006.
     if abs(sin(θ_B)) < 1e-12 || abs(cos(θ_B)) < 1e-12
         return abs(cos(θ_B)) < 1e-12 ? 1.0 : 0.0
-        # cos θ_B = 0 (strictly transverse): tan θ_B → ∞ ⇒ E_ad → ∞ ⇒ P_jump → 1.
-        # sin θ_B = 0 (along B):              tan θ_B = 0 ⇒ E_ad → 0   ⇒ P_jump → 0.
+        # cos θ_B = 0 (strictly transverse): tan θ_B → ∞ ⇒ E_ad → ∞ ⇒ P_jump → 1
+        #     (sudden / non-adiabatic; modes preserved).
+        # sin θ_B = 0 (along B):              tan θ_B = 0 ⇒ E_ad → 0   ⇒ P_jump → 0
+        #     (adiabatic; modes swap fully).
     end
 
     # No physical resonance crossing in this layer (caller upstream should

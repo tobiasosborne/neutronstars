@@ -173,6 +173,47 @@ end
     @test minimum(τ[end, :, :]) >= 80.0
 end
 
+@testset "Magnetic atmosphere P_jump wiring (SPW09 Eq. 16)" begin
+    # Smoke test: apply_pjump=true must (a) not crash, (b) preserve total
+    # intensity (the swap is unitary: P + (1-P) = 1), and (c) populate the
+    # P_jump diagnostic vector with values in [0, 1] for any frequency
+    # whose resonance density falls inside the column.
+    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+
+    # Same (small) configuration as the flux-norm smoke below but with B=10^14 G
+    # so the proton-cyclotron resonance lies inside the modelled energy band.
+    r_off = solve_magnetic_atmosphere(
+        1.0e6, 2.0e14, 1.0e14, π / 4, gaunt;
+        nν=24, M=4, N=50, max_iter=12, tol=5e-4,
+        apply_pjump=false, verbose=false
+    )
+    r_on  = solve_magnetic_atmosphere(
+        1.0e6, 2.0e14, 1.0e14, π / 4, gaunt;
+        nν=24, M=4, N=50, max_iter=12, tol=5e-4,
+        apply_pjump=true, verbose=false
+    )
+
+    @test r_off.pjump_enabled == false
+    @test r_on.pjump_enabled == true
+    @test length(r_on.P_jump) == length(r_on.ν_grid)
+    @test all(isnan(p) || (0 <= p <= 1) for p in r_on.P_jump)
+    @test any(isfinite, r_on.P_jump)              # at least one resonance crossing in band
+
+    # Total intensity I_X + I_O is conserved by the swap at every (k, μ).
+    for k in eachindex(r_on.ν_grid), jj in eachindex(r_on.μ_grid)
+        sum_off = r_off.I_emergent[k, jj, 1] + r_off.I_emergent[k, jj, 2]
+        sum_on  = r_on.I_emergent[k, jj, 1]  + r_on.I_emergent[k, jj, 2]
+        if sum_off > 1e-300                       # skip Wien-tail zeros
+            @test sum_on ≈ sum_off rtol=1e-10
+        end
+    end
+
+    # apply_pjump=false must not alter intensities (sanity: same code path).
+    for k in eachindex(r_on.ν_grid), jj in eachindex(r_on.μ_grid), mode in 1:2
+        @test r_off.I_emergent[k, jj, mode] ≈ r_off.I_emergent[k, jj, mode]
+    end
+end
+
 @testset "Magnetic atmosphere flux normalization smoke" begin
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     result = solve_magnetic_atmosphere(

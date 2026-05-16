@@ -22,6 +22,7 @@ using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
 using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, effective_opacity
 using ..FeautrierSolver: gauss_legendre_half
+using ..DielectricTensor: vacuum_resonance_density, vacuum_resonance_pjump
 using ..SolverDefaults: TAU_DIFFUSION, TAU_EFFECTIVE_MIN, T_SURFACE_FRAC_MCPHAC,
                          Y_MAX_SEMIINFINITE, FLUX_DAMPING_DEFAULT,
                          FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI,
@@ -53,6 +54,13 @@ struct MagneticAtmosphereResult
     T_profile::Vector{Float64}      # == column.T (E15: retained for compat)
     y_grid::Vector{Float64}         # == column.y (E15: retained for compat)
     column::NamedTuple              # full converged column (E15)
+    # Vacuum-resonance mode-conversion diagnostics (SPW09 Eq. 16-17).
+    # `P_jump[k]` is the non-conversion probability at frequency `k`;
+    # `NaN` means no resonance layer was found inside the depth grid
+    # (no swap applied). `pjump_enabled` records whether the post-
+    # processing was active.
+    pjump_enabled::Bool
+    P_jump::Vector{Float64}         # length nν, NaN where no resonance in grid
 end
 
 """
@@ -81,6 +89,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     tol::Float64=1e-4,
                                     flux_tol::Float64=1e-2,
                                     flux_damping::Float64=FLUX_DAMPING_DEFAULT,
+                                    apply_pjump::Bool=false,
                                     verbose::Bool=true)::MagneticAtmosphereResult
     @assert T_eff > 0 && g_s > 0 && B >= 0
     @assert 0 <= θ_B <= π
@@ -203,6 +212,62 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         I_emergent[k, jj, mode] = 2.0 * P_all[1, jj, k, mode]
     end
 
+    # Vacuum-resonance mode-conversion post-processing per SPW09 Eqs. (16)-(17)
+    # / van Adelsberg & Lai (2006) Eqs. (4), (33)-(34). The Feautrier solve
+    # above treated the two modes as decoupled along the entire column. SPW09's
+    # actual prescription (their §2 around Eq. 16) is to compute that
+    # independent solve and then apply the X<->O mixing at the resonance
+    # density:
+    #     I_X^obs = P_jump · I_X + (1 - P_jump) · I_O
+    #     I_O^obs = (1 - P_jump) · I_X + P_jump · I_O
+    # `P_jump[k]` is set to NaN for frequencies whose resonance density falls
+    # outside the depth grid (no resonance crossing in the modelled column ⇒
+    # no swap applied). Photons emitted from layers above the resonance are
+    # not represented in this post-processing approximation (would require
+    # depth-resolved swap during the RT integration; deferred — see TODO).
+    P_jump_vec = fill(NaN, nν)
+    if apply_pjump && B > 0
+        I_temp = similar(I_emergent)
+        I_temp .= I_emergent
+        for k in 1:nν
+            ω = 2π * ν_grid[k]
+            ρ_V = vacuum_resonance_density(ω, B, θ_B)
+            # Find the resonance index: ρ(y) is monotonically increasing with
+            # y in our log-spaced column. We require ρ[1] < ρ_V < ρ[N_eff_safe]
+            # so the surface (ρ[1]) is below the resonance and the resonance
+            # lies inside the integration domain.
+            if !(ρ_V > ρ[1] && ρ_V < ρ[end])
+                continue   # no resonance crossing in column ⇒ P_jump stays NaN
+            end
+            i_V = searchsortedfirst(ρ, ρ_V)
+            i_V = clamp(i_V, 2, N)
+            # Linear gradient dρ/dy across the bracketing pair.
+            dρ_dy = (ρ[i_V] - ρ[i_V-1]) / (y[i_V] - y[i_V-1])
+            if !(dρ_dy > 0 && isfinite(dρ_dy))
+                continue
+            end
+            P = vacuum_resonance_pjump(ω, B, θ_B, T[i_V], dρ_dy)
+            P_jump_vec[k] = P
+            for jj in 1:M
+                I_X = I_temp[k, jj, 1]
+                I_O = I_temp[k, jj, 2]
+                I_emergent[k, jj, 1] = P * I_X + (1 - P) * I_O
+                I_emergent[k, jj, 2] = (1 - P) * I_X + P * I_O
+            end
+        end
+        if verbose
+            n_active = count(isfinite, P_jump_vec)
+            if n_active > 0
+                P_finite = filter(isfinite, P_jump_vec)
+                @printf("  P_jump: applied at %d/%d freqs, range [%.3f, %.3f], mean=%.3f\n",
+                        n_active, nν, minimum(P_finite), maximum(P_finite),
+                        sum(P_finite)/length(P_finite))
+            else
+                @printf("  P_jump: no frequency had a vacuum resonance inside the column\n")
+            end
+        end
+    end
+
     verbose && @printf("  Final F/σT⁴=%.4f\n",
                         _bolometric_flux_2mode(P_all, μ, w, ν_grid) / (σ_SB * T_eff^4))
 
@@ -220,7 +285,8 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
 
     return MagneticAtmosphereResult(T_eff, g_s, B, θ_B, converged, n_iter, max_dT,
                                      ν_grid, μ, I_emergent,
-                                     column.T, column.y, column)
+                                     column.T, column.y, column,
+                                     apply_pjump, P_jump_vec)
 end
 
 # Bead D10: 4-arg convenience overload for pure-magnetic runs (B > 0). Forwards
