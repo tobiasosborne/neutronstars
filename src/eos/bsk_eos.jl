@@ -9,6 +9,7 @@ Typical fit error of P: ≈1% for ξ ≳ 6, max 3.7% at ξ = 9.51.
 module BSkEOS
 
 using ..PhysicalConstants: c, m_u
+using ..NSErrors: BadInputError, ConvergenceError
 
 export pressure_of_density, energy_density_of_density, pseudo_enthalpy
 export BSk19_params, BSk20_params, BSk21_params
@@ -191,7 +192,9 @@ Invert P(ρ) via bisection. Returns ρ [g cm⁻³].
 """
 function density_of_pressure(P::Float64, params::BSkParams;
                              rtol::Float64=1e-10)::Float64
-    @assert P > 0 "Pressure must be positive"
+    if P <= 0
+        throw(BadInputError("pressure must be positive for density_of_pressure", P))
+    end
 
     # Bracket: ρ ∈ [1e4, 1e16]
     ρ_lo = 1e4
@@ -216,7 +219,11 @@ function density_of_pressure(P::Float64, params::BSkParams;
     log_lo = log10(ρ_lo)
     log_hi = log10(ρ_hi)
 
-    for _ in 1:200
+    max_iter = 200
+    log_mid = 0.5 * (log_lo + log_hi)
+    final_residual = (log_hi - log_lo) / abs(log_mid)
+
+    for _ in 1:max_iter
         log_mid = 0.5 * (log_lo + log_hi)
         ρ_mid = 10.0^log_mid
         P_mid = pressure_of_density(ρ_mid, params)
@@ -227,12 +234,14 @@ function density_of_pressure(P::Float64, params::BSkParams;
             log_hi = log_mid
         end
 
-        if (log_hi - log_lo) / abs(log_mid) < rtol
+        final_residual = (log_hi - log_lo) / abs(log_mid)
+        if final_residual < rtol
             return 10.0^(0.5 * (log_lo + log_hi))
         end
     end
 
-    error("Bisection did not converge for P=$P after 200 iterations")
+    throw(ConvergenceError("BSk density_of_pressure bisection (P=$P)",
+                           max_iter, final_residual))
 end
 
 end # module

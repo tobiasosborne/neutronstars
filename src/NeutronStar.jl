@@ -70,6 +70,10 @@ grepping for the imported symbol.
 include("constants.jl")
 using .PhysicalConstants
 
+# Structured exception types (loaded early so any downstream module may throw them)
+include("utils/errors.jl")
+using .NSErrors
+
 # Generic numerical utilities (pure Julia, no internal deps; safe early include)
 include("utils/tridiag.jl")
 using .Tridiag
@@ -139,6 +143,7 @@ using .CIE_sRGB
 
 # Re-export
 export PhysicalConstants
+export NSErrors, NSError, BadInputError, NumericalError, ConvergenceError, TableOutOfRangeError
 export BSkEOS, BSk19_params, BSk20_params, BSk21_params
 export pressure_of_density, density_of_pressure, energy_density_of_density
 export TOVSolver, solve_tov, TOVResult

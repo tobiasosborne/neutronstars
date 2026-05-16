@@ -23,6 +23,7 @@ module TOVSolver
 using ..PhysicalConstants: G, c, M_sun
 using ..BSkEOS: BSkParams, pressure_of_density, density_of_pressure,
                 energy_density_of_density
+using ..NSErrors: BadInputError
 
 export solve_tov, TOVResult
 
@@ -61,8 +62,12 @@ function solve_tov(ρ_c::Float64, params::BSkParams;
                    dr_max::Float64=1000.0,
                    rtol::Float64=1e-6)::TOVResult
 
-    @assert ρ_c > 1e10 "Central density too low: $ρ_c (need > 10¹⁰ g/cm³)"
-    @assert ρ_c < 1e16 "Central density too high: $ρ_c"
+    if ρ_c <= 1e10
+        throw(BadInputError("central density too low for a neutron star (need > 1e10 g/cm³)", ρ_c))
+    end
+    if ρ_c >= 1e16
+        throw(BadInputError("central density too high (BSk EOS valid for ρ < 1e16 g/cm³)", ρ_c))
+    end
 
     P_c = pressure_of_density(ρ_c, params)
     ε_c = energy_density_of_density(ρ_c)
