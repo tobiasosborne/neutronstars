@@ -1,5 +1,71 @@
 module NeutronStar
 
+#=
+Module dependency order (must match the include sequence below).
+Each arrow means "depends on / uses". PhysicalConstants is loaded
+first and is a transitive dependency of every other module; arrows
+from it are omitted past the first level for readability.
+
+  PhysicalConstants  (loaded first; used by every module below)
+        │
+        ├──► BSkEOS ───────────► TOVSolver
+        │
+        ├──► DipoleModel
+        │
+        ├──► GauntFactor ──┬──► HydrogenOpacity ──┐
+        │                  │                      │
+        │                  │   MagneticCoulomb ──► MagneticFF
+        │                  │                                 │
+        │                  │   DielectricTensor ─────────────┤
+        │                  │                                 │
+        │                  │   BlackbodyAtmosphere ──┬───────┤
+        │                  │            │            │       │
+        │                  │            │            └──► MagneticModes
+        │                  │            │                        │
+        │                  └──► AtmosphereStructure ──┐          │
+        │                           │      ▲          │          │
+        │                           │      └──────────┤          │
+        │                           ▼                 │          │
+        │                       FeautrierSolver ◄─────┤          │
+        │                           │                 │          │
+        │                           ▼                 │          │
+        │                  TemperatureCorrection ◄────┤          │
+        │                           │                 │          │
+        │                           ▼                 │          │
+        │                       RTAtmosphere ◄────────┤          │
+        │                           │                 │          │
+        │                           ▼                 │          │
+        │                  MagneticAtmosphere ◄───────┴──────────┘
+        │                           │
+        ├──► SchwarzschildTracer    │
+        │           │               │
+        ├──► CIE_sRGB               │
+        │           │               │
+        │           │     AtmosphereGrid ◄── RTAtmosphere, MagneticAtmosphere,
+        │           │           │            BlackbodyAtmosphere, FeautrierSolver,
+        │           │           │            AtmosphereStructure, GauntFactor
+        │           │           ▼
+        └───────────┴──────► Renderer ◄── BSkEOS, TOVSolver, DipoleModel,
+                                          BlackbodyAtmosphere, SchwarzschildTracer,
+                                          CIE_sRGB, AtmosphereGrid
+
+Key invariants:
+  * PhysicalConstants must be included first.
+  * BlackbodyAtmosphere must come before MagneticModes (uses planck_Bnu)
+    and before every atmosphere/* solver.
+  * DielectricTensor must come before MagneticModes (polarization weights).
+  * MagneticCoulomb must come before MagneticFF (Coulomb log).
+  * AtmosphereStructure must come before FeautrierSolver,
+    TemperatureCorrection, RTAtmosphere, and MagneticAtmosphere.
+  * AtmosphereGrid must come before Renderer (Renderer dispatches on it).
+
+When adding a new module, insert its include() so all modules listed
+to its left appear above it. Prefer `using ..ModuleName: symbol` (not
+the bare `using ..ModuleName`) so dependencies are explicit at the
+import site too — this makes future reorderings safe to verify by
+grepping for the imported symbol.
+=#
+
 # Physical constants (must be loaded first — all other modules depend on it)
 include("constants.jl")
 using .PhysicalConstants
