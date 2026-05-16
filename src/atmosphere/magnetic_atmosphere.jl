@@ -321,11 +321,27 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
     M = length(μ)
     K = length(ν_grid)
 
+    # Preallocate scratch (reused across frequencies). Sized to N (max N_eff).
+    B_tilde = [zeros(M, M) for _ in 1:N]
+    Q_tilde = [zeros(M)    for _ in 1:N]
+    C_store = [zeros(M, M) for _ in 1:N]
+    A_work  = zeros(M, M)
+    B_work  = zeros(M, M)
+    C_work  = zeros(M, M)
+    Q_work  = zeros(M)
+    workmat = zeros(M, M)   # factorization scratch for B_tilde[i-1]
+    tmp_mat = zeros(M, M)   # B_tilde[i-1] \ C_store[i-1]
+    tmp_vec = zeros(M)      # B_tilde[i-1] \ Q_tilde[i-1]
+    P_buf   = zeros(N, M)   # Feautrier P solution per frequency
+    p_col   = zeros(M)      # column buffer for back-substitution
+    rhs_buf = zeros(M)      # rhs buffer for back-substitution
+    dtau    = zeros(N)
+
     for k in 1:K
         ν = ν_grid[k]
 
-        # Build dtau for this mode
-        dtau = zeros(N)
+        # Build dtau for this mode (reuse buffer)
+        dtau[1] = 0.0
         for i in 2:N
             dy = y[i] - y[i-1]
             dtau[i] = 0.5 * (k_tot_mode[i, k] + k_tot_mode[i-1, k]) * dy
@@ -352,14 +368,17 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
         end
         N_eff = max(N_eff, 3)
 
-        # Solve Feautrier for this frequency and mode
-        P_k = _feautrier_single(N_eff, M, dtau, μ, w, ν, T,
-                                 view(ρ_alb_mode, :, k))
+        # Solve Feautrier for this frequency and mode (writes into P_buf)
+        _feautrier_single!(P_buf, N_eff, M, dtau, μ, w, ν, T,
+                           view(ρ_alb_mode, :, k),
+                           B_tilde, Q_tilde, C_store,
+                           A_work, B_work, C_work, Q_work,
+                           workmat, tmp_mat, tmp_vec, p_col, rhs_buf)
 
         # Store results (pad beyond N_eff with B_ν/2 per mode)
         for j in 1:M
             for i in 1:N_eff
-                P_out[i, j, k] = P_k[i, j]
+                P_out[i, j, k] = P_buf[i, j]
             end
             for i in N_eff+1:N
                 P_out[i, j, k] = 0.5 * planck_Bnu(ν, T[i])
@@ -381,17 +400,20 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
 end
 
 """Solve Feautrier at single frequency for ONE polarization mode.
-Per-mode Planck source is B_ν/2 (unpolarized emission split equally)."""
-function _feautrier_single(N_eff, M, dtau, μ, w, ν, T, ρ_alb)
-    B_tilde = [zeros(M, M) for _ in 1:N_eff]
-    Q_tilde = [zeros(M) for _ in 1:N_eff]
-    C_store = [zeros(M, M) for _ in 1:N_eff]
+Per-mode Planck source is B_ν/2 (unpolarized emission split equally).
 
+Writes solution into `P_out` (first `N_eff × M` entries). All other arrays
+are caller-allocated scratch reused across frequencies."""
+function _feautrier_single!(P_out, N_eff, M, dtau, μ, w, ν, T, ρ_alb,
+                            B_tilde, Q_tilde, C_store,
+                            A, B, C, Q,
+                            workmat, tmp_mat, tmp_vec, p_col, rhs_buf)
     for i in 1:N_eff
-        A = zeros(M, M)
-        B = zeros(M, M)
-        C = zeros(M, M)
-        Q = zeros(M)
+        # Reset per-step working matrices/vectors
+        fill!(A, 0.0)
+        fill!(B, 0.0)
+        fill!(C, 0.0)
+        fill!(Q, 0.0)
 
         Bν_half = 0.5 * planck_Bnu(ν, T[i])  # per-mode blackbody = B_ν/2
         ρ = ρ_alb[i]
@@ -410,9 +432,9 @@ function _feautrier_single(N_eff, M, dtau, μ, w, ν, T, ρ_alb)
                 B[j, j] = 1.0
             end
             Q .= Bν_half
-            B_tilde[i] = B
-            Q_tilde[i] = Q
-            C_store[i] = C
+            B_tilde[i] .= B
+            Q_tilde[i] .= Q
+            C_store[i] .= C  # C is zero here
             continue
         else
             # Interior
@@ -445,29 +467,58 @@ function _feautrier_single(N_eff, M, dtau, μ, w, ν, T, ρ_alb)
             Q .= (1.0 - ρ) * Bν_half  # per-mode source = (1-ρ) B_ν/2
         end
 
-        C_store[i] = copy(C)
+        C_store[i] .= C
 
-        # Forward elimination
+        # Forward elimination (write directly into preallocated B_tilde[i], Q_tilde[i])
         if i == 1
-            B_tilde[i] = copy(B)
-            Q_tilde[i] = copy(Q)
+            B_tilde[i] .= B
+            Q_tilde[i] .= Q
         else
-            tmp = B_tilde[i-1] \ C_store[i-1]
-            B_tilde[i] = B - A * tmp
-            Q_tilde[i] = Q - A * (B_tilde[i-1] \ Q_tilde[i-1])
+            # Factor B_tilde[i-1] once and reuse for both C and Q solves.
+            workmat .= B_tilde[i-1]
+            F = lu!(workmat)
+            tmp_mat .= C_store[i-1]
+            ldiv!(F, tmp_mat)             # tmp_mat = B_tilde[i-1] \ C_store[i-1]
+            tmp_vec .= Q_tilde[i-1]
+            ldiv!(F, tmp_vec)             # tmp_vec = B_tilde[i-1] \ Q_tilde[i-1]
+            # B_tilde[i] = B - A * tmp_mat
+            mul!(B_tilde[i], A, tmp_mat, -1.0, 0.0)
+            B_tilde[i] .+= B
+            # Q_tilde[i] = Q - A * tmp_vec
+            mul!(Q_tilde[i], A, tmp_vec, -1.0, 0.0)
+            Q_tilde[i] .+= Q
         end
     end
 
-    # Back-substitution
-    P = zeros(N_eff, M)
-    P[N_eff, :] = B_tilde[N_eff] \ Q_tilde[N_eff]
+    # Back-substitution (in-place into P_out[i, :])
+    # Solve B_tilde[N_eff] * p_col = Q_tilde[N_eff]
+    workmat .= B_tilde[N_eff]
+    p_col .= Q_tilde[N_eff]
+    F = lu!(workmat)
+    ldiv!(F, p_col)
+    for j in 1:M
+        P_out[N_eff, j] = p_col[j]
+    end
     for i in N_eff-1:-1:1
-        P[i, :] = B_tilde[i] \ (Q_tilde[i] - C_store[i] * P[i+1, :])
+        # rhs = Q_tilde[i] - C_store[i] * P_out[i+1, :]
+        for j in 1:M
+            p_col[j] = P_out[i+1, j]
+        end
+        rhs_buf .= Q_tilde[i]
+        mul!(rhs_buf, C_store[i], p_col, -1.0, 1.0)
+        # solve B_tilde[i] * p_col = rhs_buf
+        workmat .= B_tilde[i]
+        p_col .= rhs_buf
+        F = lu!(workmat)
+        ldiv!(F, p_col)
+        for j in 1:M
+            P_out[i, j] = p_col[j]
+        end
     end
     for i in 1:N_eff, j in 1:M
-        P[i, j] = max(P[i, j], 0.0)
+        P_out[i, j] = max(P_out[i, j], 0.0)
     end
-    return P
+    return P_out
 end
 
 """
