@@ -16,7 +16,7 @@ using Printf
 using LinearAlgebra
 using ..PhysicalConstants: σ_SB, k_B, h, m_p, m_e
 using ..GauntFactor: GauntTable
-using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid
+using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid, density_from_PT
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
 using ..MagneticModes: mode_absorption, mode_scattering, effective_opacity
@@ -149,7 +149,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
 
         # Update density and opacities
         for i in 1:N
-            ρ[i] = m_p * P[i] / (2.0 * k_B * T[i])
+            ρ[i] = density_from_PT(P[i], T[i])
         end
         _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid, B, θ_B, gaunt)
     end
@@ -197,7 +197,7 @@ function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
         end
 
         T_mag = _magnetic_eddington_temperature(col.y, T_eff, g_s, ν_grid, B, θ_B)
-        ρ_mag = [m_p * col.P[i] / (2.0 * k_B * T_mag[i]) for i in 1:N]
+        ρ_mag = [density_from_PT(col.P[i], T_mag[i]) for i in 1:N]
 
         K = length(ν_grid)
         κ = zeros(N, K, 2)
@@ -229,7 +229,7 @@ function _magnetic_eddington_temperature(y, T_eff, g_s, ν_grid, B, θ_B)
     T[1] = 0.265 * T_eff
 
     P1 = g_s * y[1]
-    ρ1 = m_p * P1 / (2.0 * k_B * T[1])
+    ρ1 = density_from_PT(P1, T[1])
     k_R_prev = _rosseland_directional_magnetic(T[1], ρ1, ν_grid, B, θ_B)
     τ_R = 0.0
 
@@ -243,7 +243,7 @@ function _magnetic_eddington_temperature(y, T_eff, g_s, ν_grid, B, θ_B)
         for _ in 1:4
             τ_trial = τ_R + 0.5 * (k_R_prev + k_R_i) * dy
             T_i = (0.75 * T_eff^4 * (τ_trial + 2.0/3.0))^0.25
-            ρ_i = m_p * P_i / (2.0 * k_B * T_i)
+            ρ_i = density_from_PT(P_i, T_i)
             k_R_i = _rosseland_directional_magnetic(T_i, ρ_i, ν_grid, B, θ_B)
         end
 

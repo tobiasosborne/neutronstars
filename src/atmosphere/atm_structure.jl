@@ -18,6 +18,19 @@ using ..BlackbodyAtmosphere: planck_Bnu
 
 export AtmosphereColumn, build_atmosphere, update_atmosphere!
 export make_frequency_grid
+export density_from_PT
+
+"""
+    density_from_PT(P, T) → ρ [g/cm³]
+
+EOS for fully ionised hydrogen: ρ = m_p · P / (2 · k_B · T).
+
+The factor of 2 comes from mean molecular weight μ = 0.5 (electrons and
+protons both contribute, each with their share of the gas pressure).
+This is the single source of truth for converting (P, T) to ρ — do not
+inline the formula elsewhere.
+"""
+density_from_PT(P::Real, T::Real) = m_p * P / (2 * k_B * T)
 
 """
 Atmosphere column data structure.
@@ -90,7 +103,7 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
     # P = (n_e + n_p) k_B T = 2(ρ/m_p) k_B T → ρ = m_p P / (2 k_B T)
     # Mean molecular weight μ = 0.5 for fully ionised H.
     # McPHAC uses OPAL EOS which gives the same result at these conditions.
-    ρ = [m_p * P[i] / (2.0 * k_B * T[i]) for i in 1:N]
+    ρ = [density_from_PT(P[i], T[i]) for i in 1:N]
 
     σ_scat = sigma_thomson()
 
@@ -141,7 +154,7 @@ function update_atmosphere!(col::AtmosphereColumn, T_new::Vector{Float64})
 
     col.T .= T_new
     for i in 1:col.N
-        col.ρ[i] = m_p * col.P[i] / (k_B * col.T[i])
+        col.ρ[i] = density_from_PT(col.P[i], col.T[i])
     end
 
     for i in 1:col.N, k in 1:col.K

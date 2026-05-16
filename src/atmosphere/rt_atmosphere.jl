@@ -18,7 +18,8 @@ using Printf
 using ..PhysicalConstants: σ_SB, k_B, h, m_p
 using ..GauntFactor: GauntTable, load_gaunt_table
 using ..AtmosphereStructure: AtmosphereColumn, build_atmosphere,
-                              update_atmosphere!, make_frequency_grid
+                              update_atmosphere!, make_frequency_grid,
+                              density_from_PT
 using ..FeautrierSolver: solve_feautrier_all, gauss_legendre_half
 using ..TemperatureCorrection: compute_temperature_correction
 using ..BlackbodyAtmosphere: planck_Bnu
@@ -162,7 +163,7 @@ Recomputes density, opacities, and optical depths from the new T profile.
 function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
     for i in 1:col.N
         # Ideal gas for ionised H: ρ = m_p P/(2 k_B T), μ=0.5
-        col.ρ[i] = m_p * col.P[i] / (2.0 * k_B * col.T[i])
+        col.ρ[i] = density_from_PT(col.P[i], col.T[i])
 
         # Recompute opacities at each frequency
         for k in 1:col.K

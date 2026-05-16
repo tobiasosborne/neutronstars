@@ -465,3 +465,180 @@ neutron-star/
 8. Begin `af` graph construction with top-level claims.
 9. Implement TOV solver (simplest self-contained module with clear verification).
 10. **Do not start atmosphere code until Phase 1 graph has ≥50 equation nodes.**
+
+---
+
+## Appendix A: Phase 2 Tracer-Bullet Step-by-Step Recipe
+
+The Phase 2 deliverables listed above expand into the following concrete sub-steps. Each sub-step has a single ground-truth check that must pass before proceeding.
+
+### A.1 TOV solver → (M, R, g)
+
+Input: central density ρ_c, EOS table (use BSk24 analytical fits from Potekhin et al. 2013).
+Output: M, R, surface gravity g = GM/(R²√(1−2GM/Rc²)).
+
+**Check:** Reproduce Table 1 of Potekhin et al. (2013) — M and R for given EOS to 4 significant figures.
+
+### A.2 Schwarzschild ray tracer
+
+Input: observer distance D (can be ∞ for parallel rays), image-plane resolution, (M, R).
+Output: for each pixel — surface (θ, φ) of hit point, emission angle cos θ_e, gravitational redshift (1+z), or "misses star" flag.
+
+Implement using the elliptic-integral formulae from Pechenick et al. (1983) or Beloborodov (2002). Schwarzschild only.
+
+**Checks:**
+- M → 0 (flat space): visible fraction → exactly 1/2.
+- Reproduce Fig 1 of Pechenick et al. (1983).
+- Cross-check against X-PSI's ray tracing where available.
+
+### A.3 Surface model
+
+Input: magnetic dipole parameters (B_pole, obliquity α), T_eff prescription.
+Output: per surface point — T_local, B_local, angle between B and surface normal.
+
+Greenstein–Hartke analytic: T(θ_B) = T_eq + (T_pole − T_eq) cos²(θ_B), with dipole B_r = B_pole cos θ_B, B_θ = (B_pole/2) sin θ_B, |B| = (B_pole/2)√(1 + 3cos²θ_B).
+
+**Check:** Against Greenstein & Hartke (1983) equations.
+
+### A.4 Atmosphere: blackbody placeholder
+
+For the tracer bullet, use a **modified blackbody**:
+I_ν(ν, T, θ_e) = f_col⁴ × B_ν(ν, f_col × T) × (cos θ_e)^p
+
+where f_col is a colour correction factor (~1.5–2.0, from Suleimanov et al.) and p is a limb-darkening exponent.
+
+**Record this as an APPROXIMATION node** flagged "PLACEHOLDER — to be replaced by self-consistent RT solver in Phase 3."
+
+**Check:** In the limit f_col → 1, p → 0, must recover isotropic blackbody.
+
+### A.5 Redshift + Doppler
+
+Apply relativistic transformations to each ray:
+I_ν^obs = (1+z)^{−3} × I_ν′(ν′ = (1+z)ν, θ_e)
+
+If rotating, include Doppler boost δ = 1/[γ(1 − β·n̂)].
+
+**Check:** Total observed luminosity must equal (1+z)^{−2} × emitted luminosity seen by a local observer. Consequence of I_ν/ν³ being a relativistic invariant.
+
+### A.6 Spectral → colour (per pixel)
+
+1. Integrate against CIE 1931 2° colour-matching functions: X = ∫ I_ν^obs(ν) x̄(ν) dν (and Y, Z).
+2. XYZ → linear sRGB via the exact IEC 61966 matrix.
+3. sRGB gamma: C_srgb = 12.92 C if C ≤ 0.0031308, else 1.055 C^{1/2.4} − 0.055.
+4. Tone map (Reinhard global, or filmic/ACES) — dynamic range across poles vs equator is enormous in the optical.
+
+**Checks:**
+- 5778 K blackbody must render as approximately (255, 249, 231) in sRGB after appropriate exposure.
+- CIE functions reproduce published chromaticity coordinates for D65.
+- XYZ→sRGB matrix matches IEC 61966-2-1 to machine precision.
+
+### A.7 Tracer-bullet integration test
+
+Render a 512×512 image of a canonical NS:
+M = 1.4 M_☉, R = 12 km, B_pole = 10¹² G, T_pole = 10⁶ K, T_eq = 5×10⁵ K, distance 100 pc, inclination 60° to magnetic axis.
+
+Expected: a dim blue-white disk, slightly larger than the geometric angular size (lensing), faintly brighter polar caps. In false colour (X-ray → visible), the temperature structure is dramatically visible.
+
+**Output both:**
+- True human-vision render (will look underwhelming — physically correct).
+- False-colour multi-band render (e.g. 0.1–0.5 keV → R, 0.5–2 keV → G, 2–10 keV → B).
+
+Save the per-pixel spectral data, not just RGB, so the same scene can be re-rendered later with improved atmosphere models.
+
+---
+
+## Appendix B: `af` semantic-graph usage
+
+Concrete invocations the graph-builder should follow.
+
+**CLAIM node:**
+```
+af claim add "The emergent specific intensity from a magnetised NS atmosphere depends on photon frequency, emission angle, local temperature, local B-field strength, and polarisation mode"
+  --source potekhin_chabrier_2003
+  --equation "n/a (conceptual)"
+  --status accepted
+```
+
+**EQUATION node:**
+```
+af equation add "magnetic_ff_opacity_xmode"
+  --latex "\kappa_{\rm ff}^{(X)} = ..."
+  --source potekhin_chabrier_2003
+  --equation_number "A.3"
+  --page 1015
+  --verified false
+```
+
+**APPROXIMATION node:**
+```
+af approx add "ground_landau_level_only"
+  --description "Assume all electrons occupy the ground Landau level. Valid when ℏω_c >> kT, i.e. B >> 4.7e8 * (T/1e6)^2 G"
+  --source meszaros_1992
+  --page 47
+  --affects [magnetic_ff_opacity_xmode, magnetic_ff_opacity_omode, magnetic_scattering]
+  --validity_range "B > 1e10 G and T < 1e7 K"
+```
+
+**Required subgraph structure (build these at minimum):**
+
+1. **EOS subgraph:** Ideal gas → Coulomb corrections → Landau quantisation → partial ionisation (if included). Each correction is an APPROXIMATION; each formula an EQUATION.
+2. **Opacity subgraph:** Free-free (X-mode), free-free (O-mode), Thomson scattering (each mode), Compton correction, bound-free (if partial ionisation), vacuum-polarisation mode conversion (if B > 10¹³ G).
+3. **RT subgraph:** Feautrier discretisation; surface and depth boundary conditions; temperature correction method; convergence criterion.
+4. **GR ray-tracing subgraph:** Schwarzschild geodesic; impact parameter → surface coords; redshift factor; solid-angle element; visible-surface fraction.
+5. **Surface-model subgraph:** Dipole B geometry; T(θ) (Greenstein–Hartke or equivalent); TOV for (M, R) from EOS.
+6. **Colorimetry subgraph:** Spectral integration with CIE functions; XYZ → linear sRGB matrix (exact values); sRGB gamma curve; tone-mapping operator.
+
+Every edge must be typed: DEPENDS_ON, APPROXIMATES, VERIFIED_BY, IMPLEMENTS, DERIVED_FROM.
+
+---
+
+## Appendix C: Julia package dependencies
+
+Install as needed; this is the working list for the production pipeline.
+
+```julia
+# Core numerics
+DifferentialEquations    # TOV solver, possibly RT integration
+QuadGK                   # Numerical integration (spectral integrals)
+Interpolations           # Atmosphere table interpolation
+SpecialFunctions         # Bessel, Laguerre, elliptic integrals
+Elliptic                 # Complete/incomplete elliptic integrals (geodesics)
+StaticArrays             # Performance-critical small arrays
+LinearAlgebra            # LAPACK for tridiagonal solves (Feautrier)
+
+# Data I/O
+HDF5 / FITS / JLD2       # Atmosphere table storage
+FileIO                   # Image output
+
+# Visualisation
+Colors                   # Colour space conversions
+Images                   # Image construction
+Makie / CairoMakie       # Plotting and visualisation
+
+# Verification
+Test                     # Unit testing
+BenchmarkTools           # Performance
+```
+
+**Non-Julia deps (acceptable for Phase 2 tracer bullet only):**
+- McPHAC (C code): clone for verification. Do NOT depend on at runtime.
+- CFITSIO (C library): only if reading FITS for verification against XSPEC tables.
+- Potekhin Fortran routines: download for verification. Wrap with `ccall` for cross-checking only; the Julia implementation must be independent.
+
+---
+
+## Appendix D: Phase exit criteria
+
+A phase is "done" when:
+
+**Phase 1:** all references downloaded, checksummed, indexed. Semantic graph has ≥50 equation nodes, ≥20 approximation nodes, all linked to local PDFs. `notes/approximations.md` is complete.
+
+**Phase 2:** tracer bullet renders a 512×512 image (Appendix A.7). All verification checks in the matrix above pass for the simplified (blackbody) physics. Per-pixel spectral data is saved. Both true-colour and false-colour renders are produced.
+
+**Phase 3:** self-consistent non-magnetic atmosphere reproduces McPHAC to <1%. Magnetic atmosphere reproduces Suleimanov et al. (2009) to <5% (accounting for differences in input physics). Full re-render with the real atmosphere.
+
+**Phase 4+:** extensions in the priority order listed under "Phased Development".
+
+---
+
+*This document is living. Update it as decisions are made and recorded in `notes/decisions.md`.*

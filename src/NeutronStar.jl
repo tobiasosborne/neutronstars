@@ -75,7 +75,7 @@ export sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha, sigma_total_alpha
 export MagneticModes, rosseland_magnetic
 export mode_absorption, mode_scattering, mode_opacity, effective_opacity
 export AtmosphereStructure, AtmosphereColumn, build_atmosphere, update_atmosphere!
-export make_frequency_grid
+export make_frequency_grid, density_from_PT
 export FeautrierSolver, solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
 export TemperatureCorrection, compute_temperature_correction
 export RTAtmosphere, solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
