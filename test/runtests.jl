@@ -331,6 +331,145 @@ end
     end
 end
 
+@testset "Tier 3 physics sweeps" begin
+    # Per reviews/02_tests.md Tier 3: parameter sweeps that exercise edges of
+    # the (θ_B, β_e, α, ν, T) parameter space which the focused Tier 1/2
+    # tests don't touch. These catch silent regressions in the boundary code
+    # (θ_B = 0 / π/2 polarization degeneracies, β_e ≪ 1 vs β_e ≫ 1 branches
+    # of the Coulomb log, frequency-grid endpoints, and grid interpolation
+    # continuity).
+
+    @testset "Test 1: θ_B boundary angles (0 and π/2)" begin
+        # mode_opacity must return finite, positive opacities at the
+        # polarization-degenerate angles θ_B = 0 (longitudinal) and π/2
+        # (transverse). These are the geometric edges of the X/O mode
+        # decomposition where naive 1/sin θ_B factors blow up if the
+        # limiting forms aren't handled.
+        ν = 2.0e17
+        B = 1.0e12
+        T = 1.0e6
+        ρ = 1.0e-3
+        for mode in 1:2
+            κ_pole = mode_opacity(mode, ν, 0.0, B, T, ρ)
+            κ_eq   = mode_opacity(mode, ν, π/2, B, T, ρ)
+            println("  mode=$mode  κ(θ_B=0)   = $(κ_pole)")
+            println("  mode=$mode  κ(θ_B=π/2) = $(κ_eq)")
+            @test isfinite(κ_pole) && κ_pole > 0.0
+            @test isfinite(κ_eq)   && κ_eq   > 0.0
+        end
+    end
+
+    @testset "Test 2: β_e regime sweep (classical / moderate / strong)" begin
+        # Sweep T at fixed B = 1e14 to land at β_e ∈ {0.5, 5, 50}. At
+        # β_e = 0.5 the magnetic Coulomb log should be within ~30% of the
+        # classical-safe value; at large β_e we only require finite + > 0
+        # (no published closed-form target to assert against here).
+        B = 1.0e14
+        u = 1.0
+        ω_ce = cyclotron_freq_e(B)
+        Λ_cl_at_u = NS.MagneticCoulomb.coulomb_log_classical_safe(u)
+        println("  Λ_cl(u=$u) = $(Λ_cl_at_u)  (classical reference)")
+        for β_e in (0.5, 5.0, 50.0)
+            T_target = NS.PhysicalConstants.ħ * ω_ce /
+                       (NS.PhysicalConstants.k_B * β_e)
+            β_e_check = NS.PhysicalConstants.ħ * ω_ce /
+                        (NS.PhysicalConstants.k_B * T_target)
+            Λ = NS.MagneticCoulomb.coulomb_log_magnetic(0, u, β_e)
+            println("  β_e = $β_e  (T = $(T_target) K, recomputed β_e = $(β_e_check))  Λ₀ = $Λ")
+            @test isfinite(Λ) && Λ > 0.0
+            if β_e == 0.5
+                @test Λ ≈ Λ_cl_at_u rtol=0.30
+            end
+        end
+    end
+
+    @testset "Test 3: Λ for α = ±1 at the Suleimanov Fig 2 point" begin
+        # Same E, B, T as the existing α=0 lock (Λ₀ ≈ 7.4148) but for the
+        # two transverse polarizations. No published target, so we only
+        # assert finite + positive — this catches NaN/Inf regressions in
+        # the off-diagonal Q_n^α evaluation.
+        B = 1.0e14
+        T = 7.0e6
+        E_keV = 0.01
+        u = E_keV * NS.PhysicalConstants.keV / (NS.PhysicalConstants.k_B * T)
+        β_e = NS.PhysicalConstants.ħ * cyclotron_freq_e(B) /
+              (NS.PhysicalConstants.k_B * T)
+        for α in (+1, -1)
+            Λ = NS.MagneticCoulomb.coulomb_log_magnetic(α, u, β_e)
+            println("  α = $α  Λ = $Λ")
+            @test isfinite(Λ) && Λ > 0.0
+        end
+    end
+
+    @testset "Test 4: frequency-grid edge intensities are physical" begin
+        # Solve a small non-magnetic atmosphere and check that the emergent
+        # intensity at the first and last frequency-grid bins is finite,
+        # non-negative, and bounded above by the Planck peak at 4× T_eff
+        # (the diffusion-zone temperature leaking out in the Wien tail can
+        # easily reach 2-3× T_eff; 4× is the sanity ceiling that catches
+        # catastrophic overshoot or NaN endpoints without false-positiving
+        # on legitimate hot-interior leakage).
+        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        T_eff = 1.0e6
+        r = solve_atmosphere(T_eff, 2.0e14, gaunt;
+            K=16, M=4, N=50, max_iter=20, tol=1e-3, verbose=false)
+        ν_lo = r.ν_grid[1]
+        ν_hi = r.ν_grid[end]
+        B_peak_lo = planck_Bnu(ν_lo, T_eff * 4.0)
+        B_peak_hi = planck_Bnu(ν_hi, T_eff * 4.0)
+        println("  ν_lo = $(ν_lo) Hz, planck(T_eff*4.0) = $(B_peak_lo)")
+        println("  ν_hi = $(ν_hi) Hz, planck(T_eff*4.0) = $(B_peak_hi)")
+        for j in 1:size(r.I_emergent, 2)
+            I_lo = r.I_emergent[1, j]
+            I_hi = r.I_emergent[end, j]
+            println("    j=$j  I[1,j] = $I_lo  I[end,j] = $I_hi")
+            @test isfinite(I_lo) && I_lo >= 0.0
+            @test isfinite(I_hi) && I_hi >= 0.0
+            @test I_lo <= B_peak_lo
+            @test I_hi <= B_peak_hi
+        end
+    end
+
+    @testset "Test 5: build_atmosphere_grid interpolation continuity" begin
+        # 3×1×1 non-magnetic grid; sample at T = 7.5e5 K (between the first
+        # two T points 5e5 and 1e6). Each channel of the interpolated
+        # spectrum should lie within 30% of the bracketing channels' range
+        # (loose because spectra change rapidly with T in the Wien tail).
+        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        T_grid = [5.0e5, 1.0e6, 2.0e6]
+        B_grid = [0.0]
+        θ_B_grid = [0.0]
+        grid = build_atmosphere_grid(T_grid, B_grid, θ_B_grid, 2.0e14, gaunt;
+            K=16, M=4, N=50, max_iter=20, tol_T=1e-3, verbose=false)
+        # Use grid frequencies as the lookup target so we hit interior
+        # log-log interp on every channel (not boundary clamps).
+        ν_obs = collect(grid.ν_grid[2:end-1])
+        cos_θe = 0.6
+        I_lo  = lookup_spectrum(grid, T_grid[1], 0.0, 0.0, ν_obs, cos_θe)
+        I_hi  = lookup_spectrum(grid, T_grid[2], 0.0, 0.0, ν_obs, cos_θe)
+        I_mid = lookup_spectrum(grid, 7.5e5,     0.0, 0.0, ν_obs, cos_θe)
+        max_violation = 0.0
+        worst_channel = 0
+        for k in eachindex(I_mid)
+            lo_b = min(I_lo[k], I_hi[k])
+            hi_b = max(I_lo[k], I_hi[k])
+            span = max(hi_b - lo_b, 1e-30)
+            # tolerance: 30% of the bracket span, with a floor of 30% of |hi_b|
+            tol = max(0.30 * span, 0.30 * abs(hi_b))
+            below = max(lo_b - I_mid[k], 0.0)
+            above = max(I_mid[k] - hi_b, 0.0)
+            violation = max(below, above) / tol
+            if violation > max_violation
+                max_violation = violation
+                worst_channel = k
+            end
+            @test I_mid[k] >= lo_b - tol
+            @test I_mid[k] <= hi_b + tol
+        end
+        println("  worst channel = $worst_channel, violation/tolerance = $(round(max_violation, sigdigits=3))")
+    end
+end
+
 @testset "Suleimanov 2009 Fig 2 metric gate" begin
     # Delegates to verification/check_suleimanov_fig2_metrics.py, which asserts
     # four free-free opacity thresholds (coverage>=0.45, |median residual|<=0.70 dex,
