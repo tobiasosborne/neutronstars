@@ -706,3 +706,29 @@ end
     @test_throws MethodError NSParams(1.4, 12.0, 1e12, 1.5e6, 3e5,
                                        0.3, π/3, 100.0, 1.0)
 end
+
+@testset "ForwardDiff AD on mode_opacity (E6)" begin
+    using ForwardDiff
+    using NeutronStar.MagneticModes: mode_opacity
+
+    j, ν0, θ0, B0, T0, ρ0 = 1, 1e17, π/4, 1e12, 1e6, 1.0
+
+    # Baseline must be finite + positive (sanity)
+    κ0 = mode_opacity(j, ν0, θ0, B0, T0, ρ0)
+    @test isfinite(κ0) && κ0 > 0
+
+    # Derivatives w.r.t. each Real argument must be finite
+    dν = ForwardDiff.derivative(ν -> mode_opacity(j, ν, θ0, B0, T0, ρ0), ν0)
+    dB = ForwardDiff.derivative(B -> mode_opacity(j, ν0, θ0, B, T0, ρ0), B0)
+    dT = ForwardDiff.derivative(T -> mode_opacity(j, ν0, θ0, B0, T, ρ0), T0)
+    dρ = ForwardDiff.derivative(ρ -> mode_opacity(j, ν0, θ0, B0, T0, ρ), ρ0)
+    @test isfinite(dν)
+    @test isfinite(dB)
+    @test isfinite(dT)
+    @test isfinite(dρ)
+
+    # Finite-difference cross-check: relative error <= 1e-3 (loose; FD has its own error)
+    h = 1e-3 * B0
+    dB_fd = (mode_opacity(j, ν0, θ0, B0+h, T0, ρ0) - mode_opacity(j, ν0, θ0, B0-h, T0, ρ0)) / (2h)
+    @test abs(dB - dB_fd) / abs(dB_fd) < 1e-3
+end

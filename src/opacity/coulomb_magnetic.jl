@@ -28,7 +28,7 @@ Arguments:
 - u = ℏω/(k_BT): dimensionless photon energy
 - β_e = ℏω_ce/(k_BT): quantization parameter
 """
-function coulomb_log_magnetic(α::Int, u::Float64, β_e::Float64)::Float64
+function coulomb_log_magnetic(α::Int, u::Real, β_e::Real)
     @assert α ∈ (-1, 0, 1)
 
     # If field is non-quantizing, fall back to classical
@@ -40,10 +40,13 @@ function coulomb_log_magnetic(α::Int, u::Float64, β_e::Float64)::Float64
 
     # Sum over Landau levels n. For β_e >> 1, n=0 dominates.
     # Include n from -N_max to +N_max.
-    N_max = max(2, ceil(Int, 3.0 / β_e + 2))  # few terms needed when β_e large
+    # Use Float64 for indexing-control quantities (N_max is Int regardless).
+    β_e_val = β_e isa AbstractFloat ? β_e : float(β_e)
+    N_max = max(2, ceil(Int, 3.0 / β_e_val + 2))  # few terms needed when β_e large
     N_max = min(N_max, 50)  # cap for safety
 
-    total = 0.0
+    # Accumulate in the promoted Dual-aware type
+    total = zero(prefactor)
     for n in -N_max:N_max
         # Integrate Q_n^α over y ∈ [0, ∞)
         integrand(y) = _Q_n_alpha(n, α, β_e, u, y)
@@ -65,7 +68,7 @@ end
 Q_n^α(β_e, u, y) — integrand for the magnetic Coulomb logarithm.
 P&C 2003 Eq. (44b-e).
 """
-function _Q_n_alpha(n::Int, α::Int, β_e::Float64, u::Float64, y::Float64)::Float64
+function _Q_n_alpha(n::Int, α::Int, β_e::Real, u::Real, y::Real)
     # Eq. (44d): auxiliary variables
     exp_neg_β = exp(-min(β_e, 500.0))
     θ = (1.0 + exp_neg_β) / max(1.0 - exp_neg_β, 1e-30)
@@ -122,7 +125,7 @@ end
 Classical Coulomb logarithm with safe handling of edge cases.
 Λ_cl = e^{u/2} K₀(u/2). P&C 2003 Eq. (43).
 """
-function coulomb_log_classical_safe(u::Float64)::Float64
+function coulomb_log_classical_safe(u::Real)
     u2 = max(u / 2.0, 1e-30)
     if u2 > 300.0
         # Asymptotic: K₀(x) ~ √(π/(2x)) e^{-x}, so e^x K₀(x) ~ √(π/(2x))

@@ -42,7 +42,7 @@ K₁K₂ = -1, and |e_α|² is built from K = -q ± √(1+q²)). See van Adelsbe
 Lai (2006) Eqs. (10, 19) and P&C 2003 Eq. (25) for the underlying tensor
 definition.
 """
-function stix_parameters(ω::Float64, B::Float64, n_e::Float64)::NTuple{3, Float64}
+function stix_parameters(ω::Real, B::Real, n_e::Real)
     ω_ce = e_charge * B / (m_e * c)
     ω_cp = e_charge * B / (m_p * c)
     ω_pe² = 4π * n_e * e_charge^2 / m_e
@@ -87,8 +87,8 @@ For magnetised neutron-star atmospheres where B ≳ 10⁶ G, prefer
 `polarization_weights_vacuum`, which adds the QED vacuum-polarisation
 correction (Potekhin, Lai & Chabrier 2004).
 """
-function polarization_weights_cold(ω::Float64, B::Float64,
-                                   θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
+function polarization_weights_cold(ω::Real, B::Real,
+                                   θ_B::Real, n_e::Real)
     S, D, P = stix_parameters(ω, B, n_e)
 
     cosθ = cos(θ_B)
@@ -142,8 +142,8 @@ New code should call either `polarization_weights_cold` (no vacuum effects,
 pure P&C 2003) or `polarization_weights_vacuum` (vacuum-polarised, Potekhin,
 Lai & Chabrier 2004) explicitly.
 """
-function polarization_weights_full(ω::Float64, B::Float64,
-                                    θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
+function polarization_weights_full(ω::Real, B::Real,
+                                    θ_B::Real, n_e::Real)
     return polarization_weights_cold(ω, B, θ_B, n_e)
 end
 
@@ -162,8 +162,8 @@ limits (sinθ → 0, cosθ → 0, D → 0), and when the vacuum-shifted permitti
 
 Each of `w1`, `w2` is an `NTuple{3, Float64}` (allocation-free).
 """
-function polarization_weights_vacuum(ω::Float64, B::Float64,
-                                     θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
+function polarization_weights_vacuum(ω::Real, B::Real,
+                                     θ_B::Real, n_e::Real)
     if B < 1e6
         return polarization_weights_cold(ω, B, θ_B, n_e)
     end
@@ -206,7 +206,7 @@ Verified verbatim against PLC2004 Appendix A on 2026-05-16: each constant
 -α/3π) matches the published Eqs. (A7), (A8), (A9). Max relative error vs
 the exact Heyl-Hernquist expression: 1.1% (A7), 2.3% (A8), 4.2% (A9).
 """
-function vacuum_coefficients(B::Float64)::NTuple{3, Float64}
+function vacuum_coefficients(B::Real)
     b = B / B_Q
     if b == 0.0
         return 0.0, 0.0, 0.0
@@ -241,8 +241,8 @@ Rather than returning a signed `Inf` (which was correct-by-accident: downstream
 `isfinite` guards happened to catch it), this routine now throws a
 `DomainError` so misuse is loud rather than silent.
 """
-function cold_polarization_parameter(ω::Float64, B::Float64,
-                                     θ_B::Float64, n_e::Float64)::Float64
+function cold_polarization_parameter(ω::Real, B::Real,
+                                     θ_B::Real, n_e::Real)
     S, D, P = stix_parameters(ω, B, n_e)
     cosθ = cos(θ_B)
     sinθ = sin(θ_B)
@@ -263,8 +263,8 @@ permeability corrections.  This is the β-like parameter in Potekhin, Lai &
 Chabrier (2004), written with the sign convention of the local cold-plasma
 quadratic.
 """
-function vacuum_polarization_parameter(ω::Float64, B::Float64,
-                                       θ_B::Float64, n_e::Float64)::Float64
+function vacuum_polarization_parameter(ω::Real, B::Real,
+                                       θ_B::Real, n_e::Real)
     S, D, P = stix_parameters(ω, B, n_e)
     a_hat, q_vac, m_vac = vacuum_coefficients(B)
 
@@ -289,8 +289,8 @@ Vacuum-corrected normal-mode parameters from Potekhin, Lai & Chabrier
 `K_j = β[1 + (-1)^j sqrt(1 + r/β²)]`, evaluated in a numerically stable
 form away from and at β=0.
 """
-function vacuum_mode_parameters(ω::Float64, B::Float64,
-                                θ_B::Float64, n_e::Float64)::NTuple{6, Float64}
+function vacuum_mode_parameters(ω::Real, B::Real,
+                                θ_B::Real, n_e::Real)
     S, D, P = stix_parameters(ω, B, n_e)
     a_hat, q_vac, m_vac = vacuum_coefficients(B)
     sinθ = sin(θ_B)
@@ -321,8 +321,8 @@ end
 """
 Compute |e_{j,α}|² from the transverse polarization ratio K_j.
 """
-function compute_weights_from_K(K::Float64, S::Float64, D::Float64,
-                                 P::Float64, sinθ::Float64, cosθ::Float64)
+function compute_weights_from_K(K::Real, S::Real, D::Real,
+                                 P::Real, sinθ::Real, cosθ::Real)
     # Refractive index for this mode: n² = S - K*D
     n² = S - K * D
 
@@ -338,9 +338,9 @@ function compute_weights_from_K(K::Float64, S::Float64, D::Float64,
     return compute_weights_from_K_Kz(K, Kz, 0.0, 1.0)
 end
 
-function _vacuum_Kz(K::Float64, S::Float64, D::Float64, P::Float64,
-                    a_hat::Float64, q_vac::Float64,
-                    sinθ::Float64, cosθ::Float64)::Float64
+function _vacuum_Kz(K::Real, S::Real, D::Real, P::Real,
+                    a_hat::Real, q_vac::Real,
+                    sinθ::Real, cosθ::Real)
     εp = S + a_hat
     ηp = P + a_hat + q_vac
     denom = εp * sinθ^2 + ηp * cosθ^2
@@ -350,8 +350,8 @@ function _vacuum_Kz(K::Float64, S::Float64, D::Float64, P::Float64,
     return -((εp - ηp) * K * cosθ + D) / denom * sinθ
 end
 
-function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
-                                   sinθ::Float64, cosθ::Float64)::NTuple{3, Float64}
+function compute_weights_from_K_Kz(K::Real, Kz::Real,
+                                   sinθ::Real, cosθ::Real)
     # Cyclic mode-vector weights in the B-frame, from van Adelsberg & Lai
     # (2006) Eqs. (22)-(23). The k-frame eigenvector (Eq. 17) is
     #   e_j = (1/√N)(i K_j, 1, i K_{z,j})
@@ -421,8 +421,8 @@ the signature for symmetry with `vacuum_resonance_pjump`.
 
 Inputs are CGS: `ω` [rad s⁻¹], `B` [G]. Returns `ρ_V` [g/cm³] ≥ 0.
 """
-function vacuum_resonance_density(ω::Float64, B::Float64, θ_B::Float64;
-                                  Y_e::Float64=1.0, f_B::Float64=1.0)::Float64
+function vacuum_resonance_density(ω::Real, B::Real, θ_B::Real;
+                                  Y_e::Real=1.0, f_B::Real=1.0)
     @assert ω > 0 "ω must be positive, got $ω"
     @assert B >= 0 "B must be non-negative, got $B"
     @assert Y_e > 0 "Y_e must be positive, got $Y_e"
@@ -479,10 +479,10 @@ is the *mode-conversion* probability. Standard Landau-Zener limits:
 Returns 0 for non-physical inputs (`dρ_dy ≤ 0`, NaN gradient, `θ_B = 0`
 or `π`) — caller treats this as "no resonance crossing in this layer".
 """
-function vacuum_resonance_pjump(ω::Float64, B::Float64, θ_B::Float64,
-                                T::Float64, dρ_dy::Float64;
-                                Z::Float64=1.0, A::Float64=1.0,
-                                f_B::Float64=1.0)::Float64
+function vacuum_resonance_pjump(ω::Real, B::Real, θ_B::Real,
+                                T::Real, dρ_dy::Real;
+                                Z::Real=1.0, A::Real=1.0,
+                                f_B::Real=1.0)
     @assert ω > 0 "ω must be positive, got $ω"
     @assert B >= 0 "B must be non-negative, got $B"
     @assert T > 0 "T must be positive, got $T"

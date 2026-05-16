@@ -34,8 +34,8 @@ True absorption opacity for normal mode j (1=extraordinary, 2=ordinary).
 P&C 2003 Eq. (27): κ_j^a = (1/m_H) Σ_α |e_{j,α}|² σ_α^a.
 For fully ionized hydrogen, Eq. (31) gives σ_α^a = σ_α^ff + σ_α^pp.
 """
-function mode_absorption(j::Int, ν::Float64, θ_B::Float64,
-                         B::Float64, T::Float64, ρ::Float64)::Float64
+function mode_absorption(j::Int, ν::Real, θ_B::Real,
+                         B::Real, T::Real, ρ::Real)
     return _mode_cross_section_sum(j, ν, θ_B, B, T, ρ) do α, ω
         sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
     end
@@ -50,8 +50,8 @@ total extinction opacity κ_j = κ_j^a + κ_j^s. This uses the angle-local
 polarization-weighted scattering cross section as the Feautrier extinction
 term; inter-mode redistribution is deferred to the atmosphere scattering kernel.
 """
-function mode_scattering(j::Int, ν::Float64, θ_B::Float64,
-                         B::Float64, T::Float64, ρ::Float64)::Float64
+function mode_scattering(j::Int, ν::Real, θ_B::Real,
+                         B::Real, T::Real, ρ::Real)
     return _mode_cross_section_sum(j, ν, θ_B, B, T, ρ) do α, ω
         sigma_scat_alpha(α, ω, B)
     end
@@ -68,15 +68,17 @@ calling mode_absorption and mode_scattering separately.
 
 Returns (κ_abs, κ_scat) in cm²/g.
 """
-function mode_opacity_split(j::Int, ν::Float64, θ_B::Float64,
-                            B::Float64, T::Float64, ρ::Float64)
+function mode_opacity_split(j::Int, ν::Real, θ_B::Real,
+                            B::Real, T::Real, ρ::Real)
     @assert j ∈ (1, 2)
     ω = 2π * ν
     n_e = ρ / m_H
     w1, w2 = polarization_weights_vacuum(ω, B, θ_B, n_e)
     w = j == 1 ? w1 : w2
-    κ_abs = 0.0
-    κ_scat = 0.0
+    # Accumulators must adopt the AD-promoted element type from w (which
+    # carries Dual when any of ν, B, T, ρ, θ_B is a Dual).
+    κ_abs = zero(w[1])
+    κ_scat = zero(w[1])
     for (idx, α) in enumerate((-1, 0, 1))
         σ_abs  = sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
         σ_scat = sigma_scat_alpha(α, ω, B)
@@ -92,8 +94,8 @@ end
 Total extinction opacity for normal mode j.
 P&C 2003: κ_j = κ_j^a + κ_j^s.
 """
-function mode_opacity(j::Int, ν::Float64, θ_B::Float64,
-                      B::Float64, T::Float64, ρ::Float64)::Float64
+function mode_opacity(j::Int, ν::Real, θ_B::Real,
+                      B::Real, T::Real, ρ::Real)
     return mode_absorption(j, ν, θ_B, B, T, ρ) +
            mode_scattering(j, ν, θ_B, B, T, ρ)
 end
@@ -103,8 +105,8 @@ end
 
 Effective non-polarised opacity (harmonic mean of two modes) at a single angle.
 """
-function effective_opacity(ν::Float64, θ_B::Float64,
-                           B::Float64, T::Float64, ρ::Float64)::Float64
+function effective_opacity(ν::Real, θ_B::Real,
+                           B::Real, T::Real, ρ::Real)
     κ1 = mode_opacity(1, ν, θ_B, B, T, ρ)
     κ2 = mode_opacity(2, ν, θ_B, B, T, ρ)
 
@@ -258,8 +260,8 @@ end
 
 # --- Internal helpers ---
 
-function _mode_cross_section_sum(f, j::Int, ν::Float64, θ_B::Float64,
-                                 B::Float64, T::Float64, ρ::Float64)::Float64
+function _mode_cross_section_sum(f, j::Int, ν::Real, θ_B::Real,
+                                 B::Real, T::Real, ρ::Real)
     @assert j ∈ (1, 2)
 
     ω = 2π * ν
@@ -268,7 +270,8 @@ function _mode_cross_section_sum(f, j::Int, ν::Float64, θ_B::Float64,
     w1, w2 = polarization_weights_vacuum(ω, B, θ_B, n_e)
     w = j == 1 ? w1 : w2
 
-    κ = 0.0
+    # Accumulator must track AD-promoted element type.
+    κ = zero(w[1])
     for (idx, α) in enumerate((-1, 0, 1))
         κ += w[idx] * f(α, ω)
     end
@@ -277,7 +280,7 @@ function _mode_cross_section_sum(f, j::Int, ν::Float64, θ_B::Float64,
 end
 
 """Harmonic mean of two positive values. Returns 0 if either is zero."""
-function harmonic_mean_2(a::Float64, b::Float64)::Float64
+function harmonic_mean_2(a::Real, b::Real)
     if a <= 0 || b <= 0
         return max(a, b)
     end

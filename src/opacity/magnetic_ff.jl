@@ -19,13 +19,13 @@ export sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha
 export sigma_total_alpha, coulomb_log_proton
 
 "Electron cyclotron frequency [rad/s]. ω_ce = eB/(m_e c)."
-cyclotron_freq_e(B::Float64) = e_charge * B / (m_e * c)
+cyclotron_freq_e(B::Real) = e_charge * B / (m_e * c)
 
 "Proton cyclotron frequency [rad/s]. ω_cp = eB/(m_p c)."
-cyclotron_freq_p(B::Float64) = e_charge * B / (m_p * c)
+cyclotron_freq_p(B::Real) = e_charge * B / (m_p * c)
 
 "Quantization parameter β_e = ℏω_ce/(k_BT). Eq. (1)."
-beta_e(B::Float64, T::Float64) = ħ * cyclotron_freq_e(B) / (k_B * T)
+beta_e(B::Real, T::Real) = ħ * cyclotron_freq_e(B) / (k_B * T)
 
 """
     coulomb_log_proton(u) → Λ_pp
@@ -33,7 +33,7 @@ beta_e(B::Float64, T::Float64) = ħ * cyclotron_freq_e(B) / (k_B * T)
 Proton-proton Coulomb logarithm. P&C 2003 Eq. (48).
 Analytic fit accurate to ~1.5%.
 """
-function coulomb_log_proton(u::Float64)::Float64
+function coulomb_log_proton(u::Real)
     return 0.6 * log(22.0 * u^(-1) + 9.0 * u^(-0.3)) + 0.4 * sqrt(π * u)
 end
 
@@ -43,8 +43,8 @@ end
 Effective free-free absorption frequency. P&C 2003 Eq. (41).
 ν_α^ff = (4/3)√(2π/(m_e k_BT)) × (n_e e⁴/(ℏω)) × (1-e^{-u}) × Λ_α^ff
 """
-function nu_ff_alpha(α::Int, ω::Float64, B::Float64,
-                     T::Float64, n_e::Float64)::Float64
+function nu_ff_alpha(α::Int, ω::Real, B::Real,
+                     T::Real, n_e::Real)
     u = ħ * ω / (k_B * T)
     u = max(u, 1e-30)
 
@@ -67,7 +67,7 @@ end
 
 Effective proton-proton collision frequency. P&C 2003 Eq. (47).
 """
-function nu_pp(ω::Float64, T::Float64, n_p::Float64)::Float64
+function nu_pp(ω::Real, T::Real, n_p::Real)
     u = ħ * ω / (k_B * T)
     u = max(u, 1e-30)
 
@@ -86,8 +86,8 @@ P&C 2003 Eq. (51), combined electron+proton treatment.
 
 σ_α^ff ≈ ω² / [(ω+αω_ce)²(ω-αω_cp)² + ω²ν̃_α²] × 4πe²ν_α^ff/(m_e c)
 """
-function sigma_ff_alpha(α::Int, ω::Float64, B::Float64,
-                        T::Float64, ρ::Float64)::Float64
+function sigma_ff_alpha(α::Int, ω::Real, B::Real,
+                        T::Real, ρ::Real)
     @assert α ∈ (-1, 0, 1)
 
     if B < 1e6  # non-magnetic limit
@@ -134,7 +134,7 @@ end
 """
 Non-magnetic free-free cross-section (B→0 limit) per atom.
 """
-function _sigma_ff_nonmag(ω::Float64, T::Float64, ρ::Float64)::Float64
+function _sigma_ff_nonmag(ω::Real, T::Real, ρ::Real)
     n_e = ρ / m_H
     u = ħ * ω / (k_B * T)
     Λ = coulomb_log_classical_safe(max(u, 1e-30))
@@ -151,8 +151,8 @@ end
 
 Proton-proton collision cross-section. P&C 2003 Eq. (46).
 """
-function sigma_pp_alpha(α::Int, ω::Float64, B::Float64,
-                        T::Float64, ρ::Float64)::Float64
+function sigma_pp_alpha(α::Int, ω::Real, B::Real,
+                        T::Real, ρ::Real)
     if B < 1e6
         return 0.0  # negligible at B=0
     end
@@ -178,7 +178,7 @@ end
 
 Magnetic electron scattering cross-section. P&C 2003 Eq. (33).
 """
-function sigma_scat_alpha(α::Int, ω::Float64, B::Float64)::Float64
+function sigma_scat_alpha(α::Int, ω::Real, B::Real)
     if B < 1e6
         # Non-magnetic Thomson: per-polarization cross section is sigma_T (P&C 2003
         # Eq. 33, omega_ce -> 0 limit). With the normalized weight sum
@@ -202,8 +202,8 @@ end
 Total cross-section (absorption + scattering) for polarisation α.
 For fully ionised hydrogen (x_H = 0): σ_α = σ_α^ff + σ_α^pp + σ_α^scat.
 """
-function sigma_total_alpha(α::Int, ω::Float64, B::Float64,
-                           T::Float64, ρ::Float64)::Float64
+function sigma_total_alpha(α::Int, ω::Real, B::Real,
+                           T::Real, ρ::Real)
     return sigma_ff_alpha(α, ω, B, T, ρ) +
            sigma_pp_alpha(α, ω, B, T, ρ) +
            sigma_scat_alpha(α, ω, B)
