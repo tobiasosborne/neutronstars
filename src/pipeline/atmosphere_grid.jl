@@ -207,66 +207,76 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
 
     # Track whether any magnetic models were built; if the grid is purely
     # non-magnetic, the magnetic-only provenance fields are recorded as NaN.
-    any_magnetic = false
+    # `any(B -> B > 0, B_grid)` is exact: a grid with any B>0 cell records
+    # magnetic provenance even before the loop starts (the previous
+    # in-loop accumulator pattern was incompatible with @threads).
+    any_magnetic = any(B -> B > 0, B_grid)
 
     total = nT * nB * nθB
-    step = 0
-    for (iB, B) in enumerate(B_grid)
-        for (iT, T_eff) in enumerate(T_grid)
-            if B == 0.0
-                # Non-magnetic atmosphere: θ_B-independent. Solve once
-                # and broadcast across the θ_B axis.
-                step += nθB
-                verbose && @printf("  [%d/%d] T_eff=%.2e K, B=0 (θ_B-indep.) ... ",
-                                    step, total, T_eff)
-                r = solve_atmosphere(T_eff, g_s, gaunt; K=K, M=M, N=N,
-                                      max_iter=30, tol=1e-6, verbose=false)
-                # Non-magnetic atmospheres are unpolarised — the two normal
-                # modes are degenerate. We store I_nonmag/2 in each of the two
-                # polarization slots so that `sum_modes` returns I_nonmag
-                # exactly. This is the honest representation of mode degeneracy
-                # in the unpolarised limit (an alternative — putting all the
-                # intensity in mode 1 — would silently break any polarization-
-                # aware downstream code by claiming the B=0 surface emits 100%
-                # in one mode).
-                I_one = copy(r.I_emergent)  # K × M (non-magnetic shape)
-                K_ax, M_ax = size(I_one)
-                I_pol = zeros(K_ax, M_ax, 2)
-                I_pol[:, :, 1] .= 0.5 .* I_one
-                I_pol[:, :, 2] .= 0.5 .* I_one
-                for iθB in 1:nθB
-                    # Each θ_B cell gets its own copy so callers cannot
-                    # accidentally mutate the cache through aliasing.
-                    I_cache[iT, iB, iθB] = copy(I_pol)
-                    converged_grid[iT, iB, iθB] = r.converged
-                    # `AtmosphereResult` does not expose an explicit iteration count;
-                    # record max_iter=30 as the budget actually used here.
-                    iters_grid[iT, iB, iθB] = 30
-                end
-                verbose && @printf("converged=%s, F/σT⁴=%.3f\n", r.converged,
-                    _flux_ratio(r.I_emergent, μ_grid, ν_grid, T_eff))
-            else
-                # Magnetic atmosphere: store both X and O modes (K × M × 2)
-                # directly from the two-mode solver. Polarization is preserved
-                # here so a future Kerr ray tracer can parallel-transport the
-                # polarization basis along null geodesics; the legacy intensity
-                # renderer recovers the mode-summed total through `sum_modes`
-                # (wrapped by `lookup_spectrum`).
-                any_magnetic = true
-                for (iθB, θ_B) in enumerate(θ_B_grid)
-                    step += 1
-                    verbose && @printf("  [%d/%d] T_eff=%.2e K, B=%.2e G, θ_B=%.1f° ... ",
-                                        step, total, T_eff, B, rad2deg(θ_B))
-                    r = solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt;
-                            K=K, M=M, N=N, max_iter=max_iter, tol=tol_T,
-                            flux_tol=tol_flux, flux_damping=flux_damping,
-                            verbose=false)
-                    I_cache[iT, iB, iθB] = copy(r.I_emergent)  # K × M × 2
-                    converged_grid[iT, iB, iθB] = r.converged
-                    iters_grid[iT, iB, iθB] = r.n_iterations
-                    verbose && @printf("converged=%s, iters=%d\n", r.converged, r.n_iterations)
-                end
-            end
+
+    # Flat CartesianIndices loop so `Threads.@threads` can distribute the
+    # (iT, iB, iθB) work evenly across worker threads. Each iteration
+    # writes a distinct (iT, iB, iθB) cell in I_cache / converged_grid /
+    # iters_grid, so the per-iteration writes are race-free. The solver
+    # itself allocates all scratch buffers per call and only reads from
+    # the shared `gaunt` table, so it is thread-safe. Note: when
+    # `JULIA_NUM_THREADS == 1` this runs serially with identical behaviour
+    # to the previous nested loop. When B == 0.0 the non-magnetic solve is
+    # performed per cell (was previously hoisted across the θ_B axis); the
+    # non-magnetic solve is cheap relative to the magnetic one, so the
+    # small redundant work is worth the flat parallel structure.
+    Threads.@threads for idx in CartesianIndices((nT, nB, nθB))
+        iT, iB, iθB = Tuple(idx)
+        T_eff = T_grid[iT]
+        B = B_grid[iB]
+        θ_B = θ_B_grid[iθB]
+        step = LinearIndices((nT, nB, nθB))[idx]
+        if B == 0.0
+            # Non-magnetic atmosphere: θ_B-independent. We solve once per
+            # cell (so each θ_B slot has its own self-consistent answer)
+            # rather than hoisting across the θ_B axis as before — this
+            # keeps the flat @threads loop race-free.
+            verbose && @printf("  [%d/%d] T_eff=%.2e K, B=0 (θ_B-indep.) ... ",
+                                step, total, T_eff)
+            r = solve_atmosphere(T_eff, g_s, gaunt; K=K, M=M, N=N,
+                                  max_iter=30, tol=1e-6, verbose=false)
+            # Non-magnetic atmospheres are unpolarised — the two normal
+            # modes are degenerate. We store I_nonmag/2 in each of the two
+            # polarization slots so that `sum_modes` returns I_nonmag
+            # exactly. This is the honest representation of mode degeneracy
+            # in the unpolarised limit (an alternative — putting all the
+            # intensity in mode 1 — would silently break any polarization-
+            # aware downstream code by claiming the B=0 surface emits 100%
+            # in one mode).
+            I_one = copy(r.I_emergent)  # K × M (non-magnetic shape)
+            K_ax, M_ax = size(I_one)
+            I_pol = zeros(K_ax, M_ax, 2)
+            I_pol[:, :, 1] .= 0.5 .* I_one
+            I_pol[:, :, 2] .= 0.5 .* I_one
+            I_cache[iT, iB, iθB] = I_pol
+            converged_grid[iT, iB, iθB] = r.converged
+            # `AtmosphereResult` does not expose an explicit iteration count;
+            # record max_iter=30 as the budget actually used here.
+            iters_grid[iT, iB, iθB] = 30
+            verbose && @printf("converged=%s, F/σT⁴=%.3f\n", r.converged,
+                _flux_ratio(r.I_emergent, μ_grid, ν_grid, T_eff))
+        else
+            # Magnetic atmosphere: store both X and O modes (K × M × 2)
+            # directly from the two-mode solver. Polarization is preserved
+            # here so a future Kerr ray tracer can parallel-transport the
+            # polarization basis along null geodesics; the legacy intensity
+            # renderer recovers the mode-summed total through `sum_modes`
+            # (wrapped by `lookup_spectrum`).
+            verbose && @printf("  [%d/%d] T_eff=%.2e K, B=%.2e G, θ_B=%.1f° ... ",
+                                step, total, T_eff, B, rad2deg(θ_B))
+            r = solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt;
+                    K=K, M=M, N=N, max_iter=max_iter, tol=tol_T,
+                    flux_tol=tol_flux, flux_damping=flux_damping,
+                    verbose=false)
+            I_cache[iT, iB, iθB] = copy(r.I_emergent)  # K × M × 2
+            converged_grid[iT, iB, iθB] = r.converged
+            iters_grid[iT, iB, iθB] = r.n_iterations
+            verbose && @printf("converged=%s, iters=%d\n", r.converged, r.n_iterations)
         end
     end
 
