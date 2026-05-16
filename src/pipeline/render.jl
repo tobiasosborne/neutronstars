@@ -22,6 +22,26 @@ export SpectralImageCube, render_cube_rgb, save_cube_ppm
 
 """
 Neutron star physical parameters.
+
+Fields:
+- `M_solar`     : mass [M_☉]
+- `R_km`        : radius [km]
+- `B_pole`      : polar magnetic field [G]
+- `T_pole`      : polar effective temperature [K]
+- `T_eq`        : equatorial effective temperature [K]
+- `obliquity`   : magnetic obliquity (angle between spin and B axes) [rad]
+- `inclination` : observer inclination to spin axis [rad]
+- `distance_pc` : distance [pc]
+- `f_col`       : LEGACY colour-correction factor for the modified-blackbody
+                  atmosphere placeholder. **Only used by `render_neutron_star`.**
+                  `render_spectral_cube` ignores this field — colour correction
+                  is already baked into the pre-computed atmosphere grid spectra,
+                  so applying `f_col` again would be double-counting. A non-unity
+                  value combined with `render_spectral_cube` triggers a `@warn`.
+
+The legacy modified-blackbody spectral-hardening parameter `p` from
+`BlackbodyAtmosphere.emergent_spectrum` is hardcoded to `0.0` in
+`render_neutron_star` and is not exposed here.
 """
 struct NSParams
     M_solar::Float64     # mass [M_☉]
@@ -32,7 +52,7 @@ struct NSParams
     obliquity::Float64   # magnetic obliquity [rad]
     inclination::Float64 # observer inclination to spin axis [rad]
     distance_pc::Float64 # distance [pc]
-    f_col::Float64       # colour correction factor
+    f_col::Float64       # colour correction factor (legacy; render_neutron_star only)
 end
 
 """
@@ -260,6 +280,14 @@ For each pixel:
 function render_spectral_cube(params::NSParams,
                                atm_grid::AtmosphereSpectrumGrid,
                                N::Int; verbose::Bool=true)
+    # Guard against the post-D1 footgun: NSParams.f_col is a legacy knob for
+    # the modified-blackbody path (render_neutron_star). The atmosphere-grid
+    # path bakes colour correction into the pre-computed spectra, so f_col
+    # here would be silently ignored.
+    if params.f_col != 1.0
+        @warn "NSParams.f_col is ignored by render_spectral_cube (only the legacy render_neutron_star uses it); colour correction is already encoded in the atmosphere grid spectra" f_col=params.f_col
+    end
+
     M_cgs = params.M_solar * M_sun
     R = params.R_km * 1e5  # cm
 
