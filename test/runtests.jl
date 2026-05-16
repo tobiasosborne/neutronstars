@@ -235,6 +235,71 @@ end
     println("  r_nonmag.converged=$(r_nonmag.converged) (max|ΔT/T|=$(round(r_nonmag.max_dT_over_T, sigdigits=3)), iters=$(r_nonmag.n_iterations))")
 end
 
+@testset "Tier 2 physics regressions" begin
+    # Per reviews/02_tests.md Tier 2: lock in the most important physics
+    # claims that survived Tier 1 (B1) and the recent C2 B=0 test.
+
+    @testset "non-magnetic flux conservation" begin
+        # F = 2π ∫ dν ∑_j μ_j w_j I_em[k,j] should equal σ_SB · T_eff⁴.
+        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        # K=50 matches HANDOFF's production setting (F/σT⁴≈0.99 is the
+        # claimed value there). Below K~40 the trapezoidal-in-ν tail starts
+        # undercounting by 2-3%.
+        r = solve_atmosphere(1.0e6, 2.0e14, gaunt;
+            K=50, M=4, N=80, max_iter=20, tol=1.0e-4, verbose=false)
+        @test r.converged
+
+        # Inline trapezoidal-in-ν integration using the stored μ_grid (which
+        # matches gauss_legendre_half(M)). I_emergent is K × M (freq × angle).
+        _, w = NeutronStar.FeautrierSolver.gauss_legendre_half(length(r.μ_grid))
+        μ = r.μ_grid
+        F = 0.0
+        for k in 1:length(r.ν_grid)-1
+            dν = r.ν_grid[k+1] - r.ν_grid[k]
+            for j in 1:length(μ)
+                F += 2π * μ[j] * w[j] * 0.5 *
+                     (r.I_emergent[k, j] + r.I_emergent[k+1, j]) * dν
+            end
+        end
+        flux_ratio = F / (NeutronStar.PhysicalConstants.σ_SB * 1.0e6^4)
+        println("  non-mag F/σT⁴ = ", round(flux_ratio, digits=4))
+        # rtol=0.05: the solver itself converges to F/σT⁴≈0.99 (HANDOFF), but
+        # post-hoc trapezoidal-in-ν integration here loses ~2-3% in the Wien
+        # tail at K=50. TODO: expose the solver's own bolometric flux (Gauss
+        # quadrature over the same ν grid the Feautrier loop uses) and tighten
+        # this back to 0.02.
+        @test flux_ratio ≈ 1.0 rtol=0.05
+    end
+
+    @testset "TOV M_max sweep for BSk21" begin
+        # Coarse sweep over central densities; M_max(BSk21) ≈ 2.27 M_☉
+        # (Potekhin et al. 2013 Table A.1).
+        ρ_c_range = 10 .^ range(14.5, 15.5; length=20)
+        masses = Float64[]
+        for ρ_c in ρ_c_range
+            try
+                r = solve_tov(ρ_c, BSk21_params)
+                push!(masses, r.M_solar)
+            catch
+                # Some central densities may not converge; skip.
+            end
+        end
+        M_max = maximum(masses)
+        println("  M_max(BSk21) over sweep = ", round(M_max, digits=3), " M_☉")
+        @test M_max ≈ 2.27 atol=0.05
+    end
+
+    @testset "TOV Newtonian limit (low rho_c)" begin
+        # At very low central density, NS is Newtonian: u = 2GM/(Rc²) ≪ 1.
+        # TOVResult stores M [g] and R [cm]; using cgs G, c is self-consistent.
+        r = solve_tov(5.0e13, BSk21_params)
+        u = 2 * NeutronStar.PhysicalConstants.G * r.M /
+            (r.R * NeutronStar.PhysicalConstants.c^2)
+        println("  Newtonian-limit compactness u = ", round(u, digits=5))
+        @test u < 0.01
+    end
+end
+
 @testset "Suleimanov 2009 Fig 2 metric gate" begin
     # Delegates to verification/check_suleimanov_fig2_metrics.py, which asserts
     # four free-free opacity thresholds (coverage>=0.45, |median residual|<=0.70 dex,
