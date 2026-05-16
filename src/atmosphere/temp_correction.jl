@@ -17,6 +17,7 @@ module TemperatureCorrection
 
 using LinearAlgebra
 using ..PhysicalConstants: k_B, h, σ_SB
+using ..Tridiag: tridiag_lu_forward!, tridiag_lu_back!
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: dBnu_dT
 using ..AtmosphereStructure: AtmosphereColumn
@@ -108,10 +109,10 @@ function compute_temperature_correction(col::AtmosphereColumn,
                                 col, k, f_ν, h_ν, ν, denom, b, B_bar)
 
         # Precompute LU factorization of T_k (Thomas algorithm forward sweep)
-        lu_diag, lu_sup, lu_rhs_K = _tridiag_lu_forward(T_sub, T_diag, T_sup, K_k)
+        lu_diag, lu_sup, lu_rhs_K = tridiag_lu_forward!(T_sub, T_diag, T_sup, K_k)
 
         # Solve T_k⁻¹ K_k via back-substitution
-        x_k = _tridiag_lu_back(lu_diag, lu_sup, lu_rhs_K)
+        x_k = tridiag_lu_back!(lu_diag, lu_sup, lu_rhs_K)
 
         # V_k diagonal: (V_k)_i = κ_k b_k / denom_i
         V_k = zeros(N)
@@ -133,8 +134,8 @@ function compute_temperature_correction(col::AtmosphereColumn,
             # Solve T_k × z_j = e_j (unit vector)
             e_j = zeros(N)
             e_j[j] = 1.0
-            _, _, lu_rhs_j = _tridiag_lu_forward(T_sub, T_diag, T_sup, e_j)
-            z_j = _tridiag_lu_back(lu_diag, lu_sup, lu_rhs_j)
+            _, _, lu_rhs_j = tridiag_lu_forward!(T_sub, T_diag, T_sup, e_j)
+            z_j = tridiag_lu_back!(lu_diag, lu_sup, lu_rhs_j)
 
             # W[i,j] += V_k[i] * U_k[j] * z_j[i]
             for i in 1:N
@@ -226,56 +227,6 @@ function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
     end
     U_k[N] = 0.0  # temperature correction doesn't affect bottom BC
     K_k[N] = planck_Bnu(ν[k], col.T[N])
-end
-
-"""
-LU forward sweep for tridiagonal system. Returns modified diagonal, super-diagonal, and RHS.
-The sub-diagonal multipliers are applied to both the matrix and the RHS.
-"""
-function _tridiag_lu_forward(sub::Vector{Float64}, diag::Vector{Float64},
-                              sup::Vector{Float64}, d::Vector{Float64})
-    N = length(diag)
-    lu_diag = copy(diag)
-    lu_sup = copy(sup)
-    lu_rhs = copy(d)
-
-    for i in 2:N
-        if abs(lu_diag[i-1]) < 1e-30
-            continue
-        end
-        m = sub[i-1] / lu_diag[i-1]
-        lu_diag[i] -= m * lu_sup[i-1]
-        lu_rhs[i] -= m * lu_rhs[i-1]
-    end
-
-    return lu_diag, lu_sup, lu_rhs
-end
-
-"""
-Back-substitution after LU forward sweep.
-"""
-function _tridiag_lu_back(lu_diag::Vector{Float64}, lu_sup::Vector{Float64},
-                           lu_rhs::Vector{Float64})::Vector{Float64}
-    N = length(lu_diag)
-    x = zeros(N)
-    if abs(lu_diag[N]) > 1e-30
-        x[N] = lu_rhs[N] / lu_diag[N]
-    end
-    for i in N-1:-1:1
-        if abs(lu_diag[i]) > 1e-30
-            x[i] = (lu_rhs[i] - lu_sup[i] * x[i+1]) / lu_diag[i]
-        end
-    end
-    return x
-end
-
-"""
-Solve tridiagonal system Ax = d using Thomas algorithm (convenience wrapper).
-"""
-function _tridiag_solve(sub::Vector{Float64}, diag::Vector{Float64},
-                         sup::Vector{Float64}, d::Vector{Float64})::Vector{Float64}
-    lu_diag, lu_sup, lu_rhs = _tridiag_lu_forward(sub, diag, sup, d)
-    return _tridiag_lu_back(lu_diag, lu_sup, lu_rhs)
 end
 
 end # module

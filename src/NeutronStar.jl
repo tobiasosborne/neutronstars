@@ -70,6 +70,10 @@ grepping for the imported symbol.
 include("constants.jl")
 using .PhysicalConstants
 
+# Generic numerical utilities (pure Julia, no internal deps; safe early include)
+include("utils/tridiag.jl")
+using .Tridiag
+
 # Equation of state
 include("eos/bsk_eos.jl")
 using .BSkEOS

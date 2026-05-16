@@ -15,6 +15,7 @@ module MagneticAtmosphere
 using Printf
 using LinearAlgebra
 using ..PhysicalConstants: σ_SB, k_B, h, m_p, m_e, m_H
+using ..Tridiag: tridiag_lu_forward!, tridiag_lu_back!
 using ..GauntFactor: GauntTable
 using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid, density_from_PT
 using ..BlackbodyAtmosphere: planck_Bnu
@@ -769,8 +770,8 @@ function _rybicki_two_mode(N, K, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
                                             f_ν, h_ν, denom, b, B_bar)
 
             # LU solve and accumulate
-            lu_diag, lu_sup, lu_rhs_K = _tridiag_lu_forward(T_sub, T_diag, T_sup, K_k)
-            x_k = _tridiag_lu_back(lu_diag, lu_sup, lu_rhs_K)
+            lu_diag, lu_sup, lu_rhs_K = tridiag_lu_forward!(T_sub, T_diag, T_sup, K_k)
+            x_k = tridiag_lu_back!(lu_diag, lu_sup, lu_rhs_K)
 
             # V_k: weight for this mode and frequency
             V_k = zeros(N)
@@ -787,8 +788,8 @@ function _rybicki_two_mode(N, K, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
             for jcol in 1:N
                 abs(U_k[jcol]) < 1e-30 && continue
                 e_j = zeros(N); e_j[jcol] = 1.0
-                _, _, lu_rhs_j = _tridiag_lu_forward(T_sub, T_diag, T_sup, e_j)
-                z_j = _tridiag_lu_back(lu_diag, lu_sup, lu_rhs_j)
+                _, _, lu_rhs_j = tridiag_lu_forward!(T_sub, T_diag, T_sup, e_j)
+                z_j = tridiag_lu_back!(lu_diag, lu_sup, lu_rhs_j)
                 for i in 1:N
                     W[i, jcol] += V_k[i] * U_k[jcol] * z_j[i]
                 end
@@ -857,30 +858,6 @@ function _bolometric_flux_2mode(P_all, μ, w, ν_grid)
         end
     end
     return F
-end
-
-# --- Tridiagonal solver (copied from TemperatureCorrection for self-containedness) ---
-
-function _tridiag_lu_forward(sub, diag, sup, d)
-    N = length(diag)
-    lu_diag = copy(diag); lu_sup = copy(sup); lu_rhs = copy(d)
-    for i in 2:N
-        abs(lu_diag[i-1]) < 1e-30 && continue
-        m = sub[i-1] / lu_diag[i-1]
-        lu_diag[i] -= m * lu_sup[i-1]
-        lu_rhs[i] -= m * lu_rhs[i-1]
-    end
-    return lu_diag, lu_sup, lu_rhs
-end
-
-function _tridiag_lu_back(lu_diag, lu_sup, lu_rhs)
-    N = length(lu_diag)
-    x = zeros(N)
-    abs(lu_diag[N]) > 1e-30 && (x[N] = lu_rhs[N] / lu_diag[N])
-    for i in N-1:-1:1
-        abs(lu_diag[i]) > 1e-30 && (x[i] = (lu_rhs[i] - lu_sup[i] * x[i+1]) / lu_diag[i])
-    end
-    return x
 end
 
 end # module
