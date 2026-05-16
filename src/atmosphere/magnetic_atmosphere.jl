@@ -221,6 +221,11 @@ end
 function _magnetic_eddington_temperature(y, T_eff, g_s, ν_grid, B, θ_B)
     N = length(y)
     T = zeros(N)
+    # Initial guess for the surface temperature. The 0.265 value is the
+    # McPHAC non-magnetic surface limit (H12 §3.1); justified as a starting
+    # point for the iteration, not as a magnetic-atmosphere boundary value.
+    # See notes/decisions.md D9 for the rationale (and why we don't yet use
+    # the grey-atmosphere limit (1/2)^{1/4} T_eff = 0.841 T_eff).
     T[1] = 0.265 * T_eff
 
     P1 = g_s * y[1]

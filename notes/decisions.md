@@ -61,3 +61,27 @@ transport, e.g. Potekhin, Pons & Page 2015) should supersede both.
 
 **Scope:** Documentation/labelling only — function body and tests
 unchanged.
+
+## D9: Magnetic atmosphere surface T initial guess
+**Date:** 2026-05-16
+**Context:** Code review (reviews/03_code.md B1) noted that
+`_magnetic_eddington_temperature` in
+`src/atmosphere/magnetic_atmosphere.jl` initialises the surface
+temperature with `T[1] = 0.265 * T_eff`, the empirical McPHAC
+non-magnetic surface limit (H12 §3.1). For a magnetic atmosphere this
+has no derivation — the magnetic Rosseland mean K_⊥ differs from k_R
+so the surface limit also differs.
+
+**Decision:** Keep 0.265 as the iteration starting value. The Rybicki
+iteration converges (B=10¹², θ_B=π/4 in ~60 iter; tested smoke
+passes flux F/σT⁴ within rtol=0.05). The alternative analytic grey
+limit T[1] = (1/2)^{1/4} T_eff = 0.841 T_eff is unproven to converge
+faster and would invalidate the existing convergence baseline.
+
+**Rationale:** This is an initial-guess heuristic, not a physical
+boundary condition. Future work (HANDOFF.md "Immediate Next Task")
+on the θ_B=45° Suleimanov Fig 2 mismatch may revisit this — if the
+mismatch turns out to be initial-guess-sensitive, swap to the grey
+limit and re-benchmark.
+
+**Scope:** Documentation/labelling only — no code change.
