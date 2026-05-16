@@ -25,6 +25,20 @@
 > involved in opacity-only diagnostics. See decisions.md D11. Test
 > suite: 119/119 still pass.
 
+> **Evening same day — P_jump wiring + deferred E-bead cleanup.**
+> Recovery session after a computer crash. Reconstructed state from
+> chat logs, finished the in-flight `apply_pjump` wiring (SPW09
+> Eq. 16-17 post-Feautrier X↔O swap, with unitarity-tested 293-assertion
+> testset), updated `VERIFICATION_LOG` for D11, then orchestrated the
+> five deferred E-beads (E19 Gauss-Legendre lookup, E13 CMF vendoring,
+> E4 structured logging, E10 unit newtypes, E6 ForwardDiff AD on the
+> opacity chain). Path-fragility fix so `Pkg.test()` honours
+> `[targets].test` for the ForwardDiff smoke. See
+> [`notes/sessions/2026-05-16-pjump-and-deferred-ebeads.md`](sessions/2026-05-16-pjump-and-deferred-ebeads.md)
+> for per-commit detail and the lessons (concurrent-julia OOM,
+> `Pkg.test()` vs bare-runner divergence). Test state: `Pkg.test()`
+> → "tests passed".
+
 ## Project Overview
 
 Physically traceable neutron-star atmosphere + rendering pipeline in Julia.
@@ -213,9 +227,28 @@ dependency).
 
 ## Immediate Next Task
 
-The Suleimanov θ_B=45° mismatch is **resolved** (D11). Adaptive Feautrier
-is now the default for non-magnetic atmospheres (see below). Highest-value
-remaining work is now item #2: vacuum resonance mode conversion.
+P_jump (vacuum-resonance mode conversion) is now **wired** as a
+post-Feautrier X↔O swap (commit `a07818d`, SPW09 Eq. 16-17). The
+five deferred E-beads (E4, E6, E10, E13, E19) all landed in the
+2026-05-16 evening session. Highest-value remaining work is now one
+of (rough priority):
+
+1. **Depth-resolved P_jump** — current post-processing ignores photons
+   emitted above the resonance layer (TODO comment in
+   `src/atmosphere/magnetic_atmosphere.jl`). Proper handling requires
+   a depth-resolved swap during the Feautrier integration.
+2. **Real Avrett-Krook flux correction (D10)** — replace the ad-hoc
+   grey `ΔT *= 1 + flux_damping × (flux_ratio^{-1/4} − 1)` with
+   SPW09's depth-resolved scheme.
+3. **Adaptive Feautrier for the magnetic case** — ~80-120 LoC mirror
+   of `solve_feautrier_all_adaptive` for per-(mode, ν) magnetic depth
+   gridding.
+4. **HDF5 atmosphere grid storage** — `AtmosphereGridProvenance`
+   schema (bead C6) is the starting point; adds an `HDF5.jl` dep.
+5. **AD percolation into atmosphere solvers** (E6 follow-up) — the
+   preallocated `Vector{Float64}` scratch buffers in Feautrier need
+   to be `Vector{T}` parameterised so `ForwardDiff.gradient` can flow
+   through `solve_atmosphere`.
 
 ### Adaptive Feautrier wiring — landed as default for non-magnetic (2026-05-16)
 
