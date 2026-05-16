@@ -312,6 +312,47 @@ end
     @test I_pol[:, 1] .+ I_pol[:, 2] ≈ I_sum rtol=1e-12
 end
 
+@testset "Adaptive Feautrier magnetic case" begin
+    # Follow-up bead to commit 837a0b7 (non-mag adaptive default). The magnetic
+    # solver now has a per-(mode, ν) log-spaced depth-gridding path mirroring
+    # `solve_feautrier_all_adaptive`. Smoke test: adaptive vs non-adaptive at a
+    # small grid must (a) both finish, (b) produce finite non-negative emergent
+    # intensities, and (c) agree within a loose tolerance (~30% median on the
+    # X-mode outward I) — the adaptive *advantage* is at large N.
+    gaunt = load_gaunt_table(GAUNT_PATH)
+
+    common = (T_eff=1e6, g_s=2e14, B=1e12, θ_B=π/4,
+              nν=24, M=4, N=50, max_iter=12, tol=5e-4)
+
+    r_nonadapt = solve_magnetic_atmosphere(common.T_eff, common.g_s, common.B, common.θ_B,
+                                            gaunt;
+                                            nν=common.nν, M=common.M, N=common.N,
+                                            max_iter=common.max_iter, tol=common.tol,
+                                            adaptive=false, verbose=false)
+    r_adapt    = solve_magnetic_atmosphere(common.T_eff, common.g_s, common.B, common.θ_B,
+                                            gaunt;
+                                            nν=common.nν, M=common.M, N=common.N,
+                                            max_iter=common.max_iter, tol=common.tol,
+                                            adaptive=true, verbose=false)
+
+    @test r_nonadapt.n_iterations > 0
+    @test r_adapt.n_iterations > 0
+
+    @test all(isfinite, r_nonadapt.I_emergent)
+    @test all(isfinite, r_adapt.I_emergent)
+    @test minimum(r_nonadapt.I_emergent) >= 0
+    @test minimum(r_adapt.I_emergent)    >= 0
+
+    # Agreement on X-mode outward I (median across (k, μ), robust to single-ν
+    # outliers near resonances).
+    I_na = vec(r_nonadapt.I_emergent[:, :, 1])
+    I_ad = vec(r_adapt.I_emergent[:, :, 1])
+    nonzero = (I_na .> 0) .& (I_ad .> 0)
+    rel_diff = abs.(I_ad[nonzero] .- I_na[nonzero]) ./ I_na[nonzero]
+    median_diff = sort(rel_diff)[div(length(rel_diff), 2)]
+    @test median_diff < 0.3
+end
+
 @testset "Magnetic atmosphere uses scattering albedo for B > 0" begin
     y = [1.0e-6, 1.0e-4, 1.0e-2]
     T = fill(1.0e6, length(y))

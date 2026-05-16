@@ -22,7 +22,7 @@ using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid, density_f
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
 using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, effective_opacity
-using ..FeautrierSolver: gauss_legendre_half
+using ..FeautrierSolver: gauss_legendre_half, _log_interp
 using ..DielectricTensor: vacuum_resonance_density, vacuum_resonance_pjump
 using ..SolverDefaults: TAU_DIFFUSION, TAU_EFFECTIVE_MIN, T_SURFACE_FRAC_MCPHAC,
                          Y_MAX_SEMIINFINITE, FLUX_DAMPING_DEFAULT,
@@ -92,6 +92,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     flux_tol::Float64=1e-2,
                                     flux_damping::Float64=FLUX_DAMPING_DEFAULT,
                                     apply_pjump::Bool=false,
+                                    adaptive::Bool=true,
                                     verbose::Bool=true)::MagneticAtmosphereResult
     @assert T_eff > 0 && g_s > 0 && B >= 0
     @assert 0 <= θ_B <= π
@@ -136,14 +137,15 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         n_iter = iter
 
         # Solve Feautrier RT for each mode independently
+        solver! = adaptive ? _solve_feautrier_mode_adaptive! : _solve_feautrier_mode!
         for j in 1:2
-            _solve_feautrier_mode!(view(P_all, :, :, :, j),
-                                   view(J, :, :, j),
-                                   view(f_ν, :, :, j),
-                                   view(h_ν, :, :, j),
-                                   y, T, ν_grid, μ, w,
-                                   view(k_total, :, :, j),
-                                   view(ρ_alb, :, :, j))
+            solver!(view(P_all, :, :, :, j),
+                    view(J, :, :, j),
+                    view(f_ν, :, :, j),
+                    view(h_ν, :, :, j),
+                    y, T, ν_grid, μ, w,
+                    view(k_total, :, :, j),
+                    view(ρ_alb, :, :, j))
         end
 
         # Compute two-mode Rybicki temperature correction
@@ -199,14 +201,15 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     end
 
     # Final Feautrier solve
+    solver_final! = adaptive ? _solve_feautrier_mode_adaptive! : _solve_feautrier_mode!
     for j in 1:2
-        _solve_feautrier_mode!(view(P_all, :, :, :, j),
-                               view(J, :, :, j),
-                               view(f_ν, :, :, j),
-                               view(h_ν, :, :, j),
-                               y, T, ν_grid, μ, w,
-                               view(k_total, :, :, j),
-                               view(ρ_alb, :, :, j))
+        solver_final!(view(P_all, :, :, :, j),
+                      view(J, :, :, j),
+                      view(f_ν, :, :, j),
+                      view(h_ν, :, :, j),
+                      y, T, ν_grid, μ, w,
+                      view(k_total, :, :, j),
+                      view(ρ_alb, :, :, j))
     end
 
     # Emergent intensity: I_j(ν, μ) = 2P_j(surface, μ)
@@ -780,6 +783,218 @@ function _feautrier_single!(P_out, N_eff, M, dtau, μ, w, ν, T, ρ_alb,
         P_out[i, j] = max(P_out[i, j], 0.0)
     end
     return P_out
+end
+
+"""
+Solve Feautrier RT for ONE polarization mode with per-(mode, ν) log-spaced
+depth gridding. Same signature as `_solve_feautrier_mode!`, so the caller
+can dispatch via a function-handle. Mirrors `solve_feautrier_all_adaptive`
+from `FeautrierSolver`, but uses the per-mode source B_ν/2 (unpolarized
+thermal emission split equally between modes) throughout.
+
+For each frequency k:
+  1. Find i_max with the τ_cum > TAU_DIFFUSION + τ_eff_cum > TAU_EFFECTIVE_MIN
+     guards (same as `_solve_feautrier_mode!`).
+  2. Build N_k = min(N_ν, i_max) log-spaced depth points in [y[1], y[i_max]].
+  3. Interpolate T, k_tot_mode, ρ_alb_mode onto the per-frequency grid.
+  4. Solve Feautrier on the per-frequency grid via `_solve_on_grid_mode`
+     (per-mode source B_ν/2).
+  5. Interpolate J, f, h, P back to the common grid; pad below i_max with
+     the per-mode diffusion limit (J = B_ν/2, f = 1/3, h = 0, P = B_ν/2).
+"""
+function _solve_feautrier_mode_adaptive!(P_out, J_out, f_out, h_out,
+                                          y, T, ν_grid, μ, w,
+                                          k_tot_mode, ρ_alb_mode;
+                                          N_ν::Int=200)
+    N = length(y)
+    M = length(μ)
+    nν = length(ν_grid)
+
+    for k in 1:nν
+        ν = ν_grid[k]
+
+        # Find i_max with both τ_cum and τ_eff_cum guards (mirror non-adaptive
+        # path). Identical logic to `_solve_feautrier_mode!` so adaptive and
+        # non-adaptive agree on which (mode, ν) need how many depth points.
+        i_max = N
+        τ_cum = 0.0
+        τ_eff_cum = 0.0
+        for i in 2:N
+            dy = y[i] - y[i-1]
+            dtau_i = 0.5 * (k_tot_mode[i, k] + k_tot_mode[i-1, k]) * dy
+            τ_cum += dtau_i
+            κ_abs_prev = k_tot_mode[i-1, k] * (1.0 - ρ_alb_mode[i-1, k])
+            κ_abs_curr = k_tot_mode[i, k]   * (1.0 - ρ_alb_mode[i, k])
+            κ_abs_mid  = max(0.5 * (κ_abs_prev + κ_abs_curr), 0.0)
+            k_tot_mid  = max(0.5 * (k_tot_mode[i-1, k] + k_tot_mode[i, k]), 0.0)
+            τ_eff_cum += sqrt(κ_abs_mid * k_tot_mid) * dy
+            if τ_cum > TAU_DIFFUSION && τ_eff_cum > TAU_EFFECTIVE_MIN
+                i_max = i
+                break
+            end
+        end
+        i_max = max(i_max, 3)
+
+        # Log-spaced per-(mode, ν) grid in [y[1], y[i_max]]
+        y_min = y[1]
+        y_max_k = y[i_max]
+        N_k = min(N_ν, i_max)
+        logy_min = log10(max(y_min, 1e-30))
+        logy_max = log10(y_max_k)
+        y_nu = [10.0^logy for logy in range(logy_min, logy_max, length=N_k)]
+        # Clamp endpoints to avoid log10/10^ round-trip extrapolation in
+        # `_log_interp` (which clamps `f ∈ [0, 1]` but is happier when y_nu[1]
+        # is exactly y[1]).
+        y_nu[1] = y_min
+        y_nu[end] = y_max_k
+
+        # Interpolate T, k_tot_mode, ρ_alb_mode onto the per-(mode, ν) grid.
+        T_nu     = _log_interp(y[1:i_max], T[1:i_max], y_nu)
+        k_tot_nu = _log_interp(y[1:i_max], [k_tot_mode[i, k] for i in 1:i_max], y_nu)
+        ρ_alb_nu = _log_interp(y[1:i_max], [ρ_alb_mode[i, k] for i in 1:i_max], y_nu)
+
+        # Build dtau on the per-(mode, ν) grid.
+        dtau_nu = zeros(N_k)
+        for i in 2:N_k
+            dy = y_nu[i] - y_nu[i-1]
+            dtau_nu[i] = 0.5 * (k_tot_nu[i] + k_tot_nu[i-1]) * dy
+        end
+
+        # Solve Feautrier on the per-(mode, ν) grid with per-mode source B_ν/2.
+        P_nu = _solve_on_grid_mode(N_k, M, dtau_nu, μ, w, ν, T_nu, ρ_alb_nu)
+
+        # J, f, h on the per-(mode, ν) grid.
+        J_nu = zeros(N_k)
+        f_nu = zeros(N_k)
+        h_nu = zeros(N_k)
+        for i in 1:N_k
+            J_nu[i] = sum(P_nu[i, j] * w[j] for j in 1:M)
+            if J_nu[i] > 0
+                f_nu[i] = sum(μ[j]^2 * P_nu[i, j] * w[j] for j in 1:M) / J_nu[i]
+                h_nu[i] = sum(μ[j]   * P_nu[i, j] * w[j] for j in 1:M) / J_nu[i]
+            else
+                f_nu[i] = 1.0 / 3.0
+                h_nu[i] = 0.0
+            end
+        end
+
+        # Interpolate J, f, h back to the common grid.
+        J_common = _log_interp(y_nu, J_nu, y[1:i_max])
+        f_common = _log_interp(y_nu, f_nu, y[1:i_max])
+        h_common = _log_interp(y_nu, h_nu, y[1:i_max])
+        for i in 1:i_max
+            J_out[i, k] = J_common[i]
+            f_out[i, k] = clamp(f_common[i], 0.0, 1.0)
+            h_out[i, k] = h_common[i]
+        end
+        # Diffusion-limit padding below i_max: per-mode J = B_ν/2 (NOT B_ν).
+        for i in i_max+1:N
+            J_out[i, k] = 0.5 * planck_Bnu(ν, T[i])
+            f_out[i, k] = 1.0 / 3.0
+            h_out[i, k] = 0.0
+        end
+
+        # P_all per μ: interpolate back to common grid, pad with B_ν/2 below i_max.
+        for j in 1:M
+            P_surface = _log_interp(y_nu, [P_nu[ii, j] for ii in 1:N_k], y[1:i_max])
+            for i in 1:i_max
+                P_out[i, j, k] = P_surface[i]
+            end
+            for i in i_max+1:N
+                P_out[i, j, k] = 0.5 * planck_Bnu(ν, T[i])
+            end
+        end
+    end
+end
+
+"""
+Solve Feautrier on an arbitrary depth grid for ONE polarization mode
+(per-mode Planck source = B_ν/2). Mirrors `FeautrierSolver._solve_on_grid`
+exactly except for the source-term factor of 1/2 in:
+  - Interior:   Q .= (1 - ρ) * B_ν / 2
+  - Bottom BC:  Q .= B_ν / 2
+
+The source-term difference is the core distinction between mode and
+non-mode Feautrier; sharing the non-mag implementation would require
+threading a `source_scale` kwarg through the function and every call
+site for a one-line change in two places — duplicating ~70 lines is
+cleaner. The scattering kernel (Hummer 1962 dipole phase function) is
+the same as the non-magnetic case, matching `_feautrier_single!` above.
+"""
+function _solve_on_grid_mode(N_eff, M, dtau, μ, w, ν, T, ρ_alb)
+    B_tilde = [zeros(M, M) for _ in 1:N_eff]
+    Q_tilde = [zeros(M) for _ in 1:N_eff]
+    C_store = [zeros(M, M) for _ in 1:N_eff]
+
+    for i in 1:N_eff
+        A = zeros(M, M)
+        B = zeros(M, M)
+        C = zeros(M, M)
+        Q = zeros(M)
+
+        Bν_half = 0.5 * planck_Bnu(ν, T[i])  # per-mode = B_ν/2
+        ρ = ρ_alb[i]
+
+        if i == 1
+            # Surface: pure radiation BC (no source, no scattering)
+            dt_next = dtau[2]
+            for j in 1:M
+                δ = dt_next / μ[j]
+                C[j, j] = -1.0 / δ
+                B[j, j] = 1.0 + 1.0 / δ
+            end
+        elseif i == N_eff
+            # Bottom: per-mode LTE, P = B_ν/2
+            for j in 1:M; B[j, j] = 1.0; end
+            Q .= Bν_half
+            B_tilde[i] = B; Q_tilde[i] = Q; C_store[i] = C
+            continue
+        else
+            # Interior
+            dt_prev = dtau[i]
+            dt_next = dtau[min(i+1, N_eff)]
+            dt_avg = 0.5 * (dt_prev + dt_next)
+            for j in 1:M
+                coeff_A = μ[j]^2 / (dt_prev * dt_avg)
+                coeff_C = μ[j]^2 / (dt_next * dt_avg)
+                A[j, j] = -coeff_A
+                C[j, j] = -coeff_C
+                B[j, j] = coeff_A + coeff_C + 1.0
+            end
+        end
+
+        # Scattering + source (interior only). Hummer (1962) dipole phase
+        # function matches `_feautrier_single!` and the non-magnetic Feautrier
+        # in `feautrier.jl` for the B=0 limit to recover exactly.
+        if i > 1 && i < N_eff
+            for j in 1:M, jp in 1:M
+                cross = 3.0/16.0 * (3.0 + 3.0*μ[j]^2*μ[jp]^2 - μ[j]^2 - μ[jp]^2)
+                B[j, jp] -= 2.0 * ρ * cross * w[jp]
+            end
+            Q .= (1.0 - ρ) * Bν_half     # per-mode source = (1-ρ) B_ν/2
+        end
+
+        C_store[i] = copy(C)
+
+        if i == 1
+            B_tilde[i] = copy(B)
+            Q_tilde[i] = copy(Q)
+        else
+            tmp = B_tilde[i-1] \ C_store[i-1]
+            B_tilde[i] = B - A * tmp
+            Q_tilde[i] = Q - A * (B_tilde[i-1] \ Q_tilde[i-1])
+        end
+    end
+
+    P = zeros(N_eff, M)
+    P[N_eff, :] = B_tilde[N_eff] \ Q_tilde[N_eff]
+    for i in N_eff-1:-1:1
+        P[i, :] = B_tilde[i] \ (Q_tilde[i] - C_store[i] * P[i+1, :])
+    end
+    for i in 1:N_eff, j in 1:M
+        P[i, j] = max(P[i, j], 0.0)
+    end
+    return P
 end
 
 """

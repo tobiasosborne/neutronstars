@@ -17,7 +17,7 @@ using ..BlackbodyAtmosphere: planck_Bnu
 using ..AtmosphereStructure: AtmosphereColumn
 using ..SolverDefaults: TAU_DIFFUSION
 
-export solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
+export solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half, _log_interp
 
 """
     gauss_legendre_half(M) → (μ, w)
