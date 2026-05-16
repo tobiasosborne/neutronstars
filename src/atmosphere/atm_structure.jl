@@ -36,7 +36,7 @@ density_from_PT(P::Real, T::Real) = m_p * P / (2 * k_B * T)
 Atmosphere column data structure.
 All arrays indexed [depth_point] or [depth_point, frequency].
 """
-mutable struct AtmosphereColumn
+struct AtmosphereColumn
     N::Int                      # number of depth points
     K::Int                      # number of frequencies
     g_s::Float64                # surface gravity [cm/s²]
