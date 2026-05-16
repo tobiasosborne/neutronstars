@@ -53,7 +53,7 @@ function render_rxj1856_visible(; image_n::Int=256,
 
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     atmosphere = solve_atmosphere(T_eff, g_s, gaunt;
-                                  K=atmosphere_k,
+                                  nν=atmosphere_k,
                                   M=atmosphere_m,
                                   N=atmosphere_n,
                                   max_iter=30,

@@ -97,7 +97,7 @@ end
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     result = solve_magnetic_atmosphere(
         1.0e6, 2.0e14, 1.0e12, π / 4, gaunt;
-        K=16, M=4, N=50, max_iter=60, tol=5e-4, verbose=false
+        nν=16, M=4, N=50, max_iter=60, tol=5e-4, verbose=false
     )
 
     flux = 0.0
@@ -117,13 +117,13 @@ end
 end
 
 @testset "magnetic_emergent_spectrum interpolation shape + positivity" begin
-    # Bead D11: smoke test for the promoted K×M×2 interpolator.
+    # Bead D11: smoke test for the promoted nν×M×2 interpolator.
     # Uses a cheap magnetic solve (does not need to be physically converged —
     # we only check that the function returns sane shape/sign for finite inputs).
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     result = solve_magnetic_atmosphere(
         1.0e6, 2.0e14, 1.0e12, π / 4, gaunt;
-        K=16, M=4, N=50, max_iter=20, tol=5e-4, verbose=false
+        nν=16, M=4, N=50, max_iter=20, tol=5e-4, verbose=false
     )
 
     # Pick a small ν_obs grid strictly inside the solver's ν_grid so we exercise
@@ -236,15 +236,15 @@ end
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
 
     # max_iter matches the existing magnetic-flux smoke test (line 96) for the
-    # same K=16, M=4, N=50 grid; 30 iterations were not always enough to satisfy
+    # same nν=16, M=4, N=50 grid; 30 iterations were not always enough to satisfy
     # both the temperature and flux convergence criteria at this coarse grid.
     r_mag = solve_magnetic_atmosphere(
         1.0e6, 2.0e14, 0.0, 0.0, gaunt;
-        K=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
+        nν=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
     )
     r_nonmag = solve_atmosphere(
         1.0e6, 2.0e14, gaunt;
-        K=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
+        nν=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
     )
 
     # Sum modes for magnetic: unpolarized intensity = mode 1 + mode 2
@@ -273,15 +273,15 @@ end
     @testset "non-magnetic flux conservation" begin
         # F = 2π ∫ dν ∑_j μ_j w_j I_em[k,j] should equal σ_SB · T_eff⁴.
         gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
-        # K=50 matches HANDOFF's production setting (F/σT⁴≈0.99 is the
-        # claimed value there). Below K~40 the trapezoidal-in-ν tail starts
+        # nν=50 matches HANDOFF's production setting (F/σT⁴≈0.99 is the
+        # claimed value there). Below nν~40 the trapezoidal-in-ν tail starts
         # undercounting by 2-3%.
         r = solve_atmosphere(1.0e6, 2.0e14, gaunt;
-            K=50, M=4, N=80, max_iter=20, tol=1.0e-4, verbose=false)
+            nν=50, M=4, N=80, max_iter=20, tol=1.0e-4, verbose=false)
         @test r.converged
 
         # Inline trapezoidal-in-ν integration using the stored μ_grid (which
-        # matches gauss_legendre_half(M)). I_emergent is K × M (freq × angle).
+        # matches gauss_legendre_half(M)). I_emergent is nν × M (freq × angle).
         _, w = NeutronStar.FeautrierSolver.gauss_legendre_half(length(r.μ_grid))
         μ = r.μ_grid
         F = 0.0
@@ -296,7 +296,7 @@ end
         println("  non-mag F/σT⁴ = ", round(flux_ratio, digits=4))
         # rtol=0.05: the solver itself converges to F/σT⁴≈0.99 (HANDOFF), but
         # post-hoc trapezoidal-in-ν integration here loses ~2-3% in the Wien
-        # tail at K=50. TODO: expose the solver's own bolometric flux (Gauss
+        # tail at nν=50. TODO: expose the solver's own bolometric flux (Gauss
         # quadrature over the same ν grid the Feautrier loop uses) and tighten
         # this back to 0.02.
         @test flux_ratio ≈ 1.0 rtol=0.05
@@ -412,7 +412,7 @@ end
         gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
         T_eff = 1.0e6
         r = solve_atmosphere(T_eff, 2.0e14, gaunt;
-            K=16, M=4, N=50, max_iter=20, tol=1e-3, verbose=false)
+            nν=16, M=4, N=50, max_iter=20, tol=1e-3, verbose=false)
         ν_lo = r.ν_grid[1]
         ν_hi = r.ν_grid[end]
         B_peak_lo = planck_Bnu(ν_lo, T_eff * 4.0)
@@ -440,7 +440,7 @@ end
         B_grid = [0.0]
         θ_B_grid = [0.0]
         grid = build_atmosphere_grid(T_grid, B_grid, θ_B_grid, 2.0e14, gaunt;
-            K=16, M=4, N=50, max_iter=20, tol_T=1e-3, verbose=false)
+            nν=16, M=4, N=50, max_iter=20, tol_T=1e-3, verbose=false)
         # Use grid frequencies as the lookup target so we hit interior
         # log-log interp on every channel (not boundary clamps).
         ν_obs = collect(grid.ν_grid[2:end-1])

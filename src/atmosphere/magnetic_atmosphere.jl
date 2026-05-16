@@ -36,7 +36,7 @@ Bead E15: `column` snapshots the full converged magnetic column as a
 NamedTuple `(y, T, ρ, P, κ, k_total, ρ_alb, τ)`. The magnetic solver
 operates on bare arrays (no dedicated struct), so a NamedTuple is the
 lowest-friction container. The mode axis is the last axis of κ, k_total,
-ρ_alb, τ (shape `N × K × 2`). `T_profile` and `y_grid` are retained for
+ρ_alb, τ (shape `N × nν × 2`). `T_profile` and `y_grid` are retained for
 backward compatibility and are equivalent to `column.T` and `column.y`.
 """
 struct MagneticAtmosphereResult
@@ -49,7 +49,7 @@ struct MagneticAtmosphereResult
     max_dT_over_T::Float64
     ν_grid::Vector{Float64}
     μ_grid::Vector{Float64}
-    I_emergent::Array{Float64, 3}   # K × M × 2 (freq, angle, mode)
+    I_emergent::Array{Float64, 3}   # nν × M × 2 (freq, angle, mode)
     T_profile::Vector{Float64}      # == column.T (E15: retained for compat)
     y_grid::Vector{Float64}         # == column.y (E15: retained for compat)
     column::NamedTuple              # full converged column (E15)
@@ -76,7 +76,7 @@ explicitly if `gaunt === nothing`.
 function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     B::Float64, θ_B::Float64,
                                     gaunt::Union{GauntTable, Nothing};
-                                    K::Int=50, M::Int=8, N::Int=200,
+                                    nν::Int=50, M::Int=8, N::Int=200,
                                     max_iter::Int=30,
                                     tol::Float64=1e-4,
                                     flux_tol::Float64=1e-2,
@@ -88,13 +88,13 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     verbose && @printf("Magnetic RT: T_eff=%.2e K, g_s=%.2e, B=%.2e G, θ_B=%.1f°\n",
                         T_eff, g_s, B, rad2deg(θ_B))
 
-    ν_grid = make_frequency_grid(T_eff, K)
+    ν_grid = make_frequency_grid(T_eff, nν)
     μ, w = gauss_legendre_half(M)
 
     # Build initial atmosphere column (Eddington T profile)
     y, T, ρ, P = _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B, θ_B)
 
-    verbose && @printf("  N=%d, y_max=%.2e, K=%d frequencies\n", N, y[end], K)
+    verbose && @printf("  N=%d, y_max=%.2e, nν=%d frequencies\n", N, y[end], nν)
 
     # Compute opacities for both modes at all (depth, frequency) points
     # κ_j[i, k]: absorption opacity for mode j at depth i, frequency k
@@ -102,10 +102,10 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     # For B>0: split true absorption from scattering extinction.
     # For B=0: both modes have κ_ff + σ_T (recover non-magnetic)
 
-    κ = zeros(N, K, 2)      # absorption opacity per mode
-    k_total = zeros(N, K, 2) # total opacity per mode
-    ρ_alb = zeros(N, K, 2)  # scattering albedo per mode
-    τ = zeros(N, K, 2)      # optical depth per mode
+    κ = zeros(N, nν, 2)      # absorption opacity per mode
+    k_total = zeros(N, nν, 2) # total opacity per mode
+    ρ_alb = zeros(N, nν, 2)  # scattering albedo per mode
+    τ = zeros(N, nν, 2)      # optical depth per mode
 
     _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid, B, θ_B, gaunt)
 
@@ -115,10 +115,10 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     flux_clamp_warned = false  # emit clamp warning at most once per call
 
     # Storage for Feautrier solutions (per mode)
-    P_all = zeros(N, M, K, 2)  # Feautrier P[depth, angle, freq, mode]
-    J = zeros(N, K, 2)          # mean intensity per mode
-    f_ν = zeros(N, K, 2)        # Eddington factor per mode
-    h_ν = zeros(N, K, 2)        # flux Eddington factor per mode
+    P_all = zeros(N, M, nν, 2)  # Feautrier P[depth, angle, freq, mode]
+    J = zeros(N, nν, 2)          # mean intensity per mode
+    f_ν = zeros(N, nν, 2)        # Eddington factor per mode
+    h_ν = zeros(N, nν, 2)        # flux Eddington factor per mode
 
     for iter in 1:max_iter
         n_iter = iter
@@ -135,7 +135,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         end
 
         # Compute two-mode Rybicki temperature correction
-        ΔT = _rybicki_two_mode(N, K, ν_grid, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
+        ΔT = _rybicki_two_mode(N, nν, ν_grid, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
 
         # Ad-hoc grey-body flux scaling (NOT the Suleimanov-Potekhin-Werner 2009
         # Avrett-Krook correction, despite the name we've been using). Motivation:
@@ -198,8 +198,8 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     end
 
     # Emergent intensity: I_j(ν, μ) = 2P_j(surface, μ)
-    I_emergent = zeros(K, M, 2)
-    for k in 1:K, jj in 1:M, mode in 1:2
+    I_emergent = zeros(nν, M, 2)
+    for k in 1:nν, jj in 1:M, mode in 1:2
         I_emergent[k, jj, mode] = 2.0 * P_all[1, jj, k, mode]
     end
 
@@ -260,8 +260,8 @@ faster than any local extrapolation can capture). In μ, values outside
 extrapolation).
 
 This is the magnetic counterpart of `RTAtmosphere.rt_emergent_spectrum`,
-which only handles the non-magnetic `K × M` case (see
-`src/atmosphere/rt_atmosphere.jl`). The K × M × 2 magnetic case used to
+which only handles the non-magnetic `nν × M` case (see
+`src/atmosphere/rt_atmosphere.jl`). The nν × M × 2 magnetic case used to
 be re-implemented inline in every script
 (see `scripts/render_rxj1856_visible_magnetic_atmosphere.jl`); promoting
 it here makes it testable and reusable.
@@ -289,7 +289,7 @@ function magnetic_emergent_spectrum(result::MagneticAtmosphereResult,
     t_μ = j_lo < Mμ ? clamp((cos_θe - μ[j_lo]) / (μ[j_hi] - μ[j_lo]), 0.0, 1.0) : 0.0
 
     ν_in = result.ν_grid
-    K = length(ν_in)
+    nν = length(ν_in)
     N_out = length(ν_obs)
 
     # Per-mode storage (always compute both, sum only if !polarized)
@@ -306,7 +306,7 @@ function magnetic_emergent_spectrum(result::MagneticAtmosphereResult,
             elseif ν >= ν_in[end]
                 out_per_mode[i, mode] = 0.0
             else
-                k_lo = clamp(searchsortedlast(ν_in, ν), 1, K - 1)
+                k_lo = clamp(searchsortedlast(ν_in, ν), 1, nν - 1)
                 k_hi = k_lo + 1
                 t_ν = (log(ν) - log(ν_in[k_lo])) / (log(ν_in[k_hi]) - log(ν_in[k_lo]))
 
@@ -383,11 +383,11 @@ function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
         T_mag = _magnetic_eddington_temperature(y_loc, T_eff, g_s, ν_grid, B, θ_B)
         ρ_mag = [density_from_PT(P_loc[i], T_mag[i]) for i in 1:N]
 
-        K = length(ν_grid)
-        κ = zeros(N, K, 2)
-        k_total = zeros(N, K, 2)
-        ρ_alb = zeros(N, K, 2)
-        τ = zeros(N, K, 2)
+        nν = length(ν_grid)
+        κ = zeros(N, nν, 2)
+        k_total = zeros(N, nν, 2)
+        ρ_alb = zeros(N, nν, 2)
+        τ = zeros(N, nν, 2)
         _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ,
                                      y_loc, T_mag, ρ_mag, ν_grid, B, θ_B, gaunt)
 
@@ -461,9 +461,9 @@ end
 """Compute magnetic opacities for both modes at all (depth, freq) points."""
 function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid, B, θ_B, gaunt)
     N = length(y)
-    K = length(ν_grid)
+    nν = length(ν_grid)
 
-    for i in 1:N, k in 1:K
+    for i in 1:N, k in 1:nν
         ν = ν_grid[k]
         if B > 0
             # Magnetic: mode-dependent opacities
@@ -497,7 +497,7 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
     end
 
     # Compute optical depth from surface for each mode
-    for j in 1:2, k in 1:K
+    for j in 1:2, k in 1:nν
         τ[1, k, j] = 0.0
         for i in 2:N
             dy = y[i] - y[i-1]
@@ -512,7 +512,7 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
                                  k_tot_mode, ρ_alb_mode)
     N = length(y)
     M = length(μ)
-    K = length(ν_grid)
+    nν = length(ν_grid)
 
     # Preallocate scratch (reused across frequencies). Sized to N (max N_eff).
     B_tilde = [zeros(M, M) for _ in 1:N]
@@ -530,7 +530,7 @@ function _solve_feautrier_mode!(P_out, J_out, f_out, h_out,
     rhs_buf = zeros(M)      # rhs buffer for back-substitution
     dtau    = zeros(N)
 
-    for k in 1:K
+    for k in 1:nν
         ν = ν_grid[k]
 
         # Build dtau for this mode (reuse buffer)
@@ -721,14 +721,14 @@ The V_k weights sum over both modes.
 
 ΔT enforces: Σ_j ∫ κ_j (J_j - B_ν/2) dν = 0 at each depth.
 """
-function _rybicki_two_mode(N, K, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
+function _rybicki_two_mode(N, nν, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
     # Frequency quadrature weights
-    b = zeros(K)
-    for k in 1:K
+    b = zeros(nν)
+    for k in 1:nν
         if k == 1
             b[k] = 0.5 * (ν[2] - ν[1])
-        elseif k == K
-            b[k] = 0.5 * (ν[K] - ν[K-1])
+        elseif k == nν
+            b[k] = 0.5 * (ν[nν] - ν[nν-1])
         else
             b[k] = 0.5 * (ν[k+1] - ν[k-1])
         end
@@ -740,7 +740,7 @@ function _rybicki_two_mode(N, K, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
     denom = zeros(N)
     B_bar = zeros(N)
     for i in 1:N
-        for k in 1:K
+        for k in 1:nν
             dBdT_half = 0.5 * dBnu_dT(ν[k], T[i])
             Bν_half = 0.5 * planck_Bnu(ν[k], T[i])
             for j in 1:2
@@ -758,7 +758,7 @@ function _rybicki_two_mode(N, K, ν, y, T, κ, k_total, ρ_alb, f_ν, h_ν, J)
     rhs = zeros(N)
 
     for j in 1:2
-        for k in 1:K
+        for k in 1:nν
             T_diag = zeros(N)
             T_sub = zeros(N-1)
             T_sup = zeros(N-1)
@@ -848,10 +848,10 @@ end
 
 """Bolometric flux from two-mode Feautrier solution."""
 function _bolometric_flux_2mode(P_all, μ, w, ν_grid)
-    K = length(ν_grid)
+    nν = length(ν_grid)
     M = length(μ)
     F = 0.0
-    for k in 1:K-1
+    for k in 1:nν-1
         dν = ν_grid[k+1] - ν_grid[k]
         for j in 1:M, mode in 1:2
             F += 2π * μ[j] * 2.0 * P_all[1, j, k, mode] * w[j] * dν

@@ -21,7 +21,7 @@ function save_ppm(path::String, rgb)
     end
 end
 
-# Bead D11: per-script inline `magnetic_spectrum` (K × M × 2 interpolation) was
+# Bead D11: per-script inline `magnetic_spectrum` (nν × M × 2 interpolation) was
 # promoted to `MagneticAtmosphere.magnetic_emergent_spectrum` and exported from
 # NeutronStar so it can be tested and reused. This script now calls that.
 
@@ -53,7 +53,7 @@ function render_rxj1856_visible_magnetic(; image_n::Int=256)
 
     gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
     atmosphere = solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt;
-                                           K=50, M=8, N=100,
+                                           nν=50, M=8, N=100,
                                            max_iter=45,
                                            tol=7e-4,
                                            flux_tol=1e-2,

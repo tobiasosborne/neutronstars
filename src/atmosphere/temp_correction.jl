@@ -53,16 +53,16 @@ function compute_temperature_correction(col::AtmosphereColumn,
                                          h_ν::Matrix{Float64},
                                          J::Matrix{Float64})::Vector{Float64}
     N = col.N
-    K = col.K
+    nν = col.nν
     ν = col.ν_grid
 
     # Frequency quadrature weights (trapezoid on the log-spaced grid)
-    b = zeros(K)
-    for k in 1:K
+    b = zeros(nν)
+    for k in 1:nν
         if k == 1
             b[k] = 0.5 * (ν[2] - ν[1])
-        elseif k == K
-            b[k] = 0.5 * (ν[K] - ν[K-1])
+        elseif k == nν
+            b[k] = 0.5 * (ν[nν] - ν[nν-1])
         else
             b[k] = 0.5 * (ν[k+1] - ν[k-1])
         end
@@ -74,7 +74,7 @@ function compute_temperature_correction(col::AtmosphereColumn,
     denom = zeros(N)
     B_bar = zeros(N)
     for i in 1:N
-        for k in 1:K
+        for k in 1:nν
             dBdT = dBnu_dT(ν[k], col.T[i])
             κ_k = col.κ[i, k]  # absorption opacity only
             denom[i] += dBdT * κ_k * b[k]
@@ -98,7 +98,7 @@ function compute_temperature_correction(col::AtmosphereColumn,
     W = zeros(N, N)
     rhs = zeros(N)
 
-    for k in 1:K
+    for k in 1:nν
         T_diag = zeros(N)
         T_sub = zeros(N-1)
         T_sup = zeros(N-1)
@@ -195,7 +195,7 @@ function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
 
         # K_k (Eq. A23)
         B_k = planck_Bnu(ν[k], col.T[i])
-        # Use precomputed B̄_i (Σ_k B_ν × κ × b / denom) — O(1) lookup, not O(K) inline sum
+        # Use precomputed B̄_i (Σ_k B_ν × κ × b / denom) — O(1) lookup, not O(nν) inline sum
         B_bar_i = B_bar[i]
         K_k[i] = (B_k - dBdT * B_bar_i) * (1.0 - ρ_k)
     end

@@ -54,14 +54,14 @@ function solve_feautrier_all(col::AtmosphereColumn,
                              anisotropic::Bool=true)
     N = col.N
     M = length(μ)
-    K = col.K
+    nν = col.nν
 
-    P_all = zeros(N, M, K)
-    J = zeros(N, K)
-    f_ν = zeros(N, K)
-    h_ν = zeros(N, K)
+    P_all = zeros(N, M, nν)
+    J = zeros(N, nν)
+    f_ν = zeros(N, nν)
+    h_ν = zeros(N, nν)
 
-    for k in 1:K
+    for k in 1:nν
         # Find depth range where τ < τ_max (TAU_DIFFUSION)
         N_eff = N
         for i in 2:N
@@ -122,14 +122,14 @@ function solve_feautrier_all_adaptive(col::AtmosphereColumn,
                                        anisotropic::Bool=true)
     N = col.N
     M = length(μ)
-    K = col.K
+    nν = col.nν
 
-    P_all = zeros(N, M, K)
-    J = zeros(N, K)
-    f_ν = zeros(N, K)
-    h_ν = zeros(N, K)
+    P_all = zeros(N, M, nν)
+    J = zeros(N, nν)
+    f_ν = zeros(N, nν)
+    h_ν = zeros(N, nν)
 
-    for k in 1:K
+    for k in 1:nν
         ν = col.ν_grid[k]
 
         # Find y_max where τ_k reaches TAU_DIFFUSION

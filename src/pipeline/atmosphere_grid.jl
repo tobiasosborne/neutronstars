@@ -17,15 +17,15 @@ single-θ_B=0 grid and `lookup_spectrum(grid, T, B, ν, μ)` (no θ_B)
 still works on those grids, returning the θ_B=0 spectrum.
 
 Phase 3d (bead D2): preserves the polarization axis through the grid.
-`I_cache` now stores `K × M × 2` (frequency × angle × polarization mode)
-emergent intensity arrays instead of mode-summed `K × M` matrices, so
+`I_cache` now stores `nν × M × 2` (frequency × angle × polarization mode)
+emergent intensity arrays instead of mode-summed `nν × M` matrices, so
 Phase 4 Kerr ray tracing can parallel-transport the polarization basis
 along null geodesics (which is impossible if the modes are summed at
 the grid boundary). The default `lookup_spectrum` still returns the
 mode-summed total (existing intensity renderers keep working unchanged);
 a new `lookup_spectrum_polarized` returns the polarized
 `length(ν_obs) × 2` spectrum, and a `sum_modes` helper collapses a
-polarized `K × M × 2` array back to the unpolarized `K × M` total.
+polarized `nν × M × 2` array back to the unpolarized `nν × M` total.
 =#
 
 module AtmosphereGrid
@@ -65,7 +65,7 @@ a pole-on grid (back-compat path).
 struct AtmosphereGridProvenance
     code_sha::String             # git HEAD SHA at build time (or "unknown")
     build_time::String           # epoch seconds (string(time())); avoids Dates dep
-    K::Int                       # frequency grid size
+    nν::Int                      # frequency grid size
     M::Int                       # angular grid size
     N::Int                       # depth grid size
     max_iter::Int
@@ -93,9 +93,9 @@ struct AtmosphereSpectrumGrid
     B_grid::Vector{Float64}              # B field values [G] (0.0 = non-magnetic)
     θ_B_grid::Vector{Float64}            # B-normal angle values [rad] (length≥1)
     g_s::Float64                         # surface gravity (common)
-    ν_grid::Vector{Float64}              # K frequencies [Hz]
+    ν_grid::Vector{Float64}              # nν frequencies [Hz]
     μ_grid::Vector{Float64}              # M angle cosines
-    # I_cache[iT, iB, iθB] = K × M × 2 polarized emergent intensity (X-mode, O-mode).
+    # I_cache[iT, iB, iθB] = nν × M × 2 polarized emergent intensity (X-mode, O-mode).
     # Phase 3d (bead D2): polarization axis is preserved through the grid so that
     # downstream Kerr ray tracing (Phase 4) can parallel-transport the polarization
     # basis along null geodesics. For B=0 cells the two modes are degenerate and
@@ -105,15 +105,15 @@ struct AtmosphereSpectrumGrid
     # Intensity-only renderers (the current `render_spectral_cube`) consume the
     # mode-summed total via `lookup_spectrum`; polarization-aware callers should
     # use `lookup_spectrum_polarized` (returns a length(ν_obs) × 2 matrix).
-    I_cache::Array{Array{Float64, 3}, 3}  # (nT, nB, nθB) array of K×M×2 arrays
+    I_cache::Array{Array{Float64, 3}, 3}  # (nT, nB, nθB) array of nν×M×2 arrays
     provenance::AtmosphereGridProvenance
 end
 
 """
     sum_modes(I::Array{Float64, 3}) → Matrix{Float64}
 
-Sum the polarization axis of an `K × M × 2` emergent intensity array
-into a mode-summed `K × M` intensity. Used by intensity-only renderers
+Sum the polarization axis of an `nν × M × 2` emergent intensity array
+into a mode-summed `nν × M` intensity. Used by intensity-only renderers
 that don't propagate polarization. Future polarization-aware renderers
 (e.g. Kerr ray tracing with parallel-transported basis) should consume
 the polarized array directly instead.
@@ -134,7 +134,7 @@ function _git_sha()
 end
 
 """
-    build_atmosphere_grid(T_grid, B_grid, θ_B_grid, g_s, gaunt; K=50, M=8, N=100,
+    build_atmosphere_grid(T_grid, B_grid, θ_B_grid, g_s, gaunt; nν=50, M=8, N=100,
                           max_iter=80, tol_T=1e-3, tol_flux=1e-2,
                           flux_damping=0.5, gaunt_path="unknown", verbose=true)
 
@@ -166,7 +166,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
                                 θ_B_grid::Vector{Float64},
                                 g_s::Float64,
                                 gaunt::Union{GauntTable, Nothing};
-                                K::Int=50, M::Int=8, N::Int=100,
+                                nν::Int=50, M::Int=8, N::Int=100,
                                 max_iter::Int=80,
                                 tol_T::Float64=1e-3,
                                 tol_flux::Float64=1e-2,
@@ -193,12 +193,12 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
                         nT, nB, nθB, nT * nB * nθB)
 
     # Establish common (ν, μ) grids. The frequency grid only depends on
-    # T_eff and K; the angle grid only depends on M. We build them directly
+    # T_eff and nν; the angle grid only depends on M. We build them directly
     # rather than running a throwaway non-magnetic solve, both because that
     # avoided computation we don't need and because the non-magnetic solver
     # would require a Gaunt table (bead D10: pure-magnetic grids can now
     # pass `gaunt = nothing`).
-    ν_grid = make_frequency_grid(T_grid[1], K)
+    ν_grid = make_frequency_grid(T_grid[1], nν)
     μ_grid, _ = gauss_legendre_half(M)
 
     I_cache = Array{Array{Float64, 3}, 3}(undef, nT, nB, nθB)
@@ -238,7 +238,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             # keeps the flat @threads loop race-free.
             verbose && @printf("  [%d/%d] T_eff=%.2e K, B=0 (θ_B-indep.) ... ",
                                 step, total, T_eff)
-            r = solve_atmosphere(T_eff, g_s, gaunt; K=K, M=M, N=N,
+            r = solve_atmosphere(T_eff, g_s, gaunt; nν=nν, M=M, N=N,
                                   max_iter=30, tol=1e-6, verbose=false)
             # Non-magnetic atmospheres are unpolarised — the two normal
             # modes are degenerate. We store I_nonmag/2 in each of the two
@@ -248,9 +248,9 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             # intensity in mode 1 — would silently break any polarization-
             # aware downstream code by claiming the B=0 surface emits 100%
             # in one mode).
-            I_one = copy(r.I_emergent)  # K × M (non-magnetic shape)
-            K_ax, M_ax = size(I_one)
-            I_pol = zeros(K_ax, M_ax, 2)
+            I_one = copy(r.I_emergent)  # nν × M (non-magnetic shape)
+            nν_ax, M_ax = size(I_one)
+            I_pol = zeros(nν_ax, M_ax, 2)
             I_pol[:, :, 1] .= 0.5 .* I_one
             I_pol[:, :, 2] .= 0.5 .* I_one
             I_cache[iT, iB, iθB] = I_pol
@@ -261,7 +261,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             verbose && @printf("converged=%s, F/σT⁴=%.3f\n", r.converged,
                 _flux_ratio(r.I_emergent, μ_grid, ν_grid, T_eff))
         else
-            # Magnetic atmosphere: store both X and O modes (K × M × 2)
+            # Magnetic atmosphere: store both X and O modes (nν × M × 2)
             # directly from the two-mode solver. Polarization is preserved
             # here so a future Kerr ray tracer can parallel-transport the
             # polarization basis along null geodesics; the legacy intensity
@@ -270,10 +270,10 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             verbose && @printf("  [%d/%d] T_eff=%.2e K, B=%.2e G, θ_B=%.1f° ... ",
                                 step, total, T_eff, B, rad2deg(θ_B))
             r = solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt;
-                    K=K, M=M, N=N, max_iter=max_iter, tol=tol_T,
+                    nν=nν, M=M, N=N, max_iter=max_iter, tol=tol_T,
                     flux_tol=tol_flux, flux_damping=flux_damping,
                     verbose=false)
-            I_cache[iT, iB, iθB] = copy(r.I_emergent)  # K × M × 2
+            I_cache[iT, iB, iθB] = copy(r.I_emergent)  # nν × M × 2
             converged_grid[iT, iB, iθB] = r.converged
             iters_grid[iT, iB, iθB] = r.n_iterations
             verbose && @printf("converged=%s, iters=%d\n", r.converged, r.n_iterations)
@@ -283,7 +283,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
     prov = AtmosphereGridProvenance(
         _git_sha(),
         string(time()),
-        K, M, N,
+        nν, M, N,
         max_iter,
         tol_T,
         any_magnetic ? tol_flux : NaN,
@@ -328,7 +328,7 @@ to that one cell (back-compat path).
 This is the default convenience path for intensity-only renderers. For
 the polarized two-mode spectrum (needed by polarization-aware ray
 tracing), use `lookup_spectrum_polarized`. Bead D2: the underlying
-`I_cache` now stores K×M×2 polarized arrays; this routine wraps with
+`I_cache` now stores nν×M×2 polarized arrays; this routine wraps with
 `sum_modes` to preserve the existing single-output interface.
 """
 function lookup_spectrum(grid::AtmosphereSpectrumGrid,
@@ -392,8 +392,8 @@ function lookup_spectrum_polarized(grid::AtmosphereSpectrumGrid,
     # out of the 8-corner loop avoids `nν * 8` redundant searches per pixel.
     # Bead D3: replaces the previous nearest-neighbour `_nearest(grid.ν_grid,
     # ν_obs[iν])` call, which both stair-stepped the emergent spectrum and
-    # allocated a fresh `Vector{Float64}` of length K on every invocation
-    # (≈ 6.5 GB garbage per 256×256×K=50 render).
+    # allocated a fresh `Vector{Float64}` of length nν on every invocation
+    # (≈ 6.5 GB garbage per 256×256×nν=50 render).
     kν_lo = Vector{Int}(undef, nν)
     kν_hi = Vector{Int}(undef, nν)
     wν_lo = Vector{Float64}(undef, nν)
@@ -415,7 +415,7 @@ function lookup_spectrum_polarized(grid::AtmosphereSpectrumGrid,
                 w = wT * wB * wθ
                 w < 1e-10 && continue
 
-                I_model = grid.I_cache[jT, jB, jθ]  # K × M × 2
+                I_model = grid.I_cache[jT, jB, jθ]  # nν × M × 2
 
                 @inbounds for iν in 1:nν
                     klo = kν_lo[iν]
@@ -508,7 +508,7 @@ For `x` outside the range, clamps to the boundary cell (`k_lo == k_hi`,
 This replaces the previous `_nearest` helper which called
 `argmin(abs.(grid .- x))` — that allocated a fresh `Vector{Float64}` of
 length `length(grid)` on every call, producing ~6.5 GB of garbage per
-256×256×50 render with a K=50 frequency grid. `searchsortedlast` is
+256×256×50 render with a nν=50 frequency grid. `searchsortedlast` is
 allocation-free, and log-linear interpolation gives proper continuous
 spectra instead of stair-stepped nearest-neighbour ones (the canonical
 log-log pattern is borrowed from `rt_emergent_spectrum` in

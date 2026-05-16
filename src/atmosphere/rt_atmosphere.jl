@@ -42,34 +42,34 @@ struct AtmosphereResult
     converged::Bool
     n_iterations::Int
     max_dT_over_T::Float64
-    ν_grid::Vector{Float64}       # K frequencies [Hz]
+    ν_grid::Vector{Float64}       # nν frequencies [Hz]
     μ_grid::Vector{Float64}       # M angles
-    I_emergent::Matrix{Float64}   # K × M emergent specific intensity
+    I_emergent::Matrix{Float64}   # nν × M emergent specific intensity
     T_profile::Vector{Float64}    # converged T(y)  (== column.T)
     y_grid::Vector{Float64}       # column depths   (== column.y)
     column::AtmosphereColumn      # full converged atmosphere column (E15)
 end
 
 """
-    solve_atmosphere(T_eff, g_s, gaunt; K, M, N, max_iter, tol, verbose) → AtmosphereResult
+    solve_atmosphere(T_eff, g_s, gaunt; nν, M, N, max_iter, tol, verbose) → AtmosphereResult
 
 Solve for a self-consistent NS atmosphere using iterative Rybicki
 temperature correction.
 """
 function solve_atmosphere(T_eff::Float64, g_s::Float64,
                           gaunt::GauntTable;
-                          K::Int=50, M::Int=10, N::Int=100,
+                          nν::Int=50, M::Int=10, N::Int=100,
                           max_iter::Int=30,
                           tol::Float64=1e-4,
                           anisotropic::Bool=true,
                           verbose::Bool=true)::AtmosphereResult
     @assert T_eff > 0 && g_s > 0
 
-    verbose && @printf("RT Atmosphere: T_eff=%.2e K, g_s=%.2e cm/s², K=%d, M=%d, N=%d\n",
-                        T_eff, g_s, K, M, N)
+    verbose && @printf("RT Atmosphere: T_eff=%.2e K, g_s=%.2e cm/s², nν=%d, M=%d, N=%d\n",
+                        T_eff, g_s, nν, M, N)
 
     # Set up grids
-    ν_grid = make_frequency_grid(T_eff, K)
+    ν_grid = make_frequency_grid(T_eff, nν)
     μ, w = gauss_legendre_half(M)
 
     # Build initial atmosphere with Eddington T(y)
@@ -133,8 +133,8 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
     P_all, J, f_ν, h_ν = solve_feautrier_all(col, μ, w; anisotropic=anisotropic)
 
     # Emergent intensity: I_ν(μ) = 2 P_ν(surface, μ)
-    I_emergent = zeros(K, M)
-    for k in 1:K, j in 1:M
+    I_emergent = zeros(nν, M)
+    for k in 1:nν, j in 1:M
         I_emergent[k, j] = 2.0 * P_all[1, j, k]
     end
 
@@ -156,10 +156,10 @@ end
 Compute bolometric emergent flux from the Feautrier solution.
 """
 function _bolometric_flux(P_all, μ, w, ν_grid)
-    K = length(ν_grid)
+    nν = length(ν_grid)
     M = length(μ)
     F = 0.0
-    for k in 1:K-1
+    for k in 1:nν-1
         dν = ν_grid[k+1] - ν_grid[k]
         for j in 1:M
             # F_ν = 2π ∫₀¹ I_ν(μ) μ dμ where I = 2P at surface
@@ -179,7 +179,7 @@ function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
         col.ρ[i] = density_from_PT(col.P[i], col.T[i])
 
         # Recompute opacities at each frequency
-        for k in 1:col.K
+        for k in 1:col.nν
             ν = col.ν_grid[k]
             col.κ[i, k] = kappa_ff(ν, col.T[i], col.ρ[i], gaunt)
             col.k_total[i, k] = col.κ[i, k] + col.σ_scat
@@ -188,7 +188,7 @@ function _update_structure!(col::AtmosphereColumn, gaunt::GauntTable)
     end
 
     # Recompute optical depths from surface
-    for k in 1:col.K
+    for k in 1:col.nν
         col.τ[1, k] = 0.0
         for i in 2:col.N
             dy = col.y[i] - col.y[i-1]
@@ -225,7 +225,7 @@ function rt_emergent_spectrum(result::AtmosphereResult,
 
     # Interpolate in frequency (log-log)
     ν_in = result.ν_grid
-    K = length(ν_in)
+    nν = length(ν_in)
     I_out = zeros(length(ν_out))
 
     for i in eachindex(ν_out)
@@ -237,7 +237,7 @@ function rt_emergent_spectrum(result::AtmosphereResult,
             I_out[i] = 0.0
         else
             k_lo = searchsortedlast(ν_in, ν)
-            k_lo = clamp(k_lo, 1, K-1)
+            k_lo = clamp(k_lo, 1, nν-1)
             k_hi = k_lo + 1
             t_ν = (log(ν) - log(ν_in[k_lo])) / (log(ν_in[k_hi]) - log(ν_in[k_lo]))
 

@@ -40,7 +40,7 @@ All arrays indexed [depth_point] or [depth_point, frequency].
 """
 struct AtmosphereColumn
     N::Int                      # number of depth points
-    K::Int                      # number of frequencies
+    nν::Int                     # number of frequencies
     g_s::Float64                # surface gravity [cm/s²]
     T_eff::Float64              # effective temperature [K]
     y::Vector{Float64}          # column depth [g/cm²]
@@ -58,15 +58,15 @@ struct AtmosphereColumn
 end
 
 """
-    make_frequency_grid(T_eff, K) → ν_grid [Hz]
+    make_frequency_grid(T_eff, nν) → ν_grid [Hz]
 
 Log-spaced frequency grid from 0.05 k_BT_eff/h to 120 k_BT_eff/h.
 McPHAC: MINFREQKT=0.05, MAXFREQKT=120.
 """
-function make_frequency_grid(T_eff::Float64, K::Int)::Vector{Float64}
+function make_frequency_grid(T_eff::Float64, nν::Int)::Vector{Float64}
     ν_min = 0.05 * k_B * T_eff / h
     ν_max = 120.0 * k_B * T_eff / h
-    return [10.0^logν for logν in range(log10(ν_min), log10(ν_max), length=K)]
+    return [10.0^logν for logν in range(log10(ν_min), log10(ν_max), length=nν)]
 end
 
 """
@@ -88,7 +88,7 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
                           y_max::Float64=1e2)::AtmosphereColumn
     @assert T_eff > 0 && g_s > 0
     @assert N >= 10
-    K = length(ν_grid)
+    nν = length(ν_grid)
 
     # Column depth grid (log-spaced)
     y = [10.0^logy for logy in range(log10(y_min), log10(y_max), length=N)]
@@ -110,18 +110,18 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
     σ_scat = sigma_thomson()
 
     # Compute opacities at each (depth, frequency)
-    κ = zeros(N, K)
-    k_tot = zeros(N, K)
-    ρ_alb = zeros(N, K)
-    for i in 1:N, k in 1:K
+    κ = zeros(N, nν)
+    k_tot = zeros(N, nν)
+    ρ_alb = zeros(N, nν)
+    for i in 1:N, k in 1:nν
         κ[i,k] = kappa_ff(ν_grid[k], T[i], ρ[i], gaunt)
         k_tot[i,k] = κ[i,k] + σ_scat
         ρ_alb[i,k] = σ_scat / k_tot[i,k]
     end
 
     # Optical depth from surface: τ[1,:] = 0, τ[i,:] = ∫ k dy
-    τ = zeros(N, K)
-    for k in 1:K
+    τ = zeros(N, nν)
+    for k in 1:nν
         for i in 2:N
             dy = y[i] - y[i-1]
             τ[i,k] = τ[i-1,k] + 0.5 * (k_tot[i,k] + k_tot[i-1,k]) * dy
@@ -132,7 +132,7 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
     k_R = [rosseland_mean(T[i], ρ[i], ν_grid, gaunt) for i in 1:N]
 
     # Check if τ_max ≥ TAU_DIFFUSION at highest frequency; extend if needed
-    τ_max_hf = τ[end, K]
+    τ_max_hf = τ[end, nν]
     if τ_max_hf < TAU_DIFFUSION && y_max < Y_MAX_SEMIINFINITE
         y_max_new = y_max * (TAU_DIFFUSION / max(τ_max_hf, 1.0))^1.2
         y_max_new = min(y_max_new, Y_MAX_SEMIINFINITE)
@@ -140,7 +140,7 @@ function build_atmosphere(T_eff::Float64, g_s::Float64,
                                 N=N, y_min=y_min, y_max=y_max_new)
     end
 
-    return AtmosphereColumn(N, K, g_s, T_eff, y, T, ρ, P,
+    return AtmosphereColumn(N, nν, g_s, T_eff, y, T, ρ, P,
                              σ_scat, κ, k_tot, ρ_alb, τ, k_R,
                              ν_grid, gaunt)
 end
@@ -159,13 +159,13 @@ function update_atmosphere!(col::AtmosphereColumn, T_new::Vector{Float64})
         col.ρ[i] = density_from_PT(col.P[i], col.T[i])
     end
 
-    for i in 1:col.N, k in 1:col.K
+    for i in 1:col.N, k in 1:col.nν
         col.κ[i,k] = kappa_ff(col.ν_grid[k], col.T[i], col.ρ[i], col.gaunt)
         col.k_total[i,k] = col.κ[i,k] + col.σ_scat
         col.ρ_alb[i,k] = col.σ_scat / col.k_total[i,k]
     end
 
-    for k in 1:col.K
+    for k in 1:col.nν
         col.τ[1,k] = 0.0
         for i in 2:col.N
             dy = col.y[i] - col.y[i-1]
