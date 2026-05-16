@@ -111,3 +111,55 @@ conflate physics improvement with code-review hygiene.
 
 **Scope:** Comments, docstrings, HANDOFF.md, CLAUDE.md — no code
 behaviour change.
+
+## D11: Suleimanov Fig. 2 verification harness must use vacuum-polarized weights
+**Date:** 2026-05-16
+**Context:** `verification/plot_suleimanov_fig2_clean_validation.py`
+reported ~2.7-3.0 dex residuals on the upper free-free branches at
+`θ_B=45°, B=10¹⁴ G` while `θ_B=5°` and `θ_B=90°` were fine.
+Reviewer D9 inspected the vacuum-polarization / mode-vector physics
+in `src/opacity/dielectric_tensor.jl` + `src/opacity/magnetic_modes.jl`
+and concluded "physics matches the papers". The HANDOFF
+notes therefore speculated that the residual was caused by the ad-hoc
+grey flux correction (D10).
+
+That diagnosis was wrong. The flux correction lives inside the
+magnetic atmosphere solver and only affects the converged T profile;
+it cannot influence opacity at fixed `(T, ρ, B, θ_B)`. The actual bug
+was in the verification harness itself:
+`verification/compute_suleimanov_fig2_opacities.jl` imported
+`polarization_weights_full`, which since commit 4dc9a5d (D6) is a
+deprecated compatibility wrapper around `polarization_weights_cold`
+(no vacuum polarization). The script was therefore generating
+cold-plasma opacities and comparing them against SPW09 Fig. 2, which
+explicitly uses vacuum-polarized normal modes:
+
+> "Opacities are calculated in the same way as in the paper by
+> van Adelsberg & Lai (2006) ... The vacuum polarization effect is
+> taken into account following the same work."  (SPW09 §2, p. 3,
+> lines following Eq. 10; also Fig. 2 caption: "The proton cyclotron
+> and vacuum resonances are also shown.")
+
+`src/opacity/magnetic_modes.jl` already uses
+`polarization_weights_vacuum`, so the production opacity pipeline was
+correct — only the verification harness was wrong.
+
+**Decision:** Replace `polarization_weights_full` with
+`polarization_weights_vacuum` in
+`verification/compute_suleimanov_fig2_opacities.jl`. With the fix in
+place, the θ_B=45° best-fit residuals drop from 2.66-5.58 dex to
+0.024-0.089 dex; every digitized branch at θ_B ∈ {5°, 45°, 90°} now
+matches its best computed mode to <0.4 dex median absolute error.
+Add θ_B=45° to `verification/check_suleimanov_fig2_metrics.py`
+(previously only θ_B=5° and 90° were gated).
+
+**Rationale:** The verification harness must use the same mode-vector
+convention as the production code and as the reference paper. D9's
+"physics matches" was a correct statement about the source code; what
+was missing was a runtime check that the *verification script* was
+exercising that code path.
+
+**Scope:** `verification/compute_suleimanov_fig2_opacities.jl` (one-line
+import + one-line call site), `verification/check_suleimanov_fig2_metrics.py`
+(two new gated rows for θ_B=45°). No production-code change. Test suite
+still passes (119/119).

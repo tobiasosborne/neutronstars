@@ -23,6 +23,18 @@ TARGETS = [
         "mapped_component": "free_free",
         "assigned_mode": 1,
     },
+    {
+        "theta_deg": 45.0,
+        "digitized_color": "magenta",
+        "mapped_component": "free_free",
+        "assigned_mode": 1,
+    },
+    {
+        "theta_deg": 45.0,
+        "digitized_color": "magenta",
+        "mapped_component": "free_free",
+        "assigned_mode": 2,
+    },
 ]
 
 

@@ -6,11 +6,24 @@
 > grew 37 → 119. See
 > [`notes/sessions/2026-05-16-review-cleanup.md`](sessions/2026-05-16-review-cleanup.md)
 > for the per-bead summary, the deferred-work follow-ups (E4/E5/E6/E10
-> and a few smaller ones), and the highest-impact bug fixes. The
-> "Suleimanov θ_B=45° mismatch" remains the open physics task —
-> reviewer D9 verified the vacuum-polarization / mode-vector physics
-> matches the papers verbatim, so the likely culprit is the ad-hoc
-> grey flux correction (decision D10).
+> and a few smaller ones), and the highest-impact bug fixes.
+
+> **Later same day — Suleimanov θ_B=45° mismatch resolved (D11).** The
+> 2.7–3.0 dex residual was a verification-harness bug, not a physics
+> bug. `verification/compute_suleimanov_fig2_opacities.jl` was importing
+> `polarization_weights_full`, which is a deprecated wrapper around
+> `polarization_weights_cold` (no vacuum polarization). SPW09 Fig. 2
+> uses vacuum-polarized normal modes (§2, "vacuum polarization effect
+> is taken into account"). After switching the script to
+> `polarization_weights_vacuum`, every digitized branch at
+> θ_B ∈ {5°, 45°, 90°} matches its best-fit computed mode to
+> <0.4 dex median absolute error (θ_B=45° upper free-free: 0.089 dex,
+> was 2.66 dex). D9's "physics matches the papers" was correct about
+> `src/opacity/magnetic_modes.jl` (which uses the vacuum weights); the
+> bug was that the verification script never exercised that path. The
+> grey flux correction (D10) is **not** the culprit and was never
+> involved in opacity-only diagnostics. See decisions.md D11. Test
+> suite: 119/119 still pass.
 
 ## Project Overview
 
@@ -68,9 +81,14 @@ This handoff covers the merge of two parallel work streams:
 - **Scalar / local scattering approximation** — the Feautrier extinction
   term uses polarization-weighted scattering as a local cross section;
   full inter-mode angular redistribution is deferred.
-- **Suleimanov Fig 2 clean validation** still shows a major mismatch at
-  `θ_B = 45°` (~2.7–3.0 dex median residual on the upper branches at
-  `B=10¹⁴ G`). `θ=90°` is good; `θ=5°` is mixed (~0.4–0.5 dex).
+- ~~**Suleimanov Fig 2 clean validation** still shows a major mismatch
+  at `θ_B = 45°` (~2.7–3.0 dex median residual on the upper branches
+  at `B=10¹⁴ G`). `θ=90°` is good; `θ=5°` is mixed (~0.4–0.5 dex).~~
+  **Resolved 2026-05-16 (D11)**. All three angles now match digitized
+  Fig 2 branches to <0.4 dex best-fit median absolute error (most
+  branches <0.1 dex). The fix was a verification-harness one-liner:
+  switch `polarization_weights_full` → `polarization_weights_vacuum`
+  in `verification/compute_suleimanov_fig2_opacities.jl`.
 - **Render pipeline** still uses simplified placeholder behaviour in
   some paths — do not treat generated images as final physical products.
 
@@ -190,26 +208,9 @@ dependency).
 
 ## Immediate Next Task
 
-Focus on the `θ_B = 45°` clean Fig. 2 mismatch.
-
-Recommended diagnostic:
-
-1. Pick fixed energies away from masked bands, e.g.
-   `0.03, 0.1, 0.3, 1.0, 3.0, 10.0 keV`.
-2. For each energy at `T=7×10⁶ K`, `ρ=30 g cm⁻³`, `B=10¹⁴ G`,
-   `θ_B=45°`, print:
-   - `β`, `K_j`, `K_{z,j}`
-   - `|e_-|²`, `|e_0|²`, `|e_+|²`
-   - `sigma_ff_alpha`, `sigma_pp_alpha`, `sigma_scat_alpha`
-   - final `mode_absorption`, `mode_scattering`
-3. Compare directly against the paper equations, not against the
-   plotted overlay.
-4. Check whether the mismatch is caused by:
-   - mode branch convention near oblique propagation,
-   - B-frame cyclic weight sign/order,
-   - missing scattering redistribution,
-   - or the fact that the paper used van Adelsberg & Lai 2006 opacity
-     formulae rather than our P&C component implementation.
+The Suleimanov θ_B=45° mismatch is **resolved** (D11). The next item
+from the secondary backlog below — wiring `solve_feautrier_all_adaptive`
+into the RT iteration loops — is the highest-value remaining work.
 
 ### Secondary backlog (in priority order)
 
@@ -267,7 +268,7 @@ PhysicalConstants → BSkEOS → TOVSolver → DipoleModel
 | `src/opacity/magnetic_ff.jl` | Magnetic free-free σ_α, proton-proton, scattering (P&C 2003) — Eq. 44e fixed | Working |
 | `src/opacity/coulomb_magnetic.jl` | Magnetic Coulomb logarithm (Eq. 44, full ∞ integral) | Working |
 | `src/opacity/magnetic_modes.jl` | `mode_absorption`, `mode_scattering`, `mode_opacity`, `effective_opacity` | Working |
-| `src/opacity/dielectric_tensor.jl` | Stix parameters, cold + vacuum-polarised normal-mode weights | Working; θ_B=45° issue under investigation |
+| `src/opacity/dielectric_tensor.jl` | Stix parameters, cold + vacuum-polarised normal-mode weights | Working; SPW09 Fig 2 reproduced at θ_B ∈ {5°, 45°, 90°} (D11) |
 
 **Pipeline:**
 | File | Purpose | Status |

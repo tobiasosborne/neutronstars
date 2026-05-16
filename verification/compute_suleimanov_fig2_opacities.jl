@@ -5,7 +5,7 @@
 
 using NeutronStar
 using NeutronStar.PhysicalConstants: h, keV, m_e, m_p
-using NeutronStar.DielectricTensor: polarization_weights_full
+using NeutronStar.DielectricTensor: polarization_weights_vacuum
 
 const ROOT = dirname(dirname(@__FILE__))
 const OUT = joinpath(ROOT, "verification", "data", "suleimanov_2009_fig2",
@@ -23,7 +23,7 @@ function weighted_component(mode::Int, energy_keV::Float64, theta_deg::Float64,
     theta = deg2rad(theta_deg)
     n_e = RHO / M_H
 
-    weights = polarization_weights_full(omega, B, theta, n_e)
+    weights = polarization_weights_vacuum(omega, B, theta, n_e)
     w = mode == 1 ? weights[1] : weights[2]
 
     sigma_sum = 0.0
