@@ -11,13 +11,12 @@ Local: refs/potekhin_chabrier_2003_ff_opacity.pdf
 
 module MagneticFF
 
-using SpecialFunctions: besselk
 using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
 using ..MagneticCoulomb: coulomb_log_magnetic, coulomb_log_classical_safe
 
 export cyclotron_freq_e, cyclotron_freq_p, beta_e
 export sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha
-export sigma_total_alpha, coulomb_log_classical, coulomb_log_proton
+export sigma_total_alpha, coulomb_log_proton
 
 "Electron cyclotron frequency [rad/s]. ω_ce = eB/(m_e c)."
 cyclotron_freq_e(B::Float64) = e_charge * B / (m_e * c)
@@ -27,20 +26,6 @@ cyclotron_freq_p(B::Float64) = e_charge * B / (m_p * c)
 
 "Quantization parameter β_e = ℏω_ce/(k_BT). Eq. (1)."
 beta_e(B::Float64, T::Float64) = ħ * cyclotron_freq_e(B) / (k_B * T)
-
-"""
-    coulomb_log_classical(u) → Λ_cl
-
-Classical (non-magnetic) Coulomb logarithm. P&C 2003 Eq. (43).
-Λ_cl = e^{u/2} K₀(u/2)
-"""
-function coulomb_log_classical(u::Float64)::Float64
-    u2 = u / 2.0
-    if u2 > 500.0
-        return 1.0  # asymptotic
-    end
-    return exp(u2) * besselk(0, u2)
-end
 
 """
     coulomb_log_proton(u) → Λ_pp
@@ -153,7 +138,7 @@ Non-magnetic free-free cross-section (B→0 limit) per atom.
 function _sigma_ff_nonmag(ω::Float64, T::Float64, ρ::Float64)::Float64
     n_e = ρ / (m_p + m_e)
     u = ħ * ω / (k_B * T)
-    Λ = coulomb_log_classical(max(u, 1e-30))
+    Λ = coulomb_log_classical_safe(max(u, 1e-30))
     stimulated = u < 500.0 ? (1.0 - exp(-u)) : 1.0
 
     # From Eq. (41) + (37) with ω_ce → 0:
