@@ -95,11 +95,14 @@ function _Q_n_alpha(n::Int, α::Int, β_e::Float64, u::Float64, y::Float64)::Flo
     # Eq. (44c): A_n^α
     if α == 0
         # A_n^0 = x_n K₁(x_n) / (y + β_e/4)
-        K1_val = x_n > 0 ? besselk(1, x_n) : 1.0  # K₁(x) ~ 1/x as x→0
-        A = x_n * K1_val / (y + β_e / 4.0)
+        # K_1(x) ~ 1/x as x -> 0, so x*K_1(x) -> 1.  Compute the product
+        # directly so the small-x_n limit yields 1, not 0.
+        xK1 = x_n > 0 ? x_n * besselk(1, x_n) : 1.0
+        A = xK1 / (y + β_e / 4.0)
     else
         # A_n^{±1} = (y + θ + |n|ζ) / ζ² × K₀(x_n)
-        K0_val = x_n > 1e-10 ? besselk(0, x_n) : 10.0  # K₀(x) ~ -ln(x) as x→0
+        # K_0(x) ~ -log(x/2) - gamma_E as x -> 0  (Abramowitz & Stegun 9.6.13)
+        K0_val = x_n > 1e-10 ? besselk(0, x_n) : -log(x_n / 2.0) - 0.5772156649015329
         A = (y + θ + abs_n * ζ) / ζ^2 * K0_val
     end
 
