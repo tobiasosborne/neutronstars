@@ -31,6 +31,7 @@ polarized `nν × M × 2` array back to the unpolarized `nν × M` total.
 module AtmosphereGrid
 
 using Printf
+using Logging
 using ..PhysicalConstants: h, k_B, σ_SB
 using ..GauntFactor: GauntTable
 using ..RTAtmosphere: solve_atmosphere, AtmosphereResult
@@ -38,6 +39,7 @@ using ..MagneticAtmosphere: solve_magnetic_atmosphere, MagneticAtmosphereResult
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..FeautrierSolver: gauss_legendre_half
 using ..AtmosphereStructure: make_frequency_grid
+using ..SolverLogging: with_solver_logger
 
 export AtmosphereSpectrumGrid, AtmosphereGridProvenance, build_atmosphere_grid
 export lookup_spectrum, lookup_spectrum_polarized, sum_modes
@@ -189,8 +191,9 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
     nB = length(B_grid)
     nθB = length(θ_B_grid)
 
-    verbose && @printf("Building atmosphere grid: %d T × %d B × %d θ_B = %d models\n",
-                        nT, nB, nθB, nT * nB * nθB)
+    return with_solver_logger(verbose) do
+    @info @sprintf("Building atmosphere grid: %d T × %d B × %d θ_B = %d models",
+                   nT, nB, nθB, nT * nB * nθB)
 
     # Establish common (ν, μ) grids. The frequency grid only depends on
     # T_eff and nν; the angle grid only depends on M. We build them directly
@@ -236,8 +239,6 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             # cell (so each θ_B slot has its own self-consistent answer)
             # rather than hoisting across the θ_B axis as before — this
             # keeps the flat @threads loop race-free.
-            verbose && @printf("  [%d/%d] T_eff=%.2e K, B=0 (θ_B-indep.) ... ",
-                                step, total, T_eff)
             r = solve_atmosphere(T_eff, g_s, gaunt; nν=nν, M=M, N=N,
                                   max_iter=30, tol=1e-6, verbose=false)
             # Non-magnetic atmospheres are unpolarised — the two normal
@@ -258,8 +259,9 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             # `AtmosphereResult` does not expose an explicit iteration count;
             # record max_iter=30 as the budget actually used here.
             iters_grid[iT, iB, iθB] = 30
-            verbose && @printf("converged=%s, F/σT⁴=%.3f\n", r.converged,
-                _flux_ratio(r.I_emergent, μ_grid, ν_grid, T_eff))
+            @info @sprintf("  [%d/%d] T_eff=%.2e K, B=0 (θ_B-indep.) converged=%s, F/σT⁴=%.3f",
+                           step, total, T_eff, r.converged,
+                           _flux_ratio(r.I_emergent, μ_grid, ν_grid, T_eff))
         else
             # Magnetic atmosphere: store both X and O modes (nν × M × 2)
             # directly from the two-mode solver. Polarization is preserved
@@ -267,8 +269,6 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             # polarization basis along null geodesics; the legacy intensity
             # renderer recovers the mode-summed total through `sum_modes`
             # (wrapped by `lookup_spectrum`).
-            verbose && @printf("  [%d/%d] T_eff=%.2e K, B=%.2e G, θ_B=%.1f° ... ",
-                                step, total, T_eff, B, rad2deg(θ_B))
             r = solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt;
                     nν=nν, M=M, N=N, max_iter=max_iter, tol=tol_T,
                     flux_tol=tol_flux, flux_damping=flux_damping,
@@ -276,7 +276,9 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
             I_cache[iT, iB, iθB] = copy(r.I_emergent)  # nν × M × 2
             converged_grid[iT, iB, iθB] = r.converged
             iters_grid[iT, iB, iθB] = r.n_iterations
-            verbose && @printf("converged=%s, iters=%d\n", r.converged, r.n_iterations)
+            @info @sprintf("  [%d/%d] T_eff=%.2e K, B=%.2e G, θ_B=%.1f° converged=%s, iters=%d",
+                           step, total, T_eff, B, rad2deg(θ_B),
+                           r.converged, r.n_iterations)
         end
     end
 
@@ -296,6 +298,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
 
     return AtmosphereSpectrumGrid(copy(T_grid), copy(B_grid), copy(θ_B_grid), g_s,
                                    copy(ν_grid), copy(μ_grid), I_cache, prov)
+    end  # with_solver_logger
 end
 
 """

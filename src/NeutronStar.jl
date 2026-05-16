@@ -78,6 +78,12 @@ using .NSErrors
 include("utils/tridiag.jl")
 using .Tridiag
 
+# Structured-logging helper for solver entry points (bead E4). Loaded early
+# so every downstream solver (rt_atmosphere, magnetic_atmosphere, renderer,
+# atmosphere_grid) can wrap its body in `with_solver_logger(verbose) do …`.
+include("utils/solver_logging.jl")
+using .SolverLogging: with_solver_logger
+
 # Equation of state
 include("eos/bsk_eos.jl")
 using .BSkEOS
@@ -144,6 +150,7 @@ using .CIE_sRGB
 # Re-export
 export PhysicalConstants
 export NSErrors, NSError, BadInputError, NumericalError, ConvergenceError, TableOutOfRangeError
+export SolverLogging, with_solver_logger
 export BSkEOS, BSk19_params, BSk20_params, BSk21_params
 export pressure_of_density, density_of_pressure, energy_density_of_density
 export TOVSolver, solve_tov, TOVResult

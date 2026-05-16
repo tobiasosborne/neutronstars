@@ -15,6 +15,7 @@ Source: Haakonsen et al. (2012) Sect. 3.
 module RTAtmosphere
 
 using Printf
+using Logging
 using ..PhysicalConstants: σ_SB, k_B, h, m_p
 using ..GauntFactor: GauntTable, load_gaunt_table
 using ..AtmosphereStructure: AtmosphereColumn, build_atmosphere,
@@ -25,6 +26,7 @@ using ..TemperatureCorrection: compute_temperature_correction
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, total_opacity
 using ..SolverDefaults: DELTA_T_OVER_T_CAP
+using ..SolverLogging: with_solver_logger
 
 export solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
 
@@ -81,99 +83,101 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
                           verbose::Bool=true)::AtmosphereResult
     @assert T_eff > 0 && g_s > 0
 
-    verbose && @printf("RT Atmosphere: T_eff=%.2e K, g_s=%.2e cm/s², nν=%d, M=%d, N=%d, adaptive=%s\n",
-                        T_eff, g_s, nν, M, N, adaptive)
+    return with_solver_logger(verbose) do
+        @info @sprintf("RT Atmosphere: T_eff=%.2e K, g_s=%.2e cm/s², nν=%d, M=%d, N=%d, adaptive=%s",
+                       T_eff, g_s, nν, M, N, adaptive)
 
-    # Set up grids
-    ν_grid = make_frequency_grid(T_eff, nν)
-    μ, w = gauss_legendre_half(M)
+        # Set up grids
+        ν_grid = make_frequency_grid(T_eff, nν)
+        μ, w = gauss_legendre_half(M)
 
-    # Build initial atmosphere with Eddington T(y)
-    verbose && println("  Building initial structure...")
-    col = build_atmosphere(T_eff, g_s, ν_grid, gaunt; N=N)
-    verbose && @printf("  y_max=%.2e, τ_max(ν_max)=%.1f, N=%d depths\n",
-                        col.y[end], maximum(col.τ[end, :]), col.N)
+        # Build initial atmosphere with Eddington T(y)
+        @info "  Building initial structure..."
+        col = build_atmosphere(T_eff, g_s, ν_grid, gaunt; N=N)
+        @info @sprintf("  y_max=%.2e, τ_max(ν_max)=%.1f, N=%d depths",
+                       col.y[end], maximum(col.τ[end, :]), col.N)
 
-    converged = false
-    max_dT = Inf
-    n_iter = 0
+        converged = false
+        max_dT = Inf
+        n_iter = 0
 
-    for iter in 1:max_iter
-        n_iter = iter
+        for iter in 1:max_iter
+            n_iter = iter
 
-        # Solve Feautrier RT at all frequencies
+            # Solve Feautrier RT at all frequencies
+            P_all, J, f_ν, h_ν = if adaptive
+                solve_feautrier_all_adaptive(col, μ, w; N_ν=N_ν_adaptive, anisotropic=anisotropic)
+            else
+                solve_feautrier_all(col, μ, w; anisotropic=anisotropic)
+            end
+
+            # Compute flux for diagnostics
+            F_target = σ_SB * T_eff^4
+            F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
+            flux_ratio = F_bol / F_target
+
+            # Compute Rybicki temperature correction
+            ΔT = compute_temperature_correction(col, f_ν, h_ν, J)
+
+            # Dampen large corrections to aid convergence
+            max_dT = maximum(abs.(ΔT ./ col.T))
+            if max_dT > DELTA_T_OVER_T_CAP
+                damp = DELTA_T_OVER_T_CAP / max_dT
+                ΔT .*= damp
+                max_dT = DELTA_T_OVER_T_CAP
+            end
+
+            @debug @sprintf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f",
+                            iter, max_dT, flux_ratio)
+
+            # Check convergence
+            if max_dT < tol
+                converged = true
+                @info @sprintf("  CONVERGED at iteration %d (max|ΔT/T|=%.2e < %.2e)",
+                               iter, max_dT, tol)
+                break
+            end
+
+            # Apply correction
+            for i in 1:col.N
+                col.T[i] = max(col.T[i] + ΔT[i], 0.1 * T_eff)  # floor at 10% of T_eff
+            end
+
+            # Update atmospheric structure (density, opacities, optical depths)
+            _update_structure!(col, gaunt)
+        end
+
+        if !converged
+            @warn @sprintf("  not converged after %d iterations (max|ΔT/T|=%.2e)",
+                           max_iter, max_dT)
+        end
+
+        # Final Feautrier solve for emergent spectrum
         P_all, J, f_ν, h_ν = if adaptive
             solve_feautrier_all_adaptive(col, μ, w; N_ν=N_ν_adaptive, anisotropic=anisotropic)
         else
             solve_feautrier_all(col, μ, w; anisotropic=anisotropic)
         end
 
-        # Compute flux for diagnostics
-        F_target = σ_SB * T_eff^4
+        # Emergent intensity: I_ν(μ) = 2 P_ν(surface, μ)
+        I_emergent = zeros(nν, M)
+        for k in 1:nν, j in 1:M
+            I_emergent[k, j] = 2.0 * P_all[1, j, k]
+        end
+
+        # Final flux diagnostic
         F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
-        flux_ratio = F_bol / F_target
+        @info @sprintf("  Final F/σT⁴=%.4f", F_bol / (σ_SB * T_eff^4))
 
-        # Compute Rybicki temperature correction
-        ΔT = compute_temperature_correction(col, f_ν, h_ν, J)
+        # Bead E15: snapshot the full converged column so the result carries
+        # κ, ρ, P, τ, k_R alongside T and y. deepcopy detaches from the mutable
+        # scratch column we've been updating in the iteration loop.
+        col_snapshot = deepcopy(col)
 
-        # Dampen large corrections to aid convergence
-        max_dT = maximum(abs.(ΔT ./ col.T))
-        if max_dT > DELTA_T_OVER_T_CAP
-            damp = DELTA_T_OVER_T_CAP / max_dT
-            ΔT .*= damp
-            max_dT = DELTA_T_OVER_T_CAP
-        end
-
-        verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",
-                            iter, max_dT, flux_ratio)
-
-        # Check convergence
-        if max_dT < tol
-            converged = true
-            verbose && @printf("  CONVERGED at iteration %d (max|ΔT/T|=%.2e < %.2e)\n",
-                                iter, max_dT, tol)
-            break
-        end
-
-        # Apply correction
-        for i in 1:col.N
-            col.T[i] = max(col.T[i] + ΔT[i], 0.1 * T_eff)  # floor at 10% of T_eff
-        end
-
-        # Update atmospheric structure (density, opacities, optical depths)
-        _update_structure!(col, gaunt)
+        return AtmosphereResult(T_eff, g_s, converged, n_iter, max_dT,
+                                 ν_grid, μ, I_emergent,
+                                 col_snapshot.T, col_snapshot.y, col_snapshot)
     end
-
-    if !converged
-        verbose && @printf("  WARNING: not converged after %d iterations (max|ΔT/T|=%.2e)\n",
-                            max_iter, max_dT)
-    end
-
-    # Final Feautrier solve for emergent spectrum
-    P_all, J, f_ν, h_ν = if adaptive
-        solve_feautrier_all_adaptive(col, μ, w; N_ν=N_ν_adaptive, anisotropic=anisotropic)
-    else
-        solve_feautrier_all(col, μ, w; anisotropic=anisotropic)
-    end
-
-    # Emergent intensity: I_ν(μ) = 2 P_ν(surface, μ)
-    I_emergent = zeros(nν, M)
-    for k in 1:nν, j in 1:M
-        I_emergent[k, j] = 2.0 * P_all[1, j, k]
-    end
-
-    # Final flux diagnostic
-    F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
-    verbose && @printf("  Final F/σT⁴=%.4f\n", F_bol / (σ_SB * T_eff^4))
-
-    # Bead E15: snapshot the full converged column so the result carries
-    # κ, ρ, P, τ, k_R alongside T and y. deepcopy detaches from the mutable
-    # scratch column we've been updating in the iteration loop.
-    col_snapshot = deepcopy(col)
-
-    return AtmosphereResult(T_eff, g_s, converged, n_iter, max_dT,
-                             ν_grid, μ, I_emergent,
-                             col_snapshot.T, col_snapshot.y, col_snapshot)
 end
 
 """

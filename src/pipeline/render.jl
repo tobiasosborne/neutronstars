@@ -8,6 +8,7 @@ Uses modified blackbody atmosphere placeholder.
 module Renderer
 
 using Printf
+using Logging
 using ..PhysicalConstants: G, c, M_sun, k_B, h, keV, pc
 using ..BSkEOS: BSk21_params
 using ..TOVSolver: solve_tov
@@ -16,6 +17,7 @@ using ..BlackbodyAtmosphere: planck_Bnu, emergent_spectrum
 using ..SchwarzschildTracer: trace_image, RayResult
 using ..CIE_sRGB: load_cie_cmfs, spectrum_to_sRGB, CIE_CMFs
 using ..AtmosphereGrid: AtmosphereSpectrumGrid, lookup_spectrum
+using ..SolverLogging: with_solver_logger
 
 export render_neutron_star, render_spectral_cube, NSParams, RenderResult
 export SpectralImageCube, render_cube_rgb, save_cube_ppm
@@ -79,11 +81,12 @@ function render_neutron_star(params::NSParams, N::Int;
     M = params.M_solar * M_sun
     R = params.R_km * 1e5  # km → cm
 
-    verbose && println("Tracing $(N)×$(N) image...")
-    verbose && println("  M = $(params.M_solar) M_☉, R = $(params.R_km) km")
+    return with_solver_logger(verbose) do
+    @info "Tracing $(N)×$(N) image..."
+    @info "  M = $(params.M_solar) M_☉, R = $(params.R_km) km"
     r_g = 2G * M / c^2
     u = r_g / R
-    verbose && println("  u = r_g/R = $(round(u, digits=4)), 1+z = $(round(1/sqrt(1-u), digits=4))")
+    @info "  u = r_g/R = $(round(u, digits=4)), 1+z = $(round(1/sqrt(1-u), digits=4))"
 
     # Step 1: Ray trace
     img = trace_image(M, R, params.inclination, N)
@@ -119,7 +122,7 @@ function render_neutron_star(params::NSParams, N::Int;
     end
 
     # Step 4: Render true-colour image
-    verbose && println("  Computing true-colour rendering...")
+    @info "  Computing true-colour rendering..."
     cmfs_path = joinpath(@__DIR__, "..", "data", "cvrl_cie1931_2deg.csv")
     cmfs = load_cie_cmfs(cmfs_path)
 
@@ -147,11 +150,12 @@ function render_neutron_star(params::NSParams, N::Int;
     end
 
     # Step 5: False-colour X-ray image
-    verbose && println("  Computing false-colour X-ray rendering...")
+    @info "  Computing false-colour X-ray rendering..."
     false_colour = _false_colour_xray(ν_grid, spectra, N, img)
 
-    verbose && println("  Done.")
+    @info "  Done."
     return RenderResult(N, params, ν_grid, spectra, true_colour, false_colour)
+    end  # with_solver_logger
 end
 
 """
@@ -283,7 +287,8 @@ function render_spectral_cube(params::NSParams,
     # Guard against the post-D1 footgun: NSParams.f_col is a legacy knob for
     # the modified-blackbody path (render_neutron_star). The atmosphere-grid
     # path bakes colour correction into the pre-computed spectra, so f_col
-    # here would be silently ignored.
+    # here would be silently ignored. This @warn fires regardless of `verbose`
+    # because it indicates a real bug in the caller's setup.
     if params.f_col != 1.0
         @warn "NSParams.f_col is ignored by render_spectral_cube (only the legacy render_neutron_star uses it); colour correction is already encoded in the atmosphere grid spectra" f_col=params.f_col
     end
@@ -291,15 +296,16 @@ function render_spectral_cube(params::NSParams,
     M_cgs = params.M_solar * M_sun
     R = params.R_km * 1e5  # cm
 
-    verbose && println("Rendering $(N)×$(N) spectral cube with real atmosphere spectra...")
+    return with_solver_logger(verbose) do
+    @info "Rendering $(N)×$(N) spectral cube with real atmosphere spectra..."
     r_g = 2G * M_cgs / c^2
     u = r_g / R
     z_surf = 1.0 / sqrt(1.0 - u) - 1.0
     redshift = 1.0 + z_surf
-    verbose && @printf("  u=r_g/R=%.4f, 1+z=%.4f\n", u, redshift)
+    @info @sprintf("  u=r_g/R=%.4f, 1+z=%.4f", u, redshift)
 
     # Ray trace
-    verbose && println("  Ray tracing...")
+    @info "  Ray tracing..."
     img = trace_image(M_cgs, R, params.inclination, N)
 
     # Use the atmosphere grid's frequency grid (observer frame)
@@ -315,7 +321,7 @@ function render_spectral_cube(params::NSParams,
     mean_T = zeros(N, N)
     mean_B_arr = zeros(N, N)
 
-    verbose && println("  Computing spectra for $(N*N) pixels, $(nν) frequencies...")
+    @info "  Computing spectra for $(N*N) pixels, $(nν) frequencies..."
     n_hit = 0
     for j in 1:N, i in 1:N
         ray = img.rays[i, j]
@@ -351,16 +357,17 @@ function render_spectral_cube(params::NSParams,
         end
     end
 
-    verbose && @printf("  %d/%d pixels hit surface (%.0f%%)\n",
-                        n_hit, N*N, 100.0 * n_hit / (N*N))
+    @info @sprintf("  %d/%d pixels hit surface (%.0f%%)",
+                   n_hit, N*N, 100.0 * n_hit / (N*N))
 
     # Pixel angular scale
     pixel_scale = 2.0 * R / (params.distance_pc * pc) / N  # approximate
 
-    verbose && println("  Spectral cube complete.")
+    @info "  Spectral cube complete."
     return SpectralImageCube(N, N, nν, ν_grid_obs, pixel_scale,
                               I_cube, hit_frac, mean_z, mean_T, mean_B_arr,
                               params, "AtmosphereGrid_v1")
+    end  # with_solver_logger
 end
 
 """

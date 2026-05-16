@@ -13,6 +13,7 @@ Source: Suleimanov, Potekhin & Werner (2009) A&A 500, 891.
 module MagneticAtmosphere
 
 using Printf
+using Logging
 using LinearAlgebra
 using ..PhysicalConstants: σ_SB, k_B, h, m_p, m_e, m_H
 using ..Tridiag: tridiag_lu_forward!, tridiag_lu_back!
@@ -27,6 +28,7 @@ using ..SolverDefaults: TAU_DIFFUSION, TAU_EFFECTIVE_MIN, T_SURFACE_FRAC_MCPHAC,
                          Y_MAX_SEMIINFINITE, FLUX_DAMPING_DEFAULT,
                          FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI,
                          DELTA_T_OVER_T_CAP, OPACITY_FLOOR
+using ..SolverLogging: with_solver_logger
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_spectrum
 
@@ -94,8 +96,9 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     @assert T_eff > 0 && g_s > 0 && B >= 0
     @assert 0 <= θ_B <= π
 
-    verbose && @printf("Magnetic RT: T_eff=%.2e K, g_s=%.2e, B=%.2e G, θ_B=%.1f°\n",
-                        T_eff, g_s, B, rad2deg(θ_B))
+    return with_solver_logger(verbose) do
+    @info @sprintf("Magnetic RT: T_eff=%.2e K, g_s=%.2e, B=%.2e G, θ_B=%.1f°",
+                   T_eff, g_s, B, rad2deg(θ_B))
 
     ν_grid = make_frequency_grid(T_eff, nν)
     μ, w = gauss_legendre_half(M)
@@ -103,7 +106,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     # Build initial atmosphere column (Eddington T profile)
     y, T, ρ, P = _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B, θ_B)
 
-    verbose && @printf("  N=%d, y_max=%.2e, nν=%d frequencies\n", N, y[end], nν)
+    @info @sprintf("  N=%d, y_max=%.2e, nν=%d frequencies", N, y[end], nν)
 
     # Compute opacities for both modes at all (depth, frequency) points
     # κ_j[i, k]: absorption opacity for mode j at depth i, frequency k
@@ -174,12 +177,12 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
             max_dT = DELTA_T_OVER_T_CAP
         end
 
-        verbose && @printf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f\n",
-                            iter, max_dT, flux_ratio)
+        @debug @sprintf("  iter %2d: max|ΔT/T|=%.2e, F/σT⁴=%.4f",
+                        iter, max_dT, flux_ratio)
 
         if max_dT < tol && abs(flux_ratio - 1.0) < flux_tol
             converged = true
-            verbose && @printf("  CONVERGED at iteration %d\n", iter)
+            @info @sprintf("  CONVERGED at iteration %d", iter)
             break
         end
 
@@ -255,21 +258,19 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                 I_emergent[k, jj, 2] = (1 - P) * I_X + P * I_O
             end
         end
-        if verbose
-            n_active = count(isfinite, P_jump_vec)
-            if n_active > 0
-                P_finite = filter(isfinite, P_jump_vec)
-                @printf("  P_jump: applied at %d/%d freqs, range [%.3f, %.3f], mean=%.3f\n",
-                        n_active, nν, minimum(P_finite), maximum(P_finite),
-                        sum(P_finite)/length(P_finite))
-            else
-                @printf("  P_jump: no frequency had a vacuum resonance inside the column\n")
-            end
+        n_active = count(isfinite, P_jump_vec)
+        if n_active > 0
+            P_finite = filter(isfinite, P_jump_vec)
+            @info @sprintf("  P_jump: applied at %d/%d freqs, range [%.3f, %.3f], mean=%.3f",
+                           n_active, nν, minimum(P_finite), maximum(P_finite),
+                           sum(P_finite)/length(P_finite))
+        else
+            @info "  P_jump: no frequency had a vacuum resonance inside the column"
         end
     end
 
-    verbose && @printf("  Final F/σT⁴=%.4f\n",
-                        _bolometric_flux_2mode(P_all, μ, w, ν_grid) / (σ_SB * T_eff^4))
+    @info @sprintf("  Final F/σT⁴=%.4f",
+                   _bolometric_flux_2mode(P_all, μ, w, ν_grid) / (σ_SB * T_eff^4))
 
     # Bead E15: snapshot the full converged column (bare arrays, no struct
     # in the magnetic solver). copy.() detaches from the mutable scratch
@@ -287,6 +288,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                      ν_grid, μ, I_emergent,
                                      column.T, column.y, column,
                                      apply_pjump, P_jump_vec)
+    end  # with_solver_logger
 end
 
 # Bead D10: 4-arg convenience overload for pure-magnetic runs (B > 0). Forwards

@@ -1,7 +1,45 @@
 using Test
+using Logging
 using NeutronStar
 
 const NS = NeutronStar
+
+@testset "Structured solver logging (E4)" begin
+    # verbose=true: emits Info+Warn, swallows Debug at default min_level
+    test_logger = Test.TestLogger(min_level=Logging.Info)
+    Logging.with_logger(test_logger) do
+        with_solver_logger(true) do
+            @info "hello"
+            @warn "danger"
+            @debug "noise"  # below default Info min_level → filtered
+        end
+    end
+    @test length(test_logger.logs) == 2
+    @test test_logger.logs[1].level == Logging.Info
+    @test test_logger.logs[1].message == "hello"
+    @test test_logger.logs[2].level == Logging.Warn
+    @test test_logger.logs[2].message == "danger"
+
+    # verbose=false: NullLogger swallows everything regardless of level
+    test_logger2 = Test.TestLogger(min_level=Logging.Info)
+    Logging.with_logger(test_logger2) do
+        with_solver_logger(false) do
+            @info "swallowed"
+            @warn "also swallowed"
+        end
+    end
+    @test isempty(test_logger2.logs)
+
+    # verbose=true should pass Debug through if min_level allows it
+    test_logger3 = Test.TestLogger(min_level=Logging.Debug)
+    Logging.with_logger(test_logger3) do
+        with_solver_logger(true) do
+            @debug "now-visible"
+        end
+    end
+    @test length(test_logger3.logs) == 1
+    @test test_logger3.logs[1].level == Logging.Debug
+end
 
 @testset "Magnetic mode opacity separation" begin
     ν = 2.0e17
