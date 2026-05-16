@@ -229,6 +229,16 @@ end
 
 """
 Cold-plasma polarization parameter q used in the P&C 2003 mode quadratic.
+
+Contract: the expression q = (P - S) sin²θ / (2 D cosθ) is singular when
+`D → 0` (unmagnetised limit) or `cosθ → 0` (strictly transverse propagation).
+In those regimes the mode quadratic degenerates and callers must dispatch on
+the analytic limit themselves before calling this function — `polarization_weights_cold`
+does so at lines ~97/104/112 and `polarization_weights_vacuum` at line ~176.
+
+Rather than returning a signed `Inf` (which was correct-by-accident: downstream
+`isfinite` guards happened to catch it), this routine now throws a
+`DomainError` so misuse is loud rather than silent.
 """
 function cold_polarization_parameter(ω::Float64, B::Float64,
                                      θ_B::Float64, n_e::Float64)::Float64
@@ -236,7 +246,10 @@ function cold_polarization_parameter(ω::Float64, B::Float64,
     cosθ = cos(θ_B)
     sinθ = sin(θ_B)
     if abs(D) < 1e-30 || abs(cosθ) < 1e-30
-        return copysign(Inf, (P - S) * D * cosθ)
+        throw(DomainError((D, cosθ),
+            "cold_polarization_parameter is singular when |D| < 1e-30 or " *
+            "|cosθ| < 1e-30; caller must handle the analytic limit " *
+            "(see polarization_weights_cold / polarization_weights_vacuum)."))
     end
     return (P - S) * sinθ^2 / (2.0 * D * cosθ)
 end
