@@ -105,7 +105,7 @@ function compute_temperature_correction(col::AtmosphereColumn,
         K_k = zeros(N)
 
         _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
-                                col, k, f_ν, h_ν, ν, denom, b)
+                                col, k, f_ν, h_ν, ν, denom, b, B_bar)
 
         # Precompute LU factorization of T_k (Thomas algorithm forward sweep)
         lu_diag, lu_sup, lu_rhs_K = _tridiag_lu_forward(T_sub, T_diag, T_sup, K_k)
@@ -161,7 +161,7 @@ Build the tridiagonal matrix T_k and vectors U_k, K_k for frequency index k.
 Implements Haakonsen Eqs. A19-A23 with boundary conditions A29-A33.
 """
 function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
-                                 col, k, f_ν, h_ν, ν, denom, b)
+                                 col, k, f_ν, h_ν, ν, denom, b, B_bar)
     N = col.N
 
     for i in 2:N-1
@@ -194,7 +194,8 @@ function _build_rybicki_system!(T_diag, T_sub, T_sup, U_k, K_k,
 
         # K_k (Eq. A23)
         B_k = planck_Bnu(ν[k], col.T[i])
-        B_bar_i = denom[i] > 0 ? sum(planck_Bnu(ν[kp], col.T[i]) * col.κ[i, kp] * b[kp] for kp in 1:col.K) / denom[i] : B_k
+        # Use precomputed B̄_i (Σ_k B_ν × κ × b / denom) — O(1) lookup, not O(K) inline sum
+        B_bar_i = B_bar[i]
         K_k[i] = (B_k - dBdT * B_bar_i) * (1.0 - ρ_k)
     end
 
