@@ -29,6 +29,11 @@ export solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
 
 """
 Result of a converged atmosphere calculation.
+
+Bead E15: `column` snapshots the full converged `AtmosphereColumn` so that
+downstream analyses (κ vs depth, τ vs depth, k_R, ρ, P, etc.) survive the
+function call. The pre-existing `T_profile` and `y_grid` fields are kept
+for backward compatibility; they are equivalent to `column.T` and `column.y`.
 """
 struct AtmosphereResult
     T_eff::Float64
@@ -39,8 +44,9 @@ struct AtmosphereResult
     ν_grid::Vector{Float64}       # K frequencies [Hz]
     μ_grid::Vector{Float64}       # M angles
     I_emergent::Matrix{Float64}   # K × M emergent specific intensity
-    T_profile::Vector{Float64}    # converged T(y)
-    y_grid::Vector{Float64}       # column depths
+    T_profile::Vector{Float64}    # converged T(y)  (== column.T)
+    y_grid::Vector{Float64}       # column depths   (== column.y)
+    column::AtmosphereColumn      # full converged atmosphere column (E15)
 end
 
 """
@@ -135,8 +141,14 @@ function solve_atmosphere(T_eff::Float64, g_s::Float64,
     F_bol = _bolometric_flux(P_all, μ, w, ν_grid)
     verbose && @printf("  Final F/σT⁴=%.4f\n", F_bol / (σ_SB * T_eff^4))
 
+    # Bead E15: snapshot the full converged column so the result carries
+    # κ, ρ, P, τ, k_R alongside T and y. deepcopy detaches from the mutable
+    # scratch column we've been updating in the iteration loop.
+    col_snapshot = deepcopy(col)
+
     return AtmosphereResult(T_eff, g_s, converged, n_iter, max_dT,
-                             ν_grid, μ, I_emergent, copy(col.T), copy(col.y))
+                             ν_grid, μ, I_emergent,
+                             col_snapshot.T, col_snapshot.y, col_snapshot)
 end
 
 """

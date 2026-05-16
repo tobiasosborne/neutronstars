@@ -26,6 +26,13 @@ export solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_sp
 
 """
 Result of a converged magnetic atmosphere calculation.
+
+Bead E15: `column` snapshots the full converged magnetic column as a
+NamedTuple `(y, T, ρ, P, κ, k_total, ρ_alb, τ)`. The magnetic solver
+operates on bare arrays (no dedicated struct), so a NamedTuple is the
+lowest-friction container. The mode axis is the last axis of κ, k_total,
+ρ_alb, τ (shape `N × K × 2`). `T_profile` and `y_grid` are retained for
+backward compatibility and are equivalent to `column.T` and `column.y`.
 """
 struct MagneticAtmosphereResult
     T_eff::Float64
@@ -38,8 +45,9 @@ struct MagneticAtmosphereResult
     ν_grid::Vector{Float64}
     μ_grid::Vector{Float64}
     I_emergent::Array{Float64, 3}   # K × M × 2 (freq, angle, mode)
-    T_profile::Vector{Float64}
-    y_grid::Vector{Float64}
+    T_profile::Vector{Float64}      # == column.T (E15: retained for compat)
+    y_grid::Vector{Float64}         # == column.y (E15: retained for compat)
+    column::NamedTuple              # full converged column (E15)
 end
 
 """
@@ -192,8 +200,21 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     verbose && @printf("  Final F/σT⁴=%.4f\n",
                         _bolometric_flux_2mode(P_all, μ, w, ν_grid) / (σ_SB * T_eff^4))
 
+    # Bead E15: snapshot the full converged column (bare arrays, no struct
+    # in the magnetic solver). copy.() detaches from the mutable scratch
+    # arrays that the iteration loop has been overwriting in place.
+    column = (y       = copy(y),
+              T       = copy(T),
+              ρ       = copy(ρ),
+              P       = copy(P),
+              κ       = copy(κ),
+              k_total = copy(k_total),
+              ρ_alb   = copy(ρ_alb),
+              τ       = copy(τ))
+
     return MagneticAtmosphereResult(T_eff, g_s, B, θ_B, converged, n_iter, max_dT,
-                                     ν_grid, μ, I_emergent, copy(T), copy(y))
+                                     ν_grid, μ, I_emergent,
+                                     column.T, column.y, column)
 end
 
 # Bead D10: 4-arg convenience overload for pure-magnetic runs (B > 0). Forwards
