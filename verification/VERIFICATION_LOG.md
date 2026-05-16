@@ -74,12 +74,12 @@
 
 ### Suleimanov Fig. 2 Clean Branch View
 - **Test:** Mask resonance-marker bands and tall annotation segments, split each color into upper/lower branches per x-column, and compare each branch against each computed mode without nearest-mode reassignment hiding the residuals.
-- **Result:** FAIL for oblique-angle full-figure agreement.
-- `θ=90°`: good agreement; free-free branch median abs residuals are about `0.08 dex`.
-- `θ=5°`: mixed; best branch median abs residuals are about `0.4-0.5 dex`.
-- `θ=45°`: major mismatch remains; upper magenta/blue branches show about `2.7-3.0 dex` median abs residual.
+- **Result:** PASS at all three angles after harness fix (see D11, 2026-05-16).
+- `θ=90°`: best branch median abs residuals `~0.08 dex` (unchanged).
+- `θ=5°`: best branch median abs residuals `<0.4 dex`.
+- `θ=45°`: best branch median abs residuals `0.024-0.089 dex` (down from `2.66-5.58 dex` before the fix).
 - **Artifacts:** `verification/figures/suleimanov_2009_fig2/clean_branch_validation.png`, `verification/data/suleimanov_2009_fig2/clean_branch_metrics.json`.
-- **Next:** Isolate fixed-energy `θ_B=45°` intermediate quantities (`β`, `K_j`, `K_z,j`, cyclic weights, component cross-sections) against source equations.
+- **Root cause (D11):** `verification/compute_suleimanov_fig2_opacities.jl` was importing `polarization_weights_full` — a deprecated compatibility wrapper around `polarization_weights_cold` (no vacuum polarization) since D6 / commit `4dc9a5d`. The production opacity pipeline already uses `polarization_weights_vacuum` and was correct; only the verification harness was using the wrong mode-weight convention. Fix: replace `polarization_weights_full` → `polarization_weights_vacuum` in the harness. `verification/check_suleimanov_fig2_metrics.py` now also gates θ_B=45° (previously only 5° and 90°).
 
 ---
 
