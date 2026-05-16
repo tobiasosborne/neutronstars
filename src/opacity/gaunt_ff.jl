@@ -79,8 +79,6 @@ Arguments:
 - `table`: loaded GauntTable
 """
 function gaunt_ff(ν::Float64, T::Float64, table::GauntTable)::Float64
-    @assert ν > 0 && T > 0
-
     u = h * ν / (k_B * T)
     g2 = Ry_erg / (k_B * T)   # Z=1 for hydrogen
 

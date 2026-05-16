@@ -25,8 +25,6 @@ Haakonsen et al. (2012) Eq. 12.
 """
 function kappa_ff(ν::Float64, T::Float64, ρ::Float64,
                   table::GauntTable)::Float64
-    @assert ν > 0 && T > 0 && ρ > 0
-
     gff = gaunt_ff(ν, T, table)
 
     # Prefactor (CGS constants)

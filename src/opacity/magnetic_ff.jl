@@ -89,7 +89,6 @@ P&C 2003 Eq. (51), combined electron+proton treatment.
 function sigma_ff_alpha(α::Int, ω::Float64, B::Float64,
                         T::Float64, ρ::Float64)::Float64
     @assert α ∈ (-1, 0, 1)
-    @assert ω > 0 && B >= 0 && T > 0 && ρ > 0
 
     if B < 1e6  # non-magnetic limit
         return _sigma_ff_nonmag(ω, T, ρ)

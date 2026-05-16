@@ -42,8 +42,6 @@ Lai (2006) Eqs. (10, 19) and P&C 2003 Eq. (25) for the underlying tensor
 definition.
 """
 function stix_parameters(ω::Float64, B::Float64, n_e::Float64)
-    @assert ω > 0 && B > 0 && n_e > 0
-
     ω_ce = e_charge * B / (m_e * c)
     ω_cp = e_charge * B / (m_p * c)
     ω_pe² = 4π * n_e * e_charge^2 / m_e
@@ -208,7 +206,6 @@ Verified verbatim against PLC2004 Appendix A on 2026-05-16: each constant
 the exact Heyl-Hernquist expression: 1.1% (A7), 2.3% (A8), 4.2% (A9).
 """
 function vacuum_coefficients(B::Float64)
-    @assert B >= 0.0
     b = B / B_Q
     if b == 0.0
         return 0.0, 0.0, 0.0

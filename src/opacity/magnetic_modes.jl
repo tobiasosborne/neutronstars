@@ -71,7 +71,6 @@ Returns (κ_abs, κ_scat) in cm²/g.
 function mode_opacity_split(j::Int, ν::Float64, θ_B::Float64,
                             B::Float64, T::Float64, ρ::Float64)
     @assert j ∈ (1, 2)
-    @assert ν > 0 && B >= 0 && T > 0 && ρ > 0
     ω = 2π * ν
     n_e = ρ / m_H
     w1, w2 = polarization_weights_vacuum(ω, B, θ_B, n_e)
@@ -262,7 +261,6 @@ end
 function _mode_cross_section_sum(f, j::Int, ν::Float64, θ_B::Float64,
                                  B::Float64, T::Float64, ρ::Float64)::Float64
     @assert j ∈ (1, 2)
-    @assert ν > 0 && B >= 0 && T > 0 && ρ > 0
 
     ω = 2π * ν
     n_e = ρ / m_H

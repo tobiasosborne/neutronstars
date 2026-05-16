@@ -30,7 +30,6 @@ Arguments:
 """
 function coulomb_log_magnetic(α::Int, u::Float64, β_e::Float64)::Float64
     @assert α ∈ (-1, 0, 1)
-    @assert u > 0 && β_e > 0
 
     # If field is non-quantizing, fall back to classical
     if β_e < 0.1
