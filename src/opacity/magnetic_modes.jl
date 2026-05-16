@@ -18,87 +18,57 @@ module MagneticModes
 
 using ..PhysicalConstants: e_charge, m_e, m_p, c, h, ħ, k_B, σ_T
 using ..MagneticFF: cyclotron_freq_e, cyclotron_freq_p,
-                     sigma_total_alpha, sigma_ff_alpha, sigma_pp_alpha,
-                     sigma_scat_alpha
-using ..DielectricTensor: polarization_weights_full
+                     sigma_ff_alpha, sigma_pp_alpha, sigma_scat_alpha
+using ..DielectricTensor: polarization_weights_vacuum
 using ..HydrogenOpacity: dBnu_dT
 using ..BlackbodyAtmosphere: planck_Bnu
 
-export mode_opacity, mode_absorption, mode_scattering, effective_opacity
+export mode_absorption, mode_scattering, mode_opacity, effective_opacity
 export kappa_parallel_mono, kappa_perp_mono
 export rosseland_magnetic, make_rosseland_frequency_grid
 
 const m_H = m_p + m_e
 
 """
+    mode_absorption(j, ν, θ_B, B, T, ρ) → κ_j^a [cm²/g]
+
+True absorption opacity for normal mode j (1=extraordinary, 2=ordinary).
+P&C 2003 Eq. (27): κ_j^a = (1/m_H) Σ_α |e_{j,α}|² σ_α^a.
+For fully ionized hydrogen, Eq. (31) gives σ_α^a = σ_α^ff + σ_α^pp.
+"""
+function mode_absorption(j::Int, ν::Float64, θ_B::Float64,
+                         B::Float64, T::Float64, ρ::Float64)::Float64
+    return _mode_cross_section_sum(j, ν, θ_B, B, T, ρ) do α, ω
+        sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
+    end
+end
+
+"""
+    mode_scattering(j, ν, θ_B, B, T, ρ) → κ_j^s [cm²/g]
+
+Scattering extinction opacity for normal mode j.
+P&C 2003 defines total scattering opacity κ_j^s = Σ_j' κ_jj'^s and
+total extinction opacity κ_j = κ_j^a + κ_j^s. This uses the angle-local
+polarization-weighted scattering cross section as the Feautrier extinction
+term; inter-mode redistribution is deferred to the atmosphere scattering kernel.
+"""
+function mode_scattering(j::Int, ν::Float64, θ_B::Float64,
+                         B::Float64, T::Float64, ρ::Float64)::Float64
+    return _mode_cross_section_sum(j, ν, θ_B, B, T, ρ) do α, ω
+        sigma_scat_alpha(α, ω, B)
+    end
+end
+
+"""
     mode_opacity(j, ν, θ_B, B, T, ρ) → κ_j [cm²/g]
 
-Opacity for normal mode j (1=extraordinary, 2=ordinary) at angle θ_B.
-P&C 2003 Eq. (27): κ_j = (1/m_H) Σ_α |e_{j,α}|² σ_α
+Total extinction opacity for normal mode j.
+P&C 2003: κ_j = κ_j^a + κ_j^s.
 """
 function mode_opacity(j::Int, ν::Float64, θ_B::Float64,
                       B::Float64, T::Float64, ρ::Float64)::Float64
-    @assert j ∈ (1, 2)
-    ω = 2π * ν
-    n_e = ρ / m_H
-
-    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
-    w = j == 1 ? w1 : w2
-
-    κ = 0.0
-    for (idx, α) in enumerate((-1, 0, 1))
-        σ = sigma_total_alpha(α, ω, B, T, ρ)
-        κ += w[idx] * σ
-    end
-
-    return κ / m_H
-end
-
-"""
-    mode_absorption(j, ν, θ_B, B, T, ρ) → κ_j^abs [cm²/g]
-
-Absorption-only opacity for normal mode j (free-free + proton-proton).
-Same polarization weight decomposition as mode_opacity, but excludes scattering.
-"""
-function mode_absorption(j::Int, ν::Float64, θ_B::Float64,
-                          B::Float64, T::Float64, ρ::Float64)::Float64
-    @assert j ∈ (1, 2)
-    ω = 2π * ν
-    n_e = ρ / m_H
-
-    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
-    w = j == 1 ? w1 : w2
-
-    κ = 0.0
-    for (idx, α) in enumerate((-1, 0, 1))
-        σ = sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
-        κ += w[idx] * σ
-    end
-
-    return κ / m_H
-end
-
-"""
-    mode_scattering(j, ν, θ_B, B, T, ρ) → σ_j^scat [cm²/g]
-
-Scattering-only opacity for normal mode j (magnetic Thomson).
-Same polarization weight decomposition as mode_opacity, but only scattering.
-"""
-function mode_scattering(j::Int, ν::Float64, θ_B::Float64,
-                          B::Float64, T::Float64, ρ::Float64)::Float64
-    @assert j ∈ (1, 2)
-    ω = 2π * ν
-    n_e = ρ / m_H
-
-    w1, w2 = polarization_weights_full(ω, B, θ_B, n_e)
-    w = j == 1 ? w1 : w2
-
-    σ_scat = 0.0
-    for (idx, α) in enumerate((-1, 0, 1))
-        σ_scat += w[idx] * sigma_scat_alpha(α, ω, B)
-    end
-
-    return σ_scat / m_H
+    return mode_absorption(j, ν, θ_B, B, T, ρ) +
+           mode_scattering(j, ν, θ_B, B, T, ρ)
 end
 
 """
@@ -260,6 +230,25 @@ function rosseland_magnetic(B::Float64, T::Float64, ρ::Float64,
 end
 
 # --- Internal helpers ---
+
+function _mode_cross_section_sum(f, j::Int, ν::Float64, θ_B::Float64,
+                                 B::Float64, T::Float64, ρ::Float64)::Float64
+    @assert j ∈ (1, 2)
+    @assert ν > 0 && B >= 0 && T > 0 && ρ > 0
+
+    ω = 2π * ν
+    n_e = ρ / m_H
+
+    w1, w2 = polarization_weights_vacuum(ω, B, θ_B, n_e)
+    w = j == 1 ? w1 : w2
+
+    κ = 0.0
+    for (idx, α) in enumerate((-1, 0, 1))
+        κ += w[idx] * f(α, ω)
+    end
+
+    return κ / m_H
+end
 
 """Harmonic mean of two positive values. Returns 0 if either is zero."""
 function harmonic_mean_2(a::Float64, b::Float64)::Float64

@@ -1,0 +1,196 @@
+{
+  "source": "Suleimanov et al. 2009 Fig. 2 digitized point cloud",
+  "computed_parameters": {
+    "temperature_K": 7000000.0,
+    "density_g_cm3": 30.0,
+    "magnetic_field_G": 100000000000000.0,
+    "angles_deg": [
+      5.0,
+      45.0,
+      90.0
+    ]
+  },
+  "figure_mapping": {
+    "magenta": "free-free/true absorption curves",
+    "blue": "electron-scattering curves",
+    "solid": "one normal-mode branch",
+    "dashed": "the other normal-mode branch",
+    "local_line_styles": "mode 1 solid, mode 2 dashed for comparison only"
+  },
+  "excluded_energy_bands_keV": [
+    [
+      0.5,
+      0.8
+    ],
+    [
+      5.3,
+      6.4
+    ]
+  ],
+  "method": "For each digitized point outside resonance-marker bands, use its published color to choose free-free or electron scattering, then assign it to whichever local mode curve is nearer in log opacity. Tall pixel segments are also excluded as vertical marker candidates. Metrics use one median residual per x-column to reduce linewidth bias.",
+  "marker_segment_len_px_cut": 8,
+  "limitations": [
+    "Digitized curves have not yet been manually separated by line style.",
+    "The local opacity code includes vacuum-polarized mode vectors, but this metric excludes the resonance-marker bands.",
+    "The local comparison uses Potekhin-Chabrier component cross-sections, not van Adelsberg-Lai tables.",
+    "The proton-proton opacity is overplotted but not scored against Fig. 2 labels."
+  ],
+  "metrics": [
+    {
+      "theta_deg": 5.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 503,
+      "usable_energy_columns_for_color": 668,
+      "coverage_fraction": 0.7529940119760479,
+      "median_log10_opacity_residual_dex": 0.09572319514183869,
+      "median_abs_log10_opacity_error_dex": 0.14067743117669318,
+      "robust_scatter_1p4826_mad_dex": 0.10057657814540044,
+      "p90_abs_log10_opacity_error_dex": 0.9062041420682945
+    },
+    {
+      "theta_deg": 5.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 509,
+      "usable_energy_columns_for_color": 668,
+      "coverage_fraction": 0.7619760479041916,
+      "median_log10_opacity_residual_dex": 0.05840778316755313,
+      "median_abs_log10_opacity_error_dex": 0.07863611395784356,
+      "robust_scatter_1p4826_mad_dex": 0.10901206354493721,
+      "p90_abs_log10_opacity_error_dex": 0.24857369849966737
+    },
+    {
+      "theta_deg": 5.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 515,
+      "usable_energy_columns_for_color": 674,
+      "coverage_fraction": 0.7640949554896143,
+      "median_log10_opacity_residual_dex": 0.05586682595197612,
+      "median_abs_log10_opacity_error_dex": 0.21669076937313947,
+      "robust_scatter_1p4826_mad_dex": 0.28548822475557617,
+      "p90_abs_log10_opacity_error_dex": 0.6242315022000984
+    },
+    {
+      "theta_deg": 5.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 517,
+      "usable_energy_columns_for_color": 674,
+      "coverage_fraction": 0.7670623145400594,
+      "median_log10_opacity_residual_dex": 0.08578345474851723,
+      "median_abs_log10_opacity_error_dex": 0.17467637121693613,
+      "robust_scatter_1p4826_mad_dex": 0.2193981355311153,
+      "p90_abs_log10_opacity_error_dex": 0.48945879740426257
+    },
+    {
+      "theta_deg": 45.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 524,
+      "usable_energy_columns_for_color": 665,
+      "coverage_fraction": 0.7879699248120301,
+      "median_log10_opacity_residual_dex": -0.1242759284998538,
+      "median_abs_log10_opacity_error_dex": 0.37872217617448056,
+      "robust_scatter_1p4826_mad_dex": 0.41019655769788693,
+      "p90_abs_log10_opacity_error_dex": 2.788047109649762
+    },
+    {
+      "theta_deg": 45.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 514,
+      "usable_energy_columns_for_color": 665,
+      "coverage_fraction": 0.7729323308270677,
+      "median_log10_opacity_residual_dex": 0.04176720181893323,
+      "median_abs_log10_opacity_error_dex": 0.047644423482290144,
+      "robust_scatter_1p4826_mad_dex": 0.028799951752117088,
+      "p90_abs_log10_opacity_error_dex": 0.0909160327133045
+    },
+    {
+      "theta_deg": 45.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 515,
+      "usable_energy_columns_for_color": 676,
+      "coverage_fraction": 0.7618343195266272,
+      "median_log10_opacity_residual_dex": -0.16242938211182723,
+      "median_abs_log10_opacity_error_dex": 0.42291162414109973,
+      "robust_scatter_1p4826_mad_dex": 0.5039756967053088,
+      "p90_abs_log10_opacity_error_dex": 3.5857689422458714
+    },
+    {
+      "theta_deg": 45.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 523,
+      "usable_energy_columns_for_color": 676,
+      "coverage_fraction": 0.7736686390532544,
+      "median_log10_opacity_residual_dex": 0.07007716835044764,
+      "median_abs_log10_opacity_error_dex": 0.07008445569605182,
+      "robust_scatter_1p4826_mad_dex": 0.003151267287208369,
+      "p90_abs_log10_opacity_error_dex": 0.4448133792240352
+    },
+    {
+      "theta_deg": 90.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 664,
+      "usable_energy_columns_for_color": 674,
+      "coverage_fraction": 0.9851632047477745,
+      "median_log10_opacity_residual_dex": 0.08052374238669169,
+      "median_abs_log10_opacity_error_dex": 0.08052374238669169,
+      "robust_scatter_1p4826_mad_dex": 0.020329083709448244,
+      "p90_abs_log10_opacity_error_dex": 0.2367824088447259
+    },
+    {
+      "theta_deg": 90.0,
+      "digitized_color": "magenta",
+      "mapped_component": "free_free",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 389,
+      "usable_energy_columns_for_color": 674,
+      "coverage_fraction": 0.5771513353115727,
+      "median_log10_opacity_residual_dex": 0.07571284974173587,
+      "median_abs_log10_opacity_error_dex": 0.07571284974173587,
+      "robust_scatter_1p4826_mad_dex": 0.012869990552027807,
+      "p90_abs_log10_opacity_error_dex": 0.09320065762740715
+    },
+    {
+      "theta_deg": 90.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 1,
+      "assigned_energy_columns": 676,
+      "usable_energy_columns_for_color": 676,
+      "coverage_fraction": 1.0,
+      "median_log10_opacity_residual_dex": 0.053393572228846276,
+      "median_abs_log10_opacity_error_dex": 0.10561289112209812,
+      "robust_scatter_1p4826_mad_dex": 0.07742036222350451,
+      "p90_abs_log10_opacity_error_dex": 0.6776769261185666
+    },
+    {
+      "theta_deg": 90.0,
+      "digitized_color": "blue",
+      "mapped_component": "electron_scattering",
+      "assigned_mode": 2,
+      "assigned_energy_columns": 381,
+      "usable_energy_columns_for_color": 676,
+      "coverage_fraction": 0.5636094674556213,
+      "median_log10_opacity_residual_dex": 0.3665835459335849,
+      "median_abs_log10_opacity_error_dex": 0.3665835459335849,
+      "robust_scatter_1p4826_mad_dex": 0.27435421999828047,
+      "p90_abs_log10_opacity_error_dex": 0.5547499345360016
+    }
+  ]
+}

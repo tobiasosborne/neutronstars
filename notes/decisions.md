@@ -24,3 +24,13 @@
 **Date:** 2026-03-24
 **Decision:** All physics implemented in Julia. External codes (McPHAC, Potekhin Fortran) used only for verification.
 **Rationale:** Reproducibility and transparency. Every equation must be traceable in our code.
+
+## D6: Preserve cold-plasma mode API and add explicit vacuum mode weights
+**Date:** 2026-05-14
+**Decision:** Keep `polarization_weights_full` as the cold-plasma compatibility wrapper and add `polarization_weights_vacuum` for QED vacuum-polarized local mode vectors. Magnetic opacities use the vacuum-aware weights.
+**Rationale:** Existing callers and tests that mean "P&C 2003 cold plasma" keep their behavior, while production magnetic opacities use the physically updated local mode vectors. This avoids silently changing every low-level dielectric caller's convention.
+
+## D7: Use figure digitization as validation, not as the sole ground truth
+**Date:** 2026-05-14
+**Decision:** Use digitized Suleimanov Fig. 2 curves as regression and smoke-validation artifacts, with published equations and reference implementations remaining the primary ground truth.
+**Rationale:** Fig. 2 digitization is useful for catching dex-scale errors, but branch labels, annotation pixels, resonance markers, and anti-aliased line strokes make it unsuitable for percent-level validation without stronger curve extraction.

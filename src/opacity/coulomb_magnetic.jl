@@ -49,8 +49,9 @@ function coulomb_log_magnetic(α::Int, u::Float64, β_e::Float64)::Float64
         # Integrate Q_n^α over y ∈ [0, ∞)
         integrand(y) = _Q_n_alpha(n, α, β_e, u, y)
 
-        # Adaptive quadrature; integrand decays for large y
-        val, _ = quadgk(integrand, 0.0, 20.0; rtol=1e-4, maxevals=500)
+        # P&C 2003 Eq. (44a) integrates over y ∈ [0, ∞).  A fixed cutoff
+        # misses the long longitudinal-polarization tail when β_e is large.
+        val, _ = quadgk(integrand, 0.0, Inf; rtol=1e-4, maxevals=2000)
         total += val
     end
 
@@ -69,8 +70,8 @@ function _Q_n_alpha(n::Int, α::Int, β_e::Float64, u::Float64, y::Float64)::Flo
 
     ζ = sqrt(1.0 + 2θ*y + y^2)
 
-    # Eq. (44e): x_n
-    x_n = abs(u - n * β_e) / sqrt(0.25 + y / β_e)
+    # Eq. (44e): x_n = |u - nβ_e| sqrt(1/4 + y/β_e).
+    x_n = abs(u - n * β_e) * sqrt(0.25 + y / β_e)
 
     # Suppress contributions where Bessel function argument is very large
     if x_n > 300.0
