@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Julia ${{ matrix.julia-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        julia-version: ['1.10']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repository (with submodules)
+        uses: actions/checkout@v4
+        with:
+          # Submodules are required because tests load refs/code/McPHAC/gffgu.dat
+          submodules: recursive
+
+      - name: Set up Julia ${{ matrix.julia-version }}
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.julia-version }}
+
+      - name: Set up Python 3
+        # verification/check_suleimanov_fig2_metrics.py currently uses only
+        # the standard library (json, pathlib), so no pip installs are required.
+        # We still install Python so the verification gate can be invoked.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Cache Julia artifacts and registries
+        uses: julia-actions/cache@v2
+
+      - name: Build package
+        uses: julia-actions/julia-buildpkg@v1
+
+      - name: Run tests (Pkg.test)
+        uses: julia-actions/julia-runtest@v1
+
+      - name: Run Suleimanov Fig. 2 verification gate
+        # Only runs if Julia tests produced/refreshed the metrics file; the
+        # script itself simply asserts on an existing JSON payload.
+        if: always()
+        run: |
+          if [ -f verification/data/suleimanov_2009_fig2/opacity_comparison_metrics.json ]; then
+            python3 verification/check_suleimanov_fig2_metrics.py
+          else
+            echo "Suleimanov metrics JSON not present; skipping verification gate."
+          fi
