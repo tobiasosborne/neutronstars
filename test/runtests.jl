@@ -113,7 +113,7 @@ end
     end
 
     @test result.converged
-    @test flux / (NeutronStar.PhysicalConstants.σ_SB * result.T_eff^4) ≈ 1.0 rtol=0.25
+    @test flux / (NeutronStar.PhysicalConstants.σ_SB * result.T_eff^4) ≈ 1.0 rtol=0.05
 end
 
 @testset "Magnetic atmosphere uses scattering albedo for B > 0" begin
@@ -140,4 +140,58 @@ end
         @test τ[1, 1, mode] == 0.0
         @test τ[end, 1, mode] > 0.0
     end
+end
+
+@testset "Phase 2 tracer-bullet (Tier 1)" begin
+    # 1. TOV: BSk21 canonical 1.4 M_☉ NS → R ≈ 12.6 km.
+    # VERIFICATION_LOG.md:20 records ρ_c = 7.30e14 g/cm³ → M = 1.4000 M_☉, R = 12.59 km.
+    # We use that ρ_c directly (avoids a bisection inside the test).
+    tov = solve_tov(7.30e14, BSk21_params)
+    @test tov.M_solar ≈ 1.4 atol=0.02   # within 0.02 M_☉ of canonical
+    @test tov.R_km ≈ 12.6 atol=0.5      # published BSk21 value (Potekhin+ 2013 Fig. 8)
+    println("  TOV(BSk21, ρ_c=7.3e14): M = $(round(tov.M_solar, digits=4)) M_☉, R = $(round(tov.R_km, digits=3)) km")
+
+    # 2-3. visible_fraction limits (Beloborodov 2002 Sect. 3, Pechenick & Ftaclas 1983).
+    # u = r_g/R = 2GM/(Rc²). At u = 0 (flat) → 0.5; at u = 1/3 (compact) → 0.75.
+    @test visible_fraction(0.0) ≈ 0.5 atol=1e-3
+    @test visible_fraction(1.0/3.0) ≈ 0.75 atol=1e-3
+    println("  visible_fraction(0) = $(visible_fraction(0.0)), visible_fraction(1/3) = $(round(visible_fraction(1/3), digits=6))")
+
+    # 4. surface_temperature pole/equator limits (Greenstein-Hartke 1983).
+    # Signature: surface_temperature(θ_B, T_pole, T_eq). T(0) = T_pole, T(π/2) = T_eq.
+    T_pole = 1.0e6
+    T_eq = 5.0e5
+    @test surface_temperature(0.0, T_pole, T_eq) == T_pole
+    @test surface_temperature(π/2, T_pole, T_eq) == T_eq
+
+    # 5. surface_Bfield pole/equator (centred dipole convention).
+    # |B|(θ_B) = (B_pole/2)√(1 + 3cos²θ_B). At pole → B_pole, at equator → B_pole/2.
+    B_pole = 1.0e12
+    @test surface_Bfield(0.0, B_pole) ≈ B_pole rtol=1e-12
+    @test surface_Bfield(π/2, B_pole) ≈ 0.5 * B_pole rtol=1e-12
+
+    # 6. magnetic_colatitude with obliquity = 0: dipole axis aligned with spin.
+    # Then θ_B == θ_geo for every geographic point.
+    @test magnetic_colatitude(0.0, 0.0, 0.0) ≈ 0.0 atol=1e-12
+    @test magnetic_colatitude(π/2, 0.0, 0.0) ≈ π/2 atol=1e-12
+
+    # 7. Solar blackbody (T = 5778 K) → warm-white in sRGB.
+    # VERIFICATION_LOG.md:49-53 documents chromaticity (x,y) = (0.3264, 0.3357)
+    # and 8-bit sRGB ≈ (255, 252, 245). The 8-bit values depend on the
+    # Reinhard tone-map exposure/key/L_avg choice (not pinned in the log),
+    # so we assert only the physics-invariant: warm-white ordering and that
+    # the red channel saturates first under reasonable exposure. The exact
+    # chromaticity assertion is left as a TODO until the tone-map calibration
+    # is documented; see VERIFICATION_LOG.md:49-53 and reviews/02_tests.md:122.
+    cmfs = load_cie_cmfs("refs/cvrl_cie1931_2deg.csv")
+    ν_grid = collect(range(1.0e14, 2.0e15; length=400))
+    I_ν = [planck_Bnu(ν, 5778.0) for ν in ν_grid]
+    _, Y_solar, _ = spectrum_to_XYZ(ν_grid, I_ν, cmfs)
+    r, g, b = spectrum_to_sRGB(ν_grid, I_ν, cmfs; exposure=1.0, L_avg=Y_solar, key=10.0)
+    println("  Solar BB (5778 K) → sRGB = ($r, $g, $b); VERIFICATION_LOG target ≈ (255, 252, 245)")
+    @test r >= g >= b          # warm white (R ≥ G ≥ B)
+    @test r == 255             # red channel saturates under this exposure
+    @test g >= 200             # well into the white region, not orange
+    @test b >= 180             # still substantial blue (solar, not cool star)
+    # TODO: once tone-map calibration is pinned, assert (255, 252, 245) atol=3.
 end
