@@ -50,7 +50,10 @@ function coulomb_log_magnetic(α::Int, u::Float64, β_e::Float64)::Float64
 
         # P&C 2003 Eq. (44a) integrates over y ∈ [0, ∞).  A fixed cutoff
         # misses the long longitudinal-polarization tail when β_e is large.
-        val, _ = quadgk(integrand, 0.0, Inf; rtol=1e-4, maxevals=2000)
+        val, err = quadgk(integrand, 0.0, Inf; rtol=1e-4, maxevals=2000)
+        if err / max(abs(val), 1e-10) > 1e-3
+            @warn "quadgk loose convergence" val err
+        end
         total += val
     end
 
