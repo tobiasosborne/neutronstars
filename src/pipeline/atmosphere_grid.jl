@@ -289,9 +289,9 @@ build_atmosphere_grid(T_grid::Vector{Float64},
     lookup_spectrum(grid, T_eff, B, θ_B, ν_obs, cos_θe) → I_ν [erg/s/cm²/Hz/sr]
 
 Look up the **mode-summed** (total) emergent specific intensity at given
-conditions by interpolation in (T_eff, B, θ_B), linear interpolation in
-angle, and nearest-neighbour in frequency (matching the original Phase 3
-lookup fidelity).
+conditions by trilinear interpolation in (T_eff, B, θ_B), linear in
+angle, and log-log linear in frequency (bead D3; was nearest-neighbour
+in frequency through Phase 3).
 
 For T/B/θ_B outside the grid, uses nearest-neighbour (clamping).
 When the grid has a single θ_B sample, the θ_B interpolation collapses
@@ -331,8 +331,9 @@ lookup_spectrum(grid::AtmosphereSpectrumGrid,
 Look up the **polarized** emergent specific intensity at given conditions,
 returning a `length(ν_obs) × 2` matrix whose columns are the two
 polarization modes (1 = X, 2 = O for B>0; both equal to I_nonmag/2 for
-B=0). Same interpolation scheme as `lookup_spectrum` (trilinear in
-(T, B, θ_B), linear in angle, nearest-neighbour in frequency).
+B=0). Same interpolation scheme as `lookup_spectrum`: trilinear in
+(T, B, θ_B), linear in angle, **log-log linear in frequency** (bead D3;
+was nearest-neighbour in ν before).
 
 This is the polarization-preserving lookup that Phase 4 Kerr ray tracing
 will consume so it can parallel-transport the polarization basis along
@@ -358,8 +359,28 @@ function lookup_spectrum_polarized(grid::AtmosphereSpectrumGrid,
     nθB = length(grid.θ_B_grid)
     nμ = length(grid.μ_grid)
 
-    # Trilinear interpolation in (T, B, θ_B); linear in angle; nearest in ν.
+    # Bracket every observed frequency in the grid's ν axis once. The result
+    # is independent of the (T, B, θ_B) corner being mixed, so hoisting it
+    # out of the 8-corner loop avoids `nν * 8` redundant searches per pixel.
+    # Bead D3: replaces the previous nearest-neighbour `_nearest(grid.ν_grid,
+    # ν_obs[iν])` call, which both stair-stepped the emergent spectrum and
+    # allocated a fresh `Vector{Float64}` of length K on every invocation
+    # (≈ 6.5 GB garbage per 256×256×K=50 render).
+    kν_lo = Vector{Int}(undef, nν)
+    kν_hi = Vector{Int}(undef, nν)
+    wν_lo = Vector{Float64}(undef, nν)
+    wν_hi = Vector{Float64}(undef, nν)
+    @inbounds for iν in 1:nν
+        kl, kh, wl, wh = _bracket(grid.ν_grid, ν_obs[iν])
+        kν_lo[iν] = kl
+        kν_hi[iν] = kh
+        wν_lo[iν] = wl
+        wν_hi[iν] = wh
+    end
+
+    # Trilinear in (T, B, θ_B); linear in angle; log-log linear in ν.
     # 8 corner models in the (T, B, θ_B) cube. Per-mode (no cross-mode mixing).
+    μ_hi_idx = min(iμ + 1, nμ)
     for (wT, jT) in ((1-fT, iT), (fT, min(iT+1, nT)))
         for (wB, jB) in ((1-fB, iB), (fB, min(iB+1, nB)))
             for (wθ, jθ) in ((1-fθB, iθB), (fθB, min(iθB+1, nθB)))
@@ -368,14 +389,34 @@ function lookup_spectrum_polarized(grid::AtmosphereSpectrumGrid,
 
                 I_model = grid.I_cache[jT, jB, jθ]  # K × M × 2
 
-                # Interpolate in angle for each observed frequency and mode
-                for iν in 1:nν
-                    # Find nearest frequency in grid
-                    kν = _nearest(grid.ν_grid, ν_obs[iν])
+                @inbounds for iν in 1:nν
+                    klo = kν_lo[iν]
+                    khi = kν_hi[iν]
+                    wlo = wν_lo[iν]
+                    whi = wν_hi[iν]
                     for m in 1:2
-                        # Angle interpolation
-                        I_at_ν = (1-fμ) * I_model[kν, iμ, m] +
-                                  fμ * I_model[kν, min(iμ+1, nμ), m]
+                        # Angle-interpolate first at each ν endpoint, then
+                        # combine log-log in ν. Doing angle first keeps the
+                        # ν-interp positivity check (intensities must be > 0
+                        # to take logs) consistent with the angle-mixed value
+                        # we actually want to interpolate.
+                        I_lo = (1-fμ) * I_model[klo, iμ, m] +
+                                  fμ * I_model[klo, μ_hi_idx, m]
+                        I_hi = (1-fμ) * I_model[khi, iμ, m] +
+                                  fμ * I_model[khi, μ_hi_idx, m]
+                        # Boundary clamp from `_bracket` sets klo == khi with
+                        # wlo == 1, so I_lo == I_hi and this collapses cleanly
+                        # to a single value (no log of a possibly-zero ratio).
+                        if klo == khi
+                            I_at_ν = I_lo
+                        elseif I_lo > 0.0 && I_hi > 0.0
+                            # Log-log linear (mirrors rt_emergent_spectrum):
+                            # log I = wlo log I_lo + whi log I_hi.
+                            I_at_ν = exp(wlo * log(I_lo) + whi * log(I_hi))
+                        else
+                            # Fall back to linear when an endpoint is non-positive.
+                            I_at_ν = wlo * I_lo + whi * I_hi
+                        end
                         I_out[iν, m] += w * max(I_at_ν, 0.0)
                     end
                 end
@@ -425,9 +466,44 @@ function _bracket_interp(grid::Vector{Float64}, x::Float64)
     return i, f
 end
 
-"""Find nearest index in grid."""
-function _nearest(grid::Vector{Float64}, x::Float64)::Int
-    return argmin(abs.(grid .- x))
+"""
+    _bracket(grid, x) → (k_lo, k_hi, w_lo, w_hi)
+
+Find the bracketing indices `k_lo, k_hi` in a sorted `grid` such that
+`grid[k_lo] ≤ x ≤ grid[k_hi]`, plus log-linear interpolation weights
+(`w_lo`, `w_hi` sum to 1; multiply `grid[k_lo]` by `w_lo` and `grid[k_hi]`
+by `w_hi` to recover `x` in log space).
+
+For `x` outside the range, clamps to the boundary cell (`k_lo == k_hi`,
+`w_lo = 1`, `w_hi = 0`).
+
+This replaces the previous `_nearest` helper which called
+`argmin(abs.(grid .- x))` — that allocated a fresh `Vector{Float64}` of
+length `length(grid)` on every call, producing ~6.5 GB of garbage per
+256×256×50 render with a K=50 frequency grid. `searchsortedlast` is
+allocation-free, and log-linear interpolation gives proper continuous
+spectra instead of stair-stepped nearest-neighbour ones (the canonical
+log-log pattern is borrowed from `rt_emergent_spectrum` in
+`src/atmosphere/rt_atmosphere.jl`).
+"""
+function _bracket(grid::Vector{Float64}, x::Float64)
+    n = length(grid)
+    if x <= grid[1]
+        return 1, 1, 1.0, 0.0
+    elseif x >= grid[end]
+        return n, n, 1.0, 0.0
+    end
+    # searchsortedlast returns the largest k with grid[k] <= x. Because
+    # we have already handled x >= grid[end], k_lo is in [1, n-1] and
+    # k_lo + 1 <= n, so the +1 below cannot run off the end.
+    k_lo = searchsortedlast(grid, x)
+    k_hi = k_lo + 1
+    lx = log(x)
+    l_lo = log(grid[k_lo])
+    l_hi = log(grid[k_hi])
+    w_hi = (lx - l_lo) / (l_hi - l_lo)
+    w_lo = 1.0 - w_hi
+    return k_lo, k_hi, w_lo, w_hi
 end
 
 end # module
