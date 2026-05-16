@@ -57,6 +57,8 @@ This means recomputing from scratch:
 
 Existing codes (Potekhin Fortran routines, McPHAC, HFFERII, van Hoof's Gaunt code) are verification targets, not dependencies.
 
+**Exception (verification fixtures only):** published tables MAY be stored under `verification/fixtures/` for use as verification ground truth. They MUST NOT be loaded as production inputs (e.g. read by `src/` code at runtime). Any code path that touches them must live under `verification/` or `test/`.
+
 ---
 
 ## Output Data Product: Spectral Image Cube

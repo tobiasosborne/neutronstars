@@ -9,10 +9,11 @@ expecting an orphan, it isn't — see bead B10 in reviews/05_beads.md.
 
 
 
-Reads the .dat files from refs/potekhin_tables/ which contain 14 columns:
+Reads the .dat files from verification/fixtures/potekhin_tables/ which
+contain 14 columns:
   EOS (cols 2-8), ionisation fractions (cols 9-12), Rosseland opacities (cols 13-14).
 
-Table format documented in refs/potekhin_tables/hmagtab.txt.
+Table format documented in verification/fixtures/potekhin_tables/hmagtab.txt.
 Three file prefixes with different headers:
   hmm* (2-line header, lgB ≤ 12.0)
   hmag* (5-line header, 11.9 ≤ lgB ≤ 13.5)

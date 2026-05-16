@@ -52,7 +52,7 @@ function run_comparison(;
     max_points_per_iso::Int = 10  # subsample for speed
 )
     println("Loading Potekhin tables...")
-    all_tables = load_all_tables(joinpath(@__DIR__, "..", "refs", "potekhin_tables"))
+    all_tables = load_all_tables(joinpath(@__DIR__, "fixtures", "potekhin_tables"))
     merged = merge_tables(all_tables)
     println("Loaded $(length(merged)) lgB values\n")
 
