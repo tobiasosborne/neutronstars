@@ -1,5 +1,17 @@
 # Session Handoff — 2026-05-16
 
+> **Update later in 2026-05-16**: a four-reviewer critical code review
+> ran on commit `318de1a` (immediately after the master/origin merge),
+> followed by a 70-bead serial cleanup. 64 beads completed; test suite
+> grew 37 → 119. See
+> [`notes/sessions/2026-05-16-review-cleanup.md`](sessions/2026-05-16-review-cleanup.md)
+> for the per-bead summary, the deferred-work follow-ups (E4/E5/E6/E10
+> and a few smaller ones), and the highest-impact bug fixes. The
+> "Suleimanov θ_B=45° mismatch" remains the open physics task —
+> reviewer D9 verified the vacuum-polarization / mode-vector physics
+> matches the papers verbatim, so the likely culprit is the ad-hoc
+> grey flux correction (decision D10).
+
 ## Project Overview
 
 Physically traceable neutron-star atmosphere + rendering pipeline in Julia.
