@@ -74,6 +74,13 @@ using .PhysicalConstants
 include("utils/errors.jl")
 using .NSErrors
 
+# Unit newtype hierarchy for the NSParams user-facing boundary (bead E10).
+# Loaded right after PhysicalConstants because the helper constructors
+# `M_sun_units(x)` and `pc(x)` depend on the numeric constants.
+include("utils/units.jl")
+using .Units: Length, BField, Temperature, Mass, Angle, Distance,
+              km, gauss, kelvin, M_sun_units, pc, au, rad, deg, mas, cgs
+
 # Generic numerical utilities (pure Julia, no internal deps; safe early include)
 include("utils/tridiag.jl")
 using .Tridiag
@@ -150,6 +157,10 @@ using .CIE_sRGB
 # Re-export
 export PhysicalConstants
 export NSErrors, NSError, BadInputError, NumericalError, ConvergenceError, TableOutOfRangeError
+# Unit newtypes (bead E10) — user-facing parameter boundary
+export Units
+export Length, BField, Temperature, Mass, Angle, Distance
+export km, gauss, kelvin, M_sun_units, pc, au, rad, deg, mas, cgs
 export SolverLogging, with_solver_logger
 export BSkEOS, BSk19_params, BSk20_params, BSk21_params
 export pressure_of_density, density_of_pressure, energy_density_of_density

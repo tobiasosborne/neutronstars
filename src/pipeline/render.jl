@@ -10,6 +10,7 @@ module Renderer
 using Printf
 using Logging
 using ..PhysicalConstants: G, c, M_sun, k_B, h, keV, pc
+using ..Units: Length, BField, Temperature, Mass, Angle, Distance
 using ..BSkEOS: BSk21_params
 using ..TOVSolver: solve_tov
 using ..DipoleModel: surface_temperature, surface_Bfield, magnetic_colatitude
@@ -25,15 +26,31 @@ export SpectralImageCube, render_cube_rgb, save_cube_ppm
 """
 Neutron star physical parameters.
 
+All fields except `f_col` are dimensional newtypes (see `Units` module,
+bead E10) so the compiler refuses constructor calls that mix units.
+Build them with the unit-bearing helpers:
+
+    params = NSParams(
+        M_sun_units(1.4),   # mass [M_☉]      → Mass        (grams CGS)
+        km(12.0),           # radius [km]     → Length      (cm CGS)
+        gauss(1e12),        # polar B [G]     → BField
+        kelvin(1.5e6),      # T_pole [K]      → Temperature
+        kelvin(3e5),        # T_eq [K]        → Temperature
+        rad(0.3),           # obliquity [rad] → Angle
+        rad(π/3),           # inclination     → Angle
+        pc(100.0),          # distance [pc]   → Distance    (cm CGS)
+        1.0,                # f_col (dimensionless Float64)
+    )
+
 Fields:
-- `M_solar`     : mass [M_☉]
-- `R_km`        : radius [km]
-- `B_pole`      : polar magnetic field [G]
-- `T_pole`      : polar effective temperature [K]
-- `T_eq`        : equatorial effective temperature [K]
-- `obliquity`   : magnetic obliquity (angle between spin and B axes) [rad]
-- `inclination` : observer inclination to spin axis [rad]
-- `distance_pc` : distance [pc]
+- `M`           : mass (`Mass`; internal unit g). User builds with `M_sun_units`.
+- `R`           : radius (`Length`; internal unit cm). User builds with `km`.
+- `B_pole`      : polar magnetic field (`BField`; G).
+- `T_pole`      : polar effective temperature (`Temperature`; K).
+- `T_eq`        : equatorial effective temperature (`Temperature`; K).
+- `obliquity`   : magnetic obliquity (`Angle`; rad).
+- `inclination` : observer inclination to spin axis (`Angle`; rad).
+- `distance`    : distance (`Distance`; internal unit cm). User builds with `pc` or `au`.
 - `f_col`       : LEGACY colour-correction factor for the modified-blackbody
                   atmosphere placeholder. **Only used by `render_neutron_star`.**
                   `render_spectral_cube` ignores this field — colour correction
@@ -46,14 +63,14 @@ The legacy modified-blackbody spectral-hardening parameter `p` from
 `render_neutron_star` and is not exposed here.
 """
 struct NSParams
-    M_solar::Float64     # mass [M_☉]
-    R_km::Float64        # radius [km]
-    B_pole::Float64      # polar magnetic field [G]
-    T_pole::Float64      # polar temperature [K]
-    T_eq::Float64        # equatorial temperature [K]
-    obliquity::Float64   # magnetic obliquity [rad]
-    inclination::Float64 # observer inclination to spin axis [rad]
-    distance_pc::Float64 # distance [pc]
+    M::Mass              # mass; .g gives grams (CGS)
+    R::Length            # radius; .cm gives cm (CGS)
+    B_pole::BField       # polar magnetic field; .gauss gives G
+    T_pole::Temperature  # polar temperature; .kelvin gives K
+    T_eq::Temperature    # equatorial temperature; .kelvin gives K
+    obliquity::Angle     # magnetic obliquity; .rad gives rad
+    inclination::Angle   # observer inclination to spin axis; .rad gives rad
+    distance::Distance   # distance; .cm gives cm (CGS)
     f_col::Float64       # colour correction factor (legacy; render_neutron_star only)
 end
 
@@ -78,18 +95,18 @@ Full tracer bullet rendering pipeline.
 """
 function render_neutron_star(params::NSParams, N::Int;
                              n_ν::Int=100, verbose::Bool=true)
-    M = params.M_solar * M_sun
-    R = params.R_km * 1e5  # km → cm
+    M = params.M.g          # grams (already converted at construction)
+    R = params.R.cm         # cm    (already converted at construction)
 
     return with_solver_logger(verbose) do
     @info "Tracing $(N)×$(N) image..."
-    @info "  M = $(params.M_solar) M_☉, R = $(params.R_km) km"
+    @info "  M = $(M / M_sun) M_☉, R = $(R / 1e5) km"
     r_g = 2G * M / c^2
     u = r_g / R
     @info "  u = r_g/R = $(round(u, digits=4)), 1+z = $(round(1/sqrt(1-u), digits=4))"
 
     # Step 1: Ray trace
-    img = trace_image(M, R, params.inclination, N)
+    img = trace_image(M, R, params.inclination.rad, N)
     redshift = img.redshift  # 1 + z
 
     # Step 2: Build frequency grid (0.01 eV to 100 keV, log-spaced)
@@ -108,9 +125,9 @@ function render_neutron_star(params::NSParams, N::Int;
         end
 
         # Surface properties at hit point
-        θ_B = magnetic_colatitude(ray.θ_surface, ray.φ_surface, params.obliquity)
-        T_local = surface_temperature(θ_B, params.T_pole, params.T_eq)
-        # B_local = surface_Bfield(θ_B, params.B_pole)  # not used in Phase 2
+        θ_B = magnetic_colatitude(ray.θ_surface, ray.φ_surface, params.obliquity.rad)
+        T_local = surface_temperature(θ_B, params.T_pole.kelvin, params.T_eq.kelvin)
+        # B_local = surface_Bfield(θ_B, params.B_pole.gauss)  # not used in Phase 2
 
         # Emergent spectrum at surface (in surface rest frame)
         I_ν_em = emergent_spectrum(T_local, ray.cos_α, ν_grid .* redshift;
@@ -293,8 +310,8 @@ function render_spectral_cube(params::NSParams,
         @warn "NSParams.f_col is ignored by render_spectral_cube (only the legacy render_neutron_star uses it); colour correction is already encoded in the atmosphere grid spectra" f_col=params.f_col
     end
 
-    M_cgs = params.M_solar * M_sun
-    R = params.R_km * 1e5  # cm
+    M_cgs = params.M.g       # grams (already converted at construction)
+    R = params.R.cm          # cm    (already converted at construction)
 
     return with_solver_logger(verbose) do
     @info "Rendering $(N)×$(N) spectral cube with real atmosphere spectra..."
@@ -306,7 +323,7 @@ function render_spectral_cube(params::NSParams,
 
     # Ray trace
     @info "  Ray tracing..."
-    img = trace_image(M_cgs, R, params.inclination, N)
+    img = trace_image(M_cgs, R, params.inclination.rad, N)
 
     # Use the atmosphere grid's frequency grid (observer frame)
     # ν_obs = ν_em / (1+z), so ν_em = ν_obs × (1+z)
@@ -331,9 +348,9 @@ function render_spectral_cube(params::NSParams,
         n_hit += 1
 
         # Surface properties at hit point
-        θ_B = magnetic_colatitude(ray.θ_surface, ray.φ_surface, params.obliquity)
-        T_local = surface_temperature(θ_B, params.T_pole, params.T_eq)
-        B_local = surface_Bfield(θ_B, params.B_pole)
+        θ_B = magnetic_colatitude(ray.θ_surface, ray.φ_surface, params.obliquity.rad)
+        T_local = surface_temperature(θ_B, params.T_pole.kelvin, params.T_eq.kelvin)
+        B_local = surface_Bfield(θ_B, params.B_pole.gauss)
 
         hit_frac[i, j] = 1.0
         mean_z[i, j] = redshift
@@ -360,8 +377,8 @@ function render_spectral_cube(params::NSParams,
     @info @sprintf("  %d/%d pixels hit surface (%.0f%%)",
                    n_hit, N*N, 100.0 * n_hit / (N*N))
 
-    # Pixel angular scale
-    pixel_scale = 2.0 * R / (params.distance_pc * pc) / N  # approximate
+    # Pixel angular scale (distance is already in cm; ratio is dimensionless)
+    pixel_scale = 2.0 * R / params.distance.cm / N  # approximate
 
     @info "  Spectral cube complete."
     return SpectralImageCube(N, N, nν, ν_grid_obs, pixel_scale,

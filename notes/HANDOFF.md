@@ -376,7 +376,9 @@ julia --project=. -e '
 using NeutronStar; using NeutronStar.GauntFactor: load_gaunt_table
 gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
 grid = build_atmosphere_grid([5e5, 1e6, 2e6], [0.0], 2e14, gaunt; K=50, M=8, N=100, verbose=true)
-params = NSParams(1.4, 12.0, 1e12, 1.5e6, 3e5, 0.3, π/3, 100.0, 1.0)
+params = NSParams(M_sun_units(1.4), km(12.0), gauss(1e12),
+                  kelvin(1.5e6), kelvin(3e5), rad(0.3), rad(π/3),
+                  pc(100.0), 1.0)
 cube = render_spectral_cube(params, grid, 128; verbose=true)
 tc, fc = render_cube_rgb(cube)
 save_cube_ppm(tc, fc, 128, "output/ns_v2_128")'

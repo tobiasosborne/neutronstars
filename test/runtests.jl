@@ -680,3 +680,29 @@ end
         @test isapprox(sum(w_fb), 1.0; rtol=1e-14, atol=0.0)
     end
 end
+
+@testset "Units newtypes (E10)" begin
+    using NeutronStar: Length, BField, Temperature, Mass, Angle, Distance,
+                       km, gauss, kelvin, M_sun_units, pc, rad, deg
+
+    # Round-trip conversions
+    @test km(1.0).cm ≈ 1e5
+    @test km(12.0).cm ≈ 12e5
+    @test gauss(1e12).gauss ≈ 1e12
+    @test kelvin(1.5e6).kelvin ≈ 1.5e6
+    @test pc(100.0).cm ≈ 100.0 * 3.0857e18  rtol=1e-4
+    @test deg(180).rad ≈ π                  rtol=1e-12
+    @test rad(π/4).rad ≈ π/4
+
+    # NSParams must accept correctly-typed args
+    p = NSParams(M_sun_units(1.4), km(12.0), gauss(1e12),
+                 kelvin(1.5e6), kelvin(3e5), rad(0.3), rad(π/3),
+                 pc(100.0), 1.0)
+    @test p.R.cm ≈ 12e5
+    @test p.B_pole.gauss ≈ 1e12
+    @test p.f_col == 1.0
+
+    # NSParams must REJECT a plain Float64 where a typed unit is expected
+    @test_throws MethodError NSParams(1.4, 12.0, 1e12, 1.5e6, 3e5,
+                                       0.3, π/3, 100.0, 1.0)
+end
