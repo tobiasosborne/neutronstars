@@ -19,7 +19,7 @@ using ..GauntFactor: GauntTable
 using ..AtmosphereStructure: AtmosphereStructure, make_frequency_grid, density_from_PT
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
-using ..MagneticModes: mode_absorption, mode_scattering, effective_opacity
+using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, effective_opacity
 using ..FeautrierSolver: gauss_legendre_half
 
 export solve_magnetic_atmosphere, MagneticAtmosphereResult
@@ -283,8 +283,9 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
         if B > 0
             # Magnetic: mode-dependent opacities
             for j in 1:2
-                κ_abs = max(mode_absorption(j, ν, θ_B, B, T[i], ρ[i]), 1e-30)
-                σ_scat = max(mode_scattering(j, ν, θ_B, B, T[i], ρ[i]), 0.0)
+                κ_abs_raw, σ_scat_raw = mode_opacity_split(j, ν, θ_B, B, T[i], ρ[i])
+                κ_abs = max(κ_abs_raw, 1e-30)
+                σ_scat = max(σ_scat_raw, 0.0)
                 total = max(κ_abs + σ_scat, 1e-30)
 
                 κ[i, k, j] = κ_abs

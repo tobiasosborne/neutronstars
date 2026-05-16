@@ -23,7 +23,7 @@ using ..DielectricTensor: polarization_weights_vacuum
 using ..HydrogenOpacity: dBnu_dT
 using ..BlackbodyAtmosphere: planck_Bnu
 
-export mode_absorption, mode_scattering, mode_opacity, effective_opacity
+export mode_absorption, mode_scattering, mode_opacity, mode_opacity_split, effective_opacity
 export kappa_parallel_mono, kappa_perp_mono
 export rosseland_magnetic, make_rosseland_frequency_grid
 
@@ -57,6 +57,36 @@ function mode_scattering(j::Int, ν::Float64, θ_B::Float64,
     return _mode_cross_section_sum(j, ν, θ_B, B, T, ρ) do α, ω
         sigma_scat_alpha(α, ω, B)
     end
+end
+
+"""
+    mode_opacity_split(j, ν, θ_B, B, T, ρ) → (κ_abs, κ_scat)
+
+Compute absorption and scattering opacities for mode j in a single call.
+The polarization weights are evaluated ONCE, then applied to both the
+absorption cross sections (sigma_ff_alpha + sigma_pp_alpha) and the
+scattering cross sections (sigma_scat_alpha). This is ~2× faster than
+calling mode_absorption and mode_scattering separately.
+
+Returns (κ_abs, κ_scat) in cm²/g.
+"""
+function mode_opacity_split(j::Int, ν::Float64, θ_B::Float64,
+                            B::Float64, T::Float64, ρ::Float64)
+    @assert j ∈ (1, 2)
+    @assert ν > 0 && B >= 0 && T > 0 && ρ > 0
+    ω = 2π * ν
+    n_e = ρ / m_H
+    w1, w2 = polarization_weights_vacuum(ω, B, θ_B, n_e)
+    w = j == 1 ? w1 : w2
+    κ_abs = 0.0
+    κ_scat = 0.0
+    for (idx, α) in enumerate((-1, 0, 1))
+        σ_abs  = sigma_ff_alpha(α, ω, B, T, ρ) + sigma_pp_alpha(α, ω, B, T, ρ)
+        σ_scat = sigma_scat_alpha(α, ω, B)
+        κ_abs  += w[idx] * σ_abs
+        κ_scat += w[idx] * σ_scat
+    end
+    return (κ_abs / m_H, κ_scat / m_H)
 end
 
 """
