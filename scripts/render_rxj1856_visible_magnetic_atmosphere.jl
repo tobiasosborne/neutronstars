@@ -21,53 +21,9 @@ function save_ppm(path::String, rgb)
     end
 end
 
-function magnetic_spectrum(result, cos_θe, ν_out)
-    μ = result.μ_grid
-    M = length(μ)
-    j_lo = 1
-    for j in 1:M-1
-        if μ[j] <= cos_θe <= μ[j+1]
-            j_lo = j
-            break
-        end
-    end
-    if cos_θe < μ[1]; j_lo = 1; end
-    if cos_θe > μ[end]; j_lo = M - 1; end
-    j_hi = min(j_lo + 1, M)
-    t_μ = clamp((cos_θe - μ[j_lo]) / (μ[j_hi] - μ[j_lo]), 0.0, 1.0)
-
-    ν_in = result.ν_grid
-    K = length(ν_in)
-    I_out = zeros(length(ν_out))
-
-    for i in eachindex(ν_out)
-        ν = ν_out[i]
-        if ν <= ν_in[1]
-            I_lo = sum(result.I_emergent[1, j_lo, mode] for mode in 1:2)
-            I_hi = sum(result.I_emergent[1, j_hi, mode] for mode in 1:2)
-            I_out[i] = ((1.0 - t_μ) * I_lo + t_μ * I_hi) * (ν / ν_in[1])^2
-        elseif ν >= ν_in[end]
-            I_out[i] = 0.0
-        else
-            k_lo = clamp(searchsortedlast(ν_in, ν), 1, K-1)
-            k_hi = k_lo + 1
-            t_ν = (log(ν) - log(ν_in[k_lo])) / (log(ν_in[k_hi]) - log(ν_in[k_lo]))
-
-            I_ll = sum(result.I_emergent[k_lo, j_lo, mode] for mode in 1:2)
-            I_hl = sum(result.I_emergent[k_hi, j_lo, mode] for mode in 1:2)
-            I_lh = sum(result.I_emergent[k_lo, j_hi, mode] for mode in 1:2)
-            I_hh = sum(result.I_emergent[k_hi, j_hi, mode] for mode in 1:2)
-
-            I_lo = I_ll > 0 && I_hl > 0 ? exp((1.0-t_ν)*log(I_ll) + t_ν*log(I_hl)) :
-                   (1.0-t_ν)*I_ll + t_ν*I_hl
-            I_hi = I_lh > 0 && I_hh > 0 ? exp((1.0-t_ν)*log(I_lh) + t_ν*log(I_hh)) :
-                   (1.0-t_ν)*I_lh + t_ν*I_hh
-            I_out[i] = (1.0 - t_μ) * I_lo + t_μ * I_hi
-        end
-    end
-
-    return I_out
-end
+# Bead D11: per-script inline `magnetic_spectrum` (K × M × 2 interpolation) was
+# promoted to `MagneticAtmosphere.magnetic_emergent_spectrum` and exported from
+# NeutronStar so it can be tested and reused. This script now calls that.
 
 function render_rxj1856_visible_magnetic(; image_n::Int=256)
     mkpath(dirname(OUT_PREFIX))
@@ -117,7 +73,8 @@ function render_rxj1856_visible_magnetic(; image_n::Int=256)
             spectra[i, j] = zeros(length(ν_grid))
             continue
         end
-        surface = magnetic_spectrum(atmosphere, clamp(ray.cos_α, 1e-6, 1.0), ν_grid .* redshift)
+        surface = magnetic_emergent_spectrum(atmosphere, ν_grid .* redshift,
+                                              clamp(ray.cos_α, 1e-6, 1.0))
         spectra[i, j] = surface ./ redshift^3
         _, Y, _ = spectrum_to_XYZ(ν_grid, spectra[i, j], cmfs)
         push!(Y_values, Y)

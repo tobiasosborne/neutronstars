@@ -116,6 +116,37 @@ end
     @test flux / (NeutronStar.PhysicalConstants.σ_SB * result.T_eff^4) ≈ 1.0 rtol=0.05
 end
 
+@testset "magnetic_emergent_spectrum interpolation shape + positivity" begin
+    # Bead D11: smoke test for the promoted K×M×2 interpolator.
+    # Uses a cheap magnetic solve (does not need to be physically converged —
+    # we only check that the function returns sane shape/sign for finite inputs).
+    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    result = solve_magnetic_atmosphere(
+        1.0e6, 2.0e14, 1.0e12, π / 4, gaunt;
+        K=16, M=4, N=50, max_iter=20, tol=5e-4, verbose=false
+    )
+
+    # Pick a small ν_obs grid strictly inside the solver's ν_grid so we exercise
+    # the log-log interior branch (not the Rayleigh-Jeans or Wien-zero branch).
+    ν_lo, ν_hi = result.ν_grid[2], result.ν_grid[end-1]
+    ν_obs = collect(range(ν_lo, ν_hi; length=8))
+    cos_θe = 0.6  # generic angle inside the Gauss-Legendre half-range
+
+    # Unpolarized (default): length(ν_obs) vector, all positive.
+    I_sum = magnetic_emergent_spectrum(result, ν_obs, cos_θe)
+    @test I_sum isa Vector{Float64}
+    @test length(I_sum) == length(ν_obs)
+    @test all(I_sum .> 0.0)
+    @test all(isfinite, I_sum)
+
+    # Polarized: length(ν_obs) × 2 matrix, both columns positive, sum matches.
+    I_pol = magnetic_emergent_spectrum(result, ν_obs, cos_θe; polarized=true)
+    @test I_pol isa Matrix{Float64}
+    @test size(I_pol) == (length(ν_obs), 2)
+    @test all(I_pol .> 0.0)
+    @test I_pol[:, 1] .+ I_pol[:, 2] ≈ I_sum rtol=1e-12
+end
+
 @testset "Magnetic atmosphere uses scattering albedo for B > 0" begin
     y = [1.0e-6, 1.0e-4, 1.0e-2]
     T = fill(1.0e6, length(y))

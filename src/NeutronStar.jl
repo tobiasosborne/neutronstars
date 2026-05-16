@@ -79,7 +79,7 @@ export make_frequency_grid, density_from_PT
 export FeautrierSolver, solve_feautrier_all, solve_feautrier_all_adaptive, gauss_legendre_half
 export TemperatureCorrection, compute_temperature_correction
 export RTAtmosphere, solve_atmosphere, AtmosphereResult, rt_emergent_spectrum
-export MagneticAtmosphere, solve_magnetic_atmosphere, MagneticAtmosphereResult
+export MagneticAtmosphere, solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_spectrum
 export BlackbodyAtmosphere, planck_Bnu, modified_blackbody_intensity, emergent_spectrum
 export SchwarzschildTracer, trace_image, RayResult, ImageResult, visible_fraction
 export CIE_sRGB, load_cie_cmfs, spectrum_to_XYZ, XYZ_to_linear_sRGB

@@ -22,7 +22,7 @@ using ..HydrogenOpacity: kappa_ff, sigma_thomson, dBnu_dT
 using ..MagneticModes: mode_absorption, mode_scattering, mode_opacity_split, effective_opacity
 using ..FeautrierSolver: gauss_legendre_half
 
-export solve_magnetic_atmosphere, MagneticAtmosphereResult
+export solve_magnetic_atmosphere, MagneticAtmosphereResult, magnetic_emergent_spectrum
 
 const m_H = m_p + m_e
 
@@ -200,6 +200,107 @@ end
 solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                           B::Float64, θ_B::Float64; kwargs...) =
     solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, nothing; kwargs...)
+
+"""
+    magnetic_emergent_spectrum(result::MagneticAtmosphereResult,
+                                ν_obs::Vector{Float64},
+                                cos_θe::Float64;
+                                polarized::Bool=false) → Vector{Float64}
+                                                          or Matrix{Float64}
+
+Interpolate the magnetic atmosphere's emergent intensity onto observation
+frequencies and a single angle (cos θe = μ).
+
+When `polarized=false` (default): returns a `length(ν_obs)`-length vector
+of mode-summed intensity `I_X + I_O`. This is what intensity-only
+renderers want.
+
+When `polarized=true`: returns a `length(ν_obs) × 2` matrix (column 1 = X,
+column 2 = O). Use this for future polarization-aware downstream code
+(e.g. Kerr ray tracing with parallel-transported basis).
+
+For both cases, frequency interpolation is log-log linear (matching
+`RTAtmosphere.rt_emergent_spectrum`); angle interpolation is linear in μ.
+Below the solver's `ν_grid[1]`, intensity is extended via Rayleigh-Jeans
+`(ν/ν₁)²` scaling (matches the non-magnetic spectrum). Above
+`ν_grid[end]`, the intensity is clamped to zero (Wien tail decays
+faster than any local extrapolation can capture). In μ, values outside
+`[μ_grid[1], μ_grid[end]]` are clamped to the boundary value (no
+extrapolation).
+
+This is the magnetic counterpart of `RTAtmosphere.rt_emergent_spectrum`,
+which only handles the non-magnetic `K × M` case (see
+`src/atmosphere/rt_atmosphere.jl`). The K × M × 2 magnetic case used to
+be re-implemented inline in every script
+(see `scripts/render_rxj1856_visible_magnetic_atmosphere.jl`); promoting
+it here makes it testable and reusable.
+"""
+function magnetic_emergent_spectrum(result::MagneticAtmosphereResult,
+                                     ν_obs::AbstractVector{Float64},
+                                     cos_θe::Float64;
+                                     polarized::Bool=false)
+    @assert 0 < cos_θe <= 1.0
+
+    μ = result.μ_grid
+    Mμ = length(μ)
+
+    # μ bracket (mirrors rt_emergent_spectrum)
+    j_lo = 1
+    for j in 1:Mμ-1
+        if μ[j] <= cos_θe <= μ[j+1]
+            j_lo = j
+            break
+        end
+    end
+    if cos_θe < μ[1]; j_lo = 1; end
+    if cos_θe > μ[end]; j_lo = Mμ - 1; end
+    j_hi = min(j_lo + 1, Mμ)
+    t_μ = j_lo < Mμ ? clamp((cos_θe - μ[j_lo]) / (μ[j_hi] - μ[j_lo]), 0.0, 1.0) : 0.0
+
+    ν_in = result.ν_grid
+    K = length(ν_in)
+    N_out = length(ν_obs)
+
+    # Per-mode storage (always compute both, sum only if !polarized)
+    out_per_mode = zeros(N_out, 2)
+
+    for mode in 1:2
+        for i in 1:N_out
+            ν = ν_obs[i]
+            if ν <= ν_in[1]
+                I_lo_b = result.I_emergent[1, j_lo, mode]
+                I_hi_b = result.I_emergent[1, j_hi, mode]
+                I_at = (1.0 - t_μ) * I_lo_b + t_μ * I_hi_b
+                out_per_mode[i, mode] = I_at * (ν / ν_in[1])^2  # Rayleigh-Jeans
+            elseif ν >= ν_in[end]
+                out_per_mode[i, mode] = 0.0
+            else
+                k_lo = clamp(searchsortedlast(ν_in, ν), 1, K - 1)
+                k_hi = k_lo + 1
+                t_ν = (log(ν) - log(ν_in[k_lo])) / (log(ν_in[k_hi]) - log(ν_in[k_lo]))
+
+                I_ll = result.I_emergent[k_lo, j_lo, mode]
+                I_hl = result.I_emergent[k_hi, j_lo, mode]
+                I_lh = result.I_emergent[k_lo, j_hi, mode]
+                I_hh = result.I_emergent[k_hi, j_hi, mode]
+
+                I_lo = (I_ll > 0 && I_hl > 0) ?
+                       exp((1.0 - t_ν) * log(I_ll) + t_ν * log(I_hl)) :
+                       (1.0 - t_ν) * I_ll + t_ν * I_hl
+                I_hi = (I_lh > 0 && I_hh > 0) ?
+                       exp((1.0 - t_ν) * log(I_lh) + t_ν * log(I_hh)) :
+                       (1.0 - t_ν) * I_lh + t_ν * I_hh
+                out_per_mode[i, mode] = (1.0 - t_μ) * I_lo + t_μ * I_hi
+            end
+        end
+    end
+
+    if polarized
+        return out_per_mode
+    else
+        return out_per_mode[:, 1] .+ out_per_mode[:, 2]
+    end
+end
 
 # --- Internal functions ---
 
