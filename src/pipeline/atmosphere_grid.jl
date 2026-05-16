@@ -37,6 +37,7 @@ using ..RTAtmosphere: solve_atmosphere, AtmosphereResult
 using ..MagneticAtmosphere: solve_magnetic_atmosphere, MagneticAtmosphereResult
 using ..BlackbodyAtmosphere: planck_Bnu
 using ..FeautrierSolver: gauss_legendre_half
+using ..AtmosphereStructure: make_frequency_grid
 
 export AtmosphereSpectrumGrid, AtmosphereGridProvenance, build_atmosphere_grid
 export lookup_spectrum, lookup_spectrum_polarized, sum_modes
@@ -151,6 +152,12 @@ For `B == 0` cells the result is θ_B-independent, so the solver is
 called only once per (T, B=0) pair and the result is broadcast across
 the θ_B axis.
 
+Bead D10: `gaunt` is `Union{GauntTable, Nothing}`. A Gaunt table is only
+required if any value in `B_grid` is zero (the non-magnetic branch calls
+`solve_atmosphere`, which uses `kappa_ff`). For pure-magnetic grids the
+table is unused and may be `nothing`; the error is raised when the B==0
+branch is reached without a table.
+
 A backward-compat 2-axis overload `build_atmosphere_grid(T_grid, B_grid,
 g_s, gaunt; ...)` is provided that auto-uses `θ_B_grid = [0.0]`.
 """
@@ -158,7 +165,7 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
                                 B_grid::Vector{Float64},
                                 θ_B_grid::Vector{Float64},
                                 g_s::Float64,
-                                gaunt::GauntTable;
+                                gaunt::Union{GauntTable, Nothing};
                                 K::Int=50, M::Int=8, N::Int=100,
                                 max_iter::Int=80,
                                 tol_T::Float64=1e-3,
@@ -169,6 +176,14 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
     @assert !isempty(θ_B_grid) "θ_B_grid must contain at least one angle"
     @assert all(0 .<= θ_B_grid .<= π) "θ_B angles must lie in [0, π]"
     @assert issorted(θ_B_grid) "θ_B_grid must be sorted ascending for interpolation"
+    # Bead D10: B==0 cells call solve_atmosphere which needs a Gaunt table.
+    # Fail fast here rather than waiting for the loop to reach a B==0 cell.
+    if any(B -> B == 0.0, B_grid) && gaunt === nothing
+        error("build_atmosphere_grid: B_grid contains 0.0 (non-magnetic " *
+              "cells) but `gaunt` is nothing. Pass " *
+              "`gaunt = load_gaunt_table(\"refs/code/McPHAC/gffgu.dat\")` " *
+              "or remove B = 0 from B_grid.")
+    end
 
     nT = length(T_grid)
     nB = length(B_grid)
@@ -177,11 +192,14 @@ function build_atmosphere_grid(T_grid::Vector{Float64},
     verbose && @printf("Building atmosphere grid: %d T × %d B × %d θ_B = %d models\n",
                         nT, nB, nθB, nT * nB * nθB)
 
-    # Use the first non-magnetic model to establish common grids
-    r_ref = solve_atmosphere(T_grid[1], g_s, gaunt; K=K, M=M, N=N,
-                              max_iter=30, tol=1e-6, verbose=false)
-    ν_grid = r_ref.ν_grid
-    μ_grid = r_ref.μ_grid
+    # Establish common (ν, μ) grids. The frequency grid only depends on
+    # T_eff and K; the angle grid only depends on M. We build them directly
+    # rather than running a throwaway non-magnetic solve, both because that
+    # avoided computation we don't need and because the non-magnetic solver
+    # would require a Gaunt table (bead D10: pure-magnetic grids can now
+    # pass `gaunt = nothing`).
+    ν_grid = make_frequency_grid(T_grid[1], K)
+    μ_grid, _ = gauss_legendre_half(M)
 
     I_cache = Array{Array{Float64, 3}, 3}(undef, nT, nB, nθB)
     converged_grid = falses(nT, nB, nθB)
@@ -281,7 +299,7 @@ explicit `θ_B_grid` to take advantage of the new axis.
 build_atmosphere_grid(T_grid::Vector{Float64},
                        B_grid::Vector{Float64},
                        g_s::Float64,
-                       gaunt::GauntTable;
+                       gaunt::Union{GauntTable, Nothing};
                        kwargs...) =
     build_atmosphere_grid(T_grid, B_grid, [0.0], g_s, gaunt; kwargs...)
 

@@ -46,16 +46,25 @@ end
 
 """
     solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, gaunt; ...) → MagneticAtmosphereResult
+    solve_magnetic_atmosphere(T_eff, g_s, B, θ_B; ...) → MagneticAtmosphereResult
 
 Solve a plane-parallel magnetized NS atmosphere with two-mode RT.
 Each mode j (1=X, 2=O) has its own opacity κ_j(ν,T,ρ,B,θ_B).
 Temperature correction enforces Σ_j ∫ κ_j(J_j - B_ν/2) dν = 0.
 
 For B=0, this should recover the non-magnetic result (both modes identical).
+
+Bead D10: `gaunt` is now `Union{GauntTable, Nothing}`; a Gaunt table is only
+required when `B == 0` (the non-magnetic limit uses `kappa_ff`, which needs
+the table). For pure-magnetic runs (`B > 0`) the mode opacities use their
+own Coulomb logarithm and never touch the table, so callers may either pass
+`nothing` for the 5-arg form or use the 4-arg overload, which forwards
+`gaunt = nothing`. The B=0 branch in `_compute_magnetic_opacities!` errors
+explicitly if `gaunt === nothing`.
 """
 function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                     B::Float64, θ_B::Float64,
-                                    gaunt::GauntTable;
+                                    gaunt::Union{GauntTable, Nothing};
                                     K::Int=50, M::Int=8, N::Int=200,
                                     max_iter::Int=30,
                                     tol::Float64=1e-4,
@@ -183,26 +192,64 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
                                      ν_grid, μ, I_emergent, copy(T), copy(y))
 end
 
+# Bead D10: 4-arg convenience overload for pure-magnetic runs (B > 0). Forwards
+# `gaunt = nothing` so the B>0 branch (which doesn't touch the Gaunt table) can
+# run without a 75 kB free-free table being loaded from disk. Julia method
+# dispatch picks this overload when the caller supplies four positional args
+# and the 5-arg method when `gaunt` is supplied explicitly.
+solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
+                          B::Float64, θ_B::Float64; kwargs...) =
+    solve_magnetic_atmosphere(T_eff, g_s, B, θ_B, nothing; kwargs...)
+
 # --- Internal functions ---
 
-"""Build initial atmosphere column using the non-magnetic infrastructure."""
+"""Build initial atmosphere column.
+
+For B = 0 we reuse the non-magnetic `build_atmosphere` (which needs the Gaunt
+table for the Rosseland-mean Eddington T profile). For B > 0 the magnetic
+mode opacities don't use the Gaunt table at all, so `gaunt` may be `nothing`:
+we build the log-spaced y grid and hydrostatic P = g_s * y directly and use
+`_magnetic_eddington_temperature` for the initial T (it doesn't touch the
+Gaunt table either). Bead D10.
+"""
 function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
-    # Reuse the non-magnetic build_atmosphere for the initial structure
-    # (proper Eddington T profile with actual Rosseland mean).  For B>0,
-    # magnetic opacities can be much smaller, so grow the column until every
-    # mode/frequency reaches the diffusion-depth cutoff used by Feautrier.
     y_max = 1e2
     max_y = 1e5  # Suleimanov+ 2009 semi-infinite atmosphere depth scale.
 
-    while true
+    if B <= 0
+        # Non-magnetic: defer to build_atmosphere (requires a Gaunt table).
+        gaunt === nothing && error(
+            "Non-magnetic (B=0) initial column requires a Gaunt table; " *
+            "pass `gaunt = load_gaunt_table(\"refs/code/McPHAC/gffgu.dat\")`.")
         col = AtmosphereStructure.build_atmosphere(T_eff, g_s, ν_grid, gaunt;
                                                    N=N, y_max=y_max)
-        if B <= 0
-            return copy(col.y), copy(col.T), copy(col.ρ), copy(col.P)
+        return copy(col.y), copy(col.T), copy(col.ρ), copy(col.P)
+    end
+
+    # B > 0 path. Grow the column until every mode/frequency reaches the
+    # diffusion-depth cutoff (Feautrier needs τ ≳ 80 at the bottom).
+    # When a Gaunt table is available we reuse `build_atmosphere` (which has
+    # its own non-magnetic τ ≥ 80 auto-grow at the highest frequency); the
+    # resulting (y, P) seeds the magnetic τ-growth loop with a deeper column,
+    # which empirically helps convergence. When `gaunt === nothing` (pure-
+    # magnetic call) we construct (y, P) directly from log-spacing and
+    # hydrostatic equilibrium — no Gaunt table is needed because we discard
+    # `build_atmosphere`'s T profile and use `_magnetic_eddington_temperature`
+    # instead.
+    while true
+        if gaunt === nothing
+            y_min = 1e-9
+            y_loc = [10.0^logy for logy in range(log10(y_min), log10(y_max), length=N)]
+            P_loc = g_s .* y_loc
+        else
+            col = AtmosphereStructure.build_atmosphere(T_eff, g_s, ν_grid, gaunt;
+                                                       N=N, y_max=y_max)
+            y_loc = copy(col.y)
+            P_loc = copy(col.P)
         end
 
-        T_mag = _magnetic_eddington_temperature(col.y, T_eff, g_s, ν_grid, B, θ_B)
-        ρ_mag = [density_from_PT(col.P[i], T_mag[i]) for i in 1:N]
+        T_mag = _magnetic_eddington_temperature(y_loc, T_eff, g_s, ν_grid, B, θ_B)
+        ρ_mag = [density_from_PT(P_loc[i], T_mag[i]) for i in 1:N]
 
         K = length(ν_grid)
         κ = zeros(N, K, 2)
@@ -210,15 +257,15 @@ function _build_initial_column(T_eff, g_s, N, ν_grid, gaunt, B=0.0, θ_B=0.0)
         ρ_alb = zeros(N, K, 2)
         τ = zeros(N, K, 2)
         _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ,
-                                     col.y, T_mag, ρ_mag, ν_grid, B, θ_B, gaunt)
+                                     y_loc, T_mag, ρ_mag, ν_grid, B, θ_B, gaunt)
 
         τ_min = minimum(τ[end, :, :])
-        if τ_min >= 80.0 || col.y[end] >= max_y
-            return copy(col.y), T_mag, ρ_mag, copy(col.P)
+        if τ_min >= 80.0 || y_loc[end] >= max_y
+            return y_loc, T_mag, ρ_mag, P_loc
         end
 
         scale = (80.0 / max(τ_min, 1.0))^1.2
-        y_max = min(max(col.y[end] * max(scale, 1.5), col.y[end] * 1.5), max_y)
+        y_max = min(max(y_loc[end] * max(scale, 1.5), y_loc[end] * 1.5), max_y)
     end
 end
 
@@ -298,7 +345,14 @@ function _compute_magnetic_opacities!(κ, k_total, ρ_alb, τ, y, T, ρ, ν_grid
                 ρ_alb[i, k, j] = σ_scat / total
             end
         else
-            # B=0: both modes identical (recover non-magnetic)
+            # B=0: both modes identical (recover non-magnetic).
+            # Bead D10: the Gaunt table is only consulted on this branch
+            # (kappa_ff needs it). Pure-magnetic callers can pass
+            # `gaunt = nothing`, but a B=0 run with no table is an error.
+            gaunt === nothing && error(
+                "Non-magnetic (B=0) path requires a Gaunt table; " *
+                "pass `gaunt = load_gaunt_table(\"refs/code/McPHAC/gffgu.dat\")` " *
+                "or use a B>0 magnetic configuration.")
             κ_ff = kappa_ff(ν, T[i], ρ[i], gaunt)
             σ_s = sigma_thomson()
             for j in 1:2
