@@ -713,6 +713,67 @@ end
                                        0.3, π/3, 100.0, 1.0)
 end
 
+@testset "HDF5 atmosphere grid round-trip" begin
+    # Tiny grid: 1 T, 1 B (=0), 1 θ_B, very small nν/M/N. Round-trip
+    # through HDF5 must reproduce every axis, every I_cache cell, and
+    # every provenance field bit-exact; is_provenance_compatible must
+    # accept the saved+loaded pair under both default and strict_sha modes.
+    gaunt = load_gaunt_table(GAUNT_PATH)
+    grid = build_atmosphere_grid([1e6], [0.0], 2e14, gaunt;
+                                  nν=12, M=4, N=30, max_iter=8, tol_T=1e-3,
+                                  verbose=false)
+
+    mktempdir() do dir
+        path = joinpath(dir, "grid.h5")
+        save_atmosphere_grid(path, grid)
+        @test isfile(path)
+        @test filesize(path) > 0
+
+        loaded = load_atmosphere_grid(path)
+
+        # Axes
+        @test loaded.T_grid   == grid.T_grid
+        @test loaded.B_grid   == grid.B_grid
+        @test loaded.θ_B_grid == grid.θ_B_grid
+        @test loaded.g_s      == grid.g_s
+        @test loaded.ν_grid   == grid.ν_grid
+        @test loaded.μ_grid   == grid.μ_grid
+
+        # I_cache: bit-exact, every cell
+        for i in eachindex(loaded.I_cache)
+            @test loaded.I_cache[i] == grid.I_cache[i]
+        end
+
+        # Provenance: every field matches
+        ps, pl = grid.provenance, loaded.provenance
+        @test pl.code_sha    == ps.code_sha
+        @test pl.build_time  == ps.build_time
+        @test pl.nν          == ps.nν
+        @test pl.M           == ps.M
+        @test pl.N           == ps.N
+        @test pl.max_iter    == ps.max_iter
+        @test pl.tol_T       == ps.tol_T
+        @test (isnan(pl.tol_flux) && isnan(ps.tol_flux)) ||
+              pl.tol_flux == ps.tol_flux
+        @test (isnan(pl.flux_damping) && isnan(ps.flux_damping)) ||
+              pl.flux_damping == ps.flux_damping
+        @test pl.gaunt_path   == ps.gaunt_path
+        @test pl.theta_B_grid == ps.theta_B_grid
+        @test pl.converged    == ps.converged
+        @test pl.iters        == ps.iters
+
+        # is_provenance_compatible: must accept the round-tripped pair
+        # under both default and strict_sha modes.
+        @test is_provenance_compatible(ps, pl)
+        @test is_provenance_compatible(ps, pl; strict_sha=true)
+
+        # Sanity: file size should be on the order of bytes used by the
+        # 6-D I_cache (12*4*2 = 96 Float64s = 768 B) plus axes + metadata.
+        # We just print it for diagnostics — see report.
+        println("  HDF5 round-trip file size: $(filesize(path)) bytes")
+    end
+end
+
 @testset "ForwardDiff AD on mode_opacity (E6)" begin
     # ForwardDiff is in [extras] / test target. Available under `Pkg.test()`
     # (canonical) but NOT under bare `julia --project=. test/runtests.jl`

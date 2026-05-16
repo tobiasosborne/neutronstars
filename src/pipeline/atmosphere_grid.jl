@@ -32,6 +32,7 @@ module AtmosphereGrid
 
 using Printf
 using Logging
+using HDF5
 using ..PhysicalConstants: h, k_B, σ_SB
 using ..GauntFactor: GauntTable
 using ..RTAtmosphere: solve_atmosphere, AtmosphereResult
@@ -43,6 +44,7 @@ using ..SolverLogging: with_solver_logger
 
 export AtmosphereSpectrumGrid, AtmosphereGridProvenance, build_atmosphere_grid
 export lookup_spectrum, lookup_spectrum_polarized, sum_modes
+export save_atmosphere_grid, load_atmosphere_grid, is_provenance_compatible
 
 """
     AtmosphereGridProvenance
@@ -535,6 +537,184 @@ function _bracket(grid::Vector{Float64}, x::Float64)
     w_hi = (lx - l_lo) / (l_hi - l_lo)
     w_lo = 1.0 - w_hi
     return k_lo, k_hi, w_lo, w_hi
+end
+
+# ============================================================================
+# HDF5 persistence + provenance-based cache reuse.
+#
+# Rebuilding a magnetic atmosphere grid from scratch takes ~12 min per
+# session (B=1e12, nT=4, nθ_B=5). `save_atmosphere_grid` / `load_atmosphere_grid`
+# round-trips the grid (axes + I_cache + AtmosphereGridProvenance) to a
+# self-describing HDF5 file. `is_provenance_compatible` is the callers'
+# gate for deciding whether a saved cache can be reused under the current
+# build parameters (solver knobs + θ_B axis + gaunt path must match;
+# code SHA is advisory by default).
+#
+# Schema (schema_version = 1):
+#   /T_grid, /B_grid, /theta_B_grid, /g_s, /nu_grid, /mu_grid   — axes
+#   /I_cache                                                    — 6-D
+#       Array{Float64,6} of shape (nT, nB, nθB, nν, M, 2). The
+#       I_cache::Array{Array{Float64,3},3} field is packed on write
+#       and unpacked back to a nested array on read.
+#   /provenance group with each AtmosphereGridProvenance field as
+#       either an attribute (scalars) or a dataset (vectors / arrays).
+#       converged::Array{Bool,3} is stored as UInt8 (HDF5 lacks a
+#       native Bool type) and converted back on read.
+#   /schema_version attribute on the root = 1
+#
+# Bump schema_version when the on-disk layout changes; the loader will
+# refuse to read an unknown version rather than silently misinterpret.
+# ============================================================================
+
+"""
+    save_atmosphere_grid(path::String, grid::AtmosphereSpectrumGrid) → Nothing
+
+Serialize `grid` to an HDF5 file at `path` using schema_version=1.
+Overwrites any existing file at `path`. Returns `nothing`.
+
+The companion `load_atmosphere_grid` reconstructs the grid bit-exactly,
+and `is_provenance_compatible(saved.provenance, current_provenance)`
+decides whether a cached grid can be reused with the current build
+parameters.
+"""
+function save_atmosphere_grid(path::String, grid::AtmosphereSpectrumGrid)
+    h5open(path, "w") do f
+        # Axes
+        f["T_grid"]       = grid.T_grid
+        f["B_grid"]       = grid.B_grid
+        f["theta_B_grid"] = grid.θ_B_grid
+        f["g_s"]          = grid.g_s
+        f["nu_grid"]      = grid.ν_grid
+        f["mu_grid"]      = grid.μ_grid
+
+        # I_cache is Array{Array{Float64,3},3} — pack into a single 6-D
+        # array (nT, nB, nθB, nν, M, 2) for HDF5 storage. The per-cell
+        # nν × M × 2 shape is identical across cells (set by ν_grid, μ_grid),
+        # so this is rectangular.
+        nT, nB, nθB = size(grid.I_cache)
+        nν = length(grid.ν_grid)
+        M  = length(grid.μ_grid)
+        I_flat = Array{Float64, 6}(undef, nT, nB, nθB, nν, M, 2)
+        for k in 1:nθB, j in 1:nB, i in 1:nT
+            I_flat[i, j, k, :, :, :] = grid.I_cache[i, j, k]
+        end
+        f["I_cache"] = I_flat
+
+        # Provenance: scalars as attributes, arrays/vectors as datasets.
+        g = create_group(f, "provenance")
+        p = grid.provenance
+        attributes(g)["code_sha"]     = p.code_sha
+        attributes(g)["build_time"]   = p.build_time
+        attributes(g)["nnu"]          = p.nν
+        attributes(g)["M"]            = p.M
+        attributes(g)["N"]            = p.N
+        attributes(g)["max_iter"]     = p.max_iter
+        attributes(g)["tol_T"]        = p.tol_T
+        attributes(g)["tol_flux"]     = p.tol_flux       # may be NaN
+        attributes(g)["flux_damping"] = p.flux_damping   # may be NaN
+        attributes(g)["gaunt_path"]   = p.gaunt_path
+        g["theta_B_grid"] = p.theta_B_grid
+        # HDF5 lacks a native Bool type; round-trip via UInt8.
+        g["converged"]    = Array{UInt8}(p.converged)
+        g["iters"]        = p.iters
+
+        # Schema version — bump when the on-disk layout changes.
+        attributes(f)["schema_version"] = 1
+    end
+    return nothing
+end
+
+"""
+    load_atmosphere_grid(path::String) → AtmosphereSpectrumGrid
+
+Read a grid previously written by `save_atmosphere_grid`. Throws an error
+if the file's `schema_version` is not recognised. The returned grid is
+bit-exact with the saved one.
+"""
+function load_atmosphere_grid(path::String)
+    h5open(path, "r") do f
+        sv = read_attribute(f, "schema_version")
+        sv == 1 || error("Unsupported atmosphere grid schema_version=$sv (expected 1)")
+
+        T_grid   = read(f["T_grid"])
+        B_grid   = read(f["B_grid"])
+        θ_B_grid = read(f["theta_B_grid"])
+        g_s      = read(f["g_s"])
+        ν_grid   = read(f["nu_grid"])
+        μ_grid   = read(f["mu_grid"])
+        I_flat   = read(f["I_cache"])   # 6-D Array{Float64,6}
+
+        nT, nB, nθB = length(T_grid), length(B_grid), length(θ_B_grid)
+        I_cache = Array{Array{Float64, 3}, 3}(undef, nT, nB, nθB)
+        for k in 1:nθB, j in 1:nB, i in 1:nT
+            I_cache[i, j, k] = Array(I_flat[i, j, k, :, :, :])
+        end
+
+        g = f["provenance"]
+        prov = AtmosphereGridProvenance(
+            read_attribute(g, "code_sha"),
+            read_attribute(g, "build_time"),
+            Int(read_attribute(g, "nnu")),
+            Int(read_attribute(g, "M")),
+            Int(read_attribute(g, "N")),
+            Int(read_attribute(g, "max_iter")),
+            Float64(read_attribute(g, "tol_T")),
+            Float64(read_attribute(g, "tol_flux")),
+            Float64(read_attribute(g, "flux_damping")),
+            String(read_attribute(g, "gaunt_path")),
+            read(g["theta_B_grid"]),
+            Bool.(read(g["converged"])),
+            read(g["iters"]),
+        )
+
+        return AtmosphereSpectrumGrid(T_grid, B_grid, θ_B_grid, g_s,
+                                       ν_grid, μ_grid, I_cache, prov)
+    end
+end
+
+"""
+    is_provenance_compatible(saved::AtmosphereGridProvenance,
+                              current::AtmosphereGridProvenance;
+                              strict_sha::Bool=false) → Bool
+
+Decide whether a saved cache is reusable with the current build
+parameters. Compares solver knobs (`nν`, `M`, `N`, `max_iter`, `tol_T`,
+`tol_flux`, `flux_damping`), the `gaunt_path` string, and the
+`theta_B_grid` axis. `code_sha` and `build_time` are advisory only by
+default — set `strict_sha=true` to additionally require an SHA match
+(use this in production pipelines where bit-identical reproducibility
+is required).
+
+NaN-valued fields (`tol_flux`, `flux_damping` for purely non-magnetic
+grids) are compared NaN-aware: both must be NaN, or both must be equal
+finite values. `gaunt_path` is compared as a literal string — moving or
+renaming the Gaunt table on disk invalidates the cache even if the file
+content is identical.
+"""
+function is_provenance_compatible(saved::AtmosphereGridProvenance,
+                                   current::AtmosphereGridProvenance;
+                                   strict_sha::Bool=false)
+    saved.nν       == current.nν       || return false
+    saved.M        == current.M        || return false
+    saved.N        == current.N        || return false
+    saved.max_iter == current.max_iter || return false
+    saved.tol_T    == current.tol_T    || return false
+    # NaN-aware comparison for the magnetic-only knobs.
+    isnan(saved.tol_flux) == isnan(current.tol_flux) || return false
+    if !isnan(saved.tol_flux) && saved.tol_flux != current.tol_flux
+        return false
+    end
+    isnan(saved.flux_damping) == isnan(current.flux_damping) || return false
+    if !isnan(saved.flux_damping) && saved.flux_damping != current.flux_damping
+        return false
+    end
+    saved.gaunt_path == current.gaunt_path || return false
+    length(saved.theta_B_grid) == length(current.theta_B_grid) || return false
+    all(saved.theta_B_grid .== current.theta_B_grid) || return false
+    if strict_sha && saved.code_sha != current.code_sha
+        return false
+    end
+    return true
 end
 
 end # module

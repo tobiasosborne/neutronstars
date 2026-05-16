@@ -192,6 +192,7 @@ include("pipeline/atmosphere_grid.jl")
 using .AtmosphereGrid
 export AtmosphereGrid, AtmosphereSpectrumGrid, AtmosphereGridProvenance, build_atmosphere_grid
 export lookup_spectrum, lookup_spectrum_polarized, sum_modes
+export save_atmosphere_grid, load_atmosphere_grid, is_provenance_compatible
 
 include("pipeline/render.jl")
 using .Renderer
