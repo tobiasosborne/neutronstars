@@ -99,6 +99,7 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     converged = false
     max_dT = Inf
     n_iter = 0
+    flux_clamp_warned = false  # emit clamp warning at most once per call
 
     # Storage for Feautrier solutions (per mode)
     P_all = zeros(N, M, K, 2)  # Feautrier P[depth, angle, freq, mode]
@@ -135,7 +136,12 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
         flux_ratio = F_bol / (σ_SB * T_eff^4)
         if B > 0 && isfinite(flux_ratio) && flux_ratio > 0
             raw_flux_scale = flux_ratio^(-0.25)
-            flux_scale = clamp(1.0 + flux_damping * (raw_flux_scale - 1.0), 0.9, 1.1)
+            raw_scale = 1.0 + flux_damping * (raw_flux_scale - 1.0)
+            if !flux_clamp_warned && !(0.5 < raw_scale < 2.0)
+                @warn "magnetic atmosphere flux correction clamped" iter raw_flux_scale flux_ratio raw_scale flux_damping
+                flux_clamp_warned = true
+            end
+            flux_scale = clamp(raw_scale, 0.9, 1.1)
             ΔT .+= (flux_scale - 1.0) .* T
         end
 
