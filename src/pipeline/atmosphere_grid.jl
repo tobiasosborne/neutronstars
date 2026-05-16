@@ -137,32 +137,6 @@ function lookup_spectrum(grid::AtmosphereSpectrumGrid,
     return I_out
 end
 
-"""
-    lookup_spectrum_scalar(grid, T_eff, B, ν, cos_θe) → I_ν
-
-Single-frequency version for per-ray evaluation.
-"""
-function lookup_spectrum_scalar(grid::AtmosphereSpectrumGrid,
-                                 T_eff::Float64, B::Float64,
-                                 ν::Float64, cos_θe::Float64)::Float64
-    iT, fT = _bracket_interp(grid.T_grid, T_eff)
-    iB, fB = _bracket_interp(grid.B_grid, B)
-    iμ, fμ = _bracket_interp(grid.μ_grid, cos_θe)
-    kν = _nearest(grid.ν_grid, ν)
-
-    I = 0.0
-    for (wT, jT) in ((1-fT, iT), (fT, min(iT+1, length(grid.T_grid))))
-        for (wB, jB) in ((1-fB, iB), (fB, min(iB+1, length(grid.B_grid))))
-            w = wT * wB
-            w < 1e-10 && continue
-            I_model = grid.I_cache[jT, jB]
-            I_at_ν = (1-fμ) * I_model[kν, iμ] + fμ * I_model[kν, min(iμ+1, length(grid.μ_grid))]
-            I += w * max(I_at_ν, 0.0)
-        end
-    end
-    return I
-end
-
 # --- Internal helpers ---
 
 """
