@@ -41,7 +41,7 @@ K₁K₂ = -1, and |e_α|² is built from K = -q ± √(1+q²)). See van Adelsbe
 Lai (2006) Eqs. (10, 19) and P&C 2003 Eq. (25) for the underlying tensor
 definition.
 """
-function stix_parameters(ω::Float64, B::Float64, n_e::Float64)
+function stix_parameters(ω::Float64, B::Float64, n_e::Float64)::NTuple{3, Float64}
     ω_ce = e_charge * B / (m_e * c)
     ω_cp = e_charge * B / (m_p * c)
     ω_pe² = 4π * n_e * e_charge^2 / m_e
@@ -87,7 +87,7 @@ For magnetised neutron-star atmospheres where B ≳ 10⁶ G, prefer
 correction (Potekhin, Lai & Chabrier 2004).
 """
 function polarization_weights_cold(ω::Float64, B::Float64,
-                                   θ_B::Float64, n_e::Float64)
+                                   θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
     S, D, P = stix_parameters(ω, B, n_e)
 
     cosθ = cos(θ_B)
@@ -142,7 +142,7 @@ pure P&C 2003) or `polarization_weights_vacuum` (vacuum-polarised, Potekhin,
 Lai & Chabrier 2004) explicitly.
 """
 function polarization_weights_full(ω::Float64, B::Float64,
-                                    θ_B::Float64, n_e::Float64)
+                                    θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
     return polarization_weights_cold(ω, B, θ_B, n_e)
 end
 
@@ -162,7 +162,7 @@ limits (sinθ → 0, cosθ → 0, D → 0), and when the vacuum-shifted permitti
 Each of `w1`, `w2` is an `NTuple{3, Float64}` (allocation-free).
 """
 function polarization_weights_vacuum(ω::Float64, B::Float64,
-                                     θ_B::Float64, n_e::Float64)
+                                     θ_B::Float64, n_e::Float64)::NTuple{2, NTuple{3, Float64}}
     if B < 1e6
         return polarization_weights_cold(ω, B, θ_B, n_e)
     end
@@ -205,7 +205,7 @@ Verified verbatim against PLC2004 Appendix A on 2026-05-16: each constant
 -α/3π) matches the published Eqs. (A7), (A8), (A9). Max relative error vs
 the exact Heyl-Hernquist expression: 1.1% (A7), 2.3% (A8), 4.2% (A9).
 """
-function vacuum_coefficients(B::Float64)
+function vacuum_coefficients(B::Float64)::NTuple{3, Float64}
     b = B / B_Q
     if b == 0.0
         return 0.0, 0.0, 0.0
@@ -276,7 +276,7 @@ Vacuum-corrected normal-mode parameters from Potekhin, Lai & Chabrier
 form away from and at β=0.
 """
 function vacuum_mode_parameters(ω::Float64, B::Float64,
-                                θ_B::Float64, n_e::Float64)
+                                θ_B::Float64, n_e::Float64)::NTuple{6, Float64}
     S, D, P = stix_parameters(ω, B, n_e)
     a_hat, q_vac, m_vac = vacuum_coefficients(B)
     sinθ = sin(θ_B)
@@ -337,7 +337,7 @@ function _vacuum_Kz(K::Float64, S::Float64, D::Float64, P::Float64,
 end
 
 function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
-                                   sinθ::Float64, cosθ::Float64)
+                                   sinθ::Float64, cosθ::Float64)::NTuple{3, Float64}
     # Cyclic mode-vector weights in the B-frame, from van Adelsberg & Lai
     # (2006) Eqs. (22)-(23). The k-frame eigenvector (Eq. 17) is
     #   e_j = (1/√N)(i K_j, 1, i K_{z,j})
