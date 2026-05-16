@@ -47,21 +47,27 @@ function stix_parameters(ω::Float64, B::Float64, n_e::Float64)
 end
 
 """
-    polarization_weights_full(ω, B, θ_B, n_e) → (w1, w2)
+    polarization_weights_cold(ω, B, θ_B, n_e) → (w1, w2)
 
-Compute |e_{j,α}|² for the two normal modes using the q-based approach.
+Compute |e_{j,α}|² for the two normal modes of a magnetised cold plasma
+(no vacuum-polarisation correction), using the q-based approach of
+Ginzburg (1970) §10 / Potekhin & Chabrier (2003) Eqs. 25-27.
 
-Mode parameter q (P&C 2003 Eq. 25, for cold plasma without vacuum):
+Mode parameter q (P&C 2003 Eq. 25, cold plasma, no vacuum terms):
   q = (P - S) sin²θ / (2D cosθ)
 
-Transverse polarization ratios (Shafranov 1967):
+Transverse polarization ratios (Shafranov 1967; quadratic K² + 2qK - 1 = 0):
   K₁ = -q + √(1 + q²)   (extraordinary)
   K₂ = -q - √(1 + q²)   (ordinary)
 
-Longitudinal component (from wave equation with n² = S - K_j D):
+Longitudinal component (from the wave equation with n² = S - K_j D):
   K_{z,j} = -K_j (S - K_j D) sinθ cosθ / (P - (S - K_j D) sin²θ)
 
 Returns w1[3], w2[3] where w[1]=|e_{j,-1}|², w[2]=|e_{j,0}|², w[3]=|e_{j,+1}|².
+
+For magnetised neutron-star atmospheres where B ≳ 10⁶ G, prefer
+`polarization_weights_vacuum`, which adds the QED vacuum-polarisation
+correction (Potekhin, Lai & Chabrier 2004).
 """
 function polarization_weights_cold(ω::Float64, B::Float64,
                                    θ_B::Float64, n_e::Float64)
@@ -111,7 +117,12 @@ end
 """
     polarization_weights_full(ω, B, θ_B, n_e) → (w1, w2)
 
-Compatibility wrapper for the cold-plasma P&C 2003 mode weights.
+DEPRECATED compatibility wrapper. Equivalent to
+`polarization_weights_cold(ω, B, θ_B, n_e)`. Kept for backward compatibility
+with callers that predate the vacuum-polarisation refactor (commit 4dc9a5d).
+New code should call either `polarization_weights_cold` (no vacuum effects,
+pure P&C 2003) or `polarization_weights_vacuum` (vacuum-polarised, Potekhin,
+Lai & Chabrier 2004) explicitly.
 """
 function polarization_weights_full(ω::Float64, B::Float64,
                                     θ_B::Float64, n_e::Float64)
@@ -122,9 +133,14 @@ end
     polarization_weights_vacuum(ω, B, θ_B, n_e) → (w1, w2)
 
 Compute |e_{j,α}|² including the QED vacuum-polarization correction to the
-real dielectric/permeability tensors using Potekhin, Lai & Chabrier (2004)
-Eqs. (A7)-(A9) and the Ho/Lai mode-vector formulae reproduced in their
-Eqs. (20)-(22).
+real dielectric/permeability tensors. Vacuum coefficients (a, q, m) follow
+Potekhin, Lai & Chabrier (2004) Appendix Eqs. (A7)-(A9); the B-frame cyclic
+mode-vector construction follows van Adelsberg & Lai (2006) Eqs. (16)-(18)
+(equivalent to PLC 2004 Eqs. (20)-(22) / Ho & Lai 2003).
+
+Falls back to `polarization_weights_cold` for B < 10⁶ G, near the analytic
+limits (sinθ → 0, cosθ → 0, D → 0), and when the vacuum-shifted permittivities
+εp = S + a or ηp = P + a + q approach zero.
 """
 function polarization_weights_vacuum(ω::Float64, B::Float64,
                                      θ_B::Float64, n_e::Float64)
