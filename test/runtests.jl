@@ -4,6 +4,12 @@ using NeutronStar
 
 const NS = NeutronStar
 
+# Path-fragility fix: under `Pkg.test()` the cwd is a temp dir, not the
+# project root, so bare `"refs/..."` strings break `load_gaunt_table`.
+# Compute it from the test file's location so both `Pkg.test()` and
+# `julia --project=. test/runtests.jl` work identically.
+const GAUNT_PATH = joinpath(@__DIR__, "..", "refs", "code", "McPHAC", "gffgu.dat")
+
 @testset "Structured solver logging (E4)" begin
     # verbose=true: emits Info+Warn, swallows Debug at default min_level
     test_logger = Test.TestLogger(min_level=Logging.Info)
@@ -189,7 +195,7 @@ end
 end
 
 @testset "Magnetic initial column reaches diffusion depth" begin
-    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    gaunt = load_gaunt_table(GAUNT_PATH)
     ν_grid = make_frequency_grid(1.0e6, 12)
     N = 40
     B = 1.0e12
@@ -216,7 +222,7 @@ end
     # intensity (the swap is unitary: P + (1-P) = 1), and (c) populate the
     # P_jump diagnostic vector with values in [0, 1] for any frequency
     # whose resonance density falls inside the column.
-    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    gaunt = load_gaunt_table(GAUNT_PATH)
 
     # Same (small) configuration as the flux-norm smoke below but with B=10^14 G
     # so the proton-cyclotron resonance lies inside the modelled energy band.
@@ -253,7 +259,7 @@ end
 end
 
 @testset "Magnetic atmosphere flux normalization smoke" begin
-    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    gaunt = load_gaunt_table(GAUNT_PATH)
     result = solve_magnetic_atmosphere(
         1.0e6, 2.0e14, 1.0e12, π / 4, gaunt;
         nν=16, M=4, N=50, max_iter=60, tol=5e-4, verbose=false
@@ -279,7 +285,7 @@ end
     # Bead D11: smoke test for the promoted nν×M×2 interpolator.
     # Uses a cheap magnetic solve (does not need to be physically converged —
     # we only check that the function returns sane shape/sign for finite inputs).
-    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    gaunt = load_gaunt_table(GAUNT_PATH)
     result = solve_magnetic_atmosphere(
         1.0e6, 2.0e14, 1.0e12, π / 4, gaunt;
         nν=16, M=4, N=50, max_iter=20, tol=5e-4, verbose=false
@@ -392,7 +398,7 @@ end
     # Hummer (1962) dipole Thomson-scattering kernel, so the only remaining
     # differences are (a) per-mode B_ν/2 splitting (which sums back to B_ν)
     # and (b) optional inter-mode coupling that vanishes at B=0.
-    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+    gaunt = load_gaunt_table(GAUNT_PATH)
 
     # max_iter matches the existing magnetic-flux smoke test (line 96) for the
     # same nν=16, M=4, N=50 grid; 30 iterations were not always enough to satisfy
@@ -436,7 +442,7 @@ end
 
     @testset "non-magnetic flux conservation" begin
         # F = 2π ∫ dν ∑_j μ_j w_j I_em[k,j] should equal σ_SB · T_eff⁴.
-        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        gaunt = load_gaunt_table(GAUNT_PATH)
         # nν=50 matches HANDOFF's production setting (F/σT⁴≈0.99 is the
         # claimed value there). Below nν~40 the trapezoidal-in-ν tail starts
         # undercounting by 2-3%.
@@ -573,7 +579,7 @@ end
         # easily reach 2-3× T_eff; 4× is the sanity ceiling that catches
         # catastrophic overshoot or NaN endpoints without false-positiving
         # on legitimate hot-interior leakage).
-        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        gaunt = load_gaunt_table(GAUNT_PATH)
         T_eff = 1.0e6
         r = solve_atmosphere(T_eff, 2.0e14, gaunt;
             nν=16, M=4, N=50, max_iter=20, tol=1e-3, verbose=false)
@@ -599,7 +605,7 @@ end
         # two T points 5e5 and 1e6). Each channel of the interpolated
         # spectrum should lie within 30% of the bracketing channels' range
         # (loose because spectra change rapidly with T in the Wien tail).
-        gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+        gaunt = load_gaunt_table(GAUNT_PATH)
         T_grid = [5.0e5, 1.0e6, 2.0e6]
         B_grid = [0.0]
         θ_B_grid = [0.0]
@@ -708,27 +714,41 @@ end
 end
 
 @testset "ForwardDiff AD on mode_opacity (E6)" begin
-    using ForwardDiff
-    using NeutronStar.MagneticModes: mode_opacity
+    # ForwardDiff is in [extras] / test target. Available under `Pkg.test()`
+    # (canonical) but NOT under bare `julia --project=. test/runtests.jl`
+    # — the latter ignores [targets]. Skip gracefully in the bare case.
+    have_fd = try
+        @eval Main using ForwardDiff
+        true
+    catch
+        false
+    end
+    if !have_fd
+        @info "ForwardDiff unavailable — skipping E6 AD smoke (run via `Pkg.test()` for full coverage)"
+        @test_skip true
+    else
+        using NeutronStar.MagneticModes: mode_opacity
 
-    j, ν0, θ0, B0, T0, ρ0 = 1, 1e17, π/4, 1e12, 1e6, 1.0
+        j, ν0, θ0, B0, T0, ρ0 = 1, 1e17, π/4, 1e12, 1e6, 1.0
 
-    # Baseline must be finite + positive (sanity)
-    κ0 = mode_opacity(j, ν0, θ0, B0, T0, ρ0)
-    @test isfinite(κ0) && κ0 > 0
+        # Baseline must be finite + positive (sanity)
+        κ0 = mode_opacity(j, ν0, θ0, B0, T0, ρ0)
+        @test isfinite(κ0) && κ0 > 0
 
-    # Derivatives w.r.t. each Real argument must be finite
-    dν = ForwardDiff.derivative(ν -> mode_opacity(j, ν, θ0, B0, T0, ρ0), ν0)
-    dB = ForwardDiff.derivative(B -> mode_opacity(j, ν0, θ0, B, T0, ρ0), B0)
-    dT = ForwardDiff.derivative(T -> mode_opacity(j, ν0, θ0, B0, T, ρ0), T0)
-    dρ = ForwardDiff.derivative(ρ -> mode_opacity(j, ν0, θ0, B0, T0, ρ), ρ0)
-    @test isfinite(dν)
-    @test isfinite(dB)
-    @test isfinite(dT)
-    @test isfinite(dρ)
+        # Derivatives w.r.t. each Real argument must be finite
+        dν = Main.ForwardDiff.derivative(ν -> mode_opacity(j, ν, θ0, B0, T0, ρ0), ν0)
+        dB = Main.ForwardDiff.derivative(B -> mode_opacity(j, ν0, θ0, B, T0, ρ0), B0)
+        dT = Main.ForwardDiff.derivative(T -> mode_opacity(j, ν0, θ0, B0, T, ρ0), T0)
+        dρ = Main.ForwardDiff.derivative(ρ -> mode_opacity(j, ν0, θ0, B0, T0, ρ), ρ0)
+        @test isfinite(dν)
+        @test isfinite(dB)
+        @test isfinite(dT)
+        @test isfinite(dρ)
 
-    # Finite-difference cross-check: relative error <= 1e-3 (loose; FD has its own error)
-    h = 1e-3 * B0
-    dB_fd = (mode_opacity(j, ν0, θ0, B0+h, T0, ρ0) - mode_opacity(j, ν0, θ0, B0-h, T0, ρ0)) / (2h)
-    @test abs(dB - dB_fd) / abs(dB_fd) < 1e-3
+        # Finite-difference cross-check: relative error <= 1e-3 (loose).
+        h = 1e-3 * B0
+        dB_fd = (mode_opacity(j, ν0, θ0, B0+h, T0, ρ0) -
+                 mode_opacity(j, ν0, θ0, B0-h, T0, ρ0)) / (2h)
+        @test abs(dB - dB_fd) / abs(dB_fd) < 1e-3
+    end
 end
