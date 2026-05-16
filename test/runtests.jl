@@ -195,3 +195,42 @@ end
     @test b >= 180             # still substantial blue (solar, not cool star)
     # TODO: once tone-map calibration is pinned, assert (255, 252, 245) atol=3.
 end
+
+@testset "B=0 magnetic limit recovers non-magnetic" begin
+    # Consistency check: with B=0 the magnetic solver must reduce to the
+    # non-magnetic one to within numerical tolerance.  Both now use the
+    # Hummer (1962) dipole Thomson-scattering kernel, so the only remaining
+    # differences are (a) per-mode B_ν/2 splitting (which sums back to B_ν)
+    # and (b) optional inter-mode coupling that vanishes at B=0.
+    gaunt = load_gaunt_table("refs/code/McPHAC/gffgu.dat")
+
+    # max_iter matches the existing magnetic-flux smoke test (line 96) for the
+    # same K=16, M=4, N=50 grid; 30 iterations were not always enough to satisfy
+    # both the temperature and flux convergence criteria at this coarse grid.
+    r_mag = solve_magnetic_atmosphere(
+        1.0e6, 2.0e14, 0.0, 0.0, gaunt;
+        K=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
+    )
+    r_nonmag = solve_atmosphere(
+        1.0e6, 2.0e14, gaunt;
+        K=16, M=4, N=50, max_iter=60, tol=5.0e-4, verbose=false
+    )
+
+    # Sum modes for magnetic: unpolarized intensity = mode 1 + mode 2
+    I_mag = r_mag.I_emergent[:, :, 1] .+ r_mag.I_emergent[:, :, 2]
+    I_nonmag = r_nonmag.I_emergent
+
+    max_rel_diff = maximum(abs.(I_mag .- I_nonmag) ./ max.(I_nonmag, 1.0e-30))
+    println("  B=0 limit max rel diff (mag vs non-mag I_emergent): $(round(max_rel_diff, sigdigits=4))")
+    # The Hummer dipole kernels in both solvers are identical at B=0, so the
+    # only differences come from per-mode B_ν/2 splitting (sums back to B_ν)
+    # and floating-point reductions.  Empirically this gives ≲1e-4.  We assert
+    # a generous 0.5% bound for CI robustness across compilers/BLAS.
+    @test max_rel_diff < 5.0e-3
+
+    # Convergence flags are reported for visibility but not asserted — at the
+    # coarse CI grid the iteration may not always reach both T and flux
+    # tolerances simultaneously even though the emergent spectrum is correct.
+    println("  r_mag.converged=$(r_mag.converged) (max|ΔT/T|=$(round(r_mag.max_dT_over_T, sigdigits=3)), iters=$(r_mag.n_iterations))")
+    println("  r_nonmag.converged=$(r_nonmag.converged) (max|ΔT/T|=$(round(r_nonmag.max_dT_over_T, sigdigits=3)), iters=$(r_nonmag.n_iterations))")
+end

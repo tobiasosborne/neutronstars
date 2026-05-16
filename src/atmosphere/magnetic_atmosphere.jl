@@ -429,9 +429,18 @@ function _feautrier_single(N_eff, M, dtau, μ, w, ν, T, ρ_alb)
         end
 
         # Scattering and source (interior only, not surface)
+        # Use Hummer (1962) dipole phase function for Thomson scattering, matching
+        # the non-magnetic Feautrier (src/atmosphere/feautrier.jl:393-399).  This
+        # ensures the B=0 limit recovers the non-magnetic result exactly: at B=0
+        # both modes have ρ_alb = σ_T/(κ_ff+σ_T) and the per-mode kernel sums to
+        # the unpolarized dipole kernel.  For B>0 this is still a local-per-mode
+        # approximation (inter-mode redistribution = SPW09 Eq. 8 is the full
+        # physics), but it is the *same* approximation as the non-magnetic case,
+        # which is the consistency requirement.
         if i > 1 && i < N_eff
             for j in 1:M, jp in 1:M
-                B[j, jp] -= 2.0 * ρ * 0.5 * w[jp]
+                cross = 3.0/16.0 * (3.0 + 3.0*μ[j]^2*μ[jp]^2 - μ[j]^2 - μ[jp]^2)
+                B[j, jp] -= 2.0 * ρ * cross * w[jp]
             end
             Q .= (1.0 - ρ) * Bν_half  # per-mode source = (1-ρ) B_ν/2
         end
