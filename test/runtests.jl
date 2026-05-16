@@ -612,3 +612,33 @@ end
         @test_skip true
     end
 end
+
+@testset "Gauss-Legendre half lookup table" begin
+    # E19: precomputed nodes/weights for M ∈ {4,6,8,10,12,16} must match
+    # the eigen-based fallback to floating-point reproducibility, and
+    # non-tabulated M must still go through the fallback correctly.
+    import NeutronStar.FeautrierSolver: gauss_legendre_half, _compute_gl_half
+
+    for M in (4, 6, 8, 10, 12, 16)
+        μ_lut, w_lut = gauss_legendre_half(M)
+        μ_ref, w_ref = _compute_gl_half(M)
+        @test length(μ_lut) == M
+        @test length(w_lut) == M
+        @test isapprox(μ_lut, μ_ref; rtol=1e-14, atol=0.0)
+        @test isapprox(w_lut, w_ref; rtol=1e-14, atol=0.0)
+        # Weights on [0,1] half-range sum to 1 (Gauss-Legendre).
+        @test isapprox(sum(w_lut), 1.0; rtol=1e-14, atol=0.0)
+        # All nodes in (0,1).
+        @test all(0.0 .< μ_lut .< 1.0)
+    end
+
+    # Fallback M (not in lookup) must still work and match the bare _compute call.
+    for M in (5, 7)
+        μ_fb, w_fb = gauss_legendre_half(M)
+        μ_ref, w_ref = _compute_gl_half(M)
+        @test length(μ_fb) == M
+        @test isapprox(μ_fb, μ_ref; rtol=1e-14, atol=0.0)
+        @test isapprox(w_fb, w_ref; rtol=1e-14, atol=0.0)
+        @test isapprox(sum(w_fb), 1.0; rtol=1e-14, atol=0.0)
+    end
+end
