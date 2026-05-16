@@ -3,7 +3,7 @@
 ## Project Overview
 
 Physically traceable neutron-star atmosphere + rendering pipeline in Julia.
-Master goal (from `NEUTRON_STAR_CLAUDE_MD_v2.md`): spectral image cube
+Master goal (from `CLAUDE.md`): spectral image cube
 `I(x, y, ν)` from first principles, every equation traceable to a locally
 stored published paper. Current active work is on magnetic atmospheres and
 opacities, validated against local papers and digitized published figures.
@@ -155,7 +155,7 @@ Files: `src/pipeline/atmosphere_grid.jl`, `src/pipeline/render.jl`,
   `(T_eff, B)` and supports `lookup_spectrum`. Build cost: ~14 s for
   B=0, ~12 min with B=10¹² (60-iteration magnetic case).
 - `SpectralImageCube` matches the master spec in
-  `NEUTRON_STAR_CLAUDE_MD_v2.md` (Section "Spectral image cube").
+  `CLAUDE.md` (Section "Spectral image cube").
 - `render_spectral_cube(params, grid, N)` replaces the modified-blackbody
   placeholder with real RT spectra; 256×256×50 in ~1.3 s.
 - Outputs in `output/ns_v2_256_{true,xray}.ppm` and the RX J1856 GIFs
@@ -372,4 +372,4 @@ python3 verification/plot_suleimanov_fig2_clean_validation.py
 - `refs/potekhin_chabrier_2003_ff_opacity.pdf` — Magnetic opacities (Eqs. 25–52)
 - `refs/suleimanov_potekhin_werner_2009_mag_atm.pdf` — Magnetic atmosphere models (SPW2009)
 - `refs/potekhin_tables/hmagtab.txt` — Table format specification
-- `NEUTRON_STAR_CLAUDE_MD_v2.md` — Master project specification (v2)
+- `CLAUDE.md` — Master project specification

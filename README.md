@@ -23,13 +23,13 @@ Rendered with real radiative transfer atmosphere spectra. M = 1.4 M☉, R = 14 k
 
 The hot magnetic pole sweeps into and out of view as the star rotates, producing the observed X-ray pulsation. False colour: red = 0.1–0.5 keV, green = 0.5–2 keV, blue = 2–10 keV.
 
-![Rotation animation](output/rxj1856_rotation.gif)
+![Rotation animation](docs/figures/rxj1856_rotation.gif)
 
 ### Spectral sweep (far-IR through hard X-ray)
 
 Each frame images the star at a single photon energy, sweeping from 0.001 keV (far infrared) to 2.5 keV (hard X-ray). The hot pole is invisible at low energies but dominates in soft X-rays — explaining why the optical counterpart (HST, V≈25.7) shows weak pulsations while the X-ray lightcurve (Chandra/XMM) pulses strongly.
 
-![Spectral sweep animation](output/rxj1856_spectral_sweep.gif)
+![Spectral sweep animation](docs/figures/rxj1856_spectral_sweep.gif)
 
 ## Current Status
 

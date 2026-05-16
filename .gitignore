@@ -1,7 +1,64 @@
-refs/*.pdf
-refs/potekhin_tables/*.dat
-refs/potekhin_tables/*.gz
-refs/code/
-output/*.ppm
-output/*.png
+# ============================================================
+# Julia
+# ============================================================
+# Manifest is per-environment; commit Project.toml only.
+# (Convention for libraries; see https://pkgdocs.julialang.org)
 Manifest.toml
+*.cov
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+deps/deps.jl
+deps/build.log
+deps/downloads/
+deps/usr/
+docs/build/
+docs/site/
+
+# ============================================================
+# Render output (regeneratable from scripts/)
+# ============================================================
+output/
+# Hero animations linked from README live in docs/figures/, not here.
+
+# ============================================================
+# LaTeX build artefacts (docs/physics_report.*)
+# ============================================================
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+# Keep the compiled PDF: docs/physics_report.pdf is checked in deliberately.
+
+# ============================================================
+# Editors / OS
+# ============================================================
+.DS_Store
+Thumbs.db
+*~
+.#*
+\#*\#
+*.swp
+*.swo
+
+# ============================================================
+# Tool-local state (per-project Claude config, IDE state)
+# ============================================================
+.claude/
+.idea/
+.vscode/
+
+# ============================================================
+# Large vendored references that should not have been committed
+# ============================================================
+# Currently tracked; will be moved out in cleanup. See reviews/04_tidiness.md.
+# refs/potekhin_tables/*.dat
+# refs/code/McPHAC/
