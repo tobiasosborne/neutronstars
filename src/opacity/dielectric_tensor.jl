@@ -53,6 +53,8 @@ Compute |e_{j,α}|² for the two normal modes of a magnetised cold plasma
 (no vacuum-polarisation correction), using the q-based approach of
 Ginzburg (1970) §10 / Potekhin & Chabrier (2003) Eqs. 25-27.
 
+Each of `w1`, `w2` is an `NTuple{3, Float64}` (allocation-free).
+
 Mode parameter q (P&C 2003 Eq. 25, cold plasma, no vacuum terms):
   q = (P - S) sin²θ / (2D cosθ)
 
@@ -78,15 +80,15 @@ function polarization_weights_cold(ω::Float64, B::Float64,
 
     # θ ≈ 0: quasi-longitudinal, modes are circularly polarised
     if abs(sinθ) < 1e-8
-        w1 = [0.0, 0.0, 1.0]   # extraordinary: right-circular (α = +1)
-        w2 = [1.0, 0.0, 0.0]   # ordinary: left-circular (α = -1)
+        w1 = (0.0, 0.0, 1.0)   # extraordinary: right-circular (α = +1)
+        w2 = (1.0, 0.0, 0.0)   # ordinary: left-circular (α = -1)
         return w1, w2
     end
 
     # θ ≈ π/2: quasi-transverse
     if abs(cosθ) < 1e-8
-        w1 = [0.0, 1.0, 0.0]   # extraordinary: along B (α = 0)
-        w2 = [0.5, 0.0, 0.5]   # ordinary: circular mix (α = ±1)
+        w1 = (0.0, 1.0, 0.0)   # extraordinary: along B (α = 0)
+        w2 = (0.5, 0.0, 0.5)   # ordinary: circular mix (α = ±1)
         return w1, w2
     end
 
@@ -94,8 +96,8 @@ function polarization_weights_cold(ω::Float64, B::Float64,
     # q = (P - S) sin²θ / (2D cosθ)
     if abs(D) < 1e-30
         # No magnetic splitting → linear polarisation
-        w1 = [0.0, 1.0, 0.0]
-        w2 = [0.5, 0.0, 0.5]
+        w1 = (0.0, 1.0, 0.0)
+        w2 = (0.5, 0.0, 0.5)
         return w1, w2
     end
 
@@ -141,6 +143,8 @@ mode-vector construction follows van Adelsberg & Lai (2006) Eqs. (16)-(18)
 Falls back to `polarization_weights_cold` for B < 10⁶ G, near the analytic
 limits (sinθ → 0, cosθ → 0, D → 0), and when the vacuum-shifted permittivities
 εp = S + a or ηp = P + a + q approach zero.
+
+Each of `w1`, `w2` is an `NTuple{3, Float64}` (allocation-free).
 """
 function polarization_weights_vacuum(ω::Float64, B::Float64,
                                      θ_B::Float64, n_e::Float64)
@@ -290,7 +294,7 @@ function compute_weights_from_K(K::Float64, S::Float64, D::Float64,
     denom_z = P - n² * sinθ^2
     if abs(denom_z) < 1e-30 * (1.0 + abs(P) + abs(n²))
         # E_z dominates: mode is linearly polarised along B
-        return [0.0, 1.0, 0.0]
+        return (0.0, 1.0, 0.0)
     end
 
     Kz = -n² * sinθ * cosθ * K / denom_z
@@ -313,7 +317,7 @@ end
 function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
                                    sinθ::Float64, cosθ::Float64)
     if !isfinite(K) || !isfinite(Kz)
-        return [0.0, 1.0, 0.0]
+        return (0.0, 1.0, 0.0)
     end
 
     norm = 1.0 + K^2 + Kz^2
@@ -333,7 +337,7 @@ function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
         wm1 /= s; w0 /= s; wp1 /= s
     end
 
-    return [wm1, w0, wp1]
+    return (wm1, w0, wp1)
 end
 
 end # module
