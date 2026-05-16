@@ -57,10 +57,16 @@ struct MagneticAtmosphereResult
     y_grid::Vector{Float64}         # == column.y (E15: retained for compat)
     column::NamedTuple              # full converged column (E15)
     # Vacuum-resonance mode-conversion diagnostics (SPW09 Eq. 16-17).
-    # `P_jump[k]` is the non-conversion probability at frequency `k`;
-    # `NaN` means no resonance layer was found inside the depth grid
-    # (no swap applied). `pjump_enabled` records whether the post-
-    # processing was active.
+    # `P_jump[k]` is the non-conversion probability at frequency `k`
+    # evaluated at the resonance layer; `NaN` means no resonance layer
+    # was found inside the depth grid (no swap applied). `pjump_enabled`
+    # records whether the post-processing was active. NOTE: the applied
+    # X↔O swap is depth-resolved via an Eddington-Barbier weighting
+    # `f_below(k, μ) = exp(-τ_V(k) / μ)`, so the effective per-(k, μ)
+    # swap fraction is `(1 - P_jump[k]) · f_below(k, μ)` — NOT a uniform
+    # `1 - P_jump[k]`. See the comment block above the `apply_pjump`
+    # post-processing in `solve_magnetic_atmosphere` for the rationale
+    # and limits.
     pjump_enabled::Bool
     P_jump::Vector{Float64}         # length nν, NaN where no resonance in grid
 end
@@ -223,14 +229,43 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
     # above treated the two modes as decoupled along the entire column. SPW09's
     # actual prescription (their §2 around Eq. 16) is to compute that
     # independent solve and then apply the X<->O mixing at the resonance
-    # density:
+    # density.
+    #
+    # DEPTH-RESOLVED upgrade (this commit). The earlier implementation applied
+    # the full swap
     #     I_X^obs = P_jump · I_X + (1 - P_jump) · I_O
     #     I_O^obs = (1 - P_jump) · I_X + P_jump · I_O
+    # uniformly to every emergent (k, μ) — i.e. it treated every emergent
+    # photon as if it had crossed the resonance layer. That is correct for
+    # resonances near the surface (τ_V → 0) but wrong when the resonance lies
+    # at large optical depth: photons emitted from layers ABOVE the resonance
+    # never see it and should not be mixed.
+    #
+    # The depth-resolved formula uses the Eddington-Barbier weighting for the
+    # fraction of emergent intensity originating below the resonance layer:
+    #
+    #     f_below(k, μ) = exp(-τ_V(k) / μ)
+    #     swap(k, μ)    = (1 - P_jump[k]) · f_below(k, μ)
+    #     I_X^obs       = (1 - swap) · I_X + swap · I_O
+    #     I_O^obs       = swap · I_X + (1 - swap) · I_O
+    #
+    # where τ_V(k) is the optical depth from the surface to the resonance
+    # layer, averaged over the two-mode k_total (a symmetric proxy for the
+    # X↔O conversion direction; SPW09's full coupled-mode treatment would
+    # use the per-mode τ separately). Limits:
+    #   τ_V → 0  ⇒ f_below → 1, swap → (1 - P_jump): recovers the previous
+    #                                                  full-swap formula.
+    #   τ_V → ∞  ⇒ f_below → 0, swap → 0:             no mixing (correct for
+    #                                                  deep resonances).
+    # Conservation: (1 - swap) + swap = 1 ⇒ I_X + I_O is preserved per
+    # (k, μ) by construction.
+    #
     # `P_jump[k]` is set to NaN for frequencies whose resonance density falls
     # outside the depth grid (no resonance crossing in the modelled column ⇒
-    # no swap applied). Photons emitted from layers above the resonance are
-    # not represented in this post-processing approximation (would require
-    # depth-resolved swap during the RT integration; deferred — see TODO).
+    # no swap applied). The diagnostic vector still holds the SPW09 non-
+    # conversion probability at the resonance layer; only the APPLICATION
+    # to intensity is depth-resolved. The rigorous fix is a coupled-mode
+    # Feautrier solve at the resonance layer (deferred — separate session).
     P_jump_vec = fill(NaN, nν)
     if apply_pjump && B > 0
         I_temp = similar(I_emergent)
@@ -254,17 +289,33 @@ function solve_magnetic_atmosphere(T_eff::Float64, g_s::Float64,
             end
             P = vacuum_resonance_pjump(ω, B, θ_B, T[i_V], dρ_dy)
             P_jump_vec[k] = P
+            # Optical depth from surface to resonance for this frequency,
+            # averaged over the two-mode k_total (trapezoidal integration on
+            # the column y grid). Symmetric proxy: the X↔O conversion is
+            # symmetric in P_jump, so a mode-averaged τ_V is the natural
+            # weighting for a post-processing swap.
+            τ_V = 0.0
+            for i in 2:i_V
+                dy = y[i] - y[i-1]
+                k_mean_prev = 0.5 * (k_total[i-1, k, 1] + k_total[i-1, k, 2])
+                k_mean_curr = 0.5 * (k_total[i,   k, 1] + k_total[i,   k, 2])
+                τ_V += 0.5 * (k_mean_prev + k_mean_curr) * dy
+            end
             for jj in 1:M
+                # Eddington-Barbier weighting: fraction of emergent intensity
+                # at outward angle μ[jj] originating below the resonance.
+                f_below = exp(-τ_V / μ[jj])
+                swap = (1.0 - P) * f_below
                 I_X = I_temp[k, jj, 1]
                 I_O = I_temp[k, jj, 2]
-                I_emergent[k, jj, 1] = P * I_X + (1 - P) * I_O
-                I_emergent[k, jj, 2] = (1 - P) * I_X + P * I_O
+                I_emergent[k, jj, 1] = (1.0 - swap) * I_X + swap * I_O
+                I_emergent[k, jj, 2] = swap * I_X + (1.0 - swap) * I_O
             end
         end
         n_active = count(isfinite, P_jump_vec)
         if n_active > 0
             P_finite = filter(isfinite, P_jump_vec)
-            @info @sprintf("  P_jump: applied at %d/%d freqs, range [%.3f, %.3f], mean=%.3f",
+            @info @sprintf("  P_jump: applied at %d/%d freqs, range [%.3f, %.3f], mean=%.3f (depth-resolved swap via exp(-τ_V/μ))",
                            n_active, nν, minimum(P_finite), maximum(P_finite),
                            sum(P_finite)/length(P_finite))
         else

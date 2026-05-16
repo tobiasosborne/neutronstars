@@ -256,6 +256,33 @@ end
     for k in eachindex(r_on.ν_grid), jj in eachindex(r_on.μ_grid), mode in 1:2
         @test r_off.I_emergent[k, jj, mode] ≈ r_off.I_emergent[k, jj, mode]
     end
+
+    # Depth-resolved upgrade: at deep resonance (large τ_V) the swap factor
+    # (1 - P_jump) · exp(-τ_V/μ) shrinks toward zero, so the depth-resolved
+    # swap is SMALLER than the naïve full swap. We can't compare against a
+    # "hypothetical fully-swapped" baseline here, but we CAN verify that
+    # the swap wiring is active by checking that at least one (k, μ) with
+    # finite P_jump shows a non-trivial change in I_X between apply_pjump
+    # =false and =true. We must scan ALL frequencies (not just the first
+    # finite-P_jump one): some frequencies sit at P_jump ≈ 1 (no swap by
+    # construction) or in the Wien tail (I_off ≈ 0), where the diagnostic
+    # is uninformative. Edge case (no frequency has a finite-P_jump
+    # resonance) is already handled by the `any(isfinite, r_on.P_jump)`
+    # test above.
+    wired_through = false
+    for k in eachindex(r_on.P_jump)
+        isfinite(r_on.P_jump[k]) || continue
+        for jj in 1:length(r_on.μ_grid)
+            I_off_X = r_off.I_emergent[k, jj, 1]
+            I_on_X  = r_on.I_emergent[k,  jj, 1]
+            if abs(I_on_X - I_off_X) > 1e-15
+                wired_through = true
+                break
+            end
+        end
+        wired_through && break
+    end
+    @test wired_through
 end
 
 @testset "Magnetic atmosphere flux normalization smoke" begin
