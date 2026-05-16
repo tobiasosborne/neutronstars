@@ -67,3 +67,24 @@ Every approximation used in the pipeline, with name, validity range, source, and
 **Validity:** B < 10¹⁵ G. For B ~ 10¹² G and T ~ 10⁶ K, P_mag/P_gas ~ 10⁻⁸.
 **Source:** To be verified quantitatively.
 **Impact:** NEGLIGIBLE for B < 10¹⁴ G.
+
+### A11: True Greenstein-Hartke (1983) T(θ) form — deferred
+**Description:** The shipped surface-temperature model (A6) is the
+phenomenological cos² ansatz, not the GH 1983 derivation. GH 1983
+derive `T(θ) ∝ |cos θ|^{1/4}` for a pure dipole with anisotropic
+electron thermal conductivity (their actual Eq. 1 is the dipole *field
+magnitude*, not the temperature). A true GH implementation
+(`greenstein_hartke_temperature(θ_B, T_pole) = T_pole · |cos θ_B|^{1/4}`,
+clamped at a small floor near the equator) is not yet provided.
+**Source:** Greenstein & Hartke, ApJ 271, 283 (1983).
+**Validity:** GH form is valid for a pure dipole with anisotropic
+conductivity in the limit of strong B and where lateral conduction is
+negligible. It vanishes at the magnetic equator (unphysical for finite
+conductivity).
+**Impact:** MEDIUM — would change every rendered hotspot shape. Tier-1
+tests assume the cos² form (see A6 / D8). Deferred to a deliberate
+physics decision, ideally in tandem with self-consistent thermal
+transport (Potekhin, Pons & Page 2015).
+**Status:** Not implemented. Tracked here so the GH name doesn't get
+re-attached to the cos² ansatz by mistake. See `notes/decisions.md`
+D8.

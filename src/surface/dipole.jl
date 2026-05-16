@@ -1,7 +1,16 @@
 #=
-Neutron star surface model: dipole magnetic field and Greenstein-Hartke T(θ).
+Neutron star surface model: dipole magnetic field and a phenomenological
+cos²(θ_B) surface-temperature ansatz.
 
-Source: Greenstein & Hartke, ApJ 271, 283 (1983).
+The temperature ansatz is NOT the Greenstein & Hartke (1983) derivation
+(which gives T ∝ |cos θ|^{1/4}); see the docstring of
+`surface_temperature` and notes/decisions.md (D8) for details. The
+dipole field magnitude formula in `surface_Bfield` is the standard
+centred-dipole result, which is what Greenstein & Hartke (1983) Eq. 1
+actually states.
+
+Reference (for the dipole field and for the deferred true-GH temperature
+form): Greenstein & Hartke, ApJ 271, 283 (1983).
 Local: refs/greenstein_hartke_1983_surface_T.pdf
 =#
 
@@ -28,10 +37,22 @@ end
 """
     surface_temperature(θ_B, T_pole, T_eq) → T [K]
 
-Greenstein-Hartke temperature model.
-T(θ_B) = T_eq + (T_pole - T_eq) cos²(θ_B)
+Phenomenological dipole surface-temperature ansatz:
+    T(θ_B) = T_eq + (T_pole − T_eq) cos²(θ_B)
 
-Source: Greenstein & Hartke (1983) Eq. 1.
+This is a smooth two-parameter interpolation between the polar limit
+(θ_B = 0 → T_pole) and the equatorial limit (θ_B = π/2 → T_eq).
+
+NOT the Greenstein & Hartke (1983) derivation. GH 1983 derive
+T(θ) ∝ |cos θ|^{1/4} for a pure dipole with anisotropic electron
+thermal conductivity (their Eq. 1 is the dipole *field magnitude*, not
+the temperature). The GH form has a single parameter (T_pole) and goes
+to zero at the magnetic equator, which is unphysical for an atmosphere
+with finite conductivity and is incompatible with a finite T_eq.
+
+See notes/decisions.md (D8) for the rationale for keeping the cos²
+form, and notes/approximations.md (A6, A11) for the approximation
+status. A true GH 1983 implementation is deferred (see A11).
 """
 function surface_temperature(θ_B::Float64, T_pole::Float64,
                               T_eq::Float64)::Float64

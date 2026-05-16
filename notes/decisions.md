@@ -34,3 +34,30 @@
 **Date:** 2026-05-14
 **Decision:** Use digitized Suleimanov Fig. 2 curves as regression and smoke-validation artifacts, with published equations and reference implementations remaining the primary ground truth.
 **Rationale:** Fig. 2 digitization is useful for catching dex-scale errors, but branch labels, annotation pixels, resonance markers, and anti-aliased line strokes make it unsuitable for percent-level validation without stronger curve extraction.
+
+## D8: Surface temperature — phenomenological cos² ansatz, not Greenstein-Hartke
+**Date:** 2026-05-16
+**Context:** Code review (reviews/03_code.md finding B13) flagged that
+`surface_temperature` in `src/surface/dipole.jl` uses
+`T(θ_B) = T_eq + (T_pole − T_eq) cos²(θ_B)` but cited Greenstein &
+Hartke (1983) Eq. 1. GH 1983 actually derive `T(θ) ∝ |cos θ|^{1/4}`
+for a pure dipole with anisotropic thermal conductivity, and their
+Eq. 1 is the dipole *field magnitude*, not the temperature.
+
+**Decision:** Keep the cos² form for now and fix the labelling
+(docstring + module header) to stop mis-attributing it. Document the
+true GH form as a deferred physics option in `notes/approximations.md`
+(see A11).
+
+**Rationale:** The cos² ansatz has two free parameters (T_pole, T_eq)
+and smoothly interpolates between them, which is what every existing
+render and the Tier-1 tests in `test/runtests.jl` assume. The true GH
+|cos θ|^{1/4} profile has only one parameter and goes to zero at the
+equator; adopting it would (a) break the existing API and tests, and
+(b) be physically wrong for a NS atmosphere with finite electron
+thermal conductivity, where T does not vanish at the magnetic equator.
+A future deliberate physics decision (with self-consistent thermal
+transport, e.g. Potekhin, Pons & Page 2015) should supersede both.
+
+**Scope:** Documentation/labelling only — function body and tests
+unchanged.
