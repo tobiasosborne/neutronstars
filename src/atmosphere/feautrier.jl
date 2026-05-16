@@ -366,28 +366,9 @@ function _solve_single_frequency(col::AtmosphereColumn, k::Int,
                 B[j, j] = 1.0
             end
             Q .= Bν
-            # No scattering terms needed (isotropic at depth)
-            B_tilde[i] = B
-            Q_tilde[i] = Q
-            if i > 1
-                # Eliminate A
-                A_mat = zeros(M, M)
-                dt_prev = dtau[i]
-                for j in 1:M
-                    δ = dt_prev / μ[j]
-                    A_mat[j, j] = -1.0 / (δ * dt_prev / μ[j])
-                end
-                # Actually at bottom BC: P = B_ν regardless, so just set it
-            end
             B_tilde[i] = B
             Q_tilde[i] = Q
             C_store[i] = C
-            # Skip elimination for bottom BC
-            if i > 1
-                Binv_prev = B_tilde[i-1] \ I(M)
-                B_tilde[i] = B  # Keep as identity
-                Q_tilde[i] = Q  # Keep as B_ν
-            end
             continue
         else
             # Interior point
