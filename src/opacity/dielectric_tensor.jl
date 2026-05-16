@@ -26,6 +26,20 @@ export polarization_weights_cold, polarization_weights_vacuum, polarization_weig
     stix_parameters(ω, B, n_e) → (S, D, P)
 
 Cold-plasma Stix parameters including both electron and proton contributions.
+
+Sign convention: this uses the Ginzburg (1970) / Lai-Ho convention where
+`D ≡ g` is the off-diagonal element of the Hermitian dielectric tensor in
+van Adelsberg & Lai (2006) Eq. (10), `[ε_pl] = [[ε, ig, 0], [-ig, ε, 0],
+[0, 0, η]]`. Identification with our Stix notation: S = ε, D = g, P = η.
+
+For a single electron species (q = -e), g = +ω_ce ω_pe² / (ω(ω² - ω_ce²)),
+so D_here = +ω_ce ω_pe² / (ω · de). This is *opposite in sign* to the
+textbook Stix (1992) definition D_Stix = (R-L)/2, which carries an extra
+minus from the electron charge. The two conventions differ only by a global
+sign for D, which cancels in every observable (q ∝ 1/D appears squared via
+K₁K₂ = -1, and |e_α|² is built from K = -q ± √(1+q²)). See van Adelsberg &
+Lai (2006) Eqs. (10, 19) and P&C 2003 Eq. (25) for the underlying tensor
+definition.
 """
 function stix_parameters(ω::Float64, B::Float64, n_e::Float64)
     @assert ω > 0 && B > 0 && n_e > 0
@@ -40,6 +54,9 @@ function stix_parameters(ω::Float64, B::Float64, n_e::Float64)
     dp = ω² - ω_cp^2
 
     S = 1.0 - ω_pe² / de - ω_pi² / dp
+    # D = g = ε_xy / i in the Ginzburg/Lai tensor (Eq. 10 of vAL2006).
+    # Electron contribution: +ω_ce ω_pe²/(ω·de); ion contribution carries
+    # opposite sign because protons have opposite charge from electrons.
     D = ω_ce * ω_pe² / (ω * de) - ω_cp * ω_pi² / (ω * dp)
     P = 1.0 - ω_pe² / ω² - ω_pi² / ω²
 
@@ -184,6 +201,11 @@ end
 Vacuum polarization coefficients from Potekhin, Lai & Chabrier (2004)
 Appendix Eqs. (A7)-(A9).  These fits recover the Euler-Heisenberg weak-field
 limits and remain accurate for arbitrary B in the low-frequency limit.
+
+Verified verbatim against PLC2004 Appendix A on 2026-05-16: each constant
+(0.25487, 0.75, 1.2, 1.33, 0.56, 3.75, 2.7) and prefactor (-2α/9π, 7α/45π,
+-α/3π) matches the published Eqs. (A7), (A8), (A9). Max relative error vs
+the exact Heyl-Hernquist expression: 1.1% (A7), 2.3% (A8), 4.2% (A9).
 """
 function vacuum_coefficients(B::Float64)
     @assert B >= 0.0
@@ -192,13 +214,16 @@ function vacuum_coefficients(B::Float64)
         return 0.0, 0.0, 0.0
     end
 
+    # PLC2004 Eq. (A7): â ≈ -(2α/9π) ln[1 + (b²/5)(1 + 0.25487 b^(3/4))/(1 + 0.75 b^(5/4))]
     a_hat = -2.0 * α_fine / (9π) *
             log(1.0 + (b^2 / 5.0) *
                 (1.0 + 0.25487 * b^(3/4)) /
                 (1.0 + 0.75 * b^(5/4)))
+    # PLC2004 Eq. (A8): q ≈ (7α/45π) b² (1 + 1.2 b)/(1 + 1.33 b + 0.56 b²)
     q = 7.0 * α_fine / (45π) * b^2 *
         (1.0 + 1.2 * b) /
         (1.0 + 1.33 * b + 0.56 * b^2)
+    # PLC2004 Eq. (A9): m ≈ -(α/3π) b² / (3.75 + 2.7 b^(5/4) + b²)
     m = -α_fine / (3π) * b^2 /
         (3.75 + 2.7 * b^(5/4) + b^2)
 
@@ -316,6 +341,18 @@ end
 
 function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
                                    sinθ::Float64, cosθ::Float64)
+    # Cyclic mode-vector weights in the B-frame, from van Adelsberg & Lai
+    # (2006) Eqs. (22)-(23). The k-frame eigenvector (Eq. 17) is
+    #   e_j = (1/√N)(i K_j, 1, i K_{z,j})
+    # with N = 1 + |K_j|² + |K_{z,j}|². Rotating about y by -θ_kB so the
+    # new z'-axis lies along B gives B-frame components
+    #   e_x' ∝ K cosθ + Kz sinθ   (the "transverse" combination below)
+    #   e_y' ∝ 1
+    #   e_z' ∝ -K sinθ + Kz cosθ  (the "longitudinal" combination, sign
+    #                              flipped here — only its square matters)
+    # The cyclic projections e_± = (1/√2)(e_x' ± i e_y') then yield
+    # |e_±|² = (transverse ± 1)² / (2N), |e_0|² = longitudinal² / N,
+    # which matches vAL2006 (22)-(23) verbatim for real K, Kz.
     if !isfinite(K) || !isfinite(Kz)
         return (0.0, 1.0, 0.0)
     end
@@ -324,9 +361,9 @@ function compute_weights_from_K_Kz(K::Float64, Kz::Float64,
     transverse = K * cosθ + Kz * sinθ
     longitudinal = K * sinθ - Kz * cosθ
 
-    wp1 = (transverse + 1.0)^2 / (2.0 * norm)  # |e_{+1}|²
-    wm1 = (transverse - 1.0)^2 / (2.0 * norm)  # |e_{-1}|²
-    w0  = longitudinal^2 / norm                # |e_0|²
+    wp1 = (transverse + 1.0)^2 / (2.0 * norm)  # |e_{+1}|², vAL2006 Eq. (22), upper sign
+    wm1 = (transverse - 1.0)^2 / (2.0 * norm)  # |e_{-1}|², vAL2006 Eq. (22), lower sign
+    w0  = longitudinal^2 / norm                # |e_0|²,    vAL2006 Eq. (23)
 
     # Safety clamp and renormalize
     wp1 = max(0.0, wp1)
