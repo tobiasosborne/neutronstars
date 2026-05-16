@@ -163,3 +163,102 @@ exercising that code path.
 import + one-line call site), `verification/check_suleimanov_fig2_metrics.py`
 (two new gated rows for θ_B=45°). No production-code change. Test suite
 still passes (119/119).
+
+## D12: Depth-resolved Avrett-Krook flux correction — blocked on missing sources
+**Date:** 2026-05-16
+**Context:** D10 deferred the depth-resolved Avrett-Krook flux correction
+to a dedicated session. This session is that attempt. The plan was to
+replace the uniform grey scaling
+
+```
+flux_scale = clamp(1 + flux_damping*(flux_ratio^{-1/4} - 1),
+                   FLUX_SCALE_CLAMP_LO, FLUX_SCALE_CLAMP_HI)
+ΔT_total[i] = ΔT_lambda[i] + (flux_scale - 1)*T[i]    # global, depth-flat
+```
+
+in `_iterate_magnetic_rybicki` (now inlined in `solve_magnetic_atmosphere`)
+with a **per-depth** flux-deficit correction `ΔT_flux[i]` driven by the
+local relative flux error `ε_H(τ_i) = (H_actual(τ_i) - H_target)/H_target`,
+applied additively on top of the existing Rybicki Λ-correction. SPW09 §2
+names this scheme (Avrett-Krook) and credits it to **Kurucz (1970), SAO
+Special Report 309** for the precise formula. SPW09 prints only the
+signature (their unnumbered formula around p. 5 line 881-884):
+
+> "The second procedure is the Avrett-Krook flux correction, which uses
+> the relative flux error ε_H(m), and it is performed in the deep layers."
+
+and cites Kurucz 1970 for "a detailed description".
+
+**Decision:** STOP. Revert any code change and document. The Avrett-Krook
+formula is **not available from any source in `refs/`**, and no usable
+proxy exists either:
+
+1. **Kurucz 1970, SAO Special Report 309** — not in `refs/`. The classical
+   reference for the Avrett-Krook correction as adapted to stellar
+   atmospheres. SPW09 only cites it; the formula does not appear in
+   SPW09 itself.
+2. **Mihalas 1978 "Stellar Atmospheres" Ch 7 (eq. 7-46)** — not in
+   `refs/`. The textbook formulation. The task brief claimed Haakonsen
+   2012 Appendix A reproduces it; **this is incorrect** — Haakonsen
+   Appendix A is the pure Rybicki Λ-correction (eqs A1-A33), which is
+   *already implemented* in `src/atmosphere/temp_correction.jl` and
+   `_rybicki_two_mode` in `magnetic_atmosphere.jl`. No flux-derivative
+   pass appears anywhere in Haakonsen.
+3. **Avrett 1971 / Avrett-Krook 1963 ApJ 137 874** — not in `refs/`.
+4. **McPHAC source (`refs/code/McPHAC/DeltaT.c`, `CalcJtbar.c`)** —
+   inspected. McPHAC uses ONLY the Rybicki Λ-correction
+   `ΔT = ∫κ(J-B)dν / ∫κ(dB/dT)dν` and an optional fractional damping
+   (`DTFRAC`). It has NO Avrett-Krook flux step. (Haakonsen 2012 §3.4
+   confirms: "The temperature correction scheme used is the same as
+   [Zavlin 1996]" — Λ-only.) So McPHAC is not a valid cross-code
+   reference for the AK formula either.
+
+Implementing a "depth-resolved flux correction" without one of these
+sources would either (a) be reverse-engineered from memory (violates
+Sacred Principle #1), or (b) be a heuristic of comparable epistemic
+status to the current grey scaling (no net improvement, more code).
+
+**Baseline verification (before any code change):**
+```
+solve_magnetic_atmosphere(1e6, 2e14, 1e12, π/4, gaunt;
+                          nν=24, M=4, N=50, max_iter=20, tol=5e-4,
+                          flux_tol=1e-2, flux_damping=0.5, verbose=true)
+→ CONVERGED at iteration 17, Final F/σT⁴ = 0.9998
+```
+The current grey-scaling solver hits 4σ inside the 5% test tolerance
+within the orchestrator's 20-iteration budget. The case for replacing
+it on physics grounds exists (deep-layer accuracy at high B), but the
+case for replacing it without the source formula does not.
+
+**Next-session prerequisites (any one suffices to proceed):**
+
+1. **Acquire Kurucz 1970 SAO Special Report 309.** Out of print
+   (1970 SAO bulletin); not on ADS as PDF; sometimes available via
+   inter-library loan from SAO/CfA. The Avrett-Krook section is ~10
+   pages.
+2. **Acquire Mihalas 1978 "Stellar Atmospheres" 2nd ed., Ch 7.4-7.5.**
+   The "ΔT_flux" formulation is eq. 7-46 (per the orchestrator brief;
+   not independently verified). ISBN 0-7167-0359-9. ~5 pages.
+3. **Acquire a stellar atmosphere code that implements AK and is
+   open-source.** Kurucz's ATLAS9/12 (Fortran, public) is the canonical
+   implementation. Reading `atmos.for` or `synthe.for` to extract the
+   AK update is feasible. ATLAS source: kurucz.harvard.edu.
+4. **Decide the project will rely on the Rybicki Λ-correction alone**
+   (matching McPHAC), demote SPW09's three-pass scheme to "future
+   work", and just remove the grey scaling. This is a smaller change
+   but needs its own verification (convergence at θ_B=45°, B=1e14 G,
+   without the grey scaling crutch).
+
+**Scope of this attempt:** No production-code change. This entry only.
+Total session: ~30 min reading (SPW09 §2, Haakonsen Appendix A,
+McPHAC DeltaT.c), ~5 min baseline smoke, 0 min coding. The orchestrator's
+STOP criterion "physics judgment call you can't justify from the local
+PDFs" was triggered on the source-availability check before any
+implementation began.
+
+**Estimated work for a future session, assuming prerequisite #2 (Mihalas
+Ch 7.4-7.5):** ~150-200 LoC for a per-depth ε_H(τ) integrator + AK
+update + Kurucz surface correction, plus a θ_B=45°, B=1e14 G
+verification (which is what the current grey scaling has been suspected
+of breaking but never proven to — see D11 for why the original
+verification was misdiagnosed).
