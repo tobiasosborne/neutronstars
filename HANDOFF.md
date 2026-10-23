@@ -1,61 +1,58 @@
-# HANDOFF — 2026-10-23 (end of day)
+# HANDOFF — 2026-10-23 (afternoon session, end)
 
 ## State
 
-Reboot day. v1 is archived under `archive/v1/`; the new project has rules
-(`CLAUDE.md`, 7 rules), a PRD (`PRD.md` v0.1: free-fall flyby of RX J1856
-against the real sky), and a **blessed, provenanced ground-truth database**
-under `truth/`. No pipeline code exists yet. Nothing is committed since the
-restart; the working tree holds the whole day (125 renames + new files).
+Reboot day, two sessions. Committed and pushed (`06a70b4` + this session's close).
+`truth/` is a blessed, provenanced ground-truth DB; **no pipeline code exists yet**.
+Orchestration used Opus/Sonnet/Haiku subagents (no Fable) and codex GPT-6.1 sol
+xhigh reviews run as background bash; recipe in `truth/harvest/HARVEST_BRIEF.md`.
 
-## truth/ at a glance
+- `truth/entries/*.toml` — **493 entries: 395 blessed, 97 rejected, 1 proposed**
+  (`obs.mellinger-photometric-calibration`, locator fixed after r3, needs owner bless).
+  New files today: gr_geodesic, camera, const_iau, radiance_display, surface_field,
+  sky, sky2, display_psf. Every blessed entry has a byte-identical anchor and a codex
+  accept (or applied fix for `kind = pipeline`); `reject_resolved = true` marks
+  superseded r1 rejects.
+- Spine `pipeline.toml`: **24 blessed / 6 rejected**. Rejected: sky-radiance (data
+  files not on disk), display-exposure-tone (no glare model), envelope-tb-ts,
+  atmosphere-solve, polarisation-modes, surface-radiance-condensed (M3 harvests).
+- Tree: 177 green / 316 yellow / 0 red. All yellow = no code yet.
+- `truth/NOTATION_DECISIONS.md`: 471 symbols; today's additions and collision
+  decisions in "Additions 2026-10-23". e[esu]: code computes e = sqrt(alpha_f hbar c)
+  in CGS; the 10 c e_SI bridge is a 2.7e-10 cross-check only.
+- `refs/`: 62 keys, 190 checksums OK, INDEX.md regenerated. `.gitattributes` pins
+  `refs/** -text`; `refs/tex/` trees are ignored (regenerable from arXiv ids).
+- `truth/tools/red_tests.py` is now honest (was vacuous: missing PRD.md crashed the
+  baseline). `codex_review.sh` prompt states .tex anchors are valid; do not pass
+  apostrophes in its EXTRA argument (wrapper exits 127 after writing the review).
+- `truth/analysis/`: six codex **gpt-6-astra xhigh** analytic arguments on the
+  research-grade paths (own A34 fit, envelope T_b–T_s, exact Gaunt, condensed
+  surface, vacuum resonance, extinction own route); briefs in `briefs/`, runner
+  `truth/tools/codex_analysis.sh`. Launched ~13:55; check `ls truth/analysis/*.md`.
 
-- `truth/entries/*.toml` — 387 entries: **299 blessed, 88 rejected, 0 proposed**.
-  Every blessed entry has a byte-identical anchor in `refs/`, a provenance
-  class, an ownership flag, and a codex (GPT-6.1 sol, xhigh) accept verdict
-  on record (`truth/reviews/*.md`). Rejected rows are kept as negative results.
-- `truth/NOTATION_DECISIONS.md` — **canonical notation dictionary**, 370 rows,
-  CGS conventions. Read it before writing any code or entry.
-- `truth/entries/pipeline.toml` — the DAG spine: 30 nodes rooted at
-  `pipeline.rendered-frame`; 22 blessed, 8 rejected for lack of supporting
-  entries (camera worldline, tetrad/projection, sky radiance, exposure/tone,
-  envelope T_b-T_s, atmosphere solve, polarisation modes, condensed radiance).
-- `truth/TREE.md` — recomputation tree: 146 green (measured/convention
-  leaves), 241 yellow (stubs: nothing recomputed yet), 0 red.
-- `truth/GAPS.md` — ranked work order for the next harvests (120 rows).
-- `truth/DEPENDENCY_AUDIT.md` — what v1 consumed at runtime and the
-  recompute chain for every fit/table (43 items).
-- `truth/check.py` (+ `truth/tools/red_tests.py`, 7 mutations) validates
-  everything; `--render` writes NOTATION.md, INDEX.md, TREE.md.
+## Owner decisions needed
 
-## refs/
-
-51 sources, all checksummed (`refs/CHECKSUMS`, `refs/INDEX.md`). 30 have
-arXiv TeX in `refs/<key>.tex` (+ trees under `refs/tex/`). Four inherited
-mis-filed PDFs were replaced. 17 recomputation-chain papers added today.
+1. Language for Milestone-1 code (PRD recommends Julia; v1 microphysics is Julia).
+2. Camera projection: pinhole vs equidistant (`gr.camera-projection-convention`).
+3. Diffuse sky map: Mellinger is not starless and has no licence on disk; options
+   in `pipeline.sky-radiance` notes (mask+inpaint at Gaia positions / other map /
+   Gaia total minus catalogued flux).
+4. Three blocked notation fixes (alias merge on `gr.notation-geometry`; two I_nu
+   call-form rows on `rt.notation-mcphac`), see "r1 fix blocked" in the dictionary.
+5. Jackson *Classical Electrodynamics* units appendix (manual) for
+   `const.esu-from-coulomb` (rejected r2); optional given decision above.
 
 ## Next small step
 
-1. Commit (user's call). Then `python3 -I truth/check.py --render` and
-   `python3 -I truth/tools/red_tests.py` must both be clean before any commit.
-2. Harvest the Milestone-1 gaps in `truth/GAPS.md` §1 (exterior line
-   element, timelike geodesics, static tetrad + boost, camera projection,
-   Planck function, IAU constants, Gaia passbands) with the same
-   harvest -> codex r1 -> r2 workflow (`truth/tools/codex_review.sh`).
-3. Then Milestone 1 code, red-green: Schwarzschild null geodesic ODE and
-   its flat-space test, with `impl`/`verified_by` turning nodes green.
+1. Read the six `truth/analysis/*.md` when they land; commit them; fold their
+   "missing sources" lists into `truth/GAPS.md` §2–3.
+2. Sky data fetch (checksummed, `refs/data/`): Gaia DR3 rows around RX J1856,
+   EDR3 passbands (VizieR), XP sampled spectra, CALSPEC `alpha_lyr_mod_002.fits`,
+   Hipparcos rows; then re-propose `pipeline.sky-radiance`.
+3. Milestone-1 code, red-green, in the chosen language: Schwarzschild null
+   geodesic ODE with the flat-space test and Pechenick/Beloborodov benchmarks
+   (`gr.dphi-max-r16`, `gr.circle180-radius-r16`, 227.18° grazing check), turning
+   `gr.*` nodes green via `impl`/`verified_by`.
 
-## Known loose ends
-
-- Notation review applied (240 accept / 124 fix / 6 reject). 27 fix rows are
-  marked "r1 fix pending" in `truth/NOTATION_DECISIONS.md` ("Review r1
-  outcome" section): they need a different source/anchor/locator, i.e. a
-  harvest, not a notation edit. The reviewer's reject of `e` (SI vs CGS) does
-  not reproduce (3.3e-11 vs claimed 2.7e-10); row kept as disputed.
-- Non-notation entries still use their source spellings; the dictionary's
-  "Pipeline-level spellings" table maps them. Code must use dictionary symbols.
-- Spine applier flagged repairs outside its lane: remove edge
-  `opacity.approx-vacuum-low-energy -> opacity.dielectric-tensor-polarizability`;
-  re-harvest the rejected `opacity.ff-*` and `rt.emergent-intensity-mcphac`.
-- `eos.bsk-mmax-central-density`: anchor says 2.27 M_sun, TeX says 2.16.
-- Slattery 1982 is on disk (user fetched it); CODATA 2018 and 4 scans have no TeX.
+Gate before any commit: `python3 -I truth/check.py --render` and
+`python3 -I truth/tools/red_tests.py` both clean.

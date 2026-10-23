@@ -437,6 +437,7 @@ roots: 62; nodes: 493; green: 177, yellow: 316, red: 0
               - (see above)
             - 🟢 **const.erg-joule** [leaf/convention] Erg in joules (CGS energy unit)
             - 🟢 **const.gauss-tesla** [leaf/convention] Gauss in tesla (CGS magnetic flux density)
+            - 🟢 **const.notation-atomic** [leaf/measured] Notation: atomic and electromagnetic constants (CODATA 2018)
       - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
         - (see above)
     - 🟡 **pipeline.null-geodesic-trace** [stub/derivable] Exact null geodesic from camera pixel to surface or sky
