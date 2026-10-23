@@ -8,5 +8,5 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"; cd "$ROOT"
 PROMPT="$(cat truth/analysis/briefs/_preamble.md; echo; cat "$BRIEF")"
 mkdir -p "$(dirname "$OUT")"
 codex exec -m gpt-6-astra -c model_reasoning_effort="xhigh" -s read-only --skip-git-repo-check \
-  -o "$OUT" "$PROMPT" >"$OUT.log" 2>&1 || { echo "codex exec failed; see $OUT.log" >&2; exit 1; }
+  -o "$OUT" "$PROMPT" </dev/null >"$OUT.log" 2>&1 || { echo "codex exec failed; see $OUT.log" >&2; exit 1; }
 echo "analysis written to $OUT"

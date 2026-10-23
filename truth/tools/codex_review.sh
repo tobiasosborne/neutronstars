@@ -29,5 +29,5 @@ PEOF
 )
 mkdir -p "$(dirname "$OUT")"
 codex exec -m gpt-6.1-sol -c model_reasoning_effort="xhigh" -s read-only --skip-git-repo-check \
-  -o "$OUT" "$PROMPT" >"$OUT.log" 2>&1 || { echo "codex exec failed; see $OUT.log" >&2; exit 1; }
+  -o "$OUT" "$PROMPT" </dev/null >"$OUT.log" 2>&1 || { echo "codex exec failed; see $OUT.log" >&2; exit 1; }
 echo "review written to $OUT"
