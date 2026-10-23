@@ -1,0 +1,908 @@
+                                        D RAFT VERSION J ULY 7, 2021
+                                        Preprint typeset using LATEX style emulateapj v. 6/22/04
+
+
+
+
+                                         A HYDROGEN ATMOSPHERE SPECTRAL MODEL APPLIED TO THE NEUTRON STAR X7 IN THE GLOBULAR
+                                                                        CLUSTER 47 TUCANAE
+                                                                  C RAIG O. H EINKE 1,2 , G EORGE B. RYBICKI , R AMESH NARAYAN , J ONATHAN E. G RINDLAY
+                                              Harvard-Smithsonian Center for Astrophysics, 60 Garden Street, Cambridge, MA 02138; grybicki@cfa.harvard.edu, rnarayan@cfa.harvard.edu,
+                                                                                                    jgrindlay@cfa.harvard.edu
+                                                                                                     Draft version July 7, 2021
+
+                                                                                                   ABSTRACT
+                                                    Current X-ray missions are providing high-quality X-ray spectra from neutron stars (NSs) in quiescent low-
+                                                 mass X-ray binaries (qLMXBs). This has motivated us to calculate new hydrogen-atmosphere models, in-
+arXiv:astro-ph/0506563v2 1 Mar 2006
+
+
+
+
+                                                 cluding opacity due to free-free absorption and Thomson scattering, thermal electron conduction, and self-
+                                                 irradiation by photons from the compact object. We have constructed a self-consistent grid of neutron star
+                                                 models covering a wide range of surface gravities as well as effective temperatures, which we make available
+                                                 to the scientific community.
+                                                    We present multi-epoch Chandra X-ray observations of the qLMXB X7 in the globular cluster 47 Tuc, which
+                                                 is remarkably nonvariable on timescales from minutes to years. Its high-quality X-ray spectrum is adequately
+                                                 fit by our hydrogen-atmosphere model without any hard power-law component or narrow spectral features. If
+                                                                                                                                                  +1.8
+                                                 a mass of 1.4 M⊙ is assumed, our spectral fits require that its radius be in the range Rns = 14.5−1.6 km (90%
+                                                 confidence), larger than expected from currently preferred models of NS interiors. If its radius is assumed to
+                                                 be 10 km, then a mass of Mns = 2.20+0.03
+                                                                                     −0.16 M⊙ is required. Using models with the appropriate surface gravity for
+                                                 each value of the mass and radius becomes important for interpretation of the highest quality data.
+                                                 Subject headings: radiative transfer — binaries : X-rays — globular clusters: individual (NGC 104) — stars:
+                                                                     neutron
+
+                                                                    1. INTRODUCTION                                 both of which indicate the presence of a compact object sur-
+                                         One of the primary goals of neutron star (NS) studies is to                face for NS systems and not for black hole systems. These NS
+                                      constrain the behavior of matter at high densities by measur-                 systems generally show soft spectra, consisting of a thermal,
+                                      ing NS masses and radii (Lattimer & Prakash 2001). Mass                       blackbody-like component, and possibly a harder component
+                                      measurements of high accuracy for a number of radio pulsars                   extending to higher energies, usually fit with a power-law of
+                                      in close binary systems (often with inferred NS companions)                   photon index 1-2 (although some systems are dominated by
+                                      are consistent with a range of NS masses between 1.25 and                     the harder component; Campana et al. 2002; Wijnands et al.
+                                      1.45 M⊙ (Thorsett & Chakrabarty 1999). Fundamental con-                       2005a). The thermal component, if fit by a blackbody, pro-
+                                      straints on NS interior structure can be achieved by mea-                     duces inferred radii too small for theoretical NS size esti-
+                                      surement of the gravitational redshift from the NS surface                    mates. However, an accreting NS will develop a pure hy-
+                                      (Cottam et al. 2002). Finally, it should be possible to derive                drogen atmosphere if the accretion rate falls below ∼ 10−13
+                                      constraints on the radius of NSs from spectral fits to their X-               M⊙ yr−1 (Brown et al. 1998), because the metals settle out
+                                      ray emission if the temperature, composition of atmosphere,                   of the atmosphere within a few seconds (Romani 1987).
+                                      and distance to a NS are known, and the magnetic field is                     Rajagopal & Romani (1996) and Zavlin et al. (1996) showed
+                                      sufficiently weak so as not to affect the opacity, or tempera-                that hydrogen NS atmospheres shift the peak of the emitted
+                                      ture distribution, on the NS surface. These requirements can                  radiation to higher frequencies due to the strong frequency
+                                      be fulfilled for X-ray observations of quiescent low-mass X-                  dependence of free-free absorption.
+                                      ray binaries (qLMXBs) containing NSs, particularly those lo-                     A major unsolved question about qLMXBs is the na-
+                                      cated in globular clusters where the distance is well-known                   ture of the X-ray emission. Brown et al. (1998) advanced
+                                      (Brown et al. 1998; Rutledge et al. 2002a). In this paper, we                 the idea (also discussed by Campana et al. 1998) that the
+                                      perform the most accurate such test currently possible, us-                   soft thermal component seen in these field systems can
+                                      ing accurate hydrogen atmosphere models constructed specif-                   be explained by the release, over long timescales, of heat
+                                      ically for this project, and a long Chandra observation of a                  injected into the deep crust by pycnonuclear reactions
+                                      globular cluster containing a relatively bright and remarkably                driven during accretion (the “deep crustal heating” model).
+                                      constant qLMXB.                                                               This scenario generally predicts the quiescent thermal lu-
+                                         Several low-mass X-ray binaries which have been identified                 minosity of many qLMXBs, based on their outburst his-
+                                      during outbursts as accreting NS systems have been observed                   tory, reasonably well (Rutledge et al. 2001b), but not for
+                                      in quiescence (see Campana et al. 1998; Rutledge et al.                       all qLMXBs (cf. Colpi et al. 2001; Campana et al. 2002;
+                                      2002b). Their quiescent appearance generally differs from                     Wijnands et al. 2005a). The deep crustal heating model can-
+                                      that of quiescent systems containing black holes both in their                not explain the hard power-law component, which is often
+                                      X-ray luminosity (Garcia et al. 2001) and their observed X-                   attributed to continued accretion and/or a shock from a pul-
+                                      ray spectrum (Rutledge et al. 1999; McClintock et al. 2004),                  sar wind (Campana et al. 1998; Bogdanov et al. 2005). The
+                                                                                                                    deep crustal heating model also cannot explain the short-
+                                        1 Northwestern University, Dept. of Physics & Astronomy, 2145 Sheridan      timescale (∼ 104 s) variability observed from Aquila X-1
+                                      Rd., Evanston, IL 60208; cheinke@northwestern.edu                             (Rutledge et al. 2002b) and Cen X-4 (Campana et al. 2004).
+                                        2 Lindheimer Postdoctoral Fellow
+2                                                              Heinke et al.
+
+Continued accretion has been suggested as an explanation for           XSPEC package, namely NSA(gs ) (Zavlin et al. 1996) and
+the thermal component, as the radiation spectrum from matter           HYD_SPECTRA(gs) (Gänsicke et al. 2002) cover a range of
+accreting radially onto a neutron star should be similar to that       effective temperatures, but only for the single surface gravity
+expected from deep crustal heating (Zampieri et al. 1995). If          log gs = 14.385, corresponding to a “standard” NS model with
+an absorption feature due to metals in the NS atmosphere               mass Mns = 1.4M⊙ and radius Rns = 10 km [we shall empha-
+were to be confirmed in a qLMXB spectrum (as suggested in              size this using the qualifier “(gs)”]. However, as the results
+Rutledge et al. 2002b), this would provide evidence for con-           of this paper will demonstrate, the surface gravity can play an
+tinued accretion at rates sufficient to explain most or all of the     important role in the spectral fitting and needs to be taken into
+thermal emission.                                                      account.
+   Applying the hydrogen-atmosphere NS models of                          A large part of the present effort was devoted to the con-
+Zavlin et al. (1996) to Chandra observations of qLMXBs,                struction of grids of models to fulfill this need. The need for
+Rutledge et al. (1999, 2001a,b) have shown that the radius             NS models covering an extensive set of parameters, includ-
+predictions of the models are consistent with the range of             ing surface gravity, motivated us to adapt the code NSAT-
+radii expected from NSs. These analyses have suffered                  MOS. This code was previously used by McClintock et al.
+from uncertainties in the distances to qLMXB systems,                  (2004) to investigate the hydrogen atmospheres of hypothet-
+and from uncertainties due to fitting two components (the              ical, compact objects, some so compact that they lay within
+power-law plus thermal components) to a spectrum. The                  their own photon spheres; this required taking account of the
+distance is tightly constrained for some globular clusters             self-irradiation of the surface due to gravitational bending of
+(4% distance uncertainty to 47 Tuc, Gratton et al. 2003),              rays. The same model assumptions described in the Appendix
+making them an excellent target for such studies, as pio-              of McClintock et al. (2004) apply here, with some improve-
+neered by Rutledge et al. (2002a); Gendre et al. (2003b);              ments: the code now includes the radiation force in the equa-
+Heinke et al. (2003). The well-studied globular cluster 47             tion of hydrostatic equilibrium (e.g. Pavlov et al. 1991), and
+Tucanae (NGC 104; hereafter 47 Tuc) is especially ideal                includes heat conduction by electrons in the energy equation
+due to its close distance (4.85±0.18 kpc), low reddening               (e.g. Rajagopal & Romani 1996). These and other technical
+(E(B − V ) = 0.024 ± 0.004, Gratton et al. 2003), presence of          improvements made to NSATMOS are discussed in Appendix
+two reasonably bright qLMXBs (X5 and X7; Heinke et al.                 A.
+2003, hereafter HGL03), and deep Chandra observations                     As it turned out for the present problem, neither electron
+(300 ksec, Heinke et al. 2005).                                        conduction nor radiation force played any substantial role,
+   To match the quality of the best Chandra data we desire             in agreement with the results of, e.g., Gänsicke et al. (2002).
+highly accurate hydrogen-atmosphere NS models. We have                 Also, the range of parameters where self-irradiation occurs
+been troubled by the disagreement between the predictions              does not overlap with the range allowing neutron stars which
+of the currently available models of Zavlin et al. (1996) and          obey causality, indicating self-irradiation is unlikely to be rel-
+Gänsicke et al. (2002). We also wished to verify whether               evant for neutron stars. On the other hand, allowing for varia-
+the variation in surface gravity over the relevant range in NS         tions in surface gravity turned out to be very important. A ma-
+mass and radius has a significant effect on the atmosphere             jor advantage of NSATMOS for this problem was its speed,
+models and spectral fitting. For these reasons we have pro-            which allowed us to compute extensive grids of models to
+duced grids of new hydrogen-atmosphere models. We con-                 cover the ranges of effective temperature and gravity tailored
+sider only models of pure hydrogen and for which the mag-              to our needs. Our NSATMOS code will be made available to
+netic field is sufficiently weak (B . 108 G) that it may be ig-        the astronomical community through the XSPEC website3 .
+nored in determining the spectrum. The former assumption                  Our Chandra observations are described in §2. We compare
+is consistent with previous observations of qLMXBs, as iron            the models and data in §3, and discuss the implications in
+or solar-abundance atmospheres would be easily identifiable            §4. Our new neutron star atmosphere models are described in
+by their different spectral shapes (however, subtle departures         detail in Appendix A, and the effects of our consideration of
+from pure H might still go unnoticed, and affect our results).         varying surface gravity are discussed in Appendix B.
+The latter assumption is consistent with the lack of observ-
+able millisecond time variability in qLMXBs similar to X7                                        2. OBSERVATIONS
+(e.g. Aql X-1, Chandler & Rutledge 2000); the accreting mil-              The data used in this paper are from the 2000 and 2002
+lisecond X-ray pulsars appear to be substantially fainter and          Chandra observations of the globular cluster 47 Tuc. Both
+harder in quiescence (Wijnands et al. 2005b).                          sets of observations and their initial reduction are described
+   A number of codes exist to compute the spectrum for the             in detail in Heinke et al. (2005); prior analyses of the 2000
+simple case of a pure hydrogen NS atmosphere with no mag-              dataset are described in Grindlay et al. (2001) and HGL03.
+netic field. Some of these are limited to zero magnetic field,         The 2000 observations were performed with the ACIS-I CCD
+e.g., Rajagopal & Romani (1996), Gänsicke et al. (2002), and           array at the telescope focus, while the 2002 observations
+McClintock et al. (2004). Others include magnetic fields, but          placed the back-illuminated ACIS-S aimpoint at the focus for
+can be applied in the zero field limit, e.g., Zavlin et al. (1996)     maximum low-energy sensitivity. Five consecutive observa-
+and Lloyd (2003).                                                      tions were performed in 2000, as listed in Table 1, with
+   Even with these simplifying assumptions, grids of NS                three short observations, using a subarray and faster readout
+atmosphere models over a wide range of parameters                      time, interleaved to reduce pileup in bright sources such as
+are not widely available for use in XSPEC. Some re-                    X7 and X5 (see HGL03). Pileup occurs when two X-ray pho-
+searchers have computed their own model atmospheres to                 tons, arriving at the detector during one frame time, are erro-
+be used in XSPEC and have included ranges of grav-                     neously identified as a single photon with the sum of the two
+ity as well as effective temperature, e.g., Zavlin et al.              photon energies, or else discarded (see Davis 2001). Pileup
+(1998), using NSA, and Stage et al. (2004), using ATM.
+However, the available models included in the standard                   3 http://heasarc.gsfc.nasa.gov/docs/xanadu/xspec/
+                                                     H-atm NS Model Applied to X7                  3
+
+                                           TABLE 1
+                               S UMMARY OF Chandra O BSERVATIONS
+
+ Seq, OBSID              Start Time         Exposure      Aimpoint       Frametime       CCDs
+300003,078         2000 Mar 16 07:18:30       3875         ACIS-I           0.94           1/4
+300028,953         2000 Mar 16 08:39:44      31421         ACIS-I           3.24             6
+300029,954         2000 Mar 16 18:03:03       845          ACIS-I           0.54           1/8
+300030,955         2000 Mar 16 18:33:03      31354         ACIS-I           3.24             6
+300031,956         2000 Mar 17 03:56:23       4656         ACIS-I           0.94           1/4
+400215,2735        2002 Sep 29 16:59:00      65237         ACIS-S           3.14             5
+400215,3384        2002 Sep 30 11:38:22       5307         ACIS-S           0.84           1/4
+400216,2736        2002 Sep 30 13:25:32      65243         ACIS-S           3.14             5
+400216,3385        2002 Oct 01 08:13:32       5307         ACIS-S           0.84           1/4
+400217,2737        2002 Oct 02 18:51:10      65243         ACIS-S           3.14             5
+400217,3386        2002 Oct 03 13:38:21       5545         ACIS-S           0.84           1/4
+400218,2738        2002 Oct 11 01:42:59      68771         ACIS-S           3.14             5
+400218,3387        2002 Oct 11 21:23:12       5735         ACIS-S           0.84           1/4
+
+ N OTE. — Times in seconds. Subarrays are indicated by fractional numbers of CCDs. We do not use
+OBS_ID 3385 in this paper, due to its relatively high background.
+
+
+
+has effects upon both spectral and timing analyses, as dis-
+cussed in the Chandra Proposers’ Observatory Guide4 and
+Davis (2001).
+   The 2002 observations also interleaved long observations
+with shorter ones to collect some data relatively free of pileup.
+The countrates for X7 in the 2000 and 2002 observations
+(both essentially on-axis) were 0.07 and 0.12 cts/s, leading
+to predicted pileup rates of 9% and 15% for full-array obser-
+vations, or 2% and 4% using 1/4 subarrays. We reprocessed
+the 2000 observations using the CTI correction algorithm im-
+plemented in CIAO 3.2 acis_process_events. Both the 2000
+and 2002 observations were reprocessed (using CIAO 3.2) to
+remove the 0.′′ 5 pixel randomization added in standard pro-
+cessing, use updated (time-dependent) gain files, and improve
+hot pixel identifications. Some background flaring occurred
+during parts of the 2002 observations, particularly affecting
+OBS_ID 3385. We do not use data from that short (5 ksec)
+observation, but keep all other data.
+   We used the ACIS_EXTRACT software (Broos et al.
+2002), version 3.65, to extract and combine spectra and re-
+sponse files for the various observations. We extracted spec-
+tra from contours matching the 95% encircled energy (at 1.5
+keV) of the Chandra point-spread function at X7’s position.
+We constructed response files using the mkacisrmf response
+generator in CIAO 3.2. The effective area files take into ac-
+count the decreasing quantum efficiency of the ACIS chips,
+and are corrected to account for the energy-dependent frac-
+tion of the point-spread function enclosed by the extraction
+region (Broos et al. 2002). We combined spectra from: the
+two long 2000 observations, OBS_IDs 953 and 955; the four
+long 2002 observations; the three remaining short 2002 ob-
+servations (see above); and the three short 2000 observations,
+for a total of four summed spectra. We binned these spectra
+at 80 counts/bin for the long 2002 spectrum, 20 counts/bin for
+the short 2000 spectrum, and 40 counts/bin for the other two
+spectra.
+
+
+
+
+  4 http://cxc.harvard.edu/proposer/POG/
+4                                                             Heinke et al.
+
+                      2.1. Timing Analysis
+   We adjusted all event times to the solar system barycen-
+ter using satellite orbit files provided by the Chandra X-ray
+Center. The qLMXB X5 continues to show eclipses and
+very strong dipping activity throughout the 2002 observations,
+which make a study of its spectrum more complicated; we de-
+fer detailed studies of X5 to a later paper.
+   Kolmogorov-Smirnov and Cramer-von Mises tests showed
+no variability from X7 on any timescales probed by the 2002
+observations (seconds to weeks). Power spectra (constructed
+using XRONOS) of X7’s lightcurves showed a flat power
+spectrum with less power than expected from Poisson pro-
+cesses (Leahy et al. 1983), typically ∼ 70% of the expected
+level. We attribute this to the effects of moderate pileup (as
+other, weaker, X-ray sources in 47 Tuc showed the expected
+levels of white noise), and note that it makes a quantitative
+                                                                        F IG . 1.— From top, Chandra ACIS-S subarray spectrum (green), ACIS-S
+limit on X7’s variability difficult to determine. Assuming con-       full-frame spectrum (black), ACIS-I subarray spectrum (blue), and ACIS-I
+stant Poisson noise (the constant level was a free parameter),        full-frame spectrum (red) of X7, fit with our hydrogen-atmosphere NSAT-
+plus red noise with a fixed slope (∝ ν −1 , e.g. Rutledge et al.      MOS model (histograms) and photoelectric absorption (see text). Pileup is
+2001a), we constrain (3σ, between 10−5 and 0.1 Hz) the rms            responsible for the variation in count rate between the subarray and full-frame
+                                                                      spectra,and is accounted for in the fit. The apparent difference between the
+variability to < 3.6%, < 7.3%, < 1.9% and < 5.2% for the              full-frame spectra is due to the differing spectral responses of the ACIS-S
+four 2002 observations. These values may be underestimates            and ACIS-I instruments, as no model parameter is allowed to vary between
+due to the effects of pileup. We also extract power spectra           the fits. The strongest residuals (near 2 keV) are instrumental features due to
+                                                                      the iridium edges of the mirror and resultant rapid changes in effective area
+from 1-2.′′annuli, to reduce the effects of pileup, giving 511        with energy. See the electronic edition of the Journal for a color version of
+to 541 counts per dataset. These power spectra display white          this figure.
+noise at the levels expected from Poisson noise. We again
+find no evidence for excess variability, with 3σ upper limits
+on rms variability being <17%, <15%, <25% and <28%
+for each observation. The data taken in subarray mode to              ([X/H]=-0.4), C, N, and O to be 63% solar ([X/H]=-0.2), and
+reduce pileup showed similar properties, with 3σ upper lim-           He at solar abundance (using Carney 1996; Salaris & Weiss
+its of <13%, <17%, and <24% rms variability (excluding                1998; Gratton et al. 2003). We note that our results are not
+OBS_ID 3385). No signal was seen at 5.50 hours, the period            very sensitive to the detailed abundances, since the absorption
+of a marginal signal identified in HGL03, indicating that the         column is low (see below).
+suggested orbital period (from the lower-quality 2000 data) is           The Chandra ACIS effective area and response matrix cali-
+probably spurious.                                                    brations are very uncertain below 0.5 keV. We find substantial
+                                                                      negative residuals around 0.4 keV, similar to an absorption
+                    3. SPECTRAL ANALYSIS                              line (but substantially narrower than the instrument resolu-
+           3.1. NSATMOS Spectral Analysis of X7                       tion). This feature is seen in most other X-ray sources of suf-
+                                                                      ficient flux in 47 Tuc (Heinke et al. 2005), so we ascribe it to
+   Our standard XSPEC model consists of the NSATMOS hy-               an instrumental effect and ignore data below 0.5 keV in this
+drogen atmosphere model, absorbed by interstellar gas, con-           paper. A second feature is a wave in the residuals between 1.7
+volved with the XSPEC pileup model. We use the XSPEC                  and 2.3 keV. This feature can be ascribed to the difficulty of
+(Arnaud 1996) version of the pileup model of J. Davis (Davis          calibrating the iridium M edge structure (Chandra Proposer’s
+2001), setting the frame time parameter to the time resolu-           Observatory Guide), and similar waves are seen in other high-
+tion of each spectrum (header keyword TIMEDEL), and the               quality ACIS CCD spectra (Sanders et al. 2004). This resid-
+parameters g0 =1 and ps f f rac=0.95. We floated the grade mi-        ual causes the quality of our best fits to be slightly less than
+gration parameter α (which parametrizes the fraction of piled         nominal, χ2ν =1.20 for a null hypothesis probability (nhp) of
+photons that are recorded as good grades), but found that its         1.5%. More acceptable fits (nhp=7%) can be achieved by
+value is always consistent with 0.5, and fixed it to 0.5 for this     adding a systematic error term (of order 2%), or by exclud-
+section and §3.2.                                                     ing the spectral range from 1.9-2.25 keV in the two highest-
+   We use the XSPEC phabs model, with Wilms et al. (2000)             quality spectra, but the parameters of the fit do not change
+interstellar element abundances, to describe the interstel-           substantially from the fits using all the data.
+lar gas between the Earth and 47 Tuc. We fix its nor-
+malization at NH = 1.3 × 1020 cm−2 , derived using E(B-                 Fitting the four combined X7 spectra simultaneously in
+V)=0.024±0.004 as measured by Gratton et al. (2003), and              XSPEC, leaving no parameters free between the various
+assuming RV =3.1 (Cardelli et al. 1989) and NH /AV = 1.79 ×           datasets, and only the intrinsic absorption, NS temperature,
+1021 cm−2 (Predehl & Schmitt 1995). The NH column mea-                and NS radius as free parameters, gives a reasonably good fit
+sured using any of our models is larger than this, indicating         (χ2ν =1.20, nhp=1.5%; see Fig. 1). (To begin with, we fix the
+additional gas intrinsic to the system (or slight errors in the       NS mass at 1.4 M⊙ . We will vary this later.) The inferred
+Chandra ACIS calibration below 1 keV). We model this ad-              (unabsorbed) luminosity of X7 is LX (0.5-10 keV)= 1.5 × 1033
+ditional absorbing gas by the XSPEC vphabs model, select-             ergs s−1 , Lbol = 2.4 × 1033 ergs s−1 . Allowing the absorption
+ing the abundances to correspond to those of 47 Tuc. We               column or the NS temperature, radius, normalization, or dis-
+choose the abundance of iron to be 20% of solar ([Fe/H]=-             tance to vary between the 2002 and 2000 observations does
+0.7), that of metals between Ne and Ca to be 40% solar                not improve the fit, and the best-fit values for each obser-
+                                                     H-atm NS Model Applied to X7                                                        5
+
+vation lie within the one-sigma errors of the best fit for the          0.4 keV for gravitational redshifts in the range 0.2-0.4 (typical
+other observation. A quantitative constraint on X7’s spec-              for favored neutron star equations of state). We conclude that
+tral variability between the 2000 and 2002 observations can             no spectral features intrinsic to the NS atmosphere have been
+be obtained by decoupling the 2000 and 2002 temperatures                detected.
+or normalizations, and measuring how large the difference                  The hard power-law component identified in many
+may be; we find kTX 7,2000 = 1.003+0.006
+                                    −0.006 × kTX 7,2002 , or for nor-   field qLMXBs may be a signal of continued accretion
+malization, KX 7,2000 = 1.01+0.03
+                             −0.03 × KX 7,2002 (90% conf.). Fit-        (Rutledge et al. 2002b), or of nonthermal emission from
+ting the individual spectra extracted for each of the four long         the pulsar wind of an underlying MSP (Burderi et al. 2003;
+2002 observations (grouped at 20 counts/bin) with the same              Bogdanov et al. 2005). We constrain such a power-law com-
+model gives a good fit (χ2ν =0.962, nhp=70%), and when the              ponent by adding it to our standard model with a fixed photon
+model parameters are allowed to vary between observations               index Γ of 1.5, 2 or 1, and deriving constraints upon its flux
+they again agree with one another. (The improvement in the              in the 0.5-10 keV band relative to the total (absorbed) 0.5-10
+fit quality, compared to the combined spectrum, is due to the           keV flux. Adding this component does not significantly im-
+reduced statistics of each observation individually.) Therefore         prove the fit (χ2ν = 1.205, an F-test suggests a 60% chance
+we conclude that these deep observations provide no evidence            of this level of improvement by chance). For Γ = 1.5, such a
+for any spectral change in X7 over a period of 2.5 years. This          power-law component would make up < 3.2% (90% conf.) of
+result is in contrast to other qLMXBs which have displayed              X7’s total 0.5-10 keV flux. For Γ = 2 or 1, the constraints are
+substantial variability in quiescence (Rutledge et al. 2002b;           < 3.4% of the total 0.5-10 keV flux.
+Campana et al. 2004).                                                      The complete lack of evidence for variability, edges, or hard
+                                                                        power-law components in X7 suggests that X7’s X-ray emis-
+                    3.2. Edge or power-law?                             sion is produced entirely through re-emission of stored heat
+                                                                        (Brown et al. 1998). The constraints on these properties for
+   HGL03 found marginal evidence for the existence of an
+                                                                        X7, more stringent than for any other qLMXB, make this an
+edge or other absorption feature near 0.63 and 0.66 keV in
+                                                                        ideal object for comparisons with NS hydrogen-atmosphere
+X7 and X5, respectively. No such feature is apparent in the
+                                                                        models.
+2002 X7 data, and the evidence for such a feature from the
+2000 data has decreased as the Chandra calibration has im-
+proved. Fitting all the X7 data with the standard model above                     3.3. Constraining the NS Mass and Radius
+and an edge fixed at 0.63 keV (as in HGL03) does not im-                   The principal goal of our spectral fitting is to self-
+prove the fit, and leads to a 90% confidence upper limit of             consistently constrain the allowed space in mass and radius
+τ < 0.045 for the edge. The two explanations for the edge               of X7’s neutron star. First we explore the best fits for mass
+suggested by HGL03 (an OV edge from an ionized wind, or                 and radius if one parameter is fixed at a canonical value,
+a signature of a NS atmosphere that is not purely hydrogen)             Mns =1.4 M⊙ or Rns =10 km. Our standard model above keeps
+can both be excluded by the disappearance of this feature in            the mass fixed at 1.4 M⊙ , and the fitted radius is 14.2+1.1   −1.0
+the 2002 dataset. We feel that the most likely explanation for          km (90% conf.). Allowing the pileup parameter α to vary,
+this apparent feature is small uncertainties in the calibration.        and allowing for a power-law component with photon index
+   The existence of any spectral feature in a qLMXB spec-               fixed at 1.5, the fitted radius is 14.5+1.6
+                                                                                                                 −1.4 km. The parame-
+trum would be of great interest, since an identification of the         ters for this fit are included in Table 2.       We note that a
+feature could allow determination of the gravitational redshift         pure helium atmosphere (possible if the donor is degenerate)
+at the NS surface (Brown et al. 1998; Rutledge et al. 2002b,            would give even larger radii (Zavlin et al. 1996; Pons et al.
+HGL03). Therefore we searched for any possible features                 2002), which we think unlikely. Adding a 6.1% uncertainty
+in X7’s spectrum, using an edge or a gaussian absorption                (Gratton et al. 2003, 90% conf., assuming errors are normally
+line, between 0.55 and 3 keV. The largest possible features             distributed) in the distance to 47 Tuc gives a NS radius of
+were at 0.85 keV, where an edge with τ = 0.065+0.07    −0.05 gave       14.5+1.8
+                                                                              −1.6 km. The lower limit to X7’s radius is thus 12.9
+χ2ν = 1.017; 1.58 keV, where an edge with τ = 0.14+0.11 −0.10 gave      km, which is significantly larger than the radius predicted
+χ2ν = 1.194; and 2.54 keV, where an edge with τ = 0.70+1.9      −0.7    by the APR (11.5 km, Akmal et al. 1998) and FPS (10.8 km,
+gave χ2ν = 1.204. The latter two are probably caused by the             Pandharipande & Ravenhall 1989) equations of state for a 1.4
+calibration uncertainties around 2 keV. These features have             M⊙ NS.
+F-test probabilities (to be interpreted with caution) of 7.7%,             If we instead allow Mns to vary and fix Rns at 10 km, we find
+13%, and 45% of being generated by chance, which are con-               that Mns is constrained to 2.17+0.10
+                                                                                                        −0.12 M⊙ ; allowing α to vary and
+sistent with the low significances of their optical depths (none        including a possible powerlaw component, Mns =2.20+0.16 −0.15 M⊙ .
+nonzero at more than 98% confidence). The 90% confidence                                                                        +0.18
+                                                                        Adding distance uncertainty, the errors are Mns =2.20−0.16 M⊙ .
+limits on edge equivalent widths at these locations are < 18,           Constraining the neutron star mass to lie below the causality
+< 29, and < 53 eV. Using a gaussian absorption line with                line gives Mns =2.20+0.03
+                                                                                             −0.16 M⊙ . This mass is significantly larger
+fixed intrinsic width of 0.05 keV, we find similar results, with        than that of any well-measured NS (but cf. Nice et al. 2005).
+the most likely features located at 0.92 (τ = 0.083+0.05
+                                                    −0.05 ) or 1.73     A high mass for X7 seems improbable given its relatively high
+(τ = 0.33+0.20
+           −0.15 ) keV. Equivalent width  upper limits  are < 11        X-ray luminosity (compared to other qLMXBs), and the ex-
+and < 33 eV, respectively.                                              pected tendency for more massive NSs to cool more quickly
+   The feature at ∼0.4 keV discussed above is the strongest ap-         (Yakovlev & Pethick 2004). We give the parameters for fits
+parent feature. The anticipated energy of the strongest feature         with either Mns or Rns held fixed in Table 2, including all un-
+(due principally to the O VIII edge) likely to appear on an ac-         certainties except for the 6% distance uncertainty.
+creting neutron star with a near-solar abundance atmosphere                We use the steppar command in XSPEC to vary both
+is 0.87/(1 + z) keV (Brown et al. 1998; Rutledge et al. 2002b,          the radius and mass parameters, allowing all other free pa-
+see their Fig. 1). There are no plausible features expected near        rameters (including α and the powerlaw normalization) to
+6                                                                               Heinke et al.
+
+                                                                                        vary to find the best fit. We show 1σ, 90% confidence,
+                                TABLE 2                                                 and 99% confidence (∆χ2 = 2.3, 4.61, and 9.21 respec-
+                     X7 S PECTRAL M ODEL PARAMETERS
+                                                                                        tively) contours in NS mass and radius in Fig. 2 for X7,
+    Model Parameter                     M fixed                    R fixed              using our spectral model as described above. These can
+                                                                                        be compared with the loci of models following the APR
+                          Rybicki NSATMOS model                                         (Akmal et al. 1998), FPS (Pandharipande & Ravenhall 1989),
+        kT , eV                      105.4+5.6
+                                            −5.6                  151.5+7.4
+                                                                        −5.9            PCL2 (Prakash et al. 1995), MS1 (Müller & Serot 1996), and
+          a
+         NH,20                         4.2+1.8
+                                          −1.6                     4.0+1.8
+                                                                      −1.5              SQM3 (Prakash et al. 1995) equations of state for dense mat-
+       Rns , km                       14.5+1.6
+                                           −1.4                    (10.0)
+                                                                                        ter (the last is a representative “quark star” model). For the
+          Mns                           (1.4)                     2.20+0.16
+                                                                       −0.15
+       χ2ν /dof                      1.21/251                     1.21/251
+                                                                                        SQM3 and APR models, a high NS mass is required for con-
+    Null hyp. prob.                     1.3%                        1.3%                sistency with the data; the FPS model is ruled out; and the
+                           Zavlin NSA(gs ) model                                        PCL2 model is marginally consistent with the data at the 99%
+          kT , eV                       89+5
+                                           −1                       145+4
+                                                                        −5              level for a mass of 1.35 M⊙ . The MS1 model is an exam-
+            a
+           NH,20                       5.6+0.8
+                                          −0.4                      3.5+5.0
+                                                                       −2.8             ple of models consistent with a larger radius at 1.4 M⊙ (see
+       Rns , km                       +0.1
+                                19.9−2.1
+                                                b
+                                                                    (10.0)              Lattimer & Prakash 2001), some of which include condensa-
+          Mns                      (1.4)                           1.99+0.13
+                                                                        −0.15           tion of kaons, hyperons, muons or free quarks in the core.
+       χ2ν /dof                 1.21/251                           1.21/251             The line labeled “Causality” (R = 3.04GM/c2) represents the
+    Null hyp. prob.                1.2%                              1.3%               requirement that the speed of sound must be less than c, a
+                 Gänsicke HYD_SPECTRA(gs ) model
+             -                  z = 0.306                           R fixed             necessary (but not sufficient) requirement for a NS interior
+        kT , eV                   123+4−5                           138+5−4
+                                                                                        to respect causality (Lattimer & Prakash 2001; Olson 2001).
+          a
+         NH,20                    5.1+0.8
+                                     −0.9                           4.4+1.6
+                                                                        −0.8
+                                                                                        This requirement is virtually identical to R > 3GM/c2 , which
+       Rns , km                       +1.5
+                                 11.9−1.2                           (10.0)              is the condition that the neutron star surface is outside its own
+          Mns                   1.66+0.22
+                                      −0.15                        1.68+0.20
+                                                                        −0.17
+                                                                                        photon sphere, so that self-irradiation does not occur.
+       χ2ν /dof                 1.21/251                           1.21/251
+    Null hyp. prob.                1.3%                              1.3%                        3.4. Comparison of NS atmosphere models
+                                                                                           We compare three different hydrogen-atmosphere neutron
+    N OTE. — All errors are 90% confidence limits. Distance of 4.85 kpc
+ is assumed (its uncertainty is not included in these quoted errors). In each           star models in this analysis. Our NSATMOS model has pa-
+ column, either mass, redshift (z), or the true radius of the neutron star is           rameters Mns (mass of neutron star, M⊙ ), Rns (true radius of
+ held fixed. a NH intrinsic to system, in units of 1020 cm−2 , in addition to           the neutron star, km), Teff (the effective temperature of the
+ galactic column of 1.3×1020 cm−2 . b Reached hard limit of model.                      neutron star surface, unredshifted), and D (distance to neutron
+                                                                                        star, pc). The NSA model (Zavlin et al. 1996) has parameters
+                                                                                        R (true radius of the neutron star, km), M (mass of neutron
+                                                                                        star, M⊙ ), Teff (the effective temperature of the neutron star
+                                                                                        surface, unredshifted), and normalization K = 1/D2 (where D
+                                                                                        is the distance to the neutron star, pc). The last parameter is
+      3                                                                                 often used to calculate R∞ = R(1 + z), the radius as seen by
+                                                                                        a distant observer, since the last parameter can be considered
+                                                                                        K = (R∞ /R∞,0 )2 /D2 , where R∞,0 is the equivalent R∞ that
+                                                                                        would be calculated from the model parameters R and M. The
+    2.5
+                                                                                        HYD_SPECTRA model of Gänsicke et al. (2002) has the pa-
+                                                                                        rameters Teff , z (the gravitational redshift at the NS surface),
+                                                                                        and normalization K = (R/D)2 , where R is in units of 10 km
+                                                                                        and D is measured in pc. We also tested the H_ATM model
+      2
+                                                                                        of Lloyd (2003), for which the parameters are Teff , z, and nor-
+                                                                                        malization K = (R/D)2 , where R is in km and D is in units of
+                    FPS
+                                                                                        10 kpc. The H_ATM model gives results broadly similar to
+    1.5
+                                                                                        those of the NSA model, and for brevity we will not discuss
+                                                                                        H_ATM further in this paper. The NSATMOS and NSA mod-
+                SQM3
+                                                                                        els fit directly for Mns and RNS , while the HYD_SPECTRA
+                                                                                        model fits redshift and normalization, which allows computa-
+      1                        APR                 MS1                                  tion of Mns and Rns .
+                                                                                           While the NSA and HYD_SPECTRA codes can, in princi-
+                                             PCL2
+                                                                                        ple, be used to compute models for any value of gravity, the
+                                                                                        actual versions of these models found in the standard XSPEC
+    0.5
+                     10         12            14            16             18
+                                                                                        package have been constructed for single values of the sur-
+                                                                                        face gravity gs (appropriate for a 1.4 M⊙ , 10 km NS). To em-
+                                                                                        phasize this, we shall denote these models by NSA(gs ) and
+  F IG . 2.— 68% (dotted), 90% (short dash) and 99% (long dash) confidence              HYD_SPECTRA(gs). The use of these fixed gravity mod-
+contours in the mass-radius plane derived for X7 by our spectral fitting with           els for other values of surface gravity is not strictly appro-
+the NSATMOS model. The causality line, above which no realistic NS equa-
+tions of state can exist, is plotted, along with five representative equations of
+                                                                                        priate. In order to account for the effect of surface gravity
+state, APR, FPS, MS1, PCL2, and SQM3 (the last a quark star model, see                  on the spectra, we computed an extensive grid of models us-
+Lattimer & Prakash 2001).                                                               ing the NSATMOS code described in Appendix A. This grid
+                                                                                        was used as the basis of an interpolation routine that produced
+                                                                                        model spectra for the XSPEC program for a full range of ef-
+                                                                 H-atm NS Model Applied to X7                                                                   7
+
+      3                                                                                   3
+
+
+
+
+    2.5                                                                                 2.5
+
+
+
+
+      2                                                                                   2
+
+
+
+
+    1.5                                                                                 1.5
+
+
+
+
+      1                                                                                   1
+
+
+
+
+    0.5                                                                                 0.5
+                  10            12            14            16            18                          10           12            14           16           18
+
+
+
+
+  F IG . 3.— 90% confidence contours in the mass-radius plane derived for X7          F IG . 4.— 90% confidence contours in the mass-radius plane derived for
+by our spectral fitting with hydrogen atmosphere NS models: NSATMOS, us-            X7 by our spectral fitting with two versions of our hydrogen atmosphere NS
+ing variable g, with thick solid (blue) lines, NSA(gs ) (Zavlin et al. 1996) with   models: NSATMOS (variable g) and NSATMOS(gs ), compared to lines of
+dashed (green) lines, HYD_SPECTRA(gs ) (Gänsicke et al. 2002) with short-           constant R∞ . See the electronic edition of the Journal for a color version of
+dashed (red) lines, and, for comparison, NSATMOS(gs ), with thick dotted            this figure.
+(magenta) lines. Here gs = 14.385 is the surface gravity for the standard NS
+model. See the electronic edition of the Journal for a color version of this
+figure.
+
+                                                                                                                 4. DISCUSSION
+                                                                                       In Fig. 4, we compare the allowed contours of mass and
+                                                                                    radius for X7 using the full NSATMOS and fixed-gravity
+fective temperatures and gravities.                                                 NSATMOS(gs) models to lines of constant R∞ for a black-
+   We fit each of these three models to our X7 data using the                       body spectrum (or for any spectrum of the scaled form in
+same spectral model as described in section §3.3, replacing                         equation [B1]). The contours derived from our grid of NSAT-
+only the neutron-star atmosphere model. For constraints upon                        MOS models lie closer to lines of constant R∞ than do the
+the NS mass, radius, or gravitational redshift, we place the                        contours derived from the fixed-gravity models, but there are
+parameters of these fits in Table 2. We plot the contours en-                       significant differences. (See Appendix B for further discus-
+closing 90% confidence contours for various models together                         sion of the surface gravity effects.)
+in Fig. 3. The contours labelled NSATMOS were constructed                              The effect of self-consistently including variation in gs is
+using the appropriate surface gravity for each point in the                         quite substantial, as can be seen from the difference between
+plot. We have also plotted the contours assuming a fixed stan-                      our NSATMOS contours and the contours of NSATMOS(gs).
+dard gravity log gs = 14.385 for three codes: NSATMOS(gs ),                         The predictions of the NSA(gs ) model are very similar to
+NSA(gs ), and HYD_SPECTRA(gs), the latter two using the                             those of our NSATMOS(gs ) model, demonstrating that vari-
+models in the XSPEC package.                                                        ation in surface gravity is the primary reason for the dif-
+   We see that none of the available models allow a 1.4 M⊙ , 10                     ferences in the results obtained with NSATMOS and NSA.
+km radius NS, requiring a more massive or larger radius NS.                         This demonstrates that the NSA(gs ) and HYD_SPECTRA(gs )
+[However, the small additional uncertainty on the distance                          models currently available in XSPEC do not give correct con-
+to 47 Tuc–not included in Fig. 3–allows marginal consis-                            straints in regions of parameter space where the assumed sur-
+tency at the 99% level with the HYD_SPECTRA model(gs).]                             face gravities are different than those for which they were
+Since the HYD_SPECTRA(gs) and NSA(gs ) models are con-                              computed, and which are outside their region of validity. Ex-
+structed with a gs appropriate for a 1.4 M⊙ , 10 km NS, the                         plicitly, the constraints on neutron star mass and radius com-
+failure of those models to find an acceptable fit for a 1.4                         puted by HGL03 used these models outside their range of va-
+M⊙ , 10 km NS is robust. It is not clear to us why the                              lidity, and produced incorrect results. It is possible that this er-
+HYD_SPECTRA(gs ) model predictions are significantly dif-                           ror in assumptions may affect the results of Pons et al. (2002)
+ferent from the other two models, although the difference be-                       and Walter & Lattimer (2002) as well.
+tween the HYD_SPECTRA and NSA hydrogen models has                                      Some works have used the NSA models in XSPEC to con-
+been previously noted (Gänsicke et al. 2002). Caution should                        strain the range of R∞ (Rutledge et al. 2001b,a; Gendre et al.
+still be taken in interpreting our results due to possible un-                      2003b,a). This method is more accurate due to a degener-
+known systematic uncertainties in the aÀChandra
+                                        ˛           calibration.                    acy in spectral shape variations between surface gravity and
+However, the robustness of all tested models in excluding the                       surface temperature (see Zavlin et al. 1998, and Appendix
+canonical mass and radius values (1.4 M⊙ and 10 km) is strong                       B). For instance, fitting X7 with the NSA model, freezing
+evidence for a relatively “stiff” NS equation of state.                             the mass (1.4 M⊙ ) and radius (10 km), we infer R∞ = 18.34
+8                                                            Heinke et al.
+
+km, with a 90% confidence range between 17.1 and 22.1 km.             new data set. The 2002 Chandra data, plus the 2000 Chandra
+Comparing this to Figure 4, we see that this range is more            data, can be simultaneously fit with our hydrogen atmosphere
+accurate than the method of HGL03, though still inaccurate            model, photoelectric absorption, and a correction model for
+at the ∼10% level. The differences between hydrogen atmo-             instrumental pileup. No convincing spectral features are seen,
+sphere spectra and blackbodies are large enough that direct           and no additional hard component is detected. No variations
+calculation of a range of Mns and Rns values giving acceptable        are seen in X7’s spectrum over the 2.5 year interval.
+fits is preferable to simply constraining R∞ . Measuring R∞ is           Our spectral fitting constrains the range of mass and radius
+generally satisfactory, however, when the observational data          which can produce a spectrum like that observed. In contrast
+is not of the highest quality, and/or the purpose of the mea-         to the results of Heinke et al. (2003), our use of a range of
+surement is simply to check for consistency with the canoni-          surface gravities allows acceptable fits to X7 with a standard
+                                                                                                             +1.8
+cal NS mass and radius (a typical test of current observational       1.4 M⊙ NS mass and a radius of 14.5−1.6     km, as well as a high-
+data).                                                                                          +0.03
+                                                                      mass solution (M=2.20−0.16      M⊙ ) for a radius of 10 km. For
+   Applicability of any pure hydrogen-atmosphere model to a           a canonical mass of 1.4 M⊙ a 10-12 km radius is ruled out
+NS atmosphere requires that accretion is not continuing above         at 99% confidence. This indicates (assuming the validity of
+the critical rate to keep metals present in the atmosphere, as        a pure hydrogen atmosphere model) that either X7 is more
+that would alter the opacity of the atmosphere (Brown et al.          massive than any NS yet known, or that X7 has a somewhat
+1998). The X-ray luminosity produced by the critical accre-           larger radius than canonical modern NS models (our preferred
+tion rate is similar to the observed X-ray luminosity of X7.          interpretation). In either case a relatively “stiff” NS equation
+Thus, it remains conceivable that the inferred mass and radius        of state is favored.
+of X7 are biased by the presence of metals, and thus extra               The HYD_SPECTRA (Gänsicke et al. 2002) and NSA
+opacity, in the NS atmosphere. However, the extraordinary             hydrogen-atmosphere NS models as currently implemented
+stability of X7’s X-ray flux, and its lack of accretion signa-        in XSPEC do not include a range of surface gravities appro-
+tures such as a hard power-law spectral component, or fea-            priate for the possible ranges of NS masses and radii. Our
+tures due to lines or edges, indicate that X7’s X-ray emission        work using NSATMOS has shown that accurate constraints
+is most likely produced by deep crustal heating rather than           (at the <10% level) on the radius and mass of NSs require
+continued accretion.                                                  self-consistent modeling of the effects of surface gravity. Our
+                                                                      NSATMOS model, and the NSAGRAV code (using the mod-
+                       5. CONCLUSIONS
+                                                                      els of Zavlin et al. 1996, provided for XSPEC during this pa-
+   We have computed new grids of hydrogen atmosphere mod-             per’s refereeing process), meet these requirements.
+els for neutron stars in quiescent LMXBs, accounting self-
+consistently for electron thermal conduction, radiation force,
+self-irradiation of the NS, and variations in the NS surface
+gravity. The first three effects do not produce large changes,           We warmly acknowledge Don Lloyd for providing compar-
+and our NSATMOS models agree very well with the NSA                   ison neutron star atmosphere models for use in verifying our
+models of (Zavlin et al. 1996) in the appropriate surface grav-       code, and Marc Freitag for the use of his fig2curve script. We
+ity regime. We find that the effects of freely varying the NS         also thank Lars Bildsten, Bob Rutledge and Jim Lattimer for
+surface gravity, on the other hand, are significant, especially       useful discussions and suggestions, and the CXC team for
+when trying to constrain the mass and radius of neutron stars.        their untiring data calibration efforts. This work was sup-
+   We report new (2002) Chandra observations of the quies-            ported in part by NSF grant AST 0307433, and in part by the
+cent LMXB known as X7 in 47 Tuc. No variability is ob-                Lindheimer Postdoctoral Fellowship at Northwestern Univer-
+served on any time scale between minutes and weeks in the             sity.
+                                                             APPENDIX
+                                                     THE NSATMOS CODE
+   The NSATMOS code calculates an atmospheric model under the following conditions and assumptions: (1) Static, atmosphere
+in the plane-parallel approximation; (2) Negligible magnetic fields (B . 108 G); (3) Ideal equation of state for pure hydrogen
+with complete ionization; (4) Opacity due to thermal free-free absorption plus Thomson scattering in the unpolarized, isotropic
+approximation; (5) Energy transport by radiation and electron heat conduction; (6) Hydrostatic equilibrium includes radiation
+force due to absorption and scattering; (7) Comptonization is ignored; and (8) For a compact object within its own photon
+sphere,R < (3/2)RS, self-irradiation of the surface is taken into account (RS = 2GM/c2 is the Schwarzschild radius). We note
+that the neglect of neutral hydrogen limits the validity of the code to temperatures Teff & 3 × 105 K, while the omission of
+Comptonization limits it to perhaps Teff . 3 × 106 K (Zavlin et al. 1996). These limitations are not serious for the present
+application, but work is in progress to correct NSATMOS for both.
+   The solution of the atmosphere problem based on these assumptions follows mostly along standard lines for stellar atmospheres.
+Here we review the main ideas for reference.
+   The depth variable used here is the mass column density m, measured from the surface, which is related to vertical height z by
+the differential relation dm = −ρ dz, where ρ is the mass density.
+   The intensity field Iν (m, µ) is a function of frequency ν, depth, and µ, the cosine of the angle relative to the outward normal.The
+transfer equation for the intensity is then
+                                                       ∂Iν
+                                                     µ     = κν (Iν − Bν ) + κT(Iν − Jν ).                                         (A1)
+                                                       ∂m
+The Planck function is denoted by B = Bν (T ), where T = T (m) is the local temperature. For a fully ionized hydrogen plasma the
+Thomson opacity κT is a constant, but the free-free opacity κν depends on the density and temperature. The mean intensity Jν is
+                                                 H-atm NS Model Applied to X7                                                       9
+
+defined by the integral,
+                                                                 Z +1
+                                                             1
+                                                                        µ j Iν dµ,                                               (A2)
+                                                             2    −1
+for j = 0. Other useful moments Hν and Kν are defined by this integral for j = 1 and j = 2, respectively.
+   When the stellar surface is outside the photon sphere, R > (3/2)RS, the surface boundary condition on the intensity field Iν (m, µ)
+is the usual one of no incident radiation. When R < (3/2)RS, the self-irradiation of the surface due to gravitational bending of the
+rays is taken into account as discussed in McClintock et al. (2004). The boundary condition at suffiently large depth is that the
+radiation field is given by the LTE diffusion approximation based on the local gradient of the temperature field.
+   An important quantity is the radiative monochromatic energy flux, given in terms of the Hν moment by Fν = 4πHν . The total
+radiative energy flux is found by integration over frequency,
+                                                         Z ∞            Z ∞
+                                                  Frad =     Fν dν = 4π      Hν dν.                                              (A3)
+                                                         0                       0
+For some ranges of parameters of interest, the heat conduction by electrons can be of importance. For the conductive flux we use
+the Spitzer-Härm formula
+                                                                        ∂T
+                                                       Fcon = −λc T 5/2    ,                                               (A4)
+                                                                        ∂z
+The constant λc has a standard value of order 1.8 × 10−5 erg cm−1 s−1 K−7/2 . Magnetic fields tend to suppress the thermal
+conduction, though by only a factor of order 3-5 when the field is chaotically tangled (Narayan & Medvedev 2001). Therefore,
+for the calculations of this paper we have assumed a conductivity equal to a third of the Spitzer value. However, we find that
+electron conduction even at the Spitzer value is a negligible contributor to the energy flux, making the issue moot. We take as a
+boundary condition at the surface that the conductive flux vanishes, Fcon (0) = 0, since no electrons exist above the outer surface.
+  Energy equilibrium requires that the net outward energy flux, radiative plus conductive, be constant with depth,
+                                                      Ftot = Frad + Fcon = σTeff 4 .                                             (A5)
+The constant total flux is parametrized by the effective temperature Teff . Since the conductive flux vanishes at the surface, the
+effective temperature is, as usual,a measure of the total emitted radiative flux.
+  Equation (A5) is used in NSATMOS as the basic expression of energy equilibrium. We note that another common method of
+expressing this is through the flux derivative condition,
+                                                             dFtot
+                                                                   = 0.                                                  (A6)
+                                                              dm
+If this form is used, the desired value of total flux Ftot must be introduced in some other way, usually through the boundary
+conditions at depth on radiation and conduction.
+   The hydrostatic equilibrium equation is
+                                                           ∂p
+                                                               = g − grad,                                               (A7)
+                                                           ∂m
+where p is the gas pressure and g is the local acceleration of gravity, given by the usual formulas in Schwarzschild geometry.
+The radiative weakening of gravity grad is given by the radiation force per unit mass due to free-free absorption and Thomson
+scattering,                                                  Z
+                                                           1
+                                                    grad =     (κν + κT )Fν dν.                                          (A8)
+                                                           c
+  In a completely ionized hydrogen plasma, the electron and proton densities are equal, ne = np , and the ideal equation of state is
+                                                                 p = 2ne kT                                                      (A9)
+where k is the Boltzmann constant.
+   The model atmosphere problem requires the simultaneous, self-consistent solution of the preceding equations for the radiation
+field and the gas properties (temperature, density, and pressure) as functions of depth. Overall, this is a set of nonlinear, coupled
+equations. Our method of solution involves (as do all such methods) a preliminary recasting of the equations into favorable forms
+such that cycles of iteration between them converge reasonably rapidly to the desired solution.
+   One very useful trick is to recast the transfer equation in terms of Eddington factors. Multiplication of equation (A1) by 1 and
+µ, followed by integration over all µ gives
+                                                         ∂Hν
+                                                             = ǫν (Jν − Bν ),                                                  (A10)
+                                                         ∂τν
+                                                         ∂Kν
+                                                             = Hν ,                                                            (A11)
+                                                         ∂τν
+where the monochromatic optical depth is defined differentially as dτν = (κν + κT ) dm with τν = 0 at the surface, and where
+                                                                κν
+                                                         ǫ=          .                                                     (A12)
+                                                             κν + κT
+10                                                                  Heinke et al.
+
+  Introducing the Eddington factor fν = Kν /Jν , equations (A10) and (A11) can be expressed as the single second-order equation,
+                                                          ∂ 2 ( fν Jν )
+                                                                        = ǫν (Jν − Bν ),                                           (A13)
+                                                              ∂τν2
+The two boundary conditions on this equation at the surface and at depth are expressed through the boundary Eddington factors
+gν0 and gνd , such that,
+                                     Hν (0) = gν0 Jν (0),         Hν (τνd ) = gνd Jν (τνd ).                           (A14)
+After a set of initial Eddington factors is chosen, they are updated during the course of iterative solution using full angular formal
+solutions of the transfer equation (A1). It is during this formal solution that the detailed boundary conditions on intensity come
+into play, including the possibility of sef-irradiation.
+  A particularly critical part of the iterative solution is how the run of temperature with depth T (m) is corrected after each iteration.
+In doing this it is important to take account of how radiation can couple the variables at distant points in the atmosphere. Methods
+that try to correct the temperature based on local information, or even on information just a few optical depths away, will converge
+much too slowly to be practical.
+  Here we adopt a temperature correction scheme based on a partial linearization of the temperature dependence in the transfer
+equation and the energy equation. The temperature field is represented as
+                                                        T (m) = T (0) (m) + T (1) (m),                                             (A15)
+        (0)                                                          (1)
+where T (m) is an initial “guess” for the temperature, and T (m) is the “correction.” In the perturbation sense these are regarded
+as of zeroth and first order, respectively. Other quantities in the problem can be expanded to first order in the perturbation. For
+example, the radiation field has the representation,
+                                                            Iν = Iν(0) + Iν(1) .                                             (A16)
+Not all quantities in the problem are expanded in this way, making this a partial linearization rather than a complete linearization
+scheme. The decision as to which quantities are expanded and which are not is somewhat arbitrary, but is guided by the physical
+idea that the critical equations are the energy equation, the transfer equation, and the conduction equation, since these are the
+ones that control the global redistribution of energy in the atmosphere.
+  The zeroth order form of the transfer equation (A13) is
+                                                     ∂ 2 ( fν Jν(0) )
+                                                                      = ǫν [Jν(0) − Bν (T (0) )].                                  (A17)
+                                                          ∂τν2
+We take as the first order form,
+
+                                                  ∂ 2 ( fν Jν(1) )
+                                                                   = ǫν [Jν(1) − Ḃν (T (0) )T (1) ],                              (A18)
+                                                       ∂τν2
+where Ḃ(T ) = ∂Bν (T )/∂T . Note that the radiation fields and the temperature dependence of the Planck function have been
+expanded, but not the Eddington factors or the opacities, so that the optical depth scale is unchanged.
+  Expansion of the energy equation (A5) through first order gives, after some rearrangement,
+                                               (1)
+                                             Ftot      (1)
+                                                   = Frad  + Fcon
+                                                               (1)
+                                                                   = σTeff 4 − (Frad
+                                                                                  (0)
+                                                                                      + Fcon
+                                                                                         (0)
+                                                                                             ) = −E.                               (A19)
+The right hand side is the negative of the flux “error” E in the zeroth order solution. The left hand side is the total first order flux,
+consisting of the two terms,
+                                                                Z ∞
+                                                       (1)
+                                                     Frad  = 4π     Hν(1) dν,                                                     (A20)
+                                                                      0
+                                                                      ∂ h (0) 5/2 (1) i
+                                                         (1)
+                                                       Fcon  = −λc       (T ) T                                                    (A21)
+                                                                      ∂z
+Each of these depends linearly on the first order temperature correction T (1) . For Fcon
+                                                                                       (1)
+                                                                                           this follows directly from equation (A21).
+      (1)              (1)                      (1)
+For Frad we note that H depends linearly on Jν , since
+                                                               ∂( fν Jν(1) )
+                                                                             = Hν(1) ,                                             (A22)
+                                                                  ∂τν
+which follows from equation (A11), noting Kν(1) = fν Jν(1) . Finally, Jν(1) depends linearly on T (1) through equation (A18.
+                                                                   (1)           (1)
+ In terms of ND discretized depths, the linear dependence of Frad      (m) and Fcon  (m) on T (1) (m), can be expressed as
+                                                                 (1)
+                                                               Frad  = Φrad · T (1) ,                                              (A23)
+                                                                 (1)
+                                                               Fcon  = Φcon · T (1) ,                                              (A24)
+where Φrad and Φcon are finite matrix operators over the discrete depths.
+                                                      H-atm NS Model Applied to X7                                                       11
+
+   In order to construct the matrix Φrad , NF discrete frequencies are introduced. For each of these frequencies, the transfer
+equation (A17), plus its boundary conditions, becomes a tridiagonal matrix equation in depth, which may be solved in of order
+ND2 operations. In this way one obtains matrices Aν such that Jν(1) = Aν ·T (1) for each frequency. Implementing equation (A22) with
+some form of numerical differentiation, we obtain matrices Bν such that Fν(1) = Bν · T (1) . Implementing a frequency quadrature
+scheme for equation (A20), we then obtain the matrix Φrad . The whole process takes of order NF ND2 operations.
+   The construction of the matrix Φcon is easier, since it merely involves implementing a numerical differentiation formula for
+equation (A21) plus boundary condition. Depending on the order of the formula, the resulting matrix might be bidiagonal or
+tridiagonal.
+   Defining Φtot = Φrad + Φcon , equations (A19), (A23), and (A24) can be combined to give,
+                                                                 Φtot · T (1) = −E,                                                  (A25)
+                                              (1)
+which relates the temperature correction T directly to the flux error E in the trial (zeroth order) solution. This matrix equation
+is then solved for T (1) , and a new trial temperature law is obtained from T (0) ← T (0) + T (1) .
+   Using the new trial temperature, improved radiation fields, Eddington factors, radiative force, and hydrostatic equilibrium are
+computed. This process is repeated until convergence is obtained.
+   This method was used to compute our grid of models. In order to initialize the first model, we used a Rosseland-type solution
+for the run of temperature (similar to the asymptotic result given in equation (15) of Zavlin et al. 1996) and we set the radiative
+force to zero. For subsequent models we adopted those quantities from a previously calculated model with nearby parameters.
+This was particularly helpful in computing models close to the Eddington limit.
+   Some additional “tricks” we found useful for some models were: (1) Adiabatic turning on of parameters, in which the model
+parameters were changed in small steps from those of a previously solved case to the desired ones, these changes occuring along
+with the other iterations; and (2) Linearization limiters, which are virtually identical to (A15) for small corrections, but which
+keep the temperature correction within fixed bounds, for example,
+                                                                   T (0) (m)
+                                                                                   (1)      
+                                                                                   2T (m)
+                                               T (m) = T (0) (m) +           tanh              .                             (A26)
+                                                                       2           T (0) (m)
+
+                                                     SURFACE GRAVITY EFFECTS
+   Our spectral fitting to constrain X7 in the mass-radius plane has shown the importance of considering neutron star models with
+a full range of surface gravities as well as effective temperatures. This conclusion is based on numerical results of the XSPEC
+analysis program, which involves a long chain of data reductions plus manipulations of the the model atmosphere spectra. In this
+appendix we attempt to understand better the importance of the surface gravity gs using some heuristic, qualitative arguments.
+   We begin by considering a approximate analytical representation for the surface spectral flux of the NS atmosphere, namely,
+                                                    Fν (ν) = Teff 3 φ(ξ),             ξ = ν/Teff ,                                    (B1)
+where φ(ξ) is a fixed function. This implies that there is a single spectral shape which is simply rescaled by the effective
+temperature Teff . Such a representation would hold exactly if the neutron star surface radiated as a blackbody. It also holds
+approximately for more realistic pure ionized hydrogen atmospheres; an approximate expression of this form was given in
+equation (A17) of McClintock et al. (2004).
+  Given the spectral flux at the surface, the observed spectral flux Fobs (νobs ) at a large distance D may be expressed (see, e.g.,
+McClintock et al. 2004). Let us assume for the moment that the surface flux is given by (B1) exactly. Then for a neutron star
+with mass Mns and radius Rns we may write,
+                                                                       R∞ 2 3
+                                                      Fobs (νobs ) =       T∞ φ(νobs /T∞ ),                                           (B2)
+                                                                        D2
+where T∞ = Teff /(1 + z), R∞ = Rns (1 + z). Here 1 + z = (1 − RS/Rns )−1/2 is the gravitational redshift factor at the neutron star surface,
+and RS = 2GMns /c2 is the Schwarzschild radius.
+  With a prescribed form of the function φ and a known distance D, spectral fitting is reduced to the determination of just two
+parameters, T∞ and R∞ . However, there are three parameters required to specify a neutron star model fully, which can be taken
+to be its mass Mns , radius Rns , and effective temperature T . This implies that for each fit there is a one-parameter set of models
+that are observationally indistinguishable from that fit. To show this in detail, we first note that the relation R∞ = Rns (1 + z) can
+be expressed,
+                                                                    Rns 2 c2 Rns
+                                                                         
+                                                        Mns = 1 −                   .                                                  (B3)
+                                                                    R∞ 2       2G
+An acceptable Mns –Rns pair can lie anywhere on one of the contour lines of constant R∞ , shown as the solid curves in figure
+B1(a). The additional parameter along each curve can be taken to be the ratio Teff /T∞ , which is equal to the redshift factor (1 + z),
+given in terms of Rns and Mns by
+                                                                     −1/2
+                                                               2GMns
+                                                  1+z = 1− 2                 .                                                   (B4)
+                                                                c Rns
+Curves of constant (1 + z) = Teff /T∞ are plotted as dashed curves in figure B1(a). However, since there is no independent determi-
+nation of Teff , this relation does not constrain the possible locations along the contours of R∞ . In a spectral fitting program such
+12                                                                        Heinke et al.
+
+
+
+
+  F IG . B1.— (a) The Mns –Rns plane, showing solid curves of constant R∞ and dashed curves of constant (1 + z). Two of these dashed curves are labelled for
+the values log(1 + z) = 0.04 and 0.14. The others are at logarithmic spaced values with ∆ log(1 + z) = 0.02. (b) The same, except with dashed curves of constant
+surface gravity gs . The two marked curves are for log gs = 13.6 and 14.4, with other curves spaced with ∆ log gs = 0.1.
+
+
+
+
+  F IG . B2.— (a) Scaled surface number flux vs. scaled frequency for log gs = 14.4 and for log Teff ranging from 5.9 to 6.4. (b) Scaled surface number flux vs.
+scaled frequency for log Teff = 6.2 and for log gs ranging from 13.8 to 14.8.
+
+
+
+
+as XSPEC, this degeneracy would show itself by the fact that the confidence contours would be made up of contours of constant
+R∞ , that is, the solid curves in figure B1(a).
+  In practice, since the simple scaling law (B1) is only approximately valid, the confidence contours will not follow those solid
+curves precisely. Nonetheless, one can see in figures 2, 3, and 4 that the confidence contours are generally consistent with there
+being a blackbody-like degeneracy along their length, since they do not close off on either ends of the confidence bands. One
+also sees that the shapes of the confidence contours are different depending on whether the gravity has been fixed or allowed to
+vary freely. The fixed gravity curves can be characterized as being pushed out to larger radii at smaller mass, giving the curves in
+this region a flatter appearance. The curves for freely varying gravity do the opposite: they are pushed to smaller radii at smaller
+mass, so much so that they actually curl around and change their direction. (It is this fact that allows a fit with a smaller radius,
+one of the major results of this paper.)
+  We can give a heuristic, qualitative argument for this difference. First, let us note that the surface gravity, which is required for
+the construction of the atmosphere, is given by,
+                                                              GMns (1 + z)
+                                                         gs =              .                                                      (B5)
+                                                                  Rns 2
+In figure B1(b), curves of constant R∞ (solid) are again plotted in the Mns –Rns plane, but now with curves of constant gs (dashed).
+  The sensitivity of the function φ(ν/Teff ) to temperature and gravity is demonstrated in figure B2. Here is plotted the quantity
+log(Fν /νTeff 2 ) versus log(ν/Teff ) for the surface fluxes of the neutron star models for various effective temperatures [B2(a)] and
+                                                            H-atm NS Model Applied to X7                                                                      13
+
+various gravities [B2(b)] in the neighborhood of the approximate fitted values log Teff = 6.2 and log gs = 14.4. The frequency range
+here was chosen to match roughly the portion of the flux curves observed in X7. If the scaling relation (B1) were exact, these
+would all lie on the same curve, namely, log[φ(ξ)/ξ]. In fact, there is a sensitivity to both effective temperature and gravity. We
+see that the flux distribution steepens for increasing temperature, and for decreasing surface gravity. The sensitivity to temperature
+is greater than that of gravity, in the sense that 0.5 dex variation of temperature gives a substantially greater variation than 1.0
+dex variation in gravity. However, an essential point to notice from figures B1(a) and B1(b) is that over the part of the Mns –Rns
+plane where the spectral fitting results are most divergent, say, for 0.5 < Mns /M⊙ < 2 and for 12 km < Rns < 18 km, the gravity
+changes by about 1.0 dex, while the temperature changes by about only 0.1 dex [a range corresponding to two neighboring curves
+in figure B2(a)]. In that case, the change due to gravity is effectively more substantial than that due to temperature. Also, the
+changes in the curves are of the opposite sense as one moves along the curves of constant R∞ from the top to bottom of the plot,
+since both temperature and gravity decrease. Thus, if one fixes the gravity, the confidence contours are pushed in one way by the
+sensitivity to temperature, but if gravity is allowed to vary, then the larger effective sensitivity to gravity pushes the confidence
+curves in the opposite direction. The preceding heuristic argument accounts qualitatively for the overall behavior seen in figures
+2, 3, and 4 and demonstates the need to include variable gravity when doing spectral fitting for such objects.
+
+                                                                          REFERENCES
+Akmal, A., Pandharipande, V. R., & Ravenhall, D. G. 1998, Phys. Rev. C, 58,       McClintock, J. E., Narayan, R., & Rybicki, G. B. 2004, ApJ, 615, 402
+  1804                                                                            Müller, H., & Serot, B. D. 1996, Nuclear Physics A, 606, 508
+Arnaud, K. A. 1996, in ASP Conf. Ser. 101: Astronomical Data Analysis             Narayan, R., & Medvedev, M. V. 2001, ApJ, 562, L129
+  Software and Systems V, 17                                                      Nice, D. J., Splaver, E. M., Stairs, I. H., Löhmer, O., Jessner, A., Kramer, M.,
+Bogdanov, S., Grindlay, J. E., & van den Berg, M. 2005, ApJ, 630, 1029              & Cordes, J. M. 2005, ApJ, 634, 1242
+Broos, P., Townsley, L., Getman, K., & Bauer, F. 2002, ACIS Extract, An           Olson, T. S. 2001, Phys. Rev. C, 63, 015802
+  ACIS Point Source Extraction Package, Pennsylvania State University,            Pandharipande, V. R., & Ravenhall, D. G. 1989, in NATO ASIB Proc. 205:
+  http://www.astro.psu.edu/xray/docs/TARA/ae_users_guide.html                       Nuclear Matter and Heavy Ion Collisions, 103–+
+Brown, E. F., Bildsten, L., & Rutledge, R. E. 1998, ApJ, 504, L95                 Pavlov, G. G., Shibanov, I. A., & Zavlin, V. E. 1991, MNRAS, 253, 193
+Burderi, L., Di Salvo, T., D’Antona, F., Robba, N. R., & Testa, V. 2003, A&A,     Pons, J. A., Walter, F. M., Lattimer, J. M., Prakash, M., Neuhäuser, R., & An,
+  404, L43                                                                          P. 2002, ApJ, 564, 981
+Campana, S., Colpi, M., Mereghetti, S., Stella, L., & Tavani, M. 1998,            Prakash, M., Cooke, J. R., & Lattimer, J. M. 1995, Phys. Rev. D, 52, 661
+  A&A Rev., 8, 279                                                                Predehl, P., & Schmitt, J. H. M. M. 1995, A&A, 293, 889
+Campana, S., Israel, G. L., Stella, L., Gastaldello, F., & Mereghetti, S. 2004,   Rajagopal, M., & Romani, R. W. 1996, ApJ, 461, 327
+  ApJ, 601, 474                                                                   Romani, R. W. 1987, ApJ, 313, 718
+Campana, S., Stella, L., Gastaldello, F., Mereghetti, S., Colpi, M., Israel,      Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+  G. L., Burderi, L., Di Salvo, T., & Robba, R. N. 2002, ApJ, 575, L15              1999, ApJ, 514, 945
+Cardelli, J. A., Clayton, G. C., & Mathis, J. S. 1989, ApJ, 345, 245              —. 2001a, ApJ, 559, 1054
+Carney, B. W. 1996, PASP, 108, 900                                                —. 2001b, ApJ, 551, 921
+Chandler, A. M., & Rutledge, R. E. 2000, ApJ, 545, 1000                           —. 2002a, ApJ, 578, 405
+Colpi, M., Geppert, U., Page, D., & Possenti, A. 2001, ApJ, 548, L175             —. 2002b, ApJ, 577, 346
+Cottam, J., Paerels, F., & Mendez, M. 2002, Nature, 420, 51                       Salaris, M., & Weiss, A. 1998, A&A, 335, 943
+Davis, J. E. 2001, ApJ, 562, 575                                                  Sanders, J. S., Fabian, A. C., Allen, S. W., & Schmidt, R. W. 2004, MNRAS,
+Gänsicke, B. T., Braje, T. M., & Romani, R. W. 2002, A&A, 386, 1001                 349, 952
+Garcia, M. R., McClintock, J. E., Narayan, R., Callanan, P., Barret, D., &        Stage, M. D., Joss, P. C., Madej, J., & Różańska, A. 2004, Advances in Space
+  Murray, S. S. 2001, ApJ, 553, L47                                                 Research, 33, 605
+Gendre, B., Barret, D., & Webb, N. 2003a, A&A, 403, L11                           Thorsett, S. E., & Chakrabarty, D. 1999, ApJ, 512, 288
+Gendre, B., Barret, D., & Webb, N. A. 2003b, A&A, 400, 521                        Walter, F. M., & Lattimer, J. M. 2002, ApJ, 576, L145
+Gratton, R. G., Bragaglia, A., Carretta, E., & et al. 2003, A&A, 408, 529         Wijnands, R., Heinke, C. O., Pooley, D., Edmonds, P. D., Lewin, W. H. G.,
+Grindlay, J. E., Heinke, C., Edmonds, P. D., & Murray, S. S. 2001, Science,         Grindlay, J. E., Jonker, P. G., & Miller, J. M. 2005a, ApJ, 618, 883
+  292, 2290                                                                       Wijnands, R., Homan, J., Heinke, C. O., Miller, J. M., & Lewin, W. H. G.
+Heinke, C. O., Grindlay, J. E., Edmonds, P. D., Cohn, H. N., Lugger, P. M.,         2005b, ApJ, 619, 492
+  Camilo, F., Bogdanov, S., & Freire, P. C. 2005, ApJ, 625, 796                   Wilms, J., Allen, A., & McCray, R. 2000, ApJ, 542, 914
+Heinke, C. O., Grindlay, J. E., Lloyd, D. A., & Edmonds, P. D. 2003, ApJ,         Yakovlev, D. G., & Pethick, C. J. 2004, ARA&A, 42, 169
+  588, 452                                                                        Zampieri, L., Turolla, R., Zane, S., & Treves, A. 1995, ApJ, 439, 849
+Lattimer, J. M., & Prakash, M. 2001, ApJ, 550, 426                                Zavlin, V. E., Pavlov, G. G., & Shibanov, Y. A. 1996, A&A, 315, 141
+Leahy, D. A., Darbro, W., Elsner, R. F., Weisskopf, M. C., Kahn, S.,              Zavlin, V. E., Pavlov, G. G., & Trumper, J. 1998, A&A, 331, 821
+  Sutherland, P. G., & Grindlay, J. E. 1983, ApJ, 266, 160
+Lloyd, D. A. 2003, Ph.D. Thesis
+

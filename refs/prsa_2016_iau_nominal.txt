@@ -1,0 +1,731 @@
+                                                      Nominal values for selected solar and planetary quantities: IAU 2015 Resolution B3∗,†
+
+                                                Andrej Prša1 , Petr Harmanec2 , Guillermo Torres3 , Eric Mamajek4 , Martin Asplund5 , Nicole Capitaine6 ,
+                                               Jørgen Christensen-Dalsgaard7 , Éric Depagne8,9 , Margit Haberreiter10 , Saskia Hekker11,12 , James Hilton13 ,
+                                                  Greg Kopp14 , Veselin Kostov15 , Donald W. Kurtz16 , Jacques Laskar17 , Brian D. Mason13 , Eugene F.
+arXiv:1605.09788v1 [astro-ph.SR] 31 May 2016
+
+
+
+
+                                                 Milone18 , Michele Montgomery19 , Mercedes Richards20 , Werner Schmutz10 , Jesper Schou21 and Susan
+                                                                                              G. Stewart13
+
+                                                       Received April 1, 2016; accepted mmmm dd, yyyy
+
+                                                  *
+                                                      Available at http://www.iau.org/static/resolutions/IAU2015 English.pdf.
+                                                  †
+                                                   This paper is dedicated to the memory of our dear colleague Dr. Mercedes Richards, an exquisite interacting binary star scientist
+                                               and IAU officer who passed away on February 3, 2016.
+                                                  1
+                                                      Villanova University, Dept. of Astrophysics and Planetary Science, 800 Lancaster Ave, Villanova, PA 19085, USA
+                                                  2
+                                                    Astronomical Institute of the Charles University, Faculty of Mathematics and Physics, V Holešovičkách 2, CZ-180 00 Praha 8,
+                                               Czech Republic
+                                                  3
+                                                      Harvard-Smithsonian Center for Astrophysics, Cambridge, MA 02138, USA
+                                                  4
+                                                      Department of Physics & Astronomy, University of Rochester, Rochester, NY, 14627-0171, USA
+                                                  5
+                                                      Research School of Astronomy and Astrophysics, Australian National University, Canberra, ACT 2611, Australia
+                                                  6
+                                                    SYRTE, Observatoire de Paris, PSL Research University, CNRS, Sorbonne Universités, UPMC, LNE, 61 avenue de lObserva-
+                                               toire, 75014 Paris, France
+                                                  7
+                                                   Stellar Astrophysics Centre, Department of Physics and Astronomy, Aarhus University, Ny Munkegade 120, DK-8000 Aarhus
+                                               C, Denmark
+                                                  8
+                                                      South African Astronomical Observatory, P.O. Box 9 Observatory, Cape Town, South Africa
+                                                  9
+                                                      Southern African Large Telescope, P.O. Box 9 Observatory, Cape Town, South Africa
+                                                 10
+                                                      Physikalisch-Meteorologisches Observatorium Davos / World Radiation Center, Dorfstrasse 33, Davos, Switzerland
+                                                 11
+                                                      Max-Planck-Institut für Sonnensystemforschung, Justus-von-Liebig-Weg 3, 37077 Göttingen, Germany
+                                                 12
+                                                  Stellar Astrophysics Centre, Department of Physics and Astronomy, Aarhus University, Ny Munkegade 120, 8000 Aarhus C,
+                                               Denmark
+                                                 13
+                                                      US Naval Observatory, 3450 Massachusetts Ave NW, Washington DC 20392-5420, D.C., USA
+                                                 14
+                                                      Laboratory for Atmospheric and Space Physics, 1234 Innovation Drive, Boulder, CO 80303-7814, 303-492-6412
+                                                 15
+                                                      NASA Goddard Space Flight Center, Mail Code 665, Greenbelt, MD, 20771
+                                                 16
+                                                      Jeremiah Horrocks Institute, University of Central Lancashire, Preston PR1 2HE, UK
+                                                 17
+                                                      ASD/IMCCE, CNRS-UMR8028, Observatoire de Paris, PSL, UPMC, 77 Avenue Denfert-Rochereau, 75014 Paris, France
+                                                 18
+                                                      Prof. Emer., Physics & Astronomy Dept., University of Calgary, 2500 University Dr., N.W., Calgary, AB, T2N 1N4, Canada
+                                                 19
+                                                      University of Central Florida, Physics Department, 4000 Central Florida Blvd., Orlando, FL, 32816, USA
+                                                 20
+                                                      Department of Astronomy & Astrophysics, Pennsylvania State University, University Park, PA 16802, USA
+                                                 21
+                                                      Max Planck Institute for Solar System Research, Justus-von-Liebig-Weg 3, 37077 Göttingen, Germany
+                                                      –2–
+
+
+                                                    ABSTRACT
+
+          In this brief communication we provide the rationale for, and the outcome of the Interna-
+      tional Astronomical Union (IAU) resolution vote at the XXIXth General Assembly in Honolulu,
+      Hawaii, in 2015, on recommended nominal conversion constants for selected solar and plan-
+      etary properties. The problem addressed by the resolution is a lack of established conversion
+      constants between solar and planetary values and SI units: a missing standard has caused a
+      proliferation of solar values (e.g., solar radius, solar irradiance, solar luminosity, solar effective
+      temperature and solar mass parameter) in the literature, with cited solar values typically based
+      on best estimates at the time of paper writing. As precision of observations increases, a set of
+      consistent values becomes increasingly important. To address this, an IAU Working Group on
+      Nominal Units for Stellar and Planetary Astronomy formed in 2011, uniting experts from the
+      solar, stellar, planetary, exoplanetary and fundamental astronomy, as well as from general stan-
+      dards fields to converge on optimal values for nominal conversion constants. The effort resulted
+      in the IAU 2015 Resolution B3, passed at the IAU General Assembly by a large majority. The
+      resolution recommends the use of nominal solar and planetary values, which are by definition
+      exact and are expressed in SI units. These nominal values should be understood as conversion
+      factors only, not as the true solar/planetary properties or current best estimates. Authors and
+      journal editors are urged to join in using the standard values set forth by this resolution in future
+      work and publications to help minimize further confusion.
+
+      Subject headings: Stars: fundamental parameters; Planets: fundamental parameters
+
+
+
+                                               1.    Introduction
+
+     It is customary in stellar astrophysics to express properties of stars in terms of solar values, for example
+2.2 M⊙ , 1.3 R⊙ , etc. The problem arises when these quantities need to be transformed to the International
+System of units (SI). More often than not, authors do not report the conversion constants used in their
+work, and the differences that stem from using different values are in some instances no longer negligible.
+Harmanec & Prša (2011) raised this issue and demonstrated its impact on several formulae widely used in
+binary star astrophysics. Analogously, planetary and exoplanetary scientists commonly express planetary
+properties in terms of Earth or Jupiter values. This custom is plagued by the same problem. As a simple
+demonstration, providing a planet size of 0.7538 ± 0.0025 RJ (as happens to be the case for Kepler 16;
+Doyle et al. 2011) can be interpreted in (at least) three ways, depending on what RJ is assumed to be: mean
+radius, equatorial radius, or polar radius. According to Archinal et al. (2011), the mean (m), equatorial
+(e) and polar (p) radii of Jupiter correspond to the layer at 1 bar of pressure and are, respectively, RJm =
+69 911 ± 6 km, RJe = 71 492 ± 4 km, and RJp = 66 854 ± 10 km. Thus, the size of Kepler 16 could be
+interpreted as either of 52 699 ± 175 km, 53 891 ± 179 km, or 50 395 ± 167 km. Clearly, the systematic error
+due to an unspecified conversion constant dominates the uncertainty budget: ∼6.5% compared to the model
+uncertainty of 0.3%, which represents a factor of more than 20.
+                                                     –3–
+
+
+                                      2.   Steps toward the Resolution
+
+      A viable solution to the problem of notably different values for the solar, terrestrial, and jovian prop-
+erties used in the literature and in software is to abandon the use of measured values and introduce instead
+the use of nominal conversion constants. These conversion constants should be chosen to be close to the
+current measured values (current best estimates) for convenience, since it seems unlikely that the community
+would be eager to adopt a significantly different set of measurement scales, which would imply the loss of
+backwards consistency and the loss of familiar relations between, for example, effective temperature, mass,
+radius, and luminosity. Although the constants are chosen to be close to measured values by design, they
+should not be confused for actual solar/planetary properties (current best estimates); they are simply conver-
+sion constants between a convenient measure for stellar/planetary-size bodies, and the same properties in SI
+units. The nominal units are designed to be useful “rulers” for the foreseeable future. A classical example
+is the standard acceleration due to Earth’s gravity, gn , set to gn = 9.80665 m s−2 (originally in cgs units) by
+the 3rd General Conference on Weights and Measures (Conférence générale des poids et mesures; CGPM)
+in 1901. Whereas the true value of g varies over the surface of the Earth, gn is its internationally recognized
+nominal counterpart, which has remained unchanged for over a century.
+
+     In 2011, when the first formal proposal was presented by Harmanec & Prša, only the solar radius and
+solar luminosity were nominalized. The reason for this was that other parameters, such as the mass, can be
+measured to a much higher precision as coupled quantities, i.e., the solar mass parameter GM⊙ . Because the
+uncertainty in G is five orders of magnitude larger than the uncertainty in GM⊙ (e.g., Petit & Luzum 2010;
+Luzum et al. 2011), the conversion from M/M⊙ to SI would suffer from the uncertainty in G. To make that
+abundantly clear, we proposed the use of the 2010 superscript to denote the CODATA year of the values
+used for the physical constants. However, as these quantities carried the propagated uncertainty with them,
+this was not a sufficiently robust solution. The proposal met with general approval, most notably by a near-
+unanimous participant vote at the IAU Symposium 282 in Tatranska Lomnica, Slovakia (Prša & Harmanec
+2012; Richards 2012), and at the Division A business meeting at the IAU General Assembly in Beijing,
+China, but a clear case for further refinement was quickly established.
+
+     In the following three years, the IAU instituted a Working Group on Nominal Units for Stellar and Plan-
+etary Astronomy (hereafter WG) under the auspices of Divisions G and A and with support from Divisions
+F, H, and J. The WG was chaired by Dr. P. Harmanec until 2015 and by Dr. E. Mamajek since 2015, and
+co-chaired by Drs. A. Prša and G. Torres. The WG brought together 23 experts from around the world and
+from different fields to discuss and further refine the proposal, with the goal of writing the Resolution draft
+and putting it to the member-wide vote at the 2015 IAU General Assembly in Honolulu, Hawaii. During the
+same period the WG also addressed the standardization of the absolute and apparent bolometric magnitude
+scales, which resulted in an independent resolution proposal B2 (Mamajek et al. 2016, in preparation) that
+passed the vote at the same time as the resolution on nominal conversion constants. Both resolutions passed
+the XXIXth IAU General Assembly vote by a large majority.
+
+     In the next two sections we provide the Resolution and the rationale for the proposed values of the nomi-
+nal conversion constants. In Appendix A we provide an update of the list of formulae from Harmanec & Prša
+                                                     –4–
+
+
+(2011), with the current nominal values. The numerical values proposed by Harmanec & Prša (2011) are
+superseded by the present paper and should no longer be used.
+
+
+
+                                        3.   IAU 2015 Resolution B3
+
+     In this section we reproduce the recommendations of the Resolution essentially verbatim1 , with mini-
+mal typesetting adaptations.
+
+      Noting that (1) neither the solar nor the planetary masses and radii are secularly constant and that
+their instantaneous values are gradually being determined more precisely through improved observational
+techniques and methods of data analysis, and (2) that the common practice of expressing the stellar and
+planetary properties in units of the properties of the Sun, the Earth, or Jupiter inevitably leads to unnecessary
+systematic differences that are becoming apparent with the rapidly increasing accuracy of spectroscopic,
+photometric, and interferometric observations of stars and extrasolar planets, and (3) that the universal
+constant of gravitation G is currently one of the least precisely determined constants, whereas the error in
+the product GM⊙ is five orders of magnitude smaller (Petit & Luzum 2010, and references therein), the
+Resolution makes the following recommendations applicable to all scientific publications in which accurate
+values of basic stellar or planetary properties are derived or quoted:
+
+   1. that whenever expressing stellar properties in units of the solar radius, total solar irradiance, solar
+      luminosity, solar effective temperature, or solar mass parameter, the nominal values R⊙N , SN    N    N
+                                                                                                  ⊙ , L⊙ , T⊙ ,
+      and (GM)N   ⊙ be used, respectively, which are by definition exact and are expressed in SI units. These
+      nominal values should be understood as conversion factors only — chosen to be close to the current
+      commonly accepted estimates (see Table 1) — not as the true solar properties. Their consistent use
+      in all relevant formulae and/or model calculations will guarantee a uniform conversion to SI units.
+      Symbols such as L⊙ and R⊙ , for example, should only be used to refer to actual estimates of the solar
+      luminosity and solar radius (with uncertainties);
+
+   2. that the same be done for expressing planetary properties in units of the equatorial and polar radii
+                                                               N , RN , RN , and RN , expressed in meters),
+      of the Earth and Jupiter (i.e., adopting nominal values REe   Ep   Je       Jp
+       and the nominal terrestrial and jovian mass parameters (GM)N                N
+                                                                       E and (GM)J , respectively (expressed
+       in units of m3 s−2 ). Symbols such as GME, listed in the IAU 2009 system of astronomical constants
+       (Luzum et al. 2011), should be used only to refer to actual estimates (with uncertainties);
+
+   3. that the IAU (2015) System of Nominal Solar and Planetary Conversion Constants be adopted as listed
+      in Table 1,
+                                                                                                     N
+   4. that an object’s mass be quoted in nominal solar masses MN
+                                                               ⊙ by taking the ratio (GM)object /(GM)⊙ ,
+
+
+   1
+   Also available at http://www.iau.org/static/resolutions/IAU2015 English.pdf and
+http://arXiv.org/abs/1510.07674.
+                                                      –5–
+
+
+     SOLAR CONVERSION CONSTANTS                             PLANETARY CONVERSION CONSTANTS
+    1R⊙N    = 6.957 × 108 m                                    N
+                                                            1REe   = 6.3781 × 106 m
+    1SN⊙    = 1361 W m−2                                       N
+                                                            1REp   = 6.3568 × 106 m
+    1LN⊙    = 3.828 × 1026 W                                   N
+                                                            1RJe   = 7.1492 × 107 m
+    1T⊙N    = 5772 K                                           N
+                                                            1RJp   = 6.6854 × 107 m
+         N
+    1(GM)⊙ = 1.327 124 4 × 1020 m3 s−2                      1(GM)N
+                                                                 E = 3.986 004 × 1014 m3 s−2
+                                                            1(GM)N
+                                                                 J = 1.266 865 3 × 1017 m3 s−2
+
+Table 1: Nominal solar and planetary conversion constants set forth by IAU 2015 Resolution B3. Although
+chosen to be as close to the measured quantities as feasible given the observational uncertainties for prac-
+tical reasons, these values should not be considered the true solar/planetary properties. They should be
+understood as conversion values only.
+
+
+      or in corresponding nominal terrestrial and jovian masses, MN      N
+                                                                  E and MJ , respectively, dividing by
+      (GM)N             N
+            E and (GM)J ;
+
+   5. that if SI masses are explicitly needed, they should be expressed in terms of (GM)object /G, where the
+      estimate of the Newtonian constant G should be specified in the publication (for example, the 2014
+      CODATA value is G = (6.67408 ± 0.00031) × 1011 m3 kg−1 s−2 ); and
+                                                                                       N RN /3, and 2
+   6. that if nominal volumes are needed, nominal terrestrial volumes be derived as 4πREe Ep
+                                          2
+                                   N RN /3.
+      nominal jovian volumes as 4πRJe Jp
+
+
+
+
+                                   4.   The Rationale and Considerations
+
+      As nominal conversion constants represent a new set of units of measure rather than any measured
+quantity itself, the values need not match their physical counterparts, though as stated earlier, it is convenient
+that they do so. Thus, substantial deliberation went into the selection of the proposed values, and various
+considerations and the rationale behind these values are presented here:
+
+The value of the nominal solar radius R⊙N . The chosen value corresponds to the solar photospheric radius
+     suggested by Haberreiter et al. (2008), defined to be where the Rosseland optical depth τ = 2/3.
+     This study resolved the long-standing discrepancy between the seismic and photospheric solar radii.
+     The nominal value (6.957 × 108 m) is the rounded Haberreiter et al. value (695 658 ± 140 km) within
+     the uncertainty. This R⊙N value is very close to the value adopted by Torres et al. (2010) in their
+     compilation of updated radii of well observed eclipsing binary systems, and differs slightly from the
+     nominal solar radius tentatively proposed by Harmanec & Prša (2011) and Prša & Harmanec (2012).
+
+The value of the nominal total solar irradiance SN
+                                                 ⊙ . The chosen value corresponds to the mean total elec-
+     tromagnetic energy from the Sun, integrated over all wavelengths, incident per unit area and per unit
+                                                      –6–
+
+
+        time at a distance of 1 au. The Total Solar Irradiance (TSI; Willson 1978) is variable at the ∼0.08%
+        (∼1 W m−2 ) level and may be variable at slightly larger amplitudes over timescales of centuries. Mod-
+        ern spaceborne TSI instruments are calibrated absolutely to SI irradiance standards at the 0.03% level
+        (Kopp 2014). The TIM/SORCE experiment established a lower TSI value than previously reported
+        based on the fully characterized TIM instrument (Kopp et al. 2005; Kopp & Lean 2011). This re-
+        vised TSI scale was later confirmed by PREMOS/PICARD, the first spaceborne TSI radiometer
+        that was irradiance-calibrated in vacuum at the TSI Radiometer Facility (TRF) with SI-traceability
+        prior to launch (Schmutz et al. 2013). The ACRIM3/ACRIMSat (Willson 2014), VIRGO/SoHO
+        (Frohlich et al. 1997), and TCTE/STP-Sat3 2 flight instruments are now consistent with this new TSI
+        scale within instrument uncertainties, with the DIARAD, ACRIM3, and VIRGO having made post-
+        launch corrections and the TCTE having been validated on the TRF prior to its 2013 launch. Using
+        any of the available TSI composites, the Cycle 23 observations with these experiments are consistent
+        with a mean TSI value of S ⊙ = 1361 ± 0.5 W m−2 . This uncertainty reflects absolute accuracies of
+        the latest TSI instruments as well as uncertainties in assessing a secular trend in TSI over solar cycle
+        23 using older measurements and is fully consistent with the uncertainty reported by Kopp & Lean
+        (2011). Our adopted value of SN ⊙ corresponds to this solar cycle 23-averaged TSI.
+
+The value of the nominal solar luminosity LN ⊙ . The chosen value corresponds to the mean solar radiative
+     luminosity. The best estimate of the mean solar luminosity L⊙ was calculated using the solar cycle-
+     averaged TSI (see above) and the IAU 2012 definition of the astronomical unit. Resolution B2 of the
+     XXVIII General Assembly of the IAU in 2012 defined the astronomical unit to be a nominal unit of
+     length equal to 149 597 870 700 m. Using the current best estimate of the TSI, we arrive at the current
+     best estimate of the Sun’s mean radiative luminosity of L⊙ = 4π(1 au)2 S ⊙ = (3.8275 ± 0.0014) ×
+     1026 W. The Resolution adopts a rounded value of this current best estimate.
+
+The value of the nominal solar effective temperature T⊙N . The current best estimate for the solar effec-
+     tive temperature is derived from the Stefan-Boltzmann law, using the current best estimates for the
+     solar photospheric radius and solar radiative luminosity, and the CODATA 2014 value for the Stefan-
+     Boltzmann constant σ = (5.670367 ± 0.000013) × 10−8 W m−2 K−4 , yielding T ⊙ = 5772.0 ± 0.8 K.
+     The chosen value for T⊙N is a truncated value of T ⊙ , consistent within the uncertainty.
+
+The value of the nominal solar mass parameter (GM)N        ⊙ . In solar and planetary astronomy, time is typi-
+     cally referenced in one of two coordinate time scales (Klioner 2006): Barycentric Coordinate Time
+     (Temps coordonnée barycentrique; TCB) and Barycentric Dynamical Time (Temps dynamique barycen-
+     trique; TDB; defined by IAU 2006 Resolution B3). TDB includes relativistic corrections due to time
+     dilation and it can be written as a linear transformation of TCB. The nominal value of (GM)N   ⊙ is based
+     on the best available measurement (Petit & Luzum 2010) but rounded to the precision to which both
+     TCB and TDB values agree (Luzum et al. 2011). This precision is considered to be sufficient for most
+     applications in stellar and exoplanetary research for the foreseeable future.
+
+  2
+      http://lasp.colorado.edu/home/tcte/
+                                                     –7–
+
+
+The values of the nominal terrestrial radii REe N and RN . These parameters correspond to the Earth’s “zero-
+                                                           Ep
+     tide” equatorial and polar radii, respectively, adopted from the 2003 and 2010 International Earth
+     rotation and Reference system Service (IERS) Conventions (McCarthy & Petit 2004; Petit & Luzum
+     2010), the IAU 2009 system of astronomical constants (Luzum et al. 2011), and the IAU Working
+     Group on Cartographic Coordinates and Rotational Elements (Archinal et al. 2011). If the terrestrial
+     radius is not explicitly qualified as equatorial or polar, it should be understood that nominal terrestrial
+     radius refers specifically to the equatorial radius, following common usage in the literature.
+
+The values of the nominal jovian radii RJe  N and RN . These parameters correspond to the one-bar equato-
+                                                     Jp
+     rial and polar radii of Jupiter, respectively, adopted by the IAU Working Group on Cartographic
+     Coordinates and Rotational Elements 2009 (Archinal et al. 2011). If the jovian radius is not explicitly
+     qualified as equatorial or polar, it should be understood that nominal jovian radius refers specifically
+     to the equatorial radius, following common usage in the literature.
+
+The values of the nominal mass parameters (GM)N                     N
+                                                       E and (GM)J . The nominal terrestrial mass parame-
+     ter is adopted from the geocentric gravitational constant from the IAU 2009 system of astronomical
+     constants (Luzum et al. 2011), but rounded to the precision within which its TCB and TDB values
+     agree (cf., the discussion for (GM)N  ⊙ above). The nominal jovian mass parameter is calculated based
+     on the mass parameter for the Jupiter system from the IAU 2009 system of astronomical constants
+     (Luzum et al. 2011), subtracting the contribution from the Galilean satellites (Jacobson 2000). The
+     quoted value is rounded to the precision within which the TCB and TDB values agree, and the uncer-
+     tainties in the masses of the satellites are negligible in some instances.
+
+
+
+                                      5.   Discussion and Conclusions
+
+      The Resolution is part of an ongoing effort to introduce a consistent and robust set of “rulers” to be used
+in modern stellar and planetary astrophysics. While the overwhelming vote of confidence and the passed
+Resolution help a great deal, the next step is for the community to adopt the practice of using these values
+in all related work and publications. Examples of important uses of the nominal conversion constants, par-
+ticularly those pertaining to the Sun, include the calibration of stellar evolution models and the tabulation of
+evolutionary tracks and isochrones derived from those models. In particular, the mass Mmodel /MN       ⊙ in nom-
+                                                                                    N
+inal units assigned to evolutionary tracks can be obtained as (GMmodel )/(GM)⊙ , where G (to be explicitly
+specified in the publication; see, e.g., CODATA 2014 constants; Mohr et al. 2015) and the mass Mmodel of
+the model are in SI units. The grid of stellar models of Choi et al. (2016, in press), based on the MESA code
+(Paxton et al. 2011, 2013, 2015), has already adopted the recommended values, and other groups are encour-
+aged to do the same. Future libraries of synthetic spectra should also be based on a solar calibration using the
+recommended solar conversion constants. The eclipsing binary modeling code PHOEBE (Prša & Zwitter
+2005, Prša et al. 2016, in preparation) has also been updated to use the recommended values. Developers of
+other codes for binary star orbital solutions (photometric, spectroscopic, astrometric, etc.) are encouraged to
+adopt the new conversion constants as well, so that future stellar mass and radius measurements for binary
+                                                      –8–
+
+
+stars are reported on a homogeneous system.
+
+      The conversion constants established by this Resolution are a subset of nominal conversion constants
+defined in other IAU resolutions that the community is encouraged to use. For most stellar and planetary
+purposes, the distance scale is given in astronomical units or parsecs. In 2012, the IAU passed a resolution
+that defines the astronomical unit as 149 597 870 700 m. Along with it, IAU 2015 Resolution B2 adopted the
+definition of the parsec to be exactly 648000/π au (Binney & Tremaine 2008; see also Cox 2000). Since π is
+irrational, the length of one parsec cannot be rational, but it still is an exact number, 3.085 677 581 491 · · · ×
+1016 m.
+
+     Other challenges still remain unresolved. Of notable importance are the definitions of the semi-major
+axis and of the orbital period of binary, multiple and exoplanetary systems. General relativity causes cor-
+rections of order (v/c)2 , which for the Earth are about 1 part in 108 . There is as of yet no clear consensus
+on such spatial or temporal references. This leads to questions such as whether the semi-major axis should
+be reported in barycentric coordinates, photocentric coordinates, or Jacobi coordinates, whether the orbital
+period should be measured as sidereal, synodic, or with respect to periapsis passage, how all of this is in-
+fluenced by perturbations from other orbital bodies, etc. Another notable challenge is that of bolometric
+corrections. The definition of the zero-point of the bolometric magnitude scale has been set (Mbol = 0 corre-
+sponds exactly to L = 3.0128 × 1028 W; cf., IAU 2015 Resolution B2; Mamajek et al. 2016, in preparation),
+but bolometric corrections still need to be nominalized (Torres 2010). Dedicated experts need to address
+these issues and propose a draft resolution in the near future.
+
+      As noted earlier, the nominal conversion constants were chosen to be close to the corresponding cur-
+rent best estimates. In consequence, the nominal solar effective temperature, nominal solar luminosity, and
+nominal solar radius are mutually consistent when using the current best estimate of the Stefan-Boltzmann
+constant σ. However, nominal units do not need to be consistent with any physical laws — they do not vio-
+late them because they are merely a set of “rulers”, and are close to the current best estimates for convenience
+only. Whereas the current best estimates will change in the future, the nominal values need not.
+
+      In parallel, the International Committee for Weights and Measures (Comité international des poids et
+mesures; CIPM) has proposed a revised formal definition of the SI base units, which are currently under
+revision and will likely be adopted at the 26th General Conference on Weights and Measures (Conférence
+générale des poids et mesures; CGPM) in the Fall of 2018. The basis of the proposal is the redefinition
+of the kilogram, ampere, kelvin, and mole by choosing exact numerical values for the Planck constant, the
+elementary electric charge, the Boltzmann constant, and the Avogadro constant, respectively. The meter and
+candela are already defined by physical constants and it is only necessary to edit their present definitions.
+
+     In this paper we have provided the motivation, the history, and the rationale for IAU 2015 Resolution B3
+on nominal solar and planetary conversion constants that was passed at the XXIXth IAU General Assembly
+in Honolulu, Hawaii, in 2015. We encourage authors — as well as journal editors — to join us in using the
+standard values set forth by the Resolution in future work and publications to help minimize confusion.
+
+
+A technical note on the use of nominal conversion constants in the typesetting language LATEX: to obtain the
+                                                   –9–
+
+
+symbols used in this communication, add the following LATEX macros in the preamble, replacing ‘Q’ with
+the appropriate symbol:
+
+\newcommand{\Qnom} {\hbox{$\mathcal{Q}ˆ{\rm N}_\odot$}}
+\newcommand{\QEenom}{\hbox{$\mathcal{Q}ˆ{\rm N}_\mathrm{Ee}$}}
+\newcommand{\QEpnom}{\hbox{$\mathcal{Q}ˆ{\rm N}_\mathrm{Ep}$}}
+\newcommand{\QJenom}{\hbox{$\mathcal{Q}ˆ{\rm N}_\mathrm{Je}$}}
+\newcommand{\QJpnom}{\hbox{$\mathcal{Q}ˆ{\rm N}_\mathrm{Jp}$}}
+
+In IDL, the symbols can be obtained using the following markup:
+
+Rnom=’!13R!S!D!9n!R!N!U!6N !N’
+Snom=’!13S!S!D!9n!R!N!U!6N !N’
+Lnom=’!13L!S!D!9n!R!N!U!6N !N’
+Tnom=’!13T!S!D!9n!R!N!U!6N !N’
+Mnom=’!13M!S!D!9n!R!N!U!6N !N’
+GMnom=’!13(GM)!S!D!9n!R!N!U!6N !N’
+
+It is our hope that symbols for nominal conversion constants will be provided by journal style files in the
+future.
+
+
+     We kindly acknowledge discussions with Philip Bennett, Wolfgang Finsterle, William Folkner and
+Hugh Hudson. We further acknowledge remarkable work by Drs. Allen, Cox and collaborators on ”Astro-
+physical Quantities“. A. Prša acknowledges support by Villanova University’s Summer Fellowship grant.
+The research of P. Harmanec was supported by the grants P209/10/0715 and GA15-02112S of the Czech
+Science Foundation. G. Torres acknowledges partial support from NSF award AST-1509375. E. Mama-
+jek acknowledges support from NSF AST award 1313029, and NASA’s NExSS program. J. Christensen-
+Dalsgaard acknowledges funding for the Stellar Astrophysics Centre that is provided by The Danish National
+Research Foundation (Grant DNRF106). S. Hekker acknowledges funding from the European Research
+Council under the European Community’s Seventh Framework Programme (FP7/2007-2013) / ERC grant
+agreement no 338251 (StellarAges). The research leading to these results has received funding from the Eu-
+ropean Communitys Seventh Framework Programme (FP7/2007-2013) under Grant Agreement No 313188
+(SOLID, http://projects.pmodwrc.ch/solid/).
+
+
+
+                                             REFERENCES
+
+Archinal, B. A., A’Hearn, M. F., Bowell, E., et al. 2011, Celestial Mechanics and Dynamical Astronomy,
+       109, 101
+
+Binney, J. & Tremaine, S. 2008, Galactic Dynamics: Second Edition (Princeton University Press)
+                                                    – 10 –
+
+
+Cox, A. N. 2000, General Constants and Units, 7
+
+Doyle, L. R., Carter, J. A., Fabrycky, D. C., et al. 2011, Science, 333, 1602
+
+Frohlich, C., Andersen, B. N., Appourchaux, T., et al. 1997, Sol. Phys., 170, 1
+
+Haberreiter, M., Schmutz, W., & Kosovichev, A. G. 2008, ApJ, 675, L53
+
+Harmanec, P. & Prša, A. 2011, PASP, 123, 976
+
+Jacobson, R. A. 2000, AJ, 120, 2679
+
+Klioner, S. A. 2006, in IAU Joint Discussion, Vol. 16, IAU Joint Discussion
+
+Kopp, G. 2014, Journal of Space Weather and Space Climate, 4, A14
+
+Kopp, G., Lawrence, G., & Rottman, G. 2005, Sol. Phys., 230, 129
+
+Kopp, G. & Lean, J. L. 2011, Geophys. Res. Lett., 38, L01706
+
+Luzum, B., Capitaine, N., Fienga, A., et al. 2011, Celestial Mechanics and Dynamical Astronomy, 110, 293
+
+McCarthy, D. D. & Petit, G. 2004, in Proceedings of the Journées 2003 ”Systèmes de référence spatio-
+      temporels”: Astrometry, Geodynamics and Solar System Dynamics: from milliarcseconds to mi-
+      croarcseconds, held at IAA, St. Petersburg, Russia, 22-25 September 2003, ISBN 5-93197-019-3 &
+      ISBN 2-901057-50-0, ed. A. Finkelstein & N. Capitaine, 11–17
+
+Mohr, P. J., Newell, D. B., & Taylor, B. N. 2015, ArXiv e-prints
+
+Mohr, P. J., Taylor, B. N., & Newell, D. B. 2008, Reviews of Modern Physics, 80, 633
+
+Nautical Almanac. 2016, The Astronomical Almanac 2016, Astronomical Almanac For the Year (U.S. Gov-
+       ernment Printing Office)
+
+Paxton, B., Bildsten, L., Dotter, A., et al. 2011, ApJS, 192, 3
+
+Paxton, B., Cantiello, M., Arras, P., et al. 2013, ApJS, 208, 4
+
+Paxton, B., Marchant, P., Schwab, J., et al. 2015, ApJS, 220, 15
+
+Petit, G. & Luzum, B. 2010, IERS Technical Note, 36
+
+Prša, A. & Harmanec, P. 2012, in IAU Symposium, Vol. 282, From Interacting Binaries to Exoplanets:
+        Essential Modeling Tools, ed. M. T. Richards & I. Hubeny, 339–340
+
+Prša, A. & Zwitter, T. 2005, ApJ, 628, 426
+
+Richards, M. T. 2012, in IAU Symposium, Vol. 282, From Interacting Binaries to Exoplanets: Essential
+       Modeling Tools, ed. M. T. Richards & I. Hubeny, 564–564
+                                                         – 11 –
+
+
+Schmutz, W., Fehlmann, A., Finsterle, W., Kopp, G., & Thuillier, G. 2013, in American Institute of Physics
+      Conference Series, Vol. 1531, American Institute of Physics Conference Series, 624–627
+
+Torres, G. 2010, AJ, 140, 1158
+
+Torres, G., Andersen, J., & Giménez, A. 2010, A&A Rev., 18, 67
+
+Willson, R. C. 1978, J. Geophys. Res., 83, 4003
+
+Willson, R. C. 2014, Ap&SS, 352, 341
+
+
+
+
+                        A. Practical guide to using nominal conversion constants
+
+       We present here some practical examples of how to correctly apply the nominal units. Table 2 contains
+a list of units, variables, and notation used, and Table 3 lists various frequently used formulae for single stars
+and two-body systems and the numerical values of the constants involved, in nominal units. These values
+supersede those tentatively suggested by Harmanec & Prša (2011). We encourage researchers to incorporate
+all relevant physical constants and nominal values defined in IAU 2015 resolutions B2 and B3 into their
+computer programs, and to employ conversion formulae such as those given in the tables to carry out their
+calculations. This will ensure consistency with the nominal units recommended by the IAU 2015 B2 and
+B3 resolutions to the level of the computer’s numerical accuracy. The values in the 4th column of Table 3
+are provided as a numerical illustration of conversion expressions provided in column 3 only; we do not
+recommend using them in software implementations or publications. Only the nominal values should be
+implemented and used explicitly.
+
+     The use of nominal units is strongly preferred for the analysis of observational data, such as when
+solving light curves and radial velocity curves of binary and multiple systems. We note that in all of the
+relevant formulae the mass never appears separately but always in combination (as a product) with the
+gravitational constant, i.e., as one component of the mass parameter GM. Thus, the SI (or cgs) unit of
+mass is irrelevant, allowing stellar and exoplanetary masses to be expressed in terms of nominal solar (MN ⊙ ),
+jovian (MN J ), or terrestrial (MN ) units without the need for the exact conversion factor to SI or cgs units.
+                                 E
+We illustrate this usage with the example of Kepler’s third law in a two-body system. The expression for
+the semi-major axis a expressed in nominal solar units for radius (R⊙N ), with masses M1 and M2 expressed
+in nominal solar units and the period P in days, and the conversion factor from units of seconds to units of
+days, 86400 s day−1 , can be written as:
+
+                                   (GM)N
+                                             
+                     3 N3                  ⊙ 
+                    a [R⊙ ] =  2 N 3  (86400 s day −1 )2 P2 (M1 + M2 )
+                                              
+                                     4π (R⊙ )
+
+
+   This preprint was prepared with the AAS LATEX macros v5.2.
+                                                      – 12 –
+
+
+                                 1.3271244 × 1020 m3 s−2
+                                                           !
+                              =       2             8   3
+                                                             (86400 s day −1 )2 P2 (M1 + M2 )
+                                   4π (6.957 × 10 m)
+                              = (74.52695 · · ·)P2 (M1 + M2 ).                                               (A1)
+
+       For the many-body case, instantaneous Keplerian elements can be determined with respect to a speci-
+fied origin. The choice of center is likely to be application-dependent, and may even change within a given
+system. With radial-velocity curves, for example, the center of mass would be the preferred origin. If a
+three-body system has two bodies in close association and a third in a wider orbit, the radial-velocity curves
+of the close pair would be best served by using the center of mass of that pair alone, while the radial-velocity
+curve of the third member would be given with respect to the center of mass of the entire system. In all cases
+it is critical that authors fully describe the reference frames they are using in order to avoid confusion.
+
+     The situation is less clear for stellar interior models. The equations of the stellar interior structure
+require explicit values for the mass and the constant of gravitation, G, in SI (or cgs) units. The IAU Working
+Group on Numerical Standards for Fundamental Astronomy, NSFA, (Luzum et al. 2011) recommends:
+
+                                     G = 6.67428 × 10−11 m3 kg−1 s−2 .
+
+This is the CODATA 2006 value for G (Mohr et al. 2008), and yields a nominal solar mass of:
+                                                          30
+                                        MN
+                                         ⊙ = 1.988416 × 10 kg.
+
+The slightly different CODATA 2014 value of the gravitational constant (Mohr et al. 2015) is:
+
+                              G = (6.67408 ± 0.00031) × 10−11 m3 kg−1 s−2 ,
+
+which yields a solar mass of:
+
+                                  M⊙ = (1.988475 ± 0.000092) × 1030 kg.
+
+There is currently a large uncertainty in the value G, with different researchers arriving at values that differ by
+several times the formal errors. The NSFA has decided that, for the sake of consistency, it would continue
+recommending the older value. Therefore, again it is very important for those calculating stellar interior
+models to explicitly state the SI values adopted for the gravitational constant G and the model solar mass
+M⊙ , taking care that their chosen values satisfy GM⊙ = (GM)N     ⊙.
+
+
+Technical remarks:
+
+
+   1. The numerical constants in the tables are printed to high enough precision to minimize round-off and
+      machine errors in routine calculations. Users working at much higher precision will need to account
+      for other physical effects including those requiring relativistic corrections. For example, the effect
+      of relativity on the apparent position of a body viewed from the Earth is a few parts in 108 (see
+      Nautical Almanac 2016, Section B, Reduction of Celestial Coordinates).
+                                                – 13 –
+
+
+2. Resolution B2 of the 2012 IAU General Assembly adopted an exact value for the astronomical unit,
+   au. The notes to Resolution B2 of the 2015 IAU General Assembly define the parsec to also be an
+   exact value, 1 pc = 648000 π−1 au.
+
+3. The constant numerical value in the formula for stellar bolometric magnitudes complies with the
+   values given in the 2015 IAU Resolution B2. A radiation source with absolute bolometric magnitude
+   MBol = 0 mag is assumed to have a radiative power of exactly L0 = 3.0128 × 1028 W so that the
+   bolometric magnitude MBol for a source of luminosity L, in watts, is:
+
+                                   MBol = −2.5 log(L/L0 )
+                                           = −2.5 log L + 71.197425 · · ·                             (A2)
+
+   The nominal solar luminosity is LN  ⊙ = 3.828 × 10
+                                                        26 W, which, given the adopted IAU bolometric
+
+   magnitude zero point, corresponds approximately to MBol⊙ = 4.74 mag. The error in the conversion
+   constant arises from the current uncertainty in the Stefan-Boltzmann constant σ.
+
+4. Table 3 includes the formula to derive the mass function for single-lined spectroscopic binaries (either
+   stellar binaries or a star with an exoplanet), defined as:
+                                                       3    3      3 sin3 i
+                                                  4π2 aj sin i    M3−j
+                                  fj (M1 , M2 ) =              =                                      (A3)
+                                                   G     P2      (M1 + M2 )2
+   for j = 1 or 2, based on the spectroscopic elements P, Kj , and e. This can be re-arranged to obtain the
+   expression for the mass of the object that is invisible in the spectra, usually component 2, commonly
+   expressed as:
+                                                                             p
+                        M2 sin i = 0.00469686 · · · K1 P1/3 (M1 + M2 )2/3 (1 − e2 ).                  (A4)
+
+   With an estimate of the mass M1 and the inclination angle i it is then possible to solve the above
+   equation iteratively, beginning with a trial value of M2 < M1 . This approach is also convenient for
+   extrasolar planets since it is possible to start the iteration with M2 = 0.
+                                                  – 14 –
+
+
+
+
+Table 2: Summary of units and quantities used as variables in various formulae listed in Table 3.
+
+                               Quantity                               Symbol              Unit
+      stellar mass                                                        M                MN ⊙
+      stellar mass parameter                                            GM              (GM)N   ⊙
+      radius                                                              R                R⊙N
+      luminosity                                                          L                LN⊙
+      luminosity for MBol = 0 mag                                         L0                W
+      astronomical unit                                                  au                 m
+      parsec                                                              pc                m
+      stellar parallax                                                    p              arcsec
+      stellar angular diameter                                            θ              arcsec
+      orbital period                                                      P               days
+      rotational period                                                  Prot             days
+      orbital eccentricity                                                e                 –
+      inclination of orbit or axis of rotation                             i       degrees or radians
+      distance of the orbiting component from the center of mass         a1,2              R⊙N
+      semi-major axis                                                a = a1 + a2           R⊙N
+      equatorial rotational velocity                                     Veq             km s−1
+      Keplerian (break-up) velocity                                    VKepler           km s−1
+      effective temperature                                              T eff              K
+      surface gravity                                                     g               cm s2
+      absolute bolometric magnitude                                     MBol               mag
+                            Table 3.      Selected examples of various formulae utilizing the nominal constants.
+
+                      Quantity                            Units               Conversion expression                                       Numerical relation
+
+                                                               Kepler’s third law for two-body problem: binaries
+
+                                                               (m)    ((GM)N     2 1/3 (86400)2/3
+                                                                           ⊙ /(4π ))                               2.927699 · · · × 109 P2/3 (M1 + M2 )1/3
+                                                                           N
+semi-major axis a                                             (au)    ((GM)⊙ /(4π ))1/3 (86400)2/3 /au
+                                                                                 2                                 0.01957046 · · · P2/3 (M1 + M2 )1/3
+                                                             (RN⊙)    ((GM)N     2 1/3 (864002/3 /RN )
+                                                                           ⊙ /(4π ))                 ⊙             4.208278 · · · P2/3 (M1 + M2 )1/3
+
+                                                                      Double-lined spectroscopic binaries
+
+stellar masses M1,2                                           MN
+                                                               ⊙      (86400 × 10003 )/(2π(GM)N
+                                                                                              ⊙)                   M1,2 sin3 i = 1.036149 · · · × 10−7 K2,1 (K1 + K2 )2 P(1 − e2 )3/2
+Projected orbital sizes a1,2                                  RN
+                                                               ⊙      (86400 × 1000)/(2πRN ⊙)                      a1,2 sin i = 0.01976569 · · · K1,2 P(1 − e2 )1/2
+semi-major axis a = a1 + a2                                   RN
+                                                               ⊙      (86400 × 1000)/(2πRN ⊙)                      a sin i = 0.01976569 · · · (K1 + K2 )P(1 − e2 )1/2
+
+                                                                      Single-lined spectroscopic binaries
+
+Mass function f1,2 (M1 , M2 )                                 MN
+                                                               ⊙      (86400 × 10003 )/(2π(GM)N  ⊙)                f1,2 (M1 , M2 ) = 1.036149 · · · × 10−7 K1,2
+                                                                                                                                                            3 P(1 − e2 )3/2
+
+Mass of invisible component M2,1                              MN
+                                                               ⊙      1000(86400/(2π(GM) N ⊙ ))
+                                                                                               1/3                 M2,1 sin i = 0.004696858 · · · K1,2 (M1 + M2 )2/3 P1/3 (1 − e2 )1/2
+
+
+
+
+                                                                                                                                                                                         – 15 –
+                                                                  Various formulae related to individual stars
+
+log of surface gravity g                               log (cm s2 )   log(106 (GM)N               N
+                                                                                  ⊙ ) − 2 log(100R⊙ )              4.438068 · · · + log M − 2 log R
+                                                                                                        2
+Stellar bolometric magnitude MBol                             mag     2.5 log(L0 /LN                 N   N
+                                                                                   ⊙ ) − 2.5 log(4πσR⊙ /L⊙ )       MBol = 42.3532632(25) − 5 log R − 10 log T eff
+
+Linear stellar radius R from angular diameter                  RN
+                                                                ⊙     (1pc/RN
+                                                                            ⊙ ) au (π/180)(1/3600)/2               R = 107.5161 · · · θ p−1
+
+Equatorial rotational velocity Veq                         km s−1     2πRN
+                                                                         ⊙ /(1000 × 86400)                         Veq = 50.59273 · · · R P−1
+                                                                                                                                           rot
+                                                                                                                                           √
+Keplerian velocity for given mass and radius VKepler       km s−1     0.001((GM)N   N 1/2
+                                                                                ⊙ /R⊙ )                            VKepler = 436.7620 · · · M/R
+

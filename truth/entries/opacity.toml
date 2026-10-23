@@ -1,0 +1,898 @@
+# Domain: opacity. Harvested from refs/ only (archive/v1 used for v1_ref pointers).
+# All entries status = "proposed". PDF page images were read for the equations of
+# PC03 pp. 955, 958-959, 961, 963-964; PLCH04 pp. 2, 5-6, 9-10; McPHAC pp. 4-5; PHC16 p. 6.
+
+# ---------------------------------------------------------------- notation
+
+[[entry]]
+id = "opacity.notation-fields"
+kind = "notation"
+domain = "opacity"
+name = "Magnetic-field scales and parameters"
+statement = "Symbols for the magnetic field strength and its natural scales used by the magnetic opacity papers: the atomic field B_0, the QED critical field B_Q, the dimensionless ratios gamma_B and b, and the magnetic length."
+symbols = [
+  { sym = "B", meaning = "magnetic field strength", units = "G" },
+  { sym = "B_{12}", sym_source = "B_12", aliases = ["B_12"], meaning = "magnetic field B/(10^12 G)", units = "1" },
+  { sym = "B_{14}", sym_source = "B_14", aliases = ["B_14"], meaning = "local magnetic field strength B/(10^14 G)", meaning_source = "B / (10^14 G)", units = "1" },
+  { sym = "B_0", meaning = "atomic magnetic field m_e^2 c e^3 / hbar^3 = 2.3505e9 G", units = "G" },
+  { sym = "B_Q", meaning = "QED critical field m_e^2 c^3 / (e hbar) = 4.414e13 G (called B_r in PC03)", units = "G" },
+  { sym = "\\gamma_B", sym_source = "gamma_B", meaning = "atomic field parameter B / B_0 (PHC16 writes gamma)", units = "1" },
+  { sym = "b_{rel}", sym_source = "b_rel", aliases = ["b", "b_rel"], meaning = "relativistic field parameter b = B/B_Q = hbar omega_ce/(m_e c^2) = B_12/44.14", meaning_source = "relativistic field parameter b = B / B_Q = hbar omega_ce / (m_e c^2) (PLCH04 Appendix, PHC16 Sect. 2); the eos domain writes this symbol as b", units = "1" },
+  { sym = "a_m", meaning = "magnetic length (hbar c/(eB))^(1/2) = lambda_e / sqrt(b)", units = "cm" },
+]
+conflicts_with = ["eos.notation-electron-gas", "gr.notation-geometry", "gr.notation-pechenick"]
+adopted = true
+adopted_syms = ["B"]
+conflict_notes = ["b: Impact parameter keeps b. Relativistic field parameter B/B_Q -> b_{rel}.", "B: Magnetic field keeps B. Pech83 effective potential B^-2(r) -> \\mathcal{B}^{-2}(r)."]
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "p. 955 (Sect. 1) and p. 956"
+anchor = "the field strength B is higher than B0 = m2e c e3 /~3 ="
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "anchor supports only B_0; B_14, gamma_B, b_rel, Compton-wavelength identity need separate anchored entries"} ]
+notes = "Lai (2001, Eq. 1.3) uses b for B/B_0; this project uses gamma_B for B/B_0 and b_rel (paper symbol b) for B/B_Q, following PLCH04 and PHC16 (both define b = B/B_Q). [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] B_{14}: explicit definition B_14 = B/(1e14 G) (txt layer drops the superscript 14), also in rt.notation-vacuum, refs/van_adelsberg_lai_2006_magnetic_atm.txt L185, verbatim \"B14 = B/(10 G), and\". \\gamma_B: gamma = B/B_0 (source spelling gamma), refs/potekhin_ho_chabrier_2016_review.txt L120-121, verbatim \"γ ≡ B/B0 .\"."
+
+[[entry]]
+id = "opacity.notation-particles-plasma"
+kind = "notation"
+domain = "opacity"
+name = "Particle, thermodynamic and plasma symbols"
+statement = "Symbols for fundamental constants, particle masses and charges, and plasma state variables used by the fully ionised hydrogen opacity formulae."
+symbols = [
+  { sym = "e", meaning = "elementary charge", units = "esu (Gaussian cgs; const.notation-fundamental lists C)" },
+  { sym = "c", meaning = "speed of light", units = "cm s^-1", units_source = "cm/s" },
+  { sym = "\\hbar", sym_source = "hbar", aliases = ["hbar", "ℏ"], meaning = "reduced Planck constant h/(2 pi)", meaning_source = "reduced Planck constant", units = "erg s" },
+  { sym = "k_B", aliases = ["k"], meaning = "Boltzmann constant", units = "erg K^-1", units_source = "erg/K" },
+  { sym = "m_e", meaning = "electron mass", units = "g" },
+  { sym = "m_p", meaning = "proton mass", units = "g" },
+  { sym = "m_H", meaning = "hydrogen atom mass m_p + m_e", units = "g" },
+  { sym = "\\mu_{red}", sym_source = "mu_red", aliases = ["mu", "mu_red"], meaning = "electron-proton reduced mass m_e m_p / m_H (PC03 writes mu)", units = "g" },
+  { sym = "Z_{ion}", sym_source = "Z_ion", aliases = ["Z", "Z_ion", "Z_{nuc}"], meaning = "ion charge number Z (nuclear charge of a fully ionised ion)", meaning_source = "ion charge number (paper symbol Z)", units = "1" },
+  { sym = "A_{ion}", sym_source = "A_ion", aliases = ["A", "A_ion", "A_{mass}"], meaning = "ion mass number A", meaning_source = "ion mass number (paper symbol A)", units = "1" },
+  { sym = "Y_e", aliases = ["Y_e (VAL06)"], meaning = "electron fraction Z/A", units = "1" },
+  { sym = "\\alpha_f", sym_source = "alpha_f", aliases = ["alpha", "alpha_f", "α"], meaning = "fine-structure constant e^2/(hbar c)", meaning_source = "fine-structure constant e^2/(hbar c) = 1/137.036 (PLCH04 Appendix)", units = "1" },
+  { sym = "T", meaning = "gas temperature", units = "K" },
+  { sym = "T_6", meaning = "T / (10^6 K)", units = "1" },
+  { sym = "\\rho", sym_source = "rho_gas", aliases = ["rho", "rho_gas", "ρ"], meaning = "mass density (TOV/EOS: gravitational mass density = energy density/c^2; atmosphere/opacity: plasma mass density, equal to it up to O(k_B T/(m_u c^2)))", meaning_source = "mass density of the plasma (paper symbol rho)", units = "g cm^-3", units_source = "g/cm^3" },
+  { sym = "\\rho_1", sym_source = "rho_0", aliases = ["rho_0"], meaning = "rho/(1 g cm^-3), dimensionless density", meaning_source = "rho / (1 g cm^-3), dimensionless density", units = "1" },
+  { sym = "n_e", aliases = ["n_{e}"], meaning = "electron number density", units = "cm^-3" },
+  { sym = "n_p", meaning = "proton number density", units = "cm^-3" },
+  { sym = "x_H", meaning = "number fraction of optically active bound hydrogen atoms in PC03 eq. 31 (0 for a fully ionised plasma); dissolved and highly excited states are excluded, so it is not silently the thermodynamic neutral fraction", units = "1" },
+  { sym = "f_ion", meaning = "ionisation fraction (McPHAC notation)", units = "1" },
+  { sym = "\\omega_{pe}", sym_source = "omega_pl", aliases = ["omega_pl"], meaning = "electron plasma angular frequency (4 pi e^2 n_e / m_e)^(1/2) (PHC16 writes omega_pe)", units = "rad/s" },
+  { sym = "\\rho_B", sym_source = "rho_B", meaning = "density below which a strongly quantising field keeps all electrons in the ground Landau level (requires also zeta_e >> 1, i.e. low enough temperature)", units = "g/cm^3" },
+]
+conflicts_with = ["colour.notation-cie-xyz", "const.notation-atomic", "eos.notation-electron-gas", "gr.notation-geometry", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "opacity.notation-modes-polarization", "rt.notation-cond-energies-geometry", "rt.notation-cond-matter-dielectric", "rt.notation-mcphac", "rt.notation-spw09", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "mu: RT direction cosine keeps \\mu. Bel02 mu = cos psi -> \\cos\\psi; PY01 chemical potential -> \\mu_e; PC03 reduced mass -> \\mu_{red}.", "Z: Bare Z is the CIE tristimulus value. Ion charge number -> Z_{ion} (mass number A -> A_{ion})."]
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "p. 955 (Sect. 1), p. 958 (eq. 24)"
+anchor = "mH = mp + me , mp is the proton mass, am = (~c/eB)1/2"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "anchor covers only part of the bundle; Z/A, Y_e, alpha_f, f_ion lack anchors"} ]
+notes = "Generic symbols (T, rho, c, e) are listed here because the opacity formulae use them; if another domain defines them with a different meaning string, check.py will flag the conflict and the orchestrator must pick the adopted one. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] f_{ion}: McPHAC definition of f_ion, eq. 11, refs/haakonsen_2012_mcphac.txt L225-232, verbatim \"For an ionization fraction fion at a given depth, the reduced\"."
+
+[[entry]]
+id = "opacity.notation-photon-cyclotron"
+kind = "notation"
+domain = "opacity"
+name = "Photon frequency and cyclotron/quantisation parameters"
+statement = "Symbols for the photon frequency and the electron, proton and ion cyclotron frequencies together with the dimensionless quantisation parameters."
+symbols = [
+  { sym = "\\omega", sym_source = "omega", meaning = "photon angular frequency", units = "rad/s" },
+  { sym = "\\nu", sym_source = "nu_loc", aliases = ["nu", "nu (I_nu)", "nu_0", "nu_loc"], meaning = "photon frequency in the local rest frame of the emitting plasma (static frame at the surface for a non-rotating star)", meaning_source = "photon frequency in cycles per second in the plasma frame, omega = 2 pi nu_loc (McPHAC symbol nu)", units = "Hz" },
+  { sym = "u_{kT}", sym_source = "u_kT", aliases = ["u", "u_kT"], meaning = "hbar omega / (k_B T), scaled photon energy (paper symbol u; McPHAC: u = h nu / k_B T)", units = "1" },
+  { sym = "\\omega_{ce}", sym_source = "omega_ce", aliases = ["omega_c", "omega_ce"], meaning = "electron cyclotron angular frequency omega_ce = eB/(m_e c) (Gaussian CGS)", meaning_source = "electron cyclotron angular frequency e B / (m_e c)", units = "s^-1", units_source = "rad/s" },
+  { sym = "\\omega_{cp}", sym_source = "omega_cp", meaning = "proton cyclotron angular frequency (m_e/m_p) omega_ce", units = "rad/s" },
+  { sym = "\\omega_{ci}", sym_source = "omega_ci", meaning = "ion cyclotron angular frequency Z e B / (m_i c)", units = "rad/s" },
+  { sym = "\\zeta_e", sym_source = "beta_e", aliases = ["beta_e (PC03)", "zeta_e (PHC16)"], meaning = "electron quantisation parameter hbar omega_ce/(k_B T)", meaning_source = "hbar omega_ce / (k_B T), electron quantisation parameter (PHC16 writes zeta_e)", units = "1" },
+  { sym = "\\zeta_p", sym_source = "beta_p", aliases = ["beta_p"], meaning = "hbar omega_cp / (k_B T), proton quantisation parameter", units = "1" },
+  { sym = "\\zeta_i", sym_source = "zeta_i", meaning = "hbar omega_ci / (k_B T), ion quantisation parameter (PHC16)", units = "1" },
+]
+conflicts_with = ["const.notation-particles", "gr.notation-geometry", "gr.notation-pechenick", "opacity.notation-modes-polarization", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["u: Bare u retired. CODATA atomic mass unit -> m_u; Bel02 compactness -> x_g; Pech83 M/r -> u_{geo}; PC03 hbar omega/kT -> u_{kT}.", "beta: Bel02 bending angle keeps \\beta. PC03 beta_e, beta_p -> \\zeta_e, \\zeta_p (PHC16 spelling); PLCH04 mode parameter -> \\beta_{pol}; GH83 beta (magnetic colatitude) -> \\theta_B."]
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 1; eq. 41 (u = hbar omega/(k_B T)); proton quantisation beta_p < 1 discussion (L715-716)"
+anchor = "where ωcp = (me /mp ) ωce is the proton cyclotron fre-"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "anchor confirms only omega_cp; McPHAC frequency convention and PHC16 zeta_e/zeta_i need separate entries"} ]
+notes = "PC03 beta_e and PHC16 zeta_e are the same quantity (PC03 eq. 1 gives 134.3 B12/T6, PHC16 eq. 2.13 gives 134.34 B12/T6). PHC16 p. 6 gives zeta_i = 0.0737 (Z/A) B12/T6 and PC03 p. 958 gives beta_p ~ 0.0732 B12/T6. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] u_{kT}: u defined at PC03 eq. 41, refs/potekhin_chabrier_2003_ff_opacity.txt L659-664, verbatim \"1 − e−u Λffα , u ≡\". \\omega_{ci}: omega_ci = Z e B/(m_i c), refs/potekhin_ho_chabrier_2016_review.txt L332-333, verbatim \"ZeB/(mi c) is the ion cyclotron frequency\". \\zeta_p: proton-quantisation discussion; eq. 1/11 does not define beta_p, refs/potekhin_chabrier_2003_ff_opacity.txt L715-716, verbatim \"βp < 1, and obtain\". \\zeta_i: zeta_i = hbar omega_ci/(k_B T), refs/potekhin_ho_chabrier_2016_review.txt L332-333, verbatim \"ζi = h̄ωci /kB T = 0.0737 (Z/A)B12 /T6\"."
+
+[[entry]]
+id = "opacity.notation-modes-polarization"
+kind = "notation"
+domain = "opacity"
+name = "Normal-mode and dielectric-tensor symbols"
+statement = "Symbols for propagation geometry, polarisation index, normal-mode labels and vectors, and the plasma polarisability/dielectric tensor used for the two-mode opacity formalism."
+symbols = [
+  { sym = "\\theta_{kB}", sym_source = "theta_B", aliases = ["theta_B", "α_Bk", "θ_kB"], meaning = "angle between the photon wave vector k and the magnetic field B", meaning_source = "angle between photon propagation direction k and magnetic field B", units = "rad" },
+  { sym = "\\alpha_{pol}", sym_source = "alpha_pol", aliases = ["alpha", "alpha_pol"], meaning = "basic polarisation index, 0 (linear along B) or +/-1 (circular in the transverse plane); PC03 and PLCH04 write alpha", units = "1" },
+  { sym = "j", meaning = "normal-mode index, j = 1 extraordinary (X), j = 2 ordinary (O)", units = "1" },
+  { sym = "\\mathbf{e}_j", sym_source = "e_j", meaning = "polarisation vector of normal mode j (unit complex vector)", units = "1" },
+  { sym = "e_{j,\\alpha}", sym_source = "e_j_alpha", meaning = "cyclic component of e_j: e_{j,0} = e_{j,z}, e_{j,+/-1} = (e_{j,x} +/- i e_{j,y})/sqrt(2)", units = "1" },
+  { sym = "K_j", meaning = "transverse polarisation parameter of mode j in the frame with z along k and B in the x-z plane", units = "1" },
+  { sym = "K_{z,j}", sym_source = "K_z_j", meaning = "longitudinal polarisation parameter K_{z,j} of mode j", units = "1" },
+  { sym = "\\beta_{pol}", sym_source = "beta_pol", aliases = ["beta", "beta_pol"], meaning = "mode polarisation parameter beta of PLCH04 Eq. 21 (not the quantisation parameter beta_e)", units = "1" },
+  { sym = "\\varepsilon_\\perp", sym_source = "ε", aliases = ["ε", "epsilon"], meaning = "transverse diagonal element of the dielectric tensor I + 4 pi chi, frame z || B: eps_xx = eps_yy = eps_perp", meaning_source = "diagonal transverse element of I + 4 pi chi in the frame with z along B (PLCH04: epsilon; PHC16: epsilon_perp)", units = "1" },
+  { sym = "\\varepsilon_\\wedge", sym_source = "g", aliases = ["g"], meaning = "off-diagonal (gyrotropic) element of the dielectric tensor I + 4 pi chi, frame z || B, with eps_xy = +i eps_wedge and eps_yx = -i eps_wedge (convention common to vAL05 and PLCH04)", meaning_source = "off-diagonal (gyrotropic) element of I + 4 pi chi (PLCH04: g; PHC16: epsilon_wedge)", units = "1" },
+  { sym = "\\varepsilon_\\parallel", sym_source = "η", aliases = ["η", "eta"], meaning = "longitudinal element (along B) of the dielectric tensor I + 4 pi chi, frame z || B: eps_zz = eps_parallel", meaning_source = "element of I + 4 pi chi along B (PLCH04: eta; PHC16: epsilon_parallel)", units = "1" },
+  { sym = "\\varepsilon'_\\perp", sym_source = "eps_prime", meaning = "epsilon' = eps_perp + a_hat, transverse element including vacuum", units = "1" },
+  { sym = "\\varepsilon'_\\parallel", sym_source = "eta_prime", meaning = "eta' = eta_par + a_hat + q_vac, longitudinal element including vacuum", units = "1" },
+  { sym = "\\chi", sym_source = "chi", meaning = "complex polarisability tensor of the plasma, chi = chi^H + i chi^A", units = "1" },
+  { sym = "\\chi^H", sym_source = "chi_H", meaning = "Hermitian part of chi (refraction and polarisation)", units = "1" },
+  { sym = "\\chi^A", sym_source = "chi_A", meaning = "chi^A in chi = chi^H + i chi^A; i chi^A is the anti-Hermitian part (absorption)", units = "1" },
+  { sym = "\\chi^{vac}", sym_source = "chi_vac", meaning = "polarisability tensor of the vacuum", units = "1" },
+]
+conflicts_with = ["const.notation-atomic", "eos.notation-bsk-fit", "gr.notation-geometry", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "obs.notation-rxj1856-spectral", "opacity.notation-particles-plasma", "opacity.notation-photon-cyclotron", "rt.notation-cond-energies-geometry", "rt.notation-cond-matter-dielectric", "rt.notation-spw09", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "theta_B: Magnetic colatitude keeps \\theta_B. PC03/PLCH04 k-B angle -> \\theta_{kB}; SPW09/Pot12/Ho07 field-normal angle -> \\theta_{Bn}.", "eta: eta is an emissivity (\\eta_\\nu^j). BSk exp(H)-1 -> \\eta_{\\mathcal{H}}; vAL05/PLCH04 longitudinal dielectric element -> \\varepsilon_\\parallel.", "g: g is surface gravity. vAL05/PLCH04 gyrotropic dielectric element g -> \\varepsilon_\\wedge (PHC16 spelling); transverse element epsilon -> \\varepsilon_\\perp.", "beta: Bel02 bending angle keeps \\beta. PC03 beta_e, beta_p -> \\zeta_e, \\zeta_p (PHC16 spelling); PLCH04 mode parameter -> \\beta_{pol}; GH83 beta (magnetic colatitude) -> \\theta_B."]
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eqs. 1-5, 18-21 (pp. 2, 5)"
+anchor = "4πχ±1 = ε − 1 ± g, 4πχ0 = η − 1."
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "χ_A is corrected, but cyclic components lack a frame designation and silently reuse the modal frame’s x,y,z."} ]
+notes = "The sym keys eps_perp, g_gyro, eta_par avoid clashes with generic g (surface gravity) and eta elsewhere. PLCH04 eq. 2 has the tensor [[eps, ig, 0],[-ig, eps, 0],[0, 0, eta]]; PHC16 eq. 2.5 writes the same tensor with eps_perp, eps_wedge, eps_parallel. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] j: j = 1 X, j = 2 O, refs/potekhin_lai_chabrier_ho_2004_polarization.txt L355-356, verbatim \"where j = 1, 2 correspond to the extraordinary mode (X-\". e_{j,\\alpha}: explicit cyclic-component formula, refs/potekhin_chabrier_2003_ff_opacity.txt L382-383, verbatim \"ej,±1 = (ej,x ±iej,y )/ 2 are the circular components.\"."
+
+[[entry]]
+id = "opacity.notation-vacuum"
+kind = "notation"
+domain = "opacity"
+name = "Vacuum-polarisation symbols"
+statement = "Symbols for the QED vacuum polarisation and magnetisation coefficients and the vacuum-resonance variables."
+symbols = [
+  { sym = "\\hat a", sym_source = "a_hat", meaning = "vacuum polarisation coefficient a-hat (isotropic part of 4 pi chi_vac); vanishes at B = 0", units = "1" },
+  { sym = "q_{vac}", sym_source = "q_vac", meaning = "vacuum polarisation coefficient q of 4 pi chi_vac = diag(a_hat, a_hat, a_hat + q) (PLCH04 Eq. 3)", units = "1" },
+  { sym = "m_{vac}", sym_source = "m_vac", meaning = "vacuum magnetisation coefficient m of mu^-1 = I + diag(a_hat, a_hat, a_hat + m) (PLCH04 Eq. 4)", units = "1" },
+  { sym = "\\xi_{vac}", sym_source = "xi_vac", aliases = ["xi", "xi_vac"], meaning = "inverse relativistic field parameter 1/b (paper symbol xi)", units = "1" },
+  { sym = "f_B", aliases = ["f_B (VAL06)"], meaning = "slowly varying function of B, f(B) ~ [3 delta_V/(q + m)]^(1/2) ~ 1 (Ho & Lai 2003, lines 444-457 of the local copy; VAL06 uses f_B ~ 1)", units = "1" },
+]
+conflicts_with = ["eos.notation-bsk-fit", "gr.notation-pechenick"]
+adopted = false
+conflict_notes = ["xi: Bare xi retired. BSk log10 rho -> \\xi_\\rho; Pech83 sky angle -> \\xi_{sky}; PLCH04 1/b -> \\xi_{vac}."]
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "Appendix, eqs. A1-A6 (p. 9); eqs. 3-4 (q_vac, m_vac)"
+anchor = "the vacuum polarization coefficients are given by (Adler 1971)"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "anchor establishes vacuum coefficients, not E_V, rho_V, f_B, E_1"} ]
+notes = "Symbol m is renamed m_vac and q is renamed q_vac to avoid clashes with mass m and with the Gnedin-Pavlov mode parameter q of PC03 eq. 25. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] q_{vac}: eq. 3, refs/potekhin_lai_chabrier_ho_2004_polarization.txt eq. 3, verbatim \"4πχvac = diag(â, â, â + q)\". m_{vac}: eq. 4, refs/potekhin_lai_chabrier_ho_2004_polarization.txt eq. 4, verbatim \"µ−1 = I + diag(â, â, â + m)\"."
+
+[[entry]]
+id = "opacity.notation-opacity-symbols"
+kind = "notation"
+domain = "opacity"
+name = "Opacity, cross-section and collision-frequency symbols"
+statement = "Symbols for mode and basic-polarisation opacities, cross sections, effective collision and damping frequencies, and Coulomb logarithms/Gaunt factors in the PC03 and McPHAC formalisms."
+symbols = [
+  { sym = "\\kappa_j", sym_source = "kappa_j", aliases = ["kappa_j", "κ_j^tot"], meaning = "total extinction opacity of normal mode j, kappa^a_j + kappa^s_j", meaning_source = "total extinction opacity of mode j, kappa^a_j + kappa^s_j (per unit mass)", units = "cm^2 g^-1", units_source = "cm^2/g" },
+  { sym = "\\kappa^a_j", sym_source = "kappa_a_j", aliases = ["k_ν^i", "kappa^abs_j", "kappa_a_j", "κ_j^abs", "κ_j^ff"], meaning = "true-absorption (free-free for fully ionised H) opacity of normal mode j; depends on direction through theta_kB", meaning_source = "absorption opacity of mode j", units = "cm^2 g^-1", units_source = "cm^2/g" },
+  { sym = "\\kappa^s_{jj'}", sym_source = "kappa_s_jj", aliases = ["kappa^sc_jj'", "kappa_s_jj", "κ_ji^sc (j -> i)"], meaning = "scattering opacity kappa^s_{jj'} from mode j into mode j'", units = "cm^2/g" },
+  { sym = "\\kappa^s_j", sym_source = "kappa_s_j", aliases = ["kappa_s_j", "κ_j^sc", "σ_ν^i"], meaning = "total scattering opacity out of normal mode j, kappa^s_{j1} + kappa^s_{j2}; depends on direction through theta_kB", meaning_source = "total scattering opacity out of mode j, kappa^s_{j1} + kappa^s_{j2}", units = "cm^2 g^-1", units_source = "cm^2/g" },
+  { sym = "\\hat\\kappa_\\alpha", sym_source = "kappa_hat_alpha", meaning = "basic-polarisation opacity kappa-hat_alpha, mu_alpha = rho kappa-hat_alpha, independent of theta_B (PLCH04 eq. 7)", units = "cm^2/g" },
+  { sym = "\\kappa_\\nu", sym_source = "kappa_nu", aliases = ["kappa_nu", "κ_ν"], meaning = "B = 0 true-absorption opacity at photon frequency nu (free-free for fully ionised hydrogen; McPHAC also allows other absorption processes)", meaning_source = "B = 0 true absorption (free-free) opacity at photon frequency nu (McPHAC Eq. 12)", units = "cm^2 g^-1", units_source = "cm^2/g" },
+  { sym = "\\sigma_T", sym_source = "sigma_T", aliases = ["sigma_T", "σ_e"], meaning = "Thomson cross section (8 pi/3) r_e^2, r_e = e^2/(m_e c^2)", meaning_source = "nonmagnetic Thomson cross section (8 pi/3)(e^2/(m_e c^2))^2", units = "cm^2" },
+  { sym = "\\sigma_{T,r}", sym_source = "sigma_T_r", aliases = ["sigma_T_r", "σ_T,r"], meaning = "reduced Thomson scattering opacity of McPHAC (per gram, includes the ionisation fraction)", meaning_source = "reduced Thomson scattering opacity sigma_{T,r} of McPHAC (per gram, includes ionisation fraction)", units = "cm^2 g^-1", units_source = "cm^2/g" },
+  { sym = "\\sigma^a_\\alpha", sym_source = "sigma_a_alpha", meaning = "absorption cross section per hydrogen nucleus for basic polarisation alpha, including the weighted bound and free contributions", units = "cm^2" },
+  { sym = "\\sigma^s_\\alpha", sym_source = "sigma_s_alpha", meaning = "scattering cross section for basic polarisation alpha, sigma^{s,e}_alpha + sigma^{s,p}_alpha", units = "cm^2" },
+  { sym = "\\sigma^{s,e}_\\alpha", sym_source = "sigma_se_alpha", meaning = "electron scattering cross section sigma^{s,e}_alpha", units = "cm^2" },
+  { sym = "\\sigma^{s,p}_\\alpha", sym_source = "sigma_sp_alpha", meaning = "proton scattering cross section sigma^{s,p}_alpha", units = "cm^2" },
+  { sym = "\\sigma^{ff}_\\alpha", sym_source = "sigma_ff_alpha", meaning = "free-free absorption cross section sigma^{ff}_alpha from electron-proton collisions", units = "cm^2" },
+  { sym = "\\nu^{ff}_\\alpha", sym_source = "nu_ff_alpha", meaning = "effective electron-proton collision frequency for absorption, nu^{ff}_alpha", units = "1/s" },
+  { sym = "\\nu_{e,\\alpha}", sym_source = "nu_e_alpha", meaning = "electron damping frequency nu_{e,alpha} = nu^{ff}_alpha + nu^s_e", units = "1/s" },
+  { sym = "\\nu^s_e", sym_source = "nu_s_e", meaning = "natural radiative width of the electron cyclotron resonance, 2 e^2 omega^2/(3 m_e c^3)", units = "1/s" },
+  { sym = "\\nu^s_p", sym_source = "nu_s_p", meaning = "natural radiative width of the proton cyclotron resonance, 2 e^2 omega^2/(3 m_p c^3)", units = "1/s" },
+  { sym = "\\nu_{p,\\alpha}", sym_source = "nu_p_alpha", meaning = "proton damping frequency nu_{p,alpha}", units = "1/s" },
+  { sym = "\\tilde\\nu_\\alpha", sym_source = "nu_tilde_alpha", meaning = "combined damping frequency nu-tilde_alpha of PC03 eq. 52", units = "1/s" },
+  { sym = "\\Lambda^{ff}_\\alpha", sym_source = "Lambda_ff_alpha", meaning = "Coulomb logarithm Lambda^{ff}_alpha for free-free absorption (Born, infinite proton mass, fixed Coulomb centre)", units = "1" },
+  { sym = "\\Lambda^{ff}_{cl}", sym_source = "Lambda_ff_cl", meaning = "classical (B = 0, Born) Coulomb logarithm e^{u/2} K_0(u/2)", units = "1" },
+  { sym = "\\bar g_{ff}", sym_source = "gaunt_ff", aliases = ["gaunt_ff"], meaning = "temperature-averaged free-free Gaunt factor g-bar_ff; Lambda = (pi/sqrt(3)) g-bar", units = "1" },
+  { sym = "\\bar g_{Born}", sym_source = "gaunt_Born", meaning = "Born-approximation Gaunt factor g-bar_Born = (sqrt(3)/pi) Lambda^{ff}_cl", units = "1" },
+  { sym = "\\gamma^2", sym_source = "gamma_sq", aliases = ["gamma_sq"], meaning = "scaled temperature gamma^2 = Z^2 Ry / (k_B T) used to index the Gaunt-factor table (McPHAC)", units = "1" },
+]
+conflicts_with = ["const.notation-fundamental", "rt.notation-spw09"]
+adopted = true
+adopted_syms = ["sigma"]
+conflict_notes = ["sigma: sigma is a cross section (cm^2). CODATA Stefan-Boltzmann sigma -> \\sigma_{SB}; SPW09 scattering opacity sigma_nu^i -> \\kappa^s_j, differential sigma_nu^ij -> d\\kappa^s_{ji}/d\\Omega."]
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eqs. 27-28, 33-41 (pp. 959-963); eqs. 52-53; McPHAC eqs. 11-12"
+anchor = "In the classical cold plasma approximation (e.g.,"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "mixed-source dictionary not established by cold-plasma anchor (kappa-hat_alpha, sigma_T,r, gamma^2)"} ]
+notes = "McPHAC (haakonsen_2012_mcphac) uses sigma_{T,r} and kappa_nu per gram, PC03 uses cross sections per atom. kappa_alpha_hat = sigma_alpha / m_H is the link, from PC03 eq. 27 against PLCH04 eq. 23. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] \\hat\\kappa_\\alpha: mu_alpha = rho kappa-hat_alpha, PLCH04 eq. 7, refs/potekhin_lai_chabrier_ho_2004_polarization.txt L114-127, verbatim \"α ≡ ρκ̂α (ω) =\". \\nu^s_p: PC03 eq. 53, refs/potekhin_chabrier_2003_ff_opacity.txt L817-822, verbatim \"νp,α = ναff,p + νps + ναpp\". \\nu_{p,\\alpha}: PC03 eq. 53, refs/potekhin_chabrier_2003_ff_opacity.txt L817-822, verbatim \"νp,α = ναff,p + νps + ναpp\". \\tilde\\nu_\\alpha: PC03 eq. 52, refs/potekhin_chabrier_2003_ff_opacity.txt L750-756, verbatim \"ν̃α = ναff + (1 + αωce /ω) νp + (1 − αωcp /ω) νe\". \\gamma^2: McPHAC definition of gamma^2, refs/haakonsen_2012_mcphac.txt L246-249, verbatim \"and scaled temperature γ 2 = Z 2 Ry/(kB T )\"."
+
+# ---------------------------------------------------------------- field scales and cyclotron
+
+[[entry]]
+id = "opacity.cyclotron-energy-electron"
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:22"
+kind = "equation"
+domain = "opacity"
+name = "Electron cyclotron energy"
+statement = "The electron cyclotron energy (nonrelativistic Landau-level spacing; relativistic levels: Lai 2001 Eq. 2.12) as a function of field strength: hbar omega_ce = hbar e B / (m_e c) = 11.577 B_12 keV."
+latex = '''\hbar\omega_{\rm ce} = \hbar\frac{eB}{m_e c} = 11.577\,B_{12}\ {\rm keV}'''
+source = "lai_2001_strong_B_review"
+locator = "Eq. 1.1 (PDF p. 2)"
+anchor = "cyclotron energy (the Landau level spacing) of the electron is"
+anchor_tex = "\\hbar\\omega_{ce}=\\hbar{eB\\over m_e c}=11.577\\,B_{12}~\\rkeV,"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and Eq. 1.1 match, including 11.577 B₁₂ keV; the nonrelativistic qualification is supported by the relativistic replacement. [Lai L93–104, 347–357](/home/tobias/Projects/neutronstars/refs/lai_2001_strong_B_review.txt:93)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-fields", "opacity.notation-photon-cyclotron"]
+notes = "PHC16 Sect. 2 gives the same 11.577 B12 keV. The numeric prefactor is a derived constant; a code check against CODATA is expected."
+
+[[entry]]
+id = "opacity.field-atomic-b0"
+kind = "constant"
+domain = "opacity"
+name = "Atomic magnetic field B_0"
+statement = "The atomic unit of magnetic field strength B_0 = m_e^2 c e^3 / hbar^3; fields B > B_0 are called strong (hbar omega_ce exceeds one atomic unit of energy)."
+latex = '''B_0 = \frac{m_e^2 c\, e^3}{\hbar^3}'''
+value = 2.3505e9
+units = "G"
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "p. 955 (Sect. 1)"
+anchor = "the field strength B is higher than B0 = m2e c e3 /~3 ="
+anchor_tex = "B_0=\\mel^2 c\\, e^3/\\hbar^3"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-fields"]
+notes = "PHC16 Eq. 2.1 gives the same value 2.3505e9 G."
+
+[[entry]]
+id = "opacity.field-qed-bq"
+kind = "constant"
+domain = "opacity"
+name = "QED critical field B_Q"
+statement = "The relativistic (QED) critical field B_Q = m_e^2 c^3 / (e hbar) = 4.414e13 G, at which hbar omega_ce = m_e c^2; the dimensionless parameter b = B / B_Q governs vacuum polarisation."
+latex = '''B_Q = \frac{m_e^2 c^3}{e\hbar}'''
+value = 4.414e13
+units = "G"
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "Appendix, text before eq. A1 (p. 9)"
+anchor = "BQ = m2e c3 /e~ = 4.414 × 1013 G"
+anchor_tex = "$\\Bq=\\mel^2c^3/e\\hbar=4.414\\times 10^{13}$~G"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Definition, 4.414 × 10¹³ G and b=B/B_Q match the Appendix. [PLCH04 L538–544](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:538)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-fields"]
+notes = "PC03 p. 955 calls the same quantity B_r = 4.414e13 G. PHC16 writes b = B12/44.14."
+
+[[entry]]
+id = "opacity.quantisation-parameter-beta-e"
+kind = "equation"
+domain = "opacity"
+name = "Electron quantisation parameter beta_e"
+statement = "The ratio of the electron cyclotron energy to k_B T. Values beta_e >> 1 mean the field is quantising; beta_e < 1 means the nonmagnetic Gaunt factor applies."
+latex = '''\beta_e = \hbar\omega_{\rm ce}/k_B T \approx 134.3\,B_{12}/T_6'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "Eq. 1 (p. 955); Sect. 4.3.1 (p. 963)"
+anchor = "~ωce /kB T ≈ 134.3 B12/T6 ,"
+anchor_tex = "\\beta_\\mathrm{e} = \\hbar\\omc/\\kB T"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 1 gives 134.3 B₁₂/T₆; the added locator explicitly supports using the nonmagnetic Gaunt factor for β_e<1. [PC03 L65, 604–615](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:604)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-photon-cyclotron", "opacity.cyclotron-energy-electron"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:27"
+notes = "PHC16 Eq. 2.13 gives zeta_e = 134.34 B12/T6."
+
+[[entry]]
+id = "opacity.quantising-density-rho-b"
+kind = "equation"
+domain = "opacity"
+name = "Density bound rho_B for strongly quantising fields"
+statement = "A field is strongly quantising (most electrons on the ground Landau level) when zeta_e >> 1 and the density is below rho_B = m_i / (pi^2 sqrt(2) a_m^3 Z) = 7045 (A/Z) B_12^(3/2) g cm^-3."
+latex = '''\rho_B = \frac{m_i}{\pi^2\sqrt{2}\,a_m^3 Z} = 7045\,\frac{A}{Z}\,B_{12}^{3/2}\ {\rm g\,cm^{-3}}'''
+source = "potekhin_ho_chabrier_2016_review"
+locator = "eq. 2.13 (p. 6)"
+anchor = "most electrons reside on the ground Landau level, and the field"
+anchor_tex = "\\frac{\\mion}{\\pi^2\\sqrt2\\,\\am^3\\,Z}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms π²√2 a_m³Z, 7045(A/Z)B₁₂³ᐟ² and both occupancy conditions; “most electrons” matches. [PHC16 L318–325](/home/tobias/Projects/neutronstars/refs/potekhin_ho_chabrier_2016_review.txt:318)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-fields", "opacity.notation-particles-plasma", "opacity.quantisation-parameter-beta-e"]
+notes = "Latex read off the PDF page image (p. 6). PC03 p. 955 gives the hydrogen version rho_B = m_H/(pi^2 sqrt(2) a_m^3) ~ 7100 B12^(3/2) g/cm^3 (the 7045 vs 7100 difference is the m_i definition, m_i = A m_u versus m_H)."
+
+[[entry]]
+id = "opacity.approx-ground-landau-level"
+kind = "approximation"
+domain = "opacity"
+name = "Strongly quantising field: electrons on the ground Landau level"
+statement = "In neutron-star photospheres the field is typically strongly quantising: ground-level occupancy is a photospheric approximation when beta_e >> 1 and rho < rho_B. It is not a restriction on the PC03 opacity formulae, which hold for any field strength."
+validity = "beta_e >> 1 (hbar omega_ce >> k_B T) and rho < rho_B; PHC16 states fields B >> 1e10 G are strongly quantising in NS atmospheres as a rule"
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "p. 955 (Sect. 1, text after eq. 1)"
+anchor = "the field is, as a rule, strongly quantizing, i.e.,"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "“PC03 opacity formulae … hold for any field strength” remains too broad."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.quantisation-parameter-beta-e", "opacity.quantising-density-rho-b"]
+notes = "Named approximation on occupancy of the ground Landau level; PC03 states its free-free suppression result holds for any field strength. In the non-quantising case (beta_e < 1) PC03 says the nonmagnetic Gaunt factor applies."
+
+# ---------------------------------------------------------------- plasma frequency, Thomson, scattering
+
+[[entry]]
+id = "opacity.plasma-frequency"
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:48"
+kind = "equation"
+domain = "opacity"
+name = "Electron plasma frequency"
+statement = "The electron plasma energy hbar omega_pl in terms of n_e, with its numerical form for hydrogen (28.7 sqrt(rho_0) eV). Normal-mode propagation is described at photon energies hbar omega well above hbar omega_pl."
+latex = '''\hbar\omega_{\rm pl} = \left(\frac{4\pi\hbar^2 e^2 n_e}{m_e}\right)^{1/2} \approx 28.7\,\rho_0^{1/2}\ {\rm eV}'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 24 (p. 958)"
+anchor = "where ωpl is the electron plasma frequency and ρ0 ≡"
+anchor_tex = "\\hbar\\omega_\\mathrm{pl} =\\left({4\\pi\\hbar^2 e^2 n_\\mathrm{e}"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-particles-plasma"]
+notes = "PHC16 Sect. 2.1 gives omega_pe = (4 pi e^2 n_e/m_e)^(1/2) and states the two-mode description holds above omega_pe and outside narrow resonances. 28.7 sqrt(rho_0) eV holds for hydrogen (n_e = rho/m_H)."
+
+[[entry]]
+id = "opacity.thomson-cross-section"
+kind = "equation"
+domain = "opacity"
+name = "Nonmagnetic Thomson cross section"
+statement = "The nonmagnetic Thomson cross section sigma_T = (8 pi/3)(e^2/(m_e c^2))^2."
+latex = '''\sigma_T = \frac{8\pi}{3}\left(\frac{e^2}{m_e c^2}\right)^2'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "text after eq. 33 (p. 961)"
+anchor = "where σT = (8π/3)(e2 /me c2 )2 is the nonmagnetic Thom-"
+anchor_tex = "where $\\sigma_\\mathrm{T}=(8\\pi/3)(e^2/\\mel c^2)^2$"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-opacity-symbols"]
+v1_ref = "archive/v1/src/opacity/hydrogen_ff.jl:52"
+notes = "Numerical value (6.6524e-25 cm^2) belongs to the const domain (CODATA)."
+
+[[entry]]
+id = "opacity.scattering-electron-magnetic"
+kind = "equation"
+domain = "opacity"
+name = "Magnetic electron scattering cross section"
+statement = "Electron scattering cross section for basic polarisation alpha (0, +/-1) outside a narrow range around omega_ce; the alpha = -1 component has the electron cyclotron resonance, and sigma^s,e_alpha -> sigma_T when omega_ce << omega and nu_e,alpha << omega."
+latex = '''\sigma^{\rm s,e}_\alpha = \frac{\omega^2}{(\omega+\alpha\omega_{\rm ce})^2+\nu_{e,\alpha}^2}\,\sigma_T'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 33 (p. 961)"
+anchor = "Outside of a narrow (about the Doppler"
+anchor_tex = "{\\omega^2\\over(\\omega+\\alpha\\omc)^2"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 33, resonance sign and Doppler-width exclusion match; both conditions needed for the Thomson limit are now retained. [PC03 L501–513, 560–567](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:501)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.thomson-cross-section", "opacity.damping-frequencies", "opacity.notation-photon-cyclotron"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:179"
+notes = "Doppler broadening of the resonance is neglected (PC03 Sect. 4.1, valid at T <~ 1e7 K for their table resolution). Compton recoil and spin effects are not in this formula."
+
+[[entry]]
+id = "opacity.scattering-proton-magnetic"
+kind = "equation"
+domain = "opacity"
+name = "Magnetic proton scattering cross section"
+statement = "Proton scattering cross section for basic polarisation alpha; the alpha = +1 component has a resonance at omega_cp, and it is negligible without a field."
+latex = '''\sigma^{\rm s,p}_\alpha = \left(\frac{m_e}{m_p}\right)^2\frac{\omega^2}{(\omega-\alpha\omega_{\rm cp})^2+\nu_{p,\alpha}^2}\,\sigma_T'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 34 (p. 961)"
+anchor = "The scattering by the protons, which is completely neg-"
+anchor_tex = "\\left( \\frac{\\mel}{\\mpr}\\right)^2"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.thomson-cross-section", "opacity.damping-frequencies"]
+notes = "Same Doppler-broadening neglect as the electron case."
+
+[[entry]]
+id = "opacity.damping-frequencies"
+kind = "equation"
+domain = "opacity"
+name = "Damping frequencies of the cyclotron resonances"
+statement = "Electron damping nu_{e,alpha} is the sum of the free-free absorption frequency and the natural radiative width nu^s_e; the proton damping nu_{p,alpha} is the sum of the ion free-free term (m_e/m_p) nu^ff_alpha, the natural width nu^s_p and the proton-proton term nu^pp_alpha."
+latex = '''\nu_{e,\alpha} = \nu^{\rm ff}_\alpha + \nu^{\rm s}_{e},\quad \nu^{\rm s}_{e} = \frac23\frac{e^2}{m_e c^3}\omega^2,\quad \nu_{p,\alpha} = \nu^{\rm ff,p}_\alpha + \nu^{\rm s}_{p} + \nu^{\rm pp}_\alpha,\quad \nu^{\rm ff,p}_\alpha \equiv \frac{m_e}{m_p}\nu^{\rm ff}_\alpha,\quad \nu^{\rm s}_{p} = \frac{2e^2\omega^2}{3m_pc^3}'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eqs. 38, 39 (p. 963), eq. 53 and text after eq. 52 (p. 964-965)"
+anchor = "determined by the sum of the effective frequencies for"
+anchor_tex = "\\nu_\\mathrm{e}^\\mathrm{s}=\\frac{2}{3}\\,\\frac{e^2"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.ff-effective-frequency"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:103"
+notes = "The damping frequency of eq. 38 enforces the integrated cyclotron absorption of eq. 40. nu^pp_alpha is given by PC03 eq. 47 but is negligible (see opacity.approx-ff-proton-collisions-negligible)."
+
+# ---------------------------------------------------------------- free-free
+
+[[entry]]
+id = "opacity.ff-cross-section-cold-plasma"
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:89"
+kind = "equation"
+domain = "opacity"
+name = "Free-free cross section in the cold-plasma, infinite-proton-mass form"
+statement = "Classical cold-plasma free-free absorption by electrons: a Lorentzian cyclotron factor times 4 pi e^2/(m_e c) times the effective collision frequency nu^ff_alpha."
+latex = '''\sigma^{\rm ff}_\alpha = \frac{1}{(\omega+\alpha\omega_{\rm ce})^2+\nu_{e,\alpha}^2}\,\frac{4\pi e^2}{m_e c}\,\nu^{\rm ff}_\alpha(\omega)'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 37 (p. 963)"
+anchor = "In the classical cold plasma approximation (e.g.,"
+anchor_tex = "\\frac{1}{(\\omega+\\alpha\\omc)^2"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.damping-frequencies", "opacity.ff-effective-frequency"]
+notes = "Superseded at omega <~ omega_cp by the finite-proton-mass form (eq. 51); the customary 'ion free-free' recipe of eq. 45 is called erroneous by PC03."
+
+[[entry]]
+id = "opacity.ff-effective-frequency"
+kind = "equation"
+domain = "opacity"
+name = "Effective free-free collision frequency"
+statement = "The effective electron-proton collision frequency for photon absorption, written through the Coulomb logarithm Lambda^ff_alpha; the factor (1 - e^-u) accounts for induced emission."
+latex = '''\nu^{\rm ff}_\alpha = \frac43\sqrt{\frac{2\pi}{m_e k_B T}}\;\frac{n_e e^4}{\hbar\omega}\,\left(1-e^{-u}\right)\Lambda^{\rm ff}_\alpha,\qquad u\equiv\frac{\hbar\omega}{k_BT}'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 41 (p. 963)"
+anchor = "The factor (1 − e−u ) allows for the induced radiation."
+anchor_tex = "\\frac{4}{3}\\,\\sqrt{\\frac{2\\pi}{\\mel \\kB T}}\\,"
+ocr = "poor"
+image_verified = true
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Eq. 41 matches the page image, but the notes claim an unqualified reduction to McPHAC Eq. 12. Eq. 37 retains damping."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.coulomb-log-born-magnetic", "opacity.coulomb-log-classical"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:43"
+notes = "Latex read off the PDF page image (the extracted text loses the square-root layout). With alpha = 0, B -> 0, Lambda = (pi/sqrt 3) g-bar, eqs. 37+41 reduce by hand to McPHAC eq. 12 (checked: prefactor (4 sqrt(2 pi)/(3 sqrt 3)) e^6 n_e /(m_e^(3/2) (kT)^(1/2) c h nu^3) per atom)."
+
+[[entry]]
+id = "opacity.coulomb-log-classical"
+kind = "equation"
+domain = "opacity"
+name = "Classical (Born, B = 0) Coulomb logarithm"
+statement = "Maxwell average of the Born free-free cross section gives the classical Coulomb logarithm Lambda_cl = e^(u/2) K_0(u/2), with K_0 the modified Bessel function; Lambda = (pi/sqrt 3) g-bar relates it to the Gaunt factor."
+latex = '''\Lambda^{\rm ff}_{\rm cl} = e^{u/2}K_0(u/2),\qquad \Lambda = \frac{\pi}{\sqrt3}\,\bar g'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 43 (p. 963); Lambda = (pi/sqrt 3) g-bar in text before eq. 41"
+anchor = "classical Coulomb logarithm"
+anchor_tex = "\\Lambda_\\mathrm{cl}^\\mathrm{ff} = \\mathrm{e}^{u/2}K_0(u/2),"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-opacity-symbols"]
+v1_ref = "archive/v1/src/opacity/coulomb_magnetic.jl:126"
+notes = "Derived in PC03 from the Bethe-Salpeter Born cross section (eq. 42). This is the Born value, not the non-Born Gaunt factor of Hummer (1988)."
+
+[[entry]]
+id = "opacity.coulomb-log-born-magnetic"
+kind = "equation"
+domain = "opacity"
+name = "Magnetic Coulomb logarithm in the Born approximation"
+statement = "Coulomb logarithm Lambda^ff_alpha for free-free absorption in a quantising field, Born approximation, electron scattering off a fixed Coulomb centre (infinite proton mass); a function only of u and beta_e, summed over cyclotron harmonics n."
+latex = '''\Lambda^{\rm ff}_\alpha = \frac34 e^{u/2}\sum_{n=-\infty}^{\infty}\int_0^\infty Q^\alpha_n(\beta_e,u,y)\,dy,\quad Q^\alpha_n = \frac{y}{\zeta}\frac{A^\alpha_n}{\left[(y+\theta+\zeta)\sinh(\beta_e/2)\right]^{|n|}},\quad A^0_n = \frac{x_nK_1(x_n)}{y+\beta_e/4},\quad A^{\pm1}_n = \frac{y+\theta+|n|\zeta}{\zeta^2}K_0(x_n),\quad \zeta=\sqrt{1+2\theta y+y^2},\quad \theta=\frac{1+\exp(-\beta_e)}{1-\exp(-\beta_e)},\quad x_n=|u-n\beta_e|\sqrt{0.25+y/\beta_e}'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eqs. 44a-e (p. 963)"
+anchor = "Equation (44) has been derived assuming that an elec-"
+anchor_tex = "\\Lambda_\\alpha^\\mathrm{ff} = \\frac{3}{4}\\,e^{u/2}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms all five equations, particularly ζ², the absolute harmonic exponent, and the fixed-Coulomb-centre assumption. [PC03 L616–639, 684–689](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:616)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.quantisation-parameter-beta-e", "opacity.coulomb-log-classical"]
+v1_ref = "archive/v1/src/opacity/coulomb_magnetic.jl:23"
+notes = "Latex read off the PDF page image (the extracted text interleaves columns). Footnote 1 of PC03: equivalent to Pavlov and Panov (1976) eq. 27 but with the power 2 of zeta restored in eq. 44c. Infinite-proton-mass form; the finite-mass correction is in opacity.ff-cross-section-finite-proton-mass."
+
+[[entry]]
+id = "opacity.ff-cross-section-finite-proton-mass"
+kind = "equation"
+domain = "opacity"
+name = "Free-free cross section with finite proton mass (PC03 main result)"
+statement = "Free-free photoabsorption cross section with both electron and proton cyclotron resonances and the proton motion; for alpha = +/-1 it is suppressed by about (omega/omega_cp)^2 at omega << omega_cp and is reproduced for accurate Appendix-B results when Lambda^ff_alpha in nu^ff_alpha is multiplied by an order-unity quantum correction factor."
+latex = '''\sigma^{\rm ff}_\alpha \approx \frac{\omega^2}{(\omega+\alpha\omega_{\rm ce})^2(\omega-\alpha\omega_{\rm cp})^2+\omega^2\tilde\nu_\alpha^2}\,\frac{4\pi e^2\nu^{\rm ff}_\alpha}{m_ec},\qquad \tilde\nu_\alpha = \nu^{\rm ff}_\alpha+\left(1+\frac{\alpha\omega_{\rm ce}}{\omega}\right)\nu_p+\left(1-\frac{\alpha\omega_{\rm cp}}{\omega}\right)\nu_e'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eqs. 51, 52 (p. 964)"
+anchor = "glecting the tiny shift of the position of the cyclotron"
+anchor_tex = "+\\omega^2 \\tilde\\nu_\\alpha^2}\\,"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eqs. 51–52 match; page image confirms √(m_e/m_p). The suppression statement is correctly restricted to circular polarisations. [PC03 L725–761, 819–839](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:725)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.ff-effective-frequency", "opacity.damping-frequencies", "opacity.approx-ff-non-born-correction"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:85"
+notes = "nu_e = nu^s_e and nu_p = nu^s_p + nu^pp are the damping frequencies from processes other than electron-ion collisions (PC03 text before eq. 50). Assumes nu_p << nu_e << omega and neglects sqrt(m_e/m_p) compared to unity in the derivation. The quantum correction factor, 'the same for alpha = +1 and -1', is not given explicitly in the main text (Appendix B only, skipped)."
+
+[[entry]]
+id = "opacity.approx-ff-non-born-correction"
+kind = "approximation"
+domain = "opacity"
+name = "Born free-free Coulomb logarithm rescaled to the non-Born Gaunt factor"
+statement = "Because the Born approximation is accurate only for photon energies far above binding energies, PC03 multiplies Lambda^ff_alpha by the ratio of the non-Born Gaunt factor g-bar_ff (Hummer 1988) to g-bar_Born = (sqrt 3/pi) Lambda^ff_cl, so that the B = 0 limit recovers the non-Born Gaunt factor."
+validity = "Used for quantising fields; the correction is the B = 0 ratio applied at all beta_e. Hummer (1988) Pade fit coefficients are not in PC03 or refs/, so the non-Born g-bar_ff must come from a separately sourced calculation (e.g. van Hoof 2014) to reproduce PC03."
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "p. 966, paragraph before Sect. 5"
+anchor = "As well known, the Born approximation is accurate"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "fit"
+ownership = "stub"
+reimplement = "A16 L0 and A4 L0-L2: rescale the Born Lambda_alpha by gaunt_ratio = g-bar_ff / g-bar_Born, with g-bar_ff the thermally averaged Gaunt factor from our own Coulomb (Sommerfeld) wavefunctions (Karzas and Latter 1961 / van Hoof 2014 route), instead of the Hummer (1988) Pade fit."
+depends_on = ["opacity.coulomb-log-classical", "opacity.coulomb-log-born-magnetic"]
+notes = "Flagged for the orchestrator: the Hummer (1988) fit is a citation only here; any implementation needs its own entry sourced from a ref in refs/."
+
+[[entry]]
+id = "opacity.approx-ff-proton-collisions-negligible"
+kind = "approximation"
+domain = "opacity"
+name = "Proton-proton collision absorption neglected"
+statement = "PC03 finds that photoabsorption in proton-proton collisions (cross section sigma^pp_alpha, eqs. 46-48) can be safely neglected for all T and rho typical of neutron-star outer envelopes, because the classical ion-ion collision does not change the total current."
+validity = "T and rho typical of outer envelopes of neutron stars (PC03 eq. 54 ratios nu^pp/nu^s_p and nu^{ff,p}/nu_alpha); beta_p < 1 (proton motion not quantised); nonrelativistic treatment; the nonrelativistic derivation (eqs. 46-48) fails at very high T or omega"
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 54 and text (p. 965)"
+anchor = "we see that the proton-proton collisions can be safely"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text. reviewer cited ratio nu^pp/nu^ff,p; source Eq. 54 reads nu^{ff,p}/nu_alpha and nu^pp/nu^s_p, so source wording used (partial dispute); beta_p<1 added."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "The disputed ratio is still wrong: Eq. 54 shows ν^pp/ν_α^ff,p, not ν^ff,p/ν_α; page image confirms this."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.damping-frequencies"]
+v1_ref = "archive/v1/src/opacity/magnetic_ff.jl:33"
+notes = "v1 implemented the pp channel anyway (Lambda_pp fit eq. 48 at magnetic_ff.jl:33 and nu^pp eq. 47 at :68); this entry records that PC03 itself says it is negligible. Eqs. 46-48 are not transcribed here for that reason."
+
+# ---------------------------------------------------------------- mode opacities
+
+[[entry]]
+id = "opacity.mode-absorption-opacity"
+kind = "equation"
+domain = "opacity"
+name = "Absorption opacity in a normal mode"
+statement = "The absorption opacity of normal mode j at propagation angle theta_B is the sum over basic polarisations of the squared cyclic components of the mode vector times the basic cross section per hydrogen mass; for hydrogen the cross section combines bound and free-free parts through x_H."
+latex = '''\kappa^{\rm a}_j(\theta_B) = m_H^{-1}\sum_{\alpha=-1}^{1}|e_{j,\alpha}(\theta_B)|^2\,\sigma^{\rm a}_\alpha,\qquad \sigma^{\rm a}_\alpha = x_H(\sigma^{\rm bb}_\alpha+\sigma^{\rm bf}_\alpha)+(1-x_H)(\sigma^{\rm ff}_\alpha+\sigma^{\rm pp}_\alpha)'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eqs. 27, 31 (p. 959)"
+anchor = "At a fixed photon frequency ω, the absorption opacity"
+anchor_tex = "\\kappa_j^\\mathrm{a}(\\theta_B) = \\mH^{-1} \\sum_{\\alpha=-1}^1"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text. applied"}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eqs. 27 and 31 match, including m_H⁻¹ and both ionisation weights; the unsupported temperature cutoff is removed. [PC03 L343–345, 361–385](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:343)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.mode-polarization-vector", "opacity.ff-cross-section-finite-proton-mass"]
+v1_ref = "archive/v1/src/opacity/magnetic_modes.jl:34"
+notes = "x_H = 0 is the fully ionised limit; no T_eff cutoff is established here leaves sigma^ff + sigma^pp. PLCH04 eq. 23 states the same structure as kappa_j = sum_alpha |e_{j,alpha}|^2 kappa-hat_alpha; the cross sections sigma_alpha do not depend on j or theta_B. Note PC03 eq. 27 uses 1/m_H, i.e. per hydrogen atom including electron mass."
+
+[[entry]]
+id = "opacity.mode-scattering-opacity"
+kind = "equation"
+domain = "opacity"
+name = "Scattering opacity between normal modes"
+statement = "Opacity for scattering from mode j into mode j' at angle theta_B, built from the cyclic mode-vector components and the polarisation cross sections; the total scattering opacity of mode j is kappa^s_{j1} + kappa^s_{j2} and the extinction opacity is kappa^a_j + kappa^s_j."
+latex = '''\kappa^{\rm s}_{jj'}(\theta_B) = \frac34\sum_{\alpha=-1}^{1}|e_{j,\alpha}(\theta_B)|^2\,\frac{\sigma^{\rm s}_\alpha}{m_H}\int_0^\pi|e_{j',\alpha}(\theta_B')|^2\sin\theta_B'\,d\theta_B',\quad \sigma^{\rm s}_\alpha=\sigma^{\rm s,e}_\alpha+\sigma^{\rm s,p}_\alpha,\quad \kappa_j=\kappa^{\rm a}_j+\kappa^{\rm s}_{j1}+\kappa^{\rm s}_{j2}'''
+source = "potekhin_chabrier_2003_ff_opacity"
+locator = "eq. 28 and text after it (p. 959)"
+anchor = "from mode j into mode j ′ can be presented as (e.g.,"
+anchor_tex = "{\\sigma_\\alpha^\\mathrm{s}\\over \\mH}\\int_0^\\pi"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms 3/4, mode ordering, integration limits, angular measure and mass denominator; extinction sums match. [PC03 L361–387](/home/tobias/Projects/neutronstars/refs/potekhin_chabrier_2003_ff_opacity.txt:361)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.mode-polarization-vector", "opacity.scattering-electron-magnetic", "opacity.scattering-proton-magnetic", "opacity.approx-isotropic-scattering"]
+v1_ref = "archive/v1/src/opacity/magnetic_modes.jl:53"
+notes = "Latex read off the PDF page image (p. 959). PC03 eqs. 29-30 (diffusion-approximation effective opacities kappa^eff_j) are not transcribed here; they are an RT-domain item."
+
+[[entry]]
+id = "opacity.approx-isotropic-scattering"
+kind = "approximation"
+domain = "opacity"
+name = "Isotropic scattering in magnetic radiative transfer"
+statement = "Usual practice neglects the dependence of the scattering opacity on the angle between the incident and scattered wave vectors, so that kappa^s_{j'j} depends only on the angles theta_kB and theta'_kB that the two wave vectors make with B; the angular redistribution is then the separable form of PC03 eq. 28."
+validity = "Where scattering anisotropy is unimportant"
+source = "potekhin_ho_chabrier_2016_review"
+locator = "p. 4, isotropic-scattering paragraph; p. 5, Eq. 2.6"
+anchor = "the approximation of isotropic scattering) κωs"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "The McPHAC flux claim remains in notes without its separately anchored entry."} ]
+provenance = "derivable"
+ownership = "stub"
+notes = "v1 recorded the related simplification as A8 (scalar scattering approximation in magnetic RT) in truth/harvest/v1_approximations.md; the McPHAC flux claim (anisotropic Thomson scattering raises the flux above about 1 keV) is from haakonsen_2012_mcphac Sect. 4.2, not anchored here. Dependency cycle broken 2026-10-23 (notation pass): the edge approx-isotropic-scattering -> mode-scattering-opacity was removed. The approximation is an assumption that PC03 eq. 28 (opacity.mode-scattering-opacity) is built on, so the equation depends on the approximation, not the reverse; the statement only cites eq. 28 to illustrate the separable form, which is not a recomputation dependency."
+
+# ---------------------------------------------------------------- dielectric tensor and modes (PLCH04)
+
+[[entry]]
+id = "opacity.dielectric-tensor-polarizability"
+kind = "equation"
+domain = "opacity"
+name = "Plasma plus vacuum dielectric tensor and cyclic polarisabilities"
+statement = "The dielectric tensor is the unit tensor plus 4 pi times the plasma polarisability plus the vacuum correction; in the frame with z along B the plasma part has elements epsilon, g, eta and the vacuum parts are diagonal in a_hat, q, m. The cyclic polarisabilities are chi_{+/-1} = (epsilon - 1 +/- g)/(4 pi) and chi_0 = (eta - 1)/(4 pi)."
+latex = '''\epsilon' = \mathbf I + 4\pi\chi + 4\pi\chi^{\rm vac},\quad \mathbf I+4\pi\chi = \begin{pmatrix}\varepsilon & ig & 0\\ -ig & \varepsilon & 0\\ 0 & 0 & \eta\end{pmatrix},\quad 4\pi\chi^{\rm vac}={\rm diag}(\hat a,\hat a,\hat a+q),\quad \mu^{-1}=\mathbf I+{\rm diag}(\hat a,\hat a,\hat a+m),\quad 4\pi\chi_{\pm1}=\varepsilon-1\pm g,\ \ 4\pi\chi_0=\eta-1'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eqs. 1-5 (p. 2)"
+anchor = "4πχ±1 = ε − 1 ± g, 4πχ0 = η − 1."
+anchor_tex = "\\bm{\\epsilon}' = \\mathbf{I} + 4\\pi\\bm{\\chi} + 4\\pi\\bm{\\chi}^\\mathrm{vac},"
+ocr = "poor"
+image_verified = true
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Page image confirms the matrices, but the source’s dipole approximation remains absent from the entry."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-modes-polarization", "opacity.notation-vacuum"]
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:33"
+notes = "Latex read off the PDF page image (p. 2); the matrix in the extracted text is garbled. Vacuum is added linearly to the plasma polarisability when it is small. Explicit cold-plasma expressions for epsilon, g, eta are only cited (Ginzburg 1970) here and are not in the assigned sources; see skipped list."
+
+[[entry]]
+id = "opacity.mode-polarization-vector"
+kind = "equation"
+domain = "opacity"
+name = "Normal-mode polarisation vector"
+statement = "Polarisation vectors of the extraordinary (j = 1) and ordinary (j = 2) normal modes in the frame with z along the photon wave vector and B in the x-z plane, parametrised by K_j and K_{z,j}."
+latex = '''(e^j_x,e^j_y,e^j_z) = \left(1+K_j^2+K_{z,j}^2\right)^{-1/2}\left(iK_j,\ 1,\ iK_{z,j}\right)'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eq. 18 (p. 5)"
+anchor = "where j = 1, 2 correspond to the extraordinary mode (X-"
+anchor_tex = "(e^j_x,e^j_y,e^j_z)=(1+K_j^2+K_{z,j}^2)^{-1/2}"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.mode-parameters-k", "opacity.notation-modes-polarization"]
+notes = "From Ho and Lai (2003). The cyclic components e_{j,alpha} used by the opacities are obtained from this vector in the frame where B lies in the x-z plane (PC03 p. 959 definition e_{j,+/-1} = (e_{j,x} +/- i e_{j,y})/sqrt 2 relative to z along B, so a frame rotation by theta_B is implied); the rotation is not spelled out in the sources and must be derived and checked."
+
+[[entry]]
+id = "opacity.mode-parameters-k"
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:292"
+kind = "equation"
+domain = "opacity"
+name = "Mode parameters K_j and K_{z,j}"
+statement = "The mode parameters in terms of the dielectric elements, the vacuum magnetisation coefficient m and the polarisation parameter beta; epsilon' = epsilon + a_hat and eta' = eta + a_hat + q include vacuum."
+latex = '''K_j = \beta\left\{1+(-1)^j\left[1+\frac{1}{\beta^2}+\frac{m}{1+\hat a}\frac{\sin^2\theta_B}{\beta^2}\right]^{1/2}\right\},\quad K_{z,j} = -\frac{(\varepsilon'-\eta')K_j\cos\theta_B+g}{\varepsilon'\sin^2\theta_B+\eta'\cos^2\theta_B}\,\sin\theta_B,\quad \varepsilon'=\varepsilon+\hat a,\ \eta'=\eta+\hat a+q'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eqs. 19, 20 and text after eq. 21 (pp. 5-6)"
+anchor = "of the dielectric and magnetic tensors as"
+anchor_tex = "+ \\frac{m}{1+\\hat{a}} \\frac{\\sin^2\\theta_B}{\\beta^2}\\right]^{1/2}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms the complete radical, K_z,j minus sign and denominator; primed dielectric definitions match the continuation. [PLCH04 L343–393](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:343)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.mode-parameter-beta", "opacity.dielectric-tensor-polarizability"]
+notes = "Latex read off the PDF page image (p. 5). Note: v1 used the van Adelsberg and Lai (2006) K_+/- and K_{1,2} forms (dielectric_tensor.jl:324), not these; the two parametrisations must be reconciled before use."
+
+[[entry]]
+id = "opacity.mode-parameter-beta"
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:266"
+kind = "equation"
+domain = "opacity"
+name = "Polarisation parameter beta (exact form)"
+statement = "The polarisation parameter beta entering K_j, written through the dielectric elements, vacuum coefficients and the propagation angle."
+latex = '''\beta = \frac{\eta'-\varepsilon'+g^2/\varepsilon'+\eta' m/(1+\hat a)}{2g}\;\frac{\varepsilon'}{\eta'}\;\frac{\sin^2\theta_B}{\cos\theta_B}'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "Eq. 21 (p. 5); definitions (p. 6)"
+anchor = "θB is the angle between B and the z axis, and (see"
+anchor_tex = "\\beta = \\frac{\\eta' - \\varepsilon' + g^2/\\varepsilon' + \\eta' \\,m/(1+\\hat{a})"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms numerator grouping and both trailing factors; the corrected locator includes the anchor and definitions on p. 6. [PLCH04 L370–393](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:370)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.dielectric-tensor-polarizability"]
+notes = "Latex read off the PDF page image (p. 5); the extracted text separates the numerator, denominator and trailing factor across lines, so the grouping (trailing factor multiplies the whole fraction) should be re-confirmed by a reviewer."
+
+[[entry]]
+id = "opacity.approx-mode-beta-small-polarizability"
+kind = "approximation"
+domain = "opacity"
+name = "Small-polarisability form of beta"
+statement = "When plasma and vacuum polarisabilities are small, beta reduces to a form in the Hermitian cyclic polarisabilities chi^H_alpha and the vacuum combination (q + m)/(2 pi)."
+latex = '''\beta \approx \frac{2\chi^{\rm H}_0-\chi^{\rm H}_{+1}-\chi^{\rm H}_{-1}+(q+m)/(2\pi)}{2\left(\chi^{\rm H}_{+1}-\chi^{\rm H}_{-1}\right)}\,\frac{\sin^2\theta_B}{\cos\theta_B}'''
+validity = "|chi^H_alpha| << 1/(4 pi) and |a_hat|, |q|, |m| << 1"
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eq. 22 (p. 6)"
+anchor = "case where the plasma and vacuum polarizabilities are"
+anchor_tex = "\\beta \\approx \\frac{2\\chiH_0 - \\chiH_{+1} - \\chiH_{-1} + (q+m)/(2\\pi)"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 22 and smallness conditions match; the resonance-intersection note now preserves the illustrated susceptibility hierarchy. [PLCH04 L394–424](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:394)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.mode-parameter-beta"]
+notes = "In the illustrated regime |chi0^H|, |chi+1^H| << |chi-1^H|, PLCH04 notes vacuum resonances occur where chi^H_{-1} meets (q+m)/(2 pi). PC03 eq. 26 gives the older |q| >> |p| mode-ellipticity approximation q ~ q-tilde(omega) sin^2 theta_B/(2 cos theta_B); not transcribed."
+
+# ---------------------------------------------------------------- vacuum polarisation
+
+[[entry]]
+id = "opacity.vacuum-coeffs-weak-field"
+kind = "equation"
+domain = "opacity"
+name = "Vacuum polarisation coefficients, weak-field limit"
+statement = "In the limit b << 1 the vacuum polarisation coefficients are a_hat = -2 alpha_f b^2/(45 pi), q = 7 alpha_f b^2/(45 pi), m = -4 alpha_f b^2/(45 pi) (Adler 1971), with b = B/B_Q."
+latex = '''\hat a = -\frac{2\alpha_f}{45\pi}b^2,\qquad q=\frac{7\alpha_f}{45\pi}b^2,\qquad m=-\frac{4\alpha_f}{45\pi}b^2'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eq. A1 (p. 9)"
+anchor = "the vacuum polarization coefficients are given by (Adler 1971)"
+anchor_tex = "\\hat{a}= - \\frac{2 \\alphaf}{45\\pi}\\, b^2,"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-vacuum", "opacity.field-qed-bq", "opacity.approx-vacuum-low-energy"]
+notes = "Limit b << 1. The fits A7-A9 reproduce these limits exactly (PLCH04 text after A9)."
+
+[[entry]]
+id = "opacity.vacuum-coeffs-heyl-hernquist"
+kind = "equation"
+domain = "opacity"
+name = "Vacuum polarisation coefficients for arbitrary field (Heyl-Hernquist form)"
+statement = "The Heyl and Hernquist (1997) result for a_hat, a_hat + q and m reduced to a function X(xi) of the Gamma function, with xi = 1/b."
+latex = '''\hat a=\frac{\alpha_f}{2\pi}\left[\xi X(\xi)-2\int_1^\xi X(\xi')\,d\xi'-0.0329199\right],\quad \hat a+q=\frac{\alpha_f}{2\pi}\left[\frac{2}{9\xi^2}-\frac23X'(\xi)\right],\quad m=\frac{\alpha_f}{2\pi}\left[\xi X(\xi)-\xi^2X'(\xi)\right],\quad X(\xi)=2\ln\Gamma(\xi/2)-\frac{1}{3\xi}-\ln\frac{4\pi}{\xi}+\xi+\xi\ln\frac{2}{\xi},\quad X'(\xi)=\frac{dX}{d\xi},\ \xi=b^{-1}'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eqs. A2-A6 (p. 9)"
+anchor = "can be reduced to the following more convenient form:"
+anchor_tex = "\\hat{a} = \\frac{\\alphaf}{2\\pi} \\bigg["
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Page image confirms integral limits, −0.0329199, derivatives, Gamma-function expression and ξ=b⁻¹; attribution matches. [PLCH04 L544–563](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:544)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.notation-vacuum", "opacity.approx-vacuum-low-energy"]
+notes = "Latex read off the PDF page image (p. 9); the extracted text of A5 drops fraction components. PLCH04 says A2-A6 agree with Fig. 2 of Kohri and Yamada (2002). Reference verification target for the fits A7-A9."
+
+[[entry]]
+id = "opacity.vacuum-coeffs-fit"
+kind = "equation"
+domain = "opacity"
+name = "Analytic fits to the vacuum polarisation coefficients"
+statement = "Closed-form fits to a_hat, q and m as functions of b = B/B_Q that recover the weak-field limits exactly and the leading (and for a_hat, q also next-to-leading) high-field terms; maximum errors against eqs. A2-A6 are 1.1% at b = 0.07 for a_hat, 2.3% at b = 0.4 for q, and 4.2% at b = 0.3 for m."
+latex = '''\hat a\approx-\frac{2\alpha_f}{9\pi}\ln\left(1+\frac{b^2}{5}\,\frac{1+0.25487\,b^{3/4}}{1+0.75\,b^{5/4}}\right),\quad q\approx\frac{7\alpha_f}{45\pi}\,b^2\,\frac{1+1.2\,b}{1+1.33\,b+0.56\,b^2},\quad m\approx-\frac{\alpha_f}{3\pi}\,\frac{b^2}{3.75+2.7\,b^{5/4}+b^2}'''
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "eqs. A7-A9 (pp. 9-10)"
+anchor = "agree with Fig. 2 of Kohri & Yamada (2002) and can be approxi-"
+anchor_tex = "\\hat{a} \\approx - \\frac{2\\alphaf}{9\\pi} \\ln\\bigg("
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Equations and errors match, but notes falsely say the high-field expansions are absent locally."} ]
+provenance = "fit"
+ownership = "stub"
+reimplement = "A20 L0: evaluate the closed forms a_hat, a_hat+q, m from X(xi) (PLCH04 A2-A6, opacity.vacuum-coeffs-heyl-hernquist) directly, re-deriving the constant 0.0329199; cross-check with a numerical Euler-Heisenberg proper-time integral (A20 L1). A7-A9 stay verification targets only."
+depends_on = ["opacity.vacuum-coeffs-weak-field", "opacity.vacuum-coeffs-heyl-hernquist"]
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:215"
+notes = "Fits are themselves approximations with the stated maximum errors; check against A2-A6 numerically before use. The high-field expansions are Ho and Lai (2003) eqs. 2.15-2.17, not in refs/."
+
+[[entry]]
+id = "opacity.approx-vacuum-low-energy"
+kind = "approximation"
+domain = "opacity"
+name = "Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly"
+statement = "The vacuum polarisation coefficients are computed from the Euler-Heisenberg effective Lagrangian in the low-energy limit and, when small, the vacuum polarisability is added linearly to the plasma polarisability; mode conversion across the vacuum resonance is a separate transfer problem."
+validity = "hbar omega << m_e c^2; |a_hat|, |q|, |m| << 1"
+source = "potekhin_lai_chabrier_ho_2004_polarization"
+locator = "Appendix (p. 9), and Sect. 2.1 (p. 2)"
+anchor = "the Euler-Heisenberg effective Lagrangian can be applied."
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Low-energy condition, small-polarisation linear addition and separate need to solve mode conversion are supported. [PLCH04 L128–141, 510–513, 538–539](/home/tobias/Projects/neutronstars/refs/potekhin_lai_chabrier_ho_2004_polarization.txt:128)."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.dielectric-tensor-polarizability"]
+notes = "v1 recorded the related decision A4 (local vacuum polarisation without mode conversion) in truth/harvest/v1_approximations.md."
+
+[[entry]]
+id = "opacity.vacuum-resonance-energy"
+kind = "equation"
+domain = "opacity"
+name = "Vacuum resonance energy"
+statement = "For a photon in a medium of constant density rho the plasma and vacuum contributions to the dielectric tensor cancel for E << E_Be at the energy E_V = 1.02 (Y_e rho_1)^(1/2) B_14^-1 f_B keV; at the resonance both modes are circularly polarised."
+latex = '''E_V = 1.02\,(Y_e\rho_1)^{1/2}\,B_{14}^{-1}\,f_B\ {\rm keV}'''
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eq. 1 (p. 3)"
+anchor = "“cancel” each other out at a particular energy given by"
+anchor_tex = "E_V= 1.02\\left({Y_e\\,\\rho_1}\\right)^{1/2}"
+ocr = "good"
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text. applied (E << E_Be from source preamble)"}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Eq. 1 and E≪E_Be match, but notes falsely claim f_B cannot be computed from the local library."} ]
+provenance = "fit"
+ownership = "stub"
+reimplement = "A21 L0: root-find the energy where the plasma (eps_perp, eta_par) and vacuum (a_hat, q, m) terms of our own dielectric tensor cancel (opacity.dielectric-tensor-polarizability plus A20 coefficients); f_B then follows implicitly rather than being the rounded constant."
+depends_on = ["opacity.notation-vacuum", "opacity.notation-particles-plasma"]
+notes = "Source is outside the six assigned papers but is in refs/. The slowly varying f_B ~ 1 is defined by Ho and Lai (2003) eq. 2.41, which is not in refs/, so f_B cannot be computed from the local library; SPW09 Eq. 13 uses E_V(rho) for the energy grid."
+
+[[entry]]
+id = "opacity.vacuum-resonance-density"
+kind = "equation"
+domain = "opacity"
+name = "Vacuum resonance density"
+statement = "A photon of energy E traversing the atmosphere density gradient meets the vacuum resonance at density rho_V = 0.96 Y_e^-1 E_1^2 B_14^2 f_B^-2 g cm^-3 (inverse of the resonance energy relation)."
+latex = '''\rho_V = 0.96\,Y_e^{-1}E_1^{2}B_{14}^{2}f_B^{-2}\ {\rm g\,cm^{-3}}'''
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "Eq. 2 (p. 4)"
+anchor = "traversing the density gradient of a NS atmosphere. The photon will encounter the vacuum resonance at the density"
+anchor_tex = "\\rho_V = 0.96\\, Y_e^{-1} E_1^2\\,"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Correct anchor/page; page image confirms 0.96, Y_e⁻¹, E₁², B₁₄², f_B⁻² and g cm⁻³. [VAL06 L210–216](/home/tobias/Projects/neutronstars/refs/van_adelsberg_lai_2006_magnetic_atm.txt:210)."} ]
+provenance = "fit"
+ownership = "stub"
+reimplement = "A21 L0: invert our computed vacuum-resonance condition for rho_V (root in rho of the vacuum-corrected mode parameter), as for opacity.vacuum-resonance-energy; the rounded 0.96 prefactor and f_B = 1 are verification targets only."
+depends_on = ["opacity.vacuum-resonance-energy"]
+v1_ref = "archive/v1/src/opacity/dielectric_tensor.jl:424"
+notes = "Exponents read off the PDF page image; the extracted text splits them across lines. Consistent with inverting eq. 1: E_V^2 = 1.04 Y_e rho B_14^-2 f_B^2 gives rho = 0.96 ... (1/1.02^2 = 0.961)."
+
+# ---------------------------------------------------------------- McPHAC non-magnetic opacities
+
+[[entry]]
+id = "opacity.thomson-opacity-mcphac"
+kind = "equation"
+domain = "opacity"
+name = "Reduced Thomson scattering opacity (McPHAC)"
+statement = "The Thomson scattering opacity per unit mass for ionisation fraction f_ion, which for fully ionised hydrogen (f_ion = 1) is sigma_T / (m_p + m_e)."
+latex = '''\sigma_{T,r} = \frac{f_{\rm ion}\,\sigma_T}{f_{\rm ion}(m_p+m_e)+(1-f_{\rm ion})\,m_H}'''
+source = "haakonsen_2012_mcphac"
+locator = "eq. 11 (p. 4)"
+anchor = "For an ionization fraction fion at a given depth, the reduced"
+ocr = "good"
+status = "blessed"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Verified against source by gpt-6.1-sol round 1; matches anchor and equation content."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.thomson-cross-section", "opacity.notation-opacity-symbols"]
+v1_ref = "archive/v1/src/opacity/hydrogen_ff.jl:49"
+notes = "Isotropic or anisotropic angular redistribution is separate (McPHAC eqs. 16-17, dipole phase function, not transcribed). Fully ionised limit is the project's Phase 2-3 decision."
+
+[[entry]]
+id = "opacity.ff-opacity-kramers-gaunt-mcphac"
+kind = "equation"
+domain = "opacity"
+name = "B = 0 free-free opacity, Kramers form with Gaunt factor (McPHAC)"
+statement = "True absorption opacity of fully ionised hydrogen at B = 0: the Kramers frequency and temperature scaling nu^-3 T^-1/2 times the stimulated-emission factor and the temperature-averaged free-free Gaunt factor, in cgs and per gram."
+latex = '''\kappa_\nu = \frac{4e^6}{3m_ehc}\sqrt{\frac{2\pi}{3km_e}}\;T^{-1/2}\,\frac{\rho}{(m_p+m_e)^2}\,\nu^{-3}\left(1-e^{-h\nu/kT}\right)\bar g_{\rm ff}\ {\rm cm^2\,g^{-1}}'''
+source = "haakonsen_2012_mcphac"
+locator = "eq. 12 (p. 4)"
+anchor = "opacity is the free–free opacity (Rybicki & Lightman 1979),"
+ocr = "poor"
+image_verified = true
+status = "rejected"
+reviews = [ {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Applied reviewer correction after checking against refs text."}, {reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Page image confirms Eq. 12, but the notes’ equality with damped PC03 Eqs. 37+41 omits ν_e,0≪ω."} ]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["opacity.coulomb-log-classical", "opacity.ff-effective-frequency", "opacity.notation-opacity-symbols"]
+v1_ref = "archive/v1/src/opacity/hydrogen_ff.jl:21"
+notes = "Latex read off the PDF page image (the extracted text drops the radical). Hand-derivation shows it equals PC03 eqs. 37+41 divided by m_H at alpha = 0, B -> 0, Lambda = (pi/sqrt 3) g-bar. McPHAC takes g-bar_ff from the Sutherland (1998) table indexed by u and gamma^2 = Z^2 Ry/(k_B T) (with the column labels reversed, McPHAC footnote 2); under project Principle 5 that table can be a verification fixture only."

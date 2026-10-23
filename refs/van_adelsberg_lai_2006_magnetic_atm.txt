@@ -1,0 +1,1679 @@
+                                       Mon. Not. R. Astron. Soc. 000, 1–31 (2006)      Printed 2 November 2018    (MN LATEX style file v2.2)
+
+
+
+
+                                       Atmosphere Models of Magnetized Neutron Stars: QED
+                                       Effects, Radiation Spectra and Polarization Signals
+
+                                       M. van Adelsberg1⋆ and D. Lai1⋆
+                                       1 Center for Radiophysics and Space Research, Department of Astronomy, Cornell University, Ithaca, NY 14853
+
+
+
+
+                                       Accepted 2006 September 21. Received 2006 September 05; in original form 2006 July 09
+arXiv:astro-ph/0607168v3 22 Sep 2006
+
+
+
+
+                                                                          ABSTRACT
+                                                                          Observations of surface emission from isolated neutron stars (NSs) provide unique
+                                                                          challenges to theoretical modeling of radiative transfer in magnetized NS atmospheres.
+                                                                          Recent work has demonstrated the critical role of vacuum polarization effects in de-
+                                                                          termining NS spectra and polarization signals, in particular the conversion of photon
+                                                                          modes (due to the “vacuum resonance” between plasma and vacuum polarization)
+                                                                          propagating in the density gradient of the NS atmosphere. Previous NS atmosphere
+                                                                          models incorporated the mode conversion effect approximately, relying on transfer
+                                                                          equations for the photon modes. Such treatments are inadequate near the vacuum
+                                                                          resonance, particularly for magnetic field strengths around B ∼ Bl ≃ 7 × 1013 G,
+                                                                          where the vacuum resonance occurs near the photosphere. In this paper, we provide
+                                                                          an accurate treatment of the mode conversion effect in magnetized NS atmosphere
+                                                                          models, employing both the modal radiative transfer equations coupled with an ac-
+                                                                          curate mode conversion probability at the vaccum resonance, and the full evolution
+                                                                          equations for the photon Stokes parameters. In doing so, we are able to quantitatively
+                                                                          calculate the effects of vacuum polarization on atmosphere structure, emission spectra
+                                                                          and beam patterns, and polarizations for the entire range of magnetic field strengths,
+                                                                          B = 1012 − 1015 G. In agreement with previous works, we find that for NSs with
+                                                                          magnetic field strength B & 2 Bl , vacuum polarization reduces the widths of spectral
+                                                                          features, and softens the hard spectral tail typical of magnetized atmosphere models.
+                                                                          For B . Bl /2, vacuum polarization does not change the emission spectra, but can
+                                                                          significantly affect the polarization signals. Our new, accurate treatment of vacuum
+                                                                          polarization is particularly important for quantitative modeling of NS atmospheres
+                                                                          with “intermediate” magnetic fields, B ≃ (0.5 − 2) Bl . We provide fitting formulae
+                                                                          for the temperature profiles for a suite of NS atmosphere models with different field
+                                                                          strengths, effective temperatures and chemical compositions (ionized H or He). These
+                                                                          analytical profiles are useful for direct modeling of various observed properties of NS
+                                                                          surface emission. As an example, we calculate the observed intensity and polarization
+                                                                          lightcurves from a rotating NS hotspot, taking into account the evolution of pho-
+                                                                          ton polarization in the magnetosphere. We show that vacuum polarization induces a
+                                                                          unique energy-dependent linear polarization signature, and that circular polarization
+                                                                          can be generated in the magnetosphere of rapidly rotating NSs. We discuss the im-
+                                                                          plications of our results to recent observations of thermally emitting isolated NSs and
+                                                                          magnetars, as well as the prospects of future spectral and polarization observations.
+
+                                                                          Key words: magnetic fields – radiative transfer – stars: atmospheres – stars: magnetic
+                                                                          fields – stars: neutron – X-rays: stars.
+
+
+
+
+                                       ⋆   Email: mvanadel@astro.cornell.edu (MVA); dong@astro.cornell.edu (DL)
+
+                                       c 2006 RAS
+2      M. van Adelsberg and D. Lai
+1     INTRODUCTION
+
+Thermal surface emission from isolated neutron stars (NSs) (e.g., Kaspi et al. 2005) can potentially provide invaluable infor-
+mation on the physical properties and evolution of NS equations of state at super-nuclear densities, cooling histories, magnetic
+fields, and surface compositions (see, e.g., Prakash et al. 2001; Yakovlev & Pethick 2004 for review). In recent years, significant
+progress has been made in detecting such radiation using X-ray telescopes such as Chandra and XMM-Newton. For example,
+the spectra of a number of radio pulsars (PSR B1055-52, B0656+14, Geminga and Vela) have been observed to possess thermal
+components that can be attributed to emission from NS surfaces and/or heated polar caps (see, e.g., Becker & Pavlov 2002).
+Phase-resolved spectroscopic observations have become possible, revealing the surface magnetic field geometry and emission
+radius of the pulsar (e.g., Caraveo et al. 2004; De Luca et al. 2005; Jackson & Halpern 2005). Chandra has also uncovered
+a number of compact sources in supernova remnants with spectra consistent with thermal emission from NSs (see Pavlov et
+al. 2003), and useful constraints on NS cooling physics have been obtained (Slane et al. 2002; Yakovlev & Pethick 2004).
+     Surface X-ray emission has also been detected from a number of soft gamma-ray repeaters (SGRs) and anomalous X-ray
+                                                                                                                              14
+pulsars (AXPs) — these are thought to be magnetars, which emit radiation powered by the decay of superstrong (B >       ∼ 10 G)
+magnetic fields (see Thompson & Duncan 1995,1996; Woods & Thompson 2005). The quiescent magnetar emission consists of
+a blackbody-like component with temperature (3–7) ×106 K, and a power-law tail from 2 − 10 keV with photon index 2 − 3.5
+(e.g., Juett et al 2002; Kulkarni et al. 2003; Tiengo et al. 2005), as well as significant flux at ∼ 100 keV (Kuiper et al. 2004;
+Kuiper et al. 2006). Somewhat surprisingly, the observed thermal emission does not show any of the spectral features one
+might expect, such as the ion cyclotron line around 1 keV (for typical magnetar field strengths).
+     The seven isolated, radio-quiet NSs (the so-called “dim isolated NSs”; see Haberl 2005) are also of great interest. These
+NSs share the property that their spectra appear to be entirely thermal, indicating that the emission arises directly from
+the NS atmospheres, uncontaminated by magnetospheric processes. The true nature of these sources is unclear at present:
+they could be young cooling NSs, or NSs kept hot by accretion from the ISM, or magnetars and their descendants (see
+van Kerkwijk & Kulkarni 2001, Mori & Ruderman 2003; Haberl 2005; Kaspi et al. 2005). While the brightest of these, RX
+J1856.5-3754, has a featureless spectrum remarkably well described by a blackbody (Drake et al. 2002; Burwitz et al. 2003),
+absorption lines/features at E ≃ 0.2–2 keV have recently been detected from at least four sources, including 1E 1207.4-
+5209 (at 0.7 and 1.4 keV, possibly also 2.1, 2.8 keV; Sanwal et al. 2002; Bignami et al. 2003; DeLuca et al. 2004; Mori et
+al. 2005), RX J1308.6+2127 (0.2-0.3 keV; Haberl et al. 2003), RX J1605.3+3249 (0.45 keV; van Kerkwijk et al. 2004), RX
+J0720.4−3125 (0.27 keV; Haberl et al. 2004a), and possibly several additional sources (see Haberl et al. 2004b; Zane et al.
+2005). The identification of these features remains uncertain, with suggestions ranging from electron/ion cyclotron lines to
+atomic transitions of H, He or mid-Z atoms in a strong magnetic field (Ho & Lai 2004; Pavlov & Bezchastnov 2005; Mori et
+al. 2005). These sources also have different X-ray lightcurves: for example, RX J1856.5-3754 and RX J1605+3249 show no
+variability (pulse fraction <
+                            ∼ 1-3%), while RX J0720-3125 shows single-peaked pulsations (P = 3.39 s) of amplitude ∼ 11%,
+with the spectral hardness and line width varying with the pulse phase, and RX J1308+2127 shows double-peaked pulsations
+(P = 10.3 s) with amplitude ∼ 18%. Another puzzle concerns the optical emission: for at least four of these sources, optical
+counterparts have been identified, however, the optical flux is larger (by a factor of 4-10) than the extrapolation from the
+blackbody fit to the X-ray spectrum (see, e.g., Trümper et al. 2004; Haberl 2005).
+     The spectrum of NS thermal radiation is formed in the atmosphere layer (with scale height ∼ 0.1 − 10 cm and density
+10−3 − 103 g cm−3 ) that covers the stellar surface. Thus, to properly interpret observations of NS surface emission, detailed
+modeling of NS atmospheres in strong magnetic fields is required.
+
+
+
+1.1    Previous work on magnetic neutron star atmosphere models
+
+The first magnetic NS atmosphere models were constructed by Shibanov et al. (1992) (see also Pavlov et al. 1995; Rajagopal et al.
+1997; Zavlin & Pavlov 2002), who focused on moderate field strengths B ∼ 1012 –1013 G and assumed full ionization (see also
+Zane et al. 2000 for atmosphere models with accretion).1 Similar ionized models for the magnetar field regime (B >        14
+                                                                                                                     ∼ 10 G)
+were studied by Zane et al. (2001), Özel (2001) and Ho & Lai (2001,2003). An inaccurate treatment of the free-free opacities in
+the earlier models (Pavlov et al. 1995) was corrected by Potekhin & Chabrier (2003), and the correction has been incoporated
+into later models (Ho et al. 2003,2004). Recent works (Lai & Ho 2002,2003a; Ho & Lai 2003) have shown that in the magnetar
+field regime, the effect of strong-field quantum electrodynamics significantly influences the emergent atmosphere spectrum.
+In particular, vacuum polarization gives rise to a resonance phenomenon, in which photons can convert from the high-opacity
+mode to the low-opacity one and vice versa. This vacuum resonance tends to soften the hard spectral tail due to the non-
+greyness of the atmosphere and suppress the width of absoprtion lines (see Lai & Ho 2003a for a qualitative explanation).
+
+
+1  An earlier attempt by Miller (1992) adopted a polarization-averaging procedure for the radiative transport which is rather inaccurate
+since most of the photon flux is carried by the low-opacity photon mode.
+
+                                                                                                      c 2006 RAS, MNRAS 000, 1–31
+                                                             Atmosphere Models of Magnetized Neutron Stars                          3
+                                          14
+Even for modest field strengths (B < ∼ 10 G), vacuum polarization can still leave a unique imprint on the X-ray polarization
+                           2
+signal (Lai & Ho 2003b).
+     Because a strong magnetic field greatly increases the binding energies of atoms, molecules and other bound species (see Lai
+2001), these bound states may have appreciable abundances in the NS atmosphere (Lai & Salpeter 1997; Potekhin et al. 1999).
+Early considerations of partially ionized atmospheres (e.g., Rajagopal et al. 1997) relied on oversimplified treatments of atomic
+physics (e.g., ionization equilibrium and equation of state) and nonideal plasma effects in strong magnetic fields. Recently, a
+thermodynamically consistent equation of state and opacities for magnetized (B = 1012 − 1015 G), partially ionized H plasma
+have been obtained (Potekhin et al. 1999; Potekhin & Chabrier 2003,2004), and the effect of bound atoms on the dielectric
+tensor of the plasma has also be studied (Potekhin et al. 2004). These improvements have been incorporated into partially
+ionized, magnetic NS atmosphere models (Ho et al. 2003; Potekhin et al. 2004). Finally, for sufficiently low temperatures
+and/or strong magnetic fields, the NS atmosphere may undergo a phase transition into a condensed state (see Ruderman
+1971; Jones 1986; Neuhauser et al. 1987; Lai & Salpeter 1997; Lai, D. 2001; Medin & Lai 2006a,b). Thermal emission from
+such a condensed surface has been studied by van Adelsberg et al. (2005) (cf. Turolla et al. 2004; Perez-Azorin et al. 2005).
+
+
+1.2    This paper
+
+While previous works have identified the importance and trend of the vacuum polarization effect (Lai & Ho 2002,2003a), the
+implementation of the effect in NS atmosphere models (Ho & Lai 2003,2004) has been based on approximations (see §2).
+So far all studies of magnetic NS atmospheres have relied on solving the transfer equations for the specific intensities of the
+two photon modes. As discussed in Lai & Ho (2003a) and reviewed in §2 below, these equations cannot properly handle the
+vacuum-induced mode conversion phenomenon because mode conversion intrinsically involves interference between different
+modes.
+     In this paper we provide a new, quantitatively accurate treatment of vacuum polarization effects in radiation transfer
+for fully ionized NS atmospheres. Our work confirms the semi-quantitative results obtained in previous works based on an
+approximate treatment of vacuum resonance (Ho & Lai 2003; Lai & Ho 2003b). Moreover, our new treatment allows us to
+quantitatively predict the spectral and polarization properties of NS atmospheres with field strengths varying from 1012 G to
+1015 G.
+     The remainder of our paper is organized as follows: §2 describes the basic physics of vacuum polarization in radiative
+transfer and resonant mode conversion; §3 details two methods of solving the radiative transfer problem and our basic physics
+inputs, as well as tests of our numerical method; §4 presents the basic results from our models, including atmosphere structures
+(with fitting formulae for the temperature profiles), spectra, and emission beam patterns; §5 considers the observed polarization
+signals of atmosphere emission for a simple geometry (i.e., a rotating NS hotspot); and §6 discusses the implications of our
+results.
+
+
+
+2     EFFECT OF VACUUM POLARIZATION ON RADIATIVE TRANSFER
+Before describing our quantitative treatment of the vacuum polarization effect in NS atmospheres, it is useful to summarize
+the basic physics of the effect (see also Lai & Ho 2003a) and discuss the limitations of previous treatments.
+    Photons (with energy E ≪ EBe = h̄eB/me c, the electron cyclotron energy) in magnetized NS atmospheres usually
+propagate in two distinct polarization states, the ordinary mode (denoted by “O”) and the extraordinary mode (denoted by
+“X”), which are polarized (almost) parallel and perpendicular to the plane made by the magnetic field and direction of photon
+propagation, respectively. In strong magnetic fields, the dielectric tensor describing the atmospheric plasma of a NS must be
+corrected for QED vacuum effects (Gnedin et al. 1978; Mészáros & Ventura 1979; Pavlov & Shibanov 1979; Mészáros 1992).
+For a photon propagating in a medium of constant density ρ, the plasma and vacuum contributions to the dielectric tensor
+“cancel” each other out at a particular energy given by
+
+EV = 1.02 (Ye ρ1 )1/2 B14
+                       −1
+                          fB keV,                                                                                                 (1)
+                                                                                                       −3                 14
+where Ye = Z/A (Z, A are the atomic number and mass number, respectively), ρ1 = ρ/(1 g cm ), B14 = B/(10 G), and
+fB ∼ 1 is a slowly varying function of B [see eq. (2.41) of Ho & Lai (2003)]. At the resonance, both modes become circularly
+polarized. A number of previous papers (e.g., Mészáros 1992) emphasized the sharp X-mode opacity feature associated with
+
+
+2  Bulik & Miller (1997) studied the effect of vacuum polarization on Compton scattering in an isothermal magnetized plasma, in the
+context of SGR bursts. They did not calculate self-consistent atmosphere models and did not find the effects (suppression of spectral
+lines and hard tails) discussed in the works of Ho & Lai. Zane et al. (2001) included vacuum polarization effects in their models, but
+did not report any of the important effects of QED. Özel (2001) also included vacuum polarization effects, but came to the opposite
+conclusion (i.e., that vacuum polarization effects cause thermal spectral tails to become harder), which is incorrect.
+
+c 2006 RAS, MNRAS 000, 1–31
+4       M. van Adelsberg and D. Lai
+
+
+
+
+Figure 1. Photon free-free absorption opacities for X and O polarization modes as a function of energy at B = 1014 G, T = 106 K,
+θkB = π/4 and ρ = 5.4 g cm−3 . Vacuum polarization induces the sharp resonance feature for the X-mode opacity at EV . This “spiky
+opacity” can affect the emergent radiation spectrum from magnetized NSs, but does not include all the effects associated with the vacuum
+resonance.
+
+
+the resonance (see Fig. 1). It might seem that to understand the vacuum polarization effect in radiative transfer, all one needs
+to do is to include this spike in the opacity (e.g., Özel 2003). However, this is not the whole story.
+     A more useful way to understand the effects of the vacuum resonance is to consider a photon with given energy E,
+traversing the density gradient of a NS atmosphere. The photon will encounter the vacuum resonance at the density
+
+ρV = 0.96 Ye−1 E12 B14
+                    2   −2
+                       fB  g cm−3 ,                                                                                                 (2)
+where E1 = E/(1 keV). Lai & Ho (2002) showed that the photon undergoes resonant mode conversion when the adiabatic
+condition E & Ead is satisfied, with3
+                                                                 1/3
+                                                2/3       1 cm
+Ead = 2.52 fB tan θkB 1 − (EBi /E)2
+             
+                                                                         ,                                                          (3)
+                                                            Hρ
+where θkB is the angle between the magnetic field and direction of propagation, EBi = 0.63(Z/A) keV is the ion cyclotron
+energy, and Hρ ≡ |ds/d ln ρ| is the density scale height along the ray. Thus, an adiabatic O-mode photon encountering the
+vacuum resonance will convert into an X-mode photon, and vice-versa. In general, for intermediate energies E ∼ Ead , photons
+undergo partial conversion, in which an O-mode converts to a X-mode (and vice-versa) with probability 1 − Pjump , where
+Pjump is the non-adiabatic jump probability
+             π
+                 h              i
+Pjump = exp − (E/Ead )3 .                                                                                                           (4)
+             2
+Due to free-free absorption, the X-mode opacity is suppressed relative to the O-mode by a factor of (EBe /E)2 , where the
+electron cyclotron energy is EBe = 1158 B14 keV; thus, the mixing of photon modes at the resonance can have a drastic effect
+on the radiative transfer. For magnetic field strengths satisfying (Lai & Ho 2003a, Ho & Lai 2004)
+                13       −1/8       −1/4
+B>
+ ∼ Bl ≃ 6.6 × 10 T6             E1         S −1/4 G,                                                                                (5)
+                     6                        −E/kT
+where T6 = T /(10 K) and S = 1 − e         , the vacuum resonance density lies between the X-mode and O-mode photospheres
+for typical photon energies, leading to suppression of spectral features and softening of the hard X-ray tail characteristic of
+ionized hydrogen atmospheres. For “normal” magnetic fields, B <   ∼ Bl , the vacuum resonance lies outside both photospheres,
+and the emission spectrum is unaltered by the vacuum resonance, although the observed polarization signals are still affected
+(Lai & Ho 2003b).
+     In their implementation of the vacuum resonance effect in NS atmosphere models, Ho & Lai (2003) considered two
+
+3   Since Ead depends on E, one needs to solve for E & Ead to determine the adiabatic region. See Fig. 6 of Lai & Ho (2003a).
+
+                                                                                                      c 2006 RAS, MNRAS 000, 1–31
+                                                                           Atmosphere Models of Magnetized Neutron Stars                        5
+limiting cases: (i) complete mode conversion (Pjump = 0), which is equivalent to assuming that E ≫ Ead is satisfied for all
+photon energies; (ii) no conversion (Pjump = 1), which is equivalent to assuming E ≪ Ead for all photons. In the former case,
+all X-mode photons are converted to the O-mode at the resonance (and vice-versa), whereas in the latter, such conversion
+is neglected. In both cases, radiative transfer equations based on photon modes can be used, as long as one properly defines
+the modes across the resonance (Ho & Lai 2003). We expect that the complete and no conversion limits bracket the correct
+solution. In case (ii), one only has the “narrow spiky opacity” effect associated with the resonance. Lai & Ho (2002) estimated
+the width of this opacity spike and emphasized the importance of resolving the spike. In both limits, vacuum resonance has
+qualitatively the same effects on the emergent spectrum, i.e., suppression of lines and softening of hard spectral tails (Lai &
+Ho 2002; Ho & Lai 2003), although for B ∼ (a few × 1013 ) − 1014 G, appreciable quantitative differences in the spectra using
+the two limits are produced (Ho & Lai 2004).
+     As mentioned before, all studies of radiative transfer in magnetized NS atmospheres so far have relied on solving the
+transfer equations for the specific intensities of the two photon modes (e.g., Mészáros 1992; Zavlin & Pavlov 2002). These
+equations cannot properly handle the vacuum-induced mode conversion phenomenon. In particular, photons with energies
+0.3-2 keV are only partially converted across the vacuum resonance (this is the energy range in which the bulk of the radiation
+emerges and spectral lines are expected for B ∼ 1014 G). In addition, the phenomenon of mode collapse (when the X and
+O-modes become degenerate) occurs when dissipative effects are included in the plasma dielectric tensor, and the concomitant
+breakdown of the Faraday depolarization condition near the resonance further complicates the standard treatment of radiative
+transfer based on normal modes. As shown by Gnedin & Pavlov (1974), the modal description of radiative transfer is valid
+only in the limit |Re(nX − nO )| ≫ |Im(nX + nO )|, where nX and nO are the indices of refraction corresponding to the X
+and O-modes, respectively. Ho & Lai (2003) showed that, for a narrow range of energies around the vacuum resonance, this
+condition can be violated, and the violation becomes especially pronounced in the magnetar field regime. It is not obvious
+whether the mode collapse significantly alters the radiative transfer. Thus, to account for the vacuum resonance effect in a
+quantitative manner, one must solve the transfer equations in terms of the photon intensity matrix (Lai & Ho 2003a) and
+properly take into account the probability of mode conversion. This is one of the main goals of our paper.
+
+
+3       METHOD
+
+3.1      Partial mode conversion using photon mode equations
+3.1.1      Radiative transfer equation
+For our models, we consider plane-parallel, fully ionized H or He atmospheres, with the magnetic field oriented normal to the
+surface. The standard method used in all previous work involves solving the coupled radiative transfer equations for the two
+modes of photon propagation. These are given by
+        ∂Iνj (τ, ±µ)   κtot
+                        j
+                             j
+                             Iν (τ, ±µ) − Sνj (τ, ±µ)
+                                                      
+±µ                   =                                                                                                                         (6)
+              ∂τ       κT
+where Iνj (τ, µ) is the specific intensity for mode j, µ = k̂ · ẑ ⩾ 0, κtot
+                                                                         j   = κffj + κsc
+                                                                                       j is the total opacity (with contributions from
+                                                                  2 −1
+free-free absorption and scattering, see below), κT = 0.4 cm g is the Thomson scattering opacity, τ is the Thomson optical
+depth (defined by dτ = −ρ κT dz), and Sνj is the source function, defined below. Eq. (6) is solved subject to the constraints
+of hydrostatic and radiative equilibria, as well as constant radiative flux Frad , given by:
+       g
+P =      τ,                                                                                                                         (7)
+      κT
+Z ∞          2
+                     Bν
+             X                          
+               abs
+        dν         κj            − Jνj       = 0,                                                                                              (8)
+    0
+                            2
+             j=1
+
+
+              2 Z ∞              Z 1
+              X
+                                       dµµ Iνj (µ) − Iνj (−µ) = σsb Teff
+                                                                     4
+                                                           
+Frad = 2π                   dν                                                                                                                 (9)
+               j=1      0         0
+
+                                                                                          −1/2
+                                                                                                  = 2.4 × 1014 cm s−2 is the surface gravitational
+                                                                     GM
+                                                                           
+where P is the pressure of electrons and ions, g =                   R2
+                                                                               1 − 2GM
+                                                                                    Rc2                        R1
+acceleration (we adopt M = 1.4 M⊙ and R = 10 km throughout the paper), Jνj ≡ (1/2) 0 dµ Iνj (µ) + Iνj (−µ) is the mean
+                                                                                                                                   
+specific intensity, Bν is the Planck function, and Teff is the effective temperature of the atmosphere. To integrate eq. (6) subject
+to the conditions of (7)-(9), we assume the ideal gas equation of state for both protons and electrons; electron degeneracy
+effects are neglected. Ho & Lai (2001) showed that the effect of this approximation on the atmosphere is negligible. Note
+that in general, thermal conduction due to electrons also contributes to the total flux. However, we have found that in the
+atmosphere region of interest, the conduction flux is always less than a few percent of the total flux, and is therefore neglected.
+
+c 2006 RAS, MNRAS 000, 1–31
+6           M. van Adelsberg and D. Lai
+3.1.2        Photon modes and opacities
+
+The properties of magnetized atmospheric plasma can be described by a complex dielectric tensor (Ginzburg 1964). In a
+coordinate system with the magnetic field aligned with the z-axis, the plasma contribution to the dielectric tensor takes the
+form (Lai & Ho 2003a):4
+                                     
+ (pl)           ǫ         ig       0
+    ǫ        =  −i g        ǫ       0 ,                                                                                            (10)
+                  0          0       η
+where
+                                 ve (1 + iγri ) + vi (1 + iγre )
+ǫ±g          ≈     1−                    1/2               1/2
+                                                                                                                                     (11)
+                                                              ⊥
+                      (1 + iγre ± ue )(1 + iγri ∓ ui ) + iγei   )
+                             ve                  vi
+        η    ≈     1−        k
+                                        −        k
+                                                            .                                                                        (12)
+                      1 + i(γei + γre )   1 + i(γei + γri )
+In eqs. (11)–(12) we have defined the dimensionless ratios ue ≡ (EBe /E)2 , ui ≡ (EBi /E)2 , ve ≡ (Epe /E)2 , vi ≡ (Epi /E)2 ,
+where Epe = h̄(4πne e2 /me )1/2 = 0.02871(Ye ρ1 )1/2 keV is the electron plasma energy, and Epi = (Zme /Amp )Epe = 6.70 ×
+         1/2                                                                       ⊥,k      ⊥,k
+10−4 Ye ρ1 keV is the ion plasma energy. The dimensionless damping rates γei = νei /ω (for electron-ion collisional
+damping), γre = νre /ω (for electron radiative damping), and γri = νri /ω (for ion radiative damping) are given by,
+
+    ⊥,k                           Z 2 ρ1
+                  9.2 × 10−5                   1 − e−E/kB T        ff
+                                                              
+γei         =                      1/2
+                                                                  g⊥,k ,                                                             (13)
+                                A T6 E12
+    γre     =     9.5 × 10−6 E1 ,                                                                                                    (14)
+                                 2
+                                Z
+    γri     =     5.2 × 10−9      E1 .                                                                                               (15)
+                                A
+                 ff
+The quantities g⊥   and gkff are the velocity-averaged magnetic Gaunt factors perpendicular and parallel to the magnetic field,
+respectively; they are calculated using eqs. (4.4.9)-(4.4.12) from Mészáros (1992).5 This calculation includes contributions
+from electrons in the ground Landau level only. Gaunt factors including contributions from excited states have been derived
+by Potekhin & Chabrier (2004). Nevertheless, for energies well below EBe , the differences between the two calculations are
+negligible (Potekhin 2006).
+     Vacuum contributions to the dielectric tensor can be taken into account by making the following substitutions into the
+tensor of eq. (10):
+
+ǫ → ǫ′ = ǫ + a − 1, η → η ′ = η + a + q − 1,                                                                                         (16)
+
+where a and q are vacuum parameters given by the expressions in, e.g., Heyl & Hernquist (1997) and Potekhin et al. (2004)
+(the latter also contains general fitting formulae). Solving Maxwell’s equations for the anisotropic medium yields two modes
+of propagation. In a coordinate system where the wave vector k is along the z-axis and the magnetic field lies in the xz plane
+(such that k̂ × B̂ = − sin θkB ŷ), the mode eigenvectors can be written as
+                        1
+e± =                                   (iK± , 1, iKz± ),                                                                             (17)
+            (1 + |K± |2 + |Kz± |2 )1/2
+where the ellipticity K± = −iex /ey of mode ± is given by
+                  p
+K± = β ±             β 2 + r,                                                                                                        (18)
+
+with r = 1 + (m/a) sin2 θkB (m is another vacuum polarization parameter; Heyl & Hernquist 1997; Potekhin et al. 2004), and
+the polarization parameter β is
+            ǫ′2 − g 2 − ǫ′ η ′ (1 + m/a) sin2 θkB
+β=−                                               .                                                                                  (19)
+                       2gη ′             cos θkB
+The z-components of the mode eigenvectors are given by
+                 (ǫ − η − g) sin θkB cos θkB K± + g sin θkB
+Kz± = −                                                     .                                                                        (20)
+                    ǫ sin2 θkB + (η + q) cos2 θkB + a − 1
+          Note that when the modes are labelled according to eq. (18), the K± vary continuously across the vacuum resonance
+
+
+4                                                     ±     ⊥ (1 + me ) ≈ γ ⊥ . This substitution should be applied to all the appropriate
+    Note that eq. (13) of Lai & Ho (2003a) should be γei = γei    Am       ei
+                                                                           p
+equations in Lai & Ho (2003a).
+5 Note that eq. (4.4.12) of Mészáros (1992) should be a = (p ± [p2 + 2mh̄ω]1/2 )2 (2mk T )−1 .
+                                                         ±                              B
+
+
+                                                                                                        c 2006 RAS, MNRAS 000, 1–31
+                                                                                             Atmosphere Models of Magnetized Neutron Stars                              7
+(β = 0), and do not cross each other in the absence of dissipation (Lai & Ho 2003a). Another way of labeling the modes,
+commonly adopted in the literature (e.g. Mészáros 1992), is
+                "                           1/2 #
+                               j       r
+Kj = β 1 + (−1)                     1+ 2                .                                                                                                            (21)
+                                      β
+
+According to this labeling scheme, j = 1 corresponds to the X-mode (|K1 | < 1) and j = 2 corresponds to the O-mode
+(|K2 | > 1). Obviously, K1 and K2 are not continuous functions across the vacuum resonance. It is also clear that a given +
+mode (or - mode) which manifests as the X-mode (O-mode) before the resonance switches character after the resonance.
+     Using the mode eigenvectors and the componenets of the dielectric tensor, expressions for the free-free absorption and
+scattering opacities can be obtained. The cyclic components of the mode eigenvectors in a rotating frame with the magnetic
+field along the z-axis are:
+                                              2
+        2                 1                            1 ± |Kj cos θkB + Kzj sin θkB |2
+ ej±            =        √ (ejX + iejY )          =                                     ,                                                                            (22)
+                           2                                2(1 + |Kj |2 + |Kzj |2 )
+        2               |Kj sin θkB − Kzj cos θkB |2
+  ejo           =                                    .                                                                                                               (23)
+                            1 + |Kj |2 + |Kzj |2
+Note that in the above expression, j indicates the mode, and the ± subscript should not be confused with the K± labeling of
+photon modes. The free-free absorption opacity for mode j can be written (Lai & Ho 2003a):
+κffj    =           κj+ |ej+ |2 + κ− |ej− |2 + κo |ejo |2 ,                                                                                                          (24)
+with
+                     ω           ⊥
+κ±          =           ve Λ± γei  ,                                                                                                                                 (25)
+                     cρ
+                     ω      k
+ κo         =           ve γei ,                                                                                                                                     (26)
+                     cρ
+                    h                                            i−1
+                                             1/2 2
+Λ±          =         (1 ± u1/2 2
+                            e ) (1 ∓ ui
+                                                       2
+                                                  ) + γ±                 ,                                                                                           (27)
+                     ⊥                                          1/2
+γ±          =       γei + (1 ± u1/2
+                                e )γri + (1 ∓ ui                      )γre .                                                                                         (28)
+Note that these expressions include the contribution of electron-ion Coulomb collisions to the free-free absorption opacity in
+a consistent way. They correct the free-free opacity adopted in earlier papers (e.g. Pavlov et al. 1995; Ho & Lai 2001), and
+they agree with the correct expressions given in Potekhin & Chabrier (2003), and those used by Ho et al. (2003, 2004).
+    The scattering opacity from mode j into mode i is given by Ventura (1979) (see Ho & Lai 2001):
+                        1                                                                      2      1
+                                                                                       Z 2 me
+                                                                                                                             i−1
+                                                                                                     κT X
+                                                                                                          h
+                                             2 −1 j 2 i
+                        X                                                                                         1/2
+κsc                            (1 + αu1/2 2
+                                                                                                           (1 − αui )2 + γi2     |ejα |2 Aiα
+                                                           
+ ji = Ye κT                           e ) + γe   |eα | Aα +                                                                                                          (29)
+                                                                                       Amp           A
+                        α=−1                                                                             α=−1
+
+            α              α
+                                                                                   R1
+                              +γri , and Aiα = (3/4)                                       dµ′ |eiα |2 . The total scattering opacity from mode j is then κsc        κsc
+                                                                                                                                                                 P
+where γe = γei +γre, γi = γei                                                      −1                                                                      j =   i    ji .
+
+
+
+3.1.3       Source function
+
+The source function in eq. (6) can be written as
+                                                   2    Z 1
+                κffj (µ) Bν    2π X                                     dκsc (µ′ i → µj)  j
+Sνj (µ) =                                                        dµ′                      Iν (µ) + Iνi (−µ)
+                                                                                                            
+                 tot
+                            + tot                                                                                                                                    (30)
+                κ (µ) 2      κj (µ)                         0
+                                                                               dΩ
+                                                  i=1
+
+where (Ventura 1979)
+                                              1                                    2                        2        1                      2
+dκsc (jµ → iµ′ )    3                         X                 1              ∗            3       Z 2 me        κT   X        1      ∗
+                 =    Ye κT                                ej eiα
+                                                        1/2 α
+                                                                                       +                                             ej eiα
+                                                                                                                                  1/2 α
+                                                                                                                                                  .                  (31)
+      dΩ′          8π                             1 + αue
+                                                                                           8π       Amp           A         1 − αu
+                                             α=−1                                                                      α=−1       i
+
+Following Ho & Lai (2001), it is a good approximation to assume that the differential scattering cross-section is independent
+of the initial photon direction. The resulting approximate source function is:
+                κffj (µ) Bν X κsc       i
+                               ji (µ) cuν
+Sνj (µ) ≈        tot
+                           +   tot
+                                                                                                                                                                     (32)
+                κj (µ) 2      κj (µ) 4π
+                                        i
+                                   R1
+where ujν = (2π/c) −1 dµ′ Iνj (µ′ ) is the specific energy density of mode j. Note that the source function depends on the specific
+intensity in all directions, and thus depends on the solution to the radiative transfer equation. Therefore, we calculate Sνj
+iteratively, according to the scheme described in §3.1.4-§3.1.5.
+
+c 2006 RAS, MNRAS 000, 1–31
+8       M. van Adelsberg and D. Lai
+3.1.4    Solution to transfer equation for photon modes including partial mode conversion
+
+We describe above how vacuum polarization effects can be incorporated into the free-free absorption and scattering opacities
+for the photon modes. However, these opacity effects do not capture the essence of the vacuum resonance phenomena. As
+discussed in Lai & Ho (2003a), solving the transfer eq. (6) using K± [eq. (18)] as the basis for the photon modes amounts
+to assuming complete mode conversion (Pjump = 0), while using K1,2 [eq. (21)] corresponds to assuming no mode conversion
+(Pjump = 1). This was the strategy adopted by previous works. To correctly account for the vacuum resonance effect, it is
+necessary to use the jump probability Pjump [eq. (4)] to convert the mode intensities across the resonance according to the
+formulae:
+
+IX      →   Pjump IX + (1 − Pjump )IO ,                                                                                      (33)
+IO      →   Pjump IO + (1 − Pjump )IX .                                                                                      (34)
+
+Note that since the resonance density depends on photon energy, the standard Feautrier procedure for integrating the radiative
+transfer equation cannot be used here, as there is no simple way to incoporate eqs. (33)-(34) into the method of forward and
+backward substitution employed by Feautrier (see Mihalas 1978, §6-3). Instead, we use the standard Runga-Kutta method to
+integrate the transfer eq. (6) in the upward and downward directions starting from the boundary conditions:
+
+Iνj (τ → τmax , +µ)      →   Bν /2                                                                                           (35)
+Iνj (τ → τmin , −µ)      →   0                                                                                               (36)
+
+The Runga-Kutta integration is stopped at the resonance, where eqs. (33) and (34) are used to convert the mode intensities.
+Then the integration is continued to completion. The limits τmax and τmin are chosen to span 5-8 orders of magnitude.
+This insures that (1) photons begin their evolution at densities greater than the X-mode decoupling depth, and (2) both
+X-mode and O-mode photons are fully decoupled from the matter at the outermost edge of the atmosphere (τ = τmin ). We
+finite-difference eq. (6) as:
+      I′ − I    1 
+                    κ(I − S) + κ′ (I ′ − S ′ )
+                                               
+±µ           ≈                                                                                                               (37)
+       ∆τ      2κT
+where I = Iνj (τ, ±µ), I ′ = Iνj (τ ′ , ±µ), κ = κtot  ′   tot ′        j           ′   j   ′             ′
+                                                  j , κ = κj (τ ), S = Sν (τ, ±µ), S = Sν (τ , ±µ), with τ = τ + ∆τ . This gives
+                                                           
+ ′          1            ∆τ κ            ∆τ
+I =         ∆τ κ′     1±             I∓      (κS + κ′ S ′ )                                                                  (38)
+        1 ∓ 2µκ          2µκT           2µκT
+               T
+
+This formula yields stable integrations whose results are not strongly dependent on grid spacing (see §3.4).
+    To summarize, our method for integrating the radiative transfer with partial mode conversion is as follows: (1) For given
+E and θkB , we integrate eq. (6) using (38) from τmax to the vacuum resonance at optical depth τV (defined by ρ(τV ) = ρV ).
+(2) At the resonance, the X-mode and O-mode intensities are converted using eqs. (33) and (34). (3) Integration of eq. (6) is
+continued to τmin . We use an analagous procedure for downward integration from τmin to τmax .
+
+
+3.1.5    Temperature correction procedure
+
+To integrate the radiative transfer equation, an initial temperature profile is assumed (the initial source function is set to
+Bν /2). This initial profile is taken from a previously constructed model with the same magnetic field and effective temperature,
+but without partial mode conversion (see Ho & Lai 2003). In general, the solution to eq. (6) using this profile will not satisfy
+eqs. (8)-(9). To establish equilibrium, the initial temperature profile is corrected using the standard Unsöld-Lucy procedure
+(Mihalas 1978). The entire process is iterated until the deviations from radiative equilibrium, constant flux, and the relative
+size of the temperature correction are all less than a few percent. During a given iteration, the specific intensity calculated
+from the previous iteration is used to determine the source function. Thus, the source function must also converge to yield
+a self-consistent solution. Numerically, we find that the source function converges more rapidly than the other quantities
+considered above. For a more detailed discussion of the construction of self-consistent atmosphere models, see Ho & Lai
+(2001) and Mihalas (1978).
+
+
+3.2     Partial mode conversion using photon Stokes parameters
+
+While the treatment described above captures the essential physics of the transfer problem, it is important to compare it to the
+exact solution obtained from integration of the transfer equations for the radiation Stokes parameters. As discussed in §2, near
+the vacuum resonance, the modal transfer equation (6) breaks down because of the violation of the Faraday depolarization
+condition and collapse of the photon modes (see Figs. 4-5 of Lai & Ho (2003a) for the precise condition).
+
+                                                                                                  c 2006 RAS, MNRAS 000, 1–31
+                                                                         Atmosphere Models of Magnetized Neutron Stars                  9
+       The radiation transfer equations for the Stokes parameters are given by (Lai & Ho 2003a):
+       ∂I
+±µ              =    M · I − Sem ,                                                                                                    (39)
+       ∂τ
+with
+                                                                                    
+                          σ11i            0          σ12i /2           −σ12r /2
+                    ω  0               σ22i       −σ12i /2           −σ12r /2      
+ M          =                                                                        ,                                               (40)
+                  cρκT  −σ12i           σ12i   (σ11i + σ22i )/2    (σ11r − σ22r)/2 
+                         −σ12r          −σ12r   (σ22r − σ11r )/2    (σ11i + σ22i )/2
+                                       
+                            σ11i
+                   ωBν     σ 22i
+                                  
+Sem         =                     ,                                                                                                 (41)
+                  2ρκT c     0   
+                           −2σ12r  em
+
+where σ11 = ǫ′ cos2 θkB + η ′ sin2 θkB − a, σ12 = ig cos θkB , σ22 = ǫ′ − a − m sin2 θkB , σαβr = ℜe(σαβ ), σαβi = ℑm(σαβ ),
+and I≡ (I11 , I22 , Uν , Vν )+ , with I11 = (Iν + Qν )/2, I22 = (Iν − Qν )/2. Note that eq. (39) ignores scattering; the “em” suffix
+on the source functions implies that terms proportional to γre or γri should be set to zero, as they are related to scattering
+contributions. The scattering contributions to eq. (39) are derived in Lai & Ho (2003a).
+    Away from the resonance, the modes discussed in §3.1.2 are well defined and are readily calculated from the Stokes
+parameters. Neglecting dissipative terms in the dielectric tensor, the transverse part of the mode polarization vectors can be
+written [see eq. (17)]
+
+e+ = (i cos θm , sin θm ), e− = (−i sin θm , cos θm ),                                                                                (42)
+                                                                          p      2
+                                                                                               p        2
+where θm is the “mixing angle” defined by cos θm = K+ /                     1 + K+ , sin θm = 1/   1 + K+ . The intensities of the ± modes
+can be calculated from the Stokes parameters via
+     1
+Iν± =  [Iν ± (cos 2θm Qν + sin 2θm Vν )] .                                                                                            (43)
+     2
+Conversely, given the mode intensities, the Stokes parameters can be calculated using
+
+Iν      =       Iν+ + Iν− ,                                                                                                           (44)
+Qν      =       cos 2θm (Iν+ − Iν− ) − 2 sin 2θm (Iν+ Iν− )1/2 cos ∆φ,                                                                (45)
+Uν      =       −2(Iν+ Iν− )1/2 sin ∆φ,                                                                                               (46)
+Vν      =       sin 2θm (Iν+ − Iν− ) + 2 cos 2θm (Iν+ Iν− )1/2 cos ∆φ,                                                                (47)
+                                   Rz
+where ∆φ = ∆φi + (ω/c) (n+ − n− )dz is the phase difference between the + and − modes. Note that ∆φ is unknown,
+since the initial phase difference ∆φi between photons in the X and O-modes is random. To correctly evaluate the Stokes
+parameters from the specific mode intensities, one should sample ∆φ from a random distribution, and average over the results.
+Practically, we note that while the choice of ∆φ affects the values of the Stokes parameters, it does not change the specific
+mode intensities calculated from eq. (43). Therefore, the phase difference is unimportant for the comparison of the mode and
+Stokes parameter transfer equations (see §3.3).
+     In principle, eq. (39) can be integrated from τmax to τmin using the initial condition I(τmax ) = (Bν /2, Bν /2, 0, 0)+ as in
+§3.1. However, this approach runs into a numerical difficulty: away from the vacuum resonance, differences in the indices of
+refraction for the two modes manifest as rapid oscillations in Qν , Uν , Vν , which are difficult to handle numerically. Thus, the
+direct solution of eq. (39) over the entire range of integration is impractical. It is possible, however, to integrate eq. (39) for
+a small range of τ around the resonance. Using eqs. (43) and (44)–(47), we can quantitatively compare the result of such an
+integration with that obtained using the method of §3.1.4, and thereby confirm the accuracy of the latter method (see §3.3).
+
+
+3.3     Numerical comparison between mode and Stokes transfer equations
+We consider a typical case, the propagation of a photon, initially polarized in the − mode, with energy E = 1.0 keV,
+propagation angle θkB = π/4, and magnetic field B = 1014 G. The temperature profile is held constant at T = 5 × 106 K
+[eqs. (44)-(47) are used to set the initial conditions for (39)]. Figure 2 shows the Stokes parameters as a function of optical
+depth near the resonance. These are obtained by integrating eq. (39). The corresponding mode intensities are then calculated
+using eq. (43) and depicted in the top panel (solid and dashed lines). The dashed-dot and dotted lines show the results
+obtained from the integration of the mode equations with partial mode conversion [eqs. (33)-(34)]. Note that the curves agree
+exactly except near the resonance where the modes are not well-defined.
+     We have carried out many similar comparisons between the mode equations and the Stokes transfer equation. The close
+
+c 2006 RAS, MNRAS 000, 1–31
+10     M. van Adelsberg and D. Lai
+
+
+
+
+Figure 2. Evolution of the Stokes parameters across the vacuum resonance obtained by integrating the transfer equation (39). The
+parameters are B = 1014 G, θkB = π/4, T = 5 × 106 K, and E = 1 keV. At high optical depth, the photon is in the − mode. In the top
+panel, the dotted line and the dot-dashed line show the mode intensities obtained using the method described in §3.1 [i.e., solving the
+transfer equation (6) based on photon modes, but taking account of partial mode conversion through eqs. (33)-(34)], while the solid and
+dashed lines give the mode intensities based on the evolution of Stokes parameters (panels 2-4). Note the close agreement everywhere
+except near the resonance where the modes are not well-defined.
+
+
+
+
+agreement between the two methods establishes the validity of our method described in §3.1, i.e., integrating the mode eq. (6)
+and taking partial mode conversion into account using eqs. (33)-(34).
+
+
+
+
+3.4   Numerical grid and test of accuracy
+
+In solving eq. (6), we set up grids in Thomson optical depth, temperature, density, energy, and angle. The grid in optical
+depth {τd : d = 1, . . . , D} is equally spaced logarithmically with 15 − 20 points per decade (ppd). As discussed above, this
+grid spans 5 − 8 orders of magnitude to insure that photons are generated at densities higher than the X-mode decoupling
+depth, and that they are fully decoupled from the matter at the outermost layer.
+     Care must be used in defining the energy grid. As mentioned before, vacuum polarization introduces a narrow spike in
+the X mode opacity. A prohibitively high energy grid resolution is required to properly resolve this feature. An alternative is
+to use the equal-grid method described by Ho & Lai (2003). In this case, each point of the energy grid is chosen to be the
+vacuum resonance energy [given by eq. (1)] corresponding to a point on the optical depth grid: {En = EV (τn ) : n = 1, . . . , D}.
+This insures that the vacuum resonance is resolved. Ho & Lai (2003) point out that in the “no conversion” limit, this leads to
+an over-estimate of the integrated optical depth across the vacuum resonance. It is therefore important to investigate what
+effect this has on the emergent spectra.
+     Figure 3 illustrates the effect of grid resolution on the spectra for two of the models presented in §4. The top panel
+shows the model with B = 1014 G, Teff = 106 K, which includes vacuum polarization in the opacities, but neglects the mode
+conversion effect (i.e., Pjump = 1). Over-estimation of the vacuum resonance in the X-mode opacity is expected to be strongest
+for this model, since modification of the emission spectrum is due solely to the enhaced opacity. The difference between models
+at 15 ppd and 20 ppd is negligible. Even at 10 ppd the difference is small, occuring mainly around the proton cyclotron line,
+as expected.
+     The bottom panel of Fig. 3 shows the model with B = 1014 G, and Teff = 5 × 106 K, which includes partial mode
+conversion. At higher effective temperatures, the optical depth across the vacuum resonance becomes much greater than
+unity, thus, the error due to finite grid size becomes even less important. The lower grid resolution (10 ppd) model shows
+negligible deviation from the higher-grid resolution (20 ppd) model, even around the proton cyclotron feature. This behavior
+is typical of all models with B = 5 × 1014 G.
+
+                                                                                                      c 2006 RAS, MNRAS 000, 1–31
+                                                         Atmosphere Models of Magnetized Neutron Stars                        11
+
+
+
+
+Figure 3. Spectra showing the effect of grid resolution on thermal emission. The top panel shows hydrogen atmosphere models with
+B = 1014 G, Teff = 106 K, which include vacuum polarization but neglect mode conversion. As the number of grid points per decade
+(ppd) are increased, the curves quickly converge to the 20 ppd case. At low resolution the error mainly occurs around the proton
+cyclotron feature, and is negligible elsewhere. The bottom panel shows hydrogen models with B = 1014 G, Teff = 5 × 106 K, which
+include vacuum polarization and mode conversion. At higher effective temperature, the difference between models with varying grid
+resolution is negligible.
+
+
+4     RESULTS: ATMOSPHERE STRUCTURE, SPECTRA, AND EMISSION BEAM PATTERN
+
+We now present the results of our atmosphere models. We consider B = 4×1013 , 7×1013 , 1014 , 5×1014 G, and Teff = 106 , 5×106
+K, for both H and He compositions.
+
+
+4.1    Atmosphere structure
+
+Figure 4 shows the temperature profile as a function of Thompson optical depth τ for the H atmosphere model with B = 1014
+G, and Teff = 106 K. To understand the effect of vacuum polarization, we show the results based on four different ways of
+treating vacuum polarization: (1) vacuum polarization effect is completely turned off (“no vaccum”); (2) vacuum polarization
+is included, but the mode conversion is neglected (Pjump = 1, “no conversion”); (3) vacuum polarization is included, and
+complete mode conversion is assumed (Pjump = 0, “complete conversion”); (4) vacuum polarization is included with the
+correct treatment of the resonance (“partial conversion”), using Pjump calculated from eq. (4). We see that models which
+include vacuum polarization show higher temperatures over a wide range of τ for the same Teff than models which ignore
+vacuum effects. This temperature increase is due to the X-mode opacity feature at the vacuum resonance (see Fig. 1). In
+general, atmosphere structure is determined by the radiative equilibrium condition, and inspection of the individual terms of
+eq. (8) reveals how the resonance affects the temperature profile. The mode absorption opacities obey the relation κO ≫ κX
+except at the energies E = EBi , EV . Thus, κX (Bν /2) can be neglected relative to κO (Bν /2) in eq. (8). In the absence of
+vacuum polarization, the O mode largely determines the atmosphere structure due to the weak interaction of X mode photons
+with the medium. However, when the resonance spike in the X mode opacity is present, κX JνX cannot be neglected relative to
+κO JνO ; in fact, this occurs over a large bandwidth for which JνX ≫ JνO . The result of this enhanced interaction is to increase
+the overall temperature. Adding the effect of mode conversion further increases the temperature over a large range of optical
+depth. This is due to heat deposited by converted X mode photons, which interact with the large O mode opacity after passing
+through the vacuum resonance. The temperature profile for the partial mode conversion model (shown by the solid curve of
+Fig. 4) closely follows the result for the no conversion model (shown by the dotted curve) for the small optical depths at which
+low energy photons decouple. This is because for these photons, E . Ead , is satisfied and mode conversion is ineffective. For
+larger optical depths, at which higher energy photons decouple, E & Ead , and mode conversion is more effective, thus the
+“partial conversion” result lies between the “no conversion” and “complete conversion” limits.
+     Figure 5 shows the temperature profile for the B = 1014 G, Teff = 5 × 106 K model. This higher temperature model
+shows the same basic features as the low-Teff model in Fig. 4. In this case, the energy flux is carried by photons with higher
+
+c 2006 RAS, MNRAS 000, 1–31
+12     M. van Adelsberg and D. Lai
+
+
+
+
+Figure 4. Temperature profile for the hydrogen atmosphere model with B = 1014 G, Teff = 106 K. The four curves correspond to
+different ways of treating the vacuum polarization effect: (1) no vacuum (short-dashed curve); (2) no conversion (dotted curve); (3)
+partial conversion (solid curve); and (4) complete conversion (long-dashed curve).
+
+
+
+
+                                       Figure 5. Same as Fig. 4, except for Teff = 5 × 106 K.
+
+
+
+
+energies, and the adiabatic condition (E & Ead ) is more readily satisfied, leading to effective mixing of photon modes. Thus
+we see that at large optical depths (τ & 0.1), the partial conversion profile closely follows the complete conversion curve. At
+lower optical depth, the partial conversion profile lies between the complete conversion and no conversion curves.
+    Finding self-consistent temperature profiles is the most time consuming step in atmosphere modeling. Once the profile is
+known, the emergent radiation can be obtained by a single integration of the transfer equation. To facilitate future work on
+NS atmospheres and related applications, we provide fitting formulae for the models presented in this paper. Formulae are
+provided only for models incorporating vacuum polarization with partial mode conversion. The fits are valid over the optical
+
+                                                                                                   c 2006 RAS, MNRAS 000, 1–31
+                                                            Atmosphere Models of Magnetized Neutron Stars                        13
+
+Table 1. The parameters in the fitting formulae [Eq. (48)] for the temperature profiles for atmosphere models with different magnetic
+field strengths, effective temperatures and compositions (ionized H or He)
+
+ Model                          τmid      a1        a2        a3          a4         a5           a6
+                                                              b3          b4         b5           b6
+
+ 1013 G, 5 × 106 K, H           27.1     0.793     0.122      -0.502     0.548      -0.205        0.0266
+                                                            0.00445      0.0108    0.00211    0.0000574
+ 4 × 1013 G, 106 K, H           4.27    -0.0599    0.192     0.0225      0.0115    -0.0072       0.00116
+                                                              0.109      0.0828    0.0256       0.00286
+ 4 × 1013 G, 5 × 106 K, H       11.9     0.623    -0.0425    0.0991      0.0412     -0.026        0.0036
+                                                             -0.0851   -0.00392    0.0034      0.000418
+ 7 × 1013 G, 106 K, H           0.888   -0.0455   -0.158       0.221    -0.0469    0.00231      0.000307
+                                                              -0.329     -0.118   -0.00387       0.00304
+ 7 × 1013 G, 5 × 106 K, H       21.6     0.789     0.123      -0.650     0.726      -0.274        0.0354
+                                                             -0.0105   -0.00406   -0.00242     -0.000411
+ 1014 G, 106 K, H               0.683   0.00828   0.0614      -0.304     0.266     -0.0719       0.00652
+                                                              -0.313     -0.374     -0.162       -0.0234
+ 1014 G, 106 K, He              0.749   -0.0935   -0.154       0.262    -0.0904    0.0167       -0.00124
+                                                              -0.197     0.0197     0.0428        0.0083
+ 1014 G, 5 × 106 K, H           30.6     0.799     0.115      -0.537     0.617      -0.241        0.0326
+                                                            -0.00603    0.00409   0.000351    -0.0000978
+ 5 × 1014 G, 106 K, H           32.9    0.0939    0.0181     -0.0153    -0.0413     0.0376      -0.00578
+                                                             0.0504      0.0462    0.00991      0.000676
+ 5 × 1014 G, 5 × 106 K, H       63.2     0.761    0.00198      0.267     -0.356      0.179       -0.0282
+                                                              -0.118    -0.0336   -0.00428      -0.00022
+ 5 × 1014 G, 5 × 106 K, He      23.5     0.707    0.0467       0.342     -0.417      0.174       -0.0234
+                                                              -0.109     -0.040    -0.0069     -0.000481
+
+
+depth range τ = 10−3 − 2 × 104 . Each model is fit by the function
+                      
+                          a1 + a2 ∆x + a3 ∆x2 + a4 ∆x3 + a5 ∆x4 + a6 ∆x5       τmid < τ < 2 × 104 ,
+log10 [T6 (τ )]   =                                                                                                             (48)
+                          a1 + a2 ∆x + b3 ∆x2 + b4 ∆x3 + b5 ∆x4 + b6 ∆x5        10−3 < τ < τmid ,
+where x ≡ log10 (τ ), ∆x ≡ x − xmid , and τmid denotes the break between the two parts of the fit necessary to describe the
+temperature profile. The parameters for each model are summarized in Table 1.
+
+
+4.2    Spectra
+Figure 6 presents the spectrum for the hydrogen atmosphere model with B = 1014 G and Teff = 106 K. The results for the
+four different ways of treating vacuum polarization (see §4.1) are shown. These spectra correspond to the temperature profiles
+depicted in Fig. 4.
+     When the vacuum polarization effect is neglected, the spectrum of a magnetic, ionized H atmosphere model generally
+exhibits two characteristics: (1) a hard spectral tail (compared to blackbody) due to the non-grey free-free opacity (κff decreases
+with increasing photon energy; Shibanov et al. 1992; Pavlov et al. 1995); (2) a significant proton cyclotron absorption line
+when EBi is not too far away from the blackbody peak (∼ 3kB T ) (Zane et al. 2001; Ho & Lai 2001). Vacuum polarization
+tends to soften the hard spectral tail and suppress (reduce) the proton cyclotron line. These effects are discussed extensively
+in §4 of Ho & Lai (2003), and Lai & Ho (2003a). In Fig. 6, all of the models that include vacuum polarization effects display
+a large reduction in the equivalent width (EW) of the proton cyclotron feature due to the modification of the temperature
+profile by the vacuum resonance (see §4.1) and the mode conversion effect. The spectra also show softening of the hard spectral
+tail relative to the no vacuum case, though they are all still harder than blackbody. The “partial conversion” curve appears
+as an intermediate case between the “complete conversion” and “no conversion” extremes. The adiabatic regime where mode
+conversion is efficient is clearly visible: for E & Ead ∼ 2 keV, the “partial conversion” curve begins to follow the “complete
+conversion” curve.
+     This transition from “no conversion” to “complete conversion” is further illustrated by Fig. 7, which shows, for several
+photon energies E (and a given direction of propagation, θkB ) the evolution of the specific mode intensities as a function of
+optical depth. At the resonance depth (denoted by the vertical lines), the X mode photons encounter the vacuum induced
+spike in opacity, and mode conversion occurs [governed by the non-adiabatic jump probability Pjump ; see eq. (4)]. As the
+energy is increased (from the second to bottom panels), mode conversion becomes increasingly more effective.
+     Figure 8 shows the spectrum for the B = 1014 G and Teff = 5 × 106 K hydrogen model. All the calculations that include
+vacuum effects show strong suppression of the ion cyclotron feature and significant softening of the hard spectral tail. At higher
+effective temperatures, there is a smaller difference between the no conversion, partial conversion, and complete conversion
+
+c 2006 RAS, MNRAS 000, 1–31
+14     M. van Adelsberg and D. Lai
+
+
+
+
+Figure 6. Spectra for hydrogen atmosphere models with B = 1014 G, Teff = 106 K. The four cases described in the text are shown:
+(1) no vacuum (short-dashed cuve); (2) no conversion (dotted curve); (3) partial conversion (solid curve); and (4) complete conversion
+(long-dashed curve). The light dashed-dot curve shows the blackbody spectrum with T = 106 K. For all three cases that include vacuum
+effects, the proton cyclotron feature is strongly suppressed and the high energy tail is softened relative to the no vacuum case. The
+“partial conversion” curve is seen to be intermediate between the “no conversion” and “complete conversion” limits.
+
+
+
+
+Figure 7. The transition from “no conversion” to “complete conversion” for a photon propagating in a hydrogen atmosphere with
+B = 1014 G, Teff = 106 K. The top panel shows the temperature profile for this model. The bottom three panels show the evolution of
+the specific mode intensities for energies E = 0.35, 0.65, 2.72 keV and θkB = π/4. The dashed line shows the X-mode intensity, the solid
+line the O-mode intensity, and the dotted vertical lines specify the location of the vacuum resonance. For E = 0.35 keV: Hρ = 0.69 cm,
+E < Ead , and Pjump = 1.0, leading to minimal mode conversion. For E = 0.65 keV: Hρ = 0.78 cm, E ∼ Ead , and Pjump = 0.65, leading
+to partial mixing of the modes. For E = 2.72 keV: Hρ = 0.98 cm, E > Ead , and Pjump = 0.15, leading to nearly complete conversion of
+the modes.
+
+
+
+
+                                                                                                      c 2006 RAS, MNRAS 000, 1–31
+                                                            Atmosphere Models of Magnetized Neutron Stars                          15
+
+
+
+
+Figure 8. Same as Fig. 6, except Teff = 5 × 106 K. The strength of the proton cyclotron feature is strongly suppressed for models which
+include vacuum polarization. At E & 5 keV, the models which include mode conversion are softer than those without, though all the
+atmosphere models are still harder than blackbody.
+
+
+
+
+Figure 9. Spectrum of the hydrogen atmosphere model with B = 4 × 1013 G, Teff = 106 K, calculated for two cases: partial mode
+conversion (solid curve), and no vacuum (dotted curve). The light dashed line shows the blackbody spectrum with T = 106 K.
+
+
+
+cases. In this regime, the optical depth across the vacuum resonance is much greater than unity, and the decoupling of X-mode
+photons occurs at the resonance density whether or not mode conversion is taken into account (see Lai & Ho 2002). At high
+energies (E & 5 keV), the models which include mode conversion are softer than those which do not.
+    Figures 9-12 depict atmosphere models at Teff = 106 K with varying magnetic field strengths, comparing the “no vacuum”
+and correct “partial conversion” results. For B = 4 × 1013 G < Bl (Fig. 9), the vacuum resonance lies at a lower density than
+the X-mode and O-mode photospheres, and vacuum polarization has a negligible effect on the spectrum, reflected by the close
+agreement between the “no vacuum” and “partial conversion” curves. For the hydrogen atmosphere model with B = 7 × 1013
+G (Fig. 10), and the helium atmosphere model with B = 1014 G (Fig. 11), vacuum polarization affects the spectrum. For
+
+c 2006 RAS, MNRAS 000, 1–31
+16     M. van Adelsberg and D. Lai
+
+
+
+
+                                       Figure 10. Same as Fig. 6, except for B = 7 × 1013 G.
+
+
+
+
+Figure 11. Same as Fig. 9, except for helium composition with B = 1014 G. The ion cyclotron line width is reduced by vacuum
+polarization, though it has a larger equivalent width than the model for hydrogen, due to the location of the line near the maximum of
+the continuum emission.
+
+
+
+these models, B & Bl , and the ion cyclotron line lies near the blackbody peak. Thus, it is particularly important to treat the
+vacuum resonance correctly, taking partial mode conversion into account to calculate the line width. For the B = 5 × 1014
+G model (Fig. 12), the spectral feature at EBi is outside the energy band of observational interest. We note that at such a
+high field and low effective temperature, the atmosphere should contain a significant fraction of bound atoms and molecules
+(Ho et al. 2003; Potekhin et al. 2004), so the fully ionized model shown in Fig. 12 is not realistic.
+     Figures 13-14 show atmosphere models at magnetic field strength B = 5 × 1014 G and Teff = 5 × 106 K, for hydrogen and
+helium compositions. At this effective temperature, the ion cyclotron feature lies close to the blackbody peak, and the effects
+of vacuum polarization on the line width and the spectral tail are rather pronounced.
+
+                                                                                                     c 2006 RAS, MNRAS 000, 1–31
+                                                           Atmosphere Models of Magnetized Neutron Stars                         17
+
+
+
+
+                                     Figure 12. Same as Fig. 10, except with B = 5 × 1014 G.
+
+
+
+
+Figure 13. Same as Fig. 12, except for Teff = 5 × 106 K. The proton cyclotron is strongly suppressed by vacuum polarization. The hard
+spectral tail is softened considerably relative to the no vacuum case, though it is still harder than blackbody.
+
+
+
+4.3   Emission beam pattern
+
+Calculations of observed NS lightcurves and polarization signals (see §5) are critical for interpreting observations. An important
+ingredient of such calculations is the angular beam pattern of surface emission. Figure 15 shows the radiation intensity from
+a local patch of NS atmosphere (for the Teff = 106 K models presented in §4.2) as a function of emission angle relative to the
+surface normal at several photon energies. The heavy curves show models that include vacuum polarization effects, while the
+lightcurves show models that neglect vacuum polarization. Magnetized atmosphere models which neglect vacuum polarization
+have a distinctive beaming pattern, consisting of a thin “pencil” feature at low emission angles and a broad “fan” beam at
+large emission angles, with a prominent gap between them (e.g., c.f., Özel 2001). This gap tends to increase with increasing
+photon energy. The detailed shape of the emission beam pattern is determined by the temperature profile and the anisotropy
+
+c 2006 RAS, MNRAS 000, 1–31
+18     M. van Adelsberg and D. Lai
+
+
+
+
+Figure 14. Same as Fig. 13, except for helium composition. Vacuum polarization strongly suppresses the ion cyclotron feature, and
+softens the hard spectral tail relative to the no vacuum case.
+
+
+
+
+Figure 15. The specific intensity from a local patch of NS as function of emission angle θem (= cos−1 µ, the angle between k̂ and the
+surface normal) for hydrogen models with Teff = 106 K, and B = 4 × 1013 G, 7 × 1013 G, 1014 G, 5 × 1014 G. The heavy curves show
+models that include vacuum polarization effects, while the lightcurves show models that neglect vacuum polarization. The latter models
+exhibit a characteristic beaming pattern, with a thin “pencil” shape at low emission angles and a broad “fan” at large emission angles.
+Inclusion of vacuum polarization tends to reduce the gap and lead to a broad, featureless beaming pattern at large magnetic fields.
+
+
+
+of the mode opacities. As shown by Fig. 15, vacuum polarization tends to smooth out the gap, leading to a broad, featureless
+beam pattern at large magnetic fields. The broadening of the beaming pattern is due to the alteration of the temperature
+profile by the spike in opacity at the vacuum resonance and the mode conversion effect.
+     Figure 16 shows the specific radiation intensity from a patch of NS atmosphere (for the Teff = 106 K models presented
+in §4.2) at several emission angles. We see that the shape of the spectrum and EW of the absorption feature can change
+significantly depending on the emission angle and whether or not vacuum polarization effects are included in the calculation.
+
+                                                                                                      c 2006 RAS, MNRAS 000, 1–31
+                                                             Atmosphere Models of Magnetized Neutron Stars                             19
+
+
+
+
+Figure 16. The specific radiation intensity from a local patch of NS atmosphere at several emission angles for hydrogen models with
+Teff = 106 K, and B = 4 × 1013 G, 7 × 1013 G, 1014 G, and 5 × 1014 G. The shape of the spectrum and EW of the absorption feature
+change significantly with emission angle.
+
+
+
+5     POLARIZATION OF THE ATMOSPHERE EMISSION
+
+Thermal emission from a magnetized NS atmosphere is highly polarized. This arises from that fact that the typical X-mode
+photon opacity is much smaller than the O-mode opacity,6 κX ∼ (E/EBe )2 κO ≪ κO . Thus, X-mode photons escape from
+deeper, hotter layers of the NS atmosphere than the O-mode photons, and the emergent radiation is linearly polarized to a
+high degree (as high as 100%) (see, e.g., Gnedin & Sunyaev 1974; Mészáros et al. 1988; Pavlov & Zavlin 2000)
+     There has been some recent interest in X-ray polarimetry for NSs (Costa et al. 2001, 2006). Observations of X-ray
+polarization, particularly when phase-resolved and measured in different energy bands, can provide useful constraints on
+the magnetic field strength and geometry, the NS rotation rate and compactness. This will be highly complimentary to
+the information obtained from the spectra and lightcurves. Moreover, as we show below (see also Lai & Ho 2003b), vacuum
+resonance gives rise to a unique polarization signature in the surface emission, even for NSs with “normal” (B ∼ 1012 −1013 G)
+magnetic fields.
+     Below, we calculate the observed X-ray polarizaztion signals in the case when the emission comes from a rotating
+magnetic hotspot on the NS surface. Although this represents the simplest situation, it captures the essential properties of
+the polarization signals, and the result can be carried over to more general situations. See the end of §5.3 for a discussion of
+the case when emission comes from an extended area (or the whole) of the stellar surface.
+
+
+
+5.1    Geometry and lightcurves
+
+To calculate the observed lightcurves and polarization signals, we set up a fixed coordinate system XY Z with the Z-axis
+along the line-of-sight (pointing from the NS toward the observer), and the X-axis in the plane spanned by the Z-axis and
+Ω (the spin angular velocity vector). The angle between Ω and êZ is denoted by γ. The hotspot is assumed to be at the
+intersection of the NS surface and dipole magnetic axis, which is inclined at an angle η relative to the spin axis. As the star
+rotates, the angle Θ between the magnetic axis µ and the line of sight varies according to
+
+cos Θ = cos γ cos η − sin γ sin η cos ψ,                                                                                              (49)
+
+
+
+6 This applies under typical conditions, when the photon energy E is much less than the electron cyclotron energy E
+                                                                                                                      Be , is not too close
+to the ion cyclotron energy EBi , the plasma density is not too close to the vacuum resonance (see the text), and θkB (the angle between
+k and B) is not close to 0◦ or 180◦ .
+
+c 2006 RAS, MNRAS 000, 1–31
+20      M. van Adelsberg and D. Lai
+
+
+
+
+                           2 keV
+
+
+                                           1 keV
+                           3 keV
+
+
+                 5 keV                    0.5 keV
+
+
+
+
+Figure 17. Lightcurve and polarization as a function of rotation phase for a NS hotspot with B = 1013 G, Teff = 5 × 106 K. The angle
+of the spin axis relative to the line of sight is γ = 30◦ , and the inclination of the magnetic axis relative to the spin axis is η = 70◦ . Note
+that the sign of the FQ Stokes parameter is opposite for low and high energy photons; this implies that the planes of polarization for
+low and high energy photons are perpendicular. This is a unique signature of vacuum polarization for models with B < Bl .
+
+
+where ψ = (Ωt + constant) is the rotation phase (ψ = 0 when µ lies in the XZ plane). We use the simplified formalism derived
+by Beloborodov (2002) to calculate the observed spectral flux from the area dS of the hotspot, which takes the form:
+              rg
+                    3/2                            dS
+Fobs = 1 −                 Iν (θem ) cos θem           ,                                                                                   (50)
+               R                                    D2
+where rg = 2GM/c2 is the Schwarzschild radius, R is the NS radius, and θem (the angle between the photon direction and
+the surface normal at the emission point; µ = cos θem ) is related to Θ through:
+             rg      rg
+                                  
+cos θem =       + 1−                   cos Θ.                                                                                              (51)
+             R       R
+For R > 3rg , the spectral flux calculated using eq. (50) differs from the exact treatment (see Pechenick et al. 1983) by less
+than 1%.
+    The top panels of Figs. 17-19 show lightcurves for NS models with several magnetic field strengths, at a range of energies
+E = 0.5 − 3 keV, with geometry γ = 30◦ , η = 70◦ .
+
+
+5.2   Observed linear polarization signals
+The atmosphere models presented in §3 and §4 give the specific intensities IνX (θem ) and IνO (θem ) of the two photon modes,
+emerging from the NS atmosphere (outside the vacuum resonance layer). To determine the observed polarization signals, it is
+important to consider propagation of the polarized radiation in the NS magnetosphere. In the X-ray band, the magnetospheric
+dielectric properties are dominated by vacuum polarization (Heyl & Shaviv 2002). Heyl et al. (2003) (see also Heyl & Shaviv
+2002) evolved the Stokes parameters along photon geodesics in the magnetosphere and showed that the observed polarization
+is determined at the so-called “polarization limiting radius,” at a distance far from the NS surface. Below we present a simple
+calculation of the propagation effect and observed linear polarization (see also Lai & Ho 2003b).
+     Consider a photon emitted at time ti from the hotspot, with rotation phase ψi = Ωti . The emission point has polar angle
+Θi (relative to the fixed XY Z frame) given by eq. (49) with ψ = ψi , and azimuthal angle ϕi given by
+                      sin η sin ψi
+tan ϕi =                                     .                                                                                             (52)
+            sin η cos γ cos ψi + cos η sin γ
+This is also the angle [ϕi = ϕB (R)] between the projection of the magnetic axis in the XY plane and the X-axis. After the
+photon leaves the star, it travels towards the observer, with a trajectory given by
+
+r = (R sin Θi cos φi + ∆X ) X̂ + (R sin Θi sin φi + ∆Y ) Ŷ + (R cos Θi + s + ∆Z ) Ẑ,                                                     (53)
+
+                                                                                                            c 2006 RAS, MNRAS 000, 1–31
+                                                               Atmosphere Models of Magnetized Neutron Stars                   21
+
+
+                                  2 keV     1 keV
+
+
+
+                                 0.5 keV
+                                  3 keV
+                                  5 keV
+
+
+
+
+Figure 18. Same as Fig. 17 with B = 7 × 1013 G. For this model, B ∼ Bl , representing the transition between the models shown in
+Figs. 17 and 19.
+
+
+
+
+                                   2 keV
+                                   1 keV
+
+                                  0.5 keV
+
+                                    3 keV
+                                    5 keV
+
+
+
+
+Figure 19. Same as Fig. 17 with B = 5 × 1014 G. At this field strength, B > Bl , and the vacuum resonance lies between the O and
+X-mode photospheres. Thus, the sign of the FQ Stokes parameter for low and high energy photons is the same. Note that in the top
+panel, the flux for the 0.5 keV case is multiplied by a factor of 10 relative to the other curves.
+
+
+where s = c∆t = c(t−ti ), ∆X,Y,Z are relativistic corrections (which, as we will see shortly, are unimportant for the polarization
+signals), and X̂, Ŷ , Ẑ are unit vectors. As the photon propagates in the magnetosphere, it will “see” a changing stellar
+magnetic field, given by B = −∇(µ · r/r 3 ), where7
+                                                                                                
+µ = µ (sin η cos γ cos ψ + cos η sin γ) X̂ + sin η sin ψ Ŷ + (cos η cos γ − sin η sin γ cos ψ) Ẑ ,                         (54)
+
+with ψ = Ωt = ψi + Ω∆t = ψi + s/rl (here rl = c/Ω is the radius of the light cyclinder). The photon’s polarization state
+
+7   We restrict the propagation to the “near zone” of the star, i.e., r < rl = c/Ω.
+
+c 2006 RAS, MNRAS 000, 1–31
+22        M. van Adelsberg and D. Lai
+will evolve adiabatically following the varying magnetic field that the photon experiences, up to the polarization limiting
+radius rpl , beyond which the polarization is frozen. Since we anticipate rpl ≫ R, we only need to consider the region far
+away from the NS: for r ≫ R, the photon trajectory is simply r ≃ s Ẑ, and the magnetic field along the photon path is
+B ≃ (2µZ Ẑ − µX X̂ − µY Ŷ )/r 3 , with r ≃ s. This magnetic field has a magnitude
+                    3 
+              Bs    R                                                     1/2
+B(s) =                        1 + 3 (cos η cos γ − sin γ sin η cos ψ)2           ,                                          (55)
+              2        r
+where Bs = 2µ/R3 is the magnitude of the (dipole) surface field at the magnetic pole. The magnetic field is inclined at an
+angle θkB to the line of sight, and makes an azimuthal angle ϕB in the XY plane such that:
+                              1 − (cos η cos γ − sin γ sin η cos ψ)2
+sin2 θkB (s)           =                                              ,                                                     (56)
+                             1 + 3 (cos η cos γ − sin γ sin η cos ψ)2
+                                        sin η sin ψ
+    tan ϕB (s)         =                                     .                                                              (57)
+                             cos η sin γ + cos γ sin η cos ψ
+Recall that in Eqs. (55)-(57), ψ = ψi + s/rl = Ωti + s/rl and s is the affine parameter along the ray.
+    The wave equation for photon propagation in a magnetized medium takes the form
+                                 ω2
+∇ × (µ̄ · ∇ × E) =                  ǫ · E,                                                                                  (58)
+                                 c2
+where E is the electric field (not to be confused with the photon energy), and ǫ, µ̄ are the dielectric and inverse permeability
+tensors, respectively. In the magnetized vacuum of the NS magnetosphere, they are given by ǫ = aI+q B̂B̂ and µ̄ = aI+mB̂B̂.
+Solving eq. (58) for EM waves with E ∝ eiks−iωt yields the two modes (in the XY basis)
+
+eO = (cos ϕB , sin ϕB ), eX = (− sin ϕB , cos ϕB ),                                                                         (59)
+
+with indices of refraction nO ≃ 1 + (q/2) sin2 θkB and nX ≃ 1 − (m/2) sin2 θkB . A general (transverse) EM wave can be written
+as a superposition of the two modes:
+
+E = AO eO + AX eX .                                                                                                         (60)
+
+Following the steps of Lai & Ho (2002) [see their eq. (15)], we derive the following equations for the evolution of the mode
+amplitudes:
+                                                                        
+        A′O                       −(ω/c)∆n/2        iϕ′B             AO
+i                      ≃                                                             ,                                      (61)
+        A′X                          −iϕ′B       (ω/c)∆n/2           AX
+
+where the prime (’) denotes a derivative with respect to s, and ∆n = nO − nX = 12 (q + m) sin2 θkB . The condition for adiabatic
+evolution of photon modes is
+
+(ω/c)∆n ≫ 2ϕ′B .                                                                                                            (62)
+
+Near the star (r ∼ R), ϕB ∼ 1/r, and the adiabatic condition is easily satisfied. Far from the star (r ≫ R), using eq. (55), we
+write:
+                           2                                 6
+      α                B                                       R
+∆n =                             sin2 θkB = 9.94 × 10−9 B12
+                                                         2
+                                                                     FB ,                                                   (63)
+     30π               BQ                                      r
+where
+
+FB = 1 − (cos η cos γ − sin γ sin η cos ψ)2 ,                                                                               (64)
+
+and B12 = Bs /(1012 G). From eq. (57), we have
+dϕB  1
+    = Fϕ ,                                                                                                                  (65)
+ ds  rl
+with
+
+Fϕ = sin2 η cos γ + sin η cos η sin γ cos ψ /FB .
+                                                      
+                                                                                                                            (66)
+
+The polarization-limiting radius rpl is set by the condition ω∆n/c = 2ϕ′B . Substituting in eqs. (63) and (65) we find 8
+                          2
+                                    1/6
+rpl                    E1 B12 FB
+    = 32.6                                   ,                                                                              (67)
+R                       f1 Fϕ
+
+
+8   Our expression for rpl differs from that given in Heyl & Shaviv (2002) and Heyl et al. (2003).
+
+                                                                                                     c 2006 RAS, MNRAS 000, 1–31
+                                                                      Atmosphere Models of Magnetized Neutron Stars                 23
+where f1 is the spin frequency Ω/(2π) in Hz, and FB , Fϕ are slowly varying functions of phase and are of order unity. Note that
+the above analysis is valid only if rpl <
+                                        ∼ rl /2, since beyond the light-cylinder radius the magnetic field is no longer described
+by a static dipole. Thus we require that
+                               2
+                                        1/6
+rpl                         E1 B12 FB               5/6
+    ≃ 6.84 × 10−3                              R10 f1     <
+                                                          ∼ 0.5,                                                                   (68)
+rl                             Fϕ
+where R10 = R/(10 km).
+    Beyond rpl , the polarization state of the photon is “frozen.” Using eq. (59), the observed Stokes parameters in the observer
+coordinate system (XY Z) are given by
+
+I     =     IO + IX ,                                                                                                              (69)
+Q     ≃     (IO − IX ) cos 2ϕB (rpl ),                                                                                             (70)
+U     ≃     (IO − IX ) sin 2ϕB (rpl ),                                                                                             (71)
+
+where IO ∝       IνO (θem ) and IX
+                                 ∝         IνX (θem ) are the specific
+                                                                mode intensities emitted at the NS surface [calculated with our
+models described in §3 and §4, and corrected for the general relativistic effect; see eqs. (50)-(51)], and ϕB (rpl ) is evaluated at
+s ≃ r = rpl . From eqs. (52) and (57), with ψ(rpl ) = ψi + rpl /rl , we see that the effect of NS rotation is to shift the polarization
+lightcurve by a phase rpl /rl . For slow rotation rpl /rl ≪ 1 [see eq. (68)], this shift is small, and ϕB (rpl ) ≃ ϕi + π. We calculate
+the observed spectral fluxes FI = F, FQ , FU associated with the intensities I, Q, U using the standard procedure described
+in §5.1.
+     The middle and bottom panels of Figs. 17-19 show the phase evolution of the Stokes parameter FQ and the degree of
+linear polarization, both normalized to the observed spectral flux. Note that Q is defined such that Q = 1 corresponds to
+linear polarization in the plane spanned by the line of sight Z and the NS spin axis. In Fig. 17, we consider emission from a NS
+hotspot with B = 1013 G and Teff = 5 × 106 K. Note that the value of FQ for low energy photons (E <             ∼ 1 keV) is of opposite
+sign to that of high energy photons (E >  ∼  3 keV).  This implies  that the planes  of polarization  for low and  high energy photons
+are perpendicular. This is a unique signature of vacuum polarization first identified by Lai & Ho (2003b), which occurs for
+B < Bl [see eq. 5] because the vacuum resonance appears outside the O-mode photosphere. Below the vacuum resonace layer
+(ρ > ρV ), the X-mode flux dominates over the O-mode. For low energy photons, E <            ∼ Ead , mode conversion is inefficient, and
+the emergent flux is dominated by the X-mode; for high energy photons E >          ∼  E ad , mode conversion is efficient, rotating the
+plane of polarization, and the emergent flux is dominated by the O-mode [see Fig. 2 of Lai & Ho (2003b)].
+     Fig. 19 shows the same result for the model with B = 5 × 1014 G, Teff = 5 × 106 K. In this case, B > Bl , the vacuum
+resonance appears inside the O and X-mode photospheres, and the emergent radiation is always dominated by the X-mode.
+As expected, the planes of polarization for low and high energy photons are aligned. Fig. 18 shows an intermediate case,
+where B ∼ Bl — to calculate the spectra and polarization signals for such models, it is particularly important to incorporate
+partial mode conversion properly. The distinct behavior between the low field and high field cases is illustrated by Fig. 20,
+which shows the phase-averaged FQ Stokes parameter as a function of photon energy for several values of the magnetic field
+strength. The low-field cases show the characteristic rotation of the plane of polarization between low-E and high-E, whereas
+the high-field cases do not.
+     Note that in the above analysis, the observed linear polarization fraction ΠL (the bottom panel of Figs. 17-19) is the
+same as the value just outside the emission region, |Πem |, i.e.,
+
+          (Q2 + U 2 )1/2                                      IνO (θem ) − IνX (θem )
+ΠL =                     = |Πem |,          with    Πem =                             .                                            (72)
+               I                                              IνO (θem ) + IνX (θem )
+The polarized fluxes are simply
+
+FQ ≃ FI Πem cos 2ϕB (rpl ),              FU ≃ FI Πem sin 2ϕB (rpl ).                                                               (73)
+
+In §5.3 we shall see that for rapidly rotating NSs, the observed ΠL will be somewhat smaller than |Πem | because of the
+generation of circular polarization around rpl .
+
+
+5.3    Circular polarization
+
+Circular polarization of surface emission may be generated for sufficiently rapid rotating NSs due to the gradual wave mode
+coupling/decoupling around rpl . While the linear polarization signals can be adequately described and calculated using the
+simple analysis given in §5.2, to calculate the circular polarization, quantitative solutions of the evolution equations for the
+modes or the Stokes parameters in the magnetosphere are necessary.
+    Consider the mode evolution equations (61). For given initial values (e.g., mode amplitudes at ri ≪ rpl ), the solution of
+the equations depend on two parameters: C, defined by (ω/c)∆n ≈ C/r 6 and ϕ′B (since ψ varies by a rather small amount
+
+c 2006 RAS, MNRAS 000, 1–31
+24           M. van Adelsberg and D. Lai
+
+
+
+
+Figure 20. Phase average of Stokes parameter FQ as a function of photon energy for a rotating NS hotspot at magnetic field strengths
+B = 1013 , 4 × 1013 , 7 × 1013 and 5 × 1014 G, with Teff = 5 × 106 K. Note that the sign of hFQ i changes between low and high photon
+energies for the low-field cases, corresponding to rotation of the plane of polarization.
+
+
+along the ray path, FB and Fϕ are nearly constant). Alternatively, since rpl is determined by C/r 6 = 2ϕ′B , the solution
+depends only on the dimensionless parameter Γ, defined by
+                   rpl                                1/6      5/6
+Γ ≡ rpl ϕ′B =          Fϕ ≃ 6.84 × 10−3 E1 B12
+                                            2
+                                               FB Fϕ5      R10 f1 .                                                             (74)
+                   rl
+Indeed, if we define x = r/rpl , eq. (61) can be rewritten as
+                                                       
+     d       AO                    −x−6    i           AO
+i                      ≃   Γ                                    .                                                               (75)
+    dx       AX                     −i    x−6          AX
+Note that while eq. (61) is valid for all radii, the magnetostatic approximation for the field of a rotating dipole breaks down
+beyond the light-cylinder radius. Since ϕ′B ∼ 1/rl , eq. (75) is valid only for Γ ∼ rpl /rl <
+                                                                                            ∼ 0.5.
+    The Stokes parameters can be written in terms of the mode amplitudes as
+
+I        =   |EX |2 + |EY |2 = |AO |2 + |AX |2 ,                                                                                (76)
+                   2       2                    2
+Q        =   |EX | − |EY | = cos 2ϕB (|AO |         − |AX | ) − 2 sin 2ϕB ℜe (AO A∗X ) ,
+                                                            2
+                                                                                                                                (77)
+U        =   2 ℜe (EX EY∗ ) = sin 2ϕB (|AO |2 − |AX |2 ) + 2 cos 2ϕB ℜe (AO A∗X ) ,                                             (78)
+V        =   2 ℑm (EX EY∗ ) = 2 ℑm (AO A∗X ) .                                                                                  (79)
+
+     Figure 21 gives some examples of the results of numerical integration of eq. (75). We start the integration at radius
+xi = ri /rpl such that the adiabatic condition is well satisfied (we typically choose xi <∼ 1/3). In these examples, the initial
+values are AO = 1, AX = 0. After obtaining AO (x) and AX (x), we calculate the Stokes parameters using eqs. (76)-(79) with
+ϕB = ϕ′B (r − ri ) = Γ(x − xi ) (adding a constant to ϕB will affect Q and U , but not V ). We see that for x <
+                                                                                                              ∼ 1/2, the photon
+modes evolve adiabatically, and thus Q ∝ cos 2ϕB , U ∝ sin 2ϕB [see eqs. (70)-(71)] and V ≃ 0. Around x = 1 (r = rpl ),
+the modes couple and circular polarization is generated. For x >  ∼ 2, the values of the Stokes parameters are “frozen” and no
+longer evolve. NSs with large Γ (corresponding to rapid rotations; e.g., f = 40 Hz, B = 1013 G, E = 1 keV yields Γ ∼ 0.3)
+can generate appreciable circular polarization, with V (r → ∞)/I ≈ −14%. As the NS spin frequency decreases, the resulting
+|V /I| decreases.
+     Alternatively, using the relations (76)-(79) and the mode evolution equation (61), we can derive evolution equations for
+the Stokes parameters:
+
+I′       =    0,                                                                                                                (80)
+    ′
+Q        =    (ω∆n/c) V sin 2ϕB ,                                                                                               (81)
+    ′
+U        =    −(ω∆n/c) V cos 2ϕB ,                                                                                              (82)
+
+                                                                                                    c 2006 RAS, MNRAS 000, 1–31
+                                                             Atmosphere Models of Magnetized Neutron Stars                             25
+
+
+
+
+Figure 21. Evolution of the radiation mode amplitudes (top panel) and Stokes parameters (bottom three panels). The solid lines are
+for Γ = 0.3 and the dashed lines for Γ = 0.1. The polarization limiting radius is shown as the vertical dotted line. The initial values (at
+a small x = xi ) are AO = 1, AX = 0, Q = I = 1, U = 0 and V = 0. At distances x ∼      < 0.5, the modes evolve adiabatically. At r ∼ rpl
+the modes begin to couple, generating appreciable circular polarization. At x >
+                                                                              ∼ 2, the values of the Stokes parameters are “frozen”.
+
+
+
+V′   =    −(ω∆n/c) Q sin 2ϕB + (ω∆n/c) U cos 2ϕB .                                                                                    (83)
+
+Since the vacuum contribution to the dielectric tensor includes no dissipation, I ′ = 0 as expected. Equations (80)-(83) can be
+evolved numerically to calculate the observed Stokes parameters. Again we start the integration at a radius ri < rpl such that
+the adiabatic condition is well satisfied. Since the circular polarization does not depend on the orientation of the XY axes,
+we set the initial conditions at ri by rotating the coordinate system azimuthally so that I = 1, U = 0 (this also corresponds
+to choosing ψ = 0 or ϕB = 0 at r = ri ), and Qi = Πem ⩽ 1, where Πem is the linear polarization fraction just outside the
+atmosphere [see eq. (72)]. Since the radiation emerging from the NS surface is linearly polarized, we set V (ri ) = 0. Equations
+(80)-(83) are then integrated to a distance beyond rpl .
+     For a given initial value of the linear polarization fraction Πem at a small ri ≪ rpl , the solution of eqs. (81)-(83) depends
+only on the dimensionless parameter Γ ≡ rpl ϕ′B . Again, if we define x = r/rpl , eqs. (81)-(83) can be rewritten as
+              2Γ
+dQ/dx     =       V sin 2ϕB ,                                                                                                         (84)
+              x6
+               2Γ
+dU/dx     =   − 6 V cos 2ϕB ,                                                                                                         (85)
+                x
+               2Γ
+dV /dx    =   − 6 (Q sin 2ϕB − U cos 2ϕB ) ,                                                                                          (86)
+                x
+with ϕB = Γ(x − xi ). We are interested in the value of V at x = xf ≫ 1. Figure 21 shows some examples of the integration of
+Eqs. (84)-(86). Not surprisingly, the results are in exact agreement with those obtained using the mode evolution equations.
+     We have calculated the circular polarizations produced by rotating NSs with different values of Γ. Our numerical results
+[see Fig. (22)] show that the generated circular polarization is given by the expression
+                                      6/5                                    1/5
+V /I ≈ −0.60 Πem sign(ϕ′B ) rpl ϕ′B                               2
+                                            = −1.5 × 10−3 Πem E1 B12 FB             f1 Fϕ .                                           (87)
+
+c 2006 RAS, MNRAS 000, 1–31
+26      M. van Adelsberg and D. Lai
+
+
+
+
+Figure 22. The magnitude of the observed circular polarization fraction |V |/I as a function of Γ. The linear polarization fraction (Πem )
+just outside the atmosphere is assumed to be 100%. The dashed line depicts the fitting formula, eq. (87), which agrees with the numerical
+solution to within 1% for Γ < 0.4. Note that solutions with Γ >∼ 0.5 are incorrect since the magnetic field around the polarization limiting
+radius is no longer described by the near-zone field of a rotating dipole as adopted in our calculations.
+
+
+
+
+This expression is accurate to within one percent in the regime Γ < ∼ 0.4 [see Fig. (22)]. Recall that FB ∼ Fϕ ∼ 1, so eq. (87)
+provides a quick estimate for the magnitude of the circular polarization of NS surface emission.
+     The above analysis shows that substantial circular polarization can be generated only for NSs with sufficiently rapid
+rotation and magnetic field strength. Given the photon energy, NS spin frequency, and dipole magnetic field strength, the
+degree of circular polarization from a NS can be calculated using eq. (87).
+     Fig. 23 shows the phase-resolved observed radiation Stokes parameters for a NS with B = 1013 G and Teff = 5 × 106 K,
+rotating at f = 50 Hz, with magnetic field and spin geometry γ = 30◦ , η = 70◦ (this is the case shown in Fig. 17). The
+solid curves are numerical solutions to the Stokes parameter equations of transfer in the NS magnetosphere, while the dotted
+curves are calculated using the method described in § 5.2. The latter method assumes FV = 0, but yields results for FQ and
+FU that are quite close to those of the numerical integrations. For a rapidly rotating NS, substantial circular polarization is
+generated, with |FV /FI | reaching 0.2 − 0.3 in the hard X-ray band (see also Fig. 22).
+     Finally, we note that although the specific results presented in this section refer to emission from a hot polar cap on
+the NS, we expect many of our key results (e.g., rotation of the planes of linear polarization between E ∼    < 1 keV and at
+E∼ > 4 keV due to vacuum polarization for B ∼  < 7 × 1013 G) to be valid in more complicated models (when several hotspots or
+the whole stellar surface contribute to the X-ray emission). This is because the polarization-limiting radius (due to vacuum
+polarization in the magnetosphere) lies far away from the star [see eq. 67] where rays originating from different patches of
+the NS experience the same dipole field (Heyl et al. 2003). Our results therefore demonstrate the unique potential of X-ray
+polarimetry in probing the physics under extreme conditions (strong gravity and magnetic fields) and the nature of various
+forms of NS.
+
+                                                                                                         c 2006 RAS, MNRAS 000, 1–31
+                                                            Atmosphere Models of Magnetized Neutron Stars                          27
+
+
+                      0.5 keV                       3 keV
+
+
+
+
+              3 keV
+
+
+           0.5 keV
+
+
+
+            0.5 keV
+
+
+                       3 keV
+
+
+
+
+                                0.5 keV
+
+
+
+
+                                 3 keV
+
+
+
+
+Figure 23. Observed radiation Stokes parameters for a NS with B = 1013 G, Teff = 5 × 106 K, f = 50 Hz, γ = 30◦ , and η = 70◦ ,
+for photon energies E = 0.5, 3 keV. The solid curves show the results of numerical integration of the transfer equations for the Stokes
+parameters, while the dotted curves are calculated using the approximate method of § 5.2.
+
+
+6   DISCUSSION
+
+We have presented a new method for incorporating partial conversion of photon modes due to vacuum polarization into
+fully-ionized, self-consistent atmosphere models of magnetized NSs. This method takes into account the nontrivial probability
+of photon mode conversion at the vacuum resonance. While recent works have clearly identified the important effects of the
+vacuum resonance and related mode conversion in determining the atmosphere radiation spectrum and polarization (Lai &
+Ho 2003a), so far the implementation of these effects in self-consistent atmosphere models, for technical reasons, has only
+considered two extreme limits: complete mode conversion and no mode conversion (Ho & Lai 2003,2004). With a direct, semi-
+explict Runga-Kutta integration of the radiative transfer equations for the photon modes (as opposed to the forward-backward
+substitution procedure of the Feautrier method) and the use of an accurate mode conversion formula for each photon, our
+new atmosphere code displays excellent stability with respect to grid resolution. Moreover, integration of the full transfer
+equations for the radiation Stokes parameters shows that our treatment of partial conversion is accurate. As expected, the
+partial conversion solution is intermediate between the extreme cases of complete and no conversion considered previously. An
+accurate treatment of vacuum polarization is a critical step toward interpreting the spectra and predicting the polarization
+signals of magnetic NSs.
+      With our new atmosphere code, we have constructed a large number of atmosphere models for various magnetic field
+strengths, ranging from 1013 G to 5 × 1014 G, for both H and He compositions. In agreement with previous, approximate
+                                                                     13
+calculations (Ho & Lai 2003,2004), we find that for B >     ∼ 7 × 10 G the vacuum resonance affects the atmosphere spectra
+(i.e., the hard spectral tail due to nongrey opacities tends to be suppressed and the spectral line EW is reduced), and the
+                                                                                                   13
+effects become more significant as the magnetic field strength is increased. For B <      ∼ 7 × 10 G, the effect of the vacuum
+                                                                               13
+resonance on the spectra is smaller and becomes negligible for B <    ∼ 4 × 10 G. However, even for such “low” field strengths,
+vacuum resonace has a significant effect on the observed X-ray polarizations (see Lai & Ho 2003b). Our new calculations
+presented in this paper are particularly important for the “intermediate” field regime (4 × 1013 ∼      <B ∼  < 2 × 1014 G), where
+previous approximate treatments are inadequate. For the first time, we are able to accurately determine the B-dependence of
+the structure, spectra and polarization signals of ionized NS atmospheres.
+      Since the most time-consuming and difficult part of atmosphere modeling involves finding the atmosphere temperature
+profile that satisfies the condition of radiative equilibrium, for the convenience of the astrophysics community, we have
+presented fitting formulae for the temperature profiles of various atmosphere models (see §4.1). With these analytic expressions,
+it is relatively straightforward (using the procedure outlined in §3.1.4) to calculate various properties of the emergent radiation.
+These analytic profiles will also be useful for comparison with future theoretical atmosphere models.
+      We note that the models presented in this paper have several limitations: (1) The models assume that the magnetic
+field lies along the surface normal. While a more general magnetic field inclination does not change the main results of our
+paper (e.g. the effect of vacuum resonance and the dependence of the atmosphere spectra on B), to confront observations (see
+
+c 2006 RAS, MNRAS 000, 1–31
+28      M. van Adelsberg and D. Lai
+below), synthetic spectra must be constructed using realistic magnetic field and surface temperature distributions, adding up
+contributions over the entire NS surface. Such calculations are necessarily model-dependent, but they are needed for proper
+interpretation of observations.9
+     (2) At high density, the radiative transfer equation breaks down, due to the dense plasma effect. At large optical depth,
+the photon polarization develops a non-negligible longitudinal component and the index of refraction deviates significantly
+from unity. This occurs when the plasma frequency of the medium exceeds the photon frequency. To date, no detailed studies
+of the transfer of radiation in dense plasmas have been performed, though it has been treated in an ad-hoc way by Ho et al.
+(2003). Nevertheless, this effect is important for treating thermal radation in the optical band, and for magnetars can affect
+the emission spectrum in the soft X-ray (< ∼ 1 keV). (3) The assumption of fully ionized atmospheres may not be valid for cool
+NSs (such as the dim isolated NSs) or even the higher temperature AXPs and SGRs. Nevertheless, we expect features due to
+bound-bound and bound-free transitions of neutral species to be suppressed in the same manner as the ion cyclotron feature
+(see Ho et al. 2003; Potekhin et al. 2004,2005 for recent works on partially ionized magnetic atmosphere models).
+
+
+6.1   Implications for observations of isolated neutron stars
+As mentioned in §1, recent observations by Chandra and XMM-Newton have shown that the quiescent thermal spectra from
+AXPs and SGRs have no observable absorption features, such as the ion cyclotron line at EBi = 0.63(Z/A)B14 keV. As first
+pointed out by Ho & Lai (2003), and confirmed by our more accurate calculations presented here, the inclusion of vacuum
+polarization effects provides a natural explanation for the non-detection: at B = 5 × 1014 G, the vacuum-suppressed EW
+of the H or He cyclotron line is smaller than the current detector resolution. We expect that in the magnetar field regime,
+bound-bound and bound-free features will be similarly suppressed (see Ho et al. 2003; Potekhin et al. 2004).
+      Prominent absorption lines (at 0.7 keV and 1.4 keV) have been detected from the source 1E1207.4-520, a young neutron
+star (T ≃ 2 × 106 K) associated with a supernova remnant (Sanwal et al. 2002; Bignami et al. 2003; De Luca et al. 2004;
+Mori et al. 2005) Two viable (but tentative) identifications of these features are: (1) Ion cyclotron and atomic transitions
+of light-element (most likely He) atmospheres at B ∼    > 1014 G (Pavlov & Bezchastnov 2005); (2) Atomic transitions of C or
+                                12
+                          < 10 G (Mori et al. 2005). Based on our general result of line suppression in the magnetar field
+O atmospheres with B ∼
+regime, we suggest that the first interpretation is unlikely to be correct, although a quantitative calculation of the atomic line
+strengths is needed to draw a firm conclusion.10
+      Absorption features have also been detected from three nearby, dim isolated NSs: RX J1308.6+2127, RX J1605.3+3249,
+and RX J0720.4-3125. While all three sources have similar effective temperatures (Teff ∼ 106 K), their observed features
+occur at different energies and have varying equivalent widths: E ≈ 0.2 − 0.3 keV with EW≈ 150 eV for RX J1308.6+2127
+(Haberl et al. 2003), E ≈ 0.27 keV with EW≈ 40 eV for RX J0720.4-3125 (Haberl et al. 2004a), and E ≈ 0.45 keV with
+EW≈ 80 eV for RX J1605.3+3249 (van Kerkwijk et al. 2004). With a single line, it is difficult to conclusively determine
+the true atmosphere composition. One possibility is that these features are associated with proton cyclotron resonance (with
+possible blending from atomic transitions) in a hydrogen atmosphere (Ho & Lai 2004). For RX J1308.6+2127, the inferred
+magnetic field is 3−5×1013 G, for which line suppression by vacuum resonance is ineffective. The broad width of the feature is
+consistent with that calculated by our hydrogen atmosphere models (see Fig. 9). RX J1605.3+3249 is also consistent with this
+picture: its feature corresponds to B ∼ 7 × 1013 G, and partial suppression of the line may account for its lower (by a factor
+of ∼ 2) EW (see Fig. 10). The situation for RX J0720.4-3125 is more complicated: the spectrum (including the line width)
+varies as a function of the rotation phase (Haberl et al. 2004a) and over a long timescale (a few years) (see Haberl et al. 2006).
+If its absorption feature is a proton cyclotron line, then the inferred magnetic field is too low for vacuum polarization effects
+to alter the line strength. Its small EW (40 eV) could arise if the line-emitting region (where B . 1014 G) is a small fraction
+of the NS surface; most of the surface would have B & 1014 G, requiring a highly non-dipolar surface field. Alternatively, if
+the atmosphere of RX J0720.4-3125 is composed of helium, the required field strength is B ∼ 9 × 1013 G, strong enough for
+the vacuum effects to reduce the line width.
+      Several recent papers have identified similar absorption features in other dim isolated NSs, though these observations may
+require independent confirmation and/or better statistics. Haberl et al. (2004b) report spectral features for RX J0806.4-4123
+(E ≈ 0.4 − 0.46 keV; EW≈ 33 − 56) and RX J0420.0-5022 (E ≈ 0.3 keV; EW≈ 45), while Zane et al. (2005) report a spectral
+feature for RX J2143.7+0654 (E ≈ 0.75 keV; EW≈ 27). These features are similar to those described in more detail above,
+and suffer from the same difficulties of identification. Needless to say, since the magnetic field strengths of these NSs likely lie
+
+
+9 Synthetic spectra from NSs with realistic temperature distributions may provide a solution to the problem of the XDINS optical excess
+discussed in §1 (see, e.g., Pons et al. 2002; Burwitz et al. 2003).
+10 The energy spacing of the lines at 0.7, 1.4, 2.1, and 2.8 keV is strongly suggestive of cyclotron harmonics. However, the analysis
+
+of Mori et al. (2005) indicates that, in all likelihood, the features at 2.1 and 2.8 keV are not real. Furthermore, a pure cyclotron line
+interpretation of these features is problematic because the strengths of the harmonics (either for electrons at 1010 G or protons at 1014 G)
+are expected to be negligible.
+
+                                                                                                         c 2006 RAS, MNRAS 000, 1–31
+                                                         Atmosphere Models of Magnetized Neutron Stars                       29
+in the range 5 × 1013 − 1014 G, for which accurate treatment of the vacuum resonance effect is crucial, the atmosphere models
+developed in this paper will be particularly useful, especially when combined with detailed modeling of (phase-dependent)
+synthetic spectra and (energy-dependent) lightcurves.
+
+
+6.2   Implications for future works
+It is clear that further theoretical modeling of NS surface emission is needed to confront observations. Our discussion above
+(§6.1) also suggests that even accurate theoretical models and high-quality data may still be inadequate to break some of the
+degeneracy (e.g., magnetic field strength and geomery, atmosphere composition, surface temperature distribution) inherent
+in the problem. In this regard, X-ray polarimetry is highly desirable. Our calculations in §5 show that polarization signals
+are complementary to X-ray spectra. For example, the polarization signals of magnetars and NSs with “ordinary” field
+strengths are qualitatively different. It is possible for a NS with a “boring” spectrum and lightcurve to generate an interesting
+polarization signature!
+
+
+
+ACKNOWLEDGMENTS
+We thank Wynn Ho and Alexander Potekhin for several useful discussions. We also thank Marten van Kerkwijk for pointing out
+an initial problem with our temperature profile fits, and for making several useful suggestions. This work has been supported
+in part by NSF grant AST 0307252, NASA grant NAG 5-12034 and Chandra grant TM6-7004X (Smithsonian Astrophysical
+Observatory). M.V.A. was also supported in part by a fellowship from the NASA/New York Space Grant Consortium.
+
+
+
+REFERENCES
+ Beloborodov, A. 2002. ApJ, 566, L85-88.
+ Becker, W., & Pavlov, G.G. 2002, in The Century of Space Science, ed. J. Bleeker et al. (Kluwer) (astro-ph/0208356)
+ Bignami, G., Caraveo, P., De Luca, A., Meregehetti, S. 2003. Nature, 423, 725
+ Bulik, T. & Miller, M. 1997. MNRAS, 288, 596
+ Burwitz, V., et al. 2003, A&A, 399, 1109
+ Caraveo, P.A., et al. 2004, Science, 305, 376
+ Costa et al. 2001. Nature, 411, 662.
+ Costa et al. 2006. In Proc. 39th ESLAB Symposium, eds. Favata, F., Gimenez, A., SP-588, p. 141-149.
+ De Luca, A. Mereghetti, S., Caraveo, P., Moroni, M., Mignani, R., Bignami, G. 2004. A & A, 418, 625
+ De Luca, A., et al. 2005, ApJ, 623, 1051
+ Drake, J.J. et al. 2002, ApJ, 572, 996
+ Ginzburg, V. 1964. The Propagation of Electromagnetic Waves in Plasmas. New York: Pergamon Press.
+ Gnedin, Y. & Pavlov, G. 1974. Sov. Phys. JETP, 38, 903.
+ Gnedin, Yu.N., Pavlov, G.G., & Shibanov, Yu.A. 1978, Sov. Astron. Lett., 4, 117
+ Gnedin, Yu. N. & Sunyaev, R.A. 1974, Astron. & Astrophys. 36, 379.
+ Haber, F. 2005. in Proceedings of 2005 EPIC XMM-Newton Consortium Meeting, eds. Brield, U., Sembay, S., Read, A., 288.
+ Haberl et al. 2003. A & A, 403, L19.
+ Haberl, F., Zavlin, V., Trümper, J., Burwitz, V. 2004. A & A, 419, 1077.
+ Haberl, F., Motch, C., Zavlin, V., et al. 2004. A & A, 424, 635.
+ Haberl et al. 2006. A & A accepted, astro-ph/0603724.
+ Heyl, J. & Hernquist, L. 1997. Phys. Rev. D., 55, 2449.
+ Heyl, J. & Shaviv, N. 2002. PhRvD, 66, 3002.
+ Heyl, J., Shaviv, N., Lloyd, D. 2003. MNRAS, 342, 134.
+ Ho, W. & Lai, D. 2001. MNRAS, 327, 1081.
+ Ho, W.C.G., & Lai, D. 2003, MNRAS, 338, 233
+ Ho, W. & Lai, D. 2004. ApJ, 607, 420.
+ Ho, W.C.G., Lai, D., Potekhin, A.Y., Chabrier, G. 2003. ApJ, 599, 1293H.
+ Ho, W.C.G., Lai, D., Potekhin, A.Y., Chabrier, G. 2004. AdSpR, 33, 537.
+ Jackson, M. & Halpern, J. 2005. ApJ, 633, 1114
+ Jones, P. 1986. MNRAS, 218, 477
+ Juett, A.M., Marshall, H.L., Chakrabarty, D., & Schulz, N.S. 2002, ApJ, 568, L31
+ Kaspi, V., Roberts, M., Harding, A. 2005. in Compact Stellar X-ray Souces, eds. Lewin, W. & van der Klis, M.
+ Kulkarni et al. 2003. ApJ, 585, 948.
+
+c 2006 RAS, MNRAS 000, 1–31
+30    M. van Adelsberg and D. Lai
+Kuiper, L, Hermsen, W., Mendez, M. 2004. ApJ, 613, 1173
+Kuiper, L., Keek, S., Hermsen, W., Jonker, P., Steeghs, D. 2006. ATel, 684
+Lai, D. 2001, Rev. Mod. Phys., 73, 629
+Lai, D. and Salpeter, E.E. 1997. ApJ, 491, 270.
+Lai, D., & Ho, W.C.G. 2002. ApJ, 566, 373
+Lai, D. & Ho, W. 2003. ApJ, 588, 962
+Lai, D. & Ho, W. 2003. PhRvL, 91, 1101L
+Medin, Z. and Lai, D. 2006a. Phys. Rev. A., submitted (astro-ph/0607166).
+Medin, Z. and Lai, D. 2006b. Phys. Rev. A., submitted (astro-ph/0607277).
+Mészáros, P. & Ventura, J. 1979, Phys. Rev. D, 19, 3565
+Mészáros, P. et al. 1988, ApJ, 324, 1056
+Meszaros, P. 1992. High Energy Radiation from Magnetized Neutron Stars, Chicago: University of Chicago Press
+Mihalas, D. 1978. Stellar Atmospheres, New York: W.H. Freeman and Company.
+Miller, M. 1992. MNRAS, 255, 129
+Mori, K. & Ruderman, M.A. 2003, ApJ, 592, L75
+Mori, K., Chonko, J.C., & Hailey, C.J. 2005, ApJ, 631, 1082
+Neuhauser, D., Koonin, S., Langanke, K. 1987. PhRvA, 36, 4163
+Özel, F. 2001. ApJ, 563, 276.
+Özel, F. 2003. ApJ, 582, 31.
+Pavlov, G.G. & Shibanov, Yu.A. 1979, Sov. Phys. JETP, 49, 741
+Pavlov, G. & Zavlin, V. 2000. ApJ, 529, 1011
+Pavlov, G., Bezchastnov, V. 2005. ApJ, 635, L61.
+Pavlov, G., Shibanov, Y., Zavlin, V., Meyer, R. 1995. In Alpar, M., Kiziloglu, U., van Paradijs, J., eds., Lives of the Neutron
+ Stars. Kluwer: Boston.
+Pavlov, G.G., Sanwal, D., & Teter, M.A. 2003, in “Young Neutron Stars and Their Environments” (IAU Symp.218, ASP
+ Conf. Proc.), eds. F. Camilo & B.M. Gaensler
+Pechenick, K., Ftaclas, C., Cohen, M. 1983. ApJ, 274, 846.
+Perez-Azorin, J. et al. 2005. A&A, 433, 275
+Pons, J., Walter, F., Lattimer, J., Prakash, M., Neuhauser, R., An, P. 2002. ApJ, 564, 981
+Potekhin, A. 2006. Private communication.
+Potekhin, A. & Chabrier, G. 2003. ApJ, 585, 955.
+Potekhin, A. & Chabrier, G. 2004. ApJ, 600, 317.
+Potekhin, A., Chabrier, G., Shibanov, Y. 1999. PhRvE, 60, 2193
+Potekhin, A., Lai, D., Chabrier, G., Ho, W. 2004. ApJ, 612, 1034
+Potekhin, A., Lai, D., Chabrier, G., Ho, W. 2005. AdSpR, 35, 1158
+Prakash, M. et al. 2001, in Physics of Neutron Star Interiors, eds. D. Blaschke, N.K. Glendenning & A. Sedrakian (Springer)
+ (astro-ph/0012136)
+Rajagopal, M., Romani, R., Miller, M. 1997. ApJ, 479, 347
+Ruderman, M. 1971. PhRvL, 27, 1306
+Sanwal, D., Pavlov, G., Zavlin, V., Teter, M. 2002. ApJ, 574, L61.
+Shibanov, Y, Zavlin, V., Pavlov, G., Ventura, J. 1992. A& A, 266, 313.
+Slane, P.O., Helfand, D.J., & Murray, S.S. 2002, ApJ, 571, L45
+Thompson, C. & Duncan, R. 1995. MNRAS, 275, 255.
+Thompson, C. & Duncan, R. 1996. ApJ, 473, 322.
+Tiengo, A., Mereghetti, S., Turolla, R., Zane S., Rea, N., Stella, L., Israel, G. 2005. A & A, 437, 997
+Trümper, J., Burwitz, V., Haberl, F., Zavlin, V. 2004. NuPhS, 132, 560
+Turolla, R., Zane, S., Drake, J. 2004. ApJ, 603, 265
+van Adelsberg, M., Lai, D., Potekhin, A., Arras, P. 2005. ApJ, 628, 902
+van Kerkwijk, M. & Kulkarni, S. 2001. A & A, 380, 221
+van Kerkwijk et al. 2004. ApJ, 608, 432.
+Ventura, J. 1979. PhRvD, 19, 1684.
+Woods, P., Thompson, C. 2005. in Compact Stellar X-ray Sources, eds. Lewin, W. & van der Klis, M.
+Yakovlev, D.G., & Pethick, C.J. 2004, ARAA, 42, 169
+Zane, S., Turolla, R., Treves, A. 2000. ApJ, 537, 387.
+Zane, S., Turolla, R., Stella, L., Treves, A. 2001. ApJ, 560, 384
+Zane, S., Cropper, M., Turolla, R., et al. 2005. ApJ, 627, 397.
+
+                                                                                               c 2006 RAS, MNRAS 000, 1–31
+                                                   Atmosphere Models of Magnetized Neutron Stars                 31
+Zavlin, V. & Pavlov, G. 2002. In Proc. 270 WE-Heraeus Seminar on Neutron Stars, Pulsars and Supernova Remnants, eds.
+ Becker, W., Lesch, H., Trümper, J., 263.
+
+
+
+
+c 2006 RAS, MNRAS 000, 1–31
+

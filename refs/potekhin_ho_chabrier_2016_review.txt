@@ -1,0 +1,1328 @@
+                                                  Atmospheres and radiating surfaces of neutron
+                                                  stars with strong magnetic fields
+arXiv:1605.01281v2 [astro-ph.HE] 3 Mar 2017
+
+
+
+
+                                                  Alexander Y. Potekhin∗,abcd Wynn C. G. Ho,e Gilles Chabrier d f
+                                              a Ioffe Institute, Politekhnicheskaya 26, Saint Petersburg, 194021, Russia
+                                              b
+                                                  St Petersburg Polytechnic University, Politeknicheskaya 29, Saint Petersburg, 195251, Russia
+                                              c Central Astronomical Observatory at Pulkovo, Pulkovskoe Shosse 65, Saint Petersburg, 196140,
+
+                                                  Russia
+                                              d Centre de Recherche Astrophysique de Lyon, Université de Lyon, Université Lyon 1,
+
+                                                Observatoire de Lyon, Ecole Normale Supérieure de Lyon, CNRS, UMR 5574, 46 allée d’Italie,
+                                                69364, Lyon Cedex 07, France
+                                              e Mathematical Sciences, Physics & Astronomy, and STAG Research Centre, University of
+
+                                                Southampton, Southampton, SO17 1BJ, UK
+                                              f School of Physics, University of Exeter, Exeter, EX4 4QL, UK
+
+                                                E-mail: palex@astro.ioffe.ru, wynnho@slac.stanford.edu,
+                                                gilles.chabrier@ens-lyon.fr
+
+                                                          We review the current status of the theory of thermal emission from the surface layers of neutron
+                                                          stars with strong magnetic fields B ∼ 1010 − 1015 G, including formation of the spectrum in a par-
+                                                          tially ionized atmosphere and at a condensed surface. In particular, we describe recent progress in
+                                                          modeling partially ionized atmospheres of central compact objects in supernova remnants, which
+                                                          may have moderately strong fields B ∼ 1010 − 1011 G. Special attention is given to polarization
+                                                          of thermal radiation emitted by a neutron star surface. Finally, we briefly describe applications of
+                                                          the theory to observations of thermally emitting isolated neutron stars.
+
+
+
+
+                                                  The Modern Physics of Compact Stars 2015
+                                                  30 September 2015 - 3 October 2015
+                                                  Yerevan, Armenia
+
+
+                                                        ∗ Speaker.
+
+
+
+                                                   c Copyright owned by the author(s) under the terms of the Creative Commons
+                                                  Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0).          http://pos.sissa.it/
+Magnetized atmospheres of neutron stars                            A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+1. Introduction
+
+      One of the first expectations of neutron-star astrophysics is the possibility to detect thermal ra-
+diation from their hot surfaces, whose temperature T ∼ 106 K implies the maximum of the thermal
+spectrum in the range of hundreds eV [1, 2]. However, the first discovered X-ray sources beyond
+the Solar system [3–5] appeared to be unrelated with the neutron star radiation [5]. After Sco
+X-1, the first discovered cosmic X-ray source [3], had also been detected in the optical band [6],
+Shklovsky [7] argued that its X-ray radiation originated from the accretion of matter onto a neutron
+star from its companion. This conjecture was initially refuted [8], but later proved to be true [9].
+However, the first detection of thermal radiation from the surface of isolated neutron stars (INSs)
+[10, 11] had to wait the launch of focusing X-ray telescopes Einstein (1978–1981) and EXOSAT
+(1983–1986), which allowed for a dramatic increase in sensitivity to faint point X-ray sources. The
+next significant advance was due to the ROSAT X-ray observatory (1990–1998), which was the
+first to reliably identify spectra of the thermal radiation from several pulsars [12, 13]. In the 21st
+century, the data collected by the new generation X-ray observatories Chandra and XMM-Newton
+give a further impetus to the studies of thermal radiation of neutron stars.
+      One of the main challenges in the analysis of the neutron star spectra is to disentangle dif-
+ferent emission components, overlapping in the X-ray energy range. After discriminating thermal
+emission, a detailed study of the thermal spectra can yield precious information about the neutron
+star surface composition and temperature and magnetic field distributions, the properties of dense
+magnetized plasmas in their envelopes and atmospheres, and eventually constraint the equation of
+state (EOS) of the ultradense matter in the neutron star cores.
+      The number of known neutron stars with an unambiguously identified thermal component in
+the spectrum is not large, but it steadily increases. Some of them can be understood with models
+of non-magnetic atmospheres, whereas others are believed to be endowed with strong magnetic
+fields. The non-magnetic neutron-star atmospheres have been studied in many works (see Sect. 2.3
+for magnetic model spectra). For the atmospheres composed of hydrogen, databases of model
+spectra have been published (models NSAGRAV [14], NSSPEC [15], and NSATMOS [16] in the
+database XSPEC [17]), and a computer code for their calculation has been released [18]. Model
+spectra were also calculated for different chemical compositions [15, 16, 19–22] and mixtures
+[15, 20]. Databases of model spectra have been published for the atmospheres composed of iron
+and of the solar mixture of elements (NSSPEC [15]), of helium (NSX [21]), and of carbon (NSX [21]
+and CARBATM [22]). Examples of thermal spectra successfully interpreted with the non-magnetic
+atmosphere models include bursters, soft X-ray transients in quiescence, some central compact
+objects (CCOs) in supernova remnants, and some millisecond pulsars (see the table in the review
+[23]). Measuring the basic parameters of neutron stars using model non-magnetic atmospheres has
+been also recently reviewed in [24].
+      Here, however, we will focus exclusively on models of those thermal spectra of the INSs that
+are significantly affected by strong magnetic fields (see [23] for more detailed discussion). The
+paper is organized as follows. In Sect. 2 we overview the theory of partially ionized neutron star
+atmospheres with strong magnetic fields. In Sect. 3 we describe the model of a condensed radi-
+ating surface and hybrid models of a condensed surface covered by a thin atmosphere. Section 4
+is devoted to the polarization of the neutron star thermal radiation that may be measured in fu-
+
+
+                                                   2
+Magnetized atmospheres of neutron stars                                                  A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+ture. Available examples of successful applications of the theory to observations are overviewed in
+Sect. 5, and conclusions are given in Sect. 6.
+
+
+2. Theory of strongly magnetized neutron-star atmospheres
+
+     We call an atmosphere strongly magnetized, if the magnetic field B strongly (non-perturbatively)
+affects its opacities and radiative transfer for thermal photons. This is the case if the electron cy-
+clotron energy h̄ωc ≈ 11.577 B12 keV is greater than either the photon energies h̄ω or the atomic
+binding energies, or both. Here, ω is the photon angular frequency, ωc = eB/me c is the electron
+cyclotron frequency, me and −e are the electron mass and charge, c is the speed of light, and
+B12 ≡ B/(1012 G). These two conditions imply
+
+                           me c                                               m2e c e3
+                     B&         kB T ∼ 1010 T6 G,            B & B0 =                  = 2.3505 × 109 G,                        (2.1)
+                           h̄e                                                  h̄3
+
+where T6 = T /106 K. The quantity B0 in Eq. (2.1) determines the atomic magnetic-field parameter
+γ ≡ B/B0 . It is also convenient to define the relativistic magnetic-field parameter b ≡ h̄ωc /me c2 =
+B12 /44.14. We call magnetic field superstrong if b & 1. In this case the specific effects of Quantum
+Electrodynamics (QED) become quite important. The superstrong fields are believed to exist at the
+surfaces of magnetars and high-B pulsars (see the reviews [25–27]).
+
+2.1 Radiative transfer in normal modes
+     As has been demonstrated in [28], at typical conditions in neutron star photospheres one can
+describe radiative transfer in terms of specific intensities of two normal polarization modes [29].
+This is true if the magnetic field is strong and ω lies outside narrow frequency ranges near reso-
+                                                                       1/2
+nances and above the electron plasma frequency ωpe = 4π e2 ne /me           , where ne is the electron
+number density. The normal modes, called extraordinary (X-mode, denoted by subscript or super-
+script j = 1 or X) and ordinary (O-mode, j = 2 or O), have different polarization vectors e j and
+different absorption and scattering coefficients, which depend on the angle θkB between the wave
+vector k and the magnetic field B . The radiative transfer equations for the two normal modes read
+[30]
+                                                                          2
+           dIω , j (k̂)                           1
+                                                                                    Z
+  cos θk                = κω , j (k̂)Iω , j (k̂) − κωa , j (k̂)Bω ,T − ∑          κωs , j′ j (k̂′ , k̂)Iω , j′ (k̂′ ) dΩk ′ ,   (2.2)
+             dycol                                2                     ′
+                                                                       j =1 (4π )
+
+
+where Iω , j denotes the specific intensity of the polarization mode j per unit circular frequency (if
+Iν is the specific intensity per unit frequency, then Iω = Iν /(2π ) [31]), k̂ is the unit vector along the
+wave vector k ,
+                                              h̄ω 3             −1
+                                    Bω ,T = 3 2 eh̄ω /kB T − 1                                        (2.3)
+                                             4π c
+is the specific intensity of non-polarized blackbody radiation,
+                                                                 2    Z
+                                  κω , j (k̂) ≡ κωa , j (k̂) + ∑              κωs , j′ j (k̂′ , k̂) dΩk ′                       (2.4)
+                                                                j′ =1 (4π )
+
+
+
+                                                                  3
+Magnetized atmospheres of neutron stars                                   A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+is the total opacity, κωa , j and κωs , j′ j (k̂′ , k̂) are its components due to, respectively, the true absorption
+and the scattering that changes the ray direction from k̂′ to k̂ and may also change the polariza-
+tion from j′ to j, dΩk ≡ sin θk dθk dϕk is a solid angle element, θk is the angle between k and the
+normal to the surface n, and ϕk is the angle in the surface plane. Finally, ycol = r∞ (1 + zg ) ρ (r)dr
+                                                                                                  R
+
+is the column density, where the factor 1 + zg = (1 − xg )−1/2 is the scale change due to the grav-
+ity according to the General Relativity (GR), zg is the gravitational redshift, xg = 2GM/c2 R ≈
+(M/M⊙ ) (2.95 km/R) is the compactness parameter of the star with mass M and radius R, and G
+is the gravitational constant (for a typical neutron star xg lies between 1/5 and 1/2). The radiative
+transfer equations should be supplemented with the hydrostatic and energy balance equations (see
+[32]).
+     The major axis of the polarization ellipse is transverse to B for the X-mode and coplanar with
+B for the O-mode. Since the magnetic field hampers electron motion in the transverse direction, it
+also suppresses the damping of the X-wave by the electrons, making the opacities of the X-mode
+strongly reduced, if ωc ≫ ω . The dependence of the opacities on k̂ and k̂′ is also affected by B .
+Therefore, the emission of a magnetized atmosphere depends on the angles θk , ϕk , and the angle
+θnB between B and n, unlike in the non-magnetic case where it depends only on θk . In practice, one
+usually neglects the dependence of scattering on the angle between k̂ and k̂′ , in which case (called
+the approximation of isotropic scattering) κωs , j′ j (k̂′ , k̂) depends only on the angles θkB and θkB
+                                                                                                     ′ that
+
+the wave vectors k and k ′ make with B .
+     The polarization vectors of normal modes e ω , j are determined by the complex dielectric tensor
+ε (ω ) and magnetic permeability tensor. The latter can be set equal to the unit tensor I for a gaseous
+plasma (see [29]). In the Cartesian system with unit vectors êx,y,z such that êz is directed along B ,
+
+                                                               
+                                                      ε⊥ iε∧ 0
+                                     ε = I + 4πχ
+                                               χ =  −iε∧ ε⊥ 0  ,                                            (2.5)
+                                                               
+                                                       0   0 εk
+
+
+where χ = χ H + iχ A is the complex polarizability tensor of plasma, χ H and χ A are its Hermitian
+and anti-Hermitian parts, respectively. The anti-Hermitian part χ A (ω ) is determined by the ab-
+sorption opacities, and the Hermitian part χ H (ω ) can be obtained from χ A (ω ) using the Kramers-
+Kronig relation [33, 34].
+     In strong magnetic fields, specific QED effects called polarization and magnetization of vac-
+uum can be important (see, e.g., [35]). At B . 1016 , the vacuum polarization is weak. Then the
+total dielectric tensor is ε = I + 4πχ          χ vac , where the vacuum polarizability tensor χ vac
+                                     χ (ω ) + 4πχ
+does not depend on ω . In the Cartesian coordinate system with êz along B , the tensors of vacuum
+polarizability χ vac and permeability become diagonal, with the coefficients determined by only
+three numbers, called vacuum polarizability and magnetization coefficients. These coefficients
+were obtained in [36] at b ≪ 1 and in [37] at b ≫ 1. At arbitrary b, they were calculated in [38]
+and fitted by simple analytic functions in [34]. Convenient expressions of the components of e j
+through the components of χ (ω ) and the vacuum polarization and magnetization coefficients have
+been presented in [39].
+     In the approximation of isotropic scattering, at a given frequency ω , the opacities can be
+
+
+                                                         4
+Magnetized atmospheres of neutron stars                                                               A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+written in the form (e.g., [30])
+               1
+                                       σαa                    3 1                  σs
+                                                                                                     Z π
+    κ aj =    ∑ |e j,α (θkB )|2            ,      κ sj j′ =      ∑  |e j,α (θkB )|2 α                                ′
+                                                                                                          |e j′ ,α (θkB )|2 sin θkB
+                                                                                                                                 ′    ′
+                                                                                                                                    dθkB ,       (2.6)
+             α =−1                     mi                     4α =−1               mi                 0
+
+
+where α = 0, ±1, and σαa,s are the absorption and scattering cross-sections for the three basic cyclic
+                                                      √
+polarizations with e 0 = e z and e ±1 = (eex ± ieey )/ 2. The absorption cross-sections include con-
+tributions of photon interaction with free electrons or ions in the plasma environment (free-free
+transitions) as well as with bound states of atoms and ions (bound-bound and bound-free transi-
+tions).
+     At large optical depth τω = r∞ κωeff (r′ ) dycol (r′ ), where κωeff is the effective opacity defined
+                                    R
+
+below, radiation is almost isotropic: the magnitude of the diffusive radiative flux Fω , j is much
+smaller than the mean intensity Jω , j , where
+
+                                        1
+                                            Z                                                    Z
+                            Jω , j =                   Iω , j (k̂) dΩk ,           F ω, j =                 Iω , j (k̂) k̂ dΩk .                 (2.7)
+                                       4π      (4π )                                              (4π )
+
+In this case an approximate solution to (2.2) is provided by the diffusion approximation [30]:
+
+                         3              d            d
+                                                                                         
+                                                                     a              Bω ,T
+  Iω , j (k̂) ≈ Jω , j + F ω , j · k̂,       Dω , j       Jω , j = κ̄ω , j Jω , j −         + κ̄ωs [Jω , j − Jω ,3− j ] .
+                        4π             dycol        dycol                            2
+                                                                                                                   (2.8)
+Here, the average absorption and scattering opacities are
+                             1                                                    1
+                                 Z                                                    Z                 Z
+               κ̄ωa , j =                 κωa ,12 dΩk ,             κ̄ωs =                      dΩk ′              dΩk κωs ,12 (k̂′ , k̂) ,      (2.9)
+                            4π    (4π )                                          4π    (4π )               (4π )
+
+and the diffusion coefficient is
+                                                                         k
+                                                              (                    )                  (                     )
+             cos2 θnB     sin2 θnB                                 (κω , j )−1           3
+                                                                                                Z π
+                                                                                                            2 cos2 θkB          sin θkB dθkB
+ Dω , j =               +          ,            where                                  =                                                       . (2.10)
+                k
+              3κω , j      3κω⊥, j                                 (κω⊥, j )−1           4       0           sin2 θkB            κω , j (θkB )
+
+The effective opacity for non-polarized radiation is κωeff = 2/(3Dω ,1 + 3Dω ,2 ). The diffusion ap-
+proximation (2.8) serves as a starting point to an iterative method [40], which allows one to solve
+the system (2.2) more accurately.
+     To solve the radiative transfer equations, one must know the dependencies of the temperature
+and densities of atoms, ions, and electrons on the depth. These dependencies can be found from
+the equations of thermal, hydrostatic, and ionization equilibrium supplemented with the EOS. In
+the plane-parallel limit, the condition of radiative thermal equilibrium requires the outward flux
+                                                       Z ∞         Z         2
+                                            Fph =
+                                                         0
+                                                             dω
+                                                                       (4π )
+                                                                             ∑ Iω , j (k̂) cos θk dΩk                                           (2.11)
+                                                                             j=1
+
+to remain constant throughout the atmosphere. In the approximation of isotropic scattering, the
+equations of hydrostatic balance are (cf. [32])
+                                                             Z ∞                          2
+             dP                                          1
+                                                                         Z
+                  = g − grad ,              grad ≈                 dω        cos θk ∑ κω , j (k̂) Iω , j (k̂) dΩk .                             (2.12)
+            dycol                                        c    0                           j=1
+
+
+
+                                                                             5
+Magnetized atmospheres of neutron stars                          A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+2.2 Physics input
+     To solve the radiation transfer problem formulated in Sect. 2.1, we need to know the composi-
+tion of the plasma, its EOS, and absorption and scattering cross-sections. All these ingredients are
+affected by a strong magnetic field. There have been many works devoted to these effects. We will
+give only a brief sketch of the basic results (see [23] for details).
+     The motion of charged particles in a magnetic field B is quantized in discrete Landau levels,
+whereas the longitudinal (parallel to B ) momentum of the particle is continuous. The threshold
+                                                                  √
+excitation energy of the Nth Landau level equals EN = me c2 ( 1 + 2bN − 1). The wave functions
+that describe an electron in a magnetic field [41] have a characteristic transverse scale of the order
+                                                    √
+of the “magnetic length” am = (h̄c/eB)1/2 = aB / γ , where aB = h̄2 /me e2 is the Bohr radius.
+     In practice, Landau quantization becomes important when N is not too large. For the electrons
+in a plasma at equilibrium this means that the electron cyclotron energy h̄ωc is at least comparable
+to both the electron Fermi energy εF and temperature kB T in energy units. If h̄ωc is appreciably
+larger than both these energies, then most electrons reside on the ground Landau level, and the field
+is called strongly quantizing. For a plasma of electrons and ions with charge Ze and mass mi = Amu ,
+where mu = 1.66054×10−24 g, the field is strongly quantizing if both conditions ρ < ρB and ζe ≫ 1
+are satisfied, where
+                           m            A 3/2                       h̄ωc          B12
+              ρB =        √ i     = 7045 B12 g cm−3 ,        ζe =        = 134.34     .        (2.13)
+                     π2       3
+                           2 am Z       Z                           kB T          T6
+
+In neutron star atmospheres, as a rule, the fields B ≫ 1010 G are strongly quantizing. In the opposite
+case, where electrons are smoothly distributed over a large number of the Landau levels, the field
+can be considered as non-quantizing. In the magnetospheres, which have lower densities, electrons
+can condensate on the lowest Landau level even at B ∼ 108 G because of the violation of the LTE
+conditions (e.g., [42]), but this is not the case in the photospheres (see [23]).
+     For ions, the parameter ζe is replaced by ζi = h̄ωci /kB T = 0.0737 (Z/A)B12 /T6 , where ωci =
+ZeB/(mi c) is the ion cyclotron frequency. In magnetar atmospheres, the parameter ζi is not small,
+and the quantization of the ion motion should be taken into account. A parameter analogous to ρB
+is unimportant for ions, because they are non-degenerate in neutron star atmosphere.
+     Scattering cross-sections in neutron star atmospheres are well known [30, 42, 43]. The scat-
+tering on electrons is strongly reduced compared to the zero-field case at ω ≪ ωc and exhibits a
+cyclotron resonance at ωc . The ion scattering cross-section is analogous. In superstrong fields one
+cannot neglect the scattering on ions, because of the resonance at ωci . In addition, in a quantiz-
+ing magnetic field, a photon can be absorbed or emitted by a free electron in a transition between
+Landau levels. In the non-relativistic or dipole approximation, such transitions occur between the
+neighboring levels at the fundamental cyclotron frequency ωc . In the relativistic theory, the multi-
+pole expansion gives rise to cyclotron harmonics [31]. They manifest themselves in the opacities
+when one goes beyond the cold plasma approximation. Absorption cross-sections at these harmon-
+ics were derived in [44] and represented in a convenient form in [45].
+     The quantization of electron motion leads to the appearance of cyclotron harmonics in the free-
+free absorption as well, even in the non-relativistic theory. Photon absorption cross-sections for an
+electron, which moves in a quantizing magnetic field and interacts with a non-moving point charge,
+were derived in [46]. However, an ion can be considered as non-moving only if ω ≫ ωci [29]. In
+
+
+                                                  6
+Magnetized atmospheres of neutron stars                          A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+the superstrong field of magnetars, the latter condition is unacceptable. A more accurate treatment
+of absorption of a photon by the system of a finite-mass ion and an electron was performed in
+                                                                                     a(ff)
+[47, 48]. According to the latter studies, the free-free absorption cross-section σα (ω ) has peaks
+at the multiples of both the electron and ion cyclotron frequencies for all polarizations α . However,
+these two types of peaks are different. Unlike the electron cyclotron harmonics, the ion cyclotron
+harmonics are so weak that they can be safely neglected in the neutron star atmospheres.
+      As first noticed in [49], atoms with bound states should be much more abundant at B ≫ B0
+than at B . B0 in a neutron star atmosphere at the same temperature. This difference is caused
+by the increase of atomic binding energies and decrease of atomic sizes at B ≫ B0 . Therefore it
+is important to consider the bound states and bound-bound and bound-free transitions in a strong
+magnetic field even for light-element atmospheres, which would be almost fully ionized in the
+non-magnetic case.
+      Many authors studied atoms with an infinitely heavy (fixed in space) nucleus in strong mag-
+netic fields (see, e.g., [50, 51], for review). This model, however, can be considered only as a
+first approximation. If γ = B/B0 is not negligibly small compared to the nucleus-to-electron mass
+ratio mi /me , one should take into account quantum oscillations of an atomic nucleus, which are
+different for different atomic quantum states. Moreover, the astrophysical simulations assume fi-
+nite temperatures, hence thermal motion of particles. The theory of motion of a system of point
+charges qi in a constant magnetic field was reviewed in [52]. Instead of the canonical momentum
+P , a relevant conserved quantity is pseudomomentum K = P + (1/2c) B × ∑i qi r i . For a hydrogen
+atom, K = P − (e/2c) B × r , where r connects the proton and the electron [53]. The specific effects
+related to collective motion of a system of charged particles are especially important in neutron star
+atmospheres at B ≫ B0 . In particular, so called decentered states may become populated, where
+an electron is localized mostly in a “magnetic well” aside from the Coulomb center. Numerical
+calculations of the energy spectrum of the hydrogen atom with allowance for the effects of mo-
+tion across a strong magnetic field were performed in [54, 55]. Probabilities of various radiative
+transitions for a hydrogen atom moving in a strong magnetic field were studied in [55–57].
+      Quantum-mechanical calculations of the characteristics of a He+ ion moving across a strong
+magnetic field are performed in [58, 59]. The basic difference from the case of a neutral atom is
+that the the ion motion is restricted by the field in the transverse plane, therefore the values of K 2
+are quantized (see [52]).
+      Currently there is no detailed calculation of binding energies, oscillator strengths, and pho-
+toionization cross-sections for atoms and ions other than H and He+ , arbitrarily moving in a strong
+magnetic field. For such species one usually neglects the decentered states and uses a perturbation
+theory with respect to K⊥ [60, 61]. An order-of-magnitude estimate [23] of the validity of the latter
+gives, for an atom with mass ma = Amu , the condition kB T /Eb ≪ ma /(γ me ) ≈ 4A/B12 , where Eb
+is the atomic ionization energy. It is satisfied for low-lying levels of carbon and heavier ions, if
+B . 1013 G and T . 106 K (see the discussion in [23]). A practical method of calculations of the
+quantum-mechanical characteristics of multielectron atoms and ions, based on a combination of
+several perturbation theories with respect to different physical parameters, has been developed in
+[62].
+      Since the quantum-mechanical characteristics of an atom in a strong magnetic field depend on
+K⊥ , the atomic distribution over K⊥ cannot be written in a closed form, and only the distribution
+
+
+                                                  7
+Magnetized atmospheres of neutron stars                               A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+over longitudinal momenta Kz remains Maxwellian. The first EOS calculations with the complete
+account of these effects have been performed in [63] for hydrogen atmospheres. The same approach
+with slight modifications was then applied to strongly magnetized helium plasmas [64].
+     The calculation of the cross-section of photoabsorption by bound states of atoms and ions in
+the strong magnetic fields implies averaging of the cross-sections over all values of K⊥ at every
+ω . Since the distribution over K⊥ is continuous for the atoms and discrete for the ions, such av-
+eraging implies an integration over K⊥ for atoms and a summation for ions. Statistical weights
+for this averaging should be consistent with the statistical model of the plasma used in the EOS
+calculations. To date, such fully self-consistent calculations, including both centered and decen-
+tered bound states (i.e., small and large K⊥ ) have been realized only for neutron-star atmospheres
+composed of hydrogen [47, 65, 66]. For atoms and ions with several bound electrons (C, O, Ne),
+calculations have been performed [67, 68] in terms of the above-mentioned perturbation theory.
+
+2.3 Modeling observed spectra
+     The strong gravity of a neutron star induces a significant redshift of the local photon frequency
+ω to ω∞ = ω /(1 + zg ) in the remote observer’s reference frame. Accordingly, a thermal spectrum
+with effective temperature Teff transforms for the remote observer into a spectrum with a lower
+“observed” temperature Teff    ∞ = T /(1 + z ). Along with the radius R that is determined by the
+                                      eff        g
+equatorial length 2π R in the local reference frame, one often considers an apparent radius for a
+remote observer, R∞ = R (1 + zg ), so that the apparent photon luminosity L∞          ph is determined by the
+                            ∞                   2             2    ∞  4
+Stefan-Boltzmann law Lph = Lph /(1 + zg ) = 4πσSB R∞ (Teff ) , where σSB is the Stefan-Boltzmann
+constant, and Lph = 4πσSB R2 Teff   4 is the luminosity in the local reference frame.
+
+     Since thermal diffusion is anisotropic in a strong magnetic field, the temperature is non-
+uniform over the stellar surface, which can lead to modulation of the observed thermal flux as
+the star rotates [69]. Then it is convenient to define a local effective surface temperature Ts by the
+relation Fph (θ , ϕ ) = σSB Ts4 , where Fph is the local radial flux density at the surface point, Eq. (2.11),
+determined by the polar angle (θ ) and azimuth (ϕ ) in the spherical coordinate system. Since Lph is
+the integral of Fph (θ , ϕ ) over the surface, Teff4 is equal to the average of T 4 .
+                                                                                  s
+     Because of the light bending in strong gravity, the observer receives a photon whose wave
+vector makes a different angle θ with normal to the surface than the angle θk at the point where this
+photon was emitted. For the compactness parameters xg < 1/2, this effect is well described by the
+simple approximation [70] cos θk = xg + (1 − xg ) cos θ . The spectral flux that comes to an observer
+can be most easily calculated using the equations presented in [71] provided that the distribution
+of Iω , j (k̂) is known for the entire visible surface of the neutron star. The problem is complicated
+because of non-uniform surface distributions of the magnetic field and effective temperature. A
+fiducial model for the magnetic field distribution is the relativistic dipole [72], but recent numerical
+simulations of the magnetothermal evolution produce more complicated distributions (see [73, 74]
+and references therein). The temperature distribution, consistent with the magnetic-field distribu-
+tion, is found from calculations of heat transport in neutron star envelopes (see [75] for review).
+     Local spectra from strongly magnetized, fully ionized neutron-star atmospheres were calcu-
+lated in [76, 77]. Later the authors included spectral tables for B = 1012 and 1013 G in the XSPEC
+package [17] under the name NSA. The authors have shown that the spectra of magnetic hydrogen
+and helium atmospheres are softer than the respective non-magnetic spectra, but harder than the
+
+
+                                                      8
+Magnetized atmospheres of neutron stars                               A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+
+Figure 1: Left panel. Integral spectra of a hydrogen atmosphere of a neutron star with M = 1.4 M⊙ , R = 12
+km, and with different effective temperatures Teff (log Teff (K) from 5.5 to 6.8 with step 0.1). The dashed and
+solid lines represent the model with a dipole field of strength Bp = 1013 G at the pole and oriented along and
+across the line of sight, respectively. For comparison, the dotted curves show the model with a constant field
+B = 1013 G, normal to the surface. Right panel (from [68]). Local spectra at the magnetic pole (solid curve)
+and equator (dashed curve) for a neutron star with carbon atmosphere, the dipole field with polar strength of
+Bp = 2 × 1012 G (neglecting the relativistic corrections) and uniform effective temperature 3 × 106 K.
+
+
+blackbody spectrum with the same temperature. At contrast to the isotropic blackbody radiation,
+radiation of a magnetic atmosphere consists of a narrow (< 5◦ ) pencil beam along the magnetic
+field and a broad fan beam with typical angles ∼ 20◦ − 60◦ (as had been already predicted in [78]).
+     Later, similar calculations were performed by other research groups [39, 79, 80], paying spe-
+cial attention to possible manifestations of the ion cyclotron resonance in magnetar spectra. In
+particular, it was shown [39, 80, 81] that vacuum polarization leads to conversion of the normal
+modes: a photon related to one mode transforms, with a certain probability, into a photon of the
+other mode while crossing a surface at a critical density which depends on ω . For B ∼ 1014 G and
+ω ∼ ωci , conversion occurs at a density where the atmosphere is optically thin for the extraordi-
+nary mode but optically thick for the ordinary mode. As a result, ordinary photons converting into
+extraordinary ones will reduce the strength of the ion cyclotron absorption feature in the emission
+spectrum of magnetars.
+     A strongly magnetized hydrogen atmosphere model with full account of the partial ionization
+and the atomic motion effects was constructed in [34]. The calculated spectra revealed a narrow
+absorption line at the proton cyclotron energy and some features related to atomic transitions.
+Similar to fully ionized plasma models, the intensity has a maximum at higher energies relative to
+the maximum of the Planck function, but at lower energies relative to the non-magnetic hydrogen
+atmosphere model. Therefore, the model of a fully-ionized atmosphere with a strong magnetic
+field can yield a relatively reliable temperature, although it does not reproduce the spectral features
+caused by atomic transitions.
+
+
+                                                      9
+Magnetized atmospheres of neutron stars                                     A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+       Synthetic spectra of partially ionized hydrogen atmospheres with averaging over the stellar
+surface with realistic temperature distribution were calculated in [82]. The left panel of Fig. 1
+shows examples of such spectra calculated for a neutron star with M = 1.4 M⊙ and R = 12 km,
+endowed with a dipole magnetic field, whose value at the magnetic pole is Bp = 1013 G. For com-
+parison, the dotted lines show spectra calculated for constant B = 1013 G for the same values of
+Teff . In the dipole configuration, the spectral features are strongly smeared by the averaging over
+the surface temperature and magnetic field distributions, and the spectrum depends on the magnetic
+axis orientation θm relative to the line of sight. As the star rotates, the latter dependence leads to a
+rotational phase dependence of the spectra.
+      Models of partially ionized neutron-star atmospheres composed of strongly ionized iron, oxy-
+gen, and neon were constructed in [67, 68, 83]. The effects related to the finite nuclear masses were
+treated in the first order of the perturbation theory (see Sect. 2.2). The right panel of Fig. 1 shows
+local spectra of a strongly ionized carbon atmosphere at the magnetic pole and equator of a neutron
+star for the non-relativistic magnetic dipole model with Bp = 2 × 1012 G. It is clear that in this case
+the averaging over the surface, with spectra varying between these two extremes, would also result
+in smearing of some of the features seen in the local spectra.
+     The calculated spectra of partially ionized, strongly magnetized neutron star atmospheres com-
+posed of hydrogen, carbon, oxygen, and neon with magnetic fields B ∼ 1010 −1013 G (see Sect. 2.4)
+are included in XSPEC [17] under the names NSMAX [68, 82] and NSMAXG [66, 68, 84], with the
+latter allowing for varying surface gravity.1
+
+
+2.4 Moderately strong magnetic fields
+
+     Most of the thermally emitting INSs have surface magnetic fields in the range 1012 G . B .
+1015 G, but one class of sources, so called central compact objects (CCOs) have probably surface
+fields B . 1011 G [85–87]. These fields are strong enough to radically affect properties of hydrogen
+atoms and strongly quantize the electrons in the neutron-star atmosphere, but they are below the
+field strengths previously available in the atmosphere model NSMAXG [84]. The possibility to ex-
+tend the model to the field strengths 3× 1010 G . B . 1012 G, which we call moderately strong, has
+opened recently. The task of calculation of such models is arduous because the dimensionless field
+parameter γ = B/B0 is smaller than in the previously calculated models, which entails the need to
+include more terms than previously in the wave-function expansion over the set of Landau orbitals
+[55]. In addition, with decreasing B, the energy spectrum of the bound states of a magnetized atom
+becomes denser, which necessitates inclusion of more such states in the consideration. Meanwhile,
+since γ ≫ 1, the center-of mass motion of the atom noticeably affects the atomic properties.
+     In order to solve this problem, we constructed analytical fitting formulae for atomic energies,
+sizes, and main oscillator strengths as functions of B, discrete quantum numbers of initial and final
+states, and pseudomomentum K⊥ [66]. For bound-free transitions, we calculated extensive tables
+of cross-sections as functions of K⊥ and photon frequency ω for a number of bound states at every
+given B and interpolated across these tables. This method allowed us to calculate the opacities for
+moderately magnetized hydrogen atmospheres [66]. In addition to the bound-bound, bound-free,
+   1 We thank Peter Shternin for finding an error in the old (prior to 2014) version of NSMAX .
+
+
+
+
+                                                         10
+Magnetized atmospheres of neutron stars                                A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+
+Figure 2: Opacities of the normal polarization modes j = 1, 2 (the lower and upper curve of each type) at
+ρ = 0.1 g cm−3 and B = 7 × 1010 G for θkB = 10◦ (left panel), θkB = 60◦ (right panel), T = 105.5 K (solid
+curves, and T = 106 K (dashed curves). The arrows marked 0, 1, 2 correspond to different characteristic
+transition energies of the non-moving hydrogen atom: 0 – ground state binding energy, 1 – transition between
+the ground state and first excited state, 2 – transition between the first and second excited states. The arrows
+marked c0, c1, c2, c3 correspond to cyclotron harmonics energies (N +1)h̄ωc with N = 0, 1, 2, 3, respectively.
+
+
+
+
+and free-free absorption, we also included the cyclotron absorption with the electron cyclotron
+harmonics calculated beyond the cold plasma approximation (Sect. 2.2).
+     Examples of the calculated opacities are shown in Fig. 2 for two values of θkB and two values
+of T . Atomic features (marked 0, 1, 2) are smeared and shifted leftward due to the magnetic
+broadening caused by the dependence of Eb on K⊥ , which is much larger than the usual Doppler
+broadening. At higher T , these features disappear because of the thermal ionization. At contrast,
+the electron cyclotron features (marked c0, c1, c2, c3) remain clearly visible even at high T . The
+calculated opacities have been archived at the Strasbourg astronomical Data Center.2
+     Work on the extension of the database NSMAXG to the moderately magnetized atmosphere
+models, applicable to CCOs, is in progress. Examples of the calculated spectra are shown in Fig. 3.
+
+3. Condensed surfaces and thin atmospheres
+
+     Ruderman [88] suggested that a strong magnetic field can stabilize polymer chains directed
+along the field lines, and that the dipole-dipole attraction of these chains may result in a condensa-
+tion. Later this conjecture was confirmed, although the binding and sublimation energies proved to
+be smaller than Ruderman assumed (see [89] and references therein).
+     From the thermodynamics point of view, the magnetic condensation is a phase transition
+caused by the strong electrostatic attraction between the ions and electrons in a dense plasma.
+    2 http://www.aanda.org/articles/aa/abs/2014/12/aa24619-14/aa24619-14.html
+
+
+
+
+                                                      11
+Magnetized atmospheres of neutron stars                          A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+
+Figure 3: Spectra for partially ionized hydrogen atmosphere models with B = 4 × 1010 G (left panel) and
+7 × 1010 G (right panel), with varying effective temperature Teff and surface gravity.
+
+
+
+In the absence of magnetic field, such phase transitions were studied theoretically since 1930s (see
+[90] for a review). The simplest estimate of the phase transition domain is obtained in the ion-
+sphere model [91], where the electrons are replaced by a uniform negative background, and the
+potential energy per ion is estimated as the electrostatic energy of the ionic interaction with the
+negative background contained in the sphere of radius ai = (4π ni /3)−1/3 , where ni = ne /Z is the
+ion number density. At sufficiently high density, the electrostatic pressure is counterbalanced by
+the pressure of degenerate electrons. By equating the sum of the (negative) electrostatic pressure
+and the kinetic pressure of the electron gas to zero, one obtains density ρs of the condensed surface.
+      A strongly quantizing magnetic field lowers the electron Fermi temperature, therefore the
+above-mentioned pressure balance is shifted to higher densities. With increasing ρs , the elec-
+trostatic attraction becomes stronger and, consequently, the critical temperature Tcrit of the phase
+transition also increases. For this reason, the phase transition may be expected in the neutron
+star envelopes despite their relatively high temperatures T ∼ (105 − 107 ) K. Lai [51] estimated
+                                                            6/5
+the condensed-surface density as ρs ≈ 561 η AZ −3/5 B12 g cm−3 , where η is an unknown fac-
+tor, which would be equal to 1 in the ion sphere model. In more sophisticated models η can
+differ from 1 because of ion correlations, electron-gas polarizability, and bound state formation.
+In particular, the values of ρs calculated by Medin & Lai [89, 92] can be reproduced with η =
+                  1/5
+0.517 + 0.24/B12 ± 0.011 for carbon and η = 0.55 ± 0.11 for iron. The critical temperature Tcrit ,
+obtained numerically in [89, 92], is approximately (within a factor of 1.5) given by the expression
+                       3/4
+Tcrit ≈ 5 × 104 Z 1/4 B12 K in the magnetic field range 1012 G . B . 1015 G.
+      The thermal radiation of the condensed surface is determined by its emissivities in two normal
+modes, which are related to the reflectivities through the Kirchhoff law. Progressively improved
+calculations of the surface emissivity were presented in [93–99]. While the early works assumed
+that the ions are firmly fixed in the crystalline lattice, more recent works [97–99] consider also the
+
+
+                                                  12
+Magnetized atmospheres of neutron stars                                A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+
+Figure 4: Dimensionless emissivity of a condensed iron surface at B = 1013 G (left panel) and 1014 G
+(right panel), averaged over polarizations, is shown as a function of energy of a photon emitted at the angle
+θk = 45◦ , for different angles θnB between magnetic field B and the normal to the surface and angles ϕk
+between the projections of B and wave vector k on the surface. For each parameter set, curves marked “free”
+and “fixed” correspond to models with free and fixed ions (see text). Vertical dotted lines mark positions of
+the characteristic energies: the ion cyclotron energy Eci = h̄ωci , the electron plasma energy Epe = h̄ωpe , and
+the hybrid energy EC .
+
+
+
+alternative model of free ions. The reality lies probably between these two extreme limits, but this
+problem has not yet been definitely solved.
+      The intensity of radiation from a condensed surface is equal to the Planck function Bω ,T
+[Eq. (2.3)] multiplied by the normalized emissivity. Figure 4 shows examples of the normalized
+emissivity as a function of photon energy E = h̄ω , in both the free- and fixed-ion limits, for the
+wave-vector inclination angle θk = 45◦ , for B = 1013 G and 1014 G, and different values of the
+magnetic-field inclination θnB and azimuthal angles ϕk . The emissivity rapidly changes near the
+ion cyclotron energy Eci = h̄ωci , the electron plasma energy Epe = h̄ωpe , and the energy EC =
+Eci + Epe2 /h̄ω (see [98] for explanation of these features).
+               c
+      Motch et al. [100] suggested that some neutron stars can possess a hydrogen atmosphere of a
+finite thickness above the solid iron surface. If the optical depth of such atmosphere is small for
+some wavelengths and large for other ones, the thermal spectrum is different from that of thick
+atmospheres. Such spectra were calculated in [101–103] using simplified boundary conditions for
+the radiative transfer equation at the inner boundary of the atmosphere. More accurate boundary
+conditions [99] take into account that an extraordinary or ordinary wave, falling from the atmo-
+sphere on the surface, gives rise to reflected waves of both normal polarizations, whose intensities
+add to the respective intensities of the waves emitted by the condensed surface.
+      In general, local spectra of radiation emitted by thin hydrogen atmospheres over a condensed
+surface reveal a narrow absorption line corresponding to the proton cyclotron resonance in the
+atmosphere, features related to atomic transitions broadened by the motion effects (Sect. 2.2), and
+in the free-ions model also a kink corresponding to the ion cyclotron energy of the substrate ions.
+
+
+                                                      13
+Magnetized atmospheres of neutron stars                            A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+Some of these features may be absent, depending on the atmosphere thickness and magnetic field
+strength. At high energies, the spectrum is determined by the condensed-surface emission, which
+is softer than the spectrum of the thick hydrogen atmosphere.
+     One may also consider an atmosphere having a helium layer beneath the hydrogen layer. The
+spectrum of such “sandwich atmosphere” can have two or three absorption lines in the range E ∼
+(0.2 – 1) keV at B ∼ 1014 G [102].
+
+
+4. Polarization
+
+      Thermal radiation emergent from neutron stars with strong magnetic fields is expected to be
+strongly polarized. Since the opacity is smaller for the extraordinary mode, with electric vector
+mainly transverse to the magnetic field, this mode escapes from deeper and hotter layers in the
+atmosphere, so that thermal radiation acquires polarization perpendicular to the local magnetic
+field [104]. Polarization of the observed radiation depends on the distribution of magnetic field
+and temperature over the visible neutron star surface. As the star rotates, the polarization pattern
+shows periodic variations, so that measuring the polarization pulse profile allows one to constrain
+the orientation of the rotation axis and the field strength and geometry [105, 106]. Therefore, future
+X-ray polarization measurements are expected to resolve degeneracies that currently hamper the
+determination of magnetar physical parameters using thermal models [107, 108].
+      Polarization properties of the radiation can be described by the Stokes parameters (I, Q,U,V ),
+where I is the total intensity, Q and U describe linear polarization, and V circular polarization
+[109]. In terms of intensities IO and IX of the ordinary and extraordinary modes, I = IX + IO ,
+Q = (IO − IX )plin cos 2φ , U = (IO − IX )plin sin 2φ , where plin is the degree of linear polarization of
+each normal mode and φ is the angle between the major axis of the ordinary mode and the x-axis
+of the reference frame in which the Stokes parameters are defined [105, 110].
+      The thermal emission of a condensed surface is also polarized, because the reflectivities of
+normal modes are different. The polarization depends on the photon energy E = h̄ω and angles
+θnB , θk , and ϕk (Sect. 3). In a local spectrum, the degree of polarization can reach tens percent in
+some energy ranges. However, if radiation comes from a large surface area with varying magnetic
+field and temperature, the net polarization becomes much smaller.
+      After a photon has left the surface of a neutron star with a strong magnetic field, it travels
+through the magnetosphere and experiences the influence of vacuum polarization (see Sect. 2.1),
+which induces a change in the wave electric field as photon propagates. If the magnetic field is
+sufficiently strong, then in the vicinity of the star a typical length scale of this change is much
+shorter than the scale of the magnetic field; in this case the photon propagates adiabatically, so that
+its polarization instantaneously adapts to the variation of the magnetic field direction [111, 112].
+Farther from the star the field decreases, and eventually photons leave the adiabatic region and
+maintain their polarization. The rays that leave the adiabatic region pass through only a small
+solid angle; consequently, polarizations of the rays originating in different regions will tend to
+align together. This effect partly lifts the strong suppression of the net polarization caused by the
+averaging over the field and temperature distributions at the star surface and can generate large net
+polarizations [113].
+
+
+                                                   14
+Magnetized atmospheres of neutron stars                               A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+
+Figure 5: Average linear polarization (normalized Stokes parameter Q/I in the reference frame where the
+x-axis is coplanar with the magnetic axis) is shown as a function of photon energy for the hot spot (red
+curves) or dipole field (blue curves), calculated in the model of free ions for a condensed magnetized iron
+surface, for two angles between the line of sight and magnetic axis θm = 90◦ or 45◦ (solid and dot-dashed
+lines, respectively) and the magnetic field at the pole (or in the hot spot) B = 1013 G (left panel) or 1014 G
+(right panel). In the case of the dipole model, the results obtained without allowance for the magnetospheric
+QED birefringence are shown by thin green lines for comparison. Energies Eci , EC , and Epe , marked at the
+horizontal axis, are the same as in Fig. 4.
+
+
+
+
+     A comparative analysis of the polarization of radiation from magnetized neutron stars with
+gaseous atmospheres and condensed surfaces was recently performed in [114]. The authors pro-
+posed a simplified treatment of photon propagation through the adiabatic region. Instead of in-
+tegrating the equations that govern the photon polarization from the neutron star surface to the
+infinity, the propagation is assumed perfectly adiabatic (i.e., each photon preserves its polariza-
+tion with respect to the local magnetic field direction) up to some radius, where the typical scales
+of variations of the photon electric field and external magnetic field become comparable, and
+the change of polarization at larger distances is neglected. This adiabatic radius is estimated as
+rad = 4.8(B/1011 G)2/5 (E/1 keV)1/5 R.
+
+      Figure 5 shows the linear polarization degree in the model of free ions for the two cases:
+first, where the radiation spectrum is formed at a hot spot with B normal to the surface, and sec-
+ond, where the field is distributed according to the relativistic dipole model. In the latter case, an
+isotropic internal (core) temperature of 108 K is assumed and a surface temperature distribution
+is calculated according to Ref. [75] (this calculation gives Teff ≈ 1.0 MK for Bp = 1013 G and
+Teff ≈ 1.3 MK for Bp = 1014 G). The figure illustrates the polarization smearing away by the aver-
+aging over the stellar surface and the opposite effect due to the adiabatic propagation of radiation
+in the near zone of the star.
+
+
+                                                     15
+Magnetized atmospheres of neutron stars                          A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+5. Theory versus observations
+
+     As argued above, models of strongly magnetized (B ≫ 109 G) neutron-star atmospheres must
+take the bound species and their radiative transitions into account. Let us consider a few examples
+where models of magnetized, partially ionized atmospheres have been used to study their thermal
+radiation.
+
+
+5.1 RX J1856.5–3754
+
+      RX J1856.5−3754 is the closest and brightest of the class of X-ray (dim) INSs (XINSs or
+XDINS, also known as the Magnificent Seven), whose X-ray spectra are apparently of purely ther-
+mal nature (see [115] for a review). The spectra of the other XINSs show broad absorption features
+at several hundred eV, and at least four of them also exhibit narrow absorption features [116].
+RX J1856.5−3754 is the only one of the Seven that has a blackbody-like X-ray spectrum without
+absorption features. Similar to the other XINSs, its X-ray and optical spectra correspond to substan-
+tially different effective temperatures if fitted separately with blackbodies. However, the measured
+spectrum was fitted in the entire range from X-rays to optical within observational errorbars with
+the use of the model of a thin magnetized hydrogen atmosphere on top of a condensed iron sur-
+face [101]. The best agreement between the theoretical and observed spectra has been achieved
+for the atmosphere column density ycol = 1.2 g cm−2 , gravitational redshift zg ≈ 0.25 ± 0.05, and
+                              +0.6
+apparent radius R∞ = 17.2−0.1      D140 km, where D140 is distance in units of 140 pc. The authors
+used a piecewise approximation to dipole-like distributions of the magnetic field and temperature
+with the polar values Bp ∼ 6 × 1012 G, Ts ∼ 0.7 MK, whereas the overall effective temperature is
+  ∞ = 0.434 ± 0.003 MK (1σ significance). Using an updated distance estimate, D = 123+11 pc
+Teff                                                                                           −15
+                                                           +1.3
+[117], the above estimates of zg and R∞ give R = 12.1−1.6       km and M = 1.5 ± 0.3 M⊙ . Note that a
+fit of the observed X-ray spectrum with the Planck function yields a 70% higher temperature and
+a 3.5 times smaller radius of the emitting surface. Such huge difference exposes the importance of
+a correct physical interpretation of an observed spectrum for evaluation of neutron star parameters
+(as well as in the non-magnetic thermally emitting INSs; cf. Ref. [118]).
+      The inferred magnetic field is significantly smaller than Bs ≈ 1.5 × 1013 G obtained from tim-
+ing analysis [119]. Here, Bs is so-called spindown or characteristic magnetic field, that is the value
+of the equatorial magnetic field in the “canonical model” of a rotating non-relativistic magnetic
+dipole in vacuum [120], with the rotation axis orthogonal to the magnetic axis, with radius R = 10
+km, and with moment of inertia I = 1045 g cm2 . Assuming different R and I, one would obtain
+                                          √
+another field estimate, proportional to I/R3 . For instance, modern BSk21 equation of state for
+the neutron star matter (Ref. [121] and references therein) yields R = 12.6 km and I = 2.06 × 1045
+g cm2 for M = 1.5 M⊙ , which gives a factor 0.7 to the canonical Bs estimate. Still more realistic
+estimate should take into account that a real neutron star is surrounded by magnetosphere, and the
+angle ξ between its rotational and magnetic axes can differ from 90◦ . An analytic fit to the results
+of numerical simulations presented in Ref. [122] gives a correction factor ≈ 0.8/(1 + sin2 ξ ) to
+the canonical estimate of B. Taken together, the two factors translate the result of Ref. [119] into
+B ∼ (4 − 8) × 1012 G. On the other hand, an alternative interpretation of the spindown in terms of
+the fallback disk model leads to still smaller estimate B ∼ 1012 G [123].
+
+
+                                                 16
+Magnetized atmospheres of neutron stars                           A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+     Analysis [124] of the light curve of RX J1856.5−3754 with the aid of the same thin-atmosphere
+model yields constraints on the geometry of rotational and magnetic axes. It turned out that the light
+curve can be explained if one of these angles is small (< 6◦ ), while the other angle lies between
+20◦ and 45◦ . In this case, the radio emission around the magnetic poles does not cross the line of
+sight. As noted in [124], this may explain the non-detection of this star as a radio pulsar [125].
+
+5.2 RX J1308.6+2127
+     Hambaryan et al. [126] described the X-ray spectrum of RX J1308.6+2127 (RBS 1223) by
+a wide absorption line centered around h̄ω = 0.3 keV, superposed on the Planck spectrum, with
+the line parameters depending on the stellar rotation phase. This source shows the highest pulsed
+fraction (13 − 42%, depending on energy band) of all the XINSs. A phase resolved spectrum
+obtained from all 2003 – 2007 XMM-Newton observations of this star has been reproduced by the
+model a magnetized iron surface covered by a partially ionized hydrogen atmosphere with ycol ∼ 1 –
+10 g cm−2 , with mutually consistent asymmetric bipolar distributions of the magnetic field and the
+temperature, with the polar values Bp1 = Bp2 = (0.86 ± 0.02) × 1014 G, Tp1 = 1.22−0.05
+                                                                                     +0.02
+                                                                                           MK, and
+Tp2 = 1.15 ± 0.04 MK. The effective temperature is Teff ≈ 0.7 MK. The gravitational redshift is
+                          +0.03                                           +0.13
+estimated to be zg = 0.16−0.01  , which converts into (M/M⊙ )/R6 = 0.87−0.05    and suggests a stiff
+EOS of the neutron star matter.
+
+5.3 1E 1207.4−5209
+      The discovery of absorption lines by [127, 128] in the spectrum of CCO 1E 1207.4−5209 at
+energies E ∼ 0.7 N keV (N = 1, 2, . . .) immediately led to the belief that they are caused by cyclotron
+harmonics. As we mentioned in Sect. 2.2, such harmonics could be only electronic, because the
+ion cyclotron harmonics are unobservable. Therefore, this interpretation implies B ≈ 7 × 1010 G.
+Initially this interpretation was criticized because the relative strengths of the spectral absorptions
+caused by the cyclotron fundamental and harmonics were thought to be sharply different, but this
+argument was based on the considerations in the cold plasma approximation and does not hold
+beyond it [45] (as confirmed by our Fig. 3).
+     There are doubts concerning the statistical significance of the third and fourth observed lines
+[129], while the first and second lines were tentatively interpreted as characteristic features in an
+oxygen atmosphere with magnetic field B ≈ 1012 G [67]. However, recent timing analysis [130]
+gives the characteristic field Bs = 9.8× 1010 G and thus favors the electron-cyclotron interpretation.
+
+5.4 2XMM J104608.7-594306
+     2XMM J104608.7-594306 is a thermally emitting INS, but unlike the Magnificent Seven it has
+a short spin period of only 18.6 ms. Its XMM-Newton spectrum has been analyzed in [131], using
+the blackbody model and hydrogen atmosphere models NSA and NSMAXG. Statistically acceptable
+spectral fits and meaningful physical parameters for the source are only obtained when the purely
+thermal spectrum is modified by absorption lines at E ≈ 0.55 keV and 1.3 keV. The authors fixed
+M to 1.4 M⊙ and tried various values of magnetic field from 0 to 3 × 1013 G. In the case of the
+NSMAXG model, the best statistical significance (χ 2 /d.o.f. < 1.1) was provided by the assumptions
+of B = 1010 G and B = 3 × 1013 G. In the former case, the inferred apparent radius R∞ = 9 km
+
+
+                                                  17
+Magnetized atmospheres of neutron stars                        A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+is implausibly small, whereas in the latter case R∞ = 12 km does not contradict to theoretical
+                                                                                          +0.07
+neutron star models. In the latter case, the inferred effective temperature is Teff = 0.86−0.04 MK
+                                                                          ∞
+(for comparison, the blackbody model gives the redshifted temperature Teff ∼ (1.6 − 1.9) MK and
+R∞ ∼ 1.5 − 3 km).
+
+5.5 1WGA J1952.2+2925
+
+     1WGA J1952.2+2925 is the central X-ray source in the pulsar wind nebula DA 495, but it
+shows no pulsar activity. An analysis [132] of its archival Chandra and XMM-Newton data shows
+that it has a pure thermal spectrum which is equally well fitted either by the blackbody model with
+a temperature of kB T ≈ 215 eV and an emitting area radius of ≈ 0.6 km or by magnetized neutron
+star atmosphere model NSMAX with kB Teff ∼ 80 − 90 eV. In the latter case the thermal emission
+can come from the entire neutron star surface. The authors [132] also placed an upper limit on the
+non-thermal flux and an upper limit of 40% on the pulsed fraction. The authors suggested that the
+Fermi source 3FGL J1951.6+2926 is the likely γ -ray counterpart of 1WGA J1952.2+2925.
+
+5.6 Rotation powered pulsars: PSR J1119−6127, B0943+10, J0357+3205, and J0633+0632
+
+     The partially ionized, strongly magnetized hydrogen atmosphere model NSMAX (Sect. 2.3)
+was applied in [133] to interpret observations of pulsar J1119−6127, for which the estimate based
+on spindown gives an atypically high characteristic field Bs = 4 × 1013 G. In the X-ray range, it
+emits pulsed radiation, with a significant thermal component. At fixed D = 8.4 kpc and R = 13
+km, the bolometric flux gives Teff ≈ 1.1 MK. It was difficult to explain, however, the large pulsed
+fraction (48 ± 12%) by the thermal emission. Ng et al. [133] managed to reproduce the X-ray light
+curve of this pulsar assuming that one of its magnetic poles is surrounded by an area, which is
+covered by hydrogen and heated to 1.5 MK, while the temperature of the opposite polar cap is
+below 0.9 MK.
+     A similar analysis was applied in [134] to interpret observations of pulsar B0943+10, which
+show correlated radio and X-ray mode switches. The authors take B = 2 × 1012 G inferred from
+the pulsar spindown, assumed M = 1.2 M⊙ and R = 12 km, and modeled the emitting area as a
+hot spot covered by a partially ionized hydrogen atmosphere. They find that an atmosphere with
+Teff ≈ (1.4 − 1.5) MK and emission radius Rem ≈ 85 m matches the radio-quiet X-ray spectrum,
+whereas previous blackbody fits gave temperature ≈ 3 MK and emission radius ≈ 20 − 30 m.
+The authors show that the large X-ray pulse fraction observed during the radio quiet phase can be
+explained by including the beaming effect of a magnetic atmosphere.
+     PSR J0357+3205 is an unusual thermally-emitting pulsar observed in X-rays. Its spectrum
+was fitted in [135] with several different multicomponent models. In the physically realistic case
+where the incomplete ionization of the atmosphere was taken into account, the authors used the
+NSMAX model for the thermal spectral component and a power-law model for the non-thermal one
+and fixed M = 1.4 M⊙ and B = 1012 G. They obtained an acceptable fit (χ 2 /d.o.f = 1.05) with a
+loose constraint on the radius, R∞ = 8+12
+                                       −5 (D/500 pc) km.
+     Danilenko et al. [136] analyzed Chandra observations of the bright Fermi pulsar J0633+0632
+and confirmed early findings that its X-ray spectrum contains non-thermal and thermal components.
+The latter is equally well described by the blackbody model and magnetized atmosphere model
+
+
+                                                18
+Magnetized atmospheres of neutron stars                          A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+NSMAX and can be attributed to the emission from the bulk of the stellar surface. In the latter case
+kB Teff = 53+12
+            −7 eV (at 90% confidence), which makes this pulsar one of the coldest middle-aged
+INSs with measured temperatures. The authors also reported evidence of an absorption feature at
+E = 804+42                                 +47
+         −26 eV with equivalent width of 63−36 eV.
+
+
+6. Conclusions
+
+     We have considered the main features of neutron-star atmospheres and radiating surfaces and
+outlined the current state of the theory of the formation of their spectra (see [23] for more details).
+The interpretation of observations enters a qualitatively new phase, free from the assumptions of a
+blackbody spectrum or the “canonical model” of neutron stars. Spectral features, compatible with
+absorption lines in some cases, have been discovered in thermal spectra of strongly magnetized
+neutron stars. On the agenda is their detailed theoretical description, which may provide informa-
+tion on the surface composition, temperature and magnetic field distributions. However, in order to
+disentangle these parameters, a number of problems related to the theory of magnetic atmospheres
+and radiating surfaces still have to be solved.
+     Acknowledgements. A.Y.P. is grateful to the organizers of the conference “The Modern Physics
+of Compact Stars 2015” for the invitation, hospitality, and financial support of participation. We
+thank the referee, Valery Suleimanov for careful reading the manuscript and useful remarks. The
+work of A.Y.P. has been partly supported by the RFBR (grant 14-02-00868). W.C.G.H. appreciates
+use of computer facilities at KIPAC.
+
+References
+
+ [1] S.Tsuruta, Neutron Star Models (Ph.D. Thesis). Columbia Univ., New York (1964)
+ [2] H.-Y. Chiu, Supernovae, neutrinos, and neutron stars, Ann. Phys. (NY) 26 (1964) 364
+ [3] R. Giacconi, H. Gursky, F.R. Paolini, B.B. Rossi, Evidence for X-rays from sources outside
+     the solar system, Phys. Rev. Lett. 9 (1962) 439
+ [4] S. Bowyer, E.T. Byram, T.A. Chubb, H. Friedman, X-ray sources in the Galaxy, Nature 201
+     (1964) 1307
+ [5] S. Bowyer, E.T. Byram, T.A. Chubb, H. Friedman, Lunar occultation of X-ray emission from
+     the Crab nebula, Science 146 (1964) 912
+ [6] A. Sandage, P. Osmer, R. Giacconi, et al., On the optical identification of Sco X-1, Astrophys.
+     J. 146 (1966) 316
+ [7] I.S. Shklovsky, On the nature of the source of X-ray emission of Sco XR-1, Astrophys. J. 148
+     (1967) L1
+ [8] A.G.W. Cameron, Stellar accretion and X-ray emission, Nature 215 (1967) 464
+ [9] J.A. de Freitas Pacheco, J.E. Steiner, A.D. Neto, The electromagnetic emission from Sco X-1,
+     Astron. Astrophys. 55 (1977) 111
+[10] A.F. Cheng & D.J. Helfand, X-rays from radio pulsars – The detection of PSR 1055–52,
+     Astrophys. J. 271 (1983) 271
+
+
+                                                  19
+Magnetized atmospheres of neutron stars                       A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+[11] W. Brinkmann & H. Ögelman, Soft X-ray observations of the radio pulsar PSR 1055–52,
+     Astron. Astrophys. 182 (1987) 71
+[12] H. Ögelman, X-ray observations of cooling neutron stars, in proceedings of the NATO ASI
+     conference The Lives of the Neutron Stars, ed. by M.A. Alpar, Ü. Kiziloğlu, J. van Paradijs,
+     NATO ASI Ser. C 450. Kluwer, Dordrecht (1995) 101
+[13] W. Becker, An X-ray study of isolated neutron stars and their wind nebulae, in Highlights in
+     X-ray Astronomy, ed. by B. Aschenbach & M.J. Freyberg, MPE Report 272. MPE, Garching
+     (1999), 49
+[14] V.E. Zavlin, G.G. Pavlov, Yu.A. Shibanov, Model neutron star atmospheres with low mag-
+     netic fields. I. Atmospheres in radiative equilibrium, Astron. Astrophys. 315 (1996) 141
+     [arXiv:astro-ph/9604072]
+[15] B.T. Gänsicke, T.M. Braje, R.M. Romani, Thermal emission from low-field neutron stars,
+     Astron. Astrophys. 386 (2002) 1001 [arXiv:astro-ph/0110130]
+[16] C.O. Heinke, G.B. Rybicki, R. Narayan, J.E. Grindlay, A hydrogen atmosphere spectral model
+     applied to the neutron star X7 in the globular cluster 47 Tucanae, Astrophys. J. 644 (2006)
+     1090 [arXiv:astro-ph/0506563]
+[17] K.A. Arnaud, XSPEC: the first ten years, in Astronomical Data Analysis Software
+     and Systems V, ed. by G. Jacoby, J. Barnes, ASP Conf. Ser. 101 (1996) 17;
+     [http://starchild.gsfc.nasa.gov/xanadu/xspec/]
+[18] C.B. Haakonsen, M.L. Turner, N.A. Tacik, R.E. Rutledge, McPHAC: McGill Planar Hydro-
+     gen Atmosphere Code, Astrophys. J. 749 (2012) 52 [https://github.com/McPHAC/]
+[19] M. Rajagopal & R. Romani, Model atmospheres for low-field neutron stars, Astrophys. J. 461
+     (1996) 327 [arXiv:astro-ph/9510094]
+[20] J.A. Pons, F.M. Walter, J.M. Lattimer, et al., Toward a mass and radius determina-
+     tion of the nearby isolated neutron star RX J185635–3754, Astrophys. J. 564 (2002) 981
+     [arXiv:astro-ph/0107404]
+[21] W.C.G. Ho & C.O. Heinke, A neutron star with a carbon atmosphere in the Cassiopeia A
+     supernova remnant, Nature 462 (2009) 71 [arXiv:0911.0672]
+[22] V.F. Suleimanov, D. Klochkov, G.G. Pavlov, K. Werner, Carbon neutron star atmospheres,
+     Astrophys. J. Suppl. Ser. 210 (2014) 13 [arXiv:1311.6037]
+[23] A.Y. Potekhin, Atmospheres and radiating surfaces of neutron stars, Phys. Usp. 57 (2014)
+     735 [arXiv:1403.0074]
+[24] V.F. Suleimanov, J. Poutanen, D. Klochkov, K. Werner, Measuring the basic pa-
+     rameters of neutron stars using model atmospheres, Eur. Phys. J. A 52 (2016) 20
+     [arXiv:1510.06962]
+[25] S.A. Olausen, V.M. Kaspi, The McGill Magnetar Catalog, Astrophys. J. Suppl. Ser. 212
+     (2014) 6 [arXiv:1309.4167]
+[26] S. Mereghetti, J.A. Pons, A. Melatos, Magnetars: properties, origin and evolution, Space Sci.
+
+
+
+                                               20
+Magnetized atmospheres of neutron stars                        A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+     Rev. 191 (2015) 315 [arXiv:1503.06313]
+[27] R. Turolla, S. Zane, A.L. Watts, Magnetars: the physics behind observations. A review, Rep.
+     Prog. Phys. 78 (2015) 116901 [arXiv:1507.02924]
+[28] Yu.N. Gnedin & G.G. Pavlov, The transfer equations for normal waves and radiation polar-
+     ization in an anisotropic medium, Sov. Phys. JETP 38 (1974) 903
+[29] V.L. Ginzburg, The Propagation of Electromagnetic Waves in Plasmas (2nd ed.). Pergamon,
+     London (1970)
+[30] A.D. Kaminker, G.G. Pavlov, Yu.A. Shibanov, Radiation for a strongly-magnetized plasma –
+     The case of predominant scattering, Astrophys. Space Sci. 86 (1982) 249
+[31] V.V. Zheleznyakov, Radiation in Astrophysical Plasmas. Kluwer, Dordrecht (1996)
+[32] V. Suleimanov, J. Poutanen, K. Werner, X-ray bursting neutron star atmosphere models using
+     an exact relativistic kinetic equation for Compton scattering, Astron. Astrophys. 545 (2012)
+     A120 [arXiv:1208.1467]
+[33] T. Bulik & G.G. Pavlov, Polarization modes in a strongly magnetized hydrogen gas, Astro-
+     phys. J. 469 (1996) 373 [arXiv:astro-ph/9512081]
+[34] A.Y. Potekhin, D. Lai, G. Chabrier, W.C.G. Ho, Electromagnetic polarization in partially
+     ionized plasmas with strong magnetic fields and neutron star atmosphere models, Astrophys.
+     J. 612 (2004) 1034 [arXiv:astro-ph/0405383]
+[35] G.G. Pavlov & Yu.N. Gnedin, Vacuum polarization by a magnetic field and its astrophysical
+     manifestations, Sov. Sci. Rev. E: Astrophys. Space Phys. 3 (1984) 197
+[36] S.L. Adler, Photon splitting and photon dispersion in a strong magnetic field, Ann. Phys. (NY)
+     67 (1971) 599
+[37] J.S. Heyl & L. Hernquist, Analytic form for the effective Lagrangian of QED and
+     its application to pair production and photon splitting, Phys. Rev. D 55 (1997) 2449
+     [arXiv:hep-th/9607124]
+[38] K. Kohri & S. Yamada, Polarization tensors in strong magnetic fields, Phys. Rev. D 65 (2002)
+     043006 [arXiv:astro-ph/0102225]
+[39] W.C.G. Ho & D. Lai, Atmospheres and spectra of strongly magnetized neutron stars
+     – II. The effect of vacuum polarization, Mon. Not. R. Astron. Soc. 338 (2003) 233
+     [arXiv:astro-ph/0201380]
+[40] Yu.A. Shibanov & V.E. Zavlin, Calculations of the photospheres of magnetic neutron stars,
+     Astron. Lett. 21 (1995) 3
+[41] A.A. Sokolov & I.M. Ternov, Radiation from Relativistic Electrons. Am. Inst. Phys., New
+     York (1986)
+[42] P. Mészáros, High-Energy Radiation from Magnetized Neutron Stars. University of Chicago
+     Press, Chicago (1992)
+[43] J. Ventura, Scattering of light in a strongly magnetized plasma, Phys. Rev. D 19 (1979) 1684
+[44] G.G. Pavlov, Yu.A. Shibanov, D.G. Yakovlev, Quantum effects in cyclotron plasma absorp-
+
+
+                                                21
+Magnetized atmospheres of neutron stars                        A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+     tion, Astrophys. Space Sci. 73 (1980) 33
+[45] V.F. Suleimanov, G.G. Pavlov, K. Werner, Magnetized neutron star atmospheres: beyond the
+     cold plasma approximation, Astrophys. J. 751 (2012) 15 [arXiv:1201.5527]
+[46] G.G. Pavlov & A.N. Panov, Photon absorption and emission in Coulomb collisions in a mag-
+     netic field, Sov. Phys. JETP 44 (1976) 300
+[47] A.Y. Potekhin & G. Chabrier, Equation of state and opacities for hydrogen atmo-
+     spheres of neutron stars with strong magnetic fields, Astrophys. J. 585 (2003) 955
+     [arXiv:astro-ph/0212062]
+[48] A.Y. Potekhin, Cyclotron harmonics in opacities of isolated neutron star atmospheres, Astron.
+     Astrophys. 518 (2010) A24 [arXiv:1003.5106]
+[49] R. Cohen, J. Lodenquai, M. Ruderman, Atoms in superstrong magnetic fields, Phys. Rev. Lett.
+     25 (1970) 467
+[50] H. Ruder, G. Wunner, H. Herold, F. Geyer, Atoms in Strong Magnetic Fields. Springer, Berlin
+     (1994)
+[51] D. Lai, Matter in strong magnetic fields,             Rev. Mod. Phys. 73 (2001) 629
+     [arXiv:astro-ph/0009333]
+[52] B.R. Johnson, J.O. Hirschfelder, K.H. Yang, Interaction of atoms, molecules and ions with
+     constant electric and magnetic fields, Rev. Mod. Phys. 55 (1983) 109
+[53] L.P. Gor’kov & I.E. Dzyaloshinskiı̆, Contribution to the theory of the Mott exciton in a strong
+     magnetic field, Sov. Phys. JETP 26 (1968) 449
+[54] M. Vincke, M. Le Dourneuf, D. Baye, J. Phys. B: At. Mol. Phys. 25 (1992) 2787
+[55] A.Y. Potekhin, Structure and radiative transitions of the hydrogen atom moving in a strong
+     magnetic field, J. Phys. B: At. Mol. Opt. Phys. 27 (1994) 1073
+[56] G.G. Pavlov & A.Y. Potekhin, Bound-bound transitions in strongly magnetized hydrogen
+     plasma, Astrophys. J. 450 (1995) 883
+[57] A.Y. Potekhin & G.G. Pavlov, Photoionization of hydrogen in atmospheres of magnetic neu-
+     tron stars, Astrophys. J. 483 (1997) 414 [arXiv:astro-ph/9702004]
+[58] V.G. Bezchastnov, G.G. Pavlov, J. Ventura, Discrete eigenstates of the He+ ion moving in a
+     strong magnetic field, Phys. Rev. A 58 (1998) 180
+[59] G.G. Pavlov & V.G. Bezchastnov, Once-ionized helium in superstrong magnetic fields, Astro-
+     phys. J. 635 (2005) L61 [arXiv:astro-ph/0505464]
+[60] M. Vincke & D. Baye, Centre-of-mass effects on the hydrogen atom in a magnetic field, J.
+     Phys. B: At. Mol. Phys. 21 (1988) 2407
+[61] G.G. Pavlov & P. Mészáros, Finite-velocity effects on atoms in strong magnetic fields and
+     implications for neutron star atmospheres, Astrophys. J. 416 (1993) 752
+[62] K. Mori & C.J. Hailey, Atomic calculation for the atmospheres of strongly magnetized neutron
+     stars, Astrophys. J. 564 (2002) 914 [arXiv:astro-ph/0109214]
+
+
+
+                                                22
+Magnetized atmospheres of neutron stars                         A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+[63] A.Y. Potekhin, G. Chabrier, Yu.A. Shibanov, Partially ionized hydrogen plasma in strong
+     magnetic fields, Phys. Rev. E 60 (1999) 2193 [arXiv:astro-ph/9907006]
+[64] K. Mori & J. Heyl, Ionization and dissociation equilibrium in strongly magnetized helium
+     atmosphere, Mon. Not. R. Astron. Soc. 376 (2007) 895 [arXiv:astro-ph/0610253]
+[65] A.Y. Potekhin & G. Chabrier, Equation of state and opacities for hydrogen atmospheres of
+     magnetars, Astrophys. J. 600 (2004) 317 [arXiv:astro-ph/0309310]
+[66] A.Y. Potekhin, G. Chabrier, W.C.G. Ho, Opacities and spectra of hydrogen atmo-
+     spheres of moderately magnetized neutron stars Astron. Astrophys. 572 (2014) A69
+     [arXiv:1409.7651]
+[67] K. Mori & C.J. Hailey, Detailed atmosphere modeling for the neutron star
+     1E1207.4−5209: Evidence of oxygen/neon atmosphere, Astrophys. J. 648 (2006) 1139
+     [arXiv:astro-ph/0301161]
+[68] K. Mori, W.C.G. Ho, Modelling mid-Z element atmospheres for strongly magnetized neutron
+     stars, Mon. Not. R. Astron. Soc. 377 (2007) 905 [arXiv:astro-ph/0611145]
+[69] G. Greenstein & G.J. Hartke, Pulselike character of blackbody radiation from neutron stars,
+     Astrophys. J. 271 (1983) 283
+[70] A.M. Beloborodov, Gravitational bending of light near compact objects, Astrophys. J. 566
+     (2002) L85 [arXiv:astro-ph/0201117]
+[71] J. Poutanen & A.M. Beloborodov, Pulse profiles of millisecond pulsars and their Fourier
+     amplitudes, Mon. Not. R. Astron. Soc. 373 (2006) 836 [arXiv:astro-ph/0608663]
+[72] V.L. Ginzburg & L.M. Ozernoi, On gravitational collapse of magnetic stars, Sov. Phys. JETP
+     20 (1965) 689
+[73] D. Viganò, N. Rea, J.A. Pons, R. Perna, D.N. Aguilera, J.A. Miralles, Unifying the observa-
+     tional diversity of isolated neutron stars via magneto-thermal evolution models, Mon. Not. R.
+     Astron. Soc. 434 (2013) 123 [arXiv:1306.2156]
+[74] J.G. Elfritz, J.A. Pons, N. Rea, K. Glampedakis, D. Viganò, Simulated magnetic
+     field expulsion in neutron star cores, Mon. Not. R. Astron. Soc. 456 (2016) 4461
+     [arXiv:1512.07151]
+[75] A.Y. Potekhin, J.A. Pons, D. Page, Neutron stars – Cooling and transport, Space Sci. Rev 191
+     (2015) 239 [arXiv:1507.06186]
+[76] Yu.A. Shibanov, G.G. Pavlov, V.E. Zavlin, J. Ventura, Model atmospheres and radiation of
+     magnetic neutron stars. I. The fully ionized case, Astron. Astrophys. 266 (1992) 313
+[77] V.E. Zavlin, G.G. Pavlov, Yu.A. Shibanov, J. Ventura, Thermal radiation from rotating neu-
+     tron star: effect of the magnetic field and surface temperature distribution, Astron. Astrophys.
+     297 (1995) 441
+[78] Yu.N. Gnedin & R.A. Sunyaev, Polarization of optical and X-radiation from compact thermal
+     sources with magnetic field, Astron. Astrophys. 36 (1974) 379
+[79] S. Zane, R. Turolla, L. Stella, A. Treves, Proton cyclotron features in thermal spectra of ul-
+
+
+
+                                                 23
+Magnetized atmospheres of neutron stars                         A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+     tramagnetized neutron stars, Astrophys. J. 560 (2001) 384 [arXiv:astro-ph/0103316]
+[80] M. van Adelsberg & D. Lai, Atmosphere models of magnetized neutron stars: QED ef-
+     fects, radiation spectra and polarization signals, Mon. Not. R. Astron. Soc. 373 (2006) 1495
+     [arXiv:astro-ph/0607168]
+[81] D. Lai & W.C.G. Ho, Resonant conversion of photon modes due to vacuum polarization in
+     a magnetized plasma: implications for X-ray emission from magnetars, Astrophys. J. 566
+     (2002) 373 [arXiv:astro-ph/0108127]
+[82] W.C.G. Ho, A.Y. Potekhin, G. Chabrier, Model X-ray spectra of magnetic neutron stars with
+     hydrogen atmospheres, Astrophys. J. Suppl. Ser. 178 (2008) 102 [arXiv:0802.2957]
+[83] M. Rajagopal, R. Romani, M.C. Miller, Magnetized iron atmospheres for neutron stars, As-
+     trophys. J. 479 (1997) 347 [arXiv:astro-ph/9610177]
+[84] W.C.G. Ho, NSMAXG: A new magnetic neutron star spectral model in XSPEC, in pro-
+     ceedings of the IAU Symposium 302 Magnetic Fields Throughout Stellar Evolution, ed. by
+     M. Jardine, P. Petit, H.C. Spruit. Cambridge University Press, Cambridge (2014) 435
+     [arXiv:1311.5583]
+[85] J.P. Halpern & E.V. Gotthelf, Spin-down measurement of PSR J1852+0040 in Kesteven 79:
+     central compact objects as anti-magnetars, Astrophys. J. 709 (2010) 436
+[86] E.V. Gotthelf, J.P. Halpern, J. Alford, The spin-down of PSR J0821–4300 and PSR J1210–
+     5226: Confirmation of central compact objects as anti-magnetars, Astrophys. J. 765 (2013)
+     58 [arXiv:1301.2717]
+[87] W.C.G. Ho, Central compact objects and their magnetic fields, in proceedings of the
+     IAU Symposium 291 Neutron Stars and Pulsars: Challenges and Opportunities after
+     80 years, ed. by J. van Leeuven. Cambridge University Press, Cambridge (2013) 101
+     [arXiv:1210.7112]
+[88] M.A. Ruderman, Matter in superstrong magnetic fields: the surface of a neutron star, Phys.
+     Rev. Lett. 27 (1971) 1306
+[89] Z. Medin & D. Lai, Density-functional-theory calculations of matter in strong mag-
+     netic fields. II. Infinite chains and condensed matter, Phys. Rev. A 74 (2006) 062508
+     [arXiv:astro-ph/0607277]
+[90] W. Ebeling & G. Norman, Coulombic phase transitions in dense plasmas, J. Stat. Phys. 110
+     (2003) 861 [arXiv:cond-mat/0210193]
+[91] E.E. Salpeter, Energy and pressure of a zero-temperature plasma, Astrophys. J. 134 (1961)
+     669
+[92] Z. Medin & D. Lai, Condensed surfaces of magnetic neutron stars, thermal surface emission,
+     and particle acceleration above pulsar polar caps, Mon. Not. R. Astron. Soc. 382 (2007) 1833
+     [arXiv:0708.38]
+[93] N. Itoh, Electrical conductivity and emissivity of the pulsar surface, Mon. Not. R. Astron. Soc.
+     173 (1975) 1P
+
+
+
+                                                 24
+Magnetized atmospheres of neutron stars                        A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+[94] R. Lenzen & J. Trümper, Reflection of X rays by neutron star surfaces, Nature 271 (1978) 216
+[95] W. Brinkmann, Thermal radiation from highly magnetized neutron stars, Astron. Astrophys.
+     82 (1980) 352
+[96] R. Turolla, S. Zane, J.J. Drake, Bare quark stars or naked neutron stars? The case of RX
+     J1856.5−3754, Astrophys. J. 603 (2004) 265 [arXiv:astro-ph/0308326]
+[97] J.F. Pérez-Azorín, J.A. Miralles, J.A. Pons, Thermal radiation from magnetic neutron star
+     surfaces, Mon. Not. R. Astron. Soc. 433 (2005) 275 [arXiv:astro-ph/0410664]
+[98] M. van Adelsberg, D. Lai, A.Y. Potekhin, P. Arras, Radiation from condensed surface of
+     magnetic neutron stars, Astrophys. J. 628 (2005) 902 [arXiv:astro-ph/0406001]
+[99] A.Y. Potekhin, V.F. Suleimanov, M. van Adelsberg, K. Werner, Radiative properties of mag-
+     netic neutron stars with metallic surfaces and thin atmospheres, Astron. Astrophys. 546 (2012)
+     A121 [arXiv:1208.6582]
+[100] C. Motch, V.E. Zavlin, F. Haberl, The proper motion and energy distribution
+     of the isolated neutron star RX J0720.4−3125, Astron. Astrophys. 408 (2003) 323
+     [arXiv:astro-ph/0305016]
+[101] W.C.G. Ho, D.L. Kaplan, P. Chang, M. van Adelsberg, A.Y. Potekhin, Magnetic hydrogen
+     atmosphere models and the neutron star RX J1856.5−3754, Mon. Not. R. Astron. Soc. 375
+     (2007) 821 [arXiv:astro-ph/0612145]
+[102] V. Suleimanov, A.Y. Potekhin, K. Werner, Models of magnetized neutron star atmospheres:
+     thin atmospheres and partially ionized hydrogen atmospheres with vacuum polarization, As-
+     tron. Astrophys. 500 (2009) 891 [arXiv:0905.3276]
+[103] V. Suleimanov, V. Hambaryan, A.Y. Potekhin, M. van Adelsberg, R. Neuhäuser, K. Werner,
+     Radiative properties of highly magnetized isolated neutron star surfaces and approximate
+     treatment of absorption features in their spectra, Astron. Astrophys. 522 (2010) A111
+     [arXiv:1006.3292]
+[104] G.G. Pavlov & Yu.A. Shibanov, Thermal emission of an optically thick plasma containing a
+     strong magnetic field, Sov. Astron. 22 (1978) 43
+[105] G.G. Pavlov & V.E. Zavlin, Polarization of thermal X-rays from isolated neutron stars, As-
+     trophys. J. 529 (2000) 1011 [arXiv:astro-ph/9909326]
+[106] D. Lai & W.C.G. Ho, Polarized X-ray emission from magnetized neutron stars:
+     signature of strong-field vacuum polarization, Phys. Rev. Lett. 91 (2003) 071101
+     [arXiv:astro-ph/0303596]
+[107] M. van Adelsberg & R. Perna, Soft X-ray polarization in thermal magnetar emission, Mon.
+     Not. R. Astron. Soc. 399 (2009) 1523 [arXiv:0907.3499]
+[108] R. Taverna, F. Muleri, R. Turolla, P. Soffitta, S. Fabiani, L. Nobili, Probing magnetar mag-
+     netosphere through X-ray polarization measurements, Mon. Not. R. Astron. Soc. 438 (2014)
+     1686 [arXiv:1311.7500]
+[109] S. Chandrasekhar, Radiative Transfer. Clarendon Press, Oxford (1950)
+
+
+
+                                                25
+Magnetized atmospheres of neutron stars                        A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+[110] D. Lai & W.C.G. Ho, Transfer of polarized radiation in strongly magnetized plasmas and
+     thermal emission from magnetars: effect of vacuum polarization, Astrophys. J. 588 (2003)
+     962 [arXiv:astro-ph/0211315]
+[111] J.S. Heyl & N. Shaviv, Polarization evolution in strong magnetic fields, Mon. Not. R. Astron.
+     Soc. 311 (2000) 555 [arXiv:astro-ph/9909339]
+[112] J.S. Heyl & N. Shaviv, QED and the high polarization of the thermal radiation from neutron
+     stars, Phys. Rev. D 66 (2002) 023002 [arXiv:astro-ph/9909339]
+[113] J.S. Heyl, N. Shaviv, D. Lloyd, The high-energy polarization-limiting radius of neutron star
+     magnetospheres – I. Slowly rotating neutron stars, Mon. Not. R. Astron. Soc. 342 (2003) 134
+     [arXiv:astro-ph/0302118]
+[114] D. González Caniulef, S. Zane, R. Taverna, R. Turolla, K. Wu, Polarized thermal emission
+     from X-ray Dim Isolated Neutron Stars: the case of RX J1856.5−3754, Mon. Not. R. Astron.
+     Soc. 459 (2016) 3585 [arXiv:1604.01552]
+[115] R. Turolla, Isolated neutron stars: the challenge of simplicity, in Neutron Stars and Pulsars,
+     ed. by W. Becker. Springer, Berlin (2009) 141
+[116] M.M. Hohle, F. Haberl, J. Vink, C.P. de Vries, R. Neuhäuser, Narrow absorption features in
+     the co-added XMM-Newton RGS spectra of isolated neutron stars, Mon. Not. R. Astron. Soc.
+     419 (2012) 1525 [arXiv:1109.2506]
+[117] F.M. Walter, T. Eisenbeiß, J.M. Lattimer, B. Kim, V. Hambaryan, R. Neuhäuser, Revisiting
+     the parallax of the isolated neutron star RX J185635−3754 using HST/ACS imaging, Astro-
+     phys. J. 724 (2010) 669 [arXiv:1008.1709]
+[118] C.O. Heinke, H.N. Cohn, P.M. Lugger, et al., Improved mass and radius constraints for
+     quiescent neutron stars in ω Cen and NGC 6397, Mon. Not. R. Astron. Soc. 444 (2014) 443
+     [arXiv:1406.1497]
+[119] M.H. van Kerkwijk & D.L. Kaplan, Timing the nearby isolated neutron star RX
+     J1856.5−3754, Astrophys. J. 673 (2008) L163 [arXiv:0712.3212]
+[120] A.J. Deutsch, The electromagnetic field of an idealized star in rigid rotation in vacuo, Ann.
+     d’Astrophys. 18 (1955) 1
+[121] A.Y. Potekhin, A.F. Fantina, N. Chamel, J.M. Pearson, S. Goriely, Analytical representa-
+     tions of unified equations of state for neutron-star matter, Astron. Astrophys. 560 (2013) A48
+     [arXiv:1310.0049]
+[122] A. Spitkovsky, Time-dependent force-free pulsar magnetospheres: axisymmetric and
+     oblique rotators, Astrophys. J. 648 (2006) 51 [arXiv:astro-ph/0603147]
+[123] Ü. Ertan, Ş. Çalişkan, O. Benli, M.A. Alpar, Long-term evolution of dim isolated neutron
+     stars, Mon. Not. R. Astron. Soc. 444 (2014) 1559 [arXiv:1408.0650]
+[124] W.C.G. Ho, Constraining the geometry of the neutron star RX J1856.5−3754, Mon. Not. R.
+     Astron. Soc. 380 (2007) 71 [arXiv:0705.4543]
+[125] V.I. Kondratiev, M.A. McLaughlin, D.R. Lorimer, et al., New limits on radio emission from
+
+
+
+                                                26
+Magnetized atmospheres of neutron stars                     A.Y. Potekhin, W.C.G. Ho, G. Chabrier
+
+
+
+     X-ray dim isolated neutron stars, Astrophys. J. 702 (2009) 692 [arXiv:0907.0054]
+[126] V. Hambaryan, V. Suleimanov, A.D. Schwope, R. Neuhäuser, K. Werner, A.Y. Pote-
+     khin, Phase-resolved spectroscopic study of the isolated neutron star RBS 1223 (1RXS
+     J130848.6+212708), Astron. Astrophys. 534 (2011) A74 [arXiv:1108.3897]
+[127] D. Sanwal, G.G. Pavlov, V.E. Zavlin, M.A. Teter, Discovery of absorption features
+     in the X-ray spectrum of an isolated neutron star, Astrophys. J. 574 (2002) L61
+     [arXiv:astro-ph/0206195]
+[128] G.F. Bignami, P.A. Caraveo, A. De Luca, S. Mereghetti, The magnetic field of an
+     isolated neutron star from X-ray cyclotron absorption lines, Nature 423 (2003) 725
+     [arXiv:astro-ph/0306189]
+[129] K. Mori, J.C. Chonko, C.J. Hailey, Detailed spectral analysis of the 260 ks XMM-Newton
+     data of 1E 1207.4−5209 and significance of a 2.1 keV absorption feature, Astrophys. J. 631
+     (2005) 1082 [arXiv:astro-ph/0407369]
+[130] J.P. Halpern & E.V. Gotthelf, Proper motion and timing of two unusual pulsars: Calvera
+     and 1E 1207.4–5209, Astrophys. J. 812 (2015) 61 [arXiv:1510.00683]
+[131] A.M. Pires, C. Motch, R. Turolla, S.B. Popov, A.D. Schwope, A. Treves, New XMM-Newton
+     observation of the thermally emitting isolated neutron star 2XMM J104608.7–594306, As-
+     tron. Astrophys. 583 (2015) A117 [arXiv:1508.05246]
+[132] A. Karpova, D. Zyuzin, A. Danilenko, Yu. Shibanov, Constraining the parameters of the
+     pulsar wind nebula DA 495 and its pulsar with Chandra and XMM-Newton, Mon. Not. R.
+     Astron. Soc. 453 (2015) 2241 [arXiv:1508.00002]
+[133] C.-Y. Ng, V.M. Kaspi, W.C.G. Ho, et al., Deep X-ray observations of the young high-
+     magnetic-field radio pulsar J1119−6127 and supernova remnant G292.2−0.5, Astrophys.
+     J. 761 (2012) 65 [arXiv:1211.2761]
+[134] N.I. Storch, W.C.G. Ho, D. Lai, S. Bogdanov, C.O. Heinke, The light curve and internal
+     magnetic field of the mode-switching pulsar PSR B0943+10, Astrophys. J. 789 (2014) L27
+     [arXiv:1405.1475]
+[135] A. Kirichenko, A. Danilenko, Yu. Shibanov, P. Shternin, S. Zharikov, D. Zyuzin, Deep
+     optical observations of the γ -ray pulsar J0357+3205, Astron. Astrophys. 564 (2014) A81
+     [arXiv:1402.2246]
+[136] A. Danilenko, P. Shternin, A. Karpova, D. Zyuzin, Yu. Shibanov, The γ -ray pulsar
+     J0633+0632 in X-rays, Publ. Astron. Soc. Australia 32 (2015) e038 [arXiv:1509.06956]
+
+
+
+
+                                              27
+

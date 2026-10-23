@@ -1,0 +1,227 @@
+                                      X-PSI: A Python package for neutron star X-ray pulse
+                                      simulation and inference
+                                      Thomas E. Riley 1 , Devarshi Choudhury 1 , Tuomo Salmi 1 , Serena
+                                      Vinciguerra 1 , Yves Kini 1 , Bas Dorsman 1 , Anna L. Watts 1 , Daniela
+                                      Huppenkothen 2 , and Sebastien Guillot 3
+                                      1 Anton Pannekoek Institute for Astronomy, University of Amsterdam, Science Park 904, 1090GE
+                                      Amsterdam, The Netherlands 2 SRON Netherlands Institute for Space Research, Niels Bohrweg 4,
+                                      NL-2333 CA Leiden, the Netherlands 3 Institut de Recherche en Astrophysique et Planétologie,
+                                      UPS-OMP, CNRS, CNES, 9 avenue du Colonel Roche, BP 44346, F-31028 Toulouse Cedex 4, France
+DOI: 10.21105/joss.04977
+Software
+   • Review                           Summary
+   • Repository
+   • Archive                          The X-ray Pulse Simulation and Inference (X-PSI) package is a software package designed
+                                      to simulate rotationally-modulated surface X-ray emission from neutron stars and to perform
+                                      Bayesian statistical inference on real or simulated pulse profile data sets. Model parameters of
+Editor: Axel Donath                   interest include neutron star mass and radius and the system geometry and properties of the
+                                      hot emitting surface regions.
+Reviewers:
+   • @JohannesBuchner
+   • @matteobachetti                  Statement of need
+Submitted: 26 September 2022       Pulsed X-ray signals from neutron stars can be modeled to statistically estimate parameters
+Published: 14 February 2023        such as stellar mass and radius, and properties of the surface radiation field such as a map of
+License                            temperature. The mass and radius of a neutron star are a function of the equation of state of
+Authors of papers retain copyright internal matter, especially the dense matter in the core, and the formation history of the star,
+and release the work under a       which determines the central energy density and the spin frequency. The state of the surface
+Creative Commons Attribution 4.0 radiation field is the product of a potentially long and complex stellar evolutionary history,
+International License (CC BY 4.0). especially that of the stellar magnetosphere. Such parameter estimation requires relativistic
+                                   tracing of radiation as it propagates from surface to a distant telescope. Pulse-profile modelling
+                                   to infer neutron star parameters is a major science goal for both current X-ray telescopes
+                                   such as the Neutron Star Interior Composition ExploreR (NICER, Gendreau et al., 2016) and
+                                   proposed future telescopes such as eXTP and STROBE-X (Ray et al., 2019; Watts et al.,
+                                   2019).
+                                      While there are some open-source libraries for simulating the X-ray signals from rapidly spinning
+                                      neutron stars and more generally from the vicinity of general relativistic compact objects
+                                      including black holes (Nättilä & Pihajoki, 2018; Pihajoki et al., 2018) the scope of these
+                                      projects does not include statistical modeling, which necessitates tractable parametrised models
+                                      and a modular framework for constructing those models. X-PSI addresses this need, coupling
+                                      code for likelihood functionality (simulation) with existing open-source software for posterior
+                                      sampling (inference).
+
+
+                                      The X-PSI package and science use
+                                      X-PSI is an open-source Python package for Bayesian modeling of time- and energy-resolved
+                                      X-ray pulsations. X-PSI provides a framework for the implementation of custom models,
+                                      including likelihood and prior functions, and for feeding those models to open-source statistical
+
+
+  Riley et al. (2023). X-PSI: A Python package for neutron star X-ray pulse simulation and inference. Journal of Open Source Software, 8 (82), 4977. 1
+  https://doi.org/10.21105/joss.04977.
+                                    sampling software for use on high-performance computing systems. X-PSI supplies modules
+                                    for post-processing posterior sample sets, and supplies tools for visualisation. For example,
+                                    one can generate time- and energy-resolved images and animations of model X-ray pulsars by
+                                    tracing radiation from the stellar surface to a distant observer, such as a space telescope, as it
+                                    propagates through spacetime; a snapshot of such an animation may be found in Figure 1.
+                                    Posterior summaries can be plotted of the time- and energy-domain signals that a model pulsar
+                                    is inferred to generate, conditioned on observational data.
+
+
+
+
+                                    Figure 1: A snapshot from a time- and energy-resolved animation of a toy neutron star that generates
+                                    X-ray pulsations. The top three panels are sky maps of photon specific intensity at three representative
+                                    photon energies, and the bottom panels show instantaneous integrals over the sky maps, together with
+                                    sky map integrals at past times normalized to the maximum at each photon energy (bottom-left panel)
+                                    and additional photon energies (bottom-right panel).
+
+
+                                    X-PSI is being used by the NICER collaboration for pulse-profile modeling of X-ray emission
+                                    from rotation-powered millisecond pulsars (Riley et al., 2021b, 2019a). Many more papers
+                                    have used the accompanying open-source analysis pipeline and products published on Zenodo
+                                    (Riley et al., 2021a, 2019b). The first were Raaijmakers et al. (2019) and Bilous et al. (2019),
+                                    respectively on the topics of dense matter inference and multipolar magnetic fields.
+                                    The numerical likelihood routines native to X-PSI are written in Cython (Behnel et al., 2011),
+                                    and are dependent on the GNU Scientific Library (GSL, Gough, 2009). High-level object-
+                                    oriented model construction is performed by a user in the Python language, as is the interfacing
+                                    with sampling software. Low-level customisation is encouraged in the extensions, either directly
+                                    in Cython or via calls to external C libraries. X-PSI is Unix source code compatible, and release
+                                    versions are freely available on GitHub under the GNU General Public License. Extensive
+                                    documentation, step-by-step tutorials, and reproduction code for existing data analyses, are
+                                    available via the GitHub repository, along with a growing suite of unit tests. Future plans
+                                    include migration to Python 3, further improvements to post-processing software, and the
+                                    implementation of an expanded suite of atmosphere models.
+                                    Software: Python/C language (Oliphant, 2007), GNU Scientific Library (GSL, Gough, 2009),
+                                    NumPy (van der Walt et al., 2011), Cython (Behnel et al., 2011), OpenMP (Dagum & Menon,
+
+
+Riley et al. (2023). X-PSI: A Python package for neutron star X-ray pulse simulation and inference. Journal of Open Source Software, 8 (82), 4977. 2
+https://doi.org/10.21105/joss.04977.
+                                    1998), MPI for Python (Dalcín et al., 2008), Matplotlib (Droettboom et al., 2018; Hunter,
+                                    2007), IPython (Perez & Granger, 2007), Jupyter (Kluyver et al., 2016), MultiNest (Feroz
+                                    et al., 2009), PyMultiNest (Buchner et al., 2014), GetDist (Lewis, 2019), nestcheck (Higson,
+                                    2018; Higson et al., 2018, 2019), fgivenx (Handley, 2018), emcee (Foreman-Mackey et al.,
+                                    2013).
+
+
+                                    Acknowledgements
+                                    All University of Amsterdam co-authors acknowledge support from ERC Consolidator grant
+                                    No. 865768 AEONS (PI: ALW). DH is supported by the Women In Science Excel (WISE)
+                                    programme of the Netherlands Organisation for Scientific Research (NWO). SG acknowl-
+                                    edges the support of the CNES. More detailed acknowledgements are written in the project
+                                    documentation hosted on GitHub.
+
+
+                                    References
+                                    Behnel, S., Bradshaw, R., Citro, C., Dalcin, L., Seljebotn, D. S., & Smith, K. (2011).
+                                       Cython: The best of both worlds. Computing in Science Engineering, 13(2), 31–39.
+                                       https://doi.org/10.1109/MCSE.2010.118
+                                    Bilous, A. V., Watts, A. L., Harding, A. K., Riley, T. E., Arzoumanian, Z., Bogdanov, S.,
+                                        Gendreau, K. C., Ray, P. S., Guillot, S., Ho, W. C. G., & Chakrabarty, D. (2019). A
+                                        NICER View of PSR J0030+0451: Evidence for a Global-scale Multipolar Magnetic Field.
+                                        Astrophysical Journal, Letters, 887 (1), L23. https://doi.org/10.3847/2041-8213/ab53e7
+                                    Buchner, J., Georgakakis, A., Nandra, K., Hsu, L., Rangel, C., Brightman, M., Merloni, A.,
+                                       Salvato, M., Donley, J., & Kocevski, D. (2014). X-ray spectral modelling of the AGN
+                                       obscuring region in the CDFS: Bayesian model selection and catalogue. Astronomy and
+                                       Astrophysics, 564, A125. https://doi.org/10.1051/0004-6361/201322971
+                                    Dagum, L., & Menon, R. (1998). OpenMP: An industry standard API for shared-memory
+                                       programming. Computational Science & Engineering, IEEE, 5(1), 46–55. https://doi.org/
+                                      10.1109/99.660313
+                                    Dalcín, L., Paz, R., Storti, M., & D’Elía, J. (2008). MPI for python: Performance improvements
+                                       and MPI-2 extensions. Journal of Parallel and Distributed Computing, 68(5), 655–662.
+                                       https://doi.org/10.1016/j.jpdc.2007.09.005
+                                    Droettboom, M., Caswell, T. A., Hunter, J., Firing, E., Nielsen, J. H., Lee, A., Andrade,
+                                       E. S. de, Varoquaux, N., Stansby, D., Root, B., Elson, P., Dale, D., Lee, J.-J., May, R.,
+                                       Seppänen, J. K., Klymak, J., McDougall, D., Straw, A., Hobson, P., … Würtz, P. (2018).
+                                       Matplotlib/matplotlib v2.2.2. Zenodo. https://doi.org/10.5281/zenodo.1202077
+                                    Feroz, F., Hobson, M. P., & Bridges, M. (2009). MULTINEST: an efficient and robust
+                                       Bayesian inference tool for cosmology and particle physics. Monthly Notices of the RAS,
+                                       398, 1601–1614. https://doi.org/10.1111/j.1365-2966.2009.14548.x
+                                    Foreman-Mackey, D., Hogg, D. W., Lang, D., & Goodman, J. (2013). emcee: The MCMC
+                                       Hammer. Publications of the ASP, 125(925), 306. https://doi.org/10.1086/670067
+                                    Gendreau, K. C., Arzoumanian, Z., Adkins, P. W., Albert, C. L., Anders, J. F., Aylward, A. T.,
+                                       Baker, C. L., Balsamo, E. R., Bamford, W. A., Benegalrao, S. S., Berry, D. L., Bhalwani,
+                                       S., Black, J. K., Blaurock, C., Bronke, G. M., Brown, G. L., Budinoff, J. G., Cantwell,
+                                       J. D., Cazeau, T., … Yu, W. H. (2016). The Neutron star Interior Composition Explorer
+                                       (NICER): design and development. In J.-W. A. den Herder, T. Takahashi, & M. Bautz
+                                       (Eds.), Space telescopes and instrumentation 2016: Ultraviolet to gamma ray (Vol. 9905,
+                                       p. 99051H). https://doi.org/10.1117/12.2231304
+
+
+Riley et al. (2023). X-PSI: A Python package for neutron star X-ray pulse simulation and inference. Journal of Open Source Software, 8 (82), 4977. 3
+https://doi.org/10.21105/joss.04977.
+                                    Gough, B. (2009). GNU scientific library reference manual - third edition (3rd ed.). Network
+                                       Theory Ltd. ISBN: 9780954612078
+                                    Handley, W. (2018). Fgivenx: Functional posterior plotter. The Journal of Open Source
+                                       Software, 3(28), 849. https://doi.org/10.21105/joss.00849
+                                    Higson, E. (2018). Nestcheck: Error analysis, diagnostic tests and plots for nested sampling
+                                       calculations. Journal of Open Source Software, 3(29), 916. https://doi.org/10.21105/joss.
+                                       00916
+                                    Higson, E., Handley, W., Hobson, M., & Lasenby, A. (2018). Sampling errors in nested
+                                       sampling parameter estimation. Bayesian Analysis, 13(3), 873–896. https://doi.org/10.
+                                       1214/17-BA1075
+                                    Higson, E., Handley, W., Hobson, M., & Lasenby, A. (2019). Nestcheck: Diagnostic tests for
+                                       nested sampling calculations. Monthly Notices of the RAS, 483(2), 2044–2056. https:
+                                       //doi.org/10.1093/mnras/sty3090
+                                    Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. Computing in Science &
+                                      Engineering, 9(3), 90–95. https://doi.org/10.1109/MCSE.2007.55
+                                    Kluyver, T., Ragan-Kelley, B., Pérez, F., Granger, B., Bussonnier, M., Frederic, J., Kelley,
+                                       K., Hamrick, J., Grout, J., Corlay, S., Ivanov, P., Avila, D., Abdalla, S., & Willing, C.
+                                       (2016). Jupyter notebooks – a publishing format for reproducible computational workflows
+                                       (F. Loizides & B. Schmidt, Eds.; pp. 87–90). IOS Press.
+                                    Lewis, A. (2019). GetDist: a Python package for analysing Monte Carlo samples. arXiv
+                                       e-Prints, arXiv:1910.13970. https://arxiv.org/abs/1910.13970
+                                    Nättilä, J., & Pihajoki, P. (2018). Radiation from rapidly rotating oblate neutron stars.
+                                       Astronomy and Astrophysics, 615, A50. https://doi.org/10.1051/0004-6361/201630261
+                                    Oliphant, T. E. (2007). Python for scientific computing. Computing in Science Engineering,
+                                        9(3), 10–20. https://doi.org/10.1109/MCSE.2007.58
+                                    Perez, F., & Granger, B. E. (2007). IPython: A system for interactive scientific computing.
+                                       Computing in Science Engineering, 9(3), 21–29. https://doi.org/10.1109/MCSE.2007.53
+                                    Pihajoki, P., Mannerkoski, M., Nättilä, J., & Johansson, P. H. (2018). General purpose ray
+                                       tracing and polarized radiative transfer in general relativity. The Astrophysical Journal,
+                                       863(1), 8. https://doi.org/10.3847/1538-4357/aacea0
+                                    Raaijmakers, G., Riley, T. E., Watts, A. L., Greif, S. K., Morsink, S. M., Hebeler, K., Schwenk,
+                                       A., Hinderer, T., Nissanke, S., Guillot, S., Arzoumanian, Z., Bogdanov, S., Chakrabarty, D.,
+                                       Gendreau, K. C., Ho, W. C. G., Lattimer, J. M., Ludlam, R. M., & Wolff, M. T. (2019).
+                                       A Nicer View of PSR J0030+0451: Implications for the Dense Matter Equation of State.
+                                       Astrophysical Journal, Letters, 887 (1), L22. https://doi.org/10.3847/2041-8213/ab451a
+                                    Ray, P. S., Arzoumanian, Z., Ballantyne, D., Bozzo, E., Brandt, S., Brenneman, L., Chakrabarty,
+                                       D., Christophersen, M., DeRosa, A., Feroci, M., Gendreau, K., Goldstein, A., Hartmann,
+                                       D., Hernanz, M., Jenke, P., Kara, E., Maccarone, T., McDonald, M., Nowak, M., … Zoghbi,
+                                       A. (2019). STROBE-X: X-ray Timing and Spectroscopy on Dynamical Timescales from
+                                       Microseconds to Years. arXiv e-Prints, arXiv:1903.03035. https://doi.org/10.48550/arXiv.
+                                       1903.03035
+                                    Riley, T. E., Watts, A. L., Bogdanov, S., Ray, P. S., Ludlam, R. M., Guillot, S., Arzoumanian,
+                                        Z., Baker, C. L., Bilous, A. V., Chakrabarty, D., Gendreau, K. C., Harding, A. K., Ho, W.
+                                        C. G., Lattimer, J. M., Morsink, S. M., & Strohmayer, T. E. (2019a). A NICER View
+                                        of PSR J0030+0451: Millisecond Pulsar Parameter Estimation. Astrophysical Journal,
+                                        Letters, 887 (1), L21. https://doi.org/10.3847/2041-8213/ab481c
+
+
+
+
+Riley et al. (2023). X-PSI: A Python package for neutron star X-ray pulse simulation and inference. Journal of Open Source Software, 8 (82), 4977. 4
+https://doi.org/10.21105/joss.04977.
+                                    Riley, T. E., Watts, A. L., Bogdanov, S., Ray, P. S., Ludlam, R. M., Guillot, S., Arzoumanian,
+                                        Z., Baker, C. L., Bilous, A. V., Chakrabarty, D., Gendreau, K. C., Harding, A. K., Ho, W.
+                                        C. G., Lattimer, J. M., Morsink, S. M., & Strohmayer, T. E. (2019b). A NICER View of
+                                        PSR J0030+0451: Nested Samples for Millisecond Pulsar Parameter Estimation (Version
+                                        v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.3386449
+                                    Riley, T. E., Watts, A. L., Ray, P. S., Bogdanov, S., Guillot, S., Morsink, S. M., Bilous, A.
+                                        V., Arzoumanian, Z., Choudhury, D., Deneva, J. S., Gendreau, K. C., Harding, A. K., Ho,
+                                        W. C. G., Lattimer, J. M., Loewenstein, M., Ludlam, R. M., Markwardt, C. B., Okajima,
+                                        T., Prescod-Weinstein, C., … Cognard, I. (2021a). A NICER View of the Massive Pulsar
+                                        PSR J0740+6620 Informed by Radio Timing and XMM-Newton Spectroscopy: Nested
+                                        Samples for Millisecond Pulsar Parameter Estimation (Version v1.0.0) [Data set]. Zenodo.
+                                        https://doi.org/10.5281/zenodo.4697625
+                                    Riley, T. E., Watts, A. L., Ray, P. S., Bogdanov, S., Guillot, S., Morsink, S. M., Bilous, A. V.,
+                                        Arzoumanian, Z., Choudhury, D., Deneva, J. S., Gendreau, K. C., Harding, A. K., Ho, W.
+                                        C. G., Lattimer, J. M., Loewenstein, M., Ludlam, R. M., Markwardt, C. B., Okajima, T.,
+                                        Prescod-Weinstein, C., … Cognard, I. (2021b). A NICER View of the Massive Pulsar PSR
+                                        J0740+6620 Informed by Radio Timing and XMM-Newton Spectroscopy. Astrophysical
+                                        Journal, Letters, 918(2), L27. https://doi.org/10.3847/2041-8213/ac0a81
+                                    van der Walt, S., Colbert, S. C., & Varoquaux, G. (2011). The NumPy array: A structure
+                                       for efficient numerical computation. Computing in Science Engineering, 13(2), 22–30.
+                                       https://doi.org/10.1109/MCSE.2011.37
+                                    Watts, A. L., Yu, W., Poutanen, J., Zhang, S., Bhattacharyya, S., Bogdanov, S., Ji, L.,
+                                      Patruno, A., Riley, T. E., Bakala, P., Baykal, A., Bernardini, F., Bombaci, I., Brown, E.,
+                                      Cavecchi, Y., Chakrabarty, D., Chenevez, J., Degenaar, N., Del Santo, M., … Zhou, X.
+                                      (2019). Dense matter with eXTP. Science China Physics, Mechanics, and Astronomy,
+                                      62(2), 29503. https://doi.org/10.1007/s11433-017-9188-4
+
+
+
+
+Riley et al. (2023). X-PSI: A Python package for neutron star X-ray pulse simulation and inference. Journal of Open Source Software, 8 (82), 4977. 5
+https://doi.org/10.21105/joss.04977.
+

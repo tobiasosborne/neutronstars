@@ -1,0 +1,852 @@
+                                              Mon. Not. R. Astron. Soc. 000, 1–10 (2014)      Printed 7 August 2018    (MN LATEX style file v2.2)
+
+
+
+
+                                              Accurate determination of the free-free Gaunt factor
+                                              I – non-relativistic Gaunt factors
+
+                                              P. A. M. van Hoof1? , R. J. R. Williams2 , K. Volk3 , M. Chatzikos4 , G. J. Ferland4 ,
+                                              M. Lykins4 , R. L. Porter5 , Y. Wang4
+arXiv:1407.5048v2 [astro-ph.HE] 17 Aug 2014
+
+
+
+
+                                              1   Royal Observatory of Belgium, Ringlaan 3, B-1180 Brussels, Belgium
+                                              2 AWE plc, Aldermaston, Reading, RG7 4PR, United Kingdom
+                                              3 Space Telescope Science Institute, 3700 San Martin Drive, Baltimore, MD 21218, USA
+                                              4 Dept. of Physics & Astronomy, University of Kentucky, Lexington, KY 40506, USA
+                                              5 Dept. of Physics & Astronomy and Center for Simulational Physics, University of Georgia, Athens, GA 30602, USA
+
+
+
+
+                                              Accepted. Received
+
+
+
+                                                                                 ABSTRACT
+                                                                                 Modern spectral synthesis codes need the thermally averaged free-free Gaunt factor
+                                                                                 defined over a very wide range of parameter space in order to produce an accurate pre-
+                                                                                 diction for the spectrum emitted by an ionized plasma. Until now no set of data exists
+                                                                                 that would meet this need in a fully satisfactory way. We have therefore undertaken
+                                                                                 to produce a table of very accurate non-relativistic Gaunt factors over a much wider
+                                                                                 range of parameters than has ever been produced before. We first produced a table of
+                                                                                 non-averaged Gaunt factors, covering the parameter space 10 log i = −20 to +10 and
+                                                                                 10
+                                                                                    log w = −30 to +25. We then continued to produce a table of thermally averaged
+                                                                                 Gaunt factors covering the parameter space 10 log γ 2 = −6 to +10 and 10 log u = −16
+                                                                                 to +13. Finally we produced a table of the frequency integrated Gaunt factor covering
+                                                                                 the parameter space 10 log γ 2 = −6 to +10. All the data presented in this paper are
+                                                                                 available online.
+                                                                                 Key words: atomic data — plasmas — radiation mechanisms: thermal — ISM:
+                                                                                 general — radio continuum: general
+
+
+
+                                              1     INTRODUCTION                                                  factors available. This is a result of the fact that calculat-
+                                                                                                                  ing the necessary data is challenging, even with the aid of
+                                              One of the oldest problems in quantum mechanics is calcu-
+                                                                                                                  modern computers.
+                                              lating the line and continuous spectrum of hydrogenic ions.
+                                              An early overview of the problem can be found in Menzel
+                                              & Pekeris (1935, hereafter MP35). In this paper we will re-               A modern spectral synthesis code, such as Cloudy (Fer-
+                                              visit the problem of calculating the free-free emission and         land et al. 2013), needs accurate values for the Gaunt factor
+                                              absorption of such an ion.                                          over a very wide range of parameter space. Unfortunately
+                                                   The problem is customarily described by using the free-        none of the existing data sets fulfills that requirement. An-
+                                              free Gaunt factor (Gaunt 1930), which is a multiplicative           alytic expressions for the limiting behavior of the Gaunt
+                                              factor describing the deviation from classical theory. For          factor have been derived in the past (for an overview see
+                                              brevity we will sometimes refer to the free-free Gaunt factor       Hummer 1988 and Beckert et al. 2000). However, extrapo-
+                                              simply as the Gaunt factor below. Further details on the def-       lating tabulated data of a two-dimensional function beyond
+                                              inition of the Gaunt factor can be found in MP35 and Karzas         their limits using these expressions is awkward and can eas-
+                                              & Latter (1961, hereafter KL61) and will not be repeated            ily lead to discontinuities in the final result. This is exactly
+                                              here. Several papers have been dedicated to calculating the         what has happened in the current release of Cloudy (version
+                                              Gaunt factor in the past (e.g., MP35; KL61; Hummer 1988;            c13.03). This fact has prompted us to recalculate the Gaunt
+                                              Sutherland 1998, hereafter S98) and they progressively in-          factor, using ab-initio theory, to a high degree of accuracy
+                                              creased the size of the parameter space and improved the            over a very wide range of parameter space. The coverage of
+                                              precision of the results. However, despite the long history of      the new tables will be large enough to avoid any need for
+                                              the problem, there is still no fully satisfactory set of Gaunt      extrapolation. These results will be included in the upcom-
+                                                                                                                  ing release of Cloudy. The paper that comes closest to what
+                                                                                                                  we are undertaking here is S98 and we will be following this
+                                              ?   p.vanhoof@oma.be                                                paper closely. We will also present a comparison of our re-
+
+                                              c 2014 RAS
+2      P.A.M. van Hoof et al.
+
+sults to those of S98. In the process we will fix several errors   From these definitions it is clear that ηi and ηf are real
+that we found in the literature.                                   numbers which are larger than zero. Furthermore, since w >
+     In Sect. 2 we will describe the calculation of non-           0 we have ηi > ηf .
+averaged free-free Gaunt factors. In Sect. 3 we will de-               We will also use the following custom variables
+scribe the calculation of the thermally averaged Gaunt fac-                    4ki kf         4ηi ηf
+tors, and in Sect. 4 we will describe the calculation of the       x=−                   =−             ,                          (5)
+                                                                             (ki − kf )2    (ηi − ηf )2
+total Gaunt factor which is integrated over frequency. Fi-
+nally, in Sect. 5 we will present a summary of our results.              ki   ηf
+                                                                   α=       =    ,                                                 (6)
+All the data presented in this paper are available in elec-              kf   ηi
+tronic form from MNRAS as well as the Cloudy web site at
+                                                                   and
+http://data.nublado.org/gauntff/.
+                                                                         1+α   kf + ki   ηi + ηf
+                                                                   β=        =         =         .                                 (7)
+                                                                         1−α   kf − ki   ηi − ηf
+
+2     THE FREE-FREE GAUNT FACTOR                                   From these definitions it is clear that x ∈ (−∞, 0), α ∈ (0, 1)
+                                                                   and β ∈ (1, ∞).
+We will be considering the process where an unbound elec-
+tron is moving through the Coulomb field of a positively
+charged nucleus and absorbs a photon of energy hν in the           2.2    Exact calculation of the free-free Gaunt factor
+process. It will be assumed that the nucleus is a point-like
+charge, which implies that the theory is only strictly valid       The free-free Gaunt factor is given by Eq. 16 of KL61 (based
+for fully stripped ions, though it is routinely used as an         on Biedenharn 1956)
+approximation for other ions as well. The theory we use                    √
+                                                                          2 3  2
+is non-relativistic and is therefore not valid for very high-      gff =         (ηi + ηf2 + 2ηi2 ηf2 )I0
+                                                                         πηi ηf
+temperature plasmas. Comparison of the results we present                                                      i
+below with those of Nozawa et al. (1998) shows that our                  −2ηi ηf (1 + ηi2 )1/2 (1 + ηf2 )1/2 I1 I0 .        (8)
+results should be accurate up to electron temperatures of
+roughly 100 MK. For higher temperatures our results will           Here I0 and I1 are defined by
+start deviating increasingly from the correct relativistic re-                       l+1
+sults. We will nevertheless include results for those tempera-          1    4ki kf
+                                                                   Il =                    eπ|ηi −ηf |/2
+tures in our tables simply because Cloudy needs these data.             4 (ki − kf )2
+Gaunt factors calculated using the relativistic Elwert ap-                   |Γ(l + 1 + iηi )Γ(l + 1 + iηf )|
+proximation will be presented in a forthcoming paper.                    ×                                    Gl ,                 (9)
+                                                                                       Γ(2l + 2)
+                                                                   where Γ is the gamma function. In turn Gl is defined by
+2.1    Basic definitions
+                                                                   Gl = |β|−iηi −iηf 2 F1 (l + 1 − iηf , l + 1 − iηi ; 2l + 2; x), (10)
+We follow the theory and notations given in KL61, S98, and
+references therein. Here we will only repeat those definitions     where 2 F1 (a, b; c; x) is the hypergeometric function. This
+needed to compute the free-free Gaunt factor. The formulas         function can be evaluated using the Taylor series expansion
+needed to calculate the opacity and emissivity can be found                              ∞
+                                                                                         X (a)n (b)n xn
+in KL61. We denote the scaled initial and final energy of the      2 F1 (a, b; c; x) =                     ,                      (11)
+                                                                                               (c)n   n!
+electron as                                                                              n=0
+
+       Ei                 Ef                                       where the Pochhammer symbol (a)n is defined as
+i = 2        and f = 2       ,                           (1)
+      Z Ry               Z Ry
+                                                                   (a)n ≡ Γ(a + n)/Γ(a).
+where E is the energy of the electron, Z is the charge of the
+nucleus in elementary charge units, and Ry is the infinite-        This series expansion has a radius of convergence |x| < 1.
+mass Rydberg unit of energy given by                               For values |x| > 1, the standard transformation used in the
+                                                                   literature is given by Eq. 15.3.7 of Abramowitz & Stegun
+1 Ry = α2 me c2 /2 ≈ 2.17987 × 10−18 J,                            (1972):
+where α is the fine-structure constant, me is the electron         2 F1 (a, b; c; x) =
+mass, and c is the speed of light. We can also define the                                                                  
+                                                                       Γ(c)Γ(b − a)                                       1
+scaled photon energy as                                                             (−x)−a 2 F1 a, 1 − c + a; 1 − b + a;
+                                                                       Γ(b)Γ(c − a)                                      x
+                 hν
+w ≡ f − i =          .                                    (2)        Γ(c)Γ(a − b)
+                                                                                               
+                                                                                                                         1
+                                                                                                                           
+                Z 2 Ry                                               +                  −b
+                                                                                    (−x) 2 F1 b, 1 − c + b; 1 − a + b;       .(12)
+                                                                       Γ(a)Γ(c − b)                                      x
+From the scaled energies we can derive the quantities
+      1               1      1                                     Using Eq. 12 assures that |x| ⩽ 1 for all evaluations of the
+ηi = √      and ηf = √ = √                                  (3)    hypergeometric function. However, we found that for |x|
+       i             f   i + w
+                                                                   close to 1, the evaluation of the Taylor series in Eq. 11 is
+as well as                                                         extremely slow. We therefore decided to use an additional
+     1               1                                             transformation given in Eq. 15.3.4 of Abramowitz & Stegun
+ki =       and kf =                                         (4)    (1972):
+     ηi             ηf
+
+                                                                                                      c 2014 RAS, MNRAS 000, 1–10
+                                                                    Accurate determination of the free-free Gaunt factor                              3
+                                                       
+                           −a                      x                          using b = 128. We then calculate the Gaunt factor including
+ F
+2 1 (a, b; c; x) = (1 − x)    2 1 a, c − b; c;
+                               F                            .         (13)
+                                                  x−1                         an estimate of its relative error (taking into account cancel-
+For −1 ⩽ x < 0 we will combine Eq. 10 with Eq. 13, which                      lation effects in intermediate results). If the relative error
+yields                                                                        is less than 10−15 the result is accepted, otherwise b will
+                                                                              be doubled and the calculation is started again. This proce-
+Gl = β −iηi −iηf (1 − x)−l−1+iηf                                              dure is repeated until either the Gaunt factor is accepted or b
+             
+                                                     x
+                                                                             exceeds a maximum precision of the mantissa. For most cal-
+     × 2 F1 l + 1 − iηf , l + 1 + iηi ; 2l + 2;                 ⇒             culations we use bmax = 4096, but in some cases we allowed
+                                                    x−1
+                                                                              it to go higher. The precision of the floating point numbers
+Gl = β −2l−2+iηf −iηi                                                         that we use is approximately b/2 log 10 decimal places. So
+                                                                            this ranges between ∼ 38 decimal places for b = 128 and
+                                                     x
+     × 2 F1 l + 1 + iηi , l + 1 − iηf ; 2l + 2;                 .     (14)    ∼ 1233 decimal places for b = 4096. The choice of b is illus-
+                                                    x−1                       trated in Table 1 where we give the value of 2 log b used as
+Here we used the fact that β is positive, as well as the iden-                a function of i and w in the region where the cancellation
+tities                                                                        problems are worst.
+                                                                                   In libmpfr there is no routine to calculate the complex
+2 F1 (a, b; c; x) = 2 F1 (b, a; c; x)   and 1 − x = β 2 .
+                                                                              gamma function. So we implemented an arbitrary precision
+For x < −1 we will combine Eq. 10 with Eqs. 12 and                            routine ourselves based on Spouge’s approximation (Spouge
+13, (in that order, this is equivalent to using Eq. 15.3.8 in                 1994). This algorithm also suffers from severe cancellation
+Abramowitz & Stegun 1972), which yields:                                      problems, so internal calculations are done using twice the
+                                                                             number of bits used for the Gaunt factor itself.
+           Γ(2l + 2)Γ(iηf − iηi )
+Gl =                                   β −2l−2+iηf −iηi                            In some parts of the parameter space even using a
+        Γ(l + 1 − iηi )Γ(l + 1 + iηf )                                        4096 bit mantissa is not enough to successfully calculate the
+                                                                              Gaunt factor due to complete loss of precision in interme-
+                                                       
+                                                     1
+ ×2 F1 l + 1 + iηi , l + 1 − iηf ; 1 + iηi − iηf ;                            diate results. In that case, we will use the series expansion
+                                                   1−x
+                                                                              presented in Sect. 2.3 since doubling the number of bits in
+           Γ(2l + 2)Γ(iηi − iηf )                                             the mantissa further would lead to unacceptable CPU time
+       +                               β −2l−2+iηi −iηf
+        Γ(l + 1 + iηi )Γ(l + 1 − iηf )                                        consumption. The area where this can happen has a roughly
+       
+                                                     1
+                                                                            triangular shape inside the following boundaries
+ ×2 F1 l + 1 − iηi , l + 1 + iηf ; 1 − iηi + iηf ;           ⇒
+                                                    1−x                       w ⩽ 10−6                                                            (16)
+          
+               Γ(2l + 2)Γ(iηf − iηi )                                         and
+Gl = 2 Re                                   β −2l−2+iηf −iηi
+            Γ(l + 1 − iηi )Γ(l + 1 + iηf )
+                                                                              i /w ⩽ 10−4 .
+                                                                               3/2
+                                                                                                                                               (17)
+                                                     1
+ × 2 F1 l + 1 + iηi , l + 1 − iηf ; 1 + iηi − iηf ;          , (15)           Note that we attempt an exact calculation first, even in-
+                                                    1−x
+                                                                              side this region, and only if that fails will we use the series
+where we additionally used the identities                                     expansion discussed below.
+2 F1 (a, b; c; z) = 2 F1 (a, b; c; z)   and Γ(z) = Γ(z).                           To speed up the calculations, all tables were calculated
+                                                                              using a parallel version of the code using the message passing
+Using these transformations instead of the standard ones                      interface (MPI).
+found in the literature has a number of advantages.
+   (i) For all values of x only a single evaluation of the hy-                2.3    Approximating the free-free Gaunt factor
+pergeometric function is needed for each evaluation of Gl .
+   (ii) The last argument of the hypergeometric function is                   In the region where the exact calculation of the Gaunt factor
+between 0 and 1/2 for all values of x. This greatly speeds up                 fails, we will use the series expansion given in MP35. When
+the evaluation of this function.                                              testing this procedure we noted that the highest order term
+   (iii) For each evaluation of gff only 2 or 3 evaluations of                of Eq (1.41) of MP35 is incorrect. We therefore repeated the
+the gamma function are needed by using Γ(z) = Γ(z) and                        derivation outlined in the Appendix of MP35 to fix the error,
+Γ(z + 1) = zΓ(z), implying that we can reuse the results for                  and added an extra term in the process. The details can be
+I0 when calculating I1 . This discounts the trivial evaluation                found in Appendix A. The resulting corrected formula is
+of Γ(2l + 2) which is hardwired in the code.                                  (note that in MP35, κ ≡ ηf and l ≡ ηi )
+                                                                                                 1 + ηf2 /ηi2               1 − 4/3 ηf2 /ηi2 + ηf4 /ηi4
+                                                                                                                                                       
+     Numerically evaluating Eq. 8 can lead to severe cancel-
+                                                                              gff = 1 + c1                          − c2
+lation problems. For this reason we decided to implement                                                        2/3
+                                                                                            (1 − ηf2 /ηi2 )2/3 ηf
+                                                                                                                                                 4/3
+                                                                                                                             (1 − ηf2 /ηi2 )4/3 ηf
+our code in C++ using arbitrary precision floating point
+                                                                                           1 − 1/3 ηf2 /ηi2 − 1/3 ηf4 /ηi4 + ηf6 /ηi6
+                                                                                                                                      
+variables. We use libgmp version 5.1.2 for the basic arith-
+metic functions, libmpfr 3.1.2 for the transcendental func-                          − c3                               6/3
+                                                                                                                                        + R,      (18)
+                                                                                                    (1 − ηf2 /ηi2 )6/3 ηf
+tions, and libmpfrc++ by Pavel Holoborodko (version Nov.
+2010) to get a convenient C++ wrapper around libgmp and                       with (1 − ηf2 /ηi2 ) ηf  1 and
+libmpfr. These libraries allow the user to choose the number
+of bits b of the mantissa of the floating point number as a free                          Γ(1/3 )
+                                                                              c1 =                     = 0.1728260369...,
+parameter. In our implementation we start our calculations                           5 · 121/3 Γ(2/3 )
+
+c 2014 RAS, MNRAS 000, 1–10
+4       P.A.M. van Hoof et al.
+           18 Γ(2/3 )
+c2 =                      = 0.04959570168...,
+       35 · 122/3 Γ(1/3 )
+        3                                                                                   1
+c3 =       = 0.01714285714...,
+       175                                                                                               -15            -10            -5           +0        +5   +10
+                                                                                                   -20
+and                                                                                         0
+
+
+
+
+                                                                                 log(gff)
+        0.00135                                0.025
+                      8/3
+                            <R<                            8/3
+                                                                 .       (19)
+(1 − ηf2 /ηi2 )8/3 ηf                  (1 − ηf2 /ηi2 )8/3 ηf                                -1
+
+
+
+
+                                                                                10
+Eq. 19 was derived by comparing the series expansion with
+exact calculations for various values of the ratio ηf /ηi be-                               -2
+tween 0 and 1. This is possible because the numerator of R is
+a polynomial in ηf /ηi , and for every value of the ratio ηf /ηi
+a combination of values ηf and ηi can be found for which                                    -3
+the exact calculation succeeds. Thus the minimum and max-                                         -30           -20                 -10              0             10
+imum value of the numerator of R can be determined. We                                                                               10
+                                                                                                                                        log(w)
+will use the upper limit of Eq. 19 as an estimate for the
+                                                                                             2
+error in the series expansion in our calculations. The exact
+                                                                                                          -30     -25
+calculation of the Gaunt factor may fail in the triangular                                                                    -20     -15     -10    -5       +0
+                                                                                             0                                                                     +5
+region bounded by Eqs. 16 and 17. Using Eq. 19 we could                                                                                                                  +10
+
+determine that the absolute error in Eq. 18 is certainly less
+                                                                                             -2
+than 5.5 × 10−10 everywhere in this region. The worst case
+                                                                                 log(gff)
+                                                                                                                                                                         +15
+behavior of Eq. 18 is at the corner of the triangular area
+delimiting its use (i.e., 10 log i = −62/3 , 10 log w = −6). We                             -4
+explore the error in the series expansion further in Table 1
+                                                                                10
+
+
+
+
+                                                                                                                                                                         +20
+where we show the residual of the series expansion as a func-                                -6
+tion of i and w in this region. It is clear that the residual
+is less than 10−10 everywhere, which is more than sufficient                                 -8                                                                          +25
+
+for our needs.
+      We can understand this result also in a different man-                                -10
+ner. Near the boundary given by Eq. 17, the criterion                                              -20                    -10                             0              10
+     3/2
+w/i ⩾ 104 can be rewritten as follows:                                                                                              10
+                                                                                                                                          log(εi)
+      3/2                   3/2                   3/2                    1/2
+w/i        = (f − i )/i        ≈ (f − i )/f      = (1 − i /f )/f      Figure 1. The base-10 logarithm of the free-free Gaunt factor as
+                                                                                a function of w (top panel) and i (bottom panel). Thick curves
+            = (1 − ηf2 /ηi2 ) ηf    > 10 .
+                                    ∼
+                                          4
+                                                                                are labeled with the values of 10 log i (top panel) and 10 log w
+                                                                                (bottom panel) in increments of 5 dex. The thin curves have a
+This clearly shows that the remainder R in Eq. 18 is guar-
+                                                                                spacing of 1 dex.
+anteed to be very small. The combination of this criterion
+with Eq. 16 also guarantees that ηi  1 and ηf  1, which
+are also necessary conditions for the series expansion to be
+valid.                                                                          from the obvious fact that in S98 the parameters i and w
+                                                                                were transposed, both in their Table 1 and Fig. 1 (but not
+                                                                                the electronic version of this table), we can also see that the
+2.4     A table of Gaunt factors                                                data in S98 don’t reach the claimed precision everywhere.
+                                                                                Comparing the electronic version of the table from S98 with
+Using the procedure outlined in the previous sections we                        our calculations (which covers a slightly larger range in pa-
+computed a large grid of Gaunt factors, covering the range                      rameter space than Table 1 in S98) we find that the largest
+10
+   log i = −20(0.2)10 and 10 log w = −30(0.2)25. The nota-                     discrepancy is almost 7.3% for the entry for 10 log i = −9
+tion −20(0.2)10 indicates that the Gaunt factor was tab-                        and 10 log w = −8. Also the entries near the edge towards the
+ulated for all values of 10 log i ranging from −20 to 10                       upper right corner of Table 1 in S98 don’t reach the claimed
+in increments of 0.2 dex, and similarly for 10 log w. This                      precision. One example is the entry for 10 log i = −2/3 and
+range vastly extends the parameter range computed by S98.                       10
+                                                                                   log w = −8 in the electronic table with a discrepancy of
+The data are shown in Fig. 1. The full table is available in                    slightly more than 0.57%. The median relative discrepancy
+electronic form (see Sect. 5). The electronic table gives the                   is better than 10−8 however, indicating that the majority of
+Gaunt factors in 11 significant digits and is accurate in all                   the entries in the electronic table of S98 are accurate in all
+digits, apart from possible rounding errors in some entries                     printed digits.
+computed with the series expansion. In addition to the ta-                           The claim in S98 that the Gaunt factors tend to a lim-
+ble, we also provide simple programs which allow the user to                    iting value for i → 0 is correct, but the numeric values
+interpolate the table. Testing of the interpolation algorithm                   for this limit given in his Table 1 are not accurate for low
+showed that the relative error was less than 1.5 × 10−4 ev-                     values of w. From Eq. 18 we can derive the following series
+erywhere.                                                                       expansion for this limit
+     In Table 2 we give an excerpt from the electronic table
+covering the same parameter space presented in S98. Apart                       gff (0, w) = 1 + c1 w1/3− c2 w2/3− c3 w + O(w4/3 ),                                      (20)
+
+                                                                                                                                     c 2014 RAS, MNRAS 000, 1–10
+                                                          Accurate determination of the free-free Gaunt factor                               5
+
+Table 1. The residual R of the series expansion for gff given in Eq. 18. Entries 1.29 − 12 mean 1.29 × 10−12 and entries marked with dots
+are outside the region of validity of the series expansion. The number between parentheses is 2 log b, the number of bits of the mantissa
+used in the calculation of the exact Gaunt factor.
+
+                                                                        10 log 
+                                                                                i
+ 10 log w           −8.50            −8.25           −8.00            −7.75                 −7.50          −7.25            −7.00          −6.75
+
+   −8.75      1.29−12 (11)              ...             ...             ...                    ...            ...            ...             ...
+   −8.50      4.52−13 (11)              ...             ...             ...                    ...            ...            ...             ...
+   −8.25      1.92−13 (12)     9.73−13 (11)             ...             ...                    ...            ...            ...             ...
+   −8.00      1.16−13 (12)     4.15−13 (11)    2.10−12 (11)             ...                    ...            ...            ...             ...
+   −7.75      1.22−13 (12)     2.49−13 (12)    8.93−13 (11)             ...                    ...            ...            ...             ...
+   −7.50      2.08−13 (12)     2.63−13 (12)    5.37−13 (11)    1.92−12 (11)                    ...            ...            ...             ...
+   −7.25      4.27−13 (12)     4.47−13 (12)    5.67−13 (11)    1.16−12 (11)           4.14−12 (10)            ...            ...             ...
+   −7.00      9.20−13 (12)     9.18−13 (12)    9.61−13 (11)    1.22−12 (11)           2.49−12 (10)            ...            ...             ...
+   −6.75      2.00−12 (13)     1.98−12 (12)    1.98−12 (11)    2.07−12 (11)           2.62−12 (11)   5.36−12 (10)            ...             ...
+   −6.50      4.32−12 (13)     4.29−12 (12)    4.26−12 (11)    4.25−12 (11)           4.45−12 (11)   5.64−12 (10)   1.15−11 (10)             ...
+   −6.25      9.34−12 (12)     9.30−12 (12)    9.23−12 (12)    9.15−12 (11)           9.14−12 (11)   9.57−12 (10)   1.21−11 (10)             ...
+   −6.00      2.01−11 (12)     2.01−11 (12)    2.00−11 (12)    1.98−11 (12)           1.97−11 (10)   1.96−11 (10)   2.06−11 (10)     2.61−11 (9)
+
+
+
+Table 2. gff (i , w). Entries 1.0011+0 mean 1.0011 × 10+0 . All entries in this table were calculated using the exact method. The online
+electronic version of this table samples a much larger parameter space, has a finer spacing, and gives more significant digits.
+
+                                                                       10 log 
+                                                                                  i
+       10 log w       −8.00         −7.00        −6.00        −5.00       −4.00             −3.00       −2.00       −1.00           0.00
+
+            −8.00   1.0011+0     1.0078+0     1.0731+0   1.5690+0     3.0305+0           4.8916+0    6.7931+0    8.6931+0    1.0550+1
+            −7.00   1.0010+0     1.0024+0     1.0168+0   1.1527+0     1.9606+0           3.6375+0    5.5244+0    7.4236+0    9.2803+0
+            −6.00   1.0018+0     1.0021+0     1.0052+0   1.0359+0     1.3062+0           2.4606+0    4.2607+0    6.1544+0    8.0108+0
+            −5.00   1.0037+0     1.0038+0     1.0044+0   1.0111+0     1.0763+0           1.5709+0    3.0304+0    4.8871+0    6.7414+0
+            −4.00   1.0079+0     1.0079+0     1.0081+0   1.0095+0     1.0238+0           1.1589+0    1.9627+0    3.6332+0    5.4727+0
+            −3.00   1.0168+0     1.0168+0     1.0168+0   1.0171+0     1.0202+0           1.0506+0    1.3172+0    2.4589+0    4.2093+0
+            −2.00   1.0348+0     1.0348+0     1.0348+0   1.0348+0     1.0355+0           1.0420+0    1.1053+0    1.5837+0    2.9811+0
+            −1.00   1.0679+0     1.0679+0     1.0679+0   1.0679+0     1.0680+0           1.0693+0    1.0826+0    1.2067+0    1.9284+0
+             0.00   1.1040+0     1.1040+0     1.1040+0   1.1040+0     1.1040+0           1.1042+0    1.1065+0    1.1290+0    1.3149+0
+             1.00   9.5465−1     9.5465−1     9.5465−1   9.5465−1     9.5465−1           9.5466−1    9.5479−1    9.5610−1    9.7004−1
+             2.00   5.1462−1     5.1462−1     5.1462−1   5.1462−1     5.1462−1           5.1462−1    5.1462−1    5.1461−1    5.1543−1
+             3.00   1.9870−1     1.9870−1     1.9870−1   1.9870−1     1.9870−1           1.9870−1    1.9870−1    1.9870−1    1.9905−1
+             4.00   6.7151−2     6.7151−2     6.7151−2   6.7151−2     6.7151−2           6.7151−2    6.7151−2    6.7151−2    6.7275−2
+             5.00   2.1693−2     2.1693−2     2.1693−2   2.1693−2     2.1693−2           2.1693−2    2.1693−2    2.1693−2    2.1733−2
+             6.00   6.9065−3     6.9065−3     6.9065−3   6.9065−3     6.9065−3           6.9065−3    6.9065−3    6.9065−3    6.9194−3
+             7.00   2.1887−3     2.1887−3     2.1887−3   2.1887−3     2.1887−3           2.1887−3    2.1887−3    2.1887−3    2.1928−3
+             8.00   6.9260−4     6.9260−4     6.9260−4   6.9260−4     6.9260−4           6.9260−4    6.9260−4    6.9260−4    6.9390−4
+             9.00   2.1907−4     2.1907−4     2.1907−4   2.1907−4     2.1907−4           2.1907−4    2.1907−4    2.1907−4    2.1948−4
+                                                                       10 log 
+                                                                                  i
+       10 log w         1.00          2.00        3.00         4.00         5.00              6.00        7.00       8.00           9.00
+
+            −8.00   1.2129+1     1.3453+1     1.4728+1   1.5998+1     1.7268+1           1.8537+1    1.9807+1    2.1076+1    2.2345+1
+            −7.00   1.0859+1     1.2183+1     1.3458+1   1.4729+1     1.5998+1           1.7268+1    1.8537+1    1.9807+1    2.1076+1
+            −6.00   9.5896+0     1.0914+1     1.2189+1   1.3459+1     1.4729+1           1.5998+1    1.7268+1    1.8537+1    1.9807+1
+            −5.00   8.3201+0     9.6441+0     1.0919+1   1.2190+1     1.3459+1           1.4729+1    1.5998+1    1.7268+1    1.8537+1
+            −4.00   7.0507+0     8.3746+0     9.6500+0   1.0920+1     1.2190+1           1.3459+1    1.4729+1    1.5998+1    1.7268+1
+            −3.00   5.7815+0     7.1052+0     8.3805+0   9.6506+0     1.0920+1           1.2190+1    1.3459+1    1.4729+1    1.5998+1
+            −2.00   4.5142+0     5.8358+0     7.1111+0   8.3811+0     9.6507+0           1.0920+1    1.2190+1    1.3459+1    1.4729+1
+            −1.00   3.2610+0     4.5672+0     5.8416+0   7.1117+0     8.3812+0           9.6507+0    1.0920+1    1.2190+1    1.3459+1
+             0.00   2.0912+0     3.3046+0     4.5726+0   5.8422+0     7.1117+0           8.3812+0    9.6507+0    1.0920+1    1.2190+1
+             1.00   1.1971+0     2.0838+0     3.3070+0   4.5730+0     5.8423+0           7.1117+0    8.3812+0    9.6507+0    1.0920+1
+             2.00   5.9451−1     1.0564+0     2.0692+0   3.3065+0     4.5730+0           5.8423+0    7.1117+0    8.3812+0    9.6507+0
+             3.00   2.3001−1     4.2101−1     9.9968−1   2.0633+0     3.3062+0           4.5730+0    5.8423+0    7.1117+0    8.3812+0
+             4.00   7.7810−2     1.4373−1     3.6723−1   9.8075−1     2.0613+0           3.3061+0    4.5730+0    5.8423+0    7.1117+0
+             5.00   2.5139−2     4.6492−2     1.2019−1   3.5069−1     9.7468−1           2.0607+0    3.3060+0    4.5730+0    5.8423+0
+             6.00   8.0040−3     1.4804−2     3.8321−2   1.1322−1     3.4551−1           9.7275−1    2.0605+0    3.3060+0    4.5730+0
+             7.00   2.5365−3     4.6917−3     1.2146−2   3.5934−2     1.1107−1           3.4388−1    9.7214−1    2.0604+0    3.3060+0
+             8.00   8.0266−4     1.4846−3     3.8436−3   1.1373−2     3.5200−2           1.1039−1    3.4336−1    9.7194−1    2.0604+0
+             9.00   2.5388−4     4.6959−4     1.2157−3   3.5972−3     1.1135−2           3.4969−2    1.1018−1    3.4320−1    9.7188−1
+
+
+
+c 2014 RAS, MNRAS 000, 1–10
+6              P.A.M. van Hoof et al.
+
+                                                                                     For further details see KL61, S98 and references therein.
+                                                                                     Note that Eq. 14 of S98 contains a typo which has been
+              1
+                                                                                     corrected here.
+
+                                                                                          Cloudy can model plasmas over a very wide parameter
+ log(<gff>)
+
+
+
+
+              0                                                                      range: 3 ⩽ Te ⩽ 1010 K and 10−8 ⩽ hν ⩽ 7.354 × 106 Ry
+                                                -5   +0             +5        +10
+                                                                                     (100 MeV), with Z ⩽ 30. Substituting these values into
+                                                                                     Eq. 21 yields −4.81 < 10 log γ 2 < 7.68 and −12.81 <
+10
+
+
+
+
+                                                                                     10
+                                                                                        log u < 11.59. This clearly shows that the parameter range
+              -1
+                                                                                     for the thermally averaged Gaunt factor presented in S98 is
+                                                                                     insufficient for our needs (especially the coverage in u). This
+                                                                                     can also be stated in a different manner. When modeling
+              -2                                                                     a photoionized hydrogen plasma at the canonical temper-
+                                                                                     ature Te = 10 000 K, the longest wavelength that can be
+                          -10                  0                         10          modeled with the S98 data is ∼ 1.44 cm. Radio observa-
+                                      10
+                                           log(u)
+                                                                                     tions at longer wavelengths are routinely made and Cloudy
+                    -15
+                    -10
+                                                                                     should be able to model those. In the view of the stated facts,
+              1                                                                      we have used a much larger parameter space in our calcu-
+                    -5
+                                                                                     lations: 10 log γ 2 = −6(0.2)10 and 10 log u = −16(0.2)13.
+              0                                                                      This is larger even than the current needs of Cloudy and
+                    +0
+                                                                                     anticipates possible future modifications to the code, such
+ log(<gff>)
+
+
+
+
+                                                                                     as the addition of higher-Z elements and/or lowering the
+              -1                       +5                     +10
+                                                                                     low-frequency cut-off.
+
+              -2
+10
+
+
+
+
+                                                                                          The integration shown in Eq. 22 is carried out using
+                                                                                     an adaptive stepsize algorithm based on Eq. 4.1.20 of Press
+              -3                                                                     et al. (1992) for carrying out a single step. This algorithm is
+                                                                                     open at the lefthand side, thus avoiding the awkward evalu-
+              -4                                                                     ation of the integrand at x = 0. During the evaluation of the
+                                                                                     integral, at every step an estimate is made of the remainder
+                    -5            0                       5                   10
+                                      10
+                                           log(γ2)                                   of the integral to infinity by assuming that gff is constant.
+                                                                                     This estimate is reasonable as gff is only slowly increasing.
+Figure 2. The base-10 logarithm of the thermally averaged free-                      The integration is terminated when this estimate is less than
+free Gaunt factor as a function of u (top panel) and γ 2 (bottom                     1% of the requested tolerance. The requested tolerance of the
+panel). Thick curves are labeled with the values of 10 log γ 2 (top                  thermally averaged Gaunt factor is a free parameter and the
+panel) and 10 log u (bottom panel) in increments of 5 dex. The                       routine calculates an estimate of the actual error in the fi-
+thin curves have a spacing of 1 dex. In the top panel the Gaunt                      nal result taking into account both the imprecisions due to
+factors approach a limiting curve for 10 log γ 2 < −2 and are in-                    the finite stepsize and the error in the non-averaged Gaunt
+distinguishable in the plot.                                                         factor. For the electronic table we used a requested relative
+                                                                                     tolerance of 10−5 . The data are presented in Fig. 2 and Ta-
+for w  1. Here we used the fact that ηf /ηi = 0 and ηf =                            ble 3. The data can also be downloaded in electronic form
+w−1/2 for i = 0. In Hummer (1988) additional terms can                              (see Sect. 5). Note that the data shown in Table 3 were
+be found for this series expansion in his Eq. 2.23a.                                 calculated to a higher precision to assure that all numbers
+                                                                                     shown are correctly rounded. In addition to the electronic
+                                                                                     table, we also provide simple programs which allow the user
+                                                                                     to interpolate the table. Testing of the interpolation algo-
+3             THE THERMALLY AVERAGED FREE-FREE
+                                                                                     rithm showed that the relative error was less than 1.5×10−4
+              GAUNT FACTOR
+                                                                                     everywhere.
+When modeling astrophysical plasmas, it is commonly as-
+sumed that the electrons have a Maxwellian energy distri-                                 Comparing our results with those of S98, we noted the
+bution, characterized by the electron temperature Te . We                            serious problem that the parameters 10 log γ 2 and 10 log u
+therefore need to average the Gaunt factors derived in Sect. 2                       were transposed in Table 2 of S98, as well as in the elec-
+over such a distribution. For this we define the following                           tronic version of that table. After correcting for this error,
+scaled quantities                                                                    there were some minor discrepancies when we compared the
+               Z 2 Ry         hν                                                     numerical values in the electronic table of S98 to our re-
+γ2 =                  and u =     .                                           (21)   sults. The largest relative error is for 10 log γ 2 = −1.8 and
+                kTe           kTe                                                    10
+                                                                                        log u = 0.5 and amounts to almost 0.13%. The median
+Using these definitions, we can give the following expression                        relative discrepancy is approximately 5 × 10−5 . So it ap-
+for the thermally averaged Gaunt factor                                              pears that the discrepancies we reported in Sect. 2.4 did not
+                  Z ∞                        
+                                   x       u                                         have a significant impact on the calculation of the thermally
+hgff (γ 2 , u)i =     e−x gff i = 2 , w = 2 dx.         (22)
+                   0              γ        γ                                         averaged Gaunt factor by S98.
+
+                                                                                                                   c 2014 RAS, MNRAS 000, 1–10
+                                                                      Accurate determination of the free-free Gaunt factor                                     7
+
+Table 3. hgff (γ 2 , u)i. Entries 1.0601+1 mean 1.0601 × 10+1 . All entries have an approximate relative error of 3 × 10−8 , assuring that
+they are all correctly rounded as shown. The online electronic version of this table samples a much larger parameter space, has a finer
+spacing, and is calculated using an approximate relative tolerance of 10−5 (an estimate for the error in each number is included in the
+table).
+
+                                                                                  10 log γ 2
+         10 log u          −4.00              −3.00       −2.00          −1.00         0.00             1.00            2.00            3.00            4.00
+
+          −8.00        1.0601+1       1.0598+1        1.0573+1      1.0449+1      1.0073+1         9.4852+0         8.8548+0    8.2207+0        7.5863+0
+          −7.00        9.3319+0       9.3280+0        9.3033+0      9.1795+0      8.8036+0         8.2160+0         7.5859+0    6.9524+0        6.3194+0
+          −6.00        8.0624+0       8.0586+0        8.0340+0      7.9103+0      7.5347+0         6.9477+0         6.3190+0    5.6882+0        5.0606+0
+          −5.00        6.7931+0       6.7894+0        6.7651+0      6.6421+0      6.2678+0         5.6835+0         5.0601+0    4.4399+0        3.8322+0
+          −4.00        5.5243+0       5.5213+0        5.4983+0      5.3780+0      5.0091+0         4.4354+0         3.8318+0    3.2474+0        2.7008+0
+          −3.00        4.2581+0       4.2577+0        4.2402+0      4.1307+0      3.7818+0         3.2438+0         2.7011+0    2.2128+0        1.8041+0
+          −2.00        3.0049+0       3.0125+0        3.0153+0      2.9436+0      2.6563+0         2.2134+0         1.8072+0    1.4932+0        1.2769+0
+          −1.00        1.8154+0       1.8368+0        1.8882+0      1.9244+0      1.7826+0         1.5086+0         1.2884+0    1.1506+0        1.0743+0
+           0.00        8.5319−1       8.8158−1        9.6976−1      1.1697+0      1.2937+0         1.1987+0         1.1033+0    1.0502+0        1.0237+0
+           1.00        3.1011−1       3.2829−1        3.8999−1      5.8929−1      9.7260−1         1.1285+0         1.0825+0    1.0420+0        1.0202+0
+           2.00        1.0069−1       1.0796−1        1.3352−1      2.2811−1      5.1717−1         9.5609−1         1.1065+0    1.0693+0        1.0355+0
+           3.00        3.1978−2       3.4445−2        4.3211−2      7.7180−2      1.9973−1         5.1461−1         9.5479−1    1.1042+0        1.0680+0
+           4.00        1.0121−2       1.0918−2        1.3760−2      2.4936−2      6.7503−2         1.9870−1         5.1462−1    9.5466−1        1.1040+0
+           5.00        3.2014−3       3.4550−3        4.3608−3      7.9393−3      2.1807−2         6.7151−2         1.9870−1    5.1462−1        9.5465−1
+           6.00        1.0124−3       1.0928−3        1.3799−3      2.5160−3      6.9428−3         2.1693−2         6.7151−2    1.9870−1        5.1462−1
+           7.00        3.2017−4       3.4560−4        4.3647−4      7.9618−4      2.2002−3         6.9065−3         2.1693−2    6.7151−2        1.9870−1
+           8.00        1.0125−4       1.0929−4        1.3803−4      2.5183−4      6.9624−4         2.1887−3         6.9065−3    2.1693−2        6.7151−2
+
+
+
+Table 4. The total free-free Gaunt factor as a function of γ 2 . The relative error in the numbers is approximately 10−5 . An online
+electronic version of this table is available.
+
+                 10 log γ 2    hgff (γ 2 )i           10 log γ 2   hgff (γ 2 )i       10 log γ 2     hgff (γ 2 )i          10 log γ 2    hgff (γ 2 )i
+
+                     −6.00      1.10382                 −2.00       1.21688                2.00       1.16455                   6.00      1.01003
+                     −5.80      1.10413                 −1.80       1.24243                2.20       1.14499                   6.20      1.00865
+                     −5.60      1.10453                 −1.60       1.27164                2.40       1.12746                   6.40      1.00745
+                     −5.40      1.10500                 −1.40       1.30383                2.60       1.11182                   6.60      1.00642
+                     −5.20      1.10562                 −1.20       1.33762                2.80       1.09793                   6.80      1.00553
+                     −5.00      1.10639                 −1.00       1.37085                3.00       1.08561                   7.00      1.00475
+                     −4.80      1.10737                 −0.80       1.40071                3.20       1.07473                   7.20      1.00409
+                     −4.60      1.10860                 −0.60       1.42404                3.40       1.06515                   7.40      1.00352
+                     −4.40      1.11015                 −0.40       1.43805                3.60       1.05672                   7.60      1.00302
+                     −4.20      1.11210                 −0.20       1.44095                3.80       1.04932                   7.80      1.00260
+                     −4.00      1.11457                  0.00       1.43253                4.00       1.04285                   8.00      1.00223
+                     −3.80      1.11767                  0.20       1.41421                4.20       1.03719                   8.20      1.00191
+                     −3.60      1.12158                  0.40       1.38857                4.40       1.03224                   8.40      1.00164
+                     −3.40      1.12650                  0.60       1.35859                4.60       1.02793                   8.60      1.00141
+                     −3.20      1.13269                  0.80       1.32685                4.80       1.02417                   8.80      1.00121
+                     −3.00      1.14045                  1.00       1.29524                5.00       1.02091                   9.00      1.00104
+                     −2.80      1.15014                  1.20       1.26492                5.20       1.01807                   9.20      1.00089
+                     −2.60      1.16219                  1.40       1.23649                5.40       1.01562                   9.40      1.00076
+                     −2.40      1.17704                  1.60       1.21025                5.60       1.01348                   9.60      1.00064
+                     −2.20      1.19515                  1.80       1.18628                5.80       1.01163                   9.80      1.00055
+                     −2.00      1.21688                  2.00       1.16455                6.00       1.01003                  10.00      1.00047
+
+
+
+4   THE TOTAL FREE-FREE GAUNT FACTOR                                                     Due to the similarity of the integrals in Eqs. 22 and
+                                                                                    23 we can use the same adaptive stepsize algorithm dis-
+For completeness we will also include a calculation of the to-                      cussed in Sect. 3 to calculate the data. For the evaluations
+tal free-free Gaunt factor which is integrated over frequency.                      of hgff (γ 2 , u)i we used a relative tolerance of 10−6 to pre-
+This quantity is useful if one wants to calculate the total                         vent them dominating the error in hgff (γ 2 )i. The results are
+cooling due to Bremsstrahlung without spectrally resolving                          shown in Table 4 and Fig. 3. The computed values are also
+the process. The formula for this quantity is given by KL61                         available in electronic form (see Sect. 5). The data in Ta-
+and S98                                                                             ble 4 show a small systematic offset w.r.t. the data in Ta-
+                                                                                    ble 3 of S98, ranging between +0.00069 for 10 log γ 2 = −4
+                 Z ∞                                                                and +0.00021 for 10 log γ 2 = 4. This offset is likely due to
+hgff (γ 2 )i =         e−u hgff (γ 2 , u)idu.                             (23)      the missing part of the integral below u = 10−4 in S98. The
+                 0
+
+c 2014 RAS, MNRAS 000, 1–10
+8            P.A.M. van Hoof et al.
+
+                                                                                   5   SUMMARY
+            1.4                                                                    Modern spectral synthesis codes like Cloudy need the ther-
+                                                                                   mally averaged free-free Gaunt factor defined over a very
+                                                                                   wide range of parameter space in order to produce an ac-
+            1.3
+                                                                                   curate prediction for the spectrum emitted by an ionized
+<gff(γ2)>
+
+
+
+
+                                                                                   plasma. Several authors have undertaken to calculate these
+            1.2                                                                    atomic data in the past, however none could produce a fully
+                                                                                   satisfactory set of results that would match the needs of a
+                                                                                   code like Cloudy.
+            1.1                                                                         We have therefore undertaken to produce a table of very
+                                                                                   accurate non-relativistic Gaunt factors over a much wider
+                                                                                   range of parameter than has ever been produced before.
+            1.0
+                                                                                   For this purpose we have created a C++ program using
+                     -5                 0                      5            10     arbitrary precision variables to avoid the severe cancella-
+                                            10
+                                                 log(γ2)                           tion problems that occur in the calculations, which would
+                                                                                   lead to complete loss of precision otherwise. While creating
+Figure 3. The total free-free Gaunt factor as a function of γ 2 .
+                                                                                   the program, we discovered several errors in the literature
+The dashed lines indicate the asymptotic limits for the function.
+                                                                                   which have been corrected here. The most important is an
+                                                                                   error in the series expansion of the Gaunt factor reported by
+Table 5. Coefficients for the rational functions defined in Eq. 26
+                                                                                   MP35. We also added an extra term to this series expansion
+(g = 10 log γ 2 ). Entries 1.43... + 0 stand for 1.43... × 10+0 .                  to make it more accurate. We furthermore presented new
+                                                                                   transformations of the hypergeometric function, which help
+                                   −6 ⩽ g ⩽ 0.8                                    in speeding up the calculations. Despite all these efforts,
+                                                                                   there is still a region of parameter space where we cannot
+    a0            1.43251926625281+0         b0            1.00000000000000+0      calculate the Gaunt factor to arbitrary precision because it
+    a1            3.50626935257777−1         b1            2.92525161994346−1      would consume too much CPU time. In this region we fall
+    a2            4.36183448595035−1         b2            4.05566949766954−1      back to the series expansion, which we show can produce
+    a3            6.03536387105599−2         b3            5.62573012783879−2
+                                                                                   sufficiently accurate results everywhere it is needed.
+    a4            3.66626405363100−2         b4            3.33019373823972−2
+                                                                                        Using this code, we first produced a table of non-
+                                   0.8 ⩽ g ⩽ 10                                    averaged Gaunt factors, covering the parameter space
+                                                                                   10
+    a0         1.45481634667278+0            b0        1.00000000000000+0             log i = −20(0.2)10 and 10 log w = −30(0.2)25. We com-
+    a1        −9.55399384620923−2            b1        3.31149751183539−2          pare these results to those of S98 and find that not all data
+    a2         1.46327814151538−1            b2        1.31127367293310−1          of S98 reach the claimed precision, with the worst devia-
+    a3        −1.41489406498468−2            b3       −1.32658217746618−2          tion being larger than 7%. Most data points are in excellent
+    a4         2.76891413242655−3            b4        2.74809263365693−3          agreement though. We then continued to produce a table
+                                                                                   of thermally averaged Gaunt factors covering the parame-
+                                                                                   ter space 10 log γ 2 = −6(0.2)10 and 10 log u = −16(0.2)13,
+extended range in γ 2 of the data presented here makes the                         which is more than sufficient for the current needs of Cloudy.
+limiting behavior of the function clear. Both for for γ 2 → 0                      This table will be used in upcoming releases of Cloudy. A
+and γ 2 → ∞ the function approaches an asymptotic value.                           comparison of our data with S98 shows that most are in
+Using our data we determined the following fits to the lim-                        good agreement with a worst discrepancy of 0.13%. At this
+iting behavior of the function.                                                    point we need to warn the reader that in several places in
+hgff (γ 2 )i ≈ 1.102635 + 1.186γ + 0.86γ 2 for γ 2 < 10−6 , (24)                   S98 the parameters of the Gaunt factor were transposed,
+                                                                                   most importantly in the electronic version of the table of
+and                                                                                thermally averaged Gaunt factors. Finally we produced a
+                                                                                   table of the frequency integrated Gaunt factor covering the
+hgff (γ 2 )i ≈ 1 + γ −2/3 for γ 2 > 1010 .                                  (25)
+                                                                                   parameter space 10 log γ 2 = −6(0.2)10. We find a small sys-
+These extrapolations are expected to reach a relative preci-                       tematic offset between our data and those of S98, which is
+sion of 10−5 or better everywhere they are defined. The data                       likely due to the omission of the part of the integral below
+in Table 4 can be interpolated using rational functions                            u = 10−4 by S98. We present fits to the limiting behavior of
+                                                                                   this function, as well as rational function fits to the data in
+                    a0 + a1 g + a2 g 2 + a3 g 3 + a4 g 4
+hgff (g)i ≈                                               ,                 (26)   the table.
+                    b0 + b1 g + b 2 g 2 + b3 g 3 + b4 g 4
+                                                                                        All data presented in this paper are available in elec-
+where g = 10 log γ 2 . To limit the degree of the rational func-                   tronic form from MNRAS as well as the Cloudy web site at
+tion, we made two separate fits for the range −6 ⩽ g ⩽ 0.8                         http://data.nublado.org/gauntff/. In addition to these data
+and 0.8 ⩽ g ⩽ 10. These fits achieve a relative error less                         tables, the Cloudy web site also presents simple interpola-
+than 3.5 × 10−5 everywhere in its range for the first fit and                      tion routines written in Fortran and C. They use a 3rd-order
+8.8 × 10−5 for the second. The coefficients are given in Ta-                       Lagrange scheme to interpolate the linear Gaunt data. This
+ble 5. We have implemented Eqs. 24, 25, and 26 in simple                           reaches a relative precision better than 1.5 × 10−4 every-
+programs which have been made available on the Cloudy                              where. The next release of Cloudy will contain a vectorized
+web site (see Sect. 5).                                                            version of the interpolation routine which is faster, while
+
+                                                                                                                 c 2014 RAS, MNRAS 000, 1–10
+                                                           Accurate determination of the free-free Gaunt factor   9
+
+maintaining the same precision. It is based on the New-
+ton interpolation technique. The supplied interpolation rou-
+tines work both on the non-averaged and thermally averaged
+Gaunt factor tables. Separate programs are provided for in-
+terpolating the frequency integrated Gaunt factors based on
+the fits reported in this paper. The program used to calcu-
+late all data is also available from this web site.
+
+
+ACKNOWLEDGMENTS
+PvH acknowledges support from the Belgian Science Policy
+Office through the ESA PRODEX program. GJF acknowl-
+edges support by NSF (1108928, 1109061, and 1412155),
+NASA (10-ATP10-0053, 10-ADAP10-0073, NNX12AH73G,
+and ATP13-0153), and STScI (HST-AR-13245, GO-12560,
+HST-GO-12309, and GO-13310.002-A). Our implementa-
+tion of Spouge’s algorithm for calculating the complex
+gamma function was based on the description on Wikipedia1
+
+
+REFERENCES
+    Abramowitz M., Stegun I. A., 1972, Handbook of Mathe-
+     matical Functions. Dover, New York
+    Beckert T., Duschl W. J., Mezger P. G., 2000, A&A, 356,
+     1149
+    Biedenharn L. C., 1956, Physical Review, 102, 262
+    Ferland G. J., Porter R. L., van Hoof P. A. M., Williams
+     R. J. R., Abel N. P., Lykins M. L., Shaw G., Henney W. J.,
+     Stancil P. C., 2013, Rev. Mex. Astron. Astrofis., 49, 137
+    Gaunt J. A., 1930, Royal Society of London Philosophical
+     Transactions Series A, 229, 163
+    Hummer D. G., 1988, ApJ, 327, 477
+    Karzas W. J., Latter R., 1961, ApJS, 6, 167 (KL61)
+    Menzel D. H., Pekeris C. L., 1935, MNRAS, 96, 77 (MP35)
+    Nozawa S., Itoh N., Kohyama Y., 1998, ApJ, 507, 530
+    Press W. H., Teukolsky S. A., Vetterling W. T., Flannery
+     B. P., 1992, Numerical recipes in C. The art of scientific
+     computing, 2nd ed.. Cambridge University Press
+    Spouge J. L., 1994, SIAM J. Numer. Anal., 31, 931
+    Sutherland R. S., 1998, MNRAS, 300, 321 (S98)
+
+
+
+
+1   http://en.wikipedia.org/wiki/Spouge’s approximation.
+
+c 2014 RAS, MNRAS 000, 1–10
+10        P.A.M. van Hoof et al.
+
+APPENDIX A: A SERIES EXPANSION FOR THE FREE-FREE GAUNT FACTOR
+The procedure to derive a series expansion for the free-free Gaunt factor is described in great detail in the Appendix of MP35.
+Here we will discuss only those steps that need to be modified in order to correct the error in the series expansion and derive
+one additional term. All calculations were carried out with Maxima v5.31.3. First we need to extend Eq. A (9) from MP35 to
+include higher order terms and also correct a typo in the leftmost term:
+                          u3      u4    (11 + α2 )u5   (13 + 3α2 )u6   (57 + 22α2 + α4 )u7   (15 + 8α2 + α4 )u8
+−τ /(1 − α2 ) ≡ y 3 =        3
+                               +    4
+                                      +         5
+                                                     +         6
+                                                                     +             7
+                                                                                           +
+                         12β     8β         80β            96β                448β                 128β 8
+                             (247 + 163α2 + 37α4 + α6 )u9   (251 + 191α2 + 65α4 + 5α6 )u10
+                         +                   9
+                                                          +                                + O(u11 ).                                     (A1)
+                                       2304β                           2560β 10
+Next we need to evaluate the integrals P and Q defined in Eqs. A (20) and A (21) of MP35, for which we need the quantities
+                        B                    B
+q = (1 − x − z)/(z + β)2 A = (β + β 2 − u)/u2 A
+   
+                                                                                                                    (A2)
+and
+                       B                                B
+p = (z − z 2 )/(z + β)2 A = {(2u − 1)β − β 2 + u − u2 }/u2 A ,
+   
+                                                                                                                                          (A3)
+
+where we used the identities x = 1 − β 2 and z ≡ u − β. We can invert Eq. A1 to derive a Taylor expansion of u(y) and
+substitute that into Eqs. A2 and A3. This yields
+                                     2                      1/3         2          2/3             2       4 2
+       
+ q
+    = +
+              β+1          1    + 2α (β + 1) + 7β − 3 + 12 (1 + α )y + 12 (β + 1)(3 − 4α + 3α )y
+ p       − 122/3 βy 2 + 121/3 y −           20β                 20          −                560β
+                                                                                                                       B
+         (12 − 51α2 + 12α4 )y 3 + 121/3 (β + 1)(1 − 2α2 − 2α4 + α6 )y 4    122/3 (1 − 47α2 − 47α4 + α6 )y 5 +      6
+       +                        −                                        −                                  −  O(y   )    , (A4)
+                  700                             600β                                  42000                           A
+
+where the upper sign pertains to q and the lower sign to p. Here we can see that the y 2 term differs from what is stated in
+                                                      1/3                                           1/3
+MP35. At B we have y = ei5π/6 1−α   τ
+                                      2   , and at A we have y = eiπ/6 1−ατ
+                                                                            2 . Substituting these values in Eq. A4 and
+carrying out the integration yields
+                           √
+ Q       eπηf β −i(ηi +ηf ) 3                   2 2/3  1           2 1/3    2     1/3       2    1
+                               + i (β + 1)(1 − α ) Γ( /3 ) − (1 − α ) Γ( /3 ) − 12 (1 + α ) Γ( /3 )
+     ≈−                        −
+ P                2π                        2/3
+                                         12 β ηf
+                                                  1/3              1/3
+                                                                 12 ηf
+                                                                        2/3
+                                                                                 60(1 − α ) ηf
+                                                                                          2 1/3 4/3
+
+
+                   2/3
+          − i 12     (β + 1) (3 − 4α2 + 3α4 ) Γ(2/3 ) − 2(β + 1)(1 − 2α2 − 2α4 + α6 ) Γ(1/3 )
+          +                                5/3        + i                                 7/3
+                       840(1 − α2 )2/3 β ηf                   225 · 122/3 (1 − α2 )4/3 β ηf
+                                                                      !
+            (1 − 47α2 − 47α4 + α6 ) Γ(2/3 )      h
+                                                        2 −7/3 −10/3
+                                                                     i
+          −                             8/3
+                                              + O (1 − α )    ηf                                                                          (A5)
+             3150 · 121/3 (1 − α2 )5/3 ηf
+where we used the same sign convention as before. Here we replaced the upper limit 2π of the integral with ∞. This is well
+justified since ηf > 907 everywhere in the region where we use the series expansion, implying that the contribution from
+τ = 2π to ∞ to the integral is vanishingly small due to the e−ηf τ term in the integrand.
+     Having obtained these results, we can now find expressions for the hypergeometric functions using
+                                   2i(ηi +ηf )                                                   2i(ηi +ηf )
+2 F1 (1 − iηf , −iηi ; 1; x) = β                 Q,     and   2 F1 (1 − iηi , −iηf ; 1; x) = β                 P.
+Hence with
+∆ ≡ 2 F12 (1 − iηf , −iηi ; 1; x) − 2 F12 (1 − iηi , −iηf ; 1; x) = β 4i(ηi +ηf ) (Q2 − P 2 )
+we can now derive the series expansion for the Gaunt factor from
+               √
+             π 3 ηi ηf e−2πηf |∆|                          Γ(1/3 )(1 + α2 )                6 Γ(2/3 )(3 − 4 α2 + 3α4 )
+gff =                  −2πη          −2πηf ≈ 1 +                                2/3
+                                                                                    −                                 4/3
+      (ηi − ηf )(1 − e     i )(1 − e      )      5 · 12 Γ( /3 )(1 − α ) ηf
+                                                       1/3    2          2  2/3       35 · 122/3 Γ(1/3 )(1 − α2 )4/3 ηf
+
+          (3 − α2 − α4 + 3α6 )         h
+                                                       −8/3
+                                                            i
+      −                     6/3
+                                    + O (1 − α2 )−8/3 ηf      ,                                                                           (A6)
+           175(1 − α2 )6/3 ηf
+                                                                                         √
+where we used the identities (1 − α2 )(β + 1)/β = 2(ηi − ηf )/ηi and Γ(1/3 )Γ(2/3 ) = 2π/ 3. We also approximated the terms
+1 − e−2πηi ≈ 1 and 1 − e−2πηf ≈ 1. The latter assumptions are again well justified as ηi ⩾ 1000 and ηf > 907 everywhere in
+the region where we use the series expansion.
+
+
+
+
+                                                                                                                    c 2014 RAS, MNRAS 000, 1–10
+

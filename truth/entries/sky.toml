@@ -1,0 +1,437 @@
+# Domain obs, lane sky: Gaia DR3 astrometry, photometric system, XP spectra.
+# Sources: gaia_2023_dr3_summary, lindegren_2021_gaia_astrometry, riello_2021_gaia_photometry, montegriffo_2023_gaia_xp.
+# All entries proposed.
+
+[[entry]]
+id = "obs.notation-gaia-sky"
+kind = "notation"
+domain = "obs"
+name = "Gaia astrometric symbols"
+statement = "Symbols for the Gaia astrometric parameters (right ascension, declination, parallax, proper motion components), the radial velocity and the astronomical unit, as used in Lindegren et al. (2021) Sect. 3.1. Canonical spellings avoid the project's emission angle alpha, albedo varpi_nu and Newton constant G. The Gaia photometric symbols are in obs.notation-gaia-photometry."
+symbols = [
+  { sym = "\\alpha_{RA}", sym_source = "alpha", aliases = ["ra"], meaning = "right ascension of a source; the reference frame and epoch are attributes of each datum (Gaia DR3: ICRS, Gaia-CRF3, epoch J2016.0; Walter+2010: not stated)", units = "rad", units_source = "deg" },
+  { sym = "\\delta_{Dec}", sym_source = "delta", aliases = ["dec"], meaning = "declination of a source; the reference frame and epoch are attributes of each datum (Gaia DR3: ICRS, Gaia-CRF3, epoch J2016.0; Walter+2010: not stated)", units = "rad", units_source = "deg" },
+  { sym = "\\varpi_{plx}", sym_source = "varpi", aliases = ["parallax"], meaning = "trigonometric parallax of a source at the reference epoch J2016.0 (Gaia astrometric parameter)", units = "rad", units_source = "mas" },
+  { sym = "\\mu_{\\alpha*}", sym_source = "mu_{alpha*} = mu_alpha cos(delta)", aliases = ["pmra"], meaning = "proper motion in right ascension times cos(delta), at J2016.0 (catalogue field pmra)", units = "rad s^-1", units_source = "mas yr^-1" },
+  { sym = "\\mu_\\delta", sym_source = "mu_delta", aliases = ["pmdec"], meaning = "proper motion in declination at J2016.0 (catalogue field pmdec)", units = "rad s^-1", units_source = "mas yr^-1" },
+  { sym = "v_r", sym_source = "v_r", meaning = "radial velocity of a source relative to the solar system barycentre (sixth kinematic parameter of the standard model)", units = "cm s^-1" },
+  { sym = "\\mathrm{au}", sym_source = "A_u", meaning = "astronomical unit, exactly 149 597 870 700 m (IAU 2012 B2)", units = "cm", units_source = "au" },
+]
+source = "lindegren_2021_gaia_astrometry"
+locator = "Sect. 3.1, p. 6 (refs/lindegren_2021_gaia_astrometry.txt:432-437,470-475)"
+anchor = "dard five astrometric parameters (α, δ, $, µα∗ = µα cos δ, µδ )"
+anchor_tex = '($\alpha$, $\delta$, $\varpi$, $\mu_{\alpha*}{\,=\,}\mu_\alpha\cos\delta$, $\mu_\delta$)'
+ocr = "good"
+status = "blessed"
+reject_resolved = true
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Anchor exists only in TeX (valid per SCHEMA, kept in anchor_tex); actual locator is Sect. 3.1. Lindegren does not support the bundled photometric symbols; aliases also reintroduce collisions. Surviving weaker statement applied: only the astrometric parameters, radial velocity, reference epoch and astronomical unit (lines 432-437, 470-475) remain; photometric symbols split to obs.notation-gaia-photometry; bare aliases alpha, delta, varpi dropped." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: removed units_source = 'km s^-1' from v_r (this source does not specify that unit); units = 'cm s^-1' retained as the project convention. Reviewer reason: The split and collision repairs are applied; symbols and epoch match `refs/lindegren_2021_gaia_astrometry.txt:432–437,470–475`. Remove **`units_source = 'km s^-1'`** from `v_r`: this source does not specify that unit. Retain `units = 'cm s^-1'` as the project convention." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Unsupported radial-velocity `units_source` removed; `cm s^-1` retained as project convention. Definitions and epoch match `refs/lindegren_2021_gaia_astrometry.txt:432–437,470–475`; both anchors byte-match." }]
+notes = "Surviving weaker statement: the five astrometric parameters, radial velocity, reference epoch and astronomical unit are supported by refs/lindegren_2021_gaia_astrometry.txt:432-437,470-475; Lindegren does not support the photometric symbols, which are split off to obs.notation-gaia-photometry (sourced to Riello 2021). The bare aliases alpha, delta and varpi were dropped (they collide with the emission angle, its alias delta and the albedo varpi_nu, truth/NOTATION_DECISIONS.md); sym_source keeps the paper spelling, ra, dec, parallax, pmra, pmdec remain as catalogue-field aliases. Collision check against NOTATION_DECISIONS.md: bare alpha is the emission angle (gr.notation-geometry), delta is an alias of that alpha, varpi_nu and varpi_nu^j are albedos, bare mu is the ray cosine. varpi_{plx} was chosen so that the glyph is not shared with the albedo rows. Units: code converts mas -> rad (1 mas = pi/(180*3600*1000) rad) and yr -> s explicitly; rad s^-1 is the CGS-code unit, the catalogue unit is mas/yr. Symbols renamed 2026-10-23 to the dictionary spelling (notation merge)."
+
+[[entry]]
+id = "obs.notation-gaia-photometry"
+kind = "notation"
+domain = "obs"
+name = "Gaia photometric symbols"
+statement = "Symbols for the Gaia photometric bands, the band flux integral, the passband and pupil area, the photometric zero points and the synthetic mean fluxes, as used in Riello et al. (2021) Sect. 7. Canonical spellings avoid Newton's constant G and the proton density n_p; printed SI units are kept in units_source."
+symbols = [
+  { sym = "G_{Gaia}", sym_source = "G", aliases = ["phot_g_mean_mag"], meaning = "Gaia G-band magnitude", units = "mag", units_source = "mag" },
+  { sym = "G_{BP}", sym_source = "G_BP", meaning = "Gaia blue-photometer band magnitude", units = "mag", units_source = "mag" },
+  { sym = "G_{RP}", sym_source = "G_RP", meaning = "Gaia red-photometer band magnitude", units = "mag", units_source = "mag" },
+  { sym = "n_{p,Gaia}", sym_source = "n_p", meaning = "mean source flux in a Gaia band in electrons per second (e- s^-1), not normalised by telescope area; in the XP chapter n_p(lambda) is the photon flux distribution", units = "s^-1", units_source = "e- s^-1" },
+  { sym = "S_{Gaia}", sym_source = "S(lambda)", meaning = "Gaia system overall response function, including the scaling from photons to electrons (passband)", units = "e- photon^-1" },
+  { sym = "P_{pupil}", sym_source = "P", meaning = "telescope pupil area in the Gaia flux integral", units = "cm^2" },
+  { sym = "ZP_{VEG}", sym_source = "ZP_{VEG}", meaning = "Gaia passband zero point in the VEGAMAG system, per band", units = "mag" },
+  { sym = "ZP_{AB}", sym_source = "ZP_{AB}", meaning = "Gaia passband zero point in the AB system, per band", units = "mag" },
+  { sym = "\\langle F_\\lambda\\rangle", sym_source = "<f_lambda>", meaning = "synthetic mean energy flux per wavelength unit through a passband", units = "erg s^-1 cm^-2 cm^-1", units_source = "W m^-2 nm^-1" },
+  { sym = "\\langle F_\\nu\\rangle", sym_source = "<f_nu>", meaning = "synthetic mean energy flux per frequency unit through a passband", units = "erg s^-1 cm^-2 Hz^-1", units_source = "W m^-2 Hz^-1" },
+]
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, Eq. (7), p. 15 (refs/riello_2021_gaia_photometry.txt:931-940); Eqs. (13)-(17), p. 17; Table 3, p. 18"
+anchor = "where P represents the telescope pupil area and S (λ) is the sys-"
+anchor_tex = 'n_p = P \int\limits_0^\infty \, n_p(\lambda)\, S(\lambda) \, {\rm d}\lambda,'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: canonical symbols changed to \\langle F_\\lambda\\rangle and \\langle F_\\nu\\rangle (lowercase source spellings retained in sym_source) because canonical f_nu is the Eddington factor; 'Gaia unfiltered G-band magnitude' changed to 'Gaia G-band magnitude' ('unfiltered' unsupported); removed P_pupil.units_source='m^2' and S_Gaia.units_source='1' (units not printed at the cited definitions). Reviewer reason: Definitions match `refs/riello_2021_gaia_photometry.txt:934–940,999–1000,1108–1140,1147–1156`. Adopt **`\\langle F_\\lambda\\rangle`**, **`\\langle F_\\nu\\rangle`**, retaining lowercase source spellings: canonical `f_\\nu` already means Eddington factor. Change **“Gaia unfiltered G-band magnitude”** to **“Gaia G-band magnitude”**; “unfiltered” is unsupported here. Remove `P_pupil.units_source='m^2'` and `S_Gaia.units_source='1'`: those units are not printed at the cited definitions." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Canonical mean-flux symbols corrected, source spellings retained, “unfiltered” removed, and unsupported pupil/response source-unit fields deleted. Definitions match `refs/riello_2021_gaia_photometry.txt:934–940,999–1000,1108–1140,1147–1156`; both anchors byte-match." }]
+notes = "Split from obs.notation-gaia-sky (round-1 reject: Lindegren 2021 does not define these symbols). Symbols defined in Riello 2021: n_p, P, S(lambda) at Eq. (7) (refs/riello_2021_gaia_photometry.txt:931-940); G, G_BP, G_RP and ZP_VEG, ZP_AB in Table 3 (refs/riello_2021_gaia_photometry.txt:1147-1156) and Eq. (17); <f_lambda>, <f_nu> at Eqs. (13)-(14) (refs/riello_2021_gaia_photometry.txt:1108-1121). Bare G is Newton's constant and bare n_p is the proton density, so those aliases are not registered (sym_source keeps the paper spelling). Canonical flux units are CGS with the printed SI units retained in units_source; pupil area in cm^2. Round 2: canonical spellings are \\langle F_\\lambda\\rangle and \\langle F_\\nu\\rangle because f_nu already denotes the Eddington factor (truth/NOTATION_DECISIONS.md); lowercase source spellings kept in sym_source. Unit bridge: the proposed Gaia per-cm quantity is distinct from per-A F_lambda at truth/entries/obs.toml:770. P_pupil.units_source and S_Gaia.units_source removed (those units are not printed at the cited definitions)."
+
+[[entry]]
+id = "obs.gaia-reference-epoch-j2016"
+kind = "datum"
+domain = "obs"
+name = "Gaia DR3 / EDR3 astrometric reference epoch J2016.0"
+statement = "All Gaia EDR3 astrometric parameters (and hence those of DR3, whose astrometry is unchanged) refer to the reference epoch J2016.0 = JD 2457389.0 (TCB) = 1 January 2016, 12:00:00 (TCB), which is exactly 0.5 Julian year (182.625 d) later than the DR2 epoch J2015.5."
+value = "J2016.0 = JD 2457389.0 (TCB)"
+units = "TCB Julian date"
+uncertainty = "exact (a convention)"
+source = "lindegren_2021_gaia_astrometry"
+locator = "Sect. 3.1, p. 6 (refs/lindegren_2021_gaia_astrometry.txt:434-437)"
+anchor = "JD 2457 389.0 (TCB) = 1 January 2016, 12:00:00 (TCB)."
+anchor_tex = '$\text{J2016.0}=\text{JD~2457\,389.0 (TCB)}=\text{1 January 2016, 12:00:00}$ (TCB).'
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Sect. 3.1, p. 6; anchor now the .txt quote (grep -F count 1), TeX quote kept in anchor_tex; epoch digits and 182.625 d verified; DR3 support locator added; dependency on obs.rxj1856-position-walter2010 removed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and epoch match `refs/lindegren_2021_gaia_astrometry.txt:434–437`: JD 2457389.0 TCB; difference 182.625 days. DR3 reuse is supported by `refs/gaia_2023_dr3_summary.txt:392–394`. Round-1 corrections applied." }]
+notes = "RX J1856 position and proper motion (obs.rxj1856-position-walter2010, obs.rxj1856-proper-motion-total) have no printed epoch for the nominal pair (Walter Table 4 prints a different position with epoch 2003.624, txt:913, tex:1339; see sky2-r1); any comparison with Gaia positions must move one to the other with the standard model (obs.gaia-standard-model-of-stellar-motion). Epoch drift at the neutron star's 0.331 arcsec/yr is 0.33 arcsec per year, so a 16-year epoch error is about 5.3 arcsec. Epoch digits and the 182.625-day difference match refs/lindegren_2021_gaia_astrometry.txt:434-437 (expected 2457389.0 and 182.625, as printed; error 0). DR3 astrometry is unchanged from EDR3, supported separately at refs/gaia_2023_dr3_summary.txt:392-394. The epoch definition does not depend on RX J1856 position data."
+
+[[entry]]
+id = "obs.gaia-reference-frame-crf3"
+kind = "definition"
+domain = "obs"
+name = "Gaia-CRF3 celestial reference frame (aligned with ICRF3 / ICRS)"
+statement = "Gaia DR3 source positions and proper motions are given with respect to Gaia-CRF3, the third realisation of the Gaia celestial reference frame. Gaia-CRF3 is aligned with ICRF3 (the radio realisation of the ICRS) to about 0.01 mas RMS at epoch J2016.0 (TCB), and is globally non-rotating with respect to quasars to within 0.005 mas/yr RMS. The ICRS axes are conventionally defined by VLBI positions of extragalactic radio sources; the astrometric processing uses the BCRS (origin at the solar system barycentre, axes aligned with the ICRS, time coordinate TCB). Coordinates and proper motions are equatorial (ICRS)."
+latex = '\alpha_{RA}, \delta_{Dec} \text{ in ICRS (equatorial)}'
+source = "gaia_2023_dr3_summary"
+locator = "Gaia DR3 summary Sect. 3.2 (refs/gaia_2023_dr3_summary.txt:392-400); secondary: refs/lindegren_2021_gaia_astrometry.txt:328-331,416-420,1533-1534 (VLBI-defined ICRS axes, BCRS/TCB, equatorial coordinates)"
+anchor = "Reference Frame in the radio (ICRF3) to about 0.01 mas root-"
+anchor_tex = 'Reference Frame in the radio (ICRF3) to about $0.01$ mas root-mean-square'
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; locator extended with Sect. 3.2 and the explicit secondary .txt locators for ICRS axes, BCRS/TCB and equatorial coordinates; alignment, epoch and spin figures verified against lines 392-400." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Alignment 0.01 mas RMS, J2016.0 TCB, and spin 0.005 mas/yr RMS match `refs/gaia_2023_dr3_summary.txt:392–400`. Added secondary locators support ICRS axes, BCRS/TCB and equatorial coordinates: `refs/lindegren_2021_gaia_astrometry.txt:328–331,416–420,1533–1534`." }]
+notes = "Second sources, byte-checked against refs/lindegren_2021_gaia_astrometry.tex: 'International Celestial Reference System' / '(ICRS) is conventionally defined by means of the accurate positions for extragalactic radio sources observed' (l.534-535); 'the choice of ICRS (equatorial) coordinates for the position and proper motion' (l.2127). The renderer needs the camera/sky axes in this frame: ICRS equatorial axes are the frame in which the position of RX J1856 must be expressed. The frame of obs.rxj1856-position-walter2010 is unstated and not assessed here. Alignment (0.01 mas), epoch J2016.0 and spin (0.005 mas/yr) figures match refs/gaia_2023_dr3_summary.txt:392-400; the secondary claims (VLBI-defined ICRS axes, BCRS/TCB, equatorial coordinates) rest on the explicit additional locators refs/lindegren_2021_gaia_astrometry.txt:328-331,416-420,1533-1534."
+
+[[entry]]
+id = "obs.gaia-dr3-astrometric-parameters"
+kind = "datum"
+domain = "obs"
+name = "Gaia DR3 five-parameter astrometry and source counts"
+statement = "Gaia DR3 contains some 585 million sources with five-parameter astrometry (two positions, the parallax, and two proper motion components) and about 882 million with six-parameter astrometry (additional pseudo-colour parameter). The exact EDR3 numbers are 585,416,709 five-parameter, 882,328,109 six-parameter and 343,964,953 two-parameter (position only) solutions, 1,811,709,771 sources in total. The catalogue fields are ra, dec, parallax, pmra, pmdec at J2016.0. Sources with two-parameter solutions have no published parallax or proper motion (only the mean position at J2016.0 is published); the parameters were nevertheless estimated internally (refs/lindegren_2021_gaia_astrometry.txt:970-982)."
+value = "585416709 (5-p); 882328109 (6-p); 343964953 (2-p); 1811709771 (total)"
+units = "sources"
+uncertainty = "exact counts as printed"
+source = "gaia_2023_dr3_summary"
+locator = "Sect. 'Astrometry and broad band photometry' and Table 1 (refs/gaia_2023_dr3_summary.txt:214-217; parameter meanings 197-201); Lindegren 2021 l.1676-1684"
+anchor = "five-parameter astrometry (two positions, the parallax, and two"
+anchor_tex = 'five-parameter astrometry (two positions, the parallax, and two proper motion components)'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; Table 1 added to locator (all four counts verified, lines 214-217); statement now says two-parameter solutions have no published parallax/proper motion though estimated internally; removed the notes claim that a parallax establishes a usable 3-D position." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Counts 585416709, 882328109, 343964953 and total 1811709771 match `refs/gaia_2023_dr3_summary.txt:214–217`; errors 0, tolerance 0. “No published parallax/proper motion” correctly preserves the internal estimation distinction at `refs/lindegren_2021_gaia_astrometry.txt:967–982`." }]
+depends_on = ["obs.gaia-reference-epoch-j2016", "obs.gaia-reference-frame-crf3"]
+notes = "Exact counts byte-checked in refs/lindegren_2021_gaia_astrometry.tex l.1680-1684 (printed with thin-space separators). The catalogue rows themselves are NOT in refs/ yet: a measured-data fetch (with checksums in refs/CHECKSUMS) is needed next session. The paper prints no query for the rows. Two-parameter solutions: no published parallax or proper motion, although all five or six parameters were estimated internally (refs/lindegren_2021_gaia_astrometry.txt:970-982). Whether any of these parameters yields a usable 3-D position is not established by these sources."
+
+[[entry]]
+id = "obs.gaia-standard-model-of-stellar-motion"
+kind = "definition"
+domain = "obs"
+name = "Standard model of stellar motion (six kinematic parameters, uniform velocity)"
+statement = "For the main EDR3 astrometric results it is assumed that all sources outside the solar system move with uniform velocity relative to the solar system barycentre. Under this standard model of stellar motion the motion of a source is completely specified by six kinematic parameters, conventionally the five astrometric parameters (alpha, delta, varpi, mu_alpha* = mu_alpha cos delta, mu_delta) and the radial velocity v_r, all referring to the reference epoch J2016.0. Non-linear motions (binarity, perturbations) are ignored."
+latex = '(\alpha, \delta, \varpi, \mu_{\alpha*}=\mu_\alpha\cos\delta, \mu_\delta, v_r)'
+source = "lindegren_2021_gaia_astrometry"
+locator = "Sect. 3.1, p. 6 (refs/lindegren_2021_gaia_astrometry.txt:423-437)"
+anchor = "move with uniform velocity relative to the solar system barycen-"
+anchor_tex = '($\alpha$, $\delta$, $\varpi$, $\mu_{\alpha*}{\,=\,}\mu_\alpha\cos\delta$, $\mu_\delta$)'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Sect. 3.1; anchor now the .txt quote (count 1), equation TeX quote kept in anchor_tex and the old prose TeX anchor moved to notes; removed the unsourced propagation recipe and the asserted title of the follow-up reference from notes; dependency on obs.rxj1856-position-walter2010 removed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Uniform barycentric velocity, six parameters, J2016.0 and ignored perturbations match `refs/lindegren_2021_gaia_astrometry.txt:423–437`. Unsupported propagation recipe removed." }]
+depends_on = ["obs.gaia-reference-epoch-j2016", "obs.gaia-reference-frame-crf3"]
+notes = "THE PRINTED PROPAGATION EQUATIONS ARE NOT IN THIS PAPER. Lindegren 2021 cites ESA 1997 and Lindegren 2020a for the standard model but prints no formula that propagates (alpha, delta) from J2016.0 to another epoch (grep for propagat, rigorous, tangent in the .tex finds none). Until a source for the propagation is on disk, ownership is stub and no equation entry is written. The assumption, the six parameters and the ignored perturbations match refs/lindegren_2021_gaia_astrometry.txt:423-437. Earlier TeX prose anchor (byte-checked in refs/lindegren_2021_gaia_astrometry.tex): 'all sources outside of the solar system move with uniform velocity relative to the solar'."
+
+[[entry]]
+id = "obs.gaia-perspective-acceleration"
+kind = "equation"
+domain = "obs"
+name = "Perspective acceleration term and the radial proper motion mu_r"
+statement = "The standard model takes into account perspective acceleration through terms depending on the radial velocity v_r. The radial proper motion is mu_r = v_r varpi / A_u, with A_u the astronomical unit. v_r (or mu_r) is the sixth kinematic parameter of the standard model and is sometimes called the sixth astrometric parameter; the source notes this is potentially confusing, because in the six-parameter astrometric solutions (Sect. 2.3) the sixth parameter fitted is instead the pseudocolour. In EDR3 the effect is taken into account whenever possible, using RVS radial velocities from DR2, complemented for a few nearby stars (mainly white dwarfs) by literature values."
+latex = '\mu_r = v_r \varpi / A_\text{u}'
+source = "lindegren_2021_gaia_astrometry"
+locator = "Sect. 3.1, p. 6 (refs/lindegren_2021_gaia_astrometry.txt:456-475)"
+anchor = "tion through terms depending on the radial velocity vr ."
+anchor_tex = '$\mu_r= v_r\varpi/A_\text{u}$'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Sect. 3.1; anchor now the .txt quote (count 1), equation TeX quote kept in anchor_tex, old prose TeX anchor moved to notes; statement now distinguishes the sixth kinematic parameter (radial velocity) from the sixth parameter of catalogue six-parameter astrometry (pseudocolour); equation and EDR3 treatment verified at lines 456-475." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "`\\mu_r=v_r\\varpi/A_\\text{u}` matches the TeX and `refs/lindegren_2021_gaia_astrometry.txt:470–475`. EDR3 treatment matches lines 456–463; radial velocity is correctly distinguished from fitted pseudocolour." }]
+depends_on = ["obs.gaia-standard-model-of-stellar-motion"]
+notes = "The perspective-acceleration terms themselves are not printed in this paper (see obs.gaia-standard-model-of-stellar-motion). Whether it matters at RX J1856's 0.331 arcsec/yr: NOT assessable from the local sources. The size of the effect scales with mu_r, i.e. with v_r varpi, which for the neutron star's optical counterpart is unmeasured here. No radial velocity of RX J1856 exists in refs/. Do not assume it negligible; flag to the lead. For background Gaia stars the sources printed here say only that radial velocities enter 'whenever possible' (above); the size of the effect is not quantified in the local sources. Earlier TeX prose anchor (byte-checked in refs/lindegren_2021_gaia_astrometry.tex): 'The standard model takes into account perspective acceleration through terms depending'."
+
+[[entry]]
+id = "obs.gaia-band-flux-integral"
+kind = "equation"
+domain = "obs"
+name = "Gaia band flux as integral of photon flux distribution times system response"
+statement = "The mean source flux n_p in a Gaia band, in units of e- s^-1, is related to the source photon flux distribution n_p(lambda) by n_p = P integral_0^inf n_p(lambda) S(lambda) d lambda, where P is the telescope pupil area and S(lambda) is the overall system response function including the scaling factor from photons to electrons. The same relation holds for G, G_BP and G_RP with their own S(lambda)."
+latex = 'n_p = P \int\limits_0^\infty \, n_p(\lambda)\, S(\lambda) \, {\rm d}\lambda'
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, Eq. (7), p. 15 (refs/riello_2021_gaia_photometry.txt:931-940; electron-rate units 999-1000)"
+anchor = "where P represents the telescope pupil area and S (λ) is the sys-"
+anchor_tex = 'n_p = P \int\limits_0^\infty \, n_p(\lambda)\, S(\lambda) \, {\rm d}\lambda,'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Sect. 7, Eq. (7), p. 15 (replacing the label-based locator); anchor now the .txt quote (count 1), equation TeX quote kept in anchor_tex; integral limits, pupil factor and photon-to-electron response and electron-rate units verified (lines 931-940, 999-1000)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Limits, pupil factor, photon distribution and response match Eq. (7), `refs/riello_2021_gaia_photometry.txt:931–940`. Electron-rate units match lines 999–1000." }]
+notes = "Here n_p(lambda) is a photon flux distribution (printed unit not given at this equation) and S(lambda) the passband. The passband curves S(lambda) for G, G_BP, G_RP are a data file (see obs.gaia-passband-distribution) that must be fetched with a checksum. The printed text 'The mean source flux $n_p$ is given in units of ${\rm e}^- {\rm s}^{-1}$' is the unit statement. Note the symbol n_p is overloaded in the XP paper (obs.gaia-xp-ecs-spd-sed-units): there it is the photon distribution only. Integral limits, pupil factor and photon-to-electron response match refs/riello_2021_gaia_photometry.txt:931-940; the electron-rate unit statement is at lines 999-1000."
+
+[[entry]]
+id = "obs.gaia-synthetic-mean-fluxes"
+kind = "equation"
+domain = "obs"
+name = "Synthetic mean energy fluxes per wavelength and per frequency through a passband"
+statement = "The mean energy flux per wavelength unit through a passband S is <f_lambda> = integral f_lambda S lambda d lambda / integral S lambda d lambda (VEGAMAG), and the mean energy flux per frequency unit is <f_nu> = integral f_lambda S lambda d lambda / integral S (c/lambda) d lambda (AB)."
+latex = '<f_\lambda>\, = \frac{\int\, f_\lambda(\lambda) \,S(\lambda)\,\lambda \, {\rm d}\lambda }{\int\, S(\lambda)\,\lambda \, {\rm d}\lambda } \;\;(\mathrm{VEGAMAG}), \qquad <f_\nu>\, = \frac{\int\, f_\lambda(\lambda) \,S(\lambda)\,\lambda \, {\rm d}\lambda }{\int\, S(\lambda)\,\left(c/\lambda\right) \, {\rm d}\lambda }\;\;(\mathrm{AB})'
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, Eqs. (13)-(14), p. 17 (refs/riello_2021_gaia_photometry.txt:1108-1121)"
+anchor = "for VEGAMAG, and the mean energy flux per frequency unit"
+anchor_tex = '<f_\lambda>\, = \frac{\int\, f_\lambda(\lambda) \,S(\lambda)\,\lambda \, {\rm d}\lambda }{\int\, S(\lambda)\,\lambda \, {\rm d}\lambda },'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Sect. 7, Eqs. (13)-(14), p. 17; anchor now the .txt quote (count 1), Eq. (13) TeX quote kept in anchor_tex and the Eq. (14) TeX quote moved to notes; replaced the notes suspicion about the AB denominator with the reviewer statement that it is correct as printed (no missing Jacobian) plus the consistent-length-units qualification." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: deleted the notes sentence beginning 'Second TeX anchor' (its decoded quotation had doubled backslashes and was not byte-identical); the entry anchors are unchanged. The entry has no symbols list; lowercase source spellings of <f_lambda>, <f_nu> retained in statement and latex as transcriptions, with the canonical \\langle F_\\lambda\\rangle, \\langle F_\\nu\\rangle adopted in obs.notation-gaia-photometry. Reviewer reason: Both equations, including the AB denominator, match `refs/riello_2021_gaia_photometry.txt:1108–1121` and `.tex:628–633`. Delete the notes sentence beginning “Second TeX anchor”: its decoded quotation contains doubled backslashes and is not byte-identical. The actual entry anchors are valid." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Malformed historical quotation removed. Both equations match `refs/riello_2021_gaia_photometry.txt:1108–1121` and `.tex:628–633`; anchors remain byte-identical." }]
+depends_on = ["obs.gaia-band-flux-integral"]
+notes = "Both integrals are over wavelength (energy-weighted by lambda: S(lambda) is a photon response). Both equations match refs/riello_2021_gaia_photometry.txt:1108-1121. The AB denominator \\int S(\\lambda)(c/\\lambda) d\\lambda is correct as printed; no additional Jacobian is missing. Dimensional qualification: use consistent length units for c and wavelength (for example c in nm s^-1 when wavelength is in nm)."
+
+[[entry]]
+id = "obs.gaia-vegamag-definition"
+kind = "equation"
+domain = "obs"
+name = "Gaia VEGAMAG synthetic magnitude"
+statement = "In the VEGAMAG system the synthetic magnitude in a Gaia band is m_VEG = -2.5 log <f_lambda> + 2.5 log [ integral f_lambda^Vg S lambda d lambda / integral S lambda d lambda ], where f_lambda^Vg is the Vega spectrum from the CALSPEC database (file alpha_lyr_mod_002.fits) rescaled so that f_550 = 3.62286e-11 W m^-2 nm^-1 at 550.0 nm, the flux assumed for an unreddened A0V star with V = 0."
+latex = 'm_{VEG} = -2.5 \log <f_\lambda> + 2.5 \log \frac{\int f_\lambda^{Vg}(\lambda) S(\lambda)\lambda \, {\rm d}\lambda } {\int S(\lambda)\lambda \, {\rm d}\lambda }'
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, Eq. (15), p. 17 (refs/riello_2021_gaia_photometry.txt:1125-1143)"
+anchor = "where fλVg (λ) is the Vega spectrum from the CALSPEC Cal-"
+anchor_tex = 'm_{VEG} = -2.5 \log <f_\lambda> + 2.5 \log'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Eq. (15), p. 17; anchor now the .txt quote (count 1), equation TeX quote kept in anchor_tex; both log terms, integral weights, Vega rescaling and file name verified (lines 1125-1143); removed the claim that this passage explicitly establishes log base 10." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Both logarithmic terms and wavelength weights match `refs/riello_2021_gaia_photometry.txt:1125–1128`; Vega rescaling and filename match lines 1130–1143. Unsupported assertion about explicitly specified logarithm base removed." }]
+depends_on = ["obs.gaia-synthetic-mean-fluxes", "obs.gaia-vega-f550"]
+notes = "The paper prints only \"log\" in Eq. (15); this passage does not establish the logarithm base, so none is asserted here. Both logarithmic terms and integral weights match refs/riello_2021_gaia_photometry.txt:1125-1128; the Vega rescaling and file name (alpha_lyr_mod_002.fits, footnote 5) match lines 1130-1143. Data dependency: the CALSPEC Vega spectrum alpha_lyr_mod_002.fits is a table (provenance table) that would be a runtime input if we synthesised VEGAMAG magnitudes; we need it only for verification, not rendering, because the renderer takes fluxes (see obs.gaia-xp-ecs-spd-sed-units)."
+
+[[entry]]
+id = "obs.gaia-vega-f550"
+kind = "constant"
+domain = "obs"
+name = "Gaia Vega reference flux f_550 at 550 nm"
+statement = "The CALSPEC Vega spectrum is rescaled so that its flux equals f_550 = 3.62286e-11 W m^-2 nm^-1 at 550.0 nm, assumed as the flux of an unreddened A0V star with V = 0."
+latex = 'f_{550} = 3.62286\,10^{-11}\ \mathrm{W\,m^{-2}\,nm^{-1}}\ \text{at}\ \lambda = 550.0\ \mathrm{nm}'
+value = "3.62286e-11"
+units = "W m^-2 nm^-1"
+uncertainty = "none stated"
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, p. 17, text after Eq. (15) (refs/riello_2021_gaia_photometry.txt:1130-1136)"
+anchor = "3.62286 10−11 W m−2 nm−1 at the wavelength λ = 550.0 nm,"
+anchor_tex = 'f_{550} = 3.62286\,10^{-11}$ W m$^{-2}$ nm$^{-1}$'
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; value 3.62286e-11, units, wavelength 550.0 nm and unreddened A0V V=0 reference verified exactly (error 0, tolerance 0); locator now Sect. 7, p. 17." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Expected and stored value both 3.62286e-11 W m⁻² nm⁻¹ at 550.0 nm; error 0, tolerance 0. Reference-star conditions match `refs/riello_2021_gaia_photometry.txt:1130–1136`." }]
+notes = "Conversion to CGS, derive in code from SI: W -> 1e7 erg/s, m^-2 -> 1e-4 cm^-2, nm^-1 -> 1e7 cm^-1 (since 1 nm = 1e-7 cm); product 1e10 erg s^-1 cm^-2 cm^-1, i.e. f_550 = 3.62286e-1 erg s^-1 cm^-2 cm^-1 = 3.62286e-9 erg s^-1 cm^-2 A^-1 (1 A = 1e-8 cm). Derivation, not a printed number. Verification: expected 3.62286e-11 W m^-2 nm^-1 at 550.0 nm, unreddened A0V, V = 0 (refs/riello_2021_gaia_photometry.txt:1130-1136); entry value 3.62286e-11; error 0; tolerance 0."
+
+[[entry]]
+id = "obs.gaia-ab-definition"
+kind = "equation"
+domain = "obs"
+name = "Gaia AB synthetic magnitude"
+statement = "In the AB system the synthetic magnitude in a Gaia band is m_AB = -2.5 log <f_nu> - 56.10, where the zero point 56.10 corresponds to fluxes measured in W m^-2 Hz^-1."
+latex = 'm_{AB} = -2.5 \, \log <f_\nu> - 56.10'
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, Eq. (16), p. 17 (refs/riello_2021_gaia_photometry.txt:1138-1140)"
+anchor = "mAB = −2.5 log < fν > −56.10,"
+anchor_tex = 'm_{AB} = -2.5 \, \log <f_\nu> - 56.10,'
+ocr = "good"
+provenance = "convention"
+ownership = "stub"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Eq. (16), p. 17; anchor now the .txt quote (count 1), equation TeX quote kept in anchor_tex; sign, factor and -56.10 offset verified for W m^-2 Hz^-1 (lines 1138-1140)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Factor −2.5, offset −56.10 and W m⁻² Hz⁻¹ units match Eq. (16), `refs/riello_2021_gaia_photometry.txt:1138–1140`." }]
+depends_on = ["obs.gaia-synthetic-mean-fluxes"]
+notes = "Source prints 'the value of the zero point corresponds to fluxes measured in units of W m^-2 Hz^-1'. In CGS, 1 W m^-2 Hz^-1 = 1e3 erg s^-1 cm^-2 Hz^-1, so m_AB = -2.5 log10(f_cgs) + 2.5 log10(1e3) - 56.10 = -2.5 log10(f_cgs) - 48.60 (derivation; to be checked in code, not a printed number in this paper). Sign, factor and the -56.10 offset match refs/riello_2021_gaia_photometry.txt:1138-1140, explicitly for fluxes in W m^-2 Hz^-1."
+
+[[entry]]
+id = "obs.gaia-zero-points-vegamag"
+kind = "constant"
+domain = "obs"
+name = "Gaia EDR3/DR3 passband zero points, VEGAMAG"
+statement = "Photometric zero points ZP_VEG of the Gaia G, G_BP and G_RP passbands in the VEGAMAG system: G 25.6874, G_BP 25.3385, G_RP 24.7479 mag, each with uncertainty 0.0028 mag. Eq. (17) is retained as printed: the zero point is the mean over the calibrators of the ratio of the synthetic magnitude to -2.5 log(n_p) (the prose also describes ratios); its operational correctness is not certified here."
+latex = 'ZP_{X} = \left< \frac{m_X}{ -2.5 \, \log (n_p)} \right>'
+value = "G 25.6874; G_BP 25.3385; G_RP 24.7479"
+units = "mag"
+uncertainty = "0.0028 (G); 0.0028 (G_BP); 0.0028 (G_RP)"
+source = "riello_2021_gaia_photometry"
+locator = "Table 3, p. 18 (refs/riello_2021_gaia_photometry.txt:1152); Eq. (17), p. 17 (lines 1091-1098)"
+anchor = "Photometric zero points in the VEGAMAG and AB systems"
+anchor_tex = 'ZP_{X} = \left< \frac{m_X}{ -2.5 \, \log (n_p)} \right>,'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Table 3 and Eq. (17); anchor now the Table 3 caption .txt quote (count 1), Eq. (17) TeX quote kept in anchor_tex and the TeX table-row quote moved to notes; 25.6874/25.3385/24.7479 +-0.0028 verified digit-for-digit (errors 0, tolerance 0); Eq. (17) retained explicitly as printed; deleted the unsourced additive conversion from notes; preserved the synthetic-magnitude prohibition (lines 1105-1113)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: deleted the final 'Earlier TeX prose anchor' sentence from notes (its decoded \\pm quotations did not match .tex:665). Reviewer reason: Values 25.6874, 25.3385, 24.7479, each ±0.0028, match `refs/riello_2021_gaia_photometry.txt:1152`; errors 0, tolerance 0. The explicitly qualified printed ratio matches lines 1091–1098. Delete the final “Earlier TeX prose anchor” sentence: its decoded `\\\\pm` quotations do not match `.tex:665`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Malformed historical quotation removed. Expected/stored values 25.6874, 25.3385, 24.7479, each ±0.0028: errors 0, tolerance 0 (`refs/riello_2021_gaia_photometry.txt:1152`). Printed-ratio qualification retained (lines 1091–1098)." }]
+depends_on = ["obs.gaia-vegamag-definition", "obs.gaia-band-flux-integral"]
+notes = "Riello warns (refs/riello_2021_gaia_photometry.txt:1105-1113) that these passband zero points are not suitable for synthetic magnitude evaluations, for which the magnitude equation obs.gaia-vegamag-definition must be used, because Gaia fluxes are in e- s^-1 (not normalised by the telescope area) while synthetic fluxes are mean energy densities in W m^-2 nm^-1. Table 3 values: expected 25.6874, 25.3385, 24.7479, each +-0.0028 (refs/riello_2021_gaia_photometry.txt:1152); entry values identical; errors 0; tolerance 0. Eq. (17) is retained as printed (a ratio, described as ratios in the prose at lines 1091-1098) without certifying its operational correctness. Uncertainties to be used for verification of the sky-radiance flux scale."
+
+[[entry]]
+id = "obs.gaia-zero-points-ab"
+kind = "constant"
+domain = "obs"
+name = "Gaia EDR3/DR3 passband zero points, AB"
+statement = "Photometric zero points ZP_AB of the Gaia G, G_BP and G_RP passbands in the AB system: G 25.8010 +- 0.0028, G_BP 25.3540 +- 0.0023, G_RP 25.1040 +- 0.0016 mag."
+value = "G 25.8010; G_BP 25.3540; G_RP 25.1040"
+units = "mag"
+uncertainty = "0.0028 (G); 0.0023 (G_BP); 0.0016 (G_RP)"
+source = "riello_2021_gaia_photometry"
+locator = "Table 3, p. 18 (refs/riello_2021_gaia_photometry.txt:1153)"
+anchor = "Photometric zero points in the VEGAMAG and AB systems"
+anchor_tex = 'ZP_{AB}$  & 25.8010 $\pm$ 0.0028 & 25.3540 $\pm$ 0.0023 & 25.1040 $\pm$ 0.0016 & mag'
+latex = 'ZP_{AB}^{G,BP,RP} = (25.8010, 25.3540, 25.1040)\ \mathrm{mag}'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Table 3, p. 18; anchor now the Table 3 caption .txt quote (count 1), TeX table-row quote kept in anchor_tex; 25.8010+-0.0028, 25.3540+-0.0023, 25.1040+-0.0016 verified digit-for-digit including trailing zeros (errors 0, tolerance 0); synthetic-use restriction cited (lines 1105-1113)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Values 25.8010±0.0028, 25.3540±0.0023, 25.1040±0.0016 match `refs/riello_2021_gaia_photometry.txt:1153`; errors 0, tolerance 0. Synthetic-use restriction retained from lines 1105–1113." }]
+depends_on = ["obs.gaia-ab-definition", "obs.gaia-band-flux-integral"]
+notes = "Same caveat as obs.gaia-zero-points-vegamag about unsuitability for synthetic magnitudes (refs/riello_2021_gaia_photometry.txt:1105-1113). Table 3 values: expected 25.8010+-0.0028, 25.3540+-0.0023, 25.1040+-0.0016 (refs/riello_2021_gaia_photometry.txt:1153), trailing zeros included; entry values identical; errors 0; tolerance 0."
+
+[[entry]]
+id = "obs.gaia-passband-properties"
+kind = "datum"
+domain = "obs"
+name = "Gaia passband FWHM, mean photon wavelength and pivot wavelength"
+statement = "For G, G_BP, G_RP: filter FWHM 454.82, 265.90, 292.75 nm; mean photon wavelength lambda_0 639.07, 518.26, 782.51 nm; pivot wavelength lambda_p 621.79, 510.97, 776.91 nm. The pivot wavelength (Koornneef) gives an exact conversion between the broadband fluxes <f_lambda> and <f_nu>."
+value = "FWHM G/BP/RP: 454.82/265.90/292.75; lambda_0: 639.07/518.26/782.51; lambda_p: 621.79/510.97/776.91"
+units = "nm"
+uncertainty = "none stated"
+source = "riello_2021_gaia_photometry"
+locator = "Table 3, p. 18 (refs/riello_2021_gaia_photometry.txt:1154-1156); pivot-conversion property at lines 1101-1104"
+anchor = "454.82                 265.90                292.75"
+anchor_tex = 'FWHM & 454.82 & 265.90 & 292.75 & nm'
+ocr = "good"
+provenance = "table"
+ownership = "stub"
+reimplement = "Recompute FWHM, mean photon wavelength lambda_0 and pivot wavelength lambda_p from the calibrated passband curves S(lambda) (obs.gaia-passband-distribution), whose fitted response model is described in Riello Sect. 7; until then the published numbers stand in as verification table values."
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Table 3, p. 18; anchor now the .txt table-row quote (count 1), TeX row kept in anchor_tex; all nine numbers verified (lines 1154-1156); provenance changed to table, ownership to stub, reimplement added (recompute from the calibrated passbands)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "All nine numbers match `refs/riello_2021_gaia_photometry.txt:1154–1156`; errors 0, tolerance 0. Pivot-conversion attribution matches lines 1101–1104. Requested table/stub classification and recomputation route applied." }]
+depends_on = ["obs.gaia-passband-distribution"]
+notes = "Computed passband summaries from a published table: verification table values, to be recomputed from the passband curve (lambda_0 and lambda_p must be recomputed from S(lambda)). All nine numbers match refs/riello_2021_gaia_photometry.txt:1154-1156; the pivot wavelength property (exact conversion between <f_lambda> and <f_nu>, Koornneef) is stated at lines 1101-1104."
+
+[[entry]]
+id = "obs.gaia-passband-distribution"
+kind = "datum"
+domain = "obs"
+name = "Gaia G, G_BP, G_RP passband curves: how distributed"
+statement = "The EDR3/DR3 passbands are distributed in electronic tabular format as part of Riello et al. (2021) and are available via the VizieR service. The DR3 summary says the photometric pass-bands for G, G_BP and G_RP are provided in Riello et al. (2021) (EDR3-DPACP-117). The passband curves are a data file (table) to be fetched with a checksum next session. The photometric system refers to an abstract 'average instrument' and is unrelated to earlier releases."
+value = "tabular passband files at VizieR (no URL printed in the paper)"
+units = "n/a"
+uncertainty = "not stated"
+source = "riello_2021_gaia_photometry"
+locator = "Sect. 7, p. 16 (refs/riello_2021_gaia_photometry.txt:1068-1074; average-instrument qualification 1091-1101); DR3 reuse: refs/gaia_2023_dr3_summary.txt:376-378"
+anchor = "per and are available via the VizieR service."
+anchor_tex = 'are distributed in electronic tabular format as part of this paper and are available via the VizieR service'
+ocr = "good"
+provenance = "table"
+ownership = "stub"
+reimplement = "Not recomputed: the passband S(lambda) is a calibration product of the Gaia instrument; it is a measured instrument response fitted by the DPAC (Riello Sect. 7: parametric response model fitted to calibrators with known SEDs, refs/riello_2021_gaia_photometry.txt:991-999). It enters the renderer only if we synthesise broadband fluxes from an SED; if the renderer takes calibrated XP spectra directly (obs.gaia-xp-ecs-spd-sed-units), the passband is a verification target only."
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; locator corrected to Sect. 7 with line locators and DR3 reuse locator; reimplement now says Riello Sect. 7 (was Sect. 5); average-instrument and release-independence qualifications cited." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Distribution matches `refs/riello_2021_gaia_photometry.txt:1068–1074`; abstract-instrument qualification matches lines 1091–1101. DR3 reuse matches `refs/gaia_2023_dr3_summary.txt:376–378`. Sect. 7 correction applied." }]
+depends_on = ["obs.gaia-band-flux-integral"]
+notes = "FETCH LIST: the paper prints NO direct URL for the passband tables, only 'available via the VizieR service' (l.614). Archive URLs printed: https://archives.esac.esa.int/gaia (l.114) and https://www.cosmos.esa.int/gaia (l.925). Next session: obtain the VizieR table accompanying the paper (A&A 649, A3) and record its sha256 in refs/CHECKSUMS. Second source: refs/gaia_2023_dr3_summary.tex l.1289 'The photometric pass-bands for G, G_BP and G_RP are provided in EDR3-DPACP-117 (LaTeX macros in the tex)'. Distribution claim matches refs/riello_2021_gaia_photometry.txt:1068-1074; the average-instrument and release-independence qualifications match lines 1091-1101; DR3 reuse of the EDR3 passbands is supported at refs/gaia_2023_dr3_summary.txt:376-378."
+
+[[entry]]
+id = "obs.gaia-xp-ecs-definition"
+kind = "definition"
+domain = "obs"
+name = "Externally calibrated BP/RP spectrum (ECS)"
+statement = "Once the instrument model is fitted, it can be used in the opposite direction to transform an internally calibrated mean BP/RP spectrum into a wavelength- and flux-calibrated spectrum, called an externally calibrated spectrum (ECS). The instrument model solves simultaneously for the flux and wavelength calibrations and the line spread function, and its application reduces the photon mixing inherent to the slitless spectra, enhancing the effective spectral resolution of ECS."
+latex = '\text{ECS: wavelength- and flux-calibrated mean BP/RP spectrum}'
+source = "montegriffo_2023_gaia_xp"
+locator = "Sect. 1 Introduction (refs/montegriffo_2023_gaia_xp.txt:126-140)"
+anchor = "we call an externally calibrated spectrum (ECS)."
+anchor_tex = 'wavelength- and flux-calibrated spectrum that we call an externally calibrated spectrum (ECS)'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; locator now Sect. 1 with line range 126-140; definition, simultaneous calibration/LSF modelling and improved effective resolution verified." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Definition, simultaneous calibration/LSF modelling and enhanced effective resolution match `refs/montegriffo_2023_gaia_xp.txt:126–140`. Anchor is at the claimed passage." }]
+notes = "'Measured' because the calibration is fitted to observed standards (SPSS, tied to CALSPEC). No Gaia spectrum rows are in refs/ yet: fetch with checksums next session (see the fetch list in the report). Definition, simultaneous calibration/LSF modelling and improved effective resolution match refs/montegriffo_2023_gaia_xp.txt:126-140."
+
+[[entry]]
+id = "obs.gaia-xp-ecs-spd-sed-units"
+kind = "equation"
+domain = "obs"
+name = "ECS: spectral photon distribution and SED units, and usable wavelength range"
+statement = "The reconstructed externally calibrated spectrum is given as the spectral photon distribution n_p in photons s^-1 m^-2 nm^-1 (Eq. 33) and as the SED f_lambda in W m^-2 nm^-1 (Eq. 34), reconstructed by two distinct matrix equations, n_p = (D_phi^P H V_C^T) b and f_lambda = (D_phi^E H V_C^T) b. The sampling wavelength grid must be limited to [330, 650] nm for BP and [635, 1050] nm for RP to avoid large errors in the reconstructed spectra. The two partial spectra are combined into a single distribution by a weighted mean in the overlap region [lambda_lo, lambda_hi] with linear weights w_BP = 1 - (lambda - lambda_lo)/(lambda_hi - lambda_lo), w_RP = 1 - w_BP. The numerical conversion factor inside the design matrix D^E is unresolved and is not certified here."
+latex = "\\mathbf n_p=(D_\\varphi^P H V_C^T)\\mathbf b\\ [\\mathrm{photons\\,s^{-1}\\,m^{-2}\\,nm^{-1}}],\\qquad \\mathbf f_\\lambda=(D_\\varphi^E H V_C^T)\\mathbf b\\ [\\mathrm{W\\,m^{-2}\\,nm^{-1}}]"
+source = "montegriffo_2023_gaia_xp"
+locator = "Sect. 5, Eqs. (33)–(36), p. 8 (refs/montegriffo_2023_gaia_xp.txt:526-550)"
+anchor = 'which is the SED in units of $\rm W m^{-2} nm^{-1}$.'
+anchor_tex = '\mathbf{f_\lambda} = \left(\mathrm{D}_\varphi^E \cdot \mathrm{H} \cdot V_C^T\right) \cdot \mathbf{b}'
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+reject_resolved = true
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "TeX-only anchor (valid per SCHEMA, kept). The 10^8 factor faithfully transcribes Eq. (32) but is inconsistent with the stated SI constants and nanometre wavelength convention: at 550 nm SI hc/lambda = 3.611719740271e-19 J, printed factor gives 3.611719740271e-20 J, ratio 0.1, relative error -0.9. Surviving weaker statement applied: units, matrix reconstruction, wavelength restrictions and linear overlap weights only; conversion factor unresolved, cannot be blessed for computation. Provenance set to derivable, ownership stub (a reconstruction is not a measured leaf)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: ECS reconstruction text replaced by the two distinct equations n_p=(D_phi^P H V_C^T)b and f_lambda=(D_phi^E H V_C^T)b (statement and latex); locator corrected to 'Sect. 5, Eqs. (33)–(36), p. 8' (refs/montegriffo_2023_gaia_xp.txt:526-550; the named subsection is commented out in TeX); deleted the doubled-backslash historical wavelength quote from notes; unresolved-factor exclusion retained. Reviewer reason: Replace “both obtained by … `f_lambda`” with the distinct reconstructions **`\\mathbf n_p=(D_\\varphi^P H V_C^T)\\mathbf b`** and **`\\mathbf f_\\lambda=(D_\\varphi^E H V_C^T)\\mathbf b`**. Correct locator to **“Sect. 5, Eqs. (33)–(36), p. 8”**: `refs/montegriffo_2023_gaia_xp.txt:526–550`. The named subsection is commented out in TeX. Primary TeX anchor `.tex:706` is valid. Delete the doubled-backslash historical wavelength quote; retain the unresolved-factor exclusion." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Distinct photon/energy reconstruction equations, corrected locator, wavelength limits and overlap weights match `refs/montegriffo_2023_gaia_xp.txt:526–550`. Primary TeX anchor byte-matches `.tex:706`. Malformed quotation removed; unresolved conversion-factor exclusion retained." }]
+depends_on = ["obs.gaia-xp-ecs-definition"]
+notes = "UNRESOLVED CONVERSION FACTOR. Eq. (32) of the paper prints D^E_ij = D_ij (1/R(lambda_i)) (10^8 h c / lambda_i); the 10^8 factor is a faithful transcription but is inconsistent with the stated SI constants and nanometre wavelength convention (refs/montegriffo_2023_gaia_xp.txt:135-143,586-588): at 550 nm SI hc/lambda = 3.611719740271e-19 J, the printed factor gives 3.611719740271e-20 J (ratio 0.1, relative error -0.9; constants refs/tiesinga_2021_codata2018.txt:3444,3451). It cannot be blessed for computation and is omitted from the statement and latex. What the paper reports, at refs/montegriffo_2023_gaia_xp.txt:526-550: SPD/SED units (Eqs. 33-34), matrix reconstruction, wavelength restrictions and linear overlap weights (Eqs. 35-36). lambda_lo and lambda_hi are not printed in this passage. Provenance/ownership changed from measured leaf: a reconstruction equation is not a measured leaf; measured calibration inputs must be separated from the computation. Conversion for the renderer: W m^-2 nm^-1 = 1e10 erg s^-1 cm^-2 cm^-1 and I_nu = I_lambda lambda^2/c. The ECS is an SED at the catalogue point source (flux density, not surface intensity): treat as a delta source in the renderer."
+
+[[entry]]
+id = "obs.gaia-xp-sampled-subset"
+kind = "datum"
+domain = "obs"
+name = "Gaia DR3 XP mean spectra: counts and the sampled ECS subset (G < 15)"
+statement = "XP mean spectra are published for 219,197,643 sources, mostly sources with G brighter than 17.65 mag and more than 15 CCD transits for both XP. All are given in a continuous (basis-function) representation. For a selected subset of sources with BP and RP spectral data that includes only sources brighter than G = 15 mag (the exact list is obtained by selecting gaia_source.has_xp_sampled = 't'; this is not stated to be every G < 15 source) the XP spectra are also provided in a sampled representation on a default grid as externally calibrated spectra in absolute flux and wavelength systems; for other sources ECS can be computed with GaiaXPy on a user-defined wavelength grid."
+value = "219197643 sources; sampled ECS only for a selected subset of sources brighter than G = 15"
+units = "sources; mag"
+uncertainty = "exact as printed"
+source = "montegriffo_2023_gaia_xp"
+locator = "Appendix B (refs/montegriffo_2023_gaia_xp.txt:1932-1959)"
+anchor = "BP and RP mean spectra are published for 219,197,643 sources."
+anchor_tex = 'externally calibrated spectra in absolute flux and wavelength systems'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to Appendix B; anchor now the .txt quote (count 1), TeX quote kept in anchor_tex; statement and value now say selected subset of sources brighter than G = 15, not every G < 15 source; count, selection criteria, continuous representation and GaiaXPy option verified (lines 1932-1959)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Count 219197643, “mostly” selection criteria, continuous representation, selected G<15 sampled subset and GaiaXPy option match `refs/montegriffo_2023_gaia_xp.txt:1932–1959`. The erroneous every-bright-source implication is removed." }]
+depends_on = ["obs.gaia-xp-ecs-definition"]
+notes = "Byte-checked counts (l.1577): 'mean spectra are published for 219,197,643 \\textbf{sources}'. Montegriffo l.290 repeats 'for a subset of sources with $G<15$ they will also be provided as ECS sampled on a standard wavelength grid'. NOT PRINTED in this paper: the default sampling grid itself (start, end, step, number of points); it is in the Gaia archive / DataLink product and the dedicated Cosmos page (URL in the report's fetch list). Consequence for sky-radiance: continuous XP coefficients exist for stars down to about 17.65, but sampled absolute-flux ECS only for G < 15; stars fainter than the sampled subset need GaiaXPy (external code, a verification target, not a runtime input under rule 7) or the broadband G, G_BP, G_RP fluxes, which do not fix a spectrum. This supports only a selected subset of bright sources, not availability of sampled ECS for every G < 15 source. Count, the \"mostly\" selection criteria, continuous representation, the selected G < 15 sampled subset and the GaiaXPy option match refs/montegriffo_2023_gaia_xp.txt:1932-1959."
+
+[[entry]]
+id = "obs.gaia-xp-absolute-calibration"
+kind = "datum"
+domain = "obs"
+name = "SPSS flux scale and grey-normalised internally calibrated mean-spectrum residuals"
+statement = "SPSS/PVL/NGSL validation residuals: P16–P84 mostly within ±2% above approximately 400 nm; grey-rescaled median residual curves at the ±1% level, with magnitude-dependent deviations. The 111 SPSS used for the absolute calibration are calibrated to the CALSPEC scale with flux accuracy of about 1% (refs/montegriffo_2023_gaia_xp.txt:197-202). This passage does not establish +-1% absolute accuracy of the externally calibrated spectra."
+value = "SPSS/PVL/NGSL validation residuals: P16–P84 mostly within ±2% above approximately 400 nm; grey-rescaled median residual curves at the ±1% level, with magnitude-dependent deviations."
+units = "relative flux"
+uncertainty = "as stated: about 1% (SPSS flux scale)"
+source = "montegriffo_2023_gaia_xp"
+locator = "refs/montegriffo_2023_gaia_xp.txt:197-202 (SPSS, Sect. 3 Calibrators); refs/montegriffo_2023_gaia_xp.txt:1042-1071 (residuals)"
+anchor = "sources, calibrated to the CALSPEC"
+anchor_tex = 'precision is at the $\pm1\%$ level except for $\lambda\lesssim 400$ nm'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), +-1% TeX quote kept in anchor_tex, old TeX anchor moved to notes; name, statement and value reinterpreted as SPSS flux scale and grey-normalised internally calibrated mean-spectrum residuals (111 SPSS, about 1%; +-2% before and +-1% after grey rescaling); no +-1% absolute ECS accuracy claim." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: statement and value scoped to the reviewer wording 'SPSS/PVL/NGSL validation residuals: P16-P84 mostly within +-2% above approximately 400 nm; grey-rescaled median residual curves at the +-1% level, with magnitude-dependent deviations' (refs/montegriffo_2023_gaia_xp.txt:1042-1071), 111-SPSS/about-1% claim kept (lines 197-202); deleted the doubled-backslash historical quote from notes. Reviewer reason: Scope statement/value to **“SPSS/PVL/NGSL validation residuals: P16–P84 mostly within ±2% above approximately 400 nm; grey-rescaled median residual curves at the ±1% level, with magnitude-dependent deviations.”** These qualifications appear at `refs/montegriffo_2023_gaia_xp.txt:1042–1071`; the present wording omits the validation-sample scope. Delete the doubled-backslash historical quote. The 111-SPSS/about-1% claim matches lines 197–202." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Statement/value now include the requested validation samples, percentiles, wavelength restriction, grey rescaling and magnitude dependence (`refs/montegriffo_2023_gaia_xp.txt:1042–1071`). The 111-SPSS/about-1% claim matches lines 197–202; malformed quotation removed." }]
+depends_on = ["obs.gaia-xp-ecs-definition"]
+notes = "111 SPSS and the about 1% CALSPEC flux accuracy match refs/montegriffo_2023_gaia_xp.txt:197-202. Before grey rescaling the residuals are mostly +-2% above approximately 400 nm; the validation-sample scoped residuals (SPSS/PVL/NGSL: P16-P84 mostly within +-2% above approximately 400 nm; grey-rescaled median residual curves at the +-1% level, with magnitude-dependent deviations) are at lines 1042-1071. This passage does not establish +-1% absolute ECS accuracy."
+
+[[entry]]
+id = "obs.gaia-magnitude-range-and-bright-end"
+kind = "datum"
+domain = "obs"
+name = "Gaia EDR3/DR3 magnitude range, and the bright end"
+statement = "Gaia EDR3 contains results for 1.812 billion sources in the magnitude range G = 3 to 21. The magnitudes of the well-observed sources range from G = 6 to 21. Partial saturation of images affects G <~ 8 (astrometric calibration), and the G-band photometry improved for G <~ 6 through better handling of saturated samples in the IPD process. No source is stated to be complete at the bright end; the sources printed here give only the nominal range."
+value = "G = 3 to 21 (range of the catalogue); G = 6 to 21 (well-observed sources)"
+units = "mag"
+uncertainty = "not stated"
+source = "lindegren_2021_gaia_astrometry"
+locator = "Abstract and Sect. 1 (refs/lindegren_2021_gaia_astrometry.txt:33-34,54-55); partial saturation refs/lindegren_2021_gaia_astrometry.txt:2719-2720,2696; photometric G<~6 improvement refs/riello_2021_gaia_photometry.txt:763-764"
+anchor = "in the magnitude range G = 3 to 21 based on"
+anchor_tex = 'from $G=6$ to 21. All data are publicly available in the online \textit{Gaia} Archive at'
+ocr = "good"
+provenance = "measured"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote (count 1), well-observed-range TeX quote kept in anchor_tex, old TeX anchor moved to notes; locator extended with the saturation locators and secondary Riello locator 763-764 for G<~6; no bright-end completeness claim." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Nominal and well-observed ranges match `refs/lindegren_2021_gaia_astrometry.txt:33–34,54–55`; partial saturation matches lines 2719–2720,2696. Bright-end improvement matches `refs/riello_2021_gaia_photometry.txt:763–764`. No completeness inference remains." }]
+depends_on = ["obs.gaia-dr3-astrometric-parameters"]
+notes = "GAPS row 1.11 says 'G <~ 3' stars are missing from Gaia. The sources printed here do NOT state a completeness limit or a list of missing bright stars: they state the catalogue range G = 3 to 21 and well-observed G = 6 to 21 (l.89, l.148). The DR3 summary (gaia_2023_dr3_summary) prints no bright-limit sentence (grep for bright, completeness: nothing about G < 3). So the claim that stars brighter than about G = 3 are absent is NOT harvested; Hipparcos (van Leeuwen 2007, arXiv:0708.1752) is the GAPS-listed fetch for bright stars. Additional lines: l.2801 'for $G\\lesssim 8$) the partial saturation of images' in refs/lindegren_2021_gaia_astrometry.tex, and riello_2021_gaia_photometry.tex l.421 'the very bright end, $G\\lesssim6$'. Nominal range and well-observed range match refs/lindegren_2021_gaia_astrometry.txt:33-34,54-55; partial saturation is supported at refs/lindegren_2021_gaia_astrometry.txt:2719-2720,2696; the G<~6 photometric improvement is at refs/riello_2021_gaia_photometry.txt:763-764. No bright-end completeness claim is justified. Earlier TeX prose anchor (byte-checked in refs/lindegren_2021_gaia_astrometry.tex): 'in the magnitude range $G=3$ to 21 based on observations collected by the European Space'."

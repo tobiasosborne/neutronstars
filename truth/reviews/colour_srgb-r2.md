@@ -1,0 +1,14 @@
+| id | verdict | reason |
+|---|---|---|
+| colour.notation-stokes-cie-xyz | reject | Anchor matches `refs/stokes_1996_srgb.txt:787`, but `symbols.Y` still asserts unsupported “luminance-like”. **Surviving weaker statement:** “CIE 1931 tristimulus value Y; normalisation unspecified.” Lines 786–792 support XYZ identification only; remove “luminance-like”. |
+| colour.notation-chromaticity | accept | Anchor and labels match `refs/stokes_1996_srgb.txt:750–779`; original HTML resolves concatenated cells. Red, green, blue and D65 sums each compute to 1.0000, expected 1, error 0, tolerance 0. Coordinate scope is now explicit. |
+| colour.srgb-colorimetric-basis | accept | Corrected locator encompasses the anchor at `refs/stokes_1996_srgb.txt:599`. Lines 591–599 support the two-degree XYZ transforms; lines 742–747 explicitly tie equations 1.1–1.3 to the viewing environment. |
+| colour.srgb-encode-threshold | accept | Anchor matches `refs/stokes_1996_srgb.txt:805`; equation locations are 809–819. Visually inspected `srgb10.gif` and `srgb12.gif` confirm unprimed channels, `≤0.00304` and `>0.00304`. Historical-proposal qualification is correct. |
+| colour.srgb-decode-threshold | accept | Anchor at `refs/stokes_1996_srgb.txt:857` introduces the reverse equations at 864–874. Visually inspected `srgb18.gif` and `srgb20.gif` confirm unprimed conditions and `0.03928`. Arithmetic is corrected: `12.92×0.00304=0.0392768≈0.03928`; source-symbol inconsistency is disclosed. |
+| colour.srgb-inverse-linear | accept | Anchor and locator correspond at `refs/stokes_1996_srgb.txt:857–867`. Visually inspected `srgb18.gif` and `srgb19.gif` confirm the unprimed condition and each channel’s corresponding primed value divided by `12.92`. Accepted as literal source transcription. |
+
+- First mechanical check, exit 0: `357 entries: {'blessed': 32, 'rejected': 11, 'proposed': 314}; 0 errors, 532 warnings`.
+- `truth/entries/colour.toml:291` duplicates the unsupported “luminance-like” description. Consolidate XYZ notation; the accepted colorimetric-basis entry still depends on the rejected notation entry.
+- Record `image_verified = true` for the three reviewed poor-OCR entries. This review inspected the local HTML-linked GIFs under `refs/data/stokes_1996_srgb_img/`; no corresponding local PDF exists.
+- The four reviewed non-notation entries lack `provenance` and `ownership`. Scientific acceptance does not resolve those schema omissions.
+- `refs/stokes_1996_srgb.txt:22` identifies an obsolete proposal with a subsequently corrected numerical error. These acceptances establish historical transcription, not IEC equivalence; preserve the printed-versus-interpreted decode distinction.

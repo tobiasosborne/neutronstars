@@ -1,0 +1,13 @@
+| id | verdict | reason |
+|---|---|---|
+| colour.reinhard-key-default | accept | Anchor matches; `a=0.18` and the intended middle-grey target before compression agree with [Reinhard:197–205](/home/tobias/Projects/neutronstars/refs/reinhard_2002_tonemapping.txt:197). |
+| colour.reinhard-log-average-as-key | accept | Anchor supports the heuristic attribution; scaling to `a` and user adjustment for low/high-key scenes match [Reinhard:188–211](/home/tobias/Projects/neutronstars/refs/reinhard_2002_tonemapping.txt:188). |
+| colour.reinhard-global-limitation | accept | Anchor and qualitative detail-loss warning match; revised validity introduces no numerical adequacy threshold. [Reinhard:199–207](/home/tobias/Projects/neutronstars/refs/reinhard_2002_tonemapping.txt:199). |
+| colour.notation-reinhard-parameters | accept | Anchor defines pixel count and black-pixel offset; key definition/default also agree. Added subscripts explicitly identify the paper’s symbols. [Reinhard:195–211](/home/tobias/Projects/neutronstars/refs/reinhard_2002_tonemapping.txt:195). |
+| colour.notation-cie-xyz | accept | Anchor supports CIE 1931 XYZ and linear/encoded RGB; nominal RGB range is supported, and unsupported absolute normalisation is removed. [Stokes:786–806](/home/tobias/Projects/neutronstars/refs/stokes_1996_srgb.txt:786). |
+| colour.srgb-inverse-transfer-linear | reject | Anchor matches; vision confirms the printed unprimed condition and divisor in `srgb18/19.gif`. However, “0.0393 to 4 s.f.” is false: `12.92×0.00304=0.0392768`, rounding to **0.03928** at four significant figures. [Stokes:857–867](/home/tobias/Projects/neutronstars/refs/stokes_1996_srgb.txt:857). |
+| colour.srgb-transfer-power | accept | Anchor matches; vision of `srgb12/13.gif` confirms `>0.00304`, factor `1.055`, exponent `1.0/2.4`, subtraction `0.055`, and separate R/G/B inputs. Round-1’s repeated-red objection was incorrect. [Stokes:805–819](/home/tobias/Projects/neutronstars/refs/stokes_1996_srgb.txt:805). |
+
+- Mechanical check, run first, exit 0: `357 entries: {'blessed': 11, 'rejected': 7, 'proposed': 339}; 0 errors, 532 warnings`. Warnings comprise 212 missing provenance fields, 317 missing ownership fields, and three GR notation conflicts: `alpha`, `lambda`, `phi`.
+- Pixel `(x,y)` still needs explicit scoping against [chromaticity coordinates](/home/tobias/Projects/neutronstars/truth/entries/colour_srgb.toml:101). XYZ/RGB declarations also duplicate those in [colour_srgb.toml](/home/tobias/Projects/neutronstars/truth/entries/colour_srgb.toml:10).
+- All five reviewed non-notation entries require `provenance` and `ownership` before blessing. Both image-based entries lack `image_verified=true`; their local GIFs received a vision pass here.

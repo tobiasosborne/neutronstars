@@ -1,0 +1,9 @@
+| id | verdict | reason |
+|---|---|---|
+| eos.notation-electron-gas | accept | Anchor occurs at [PY01:84](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:84). Definitions match [80–86](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:80) and [238–253](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:238), independently checked against PDF pp. 1, 4. Angular frequency, CGS convention and chemical-potential alias are explicit. Relevant to Milestone 3. |
+| eos.surface-gravity | accept | Anchor and near-surface condition match [PY01:176–179](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:176). PDF p. 3 visually confirms the positive pressure gradient and entire square-root denominator. Inward proper depth follows from [168](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:168). Relevant to Milestone 3. |
+| eos.thin-envelope-newtonian-hydrostatics | accept | Anchor, approximate 100 m depth, mass fraction \(10^{-7}\), boundary density and conditional neglect of flux/lateral variations match [PPP15:1994–2017](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:1994). The hydrostatic equation is supported by its explicitly cited PY01 dependency. Relevant to Milestone 3. |
+
+- Mechanical check ran first, exit **0**: `357 entries: {'blessed': 274, 'rejected': 80, 'proposed': 3}; 0 errors, 131 warnings`. Warnings: 64 missing provenance, 64 missing ownership, three symbol conflicts (`alpha`, `lambda`, `phi`).
+- All three anchors: expected occurrences **1 each**, computed **1 each**, error **0**, tolerance **0**.
+- Before blessing, record `image_verified = true` for surface gravity; supply provenance/ownership for both hydrostatic entries; replace surface gravity’s dependency on rejected `eos.notation-structure`. Explicitly map EOS `g` to RT `g_s`/`g_surf`.

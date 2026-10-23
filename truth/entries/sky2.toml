@@ -1,0 +1,671 @@
+# Domain obs, lane sky2: epoch propagation of astrometric parameters, Hipparcos, Mellinger panorama.
+# Sources: lindegren_2012_agis, butkevich_lindegren_2014_propagation, vanleeuwen_2007_hipparcos, mellinger_2009_panorama (plus lindegren_2021_gaia_astrometry for the Hipparcos frame epoch).
+# All entries proposed.
+
+[[entry]]
+id = 'obs.notation-gaia-propagation'
+kind = 'notation'
+domain = 'obs'
+name = 'Epoch-propagation symbols for astrometric parameters'
+statement = "Symbols used by Lindegren et al. (2012) and Butkevich and Lindegren (2014) for the standard model of stellar motion and the propagation of the six astrometric parameters between epochs. Subscripted spellings avoid the project's ray cosine mu, impact parameter b, visual extinction A_V and camera symbols; the five-parameter symbols of obs.notation-gaia-sky are reused."
+symbols = [
+  { sym = "t_{ep}", sym_source = "T_0", meaning = "reference epoch chosen by convention", units = "s" },
+  { sym = "t_{pr}", sym_source = "t = T - T_0", meaning = "time elapsed since the reference epoch over which the astrometric parameters are propagated (Julian years of 365.25 x 86400 s, TCB)", units = "s", units_source = "yr" },
+  { sym = "\\vec{u}_{bary}", sym_source = "u", meaning = "barycentric coordinate direction to the source, unit vector b/|b| in the ICRS", units = "1" },
+  { sym = "\\vec{r}_{tri}", sym_source = "r", meaning = "fixed unit vector coinciding with the barycentric direction at the reference epoch; third axis of the normal triad", units = "1" },
+  { sym = "\\vec{p}_{tri}", sym_source = "p", meaning = "unit vector in the direction of increasing right ascension (first axis of the normal triad)", units = "1" },
+  { sym = "\\vec{q}_{tri}", sym_source = "q", meaning = "unit vector in the direction of increasing declination (second axis of the normal triad)", units = "1" },
+  { sym = "\\vec{\\mu}_{pm}", sym_source = "mu (vector)", meaning = "proper motion vector du/dt of the barycentric direction", units = "rad s^-1", units_source = "mas yr^-1" },
+  { sym = "\\mu_{r}", sym_source = "mu_r", meaning = "radial proper motion mu_r = v_r varpi / A (radial velocity in the unit of proper motion), sixth astrometric parameter", units = "rad s^-1", units_source = "mas yr^-1" },
+  { sym = "\\mu_{tot}", sym_source = "mu", meaning = "total tangential proper motion, (mu_alpha*^2 + mu_delta^2)^(1/2) = v_t / b", units = "rad s^-1", units_source = "mas yr^-1" },
+  { sym = "\\vec{b}_{bary}", sym_source = "b (vector)", meaning = "barycentric position vector of the source: the apparent position b_app(T_obs) = b_true(T_em) from Sect. 4 onward of Butkevich and Lindegren (2014), where the subscripts are omitted; the true position at the same instant is a different quantity, and Sects. 1-3 write b for the true vector where the uniform rectilinear model is stated", units = "cm" },
+  { sym = "b_{bary}", sym_source = "b = |b|", meaning = "barycentric distance of the source, varpi = A/b", units = "cm" },
+  { sym = "\\vec{v}_{bary}", sym_source = "v (vector)", meaning = "space velocity of the source relative to the solar system barycentre: the constant TRUE velocity in the uniform rectilinear model (BL Sect. 3, eq. 1); the APPARENT velocity v_app from Sect. 4 onward, where the subscripts are omitted. True and apparent velocities differ by the light-time factor 1/(1 - v_r^app/c) of BL eq. (19); never mix them", units = "cm s^-1" },
+  { sym = "v_{t}", sym_source = "v_t", meaning = "apparent tangential velocity of the source, v_t = mu b (BL Sect. 4, apparent quantities); the true tangential velocity is a different quantity", units = "cm s^-1" },
+  { sym = "A_{vel}", sym_source = "A_V", meaning = "astronomical unit expressed in km yr s^-1: A_V = 4.740 470 446", units = "km yr s^-1" },
+  { sym = "\\tau_{A}", sym_source = "tau_A", meaning = "light-travel time of one astronomical unit, tau_A = A/c = 499.004 784 s", units = "s" },
+  { sym = "\\tau_{lt}", sym_source = "tau", meaning = "light-travel time T_obs - T_em from the source to the barycentre; tau_0 = b_0/c at the reference epoch", units = "s" },
+  { sym = "f_{D}", sym_source = "f_D", meaning = "distance factor b_0/b of the epoch propagation", units = "1" },
+  { sym = "f_{T}", sym_source = "f_T", meaning = "time factor of the epoch propagation with light-time effects", units = "1" },
+  { sym = "f_{V}", sym_source = "f_V", meaning = "velocity factor of the epoch propagation with light-time effects", units = "1" },
+  { sym = "\\varepsilon_{T}", sym_source = "epsilon_T", meaning = "small parameter f_T - 1 of the light-time expansion", units = "1" },
+  { sym = "\\varepsilon_{V}", sym_source = "epsilon_V", meaning = "small parameter f_V - 1 of the light-time expansion", units = "1" },
+  { sym = "\\Delta\\theta_{lt}", sym_source = "Delta theta", meaning = "angular-position error caused by neglecting light-time effects in the epoch propagation (first-order estimate)", units = "rad" },
+  { sym = "\\vec{v}_{true}", sym_source = "v (true)", meaning = "true (constant) space velocity of the uniform rectilinear model, BL eq. (1); distinct from the apparent velocity \\vec{v}_{app}", units = "cm s^-1" },
+  { sym = "\\vec{v}_{app}", sym_source = "v (apparent)", meaning = "apparent space velocity expressed through the astrometric parameters, v = (A_V/varpi)(r mu_r + mu), BL eq. (30); distinct from the true velocity \\vec{v}_{true}", units = "cm s^-1" },
+  { sym = "\\mu_{tot,0}", sym_source = "mu_0", meaning = "total tangential proper motion at the reference epoch, mu_0 = |mu_0| = (mu_alpha*0^2 + mu_delta0^2)^(1/2) of BL; spelled mu_{tot,0} here because bare mu_0 is the vacuum permeability (const.notation-fundamental) and mu is the ray cosine", units = "rad s^-1", units_source = "mas yr^-1" },
+]
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Sect. 4 (astrometric parameters), Sect. 5, Appendix D (tex l.517)"
+anchor = 'we shall subsequently use $t=T-T_0$ as the time argument in all expressions instead of $T$.'
+ocr = 'good'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: t_ep sym_source set to T_0 and meaning to 'reference epoch chosen by convention'; mission-midpoint and J2016.0 qualifications moved to notes with separate sources (lindegren_2012_agis.txt:223–227, lindegren_2021_gaia_astrometry.txt:434–437, BL:273–283). Cross-entry bullets: true/apparent velocity distinction (v_true, v_app added; b_bary, v_bary, v_t reworded) and mu_0 mapped to mu_{tot,0}." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "`T_0` and conventional reference-epoch meaning are corrected; true/apparent velocities and scalar `mu_0` are explicitly distinguished. Definitions and units match `refs/butkevich_lindegren_2014_propagation.txt:238–283,286–339,534–535`." }]
+notes = "Collision check against NOTATION_DECISIONS.md and notation_additions_*.md: bare mu is the ray cosine, bare b the impact parameter, A_V visual extinction (obs.notation-rxj1856-spectral), tau the camera proper time, f_nu the Eddington factor, varepsilon with letter subscripts perp/wedge/parallel/H/Lambda; none of the subscripted spellings above appears. Reuses obs.notation-gaia-sky symbols alpha_{RA}, delta_{Dec}, varpi_{plx}, mu_{alpha*}, mu_delta, v_r, A_u. [sky2-r1 applied] (1) t_ep is spelled T_0 in the source: BL print \"must be chosen, purely as a matter of convention\" (refs/butkevich_lindegren_2014_propagation.tex:516; txt:273–283); the mission-midpoint preference is Lindegren et al. (2012): \"preferably chosen to be near the mid-time of the mission in order to minimize\" (refs/lindegren_2012_agis.tex:444; txt:223–227); J2016.0 for EDR3 (hence DR3): \"which for the EDR3 astrometry is J2016.0\" (refs/lindegren_2021_gaia_astrometry.txt:434–437) (obs.gaia-reference-epoch-j2016). None of these is in the t_ep meaning. (2) True versus apparent: BL change convention between Sect. 3 (true quantities, eq. 1) and Sect. 4 (apparent quantities, subscripts omitted, refs/butkevich_lindegren_2014_propagation.txt:155–159,238–245); b_bary, v_bary and v_t carry the stated qualification, v_true and v_app are explicit. (3) Collision: BL's bare mu_0 (total proper motion at the reference epoch) is registered as \\mu_{tot,0}; the database's \\mu_0 stays the vacuum magnetic permeability (const.notation-fundamental, NOTATION_DECISIONS.md) and no obs entry may use \\mu_0 for proper motion. The latex fields of sky2 entries quote BL's spelling mu_0 verbatim; read it through this mapping."
+
+[[entry]]
+id = 'obs.agis-uniform-motion-kinematic-parameters'
+kind = 'equation'
+domain = 'obs'
+name = 'AGIS: uniform space motion and the six kinematic parameters'
+statement = 'For the astrometric core solution every source is assumed to move with uniform space velocity relative to the solar-system barycentre: in the BCRS b_i(t_*) = b_i(t_ep) + (t_* - t_ep) v_i, where t_ep is an arbitrary reference epoch and b_i(t_ep), v_i define six kinematic parameters. The six astrometric parameters are merely a transformation of the kinematic parameters into an equivalent set better suited for the analysis of observations.'
+latex = '\vec{b}_i(t_*) = \vec{b}_i(t_\text{ep}) + (t_*-t_\text{ep})\vec{v}_i'
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2 (Astrometric model), eq. (uniform) (tex l.416)'
+anchor = 'every source is assumed to move with uniform'
+anchor_tex = '\vec{b}_i(t_*) = \vec{b}_i(t_\text{ep}) + (t_*-t_\text{ep})\vec{v}_i'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "TeX anchor and equation match Sect. 3.2, printed Eq. (3), including the reference epoch and constant velocity. Six kinematic parameters and their transformation are explicit. refs/lindegren_2012_agis.txt:266–276." }]
+validity = 'Uniform rectilinear motion relative to the barycentre; no acceleration, no companions.'
+depends_on = ["obs.notation-gaia-propagation"]
+
+[[entry]]
+id = 'obs.agis-astrometric-parameter-set'
+kind = 'equation'
+domain = 'obs'
+name = 'AGIS: the six astrometric parameters at the reference epoch'
+statement = "The six astrometric parameters s_i are: alpha_i, the barycentric right ascension at the adopted reference epoch t_ep; delta_i, the barycentric declination at t_ep; varpi_i, the annual parallax at t_ep; mu_alpha*i = (d alpha_i/dt) cos delta_i, the proper motion in right ascension at t_ep; mu_delta,i = d delta_i/dt, the proper motion in declination at t_ep; and mu_ri = v_ri varpi_i / A_u, the 'radial proper motion' at t_ep, i.e. the radial velocity expressed in the same unit as the transverse proper motion (A_u = astronomical unit). The astrometric parameters refer to the ICRS and the time coordinate is TCB."
+latex = '\mu_{ri}=v_{ri}\varpi_i/A_\text{u}'
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2, parameter list (tex l.437)'
+anchor = "the `radial proper motion' at epoch"
+anchor_tex = '$\mu_{ri}=v_{ri}\varpi_i/A_\text{u}$'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All six definitions, the factor cos(delta), mu_r = v_r varpi/A_u, ICRS and TCB match the source. refs/lindegren_2012_agis.txt:213–239,278–279." }]
+depends_on = ["obs.agis-uniform-motion-kinematic-parameters", "obs.notation-gaia-propagation"]
+notes = "The reference epoch is 'preferably chosen to be near the mid-time of the mission in order to minimize statistical correlations between the position and proper motion parameters' (same section). Gaia DR3 uses J2016.0 (obs.gaia-reference-epoch-j2016)."
+
+[[entry]]
+id = 'obs.agis-standard-model-direction'
+kind = 'equation'
+domain = 'obs'
+name = 'AGIS standard model: coordinate direction at time t (direction-vector form with perspective acceleration)'
+statement = "The coordinate direction to the source at time t is calculated with the same 'standard model' as was used for the Hipparcos reduction: u_bar_i(t) = < r_i + (t_B - t_ep)(p_i mu_alpha*i + q_i mu_delta,i + r_i mu_ri) - varpi_i b_G(t)/A_u >, where the angular brackets signify vector length normalisation, [p_i q_i r_i] is the normal triad of the source with respect to the ICRS, r_i the barycentric coordinate direction at t_ep, b_G(t) the barycentric position of Gaia at the time of observation, and t_B the barycentric time obtained by correcting the observation time for the Roemer delay. The mu_ri term accounts for the relative rate of change of the barycentric distance (perspective acceleration)."
+latex = '\vec{\bar{u}}_i(t) = \bigl\langle \vec{r}_i+(t_\text{B}-t_\text{ep})(\vec{p}_i\mu_{\alpha*i}+\vec{q}_i\mu_{\delta i}+\vec{r}_i\mu_{ri})-\varpi_i\vec{b}_\text{G}(t)/A_\text{u} \bigr\rangle'
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2, eq. (astro-standard) (tex l.458)'
+anchor = 'The coordinate direction to the source at time $t$ is calculated with the same'
+anchor_tex = '\vec{\bar{u}}_i(t) = \bigl\langle \vec{r}_i+(t_\text{B}-t_\text{ep})(\vec{p}_i\mu_{\alpha*i}'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Normalization, all three motion terms, negative parallax term and observer position match printed Eq. (4). The distance-change interpretation is explicit. refs/lindegren_2012_agis.txt:240–277." }]
+depends_on = ["obs.agis-astrometric-parameter-set", "obs.agis-normal-triad"]
+notes = "Source of the 'perspective acceleration' term the sky lane could not find in Lindegren 2021 (obs.gaia-perspective-acceleration): it is the r_i mu_ri term. The vector is normalised, so the position at epoch t (without the parallax term, setting b_G = 0) is the normalised r + dt (p mu_alpha* + q mu_delta + r mu_r): this is exactly the no-light-time rigorous direction of obs.bl-propagation-direction-nolt (compare Butkevich eq. propBarDirection, whose f_D normalisation is the angular-bracket normalisation). Usually only five of the six are unknowns in the astrometric solution, because mu_r is better obtained from a spectroscopic radial velocity and the parallax (same section)."
+
+[[entry]]
+id = 'obs.agis-normal-triad'
+kind = 'equation'
+domain = 'obs'
+name = 'Normal triad [p q r] of a source in the ICRS'
+statement = "In the normal triad r_i is the barycentric coordinate direction to the source at t_ep, p_i = <Z x r_i>, q_i = r_i x p_i (Z the ICRS pole). The ICRS components of these unit vectors are the columns of the matrix C'[p_i q_i r_i] = [[-sin alpha, -sin delta cos alpha, cos delta cos alpha],[cos alpha, -sin delta sin alpha, cos delta sin alpha],[0, cos delta, sin delta]]. The cross-product definition applies for abs(delta) < pi/2; at a pole choose alpha and construct the triad from the matrix."
+latex = "\\tens{C}'[\\vec{p}_i~\\vec{q}_i~\\vec{r}_i] = \\begin{bmatrix} -\\sin\\alpha_i & -\\sin\\delta_i\\cos\\alpha_i & \\cos\\delta_i\\cos\\alpha_i \\\\ \\cos\\alpha_i & -\\sin\\delta_i\\sin\\alpha_i & \\cos\\delta_i\\sin\\alpha_i \\\\ 0 & \\cos\\delta_i & \\sin\\delta_i \\end{bmatrix}"
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2, eq. (normal-triad) (tex l.470)'
+anchor = '$\vec{p}_i=\langle\vec{Z}\times\vec{r}_i\rangle$, and'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: pole caveat added to the statement (cross-product definition valid for abs(delta) < pi/2; at a pole choose alpha and build the triad from the matrix); pole convention cited in notes (BL:319–351)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "TeX anchor and all nine matrix components match. Added pole convention is supported by `refs/lindegren_2012_agis.txt:249–258` and `refs/butkevich_lindegren_2014_propagation.txt:319–351`." }]
+depends_on = ["obs.notation-gaia-propagation"]
+notes = "Also printed in Butkevich eqs. (r) and (pq) (obs.bl-proper-motion-components) with the same components. Orthonormal triad: p.q = 0 etc. by direct inspection. [sky2-r1 applied] Pole caveat: normalization of Z x r is undefined at a pole; the matrix is transcribed correctly (refs/lindegren_2012_agis.txt:249–258); pole convention is BL's: refs/butkevich_lindegren_2014_propagation.txt:319–351."
+
+[[entry]]
+id = 'obs.agis-roemer-delay'
+kind = 'equation'
+domain = 'obs'
+name = "AGIS: Roemer delay t_B = t + r'b_G(t)/c"
+statement = "t_B is the barycentric time obtained by correcting the time of observation for the Roemer delay; to sufficient accuracy it is t_B = t + r_i' b_G(t)/c, with c the speed of light."
+latex = "t_\\text{B} = t + \\vec{r}_i'\\vec{b}_\\text{G}(t)/c"
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2, eq. (roemer) (tex l.482)'
+anchor = 'to sufficient accuracy it is given by'
+anchor_tex = "t_\\text{B} = t + \\vec{r}_i'\\vec{b}_\\text{G}(t)/c \\, ,"
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Printed Eq. (6), including its positive sign and accuracy qualification, matches. Modelling Gaia reception times is unnecessary for Milestones 1–3 catalogue propagation. refs/lindegren_2012_agis.txt:260–266." }]
+depends_on = ["obs.agis-standard-model-direction"]
+notes = "Not needed for epoch propagation of a barycentric catalogue; it is needed only if Gaia's own observing times are modelled. Recorded because it appears in the standard-model direction. [sky2-r1: dropped as deferred, not as wrong; content kept intact so it can be revived.]"
+
+[[entry]]
+id = 'obs.agis-standard-model-neglects-lighttime'
+kind = 'approximation'
+domain = 'obs'
+name = 'AGIS standard model: what is neglected'
+statement = "The standard model can be derived by considering the uniform motion of the source in a purely classical framework, using Euclidean coordinates and neglecting the light propagation time from the source to the observer (except for the Roemer delay). The practical need to neglect most of the light-propagation time t - t_* (typically many years, and with a rate of change depending on the radial velocity, in general not known with sufficient accuracy) makes the transformation between kinematic and astrometric parameters non-trivial; the astrometric proper motions and radial velocity correspond to the 'apparent' quantities of Klioner (2003). To the accuracy of Gaia the model is stated to be accurate enough to model the observations to sub-microarcsec accuracy; when the astrometric parameters are to be interpreted in terms of the barycentric space velocity, some relativistic and light-propagation effects may come into play."
+latex = '\text{(no formula: classical Euclidean model, light-time neglected except } t_\text{B}-t\text{)}'
+source = 'lindegren_2012_agis'
+locator = 'Sect. 3.2, text after eq. (roemer) (tex l.501)'
+anchor = 'light propagation time from the source to the observer (except for the'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Classical coordinates, neglected source light-time, retained Roemer delay, modelling accuracy and interpretation caveat are stated explicitly. refs/lindegren_2012_agis.txt:278–279,313–327." }]
+validity = 'Stated for Gaia-accuracy modelling of observations (sub-microarcsec); see obs.bl-lighttime-first-order-effects for the size of what is neglected when propagating over a time t.'
+depends_on = ["obs.agis-standard-model-direction"]
+notes = "Fail-loud note: this paper does not quantify the neglected terms; that is done in Butkevich and Lindegren (2014) (obs.bl-lighttime-first-order-effects). The statement that the model is 'accurate enough ... to sub-microarcsec' is printed without a derivation here, and holds for the Gaia observing baseline."
+
+[[entry]]
+id = 'obs.bl-uniform-rectilinear-model'
+kind = 'equation'
+domain = 'obs'
+name = 'Uniform rectilinear model of barycentric stellar motion'
+statement = 'According to the uniform rectilinear model the barycentric vector of the star at an arbitrary epoch T is b(T) = b_0 + (T - T_0) v, where b_0 is the barycentric position at the initial epoch T_0 and v the constant space velocity (b_0 and v in this equation are true quantities, not apparent ones); six kinematic parameters (components of b_0 and v in the barycentric frame). For binaries and other non-single systems the centre of mass is assumed to move uniformly.'
+latex = '\vec{b}(T)=\vec{b}_0+(T-T_0)\,\vec{v}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Sect. 1 (binary-centre claim), Sect. 3.1, eq. (classical-equation-motion) (tex l.218)"
+anchor = 'the barycentric vector of the star at'
+anchor_tex = '\vec{b}(T)=\vec{b}_0+(T-T_0)\,\vec{v}\,,'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: statement now says 'b_0 and v in this equation are true quantities'; locator extended with Sect. 1 for the binary-centre claim (BL:62–70,123–130,155–159)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Equation, six parameters, true-quantity qualification and binary-centre assumption match; locator now includes Sect. 1. `refs/butkevich_lindegren_2014_propagation.txt:62–70,123–130,155–159`." }]
+validity = 'Absence of acceleration; Appendix E of the paper gives the Galactic-acceleration criterion (obs.bl-uniform-model-applicability).'
+depends_on = ["obs.notation-gaia-propagation"]
+
+[[entry]]
+id = 'obs.bl-proper-motion-components'
+kind = 'equation'
+domain = 'obs'
+name = 'Proper motion vector and components via the normal triad'
+statement = "The barycentric coordinate direction u = b/|b| and its time derivative, the proper motion vector mu = du/dt, are observable; they satisfy u'u = 1 and u'mu = 0 (four degrees of freedom). With the normal triad [p q r] at r (r = (cos delta cos alpha, cos delta sin alpha, sin delta), p = (-sin alpha, cos alpha, 0), q = (-sin delta cos alpha, -sin delta sin alpha, cos delta)) the proper motion components are the coordinates of mu along p and q: mu_alpha* = p'mu, mu_delta = q'mu, and mu = p mu_alpha* + q mu_delta. The alternative interpretation mu_alpha* = (d alpha/dt) cos delta, mu_delta = d delta/dt is equivalent for |delta| < pi/2 but fails at the poles."
+latex = "\\vec{u} = \\frac{\\vec{b}}{|\\vec{b}|},\\quad \\vec{\\mu} = \\frac{\\mathrm{d}\\vec{u}}{\\mathrm{d}t},\\quad \\mu_{\\alpha*}=\\vec{p}'\\vec{\\mu},\\quad \\mu_\\delta=\\vec{q}'\\vec{\\mu}"
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 4, eqs. (u), (mu), (r), (pq), (proper_motion), (mu_from_comp), (proper_motion_alt) (tex l.577)'
+anchor = 'We now define the proper motion components as the coordinates of $\vec{\mu}$'
+anchor_tex = "\\mu_{\\alpha*}=\\vec{p}'\\vec{\\mu}\\, , \\quad \\mu_\\delta=\\vec{q}'\\vec{\\mu} \\, ."
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Definitions, triad components, projections, reconstruction and pole qualification match Eqs. (21)–(27). refs/butkevich_lindegren_2014_propagation.txt:286–360." }]
+depends_on = ["obs.notation-gaia-propagation", "obs.agis-normal-triad"]
+notes = 'Cross-check against obs.agis-normal-triad: same p, q, r components. The vector definition is what makes the transformation work at delta = +-pi/2.'
+
+[[entry]]
+id = 'obs.bl-parallax-radial-proper-motion'
+kind = 'equation'
+domain = 'obs'
+name = 'Parallax, radial proper motion and total proper motion in terms of distance and velocity'
+statement = 'Parallax is defined by varpi = A/b (A the astronomical unit, b = |b| the barycentric coordinate distance); the paper notes the alternatives sin varpi = A/b, tan varpi = A/b, 2 sin(varpi/2) = A/b differ at the order varpi^3 < 1e-10 arcsec. The sixth astrometric parameter is the radial proper motion mu_r = v_r varpi / A = v_r/b, analogous to the total tangential proper motion mu = (mu_alpha*^2 + mu_delta^2)^(1/2) = v_t/b. The apparent space velocity is v = (A_V/varpi)(r mu_r + mu), with A_V = 4.740 470 446 km yr s^-1 (parallax and proper motions in compatible units, e.g. mas and mas/yr).'
+latex = '\varpi = \frac{A}{b},\quad \mu_r = v_r\varpi/A,\quad \mu = v_t/b,\quad \vec{v}=\frac{A_\mathrm{V}}{\varpi}\left(\vec{r}\mu_r+\vec{\mu}\right)'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 4, eqs. (varpi), (mur), (mut), (vel-mu) (tex l.608)'
+anchor = 'Following \citet{klioner2003} we adopt the'
+anchor_tex = '\vec{v}=\frac{A_\mathrm{V}}{\varpi}\left(\vec{r}\mu_r+\vec{\mu}\right)\,,'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eqs. (20), (28)–(30), apparent tangential velocity, compatible angular units and A_V = 4.740470446 km yr s^-1 match. refs/butkevich_lindegren_2014_propagation.txt:258–273,318–339,363–379." }]
+depends_on = ["obs.bl-proper-motion-components"]
+notes = "Units and dimension check for RX J1856: v_t = A_V mu/varpi = 4.740470446 * 331.2/8.16 km/s = 192.4 km/s (computed here, not printed), using the walter_2010 mean-row numbers; see obs.rxj1856-epoch-propagation-estimate. The relation varpi = A/b with the 'astronomical unit' symbol A_u of the sky lane is the IAU unit (const_iau lane)."
+
+[[entry]]
+id = 'obs.bl-distance-factor-nolt'
+kind = 'equation'
+domain = 'obs'
+name = 'Distance factor f_D neglecting light-time'
+statement = 'Neglecting light-time effects (the limit c -> infinity, tau_A = 0, giving f_T = f_V = 1) the distance factor is f_D = b_0/b = [1 + 2 mu_r0 t + (mu_0^2 + mu_r0^2) t^2]^(-1/2).'
+latex = 'f_\mathrm{D}=\left[1+2\mu_{r0}t+\left(\mu_0^2+\mu_{r0}^2\right)t^2\right]^{-1/2}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.5, eq. (fd-neglecting-lt) (tex l.1168)'
+anchor = 'This substitution gives $f_\mathrm{T}=f_\mathrm{V}=1$ and the distance factor'
+anchor_tex = '\left[1+2\mu_{r0}t+\left(\mu_0^2+\mu_{r0}^2\right)t^2\right]^{-1/2}'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "The limit and every term and exponent in printed Eq. (83) match. refs/butkevich_lindegren_2014_propagation.txt:731–740." }]
+depends_on = ["obs.bl-uniform-rectilinear-model", "obs.bl-parallax-radial-proper-motion"]
+notes = "Derivation (redo): b = b_0 + v t with b'_0 v = b_0^2 mu_r0 and v^2 = b_0^2(mu_r0^2 + mu_0^2) (from obs.bl-parallax-radial-proper-motion); squaring gives b^2 = b_0^2[1 + 2 mu_r0 t + (mu_0^2 + mu_r0^2) t^2]. Printed in the paper, so this is a transcription; marked derivable because it follows from the uniform rectilinear model. The paper states these formulae 'were employed in the reduction procedures used to construct the Hipparcos and Tycho catalogues, since light-time effects were known to be negligible at milli-arcsecond accuracy' (Sect. 5.5, same section)."
+
+[[entry]]
+id = 'obs.bl-propagation-direction-nolt'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of the barycentric direction, light-time neglected'
+statement = 'With the barycentric direction at the reference epoch r_0 (unit vector, eq. (r)), the proper motion vector mu_0 and the radial proper motion mu_r0, the direction at epoch t = T - T_0 is u = [r_0 (1 + mu_r0 t) + mu_0 t] f_D, normalised by the distance factor f_D. Celestial coordinates (alpha, delta) at epoch t follow from u using the definition r = (cos delta cos alpha, cos delta sin alpha, sin delta). This is the standard-model direction of obs.agis-standard-model-direction with the parallax and Roemer terms removed.'
+latex = '\vec{u}=\left[\vec{r}_0\left(1+\mu_{r0}t\right)+\vec{\mu}_0t\right]f_\mathrm{D}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Sect. 5.5, eq. (84), TeX lines 1173–1175"
+anchor = 'the barycentric direction'
+anchor_tex = '\vec{u}=\left[\vec{r}_0\left(1+\mu_{r0}t\right)+\vec{\mu}_0t\right]f_\mathrm{D}\, ,'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to 'Sect. 5.5, eq. (84), TeX lines 1173–1175' (old tex l.743 belongs to the rigorous section; formula unchanged)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected locator identifies Eq. (84); TeX anchors occur at lines 1173 and 1175. Vector terms, normalization and neglected-light-time condition match `refs/butkevich_lindegren_2014_propagation.txt:731–744`." }]
+depends_on = ["obs.bl-distance-factor-nolt", "obs.bl-proper-motion-components"]
+notes = 'Derivation: u = b/|b| = (b_0 + v t)/b with b_0 = b_0 r_0, v = b_0 (mu_r0 r_0 + mu_0) (from obs.bl-parallax-radial-proper-motion) gives u = (r_0 (1 + mu_r0 t) + mu_0 t) b_0/b = [..] f_D. Linear extrapolation alpha + mu_alpha* t / cos delta differs from this exact direction at second order in mu t; for RX J1856 over 16 years an unreviewed earlier estimate gave 0.019 mas in alpha* and 0.051 mas in delta (computed here; no longer carried by obs.rxj1856-epoch-propagation-estimate, whose statement was reduced after the sky2-r1 reject).'
+
+[[entry]]
+id = 'obs.bl-propagation-parallax-nolt'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of the parallax, light-time neglected'
+statement = 'The parallax at epoch t is varpi = varpi_0 f_D, with f_D from obs.bl-distance-factor-nolt (because varpi = A/b and f_D = b_0/b).'
+latex = '\varpi=\varpi_0f_\mathrm{D}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Sect. 5.5, eq. (85), TeX line 1179"
+anchor = '\varpi=\varpi_0f_\mathrm{D}\,,'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to 'Sect. 5.5, eq. (85), TeX line 1179'; anchor set to \\varpi=\\varpi_0f_\\mathrm{D}\\,, (grep -F count 1 in the .tex; old tex l.763 was the rigorous occurrence)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Replacement TeX anchor occurs at line 1179 in Sect. 5.5. Eq. (85), including multiplication by `f_D`, matches `refs/butkevich_lindegren_2014_propagation.txt:745–747`." }]
+depends_on = ["obs.bl-distance-factor-nolt"]
+notes = 'One-line derivation: varpi = A/b, varpi_0 = A/b_0, so varpi/varpi_0 = b_0/b = f_D.'
+
+[[entry]]
+id = 'obs.bl-propagation-pm-nolt'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of the proper-motion vector, light-time neglected'
+statement = 'mu = du/dt = [mu_0 (1 + mu_r0 t) - r_0 mu_0^2 t] f_D^3 (mu_0 = |mu_0| the total proper motion at the reference epoch). The components (mu_alpha*, mu_delta) at epoch t follow from mu using p, q built from the propagated u (eq. (pq), eq. (proper_motion)).'
+latex = '\vec{\mu}=\frac{\mathrm{d}\vec{u}}{\mathrm{d}t}=\left[\vec{\mu}_0\left(1+\mu_{r0}t\right)-\vec{r}_0\mu_0^2t\right]f_\mathrm{D}^3'
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Sect. 5.5, eq. (86), TeX lines 1181–1184"
+anchor = 'the proper motion vector'
+anchor_tex = '\left[\vec{\mu}_0\left(1+\mu_{r0}t\right)-\vec{r}_0\mu_0^2t\right]f_\mathrm{D}^3'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator set to 'Sect. 5.5, eq. (86), TeX lines 1181–1184' (old tex l.528 defines proper motion in Sect. 4; subtraction and f_D^3 unchanged)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected TeX locator identifies Eq. (86). Derivative, subtraction, scalar `mu_0²` and `f_D³` match; propagated-triad projections are correctly specified. `refs/butkevich_lindegren_2014_propagation.txt:701–714`." }]
+depends_on = ["obs.bl-propagation-direction-nolt"]
+notes = 'Derivation: differentiate the u of obs.bl-propagation-direction-nolt using df_D/dt = -f_D^3 [mu_r0 + (mu_0^2 + mu_r0^2) t]. Not re-derived by this lane; transcription only. (Dropped terms: none; the formula is exact for the model.)'
+
+[[entry]]
+id = 'obs.bl-propagation-mur-nolt'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of the radial proper motion, light-time neglected'
+statement = 'mu_r = (db/dt)(varpi/A) = [mu_r0 + (mu_0^2 + mu_r0^2) t] f_D^2.'
+latex = '\mu_r=\frac{\mathrm{d}b}{\mathrm{d}t}\frac{\varpi}{A}=\left[\mu_{r0}+\left(\mu_0^2+\mu_{r0}^2\right)t\right]f_\mathrm{D}^2'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.5, eq. (prop_mur) (tex l.1186)'
+anchor = 'and the radial proper motion'
+anchor_tex = '\mu_r=\frac{\mathrm{d}b}{\mathrm{d}t}\frac{\varpi}{A}='
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Printed Eq. (87) has the stated derivative, positive quadratic-velocity sum and f_D^2. refs/butkevich_lindegren_2014_propagation.txt:707–714." }]
+depends_on = ["obs.bl-distance-factor-nolt"]
+notes = 'Perspective acceleration: even for constant velocity the tangential proper motion and radial proper motion change with t as these factors show (mu_0^2 t term in obs.bl-propagation-pm-nolt and mu_r).'
+
+[[entry]]
+id = 'obs.bl-light-time-equation'
+kind = 'equation'
+domain = 'obs'
+name = 'Light-time equation and apparent position'
+statement = "The emission time T_em and the observation time T_obs are connected by T_obs = T_em + b(T_em)/c, with b the barycentric distance. With the uniform rectilinear model, b(T_em) = b(T_obs) - tau v with tau = T_obs - T_em the light-time ('planetary aberration'). The observed direction at T_obs is given by b(T_em), the apparent position; b(T_obs) is not directly observable (true position)."
+latex = 'T^\mathrm{obs} = T^\mathrm{em}+b(T^\mathrm{em})/c,\qquad \vec{b}(T^\mathrm{em})=\vec{b}(T^\mathrm{obs})-\tau\vec{v}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 3.2, eqs. (light-time), (pos-relation) (tex l.269)'
+anchor = 'T^\mathrm{obs} = T^\mathrm{em}+b(T^\mathrm{em})/c'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Eqs. (3)–(4) match; their velocity is the true velocity. Defer this emission/reception conversion for the Milestone 1 catalogue-propagation path. refs/butkevich_lindegren_2014_propagation.txt:155–159,184–207." }]
+depends_on = ["obs.bl-uniform-rectilinear-model"]
+notes = 'This is the physical statement of what the standard model (obs.agis-standard-model-neglects-lighttime) neglects: the astrometric parameters are defined as apparent quantities, i.e. as seen at time of observation with the star at its emission-time position.'
+
+[[entry]]
+id = 'obs.bl-apparent-path-solution'
+kind = 'equation'
+domain = 'obs'
+name = 'Rigorous solution of the apparent path with light-time: b = b_0 + v_0 t f_T'
+statement = 'The apparent position at any instant in terms of the given initial apparent position b_0 and apparent velocity v_0 is b = b_0 + v_0 t f_T with the time factor f_T = (t + 2 tau_0) / ( tau_0 + (1 - v_r0/c) t + (1/c) sqrt( (b_0 + v_0 t)^2 + (2t/(c^2 tau_0)) (v_0 x b_0)^2 ) ), tau_0 = b_0/c the initial light-time. For purely radial motion f_T = 1 and b = b_0 + v_0 t: finite light-travel time has no effect on the apparent motion in the absence of transverse motion.'
+latex = '\vec{b}=\vec{b}_0+\vec{v}_0tf_\mathrm{T},\quad f_\mathrm{T}=\frac{t+2\tau_0}{\tau_0+\left(1-\frac{v_{r0}}{c}\right)t+\frac{1}{c}\sqrt{\left(\vec{b}_0+\vec{v}_0t\right)^2+\frac{2t}{c^2\tau_0}\left(\vec{v}_0\times\vec{b}_0\right)^2}}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.1, eq. (apparent-path-solution) and the displayed f_T (tex l.718)'
+anchor = 'These formulae give the complete solution to the problem:'
+anchor_tex = '\vec{b}=\vec{b}_0+\vec{v}_0tf_\mathrm{T}\,,'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Eqs. (38)–(39), the cross-product term and radial-motion specialization match. The full light-time solution exceeds the immediate sky-rendering need. refs/butkevich_lindegren_2014_propagation.txt:433–465." }]
+depends_on = ["obs.bl-light-time-equation"]
+notes = "Derivation is 'elementary, though rather lengthy' in the paper (quadratic for b from b = b_0 + v_true (t - b/c + tau_0), then v_true = v_0/(1 - v_r0/c)); not redone here. A numerical check for the implementation: f_T -> 1 as t -> 0 and as c -> infinity; the radial-motion case gives exactly 1. [sky2-r1: dropped as deferred, not as wrong; content kept intact so it can be revived.]"
+
+[[entry]]
+id = 'obs.bl-time-factor-astrometric'
+kind = 'equation'
+domain = 'obs'
+name = 'Time factor f_T in terms of the astrometric parameters'
+statement = 'With tau_0 = tau_A/varpi_0, tau_A = A/c = 499.004 784 s, the time factor is f_T = (varpi_0 t + 2 tau_A) / (varpi_0 t + tau_A (1 + Z - mu_r0 t)) with Z = sqrt( 1 + (t + 2 tau_A/varpi_0) mu_0^2 t + (2 + mu_r0 t) mu_r0 t ). f_T = f_V = 1 in the limit c -> infinity (tau_A -> 0).'
+latex = 'f_\mathrm{T}=\frac{\varpi_0t+2\tau_\mathrm{A}}{\varpi_0t+\tau_\mathrm{A}\left(1+Z-\mu_{r0}t\right)},\quad Z=\sqrt{1+\left(t+2\tau_\mathrm{A}/\varpi_0\right)\mu_0^2t+\left(2+\mu_{r0}t\right)\mu_{r0}t}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.3, eqs. (ft), (z) (tex l.846)'
+anchor = 'we can express the time factor in terms of the astrometric parameters:'
+anchor_tex = '\varpi_0t+2\tau_\mathrm{A}}'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: tau_A, numerator, denominator and square root match Eqs. (53)–(55). Defer the rigorous time factor. refs/butkevich_lindegren_2014_propagation.txt:529–546." }]
+depends_on = ["obs.bl-apparent-path-solution", "obs.bl-parallax-radial-proper-motion"]
+notes = 'tau_A = 499.004 784 s as printed; compare with the IAU au / c value in the const lane before use (not checked here). In the limit tau_A -> 0, Z -> 1 + ... and f_T -> 1.'
+
+[[entry]]
+id = 'obs.bl-distance-factor-rigorous'
+kind = 'equation'
+domain = 'obs'
+name = 'Distance factor f_D with light-time (rigorous)'
+statement = 'The distance factor is f_D = b_0/b = [1 + 2 mu_r0 t f_T + (mu_0^2 + mu_r0^2)(t f_T)^2]^(-1/2), with f_T the time factor. Compared with obs.bl-distance-factor-nolt the interval t is replaced by t f_T.'
+latex = 'f_\mathrm{D}=b_0/b=\left[1+2\mu_{r0}tf_\mathrm{T}+\left(\mu_0^2+\mu_{r0}^2\right)\left(tf_\mathrm{T}\right)^2\right]^{-1/2}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.2, eq. (fd) (tex l.749)'
+anchor = 'Introducing the distance factor'
+anchor_tex = '\left[1+2\mu_{r0}tf_\mathrm{T}+'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Printed Eq. (43) matches, including both occurrences of t f_T. The retained no-light-time factor supplies the immediate propagation path. refs/butkevich_lindegren_2014_propagation.txt:407–413." }]
+depends_on = ["obs.bl-apparent-path-solution"]
+notes = "Squaring b = b_0 + v_0 t f_T and using b'_0 v_0 = b_0^2 mu_r0, v_0^2 = b_0^2 (mu_0^2 + mu_r0^2). [sky2-r1: dropped as deferred, not as wrong; content kept intact so it can be revived.]"
+
+[[entry]]
+id = 'obs.bl-propagation-direction-rigorous'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of direction and parallax with light-time (rigorous)'
+statement = 'u = [u_0 (1 + mu_r0 t f_T) + mu_0 t f_T] f_D and varpi = varpi_0 f_D. The celestial coordinates (alpha, delta) at epoch t are obtained from u in the usual manner. The transformation is rigorously reversible: a second transformation from T to T_0 recovers the original six parameters.'
+latex = '\vec{u}=\left[\vec{u}_0\left(1+\mu_{r0}tf_\mathrm{T}\right)+\vec{\mu}_0tf_\mathrm{T}\right]f_\mathrm{D},\quad \varpi=\varpi_0f_\mathrm{D}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.2, eqs. (prop_u), (prop_par) (tex l.755)'
+anchor = 'the propagation of the barycentric direction is'
+anchor_tex = '\varpi=\varpi_0f_\mathrm{D}\,.'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Eqs. (44)–(45) and reversibility of the complete six-parameter transformation are explicit. Defer rigorous light-time propagation. refs/butkevich_lindegren_2014_propagation.txt:416–425,490–494." }]
+depends_on = ["obs.bl-distance-factor-rigorous"]
+
+[[entry]]
+id = 'obs.bl-propagation-pm-rigorous'
+kind = 'equation'
+domain = 'obs'
+name = 'Epoch propagation of proper motion and radial proper motion with light-time (rigorous)'
+statement = "mu = [mu_0 (1 + mu_r0 t f_T) - u_0 mu_0^2 t f_T] f_D^3 f_V and mu_r = [mu_r0 + (mu_0^2 + mu_r0^2) t f_T] f_D^2 f_V, where the velocity factor is f_V = [1 + u'v_0/c - v_r0/c]^(-1) = [1 + (u - u_0)'v_0/c]^(-1) = d(t f_T)/dt. The components (mu_alpha*, mu_delta) are obtained from mu with p, q at the propagated u. These formulae describe the complete transformation of (alpha_0, delta_0, varpi_0, mu_alpha*0, mu_delta0, mu_r0) at T_0 into the six parameters at T = T_0 + t including light-time effects."
+latex = '\vec{\mu}=\left[\vec{\mu}_0\left(1+\mu_{r0}tf_\mathrm{T}\right)-\vec{u}_0\mu_0^2tf_\mathrm{T}\right]f_\mathrm{D}^3f_\mathrm{V},\quad \mu_r=\left[\mu_{r0}+\left(\mu_0^2+\mu_{r0}^2\right)tf_\mathrm{T}\right]f_\mathrm{D}^2f_\mathrm{V},\quad f_\mathrm{V}=\frac{\mathrm{d}}{\mathrm{d}t}\left(tf_\mathrm{T}\right)'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 5.2-5.3, eqs. (mu_prop), (mur_prop), (fv-definition), (fv) (tex l.809)'
+anchor = 'The above formulae describe the complete transformation of'
+anchor_tex = '\frac{\mathrm{d}}{\mathrm{d}t}\left(tf_\mathrm{T}\right)\,.'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Eqs. (47), (50)–(51), and derivative relation (57) match. These rigorous velocity corrections are unnecessary for the immediate renderer. refs/butkevich_lindegren_2014_propagation.txt:458–481,561–569." }]
+depends_on = ["obs.bl-propagation-direction-rigorous"]
+notes = 'The anchor_tex is the printed f_V = d(t f_T)/dt relation (eq. fv); the f_V definition is the displayed fv-definition equation just above eq. (vel-app...) in Sect. 5.2. f_V -> 1 as c -> infinity, recovering obs.bl-propagation-pm-nolt and obs.bl-propagation-mur-nolt.'
+
+[[entry]]
+id = 'obs.bl-lighttime-first-order-effects'
+kind = 'approximation'
+domain = 'obs'
+name = 'Light-time effects on propagated parameters: first-order estimates'
+statement = 'These formulae should not be used for the actual propagation, but only to estimate the significance of the effects. With f_T = 1 + epsilon_T and f_V = 1 + epsilon_V, epsilon_T = -(mu_0^2 tau_A/(2 varpi_0)) t and epsilon_V = -(mu_0^2 tau_A/varpi_0) t. Putting f_D ~ 1: the effects of light-time on the position, parallax, proper motion and radial proper motion are Delta theta = mu^3 tau_A t^2/(2 varpi), Delta varpi = mu_r mu^2 tau_A t^2/2, Delta mu = mu^3 tau_A t/varpi, Delta mu_r = mu_r mu^2 tau_A t/varpi, so Delta theta = t Delta mu/2 (printed, eq. D.10). The parallax relation printed in eq. (D.10), Delta varpi = (1/2) t Delta mu_r, contradicts eq. (D.9). The relation that follows from (D.9) is Delta varpi = (1/2) varpi t Delta mu_r; this is algebra derived here from (D.9), not the printed identity. The position and parallax effects are quadratic in t, the proper-motion effects linear in t; all scale roughly as the third power of the space velocity. In physical terms Delta theta = (1/2)(v_t/c)(v_t/b)^2 t^2.'
+latex = '\Delta\theta=\frac{\mu^3\tau_\mathrm{A}}{2\varpi}t^2,\quad \Delta\varpi=\frac{\mu_r\mu^2\tau_\mathrm{A}}{2}t^2,\quad \Delta\mu=\frac{\mu^3\tau_\mathrm{A}}{\varpi}t,\quad \Delta\mu_r=\frac{\mu_r\mu^2\tau_\mathrm{A}}{\varpi}t'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Appendix D, eqs. (effects), (effects-relations), (effects_physical) (tex l.2243)'
+anchor = 'These formulae should not be used for the actual'
+anchor_tex = '\Delta\theta&=\frac{\mu^3\tau_\mathrm{A}}{2\varpi}t^2 \,,'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: parallax identity replaced by Delta varpi = (1/2) varpi t Delta mu_r, labelled as algebra from (D.9); the four effect estimates unchanged; depends_on moved off the dropped rigorous entries." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Four estimates and approximation conditions match. Corrected `Δvarpi = (1/2) varpi t Δmu_r` follows algebraically from (D.9) and is explicitly distinguished from the inconsistent printed (D.10). `refs/butkevich_lindegren_2014_propagation.txt:1271–1298,1325–1360,1364–1387`." }]
+validity = 'First order in epsilon_T, epsilon_V; f_D ~ 1 and mu_r t << 1. Intended only to estimate the significance of the effects, not for propagation.'
+depends_on = ["obs.bl-distance-factor-nolt", "obs.bl-parallax-radial-proper-motion"]
+notes = "Units: in these formulae mu and varpi are in radians per unit time and radians and tau_A in the same time unit as t (tau_A = 1.5812507e-5 yr, computed from the printed 499.004 784 s and the printed Julian year 365.25 x 86400 s). Self-check against the paper's own example: Barnard's star mu = 10357.70 mas/yr, varpi = 549.01 mas; solving Delta theta = 1 mas for t gives 113.5 yr (paper: 't << 114 yr'), and Delta theta = 1 microarcsec gives 3.59 yr (paper: '3.6 yr'). Computed here with the equations above. [sky2-r1 applied] Parallax identity: from (D.9) Delta varpi = mu_r mu^2 tau_A t^2/2 and Delta mu_r = mu_r mu^2 tau_A t/varpi, so Delta varpi = (1/2) varpi t Delta mu_r (algebra; numeric check with mu = 331.2 mas/yr, varpi = 8.16 mas, t = 16 yr, illustrative mu_r = 172.134814 mas/yr: Delta varpi from (D.9) = 8.982760e-13 mas, (1/2) varpi t Delta mu_r = 8.982760e-13 mas, absolute error 0.0e+00 mas; the printed form (1/2) t Delta mu_r would give 2.270622e-05 mas, larger by 1/varpi = 2.528e+07). The printed (D.10) form without the factor varpi disagrees with (D.9) by the factor varpi. The four effect estimates themselves match refs/butkevich_lindegren_2014_propagation.txt:1345–1360. depends_on reduced to the retained no-light-time entries because the rigorous f_T, f_V entries are dropped (deferred), not rejected as wrong; the f_T, f_V definitions of the paper remain the source of epsilon_T, epsilon_V."
+
+[[entry]]
+id = 'obs.bl-lighttime-neglect-criterion'
+kind = 'result'
+domain = 'obs'
+name = 'Criterion for neglecting light-time effects'
+statement = "Light-time effects may be ignored if Delta theta << sigma_theta and Delta mu << sigma_mu, i.e. t^2 << 2 varpi sigma_theta / (mu^3 tau_A) and t << varpi sigma_mu / (mu^3 tau_A). The strong cubic dependence on mu means light-time effects are mainly important for high-proper-motion stars. Example printed: Barnard's star (mu = 10357.70 mas/yr, varpi = 549.01 mas): at sigma_theta = 1 mas, negligible for t << 114 yr; at 1 microarcsec only for t << 3.6 yr."
+latex = 't^2\ll\frac{2\varpi\sigma_\theta}{\mu^3\tau_\mathrm{A}},\quad t\ll\frac{\varpi\sigma_\mu}{\mu^3\tau_\mathrm{A}}'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Sect. 6.1, eq. (neglect) (tex l.1247)'
+anchor = 'light-time effects are negligible'
+anchor_tex = 't^2\ll\frac{2\varpi\sigma_\theta}{\mu^3\tau_\mathrm{A}} \, ,'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Both inequalities, cubic proper-motion dependence and Barnard examples match Eq. (88) and its discussion. Python reproduces the quoted boundaries as 113.533 and 3.59023 yr. refs/butkevich_lindegren_2014_propagation.txt:751–780." }]
+depends_on = ["obs.bl-lighttime-first-order-effects"]
+notes = "Reproduced numerically here: 113.5 yr and 3.59 yr for Barnard's star (see obs.bl-lighttime-first-order-effects)."
+
+[[entry]]
+id = 'obs.bl-uniform-model-applicability'
+kind = 'approximation'
+domain = 'obs'
+name = 'Uniform-motion assumption: effect of a constant acceleration'
+statement = 'A constant acceleration a on the barycentric position of a star over a span t gives Delta b ~ a t^2/2, hence Delta theta ~ a_perp t^2/(2b) (a_perp the tangential component) and Delta mu ~ a_perp t/b; in parallax Delta varpi ~ -A a_par t^2/(2 b^2) and in radial velocity Delta v_r ~ a_par t. The motion may be regarded as uniform if |Delta theta| << sigma_theta. The dominant acceleration common to all stars is the Galactic one (differential acceleration relative to the SSB); at the Sun a_0 = V_0^2/R_0 ~ 2.5e-10 m s^-2 (R_0 ~ 8.4 kpc, V_0 ~ 254 km/s, as printed). Companions are not considered.'
+latex = '\Delta\theta\simeq a_\perp t^2/(2b),\quad \Delta\mu\simeq a_\perp t/b,\quad \Delta\varpi\simeq -A a_\parallel t^2/(2b^2)'
+source = 'butkevich_lindegren_2014_propagation'
+locator = 'Appendix E (tex l.2349)'
+anchor = 'The corresponding change in the angular position'
+anchor_tex = '$\Delta\theta\simeq a_\perp t^2/(2b)$'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Acceleration estimates, negative parallax sign, differential acceleration and companion exclusion match printed Appendix E. The solar acceleration is presented as the paper's illustrative estimate. refs/butkevich_lindegren_2014_propagation.txt:1371–1387,1413–1446." }]
+validity = 'Constant acceleration; Galactic differential acceleration only. Not evaluated for RX J1856 (neutron-star proper motion, any companion or Galactic-potential curvature not assessed).'
+depends_on = ["obs.bl-uniform-rectilinear-model"]
+notes = 'Order-of-magnitude for RX J1856 is NOT printed and was not computed by this lane. The paper does not claim anything about its binarity or Galactic acceleration.'
+
+[[entry]]
+id = 'obs.rxj1856-epoch-propagation-estimate'
+kind = 'result'
+domain = 'obs'
+name = "RX J1856 epoch propagation: first-order light-time position effect over an illustrative 16 years"
+statement = "For mu = 331.2 mas/yr and varpi = 8.16 mas (Walter 2010 Table 3 mean row, obs.rxj1856-proper-motion-total and obs.rxj1856-parallax-walter2010-table3) over an illustrative t = 16 yr, the first-order light-time position-effect magnitude is Delta theta = mu^3 tau_A t^2/(2 varpi) = 4.36884266e-5 mas (0.0436884 microarcsec), with tangential velocity v_t = A_V mu/varpi = 192.407330 km/s and light-time proper-motion effect Delta mu = 5.46105332e-6 mas/yr, from the first-order estimates of obs.bl-lighttime-first-order-effects (which the paper says are only for estimating significance, not for propagation). The estimate says nothing else: perspective-acceleration terms, sky-projection terms and the effect of an assumed radial velocity are not asserted here."
+latex = '\Delta\theta_{lt}=\frac{\mu^3\tau_A}{2\varpi}t^2\approx 4.4\times10^{-5}\ \mathrm{mas}\ (t=16\ \mathrm{yr})'
+source = 'butkevich_lindegren_2014_propagation'
+locator = "Appendix D, eqs. (D.9), (D.11) (effects, effects_physical); inputs: Walter 2010 Table 3 (tex l.2291)"
+anchor = 'we readily obtain the effects of the'
+ocr = 'good'
+provenance = 'derivable'
+ownership = 'stub'
+status = "blessed"
+reject_resolved = true
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Multiple errors: at mu_r0=0 total proper motion changes relatively by -(mu t)^2 = -6.6004e-10, not -9.9e-10; assumed v_r=+100 km/s adds a missing angular perspective correction of -0.0707577 mas; the 'no printed epoch' note is false (Walter footnote: epoch 2003.624, refs/walter_2010_rxj1856_distance.txt:913). Surviving weaker statement: the stated inputs give a first-order light-time position-effect magnitude of 4.36884266e-5 mas over an illustrative 16 yr. Applied: statement reduced to that; all numbers recomputed in python (see notes), within tolerance." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: locator changed from (D.10) to (D.11) for effects_physical. Reviewer reason: Reduced numerical claim is supported and independently reproduced. Correct the locator’s `(D.10)` to **`(D.11)`** for `effects_physical`; that label denotes the physical-parameter equations. `refs/butkevich_lindegren_2014_propagation.txt:1345–1374`; measured inputs: `refs/walter_2010_rxj1856_distance.txt:862–874`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Locator correction to (D.11) is complete: refs/butkevich_lindegren_2014_propagation.txt:1364-1377. TeX anchor matches at line 2291; the reduced estimate follows (D.9), text lines 1345-1354." }]
+depends_on = ["obs.bl-lighttime-first-order-effects", "obs.rxj1856-proper-motion-total", "obs.rxj1856-parallax-walter2010-table3"]
+notes = "[sky2-r1 reject; statement reduced to the surviving weaker statement] Superseded claims, now NOT asserted: relative change of mu of -1.5 (mu t)^2 = -9.9e-10 (correct value at mu_r0 = 0 is -(mu t)^2 = -6.6004e-10); the assumed v_r = +100 km/s case missed an angular perspective correction of -0.0707577 mas, which exceeds the previously claimed largest correction; the claim that Walter prints no epoch is false: Walter 2010 footnote (refs/walter_2010_rxj1856_distance.txt:913) prints \"Positions are referenced to the NOMAD-1 catalog position of star 9, and are epoch 2003.624.\" for Table 4 (L910, delta = -37 54 35.54 = -37.90987222 deg); the nominal pair (-37.908 deg) of obs.rxj1856-position-walter2010 has no printed epoch, and -37.908 deg lacks the observational provenance of Table 4 (so the earlier delta-dependent second-order numbers are withdrawn). Recomputation (python3, stdlib; expected values are the sky2-r1 reviewer's, equations (83)-(87) and (D.9) of refs/butkevich_lindegren_2014_propagation.txt:701–714,731–747,1345–1354; constants A_V = 4.740470446 km yr s^-1, tau_A = 499.004784 s, year = 365.25 x 86400 s): quantity | expected | computed | abs error | tolerance | units. v_t | 192.407330 | 192.40733 | 1.33e-07 | 5e-07 | km/s. light-time position effect | 4.36884266e-05 | 4.36884266e-05 | 2.9e-15 | 5e-12 | mas. light-time proper-motion effect | 5.46105332e-06 | 5.46105332e-06 | 4.64e-15 | 5e-13 | mas/yr. f_D - 1 at mu_r0 = 0 | -3.30020076e-10 | -3.30020122e-10 | 4.63e-17 | 5e-16 | 1. Delta varpi at mu_r0 = 0 | -2.69296382e-09 | -2.6929642e-09 | 3.78e-16 | 5e-15 | mas. relative Delta mu at mu_r0 = 0 | -6.6004e-10 | -6.60040245e-10 | 2.45e-16 | 5e-14 | 1. total Delta mu at mu_r0 = 0 | -2.18605298e-07 | -2.18605329e-07 | 3.1e-14 | 5e-13 | mas/yr. mu_r for illustrative +100 km/s | 172.134814 | 172.134814 | 3.18e-07 | 5e-07 | mas/yr. angular acceleration -2 mu_r mu | -5.52794745e-04 | -5.52794745e-04 | 1.56e-13 | 5e-12 | mas/yr^2. angular correction a t^2/2 | -0.0707577 | -0.0707577274 | 2.74e-08 | 5e-08 | mas. All rows within tolerance. The reduced statement's 4.37e-5 mas of the earlier wording differs from 4.36884266e-5 by 1.157e-8 mas (rounding, tolerance 5e-8). The dominant risk remains epoch ambiguity of the nominal pair: the proper motion moves the position by 331.2 mas per year. Walter's Table 4 epoch 2003.624 belongs to the Table 4 position only."
+
+[[entry]]
+id = 'obs.hipparcos-reference-epoch-j1991-25'
+kind = 'datum'
+domain = 'obs'
+name = 'Hipparcos reference epoch J1991.25 (positional reference frame of the revised catalogue)'
+statement = "Lindegren et al. (2021) refer to 'the positional reference frame of Hipparcos at epoch J1991.25 as defined by the revised Hipparcos catalogue' (van Leeuwen 2007 book). The epoch J1991.25 is NOT printed in van Leeuwen's validation paper (grep for 1991, J19, 'reference epoch' on refs/vanleeuwen_2007_hipparcos.tex returns nothing)."
+value = 'J1991.25'
+units = 'Julian epoch'
+uncertainty = 'exact (a convention)'
+source = 'lindegren_2021_gaia_astrometry'
+locator = "Sect. 'Reference frame' (tex l.543-544), also l.1640 (tex l.544)"
+anchor = 'epoch J1991.25 as defined by the revised \textsc{Hipparcos} catalogue'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Acceptable as the explicitly attributed positional reference-frame epoch used by Lindegren (2021). Its TeX anchor matches, and the narrow statement preserves the secondary attribution. It supplies no independent catalogue-parameter epoch specification. refs/lindegren_2021_gaia_astrometry.txt:356–360,1059–1063." }]
+notes = "Second local print at l.1640-1641: 'J1991.25, agrees with the \\textsc{Hipparcos} reference frame'. Caveat: the sentence gives the epoch of the positional reference frame, not an explicit statement that the catalogue astrometric parameters refer to it; the Hipparcos catalogue (ESA 1997, van Leeuwen 2007 book) is not on disk. Not harvested: the Hipparcos catalogue-epoch statement from a Hipparcos primary source."
+
+[[entry]]
+id = 'obs.hipparcos-new-reduction-star-counts'
+kind = 'datum'
+domain = 'obs'
+name = 'Hipparcos new reduction: 117 955 stars, 102 072 with five-parameter solutions'
+statement = 'A basic five-parameter astrometric solution has been sufficient for application to 102 072 out of a total of 117 955 stars of the new Hipparcos reduction. Stars for which the old catalogue gave a stochastic solution: 1561 in the old catalogue, solved as normal solutions in the new reduction: 962.'
+value = '117955 stars total; 102072 five-parameter'
+units = 'stars'
+uncertainty = 'exact counts as printed'
+source = 'vanleeuwen_2007_hipparcos'
+locator = 'Sect. 2.4 (Field-of-view transits and astrometric parameters) (tex l.441)'
+anchor = 'A basic five-parameter astrometric solution has been sufficient for'
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All four counts match. Catalogue population and reduction bookkeeping are unnecessary for Milestones 1–3 rendering. refs/vanleeuwen_2007_hipparcos.txt:297–307." }]
+notes = "Thin-space separators in the source ('117 955'). The paper does not enumerate the five parameters in this sentence; the error table (Table 1, HIP 70 and 71) lists parallax, mu_alpha* and mu_delta rows, and position is implied. See obs.hipparcos-five-parameter-set for what is printed. [sky2-r1: dropped as deferred, not as wrong; content kept intact so it can be revived.]"
+
+[[entry]]
+id = 'obs.hipparcos-five-parameter-set'
+kind = 'datum'
+domain = 'obs'
+name = "Hipparcos new reduction: basic five-parameter solutions; parallax and proper-motion components tabulated"
+statement = "The new Hipparcos reduction reports a basic five-parameter astrometric solution that was sufficient for 102 072 out of 117 955 stars. The validation paper's Table 1 tabulates parallax (varpi) and the proper-motion components mu_alpha* and mu_delta with formal errors for HIP 70 and HIP 71 (old versus new reduction, units mas and mas/yr). Unresolved orbital motion can cause residuals significantly larger than expected. The paper does not enumerate the five parameters in the cited passage, and no assignment rule from orbital motion to solution type is stated here."
+value = "basic five-parameter solutions reported; Table 1 tabulates varpi, mu_alpha*, mu_delta"
+units = '-'
+uncertainty = 'exact'
+source = 'vanleeuwen_2007_hipparcos'
+locator = "Sect. 2.4 and 2.6, Table 1 (tex l.441)"
+anchor = 'A basic five-parameter astrometric solution has been sufficient for'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'leaf'
+status = "blessed"
+reject_resolved = true
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "The cited passage never enumerates two position parameters; 'Stars with unresolved orbital motion get ... solutions instead' turns a possible cause into an unconditional assignment rule. Surviving weaker statement: the paper reports basic five-parameter solutions and tabulates parallax plus two proper-motion components; unresolved orbital motion can cause excess residuals. Applied: statement, value and notes reduced to that (refs/vanleeuwen_2007_hipparcos.txt:297–307,384–394)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Reduced statement matches: basic five-parameter solutions, three explicitly tabulated quantities with errors, and unresolved orbital motion as a possible cause of excess residuals. Unsupported enumeration and unconditional assignment rule are withdrawn. `refs/vanleeuwen_2007_hipparcos.txt:297–307,384–394`." }]
+notes = "[sky2-r1 reject; reduced to the surviving weaker statement: the paper reports basic five-parameter solutions and tabulates parallax plus two proper-motion components; unresolved orbital motion can cause excess residuals, refs/vanleeuwen_2007_hipparcos.txt:297–307,384–394.] Withdrawn: that two position parameters are among the five (the passage never enumerates them; the standard set is printed for Gaia in obs.agis-astrometric-parameter-set and obs.gaia-dr3-astrometric-parameters), and that stars with unresolved orbital motion get stochastic or other solutions as an unconditional rule (the paper says it 'can be caused by unresolved orbital motion'). Table 1 rows (txt l.388-394): 'varpi', 'mu_alpha*', 'mu_delta'. No radial velocity or perspective-acceleration parameter is printed for Hipparcos."
+
+[[entry]]
+id = 'obs.hipparcos-observed-magnitude-range'
+kind = 'datum'
+domain = 'obs'
+name = 'Hipparcos observed magnitude range: stars from magnitude -1 to 12.5 were observed'
+statement = "The integrated photon count I_tot of an observation varied considerably, 'as stars from magnitude -1 to 12.5 were observed' (observed range of the satellite; the magnitude band of this range is unspecified in the sentence; not a statement of catalogue completeness). The paper's abstract states the new catalogue is claimed to have accuracies better, by up to a factor 4, for nearly all stars brighter than Hp = 8. Formal errors are determined by photon statistics down to about magnitude 3.5 to 4 in the new reduction (versus 8 to 9 in the original catalogue)."
+value = '-1 to 12.5 (observed range); Hp = 8 (accuracy statement)'
+units = "mag (band unspecified in the cited sentence; Hp in the accuracy statement)"
+uncertainty = 'not stated'
+source = 'vanleeuwen_2007_hipparcos'
+locator = 'Abstract; Sect. 2.1; Sect. 2.4 (tex l.233)'
+anchor = 'as stars from magnitude -1 to 12.5 were observed.'
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: observed range and accuracy qualifications retained; inaccurate grep claim replaced by 'No catalogue magnitude-completeness limit is stated'; band of the range labelled unspecified in its sentence and units field." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Observed range, unspecified band, accuracy qualification and photon-statistics thresholds match. Completeness is no longer inferred from the range or an inaccurate grep claim. `refs/vanleeuwen_2007_hipparcos.txt:20–21,183–184,321–325`." }]
+notes = "NOT a completeness statement. No catalogue magnitude-completeness limit is stated. (A grep of refs/vanleeuwen_2007_hipparcos.tex for 'complete' is not sufficient evidence: it also hits 'complete description' as well as 'completed'; the claim rests on reading refs/vanleeuwen_2007_hipparcos.txt:21,183–184,321–325,466–467.) The GAPS row 1.11 need (bright stars absent from Gaia) is not answered by this paper, and nothing is claimed here about Gaia's bright limit."
+
+[[entry]]
+id = 'obs.hipparcos-optical-realization-icrs'
+kind = 'datum'
+domain = 'obs'
+name = 'Hipparcos 1997 catalogue as the optical realization of the ICRS'
+statement = 'The Hipparcos catalogue as published in 1997 serves as the optical realization of the International Celestial Reference System (ICRS). The validation paper compares the new reduction with it in positions and proper motions and finds relative rotations and spins smaller than the accuracy with which the published catalogue was linked to the ICRS (spin components in mas/yr: omega_x = -0.001 +/- 0.003, omega_y = -0.005 +/- 0.003, omega_z = +0.006 +/- 0.003).'
+value = '-'
+units = '-'
+uncertainty = "quoted ±0.003 mas/yr per spin component"
+source = 'vanleeuwen_2007_hipparcos'
+locator = 'Sect. 3.2 (tex l.770)'
+anchor = 'The Hipparcos catalogue as published in 1997 serves as the optical realization'
+ocr = 'good'
+provenance = 'convention'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: uncertainty set to 'quoted ±0.003 mas/yr per spin component'; the unprinted '1 sigma' convention removed (vanleeuwen_2007_hipparcos.txt:471–476,506–525)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Frame statement and all three spin values, signs and uncertainties match. Unsupported “1 sigma” qualification is removed. `refs/vanleeuwen_2007_hipparcos.txt:471–476,506–525`." }]
+notes = 'Frame statement as printed; the epoch of the frame is not printed in this paper (see obs.hipparcos-reference-epoch-j1991-25 for the Lindegren 2021 statement). Bright-star use: the new reduction is a candidate source of bright-star astrometry, but the catalogue itself (rows) is not on disk and is not harvested.'
+
+[[entry]]
+id = 'obs.mellinger-resolution-and-range'
+kind = 'datum'
+domain = 'obs'
+name = 'Mellinger 2009 panorama: pixel scale, limiting magnitude, dynamic range'
+statement = "An optical (RGB) all-sky mosaic image with an image scale of 36 arcsec/pixel (36000 x 18000 pixels, 360 x 180 degrees, 648 Megapixel), a limiting magnitude of approx. 14 mag and an 18 bit dynamic range, assembled from 70 fields (each covering 40 x 27 degrees) imaged over 21 months from dark-sky locations in South Africa, Texas and Michigan; more than 3000 individual CCD images. Stars brighter than +0.7 mag are saturated; the faintest visible stars are approx. 14 mag. Floating-point maps are 32-bit, about 2.5 GByte per colour channel; an OpenEXR half-precision version is 'in preparation'."
+value = '36 arcsec/pixel; limiting magnitude approx. 14 mag; saturation at +0.7 mag; approx. 18 bit'
+units = 'arcsec/pixel; mag'
+uncertainty = 'approximate as printed'
+source = 'mellinger_2009_panorama'
+locator = 'Abstract; Sect. 4 (Results) (tex l.118)'
+anchor = 'an image scale of 36~arcsec/pixel, a limiting magnitude of approx.\ 14~mag and an 18~bit dynamic range.'
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Abstract and results support pixel scale, dimensions, limiting magnitude, saturation threshold, dynamic range and file representation. Acquisition totals also match. refs/mellinger_2009_panorama.txt:13–23,51–52,352–358,394–397." }]
+notes = "Magnitude band of the 14 mag limit is not stated (RGB filters; V calibration, see obs.mellinger-photometric-calibration). Angular resolution proper (PSF width) is not printed: only the pixel scale and 'crisp star images limited by projection equipment'."
+
+[[entry]]
+id = 'obs.mellinger-photometric-calibration'
+kind = 'datum'
+domain = 'obs'
+name = 'Mellinger 2009: photometric calibration against Yale Bright Star Catalog V magnitudes, S10(V) units'
+statement = "For each field and colour channel, typically 100–120 matches were found from a reference list of several hundred stars. The matched stars are from the Yale Bright Star (YBS) Catalog: V = Q - 2.5 lg S + epsilon (B-V), with Q the instrumental zero point (including atmospheric extinction) and (B-V) from YBS; Q and epsilon from a least-squares fit per field and channel. ADU are converted to S10(V) units, '1 S10(V) = kappa^2 10^(0.4(Q-10)) ADU' (kappa the image scale in degrees per pixel); one S10(V) unit is the sky brightness of one 10th magnitude star per square degree. The filters are the Astronomik Type 2c RGB set, 'instead of the Johnson UBVR filters common in photometry'. Epsilon is about -1 (B), 0 (G) and +0.3 (R)."
+value = 'V = Q - 2.5 lg S + epsilon (B-V); 1 S10(V) = kappa^2 10^{0.4(Q-10)} ADU'
+units = 'mag; ADU'
+uncertainty = 'no photometric accuracy or zero-point uncertainty printed'
+source = 'mellinger_2009_panorama'
+locator = "Sect. 3.4 (Photometric Calibration, Standard star processing) (tex l.351); Sects. 2.1.3 and 3.5 (filters, TIFF processing; txt l.93-95, 342-346)"
+anchor = 'The ADU units were then converted to $S_{10}$(V) units commonly used for measuring surface brightness'
+anchor_tex = '1\text{~}S_{10}(\text{V}) = \kappa^2\, 10^{0.4(Q-10)}\text{~ADU}\:,'
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "proposed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: matched-star wording set to '100–120 matched stars from a reference list of several hundred'; unsupported notes replaced by the reviewer's text; both calibration equations unchanged." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: statement restored to read 'For each field and colour channel, typically 100–120 matches were found from a reference list of several hundred stars.' (value unchanged). Reviewer reason: Restore the qualifier: **“For each field and colour channel, typically 100–120 matches were found from a reference list of several hundred stars.”** The source does not guarantee that count for every field/channel. Both calibration equations match. Add Sects. 2.1.3 and 3.5 to the locator for the filters and TIFF notes. `refs/mellinger_2009_panorama.txt:93–95,285–302,342–346`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "reject", note = "applied after r3: locator now adds Sects. 2.1.3 and 3.5 (txt 93-95, 342-346). Reviewer: the paraphrase faithfully combines refs/mellinger_2009_panorama.txt:285-288; both calibration equations match lines 290-302, and TeX anchors match byte-for-byte. However, the round-2 locator correction remains unapplied: add Sects. 2.1.3 and 3.5 for filters and TIFF processing (lines 93-95, 342-346). Surviving statement: typically 100-120 YBS matches per field/channel, with calibration given by Eqs. (4)-(5)." }]
+notes = "Locator fix applied after the r3 reject (sky2-r3.md); content unchanged; needs an owner bless or r4. YBS V calibration; the generated TIFF is 8-bit with a nonlinear luminance transfer; distribution and a Vega zero-point are not established here."
+
+[[entry]]
+id = 'obs.mellinger-background-and-star-content'
+kind = 'datum'
+domain = 'obs'
+name = 'Mellinger 2009: which light is removed and which kept; stars are NOT removed'
+statement = "Light pollution, airglow, zodiacal light and tropospheric scattering (I_bad) were removed using Pioneer 10/11 space-probe sky-background data (Gordon et al. 1998) for the retained component I_good = I_ISL + I_DGL + I_EBL (integrated starlight of unresolved stars, diffuse galactic light, extragalactic background). The model is I = S + I_bad + I_good with S the flux of point sources or resolved diffuse objects; I_bad is estimated by a strong median filter of (I - I_good) and subtracted, leaving S + I_good. Stars were not removed: the panorama shows stars to approx. 14 mag, plus the Magellanic Clouds, M31 and solar-system objects ('No attempt was made to remove or avoid solar system objects invisible to the naked eye'). The Pioneer data do not cover the whole sky (excluded within 70 deg of the Sun for Pioneer 10 and 45 deg for Pioneer 11); missing data were filled from Leinert et al. (1998) points on a 10 x 10 degree grid and a bicubic spline interpolation."
+value = 'starless: no. Stars to approx. 14 mag retained; unresolved-star background retained'
+units = '-'
+uncertainty = 'not printed'
+source = 'mellinger_2009_panorama'
+locator = 'Sect. 3.4 (Background subtraction); Sect. 4 (tex l.333)'
+anchor = 'Many of these contributions to the night sky brightness are undesirable in an all-sky mosaic image.'
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: notes: 'a new first-principles step' replaced by 'an unvalidated reconstruction proposal' for masking/inpainting; background equations unchanged." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Background decomposition, filtering, retained stars and interpolation match. Masking/inpainting is now correctly labelled an unvalidated proposal. `refs/mellinger_2009_panorama.txt:257–277,308–330,355–371`." }]
+notes = "PRD 'starless diffuse Milky Way' is NOT met by this map as published: it contains resolved stars down to approx. 14 mag. The retained I_good also contains the integrated light of unresolved stars (I_ISL); a diffuse map that is to be combined with Gaia point sources must avoid counting those stars twice, and the paper describes no star-masking or star-subtraction step. Gaia DR3 point sources (catalogue range G = 3 to 21 per the sky lane, obs.gaia-magnitude-range-and-bright-end) would overlap with this map's resolved stars. Open PRD decision (record in handoff): (a) accept Mellinger plus star masking by Gaia positions with an inpainting step (project-owned, an unvalidated reconstruction proposal; the paper supports no recovery of the missing diffuse radiance), (b) find a starless diffuse map with a printed arXiv source, (c) rebuild a diffuse background from Gaia total-flux minus catalogued flux (needs a printed Gaia source). Mellinger prints no licence (see obs.mellinger-availability)."
+
+[[entry]]
+id = 'obs.mellinger-availability'
+kind = 'datum'
+domain = 'obs'
+name = 'Mellinger 2009: availability and licence statement'
+statement = "The paper prints no licence for the panorama. It states that 'a zoomable Mercator projection can be seen on the author's web site' (a viewing statement), that a low-resolution colour image is shown in the paper (Fig. 7), and that an OpenEXR version of the full 32-bit maps is 'in preparation'. It prints no download statement, no redistribution or reuse terms, and no data-centre identifier."
+value = 'licence: not printed'
+units = '-'
+uncertainty = '-'
+source = 'mellinger_2009_panorama'
+locator = 'Sect. 4 (Results), Sect. 5 (Applications) (tex l.395)'
+anchor = "A zoomable Mercator projection can be seen on the author's web site"
+ocr = 'good'
+provenance = 'measured'
+ownership = 'leaf'
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: figure reference corrected from Fig. 5 to Fig. 7 (refs/mellinger_2009_panorama.txt:360); viewing and OpenEXR 'in preparation' statements retained; no licence grant exists in the paper." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Fig. 7 correction is applied. Viewing and OpenEXR “in preparation” statements match; the paper supplies no panorama download commitment or reuse licence. `refs/mellinger_2009_panorama.txt:360–361,394–397`." }]
+notes = 'Anchor is the verbatim viewing statement. The licence and download availability must be established from a source other than this paper before the map is used at runtime; the pipeline rule 7 requires a measurement or convention: the map would be a measurement (with its own checksums under refs/data/) but no licence is on disk. Not harvested: licence text.'

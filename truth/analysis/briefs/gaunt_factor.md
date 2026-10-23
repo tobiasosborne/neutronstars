@@ -1,0 +1,11 @@
+# Topic: the exact thermally averaged free-free Gaunt factor from Coulomb wavefunctions (audit A4; spine node pipeline.gaunt-factor)
+
+Problem. v1 consumed McPHAC's gffgu.dat table silently (refs/code/McPHAC/gffgu.dat, refs/haakonsen_2012_mcphac footnote on the column swap). The project must recompute g_ff(eta_i, eta_f), its Maxwell average g-bar_ff(u, gamma^2) and the non-Born ratio from first principles, and use the published tables only as verification targets. Local sources: refs/vanhoof_2014_gaunt (tex; exact calculation Sect. 2, thermal average Sect. 3, series in App. A), refs/karzas_latter_1961_gaunt (scan, OCR poor), refs/hummer_1988_gaunt (fit), refs/haakonsen_2012_mcphac, refs/potekhin_chabrier_2003_ff_opacity (magnetic free-free, App. A), and the opacity.* entries in truth/entries/opacity.toml.
+
+Required argument:
+1. State the Sommerfeld (Biedenharn) exact expression for the free-free Gaunt factor in terms of hypergeometric functions of eta_i, eta_f, as printed locally; define the variables and the Kramers normalisation; derive the Born and classical limits and show they reproduce the Kramers factor.
+2. Define the thermal average g-bar_ff(u, gamma^2) as printed (van Hoof Sect. 3), including the integration variable, the Maxwell weight and the convergence conditions at u -> 0 and u -> infinity.
+3. Numerical strategy: evaluate the hypergeometric form stably (recurrences, logarithmic forms, large-eta asymptotics, the series in App. A); specify precision targets and where double precision fails (give a numeric example, computed in python with mpmath if available, otherwise with a series you derive).
+4. Verification plan with numbers: pick 3 points of the van Hoof table or gffgu.dat (quote the local values with file:line, respecting the column swap) and state the tolerance the own code must meet; compare the Hummer 1988 fit at the same points (print the numbers).
+5. Magnetic extension: how the B = 0 Gaunt factor enters the PC03 magnetic free-free coefficients (the gaunt_ratio rescaling in opacity.approx-ff-non-born-correction) and whether that rescaling is justified; state what a full magnetic Gaunt factor would require.
+6. Stub policy and effect on the atmosphere spectrum (where in the 0.1-10 keV band and in the optical the Gaunt factor matters most, with an estimate).

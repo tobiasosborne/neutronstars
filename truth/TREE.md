@@ -1,0 +1,1678 @@
+# Recomputation tree (rendered by truth/check.py; do not edit)
+
+roots: 62; nodes: 493; green: 177, yellow: 316, red: 0
+
+- 🟡 **colour.reinhard-lwhite-limits** [stub/derivable] Limits of the Lwhite operator — 1 stub(s) below
+  - 🟢 **colour.reinhard-white-operator** [leaf/convention] Global operator with burn-out Lwhite, Reinhard eq. 4
+    - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+      - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+        - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+          - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+          - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+        - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+          - (see above)
+        - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+          - (see above)
+    - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+      - (see above)
+  - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+    - (see above)
+
+- 🟡 **eos.barotropic-first-law** [stub/derivable] First law for a barotropic EoS (integral forms) — 1 stub(s) below
+  - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk-low-density-inadequate** [stub/fit] BSk EoS inadequate below 1e6 g/cm^3; ideal-gas continuation — 2 stub(s) below
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk-mmax-central-density** [stub/code] Central density at maximum mass, BSk19/20/21 — 6 stub(s) below
+  - 🟡 **eos.bsk-mmax-benchmark** [stub/code] BSk19/20/21 maximum neutron-star mass
+    - 🟡 **eos.tov-integration-procedure** [stub/code] How the BSk benchmark M-R curves were integrated
+      - 🟡 **eos.tov-pressure** [stub/derivable] Tolman-Oppenheimer-Volkoff pressure equation
+        - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+        - 🟡 **eos.enclosed-mass-and-rg** [stub/derivable] Enclosed gravitational mass and Schwarzschild radius
+          - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+            - (see above)
+      - 🟢 **eos.rho-surface-fe56** [leaf/measured] Reference surface density rho_s
+        - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+    - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+        - (see above)
+
+- 🟡 **eos.bsk-mmin-benchmark** [stub/code] BSk19/20/21 minimum neutron-star mass — 4 stub(s) below
+  - 🟡 **eos.tov-integration-procedure** [stub/code] How the BSk benchmark M-R curves were integrated
+    - 🟡 **eos.tov-pressure** [stub/derivable] Tolman-Oppenheimer-Volkoff pressure equation
+      - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+      - 🟡 **eos.enclosed-mass-and-rg** [stub/derivable] Enclosed gravitational mass and Schwarzschild radius
+        - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+          - (see above)
+    - 🟢 **eos.rho-surface-fe56** [leaf/measured] Reference surface density rho_s
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk-nb-of-rho-fit** [stub/fit] BSk inverse fit n_b(rho) — 3 stub(s) below
+  - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+      - (see above)
+  - 🟡 **eos.m-u-rounded** [stub/fit] Atomic mass unit as used in the BSk fits
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+      - (see above)
+
+- 🟡 **eos.bsk-pressure-fit-accuracy** [stub/fit] Accuracy of the P(rho) analytic fit — 2 stub(s) below
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk-radius-0p5-benchmark** [stub/code] BSk19/20/21 radius of a 0.5 Msun star — 4 stub(s) below
+  - 🟡 **eos.tov-integration-procedure** [stub/code] How the BSk benchmark M-R curves were integrated
+    - 🟡 **eos.tov-pressure** [stub/derivable] Tolman-Oppenheimer-Volkoff pressure equation
+      - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+      - 🟡 **eos.enclosed-mass-and-rg** [stub/derivable] Enclosed gravitational mass and Schwarzschild radius
+        - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+          - (see above)
+    - 🟢 **eos.rho-surface-fe56** [leaf/measured] Reference surface density rho_s
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk-radius-1p4-benchmark** [stub/code] BSk19/20/21 radius of a 1.4 Msun star — 5 stub(s) below
+  - 🟡 **eos.tov-integration-procedure** [stub/code] How the BSk benchmark M-R curves were integrated
+    - 🟡 **eos.tov-pressure** [stub/derivable] Tolman-Oppenheimer-Volkoff pressure equation
+      - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+      - 🟡 **eos.enclosed-mass-and-rg** [stub/derivable] Enclosed gravitational mass and Schwarzschild radius
+        - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+          - (see above)
+    - 🟢 **eos.rho-surface-fe56** [leaf/measured] Reference surface density rho_s
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+      - (see above)
+
+- 🟡 **eos.bsk-superluminal-density** [stub/code] Density above which BSk EoS become superluminal — 8 stub(s) below
+  - 🟡 **eos.bsk-mmax-benchmark** [stub/code] BSk19/20/21 maximum neutron-star mass
+    - 🟡 **eos.tov-integration-procedure** [stub/code] How the BSk benchmark M-R curves were integrated
+      - 🟡 **eos.tov-pressure** [stub/derivable] Tolman-Oppenheimer-Volkoff pressure equation
+        - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+        - 🟡 **eos.enclosed-mass-and-rg** [stub/derivable] Enclosed gravitational mass and Schwarzschild radius
+          - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+            - (see above)
+      - 🟢 **eos.rho-surface-fe56** [leaf/measured] Reference surface density rho_s
+        - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+    - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+        - (see above)
+  - 🟡 **eos.bsk-adiabatic-index** [stub/fit] Adiabatic index from the P(rho) fit
+    - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+      - (see above)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+      - (see above)
+
+- 🟡 **eos.bsk19-a-coefficients** [stub/fit] BSk19 coefficients a_1..a_23 of Eq. (3) — 2 stub(s) below
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk20-a-coefficients** [stub/fit] BSk20 coefficients a_1..a_23 of Eq. (3) — 2 stub(s) below
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk21-a-coefficients** [stub/fit] BSk21 coefficients a_1..a_23 of Eq. (3) — 2 stub(s) below
+  - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.bsk21-b-coefficients** [stub/fit] BSk21 coefficients b_1..b_8 of Eq. (6) — 4 stub(s) below
+  - 🟡 **eos.bsk-delta-rho-fit** [stub/fit] BSk fit of the density excess Delta_rho(n_b)
+    - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+    - 🟡 **eos.bsk-pressure-fit** [stub/fit] BSk analytic fit P(rho)
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+        - (see above)
+    - 🟡 **eos.m-u-rounded** [stub/fit] Atomic mass unit as used in the BSk fits
+      - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+        - (see above)
+
+- 🟡 **eos.metric-phi-equation** [stub/derivable] Metric potential Phi equation and boundary condition — 2 stub(s) below
+  - 🟡 **eos.metric-schwarzschild-interior** [stub/derivable] Static spherically symmetric metric
+    - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+
+- 🟡 **eos.pseudo-enthalpy** [stub/derivable] Pseudo-enthalpy — 1 stub(s) below
+  - 🟢 **eos.notation-bsk-fit** [?/?] BSk analytic-fit symbols
+
+- 🟡 **eos.redshift-observables** [stub/derivable] Redshifted apparent radius, temperature and luminosity — 1 stub(s) below
+  - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+
+- 🟡 **gr.approx-observer-at-infinity** [stub/derivable] Observer at infinity (parallel rays) — 4 stub(s) below
+  - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+    - 🟡 **gr.null-geodesic-components** [stub/derivable] Null geodesic components in the equatorial plane (Pechenick)
+      - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+    - 🟡 **gr.static-observer-four-velocity** [stub/derivable] Four-velocity of a static observer
+      - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+        - (see above)
+
+- 🟡 **gr.metric-static-spherical** [stub/derivable] Static spherical metric and surface lapse boundary condition — 1 stub(s) below
+  - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+
+- 🟡 **gr.observed-flux-element** [stub/derivable] Observed flux from a surface element — 14 stub(s) below
+  - 🟡 **gr.image-plane-solid-angle** [stub/derivable] Observer-sky solid angle in terms of impact parameter
+    - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+      - 🟡 **gr.null-geodesic-components** [stub/derivable] Null geodesic components in the equatorial plane (Pechenick)
+        - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+      - 🟡 **gr.static-observer-four-velocity** [stub/derivable] Four-velocity of a static observer
+        - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+          - (see above)
+  - 🟡 **gr.intensity-transformation** [stub/derivable] Intensity transformation from surface to infinity
+    - 🟡 **gr.frequency-redshift** [stub/derivable] Gravitational frequency redshift
+      - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+        - 🟡 **gr.kerr-line-element-bl** [stub/derivable] Kerr line element, Boyer-Lindquist form (as printed)
+        - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+          - (see above)
+    - 🟡 **gr.invariant-inu-over-nu3** [stub/derivable] Invariance of I_nu/nu^3 along a photon path
+  - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+    - 🟡 **gr.emission-angle-definition** [leaf/convention] Emission angle alpha in terms of the photon four-velocity
+      - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+    - 🟡 **gr.null-geodesic-radial** [stub/derivable] Radial photon equation (Beloborodov)
+      - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+        - (see above)
+
+- 🟡 **gr.static-tetrad-field-projection** [stub/derivable] Field tensor on the static Schwarzschild tetrad (Wasserman & Shapiro) — 4 stub(s) below
+  - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+    - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+    - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+      - 🟡 **gr.kerr-line-element-bl** [stub/derivable] Kerr line element, Boyer-Lindquist form (as printed)
+      - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+        - (see above)
+
+- 🟡 **gr.visible-mu-exact-values** [stub/code] Exact critical mu_v from the elliptic integral — 1 stub(s) below
+
+- 🟡 **obs.agis-roemer-delay** [stub/convention] AGIS: Roemer delay t_B = t + r'b_G(t)/c — 5 stub(s) below
+  - 🟡 **obs.agis-standard-model-direction** [stub/convention] AGIS standard model: coordinate direction at time t (direction-vector form with perspective acceleration)
+    - 🟡 **obs.agis-astrometric-parameter-set** [stub/convention] AGIS: the six astrometric parameters at the reference epoch
+      - 🟡 **obs.agis-uniform-motion-kinematic-parameters** [stub/convention] AGIS: uniform space motion and the six kinematic parameters
+        - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+      - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+        - (see above)
+    - 🟡 **obs.agis-normal-triad** [stub/convention] Normal triad [p q r] of a source in the ICRS
+      - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+        - (see above)
+
+- 🟡 **obs.agis-standard-model-neglects-lighttime** [stub/convention] AGIS standard model: what is neglected — 5 stub(s) below
+  - 🟡 **obs.agis-standard-model-direction** [stub/convention] AGIS standard model: coordinate direction at time t (direction-vector form with perspective acceleration)
+    - 🟡 **obs.agis-astrometric-parameter-set** [stub/convention] AGIS: the six astrometric parameters at the reference epoch
+      - 🟡 **obs.agis-uniform-motion-kinematic-parameters** [stub/convention] AGIS: uniform space motion and the six kinematic parameters
+        - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+      - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+        - (see above)
+    - 🟡 **obs.agis-normal-triad** [stub/convention] Normal triad [p q r] of a source in the ICRS
+      - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+        - (see above)
+
+- 🟡 **obs.bl-propagation-pm-rigorous** [stub/derivable] Epoch propagation of proper motion and radial proper motion with light-time (rigorous) — 6 stub(s) below
+  - 🟡 **obs.bl-propagation-direction-rigorous** [stub/derivable] Epoch propagation of direction and parallax with light-time (rigorous)
+    - 🟡 **obs.bl-distance-factor-rigorous** [stub/derivable] Distance factor f_D with light-time (rigorous)
+      - 🟡 **obs.bl-apparent-path-solution** [stub/derivable] Rigorous solution of the apparent path with light-time: b = b_0 + v_0 t f_T
+        - 🟡 **obs.bl-light-time-equation** [stub/convention] Light-time equation and apparent position
+          - 🟡 **obs.bl-uniform-rectilinear-model** [stub/convention] Uniform rectilinear model of barycentric stellar motion
+            - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+
+- 🟡 **obs.bl-time-factor-astrometric** [stub/derivable] Time factor f_T in terms of the astrometric parameters — 7 stub(s) below
+  - 🟡 **obs.bl-apparent-path-solution** [stub/derivable] Rigorous solution of the apparent path with light-time: b = b_0 + v_0 t f_T
+    - 🟡 **obs.bl-light-time-equation** [stub/convention] Light-time equation and apparent position
+      - 🟡 **obs.bl-uniform-rectilinear-model** [stub/convention] Uniform rectilinear model of barycentric stellar motion
+        - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+  - 🟡 **obs.bl-parallax-radial-proper-motion** [stub/convention] Parallax, radial proper motion and total proper motion in terms of distance and velocity
+    - 🟡 **obs.bl-proper-motion-components** [stub/convention] Proper motion vector and components via the normal triad
+      - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+        - (see above)
+      - 🟡 **obs.agis-normal-triad** [stub/convention] Normal triad [p q r] of a source in the ICRS
+        - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+          - (see above)
+
+- 🟡 **obs.bl-uniform-model-applicability** [stub/derivable] Uniform-motion assumption: effect of a constant acceleration — 2 stub(s) below
+  - 🟡 **obs.bl-uniform-rectilinear-model** [stub/convention] Uniform rectilinear model of barycentric stellar motion
+    - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+
+- 🟡 **obs.gaia-passband-properties** [stub/table] Gaia passband FWHM, mean photon wavelength and pivot wavelength — 3 stub(s) below
+  - 🟡 **obs.gaia-passband-distribution** [stub/table] Gaia G, G_BP, G_RP passband curves: how distributed
+    - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+
+- 🟡 **obs.rxj1856-characteristic-age** [stub/derivable] RX J1856.5-3754 characteristic age (van Kerkwijk & Kaplan 2008) — 3 stub(s) below
+  - 🟡 **obs.approx-vkk2008-dipole-spindown** [stub/derivable] Dipole spin-down inference of B, Edot, tau_char (van Kerkwijk & Kaplan 2008)
+  - 🟡 **obs.rxj1856-period-derivative** [leaf/measured] RX J1856.5-3754 period derivative (van Kerkwijk & Kaplan 2008)
+    - 🟡 **obs.rxj1856-spin-period** [leaf/measured] RX J1856.5-3754 spin period (van Kerkwijk & Kaplan 2008, coherent solution)
+      - 🟡 **obs.approx-vkk2008-dipole-spindown** [stub/derivable] Dipole spin-down inference of B, Edot, tau_char (van Kerkwijk & Kaplan 2008)
+        - (see above)
+
+- 🟡 **opacity.approx-ground-landau-level** [stub/derivable] Strongly quantising field: electrons on the ground Landau level — 6 stub(s) below
+  - 🟡 **opacity.quantisation-parameter-beta-e** [stub/derivable] Electron quantisation parameter beta_e
+    - 🟢 **opacity.notation-photon-cyclotron** [?/?] Photon frequency and cyclotron/quantisation parameters
+    - 🟡 **opacity.cyclotron-energy-electron** [stub/derivable] Electron cyclotron energy
+      - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+      - 🟢 **opacity.notation-photon-cyclotron** [?/?] Photon frequency and cyclotron/quantisation parameters
+        - (see above)
+  - 🟡 **opacity.quantising-density-rho-b** [stub/derivable] Density bound rho_B for strongly quantising fields
+    - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+      - (see above)
+    - 🟢 **opacity.notation-particles-plasma** [?/?] Particle, thermodynamic and plasma symbols
+    - 🟡 **opacity.quantisation-parameter-beta-e** [stub/derivable] Electron quantisation parameter beta_e
+      - (see above)
+
+- 🟡 **opacity.vacuum-coeffs-fit** [stub/fit] Analytic fits to the vacuum polarisation coefficients — 8 stub(s) below
+  - 🟡 **opacity.vacuum-coeffs-weak-field** [stub/derivable] Vacuum polarisation coefficients, weak-field limit
+    - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+    - 🟡 **opacity.field-qed-bq** [stub/derivable] QED critical field B_Q
+      - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+    - 🟡 **opacity.approx-vacuum-low-energy** [stub/derivable] Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly
+      - 🟡 **opacity.dielectric-tensor-polarizability** [stub/derivable] Plasma plus vacuum dielectric tensor and cyclic polarisabilities
+        - 🟢 **opacity.notation-modes-polarization** [?/?] Normal-mode and dielectric-tensor symbols
+        - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+          - (see above)
+  - 🟡 **opacity.vacuum-coeffs-heyl-hernquist** [stub/derivable] Vacuum polarisation coefficients for arbitrary field (Heyl-Hernquist form)
+    - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+      - (see above)
+    - 🟡 **opacity.approx-vacuum-low-energy** [stub/derivable] Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly
+      - (see above)
+
+- 🟡 **pipeline.rendered-frame** [stub/derivable] Rendered frame (HDR radiance plus derived display image) — 21981 stub(s) below
+  - 🟡 **pipeline.pixel-radiance** [stub/derivable] Pixel spectral radiance in the camera frame (unpolarised)
+    - 🟡 **gr.approx-opaque-surface** [stub/derivable] Opaque star with transparent exterior
+    - 🟡 **pipeline.camera-tetrad-projection** [stub/derivable] Camera tetrad and pixel-to-photon-momentum projection
+      - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+        - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+        - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+          - 🟡 **gr.kerr-line-element-bl** [stub/derivable] Kerr line element, Boyer-Lindquist form (as printed)
+          - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+            - (see above)
+      - 🟡 **gr.camera-four-velocity-static-frame** [stub/derivable] Four-velocity from speed and direction in a local tetrad
+        - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+          - (see above)
+        - 🟡 **gr.static-observer-four-velocity** [stub/derivable] Four-velocity of a static observer
+          - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+            - (see above)
+      - 🟡 **gr.tetrad-lorentz-transformation** [stub/derivable] Lorentz transformation of a local tetrad (boost)
+        - 🟡 **gr.camera-four-velocity-static-frame** [stub/derivable] Four-velocity from speed and direction in a local tetrad
+          - (see above)
+      - 🟡 **gr.tetrad-vector-components** [stub/derivable] Local (tetrad) and coordinate components of a direction
+        - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+          - (see above)
+      - 🟡 **gr.camera-aberration** [stub/derivable] Relativistic aberration between camera and static (FIDO) frames
+        - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+          - (see above)
+        - 🟡 **gr.tetrad-lorentz-transformation** [stub/derivable] Lorentz transformation of a local tetrad (boost)
+          - (see above)
+      - 🟡 **gr.camera-projection-convention** [leaf/convention] Camera projection: pixel to camera-sky direction (pinhole or equidistant)
+        - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+          - (see above)
+        - 🟡 **gr.tetrad-lorentz-transformation** [stub/derivable] Lorentz transformation of a local tetrad (boost)
+          - (see above)
+        - 🟡 **gr.tetrad-vector-components** [stub/derivable] Local (tetrad) and coordinate components of a direction
+          - (see above)
+        - 🟡 **gr.camera-aberration** [stub/derivable] Relativistic aberration between camera and static (FIDO) frames
+          - (see above)
+        - 🟡 **gr.frequency-ratio-general** [stub/derivable] General frequency ratio g = (p.u_cam)/(p.u_em)
+          - 🟡 **gr.tetrad-vector-components** [stub/derivable] Local (tetrad) and coordinate components of a direction
+            - (see above)
+          - 🟡 **gr.camera-four-velocity-static-frame** [stub/derivable] Four-velocity from speed and direction in a local tetrad
+            - (see above)
+          - 🟡 **gr.static-tetrad** [stub/derivable] Static orthonormal tetrad in Schwarzschild coordinates
+            - (see above)
+      - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+      - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+        - 🟡 **gr.null-geodesic-components** [stub/derivable] Null geodesic components in the equatorial plane (Pechenick)
+          - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+            - (see above)
+        - 🟡 **gr.static-observer-four-velocity** [stub/derivable] Four-velocity of a static observer
+          - (see above)
+      - 🟡 **gr.disk-angular-radius** [stub/derivable] Angular radius of the observed stellar disk
+        - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+          - (see above)
+        - 🟡 **gr.impact-parameter-max** [stub/derivable] Maximum impact parameter b_max
+          - 🟡 **gr.photon-sphere** [stub/derivable] Photon sphere and the b <= b_max condition
+            - 🟡 **gr.orbit-equation-u** [stub/derivable] Photon orbit equation in u = M/r
+              - 🟡 **gr.null-geodesic-components** [stub/derivable] Null geodesic components in the equatorial plane (Pechenick)
+                - (see above)
+      - 🟡 **pipeline.camera-worldline** [stub/derivable] Camera worldline (hyperbolic timelike geodesic)
+        - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+          - (see above)
+        - 🟡 **gr.timelike-constants-schwarzschild** [stub/derivable] Timelike Schwarzschild geodesic: E, L per unit rest mass; affine parameter is proper time
+          - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+            - (see above)
+        - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+          - 🟡 **gr.timelike-constants-schwarzschild** [stub/derivable] Timelike Schwarzschild geodesic: E, L per unit rest mass; affine parameter is proper time
+            - (see above)
+          - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+            - (see above)
+        - 🟡 **gr.timelike-dt-dtau-schwarzschild** [stub/derivable] dt/dtau on a timelike Schwarzschild geodesic
+          - 🟡 **gr.timelike-constants-schwarzschild** [stub/derivable] Timelike Schwarzschild geodesic: E, L per unit rest mass; affine parameter is proper time
+            - (see above)
+          - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+            - (see above)
+        - 🟡 **gr.timelike-dphi-dtau-schwarzschild** [stub/derivable] dphi/dtau on a timelike Schwarzschild geodesic
+          - 🟡 **gr.timelike-constants-schwarzschild** [stub/derivable] Timelike Schwarzschild geodesic: E, L per unit rest mass; affine parameter is proper time
+            - (see above)
+        - 🟡 **gr.timelike-proper-time-quadrature** [stub/derivable] Proper-time quadrature along a timelike Schwarzschild geodesic
+          - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+            - (see above)
+          - 🟡 **gr.timelike-dt-dtau-schwarzschild** [stub/derivable] dt/dtau on a timelike Schwarzschild geodesic
+            - (see above)
+          - 🟡 **gr.timelike-dphi-dtau-schwarzschild** [stub/derivable] dphi/dtau on a timelike Schwarzschild geodesic
+            - (see above)
+          - 🟡 **gr.timelike-periastron-cubic** [stub/derivable] Periastron condition R(r_p) = 0 as a cubic
+            - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+              - (see above)
+        - 🟡 **gr.timelike-periastron-cubic** [stub/derivable] Periastron condition R(r_p) = 0 as a cubic
+          - (see above)
+        - 🟡 **gr.timelike-angular-momentum-from-periastron** [stub/derivable] Specific angular momentum from periastron and energy
+          - 🟡 **gr.timelike-periastron-cubic** [stub/derivable] Periastron condition R(r_p) = 0 as a cubic
+            - (see above)
+          - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+            - (see above)
+        - 🟡 **gr.timelike-unbound-condition** [stub/derivable] Unbound (hyperbolic) timelike orbit: E > 1
+          - 🟡 **gr.timelike-radial-equation-schwarzschild** [stub/derivable] Radial equation of a timelike Schwarzschild geodesic
+            - (see above)
+        - 🟡 **gr.timelike-speed-at-infinity** [stub/derivable] Asymptotic speed of a hyperbolic orbit, v^infinity = sqrt(1 - 1/E^2)
+          - 🟡 **gr.timelike-dt-dtau-schwarzschild** [stub/derivable] dt/dtau on a timelike Schwarzschild geodesic
+            - (see above)
+          - 🟡 **gr.timelike-unbound-condition** [stub/derivable] Unbound (hyperbolic) timelike orbit: E > 1
+            - (see above)
+          - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+            - (see above)
+          - 🟡 **gr.timelike-constants-schwarzschild** [stub/derivable] Timelike Schwarzschild geodesic: E, L per unit rest mass; affine parameter is proper time
+            - (see above)
+        - 🟡 **const.gm-sun-nominal-cgs** [stub/derivable] (GM)^N_sun in CGS
+          - 🟢 **const.gm-sun-nominal** [leaf/convention] Nominal solar mass parameter (GM)^N_sun
+        - 🟡 **const.m-sun-nominal-cgs** [stub/derivable] Solar mass from (GM)^N_sun / G in grams
+          - 🟢 **const.gm-sun-nominal** [leaf/convention] Nominal solar mass parameter (GM)^N_sun
+            - (see above)
+          - 🟢 **const.newtonian-gravitation** [leaf/measured] Newtonian constant of gravitation
+        - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+          - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+            - (see above)
+          - 🟡 **gr.approx-schwarzschild-exterior** [stub/derivable] Static Schwarzschild exterior for a slowly rotating star
+            - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+              - (see above)
+          - 🟡 **gr.apparent-quantities** [stub/derivable] Redshifted (apparent) stellar quantities
+            - 🟢 **gr.schwarzschild-radius** [leaf/convention] Schwarzschild radius r_g
+              - (see above)
+          - 🟡 **surface.ppp15-redshifted-quantities** [stub/derivable] Redshifted (apparent) radius, temperature and luminosity (PPP15 eq. 40)
+            - 🟢 **surface.notation-observer-frame** [?/?] Local-frame versus observer-frame quantities and compactness
+          - 🟡 **surface.phc16-redshift-relations** [stub/derivable] Gravitational redshift relations for thermal emission (PHC16)
+            - 🟢 **surface.notation-observer-frame** [?/?] Local-frame versus observer-frame quantities and compactness
+              - (see above)
+          - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+            - (see above)
+          - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+            - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+            - 🟢 **const.newtonian-gravitation** [leaf/measured] Newtonian constant of gravitation
+              - (see above)
+            - 🟢 **const.planck** [leaf/measured] Planck constant
+            - 🟢 **const.hbar** [leaf/measured] Reduced Planck constant
+            - 🟢 **const.elementary-charge** [leaf/measured] Elementary charge
+            - 🟢 **const.boltzmann** [leaf/measured] Boltzmann constant
+            - 🟢 **const.electron-mass** [leaf/measured] Electron mass
+            - 🟢 **const.electron-mass-energy-mev** [leaf/measured] Electron mass energy equivalent in MeV
+            - 🟢 **const.proton-mass** [leaf/measured] Proton mass
+            - 🟢 **const.proton-electron-mass-ratio** [leaf/measured] Proton-electron mass ratio
+            - 🟢 **const.atomic-mass-constant** [leaf/measured] Atomic mass constant (unified atomic mass unit)
+            - 🟢 **const.unified-atomic-mass-unit** [leaf/measured] Unified atomic mass unit u
+            - 🟢 **const.electron-volt** [leaf/measured] Electron volt in joules
+            - 🟢 **const.stefan-boltzmann** [leaf/measured] Stefan-Boltzmann constant
+            - 🟢 **const.first-radiation-constant** [leaf/measured] First radiation constant
+            - 🟢 **const.second-radiation-constant** [leaf/measured] Second radiation constant
+            - 🟢 **const.vacuum-permeability** [leaf/measured] Vacuum magnetic permeability
+            - 🟢 **const.vacuum-permittivity** [leaf/measured] Vacuum electric permittivity
+            - 🟢 **const.fine-structure** [leaf/measured] Fine-structure constant
+            - 🟢 **const.classical-electron-radius** [leaf/measured] Classical electron radius
+            - 🟢 **const.thomson-cross-section** [leaf/measured] Thomson cross section
+            - 🟢 **const.bohr-radius** [leaf/measured] Bohr radius
+            - 🟢 **const.rydberg-constant** [leaf/measured] Rydberg constant
+            - 🟢 **const.rydberg-frequency** [leaf/measured] Rydberg frequency
+            - 🟢 **const.rydberg-energy-joule** [leaf/measured] Rydberg energy in joules
+            - 🟢 **const.rydberg-energy-ev** [leaf/measured] Rydberg energy in electronvolts
+            - 🟢 **const.hartree-energy** [leaf/measured] Hartree energy in joules
+            - 🟢 **const.bohr-magneton** [leaf/measured] Bohr magneton
+            - 🟢 **const.au** [leaf/convention] Astronomical unit (IAU 2012 B2, exact)
+            - 🟢 **const.parsec** [leaf/convention] Parsec (IAU 2015 B2, exact 648000/pi au)
+              - 🟢 **const.au** [leaf/convention] Astronomical unit (IAU 2012 B2, exact)
+                - (see above)
+            - 🟢 **const.gm-sun-nominal** [leaf/convention] Nominal solar mass parameter (GM)^N_sun
+              - (see above)
+            - 🟡 **const.gm-sun-nominal-cgs** [stub/derivable] (GM)^N_sun in CGS
+              - (see above)
+            - 🟡 **const.m-sun-nominal-cgs** [stub/derivable] Solar mass from (GM)^N_sun / G in grams
+              - (see above)
+            - 🟢 **const.erg-joule** [leaf/convention] Erg in joules (CGS energy unit)
+            - 🟢 **const.gauss-tesla** [leaf/convention] Gauss in tesla (CGS magnetic flux density)
+      - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+        - (see above)
+    - 🟡 **pipeline.null-geodesic-trace** [stub/derivable] Exact null geodesic from camera pixel to surface or sky
+      - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+        - (see above)
+      - 🟡 **gr.null-geodesic-radial** [stub/derivable] Radial photon equation (Beloborodov)
+        - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+          - (see above)
+      - 🟡 **gr.null-geodesic-components** [stub/derivable] Null geodesic components in the equatorial plane (Pechenick)
+        - (see above)
+      - 🟡 **gr.orbit-equation-u** [stub/derivable] Photon orbit equation in u = M/r
+        - (see above)
+      - 🟡 **gr.bending-integral** [stub/derivable] Exact bending integral psi(b), Schwarzschild
+        - 🟡 **gr.null-geodesic-radial** [stub/derivable] Radial photon equation (Beloborodov)
+          - (see above)
+        - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+          - (see above)
+      - 🟡 **gr.bending-integral-pechenick** [stub/derivable] Exact bending integral Delta phi(b) (Pechenick)
+        - 🟡 **gr.orbit-equation-u** [stub/derivable] Photon orbit equation in u = M/r
+          - (see above)
+      - 🟡 **gr.photon-sphere** [stub/derivable] Photon sphere and the b <= b_max condition
+        - (see above)
+      - 🟡 **gr.impact-parameter-max** [stub/derivable] Maximum impact parameter b_max
+        - (see above)
+      - 🟡 **gr.max-deflection-integral** [stub/derivable] Maximum swept angle (Delta phi)_max
+        - 🟡 **gr.bending-integral-pechenick** [stub/derivable] Exact bending integral Delta phi(b) (Pechenick)
+          - (see above)
+        - 🟡 **gr.impact-parameter-max** [stub/derivable] Maximum impact parameter b_max
+          - (see above)
+      - 🟡 **gr.emission-angle-definition** [leaf/convention] Emission angle alpha in terms of the photon four-velocity
+        - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+          - (see above)
+      - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+        - 🟡 **gr.emission-angle-definition** [leaf/convention] Emission angle alpha in terms of the photon four-velocity
+          - (see above)
+        - 🟡 **gr.null-geodesic-radial** [stub/derivable] Radial photon equation (Beloborodov)
+          - (see above)
+      - 🟡 **gr.approx-opaque-surface** [stub/derivable] Opaque star with transparent exterior
+        - (see above)
+      - 🟡 **gr.flat-space-half-visible** [stub/derivable] Flat-space limit: half the surface is visible
+        - 🟡 **gr.max-deflection-integral** [stub/derivable] Maximum swept angle (Delta phi)_max
+          - (see above)
+      - 🟡 **gr.full-visibility-radius** [stub/code] Radius at which the whole surface becomes visible
+        - 🟡 **gr.max-deflection-integral** [stub/derivable] Maximum swept angle (Delta phi)_max
+          - (see above)
+      - 🟡 **gr.dphi-max-r16** [stub/code] (Delta phi)_max at R/2M = 1.6
+        - 🟡 **gr.max-deflection-integral** [stub/derivable] Maximum swept angle (Delta phi)_max
+          - (see above)
+      - 🟡 **gr.circle180-radius-r16** [stub/code] Angular radius of the 180-degree circle at R/2M = 1.6
+        - 🟡 **gr.bending-integral-pechenick** [stub/derivable] Exact bending integral Delta phi(b) (Pechenick)
+          - (see above)
+      - 🟡 **gr.beloborodov-cosine-relation** [stub/fit] Beloborodov light-bending cosine relation
+        - 🟡 **gr.bending-integral** [stub/derivable] Exact bending integral psi(b), Schwarzschild
+          - (see above)
+        - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+          - (see above)
+      - 🟡 **gr.beloborodov-cosine-error-bound** [stub/fit] Accuracy of the cosine relation
+        - 🟡 **gr.beloborodov-cosine-relation** [stub/fit] Beloborodov light-bending cosine relation
+          - (see above)
+      - 🟡 **gr.bending-linear-in-u** [stub/derivable] Small-u expansion of the exact bending
+        - 🟡 **gr.bending-integral** [stub/derivable] Exact bending integral psi(b), Schwarzschild
+          - (see above)
+        - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+          - (see above)
+      - 🟡 **gr.visible-fraction-cosine** [stub/fit] Visible surface from the cosine relation
+        - 🟡 **gr.beloborodov-cosine-relation** [stub/fit] Beloborodov light-bending cosine relation
+          - (see above)
+      - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+        - (see above)
+      - 🟡 **gr.bending-integral-finite-radius** [stub/derivable] Bending integral from a finite camera radius r_cam
+        - 🟡 **gr.bending-integral** [stub/derivable] Exact bending integral psi(b), Schwarzschild
+          - (see above)
+        - 🟡 **gr.bending-integral-pechenick** [stub/derivable] Exact bending integral Delta phi(b) (Pechenick)
+          - (see above)
+        - 🟡 **gr.orbit-equation-u** [stub/derivable] Photon orbit equation in u = M/r
+          - (see above)
+        - 🟡 **gr.null-geodesic-radial** [stub/derivable] Radial photon equation (Beloborodov)
+          - (see above)
+        - 🟡 **gr.null-geodesic-constants** [stub/derivable] Photon conserved quantities in Schwarzschild
+          - (see above)
+        - 🟡 **gr.photon-sphere** [stub/derivable] Photon sphere and the b <= b_max condition
+          - (see above)
+        - 🟡 **gr.impact-parameter-max** [stub/derivable] Maximum impact parameter b_max
+          - (see above)
+      - 🟡 **gr.observed-flux-element-abs-jacobian** [stub/derivable] Observed flux from a surface element, absolute Jacobian, every image
+        - 🟡 **gr.image-plane-solid-angle** [stub/derivable] Observer-sky solid angle in terms of impact parameter
+          - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+            - (see above)
+        - 🟡 **gr.intensity-transformation** [stub/derivable] Intensity transformation from surface to infinity
+          - 🟡 **gr.frequency-redshift** [stub/derivable] Gravitational frequency redshift
+            - 🟡 **gr.schwarzschild-line-element** [stub/derivable] Schwarzschild line element (a = 0 reduction), exterior metric
+              - (see above)
+          - 🟡 **gr.invariant-inu-over-nu3** [stub/derivable] Invariance of I_nu/nu^3 along a photon path
+        - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+          - (see above)
+        - 🟡 **gr.bending-integral** [stub/derivable] Exact bending integral psi(b), Schwarzschild
+          - (see above)
+      - 🟡 **pipeline.camera-tetrad-projection** [stub/derivable] Camera tetrad and pixel-to-photon-momentum projection
+        - (see above)
+      - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+        - (see above)
+      - 🟡 **pipeline.surface-maps-field** [stub/derivable] Surface magnetic field map
+        - 🟡 **surface.gh83-dipole-field-inclination** [stub/derivable] Dipole field inclination versus magnetic colatitude (GH83 eq. 15)
+          - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+        - 🟡 **surface.py01-gr-dipole-magnitude** [stub/derivable] GR dipole field magnitude versus magnetic colatitude (PY01 eq. dipole)
+          - 🟡 **surface.py01-gr-dipole-a-of-x** [stub/derivable] GR dipole parameter a(x), x = r_g/R (PY01)
+            - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+              - (see above)
+          - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+            - (see above)
+        - 🟡 **surface.py01-gr-dipole-field-angle** [stub/derivable] Field-normal angle versus magnetic colatitude, GR dipole (PY01)
+          - 🟡 **surface.py01-gr-dipole-a-of-x** [stub/derivable] GR dipole parameter a(x), x = r_g/R (PY01)
+            - (see above)
+          - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+            - (see above)
+        - 🟡 **surface.py01-gr-dipole-a-of-x** [stub/derivable] GR dipole parameter a(x), x = r_g/R (PY01)
+          - (see above)
+        - 🟡 **surface.ws83-gr-dipole-components** [stub/derivable] GR dipole local-frame field components (WS83 eqs. 12a-b)
+        - 🟡 **surface.field-colatitude-from-geometry** [stub/derivable] Magnetic colatitude of a surface point from obliquity and rotation phase
+          - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+            - (see above)
+    - 🟡 **pipeline.frequency-shift** [stub/derivable] Gravitational, Doppler and aberration shift of I_nu
+      - 🟡 **gr.invariant-inu-over-nu3** [stub/derivable] Invariance of I_nu/nu^3 along a photon path
+        - (see above)
+      - 🟡 **gr.frequency-redshift** [stub/derivable] Gravitational frequency redshift
+        - (see above)
+      - 🟡 **gr.static-observer-four-velocity** [stub/derivable] Four-velocity of a static observer
+        - (see above)
+      - 🟡 **gr.disk-uniform-brightness** [stub/derivable] Uniform surface brightness of an isotropic stationary sphere
+        - 🟡 **gr.invariant-inu-over-nu3** [stub/derivable] Invariance of I_nu/nu^3 along a photon path
+          - (see above)
+        - 🟡 **gr.emission-angle-impact-parameter** [stub/derivable] Emission angle vs impact parameter
+          - (see above)
+      - 🟡 **gr.frequency-ratio-general** [stub/derivable] General frequency ratio g = (p.u_cam)/(p.u_em)
+        - (see above)
+      - 🟡 **gr.intensity-g-cubed** [stub/derivable] Specific intensity transformation I_nu,obs = g^3 I_nu,em
+        - 🟡 **gr.invariant-inu-over-nu3** [stub/derivable] Invariance of I_nu/nu^3 along a photon path
+          - (see above)
+        - 🟡 **gr.frequency-ratio-general** [stub/derivable] General frequency ratio g = (p.u_cam)/(p.u_em)
+          - (see above)
+      - 🟡 **gr.doppler-factor-sr** [stub/derivable] Special-relativistic Doppler factor of the moving camera
+        - 🟡 **gr.camera-blueshift-celestial** [stub/derivable] Camera blueshift of light from a source at rest at infinity
+          - 🟡 **gr.camera-aberration** [stub/derivable] Relativistic aberration between camera and static (FIDO) frames
+            - (see above)
+          - 🟡 **gr.frequency-ratio-general** [stub/derivable] General frequency ratio g = (p.u_cam)/(p.u_em)
+            - (see above)
+        - 🟡 **gr.camera-aberration** [stub/derivable] Relativistic aberration between camera and static (FIDO) frames
+          - (see above)
+        - 🟡 **gr.tetrad-lorentz-transformation** [stub/derivable] Lorentz transformation of a local tetrad (boost)
+          - (see above)
+      - 🟡 **gr.camera-blueshift-celestial** [stub/derivable] Camera blueshift of light from a source at rest at infinity
+        - (see above)
+      - 🟡 **pipeline.camera-tetrad-projection** [stub/derivable] Camera tetrad and pixel-to-photon-momentum projection
+        - (see above)
+      - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+        - (see above)
+      - 🟡 **pipeline.null-geodesic-trace** [stub/derivable] Exact null geodesic from camera pixel to surface or sky
+        - (see above)
+    - 🟡 **pipeline.surface-radiance** [stub/derivable] Surface radiance interface (three interchangeable models)
+      - 🟡 **rt.mode-stokes-relations-val** [stub/derivable] Mode intensities from Stokes parameters and back (VAL06)
+        - 🟡 **rt.two-mode-transfer-val** [stub/derivable] Mode transfer equation in Thomson optical depth (VAL06)
+          - 🟢 **rt.notation-val** [?/?] Two-mode RT with vacuum conversion notation (van Adelsberg & Lai 2006)
+      - 🟡 **gr.emission-angle-definition** [leaf/convention] Emission angle alpha in terms of the photon four-velocity
+        - (see above)
+      - 🟡 **pipeline.surface-radiance-blackbody** [stub/derivable] Blackbody surface radiance
+        - 🟡 **surface.gh83-approx-blackbody-emission** [stub/derivable] GH83 pure-blackbody surface emission
+        - 🟡 **gr.disk-uniform-brightness** [stub/derivable] Uniform surface brightness of an isotropic stationary sphere
+          - (see above)
+        - 🟡 **rt.planck-function-bnu** [stub/derivable] Planck function B_nu(T) (per unit frequency)
+          - 🟢 **const.planck** [leaf/measured] Planck constant
+            - (see above)
+          - 🟢 **const.boltzmann** [leaf/measured] Boltzmann constant
+            - (see above)
+          - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+            - (see above)
+        - 🟡 **rt.planck-integral-stefan-boltzmann** [stub/derivable] Integral of B_nu over frequency equals sigma T^4 / pi
+          - 🟡 **rt.planck-function-bnu** [stub/derivable] Planck function B_nu(T) (per unit frequency)
+            - (see above)
+          - 🟢 **const.stefan-boltzmann** [leaf/measured] Stefan-Boltzmann constant
+            - (see above)
+          - 🟢 **const.planck** [leaf/measured] Planck constant
+            - (see above)
+          - 🟢 **const.boltzmann** [leaf/measured] Boltzmann constant
+            - (see above)
+          - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+            - (see above)
+        - 🟢 **const.planck** [leaf/measured] Planck constant
+          - (see above)
+        - 🟢 **const.boltzmann** [leaf/measured] Boltzmann constant
+          - (see above)
+        - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+          - (see above)
+        - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+          - (see above)
+      - 🟡 **pipeline.surface-radiance-h-atmosphere** [stub/derivable] Hydrogen-atmosphere surface radiance
+        - 🟡 **rt.emergent-intensity-mcphac** [stub/derivable] Emergent specific intensity from the Feautrier solution (McPHAC)
+          - 🟡 **rt.boundary-conditions-mcphac** [stub/derivable] Transfer-equation boundary conditions (McPHAC)
+            - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+              - 🟢 **rt.notation-mcphac** [?/?] McPHAC plane-parallel RT notation (Haakonsen 2012)
+        - 🟡 **rt.observed-flux-redshift-mcphac** [stub/derivable] Observed flux from emergent flux with redshift (McPHAC)
+        - 🟡 **rt.mode-stokes-relations-val** [stub/derivable] Mode intensities from Stokes parameters and back (VAL06)
+          - (see above)
+        - 🟡 **rt.approx-plane-parallel-mcphac** [stub/derivable] Plane-parallel atmosphere (McPHAC)
+        - 🟡 **eos.surface-gravity** [stub/derivable] Surface gravity with the GR factor
+          - 🟢 **eos.notation-structure** [?/?] Stellar-structure symbols (TOV, metric, redshift)
+        - 🟡 **pipeline.atmosphere-solve** [stub/derivable] Two-mode Feautrier atmosphere solve with temperature correction
+          - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+            - (see above)
+          - 🟡 **rt.feautrier-discrete-mcphac** [stub/derivable] Discretised Feautrier equation with Gauss-Legendre angle quadrature (McPHAC)
+            - 🟡 **rt.source-function-mcphac** [stub/derivable] Source function with anisotropic Thomson scattering (McPHAC)
+              - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+                - (see above)
+              - 🟡 **rt.approx-coherent-scattering-mcphac** [stub/derivable] Coherent (non-Compton) scattering (McPHAC)
+          - 🟡 **rt.source-function-mcphac** [stub/derivable] Source function with anisotropic Thomson scattering (McPHAC)
+            - (see above)
+          - 🟡 **rt.dipole-phase-function-mcphac** [stub/derivable] Dipole (Rayleigh) and isotropic Thomson scattering kernels (McPHAC)
+            - 🟡 **rt.source-function-mcphac** [stub/derivable] Source function with anisotropic Thomson scattering (McPHAC)
+              - (see above)
+          - 🟡 **rt.boundary-conditions-mcphac** [stub/derivable] Transfer-equation boundary conditions (McPHAC)
+            - (see above)
+          - 🟢 **rt.eddington-factors-mcphac** [leaf/convention] Eddington factors and mean intensity (McPHAC)
+            - 🟢 **rt.notation-mcphac** [?/?] McPHAC plane-parallel RT notation (Haakonsen 2012)
+              - (see above)
+          - 🟡 **rt.flux-constancy-mcphac** [stub/derivable] Radiative equilibrium: flux independent of depth (McPHAC App. A)
+            - 🟢 **rt.eddington-factors-mcphac** [leaf/convention] Eddington factors and mean intensity (McPHAC)
+              - (see above)
+            - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+              - (see above)
+          - 🟡 **rt.te-delta-t-mcphac** [stub/derivable] Linearised temperature correction enforcing constant flux (McPHAC App. A)
+            - 🟡 **rt.flux-constancy-mcphac** [stub/derivable] Radiative equilibrium: flux independent of depth (McPHAC App. A)
+              - (see above)
+          - 🟡 **rt.te-moment-equation-mcphac** [stub/derivable] Moment equation and boundary conditions for the temperature correction (McPHAC)
+            - 🟡 **rt.te-delta-t-mcphac** [stub/derivable] Linearised temperature correction enforcing constant flux (McPHAC App. A)
+              - (see above)
+            - 🟢 **rt.eddington-factors-mcphac** [leaf/convention] Eddington factors and mean intensity (McPHAC)
+              - (see above)
+          - 🟡 **rt.te-rybicki-matrices-mcphac** [stub/derivable] Rybicki-form discretised temperature-correction system (McPHAC App. A)
+            - 🟡 **rt.te-moment-equation-mcphac** [stub/derivable] Moment equation and boundary conditions for the temperature correction (McPHAC)
+              - (see above)
+          - 🟡 **rt.eddington-temperature-profile-mcphac** [stub/fit] Eddington-approximation initial temperature profile (McPHAC)
+            - 🟡 **rt.hydrostatic-column-mcphac** [stub/derivable] Hydrostatic equilibrium in column depth (McPHAC)
+              - 🟡 **rt.approx-no-radiation-pressure-mcphac** [stub/derivable] Radiation pressure neglected (McPHAC)
+              - 🟡 **rt.approx-plane-parallel-mcphac** [stub/derivable] Plane-parallel atmosphere (McPHAC)
+                - (see above)
+          - 🟡 **rt.approx-coherent-scattering-mcphac** [stub/derivable] Coherent (non-Compton) scattering (McPHAC)
+            - (see above)
+          - 🟡 **rt.approx-plane-parallel-mcphac** [stub/derivable] Plane-parallel atmosphere (McPHAC)
+            - (see above)
+          - 🟡 **rt.two-mode-transfer-spw09** [stub/derivable] Radiative transfer equations for the two modes with scattering (SPW09)
+            - 🟢 **rt.notation-spw09** [?/?] Two-mode RT notation (Suleimanov, Potekhin, Werner 2009)
+            - 🟡 **rt.hydrostatic-spw09** [stub/derivable] Hydrostatic equilibrium with radiation pressure (SPW09)
+              - 🟢 **rt.notation-spw09** [?/?] Two-mode RT notation (Suleimanov, Potekhin, Werner 2009)
+                - (see above)
+          - 🟡 **rt.energy-balance-spw09** [stub/derivable] Energy balance (radiative equilibrium) equation, two modes (SPW09)
+            - 🟡 **rt.two-mode-transfer-spw09** [stub/derivable] Radiative transfer equations for the two modes with scattering (SPW09)
+              - (see above)
+          - 🟡 **rt.surface-flux-spw09** [stub/derivable] Surface flux condition and Eddington flux (SPW09)
+            - 🟡 **rt.energy-balance-spw09** [stub/derivable] Energy balance (radiative equilibrium) equation, two modes (SPW09)
+              - (see above)
+          - 🟡 **rt.boundary-conditions-spw09** [stub/derivable] Outer and inner boundary conditions, two modes (SPW09)
+            - 🟡 **rt.two-mode-transfer-spw09** [stub/derivable] Radiative transfer equations for the two modes with scattering (SPW09)
+              - (see above)
+          - 🟡 **rt.temperature-correction-spw09** [stub/derivable] Lambda-iteration temperature correction for two modes (SPW09)
+            - 🟡 **rt.energy-balance-spw09** [stub/derivable] Energy balance (radiative equilibrium) equation, two modes (SPW09)
+              - (see above)
+          - 🟡 **rt.two-mode-transfer-val** [stub/derivable] Mode transfer equation in Thomson optical depth (VAL06)
+            - (see above)
+          - 🟡 **rt.flux-constraints-val** [stub/derivable] Radiative equilibrium and constant flux constraints (VAL06)
+            - 🟡 **rt.two-mode-transfer-val** [stub/derivable] Mode transfer equation in Thomson optical depth (VAL06)
+              - (see above)
+          - 🟡 **rt.boundary-conditions-val** [stub/derivable] Boundary conditions for integrating the mode equations (VAL06)
+            - 🟡 **rt.two-mode-transfer-val** [stub/derivable] Mode transfer equation in Thomson optical depth (VAL06)
+              - (see above)
+          - 🟡 **rt.no-feautrier-with-conversion-val** [stub/derivable] Standard Feautrier substitution not used for VAL06 partial conversion
+            - 🟡 **rt.pjump-val** [stub/derivable] Non-adiabatic jump probability and mode conversion rule (VAL06)
+              - 🟡 **rt.adiabatic-energy-val** [stub/derivable] Adiabatic energy for resonant conversion (VAL06)
+                - 🟡 **rt.vacuum-resonance-val** [stub/derivable] Vacuum resonance energy and density (VAL06)
+                  - 🟢 **rt.notation-vacuum** [?/?] Vacuum-resonance notation (van Adelsberg & Lai 2006)
+            - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+              - (see above)
+          - 🟡 **pipeline.atmosphere-structure** [stub/derivable] Atmosphere structure: hydrostatics and equation of state
+            - 🟡 **rt.hydrostatic-column-mcphac** [stub/derivable] Hydrostatic equilibrium in column depth (McPHAC)
+              - (see above)
+            - 🟡 **rt.hydrostatic-spw09** [stub/derivable] Hydrostatic equilibrium with radiation pressure (SPW09)
+              - (see above)
+            - 🟡 **rt.approx-no-radiation-pressure-mcphac** [stub/derivable] Radiation pressure neglected (McPHAC)
+              - (see above)
+            - 🟡 **rt.approx-plane-parallel-mcphac** [stub/derivable] Plane-parallel atmosphere (McPHAC)
+              - (see above)
+            - 🟡 **eos.surface-gravity** [stub/derivable] Surface gravity with the GR factor
+              - (see above)
+            - 🟡 **eos.thin-envelope-newtonian-hydrostatics** [stub/derivable] Thin-envelope plane-parallel Newtonian hydrostatics
+              - 🟡 **eos.surface-gravity** [stub/derivable] Surface gravity with the GR factor
+                - (see above)
+            - 🟡 **eos.electron-pressure-magnetised** [stub/derivable] Pressure of the ideal magnetised degenerate electron gas
+              - 🟢 **eos.notation-electron-gas** [?/?] Magnetised degenerate-electron-gas symbols
+              - 🟡 **eos.relativistic-units-pr-tr** [stub/derivable] Relativistic units of pressure and temperature
+                - 🟢 **eos.notation-electron-gas** [?/?] Magnetised degenerate-electron-gas symbols
+                  - (see above)
+            - 🟡 **opacity.quantising-density-rho-b** [stub/derivable] Density bound rho_B for strongly quantising fields
+              - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+              - 🟢 **opacity.notation-particles-plasma** [?/?] Particle, thermodynamic and plasma symbols
+              - 🟡 **opacity.quantisation-parameter-beta-e** [stub/derivable] Electron quantisation parameter beta_e
+                - 🟢 **opacity.notation-photon-cyclotron** [?/?] Photon frequency and cyclotron/quantisation parameters
+                - 🟡 **opacity.cyclotron-energy-electron** [stub/derivable] Electron cyclotron energy
+                  - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+                    - (see above)
+                  - 🟢 **opacity.notation-photon-cyclotron** [?/?] Photon frequency and cyclotron/quantisation parameters
+                    - (see above)
+            - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+              - (see above)
+          - 🟡 **pipeline.mode-opacities** [stub/derivable] Normal-mode absorption and scattering opacities
+            - 🟡 **opacity.mode-absorption-opacity** [stub/derivable] Absorption opacity in a normal mode
+              - 🟡 **opacity.mode-polarization-vector** [stub/derivable] Normal-mode polarisation vector
+                - 🟡 **opacity.mode-parameters-k** [stub/derivable] Mode parameters K_j and K_{z,j}
+                  - 🟡 **opacity.mode-parameter-beta** [stub/derivable] Polarisation parameter beta (exact form)
+                    - 🟡 **opacity.dielectric-tensor-polarizability** [stub/derivable] Plasma plus vacuum dielectric tensor and cyclic polarisabilities
+                      - 🟢 **opacity.notation-modes-polarization** [?/?] Normal-mode and dielectric-tensor symbols
+                      - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+                  - 🟡 **opacity.dielectric-tensor-polarizability** [stub/derivable] Plasma plus vacuum dielectric tensor and cyclic polarisabilities
+                    - (see above)
+                - 🟢 **opacity.notation-modes-polarization** [?/?] Normal-mode and dielectric-tensor symbols
+                  - (see above)
+              - 🟡 **opacity.ff-cross-section-finite-proton-mass** [stub/derivable] Free-free cross section with finite proton mass (PC03 main result)
+                - 🟡 **opacity.ff-effective-frequency** [stub/derivable] Effective free-free collision frequency
+                  - 🟡 **opacity.coulomb-log-born-magnetic** [stub/derivable] Magnetic Coulomb logarithm in the Born approximation
+                    - 🟡 **opacity.quantisation-parameter-beta-e** [stub/derivable] Electron quantisation parameter beta_e
+                      - (see above)
+                    - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                      - 🟢 **opacity.notation-opacity-symbols** [?/?] Opacity, cross-section and collision-frequency symbols
+                  - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                    - (see above)
+                - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                  - 🟡 **opacity.ff-effective-frequency** [stub/derivable] Effective free-free collision frequency
+                    - (see above)
+                - 🟡 **opacity.approx-ff-non-born-correction** [stub/fit] Born free-free Coulomb logarithm rescaled to the non-Born Gaunt factor
+                  - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                    - (see above)
+                  - 🟡 **opacity.coulomb-log-born-magnetic** [stub/derivable] Magnetic Coulomb logarithm in the Born approximation
+                    - (see above)
+            - 🟡 **opacity.mode-scattering-opacity** [stub/derivable] Scattering opacity between normal modes
+              - 🟡 **opacity.mode-polarization-vector** [stub/derivable] Normal-mode polarisation vector
+                - (see above)
+              - 🟡 **opacity.scattering-electron-magnetic** [stub/derivable] Magnetic electron scattering cross section
+                - 🟡 **opacity.thomson-cross-section** [stub/derivable] Nonmagnetic Thomson cross section
+                  - 🟢 **opacity.notation-opacity-symbols** [?/?] Opacity, cross-section and collision-frequency symbols
+                    - (see above)
+                - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                  - (see above)
+                - 🟢 **opacity.notation-photon-cyclotron** [?/?] Photon frequency and cyclotron/quantisation parameters
+                  - (see above)
+              - 🟡 **opacity.scattering-proton-magnetic** [stub/derivable] Magnetic proton scattering cross section
+                - 🟡 **opacity.thomson-cross-section** [stub/derivable] Nonmagnetic Thomson cross section
+                  - (see above)
+                - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                  - (see above)
+              - 🟡 **opacity.approx-isotropic-scattering** [stub/derivable] Isotropic scattering in magnetic radiative transfer
+            - 🟡 **pipeline.free-free-opacity** [stub/derivable] Free-free absorption (B = 0 and magnetic)
+              - 🟡 **opacity.ff-cross-section-cold-plasma** [stub/derivable] Free-free cross section in the cold-plasma, infinite-proton-mass form
+                - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                  - (see above)
+                - 🟡 **opacity.ff-effective-frequency** [stub/derivable] Effective free-free collision frequency
+                  - (see above)
+              - 🟡 **opacity.ff-cross-section-finite-proton-mass** [stub/derivable] Free-free cross section with finite proton mass (PC03 main result)
+                - (see above)
+              - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                - (see above)
+              - 🟡 **opacity.coulomb-log-born-magnetic** [stub/derivable] Magnetic Coulomb logarithm in the Born approximation
+                - (see above)
+              - 🟡 **opacity.approx-ff-non-born-correction** [stub/fit] Born free-free Coulomb logarithm rescaled to the non-Born Gaunt factor
+                - (see above)
+              - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                - (see above)
+              - 🟡 **opacity.quantisation-parameter-beta-e** [stub/derivable] Electron quantisation parameter beta_e
+                - (see above)
+              - 🟡 **opacity.cyclotron-energy-electron** [stub/derivable] Electron cyclotron energy
+                - (see above)
+              - 🟡 **opacity.field-atomic-b0** [stub/derivable] Atomic magnetic field B_0
+                - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+                  - (see above)
+              - 🟡 **opacity.ff-effective-frequency** [stub/derivable] Effective free-free collision frequency
+                - (see above)
+              - 🟡 **opacity.ff-opacity-kramers-gaunt-mcphac** [stub/derivable] B = 0 free-free opacity, Kramers form with Gaunt factor (McPHAC)
+                - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                  - (see above)
+                - 🟡 **opacity.ff-effective-frequency** [stub/derivable] Effective free-free collision frequency
+                  - (see above)
+                - 🟢 **opacity.notation-opacity-symbols** [?/?] Opacity, cross-section and collision-frequency symbols
+                  - (see above)
+              - 🟡 **opacity.approx-ff-proton-collisions-negligible** [stub/derivable] Proton-proton collision absorption neglected
+                - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                  - (see above)
+              - 🟡 **pipeline.gaunt-factor** [stub/derivable] Thermally averaged free-free Gaunt factor from Coulomb wavefunctions
+                - 🟡 **opacity.coulomb-log-classical** [stub/derivable] Classical (Born, B = 0) Coulomb logarithm
+                  - (see above)
+                - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+                  - (see above)
+              - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+                - (see above)
+            - 🟡 **pipeline.scattering-opacity** [stub/derivable] Electron and proton scattering cross sections
+              - 🟡 **opacity.thomson-cross-section** [stub/derivable] Nonmagnetic Thomson cross section
+                - (see above)
+              - 🟡 **opacity.thomson-opacity-mcphac** [stub/derivable] Reduced Thomson scattering opacity (McPHAC)
+                - 🟡 **opacity.thomson-cross-section** [stub/derivable] Nonmagnetic Thomson cross section
+                  - (see above)
+                - 🟢 **opacity.notation-opacity-symbols** [?/?] Opacity, cross-section and collision-frequency symbols
+                  - (see above)
+              - 🟡 **opacity.scattering-electron-magnetic** [stub/derivable] Magnetic electron scattering cross section
+                - (see above)
+              - 🟡 **opacity.scattering-proton-magnetic** [stub/derivable] Magnetic proton scattering cross section
+                - (see above)
+              - 🟡 **opacity.damping-frequencies** [stub/derivable] Damping frequencies of the cyclotron resonances
+                - (see above)
+              - 🟡 **opacity.cyclotron-energy-electron** [stub/derivable] Electron cyclotron energy
+                - (see above)
+              - 🟡 **opacity.plasma-frequency** [stub/derivable] Electron plasma frequency
+                - 🟢 **opacity.notation-particles-plasma** [?/?] Particle, thermodynamic and plasma symbols
+                  - (see above)
+              - 🟡 **rt.cond-ion-cyclotron-energy** [stub/derivable] Ion cyclotron energy, Potekhin 2012 eq. 8
+                - 🟢 **rt.notation-cond-energies-geometry** [?/?] Notation: energies, field and angle geometry of the condensed surface
+              - 🟡 **rt.dipole-phase-function-mcphac** [stub/derivable] Dipole (Rayleigh) and isotropic Thomson scattering kernels (McPHAC)
+                - (see above)
+              - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+                - (see above)
+            - 🟡 **pipeline.polarisation-modes** [stub/derivable] Normal modes of the magnetised plasma plus vacuum
+              - 🟡 **opacity.dielectric-tensor-polarizability** [stub/derivable] Plasma plus vacuum dielectric tensor and cyclic polarisabilities
+                - (see above)
+              - 🟡 **opacity.mode-polarization-vector** [stub/derivable] Normal-mode polarisation vector
+                - (see above)
+              - 🟡 **opacity.mode-parameters-k** [stub/derivable] Mode parameters K_j and K_{z,j}
+                - (see above)
+              - 🟡 **opacity.mode-parameter-beta** [stub/derivable] Polarisation parameter beta (exact form)
+                - (see above)
+              - 🟡 **opacity.approx-mode-beta-small-polarizability** [stub/derivable] Small-polarisability form of beta
+                - 🟡 **opacity.mode-parameter-beta** [stub/derivable] Polarisation parameter beta (exact form)
+                  - (see above)
+              - 🟡 **opacity.plasma-frequency** [stub/derivable] Electron plasma frequency
+                - (see above)
+              - 🟡 **opacity.cyclotron-energy-electron** [stub/derivable] Electron cyclotron energy
+                - (see above)
+              - 🟡 **rt.mode-stokes-relations-val** [stub/derivable] Mode intensities from Stokes parameters and back (VAL06)
+                - (see above)
+              - 🟡 **pipeline.vacuum-polarisation** [stub/derivable] QED vacuum-polarisation coefficients
+                - 🟡 **opacity.vacuum-coeffs-heyl-hernquist** [stub/derivable] Vacuum polarisation coefficients for arbitrary field (Heyl-Hernquist form)
+                  - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+                    - (see above)
+                  - 🟡 **opacity.approx-vacuum-low-energy** [stub/derivable] Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly
+                    - 🟡 **opacity.dielectric-tensor-polarizability** [stub/derivable] Plasma plus vacuum dielectric tensor and cyclic polarisabilities
+                      - (see above)
+                - 🟡 **opacity.vacuum-coeffs-weak-field** [stub/derivable] Vacuum polarisation coefficients, weak-field limit
+                  - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+                    - (see above)
+                  - 🟡 **opacity.field-qed-bq** [stub/derivable] QED critical field B_Q
+                    - 🟢 **opacity.notation-fields** [?/?] Magnetic-field scales and parameters
+                      - (see above)
+                  - 🟡 **opacity.approx-vacuum-low-energy** [stub/derivable] Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly
+                    - (see above)
+                - 🟡 **opacity.approx-vacuum-low-energy** [stub/derivable] Vacuum polarisation from the Euler-Heisenberg Lagrangian, added linearly
+                  - (see above)
+                - 🟡 **opacity.field-qed-bq** [stub/derivable] QED critical field B_Q
+                  - (see above)
+                - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+                  - (see above)
+              - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+                - (see above)
+          - 🟡 **pipeline.vacuum-mode-conversion** [stub/derivable] Vacuum resonance and partial mode conversion
+            - 🟡 **opacity.vacuum-resonance-density** [stub/fit] Vacuum resonance density
+              - 🟡 **opacity.vacuum-resonance-energy** [stub/fit] Vacuum resonance energy
+                - 🟢 **opacity.notation-vacuum** [?/?] Vacuum-polarisation symbols
+                  - (see above)
+                - 🟢 **opacity.notation-particles-plasma** [?/?] Particle, thermodynamic and plasma symbols
+                  - (see above)
+            - 🟡 **rt.adiabatic-energy-val** [stub/derivable] Adiabatic energy for resonant conversion (VAL06)
+              - (see above)
+            - 🟡 **rt.pjump-val** [stub/derivable] Non-adiabatic jump probability and mode conversion rule (VAL06)
+              - (see above)
+            - 🟡 **rt.pjump-conversion-spw09** [stub/derivable] Partial mode conversion at the vacuum resonance (SPW09)
+              - 🟡 **rt.pjump-val** [stub/derivable] Non-adiabatic jump probability and mode conversion rule (VAL06)
+                - (see above)
+              - 🟢 **rt.notation-vacuum** [?/?] Vacuum-resonance notation (van Adelsberg & Lai 2006)
+                - (see above)
+            - 🟡 **rt.vacuum-relevance-val** [stub/derivable] Field strength above which vacuum resonance matters (VAL06)
+              - 🟡 **rt.vacuum-resonance-val** [stub/derivable] Vacuum resonance energy and density (VAL06)
+                - (see above)
+            - 🟡 **rt.no-feautrier-with-conversion-val** [stub/derivable] Standard Feautrier substitution not used for VAL06 partial conversion
+              - (see above)
+            - 🟡 **rt.cond-ion-cyclotron-energy** [stub/derivable] Ion cyclotron energy, Potekhin 2012 eq. 8
+              - (see above)
+            - 🟡 **pipeline.polarisation-modes** [stub/derivable] Normal modes of the magnetised plasma plus vacuum
+              - (see above)
+            - 🟡 **pipeline.atmosphere-structure** [stub/derivable] Atmosphere structure: hydrostatics and equation of state
+              - (see above)
+          - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+            - (see above)
+      - 🟡 **pipeline.surface-radiance-condensed** [stub/derivable] Thin hydrogen layer over a condensed surface
+        - 🟡 **rt.cond-kirchhoff-law** [stub/derivable] Kirchhoff emission of a macroscopic body, van Adelsberg 2005 eqs. 7-8
+          - 🟢 **rt.notation-cond-emissivity-fit** [?/?] Notation: emissivities, reflectivities and fit functions
+        - 🟢 **rt.cond-reflectivity-from-amplitudes** [leaf/convention] Effective mode reflectivity from reflected-wave amplitudes, Potekhin 2012 eq. A.2
+          - 🟢 **rt.cond-emissivity-definition** [leaf/convention] Normal-mode intensity emitted by the condensed surface, Potekhin 2012 eq. 6
+            - 🟢 **rt.notation-cond-emissivity-fit** [?/?] Notation: emissivities, reflectivities and fit functions
+              - (see above)
+        - 🟢 **rt.cond-linear-polarisation-degree** [leaf/convention] Degree of linear polarisation of condensed-surface emission, Potekhin 2012 eq. 28
+          - 🟢 **rt.cond-emissivity-definition** [leaf/convention] Normal-mode intensity emitted by the condensed surface, Potekhin 2012 eq. 6
+            - (see above)
+        - 🟡 **rt.cond-dielectric-tensor-condensed** [stub/derivable] Cold-plasma dielectric tensor of the condensed matter, van Adelsberg 2005 eqs. 2-3
+          - 🟢 **rt.notation-cond-matter-dielectric** [?/?] Notation: condensed matter, dielectric tensor and damping
+        - 🟡 **rt.cond-approx-damping-low-energy** [stub/derivable] Damping from the zero-frequency conductivity at E <~ E_pe
+          - 🟢 **rt.cond-damping-rates** [leaf/convention] Collisional damping rates of the condensed matter, van Adelsberg 2005 sect. 2.3
+            - 🟢 **rt.notation-cond-matter-dielectric** [?/?] Notation: condensed matter, dielectric tensor and damping
+              - (see above)
+        - 🟡 **rt.cond-approx-free-ions** [stub/derivable] Free-ion limit of the ion response in the condensed matter
+          - 🟡 **rt.cond-dielectric-tensor-condensed** [stub/derivable] Cold-plasma dielectric tensor of the condensed matter, van Adelsberg 2005 eqs. 2-3
+            - (see above)
+        - 🟡 **rt.cond-approx-fixed-ions** [stub/derivable] Fixed-ion limit of the ion response in the condensed matter
+          - 🟡 **rt.cond-dielectric-tensor-condensed** [stub/derivable] Cold-plasma dielectric tensor of the condensed matter, van Adelsberg 2005 eqs. 2-3
+            - (see above)
+        - 🟡 **rt.cond-approx-planar-patch** [stub/derivable] Smooth planar surface patch
+        - 🟡 **rt.cond-approx-no-vacuum-polarisation** [stub/derivable] Vacuum polarisation neglected in condensed-surface reflectivity
+        - 🟡 **rt.cond-free-ion-analytic-reflectivity** [stub/derivable] Analytic reflectivity for theta_B = theta_k = 0 (free ions), Potekhin 2012 eq. 10
+          - 🟡 **rt.cond-ec-characteristic-energy** [stub/derivable] Upper characteristic energy E_C of the condensed surface, Potekhin 2012 eq. 9
+            - 🟡 **rt.cond-ion-cyclotron-energy** [stub/derivable] Ion cyclotron energy, Potekhin 2012 eq. 8
+              - (see above)
+            - 🟡 **rt.cond-electron-plasma-energy** [stub/derivable] Electron plasma energy of the condensed matter, Potekhin 2012 eq. 3
+              - 🟢 **rt.notation-cond-energies-geometry** [?/?] Notation: energies, field and angle geometry of the condensed surface
+                - (see above)
+            - 🟡 **rt.cond-electron-cyclotron-energy** [stub/derivable] Electron cyclotron energy, Potekhin 2012 eq. 1
+              - 🟢 **rt.notation-cond-energies-geometry** [?/?] Notation: energies, field and angle geometry of the condensed surface
+                - (see above)
+        - 🟡 **rt.cond-reflectivity-regimes** [stub/derivable] Characteristic energy ranges of the free-ion reflectivity
+          - 🟡 **rt.cond-ec-characteristic-energy** [stub/derivable] Upper characteristic energy E_C of the condensed surface, Potekhin 2012 eq. 9
+            - (see above)
+        - 🟡 **rt.cond-ec-characteristic-energy** [stub/derivable] Upper characteristic energy E_C of the condensed surface, Potekhin 2012 eq. 9
+          - (see above)
+        - 🟡 **rt.cond-electron-cyclotron-energy** [stub/derivable] Electron cyclotron energy, Potekhin 2012 eq. 1
+          - (see above)
+        - 🟡 **rt.cond-ion-cyclotron-energy** [stub/derivable] Ion cyclotron energy, Potekhin 2012 eq. 8
+          - (see above)
+        - 🟡 **rt.cond-electron-plasma-energy** [stub/derivable] Electron plasma energy of the condensed matter, Potekhin 2012 eq. 3
+          - (see above)
+        - 🟡 **rt.cond-surface-density** [stub/fit] Order-of-magnitude surface density of the condensed phase, Potekhin 2012 eq. 2
+          - 🟢 **rt.notation-cond-energies-geometry** [?/?] Notation: energies, field and angle geometry of the condensed surface
+            - (see above)
+        - 🟡 **rt.cond-tcrit-fit-fe** [stub/fit] Critical temperature for magnetic condensation of Fe, Potekhin 2012 p. 3
+          - 🟡 **rt.cond-surface-density** [stub/fit] Order-of-magnitude surface density of the condensed phase, Potekhin 2012 eq. 2
+            - (see above)
+        - 🟡 **rt.cond-approx-condensation-condition** [stub/derivable] Condition for a bare condensed surface (negligible vapour)
+          - 🟡 **rt.cond-tcrit-fit-fe** [stub/fit] Critical temperature for magnetic condensation of Fe, Potekhin 2012 p. 3
+            - (see above)
+        - 🟡 **rt.cond-fit-structure** [stub/fit] Analytic fit for the mean emissivity J, structure, Potekhin 2012 eq. 11
+          - 🟡 **rt.cond-fit-low-energy** [stub/fit] Fit function J_A (low energies), Potekhin 2012 eqs. 15-16
+            - 🟡 **rt.cond-free-ion-analytic-reflectivity** [stub/derivable] Analytic reflectivity for theta_B = theta_k = 0 (free ions), Potekhin 2012 eq. 10
+              - (see above)
+          - 🟡 **rt.cond-fit-mid-energy** [stub/fit] Fit function J_B (intermediate energies), Potekhin 2012 eqs. 17-19
+            - 🟡 **rt.cond-fit-high-energy** [stub/fit] Fit function J_C and the effective energies E~_C, E~_pe, Potekhin 2012 eqs. 12-14, 20
+              - 🟡 **rt.cond-free-ion-analytic-reflectivity** [stub/derivable] Analytic reflectivity for theta_B = theta_k = 0 (free ions), Potekhin 2012 eq. 10
+                - (see above)
+          - 🟡 **rt.cond-fit-high-energy** [stub/fit] Fit function J_C and the effective energies E~_C, E~_pe, Potekhin 2012 eqs. 12-14, 20
+            - (see above)
+          - 🟡 **rt.cond-fit-line** [stub/fit] Fit for the line near E_pe, L, Potekhin 2012 eq. 21
+            - 🟡 **rt.cond-fit-high-energy** [stub/fit] Fit function J_C and the effective energies E~_C, E~_pe, Potekhin 2012 eqs. 12-14, 20
+              - (see above)
+        - 🟡 **rt.cond-fit-low-energy** [stub/fit] Fit function J_A (low energies), Potekhin 2012 eqs. 15-16
+          - (see above)
+        - 🟡 **rt.cond-fit-mid-energy** [stub/fit] Fit function J_B (intermediate energies), Potekhin 2012 eqs. 17-19
+          - (see above)
+        - 🟡 **rt.cond-fit-high-energy** [stub/fit] Fit function J_C and the effective energies E~_C, E~_pe, Potekhin 2012 eqs. 12-14, 20
+          - (see above)
+        - 🟡 **rt.cond-fit-line** [stub/fit] Fit for the line near E_pe, L, Potekhin 2012 eq. 21
+          - (see above)
+        - 🟡 **rt.cond-fit-fixed-ions** [stub/fit] Fit modification for fixed ions, Potekhin 2012 eq. 22
+          - 🟡 **rt.cond-fit-mid-energy** [stub/fit] Fit function J_B (intermediate energies), Potekhin 2012 eqs. 17-19
+            - (see above)
+          - 🟡 **rt.cond-approx-fixed-ions** [stub/derivable] Fixed-ion limit of the ion response in the condensed matter
+            - (see above)
+        - 🟡 **rt.cond-fit-validity** [stub/fit] Validity of the Potekhin 2012 emissivity fit
+          - 🟡 **rt.cond-fit-structure** [stub/fit] Analytic fit for the mean emissivity J, structure, Potekhin 2012 eq. 11
+            - (see above)
+        - 🟡 **rt.cond-fit-mode1** [stub/fit] Fit for the emissivity of mode 1, Potekhin 2012 eqs. 23-25
+          - 🟡 **rt.cond-fit-structure** [stub/fit] Analytic fit for the mean emissivity J, structure, Potekhin 2012 eq. 11
+            - (see above)
+          - 🟡 **rt.cond-fit-line** [stub/fit] Fit for the line near E_pe, L, Potekhin 2012 eq. 21
+            - (see above)
+        - 🟡 **rt.cond-fit-mode1-mid** [stub/fit] Fit for mode-1 intermediate energy and fixed ions, Potekhin 2012 eqs. 26-27
+          - 🟡 **rt.cond-fit-mode1** [stub/fit] Fit for the emissivity of mode 1, Potekhin 2012 eqs. 23-25
+            - (see above)
+          - 🟡 **rt.cond-fit-mid-energy** [stub/fit] Fit function J_B (intermediate energies), Potekhin 2012 eqs. 17-19
+            - (see above)
+        - 🟡 **rt.cond-fit-coefficient-data** [stub/fit] Numerical coefficients of the Potekhin 2012 emissivity fits
+        - 🟡 **rt.cond-inner-bc** [stub/derivable] Inner boundary condition of a thin atmosphere on a condensed surface, Potekhin 2012 eqs. 29-30
+          - 🟢 **rt.cond-emissivity-definition** [leaf/convention] Normal-mode intensity emitted by the condensed surface, Potekhin 2012 eq. 6
+            - (see above)
+          - 🟢 **rt.notation-cond-emissivity-fit** [?/?] Notation: emissivities, reflectivities and fit functions
+            - (see above)
+        - 🟡 **rt.cond-bc-mode-reflection** [stub/derivable] Normal-mode reflectivities R_MM' from the r_mj amplitudes, Potekhin 2012 eqs. B.5-B.7
+          - 🟡 **rt.cond-inner-bc** [stub/derivable] Inner boundary condition of a thin atmosphere on a condensed surface, Potekhin 2012 eqs. 29-30
+            - (see above)
+          - 🟢 **rt.cond-reflectivity-from-amplitudes** [leaf/convention] Effective mode reflectivity from reflected-wave amplitudes, Potekhin 2012 eq. A.2
+            - (see above)
+        - 🟡 **rt.cond-bc-r-moduli** [stub/fit] Approximate squared moduli |r_mj|^2, Potekhin 2012 eqs. B.13-B.15
+          - 🟡 **rt.cond-fit-mode1** [stub/fit] Fit for the emissivity of mode 1, Potekhin 2012 eqs. 23-25
+            - (see above)
+          - 🟡 **rt.cond-fit-mode1-mid** [stub/fit] Fit for mode-1 intermediate energy and fixed ions, Potekhin 2012 eqs. 26-27
+            - (see above)
+          - 🟡 **rt.cond-fit-structure** [stub/fit] Analytic fit for the mean emissivity J, structure, Potekhin 2012 eq. 11
+            - (see above)
+        - 🟡 **rt.cond-bc-r-phases** [stub/fit] Approximate phases of r_mj, Potekhin 2012 eqs. B.16-B.19
+          - 🟡 **rt.cond-bc-r-moduli** [stub/fit] Approximate squared moduli |r_mj|^2, Potekhin 2012 eqs. B.13-B.15
+            - (see above)
+        - 🟡 **rt.cond-approx-bc-truncation** [leaf/convention] Truncation of fitted mode reflectivities to 0 < R_MM' < 1
+          - 🟡 **rt.cond-bc-r-moduli** [stub/fit] Approximate squared moduli |r_mj|^2, Potekhin 2012 eqs. B.13-B.15
+            - (see above)
+        - 🟡 **rt.cond-approx-bc-vacuum-interface** [stub/derivable] Reflection at atmosphere-condensed interface replaced by vacuum values
+          - 🟡 **rt.cond-bc-mode-reflection** [stub/derivable] Normal-mode reflectivities R_MM' from the r_mj amplitudes, Potekhin 2012 eqs. B.5-B.7
+            - (see above)
+        - 🟡 **obs.rxj1856-ho2007-column-depth** [stub/code] Ho+2007 thin-atmosphere fit: hydrogen column depth y_H
+          - 🟡 **obs.rxj1856-ho2007-b-field** [stub/code] Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)
+        - 🟡 **pipeline.atmosphere-solve** [stub/derivable] Two-mode Feautrier atmosphere solve with temperature correction
+          - (see above)
+        - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+          - (see above)
+      - 🟡 **pipeline.surface-maps-temperature** [stub/derivable] Surface temperature map T_s(theta, phi)
+        - 🟡 **surface.gh83-temperature-distribution** [stub/derivable] Greenstein-Hartke surface temperature distribution (GH83 eq. 14)
+          - 🟡 **surface.gh83-surface-flux-relation** [stub/derivable] Surface temperature from the anisotropic slab (GH83 eq. 13)
+            - 🟡 **surface.gh83-conductivity-tensor** [stub/derivable] Conductivity tensor in the horizontal frame (GH83 eq. 8)
+              - 🟢 **surface.notation-conduction** [?/?] Heat-conduction and polar-cap symbols (GH83)
+              - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+                - (see above)
+            - 🟡 **surface.gh83-flux-balance** [stub/derivable] Surface flux balance (GH83 eq. 11)
+              - 🟡 **surface.gh83-approx-1d-anisotropic-slab** [stub/derivable] GH83 one-dimensional anisotropic-conduction slab
+                - 🟡 **surface.gh83-isotropic-density** [stub/derivable] Density above which conduction is isotropic (GH83 eqs. 4-5)
+        - 🟡 **surface.gh83-surface-flux-relation** [stub/derivable] Surface temperature from the anisotropic slab (GH83 eq. 13)
+          - (see above)
+        - 🟡 **surface.gh83-flux-balance** [stub/derivable] Surface flux balance (GH83 eq. 11)
+          - (see above)
+        - 🟡 **surface.gh83-conductivity-tensor** [stub/derivable] Conductivity tensor in the horizontal frame (GH83 eq. 8)
+          - (see above)
+        - 🟡 **surface.gh83-conduction-limits** [stub/derivable] Limits of the GH83 temperature distribution
+          - 🟡 **surface.gh83-temperature-distribution** [stub/derivable] Greenstein-Hartke surface temperature distribution (GH83 eq. 14)
+            - (see above)
+          - 🟡 **surface.gh83-dipole-field-inclination** [stub/derivable] Dipole field inclination versus magnetic colatitude (GH83 eq. 15)
+            - (see above)
+        - 🟡 **surface.gh83-approx-1d-anisotropic-slab** [stub/derivable] GH83 one-dimensional anisotropic-conduction slab
+          - (see above)
+        - 🟡 **surface.gh83-isotropic-density** [stub/derivable] Density above which conduction is isotropic (GH83 eqs. 4-5)
+          - (see above)
+        - 🟡 **surface.ppp15-anisotropic-conduction-nonuniform** [stub/derivable] Non-uniform T_s from anisotropic conduction in strong fields
+          - 🟡 **surface.gh83-conduction-limits** [stub/derivable] Limits of the GH83 temperature distribution
+            - (see above)
+        - 🟡 **surface.phc16-nonuniform-modulation** [stub/derivable] Non-uniform surface temperature and rotational modulation (PHC16)
+          - 🟡 **surface.ppp15-anisotropic-conduction-nonuniform** [stub/derivable] Non-uniform T_s from anisotropic conduction in strong fields
+            - (see above)
+        - 🟢 **surface.ppp15-teff-definition** [leaf/convention] Overall effective temperature of a star with non-uniform T_s (PPP15 eq. 39)
+          - 🟢 **surface.notation-temperatures** [?/?] Temperature symbols for the surface thermal map
+          - 🟢 **surface.notation-envelope-fit** [?/?] Symbols of the PPP15 Appendix-B Tb-Ts fit
+        - 🟢 **surface.phc16-ts-definition** [leaf/convention] Local effective surface temperature T_s (PHC16)
+          - 🟢 **surface.ppp15-teff-definition** [leaf/convention] Overall effective temperature of a star with non-uniform T_s (PPP15 eq. 39)
+            - (see above)
+        - 🟡 **surface.ppp15-fit-structure** [stub/fit] Three-stage structure of the PPP15 temperature-map fit
+          - 🟡 **surface.ppp15-fit-b1-polar-temperature** [stub/fit] Polar surface temperature fit without neutrino losses (PPP15 eqs. B.1-B.2)
+            - 🟢 **surface.notation-envelope-fit** [?/?] Symbols of the PPP15 Appendix-B Tb-Ts fit
+              - (see above)
+            - 🟡 **surface.ppp15-approx-fit-validity** [stub/fit] Domain of the PPP15 Appendix-B Tb-Ts fit
+          - 🟡 **surface.ppp15-fit-b5-pole-equator-ratio** [stub/fit] Polar-to-equatorial surface temperature ratio fit (PPP15 eq. B.5)
+            - 🟢 **surface.notation-envelope-fit** [?/?] Symbols of the PPP15 Appendix-B Tb-Ts fit
+              - (see above)
+            - 🟡 **surface.ppp15-approx-fit-validity** [stub/fit] Domain of the PPP15 Appendix-B Tb-Ts fit
+              - (see above)
+        - 🟡 **surface.ppp15-fit-b1-polar-temperature** [stub/fit] Polar surface temperature fit without neutrino losses (PPP15 eqs. B.1-B.2)
+          - (see above)
+        - 🟡 **surface.ppp15-fit-b3-neutrino-limit** [stub/fit] Neutrino-limited polar temperature and corrected pole temperature (PPP15 eqs. B.3-B.4)
+          - 🟡 **surface.ppp15-fit-b1-polar-temperature** [stub/fit] Polar surface temperature fit without neutrino losses (PPP15 eqs. B.1-B.2)
+            - (see above)
+        - 🟡 **surface.ppp15-fit-b5-pole-equator-ratio** [stub/fit] Polar-to-equatorial surface temperature ratio fit (PPP15 eq. B.5)
+          - (see above)
+        - 🟡 **surface.ppp15-fit-b6-colatitude-profile** [stub/fit] Surface temperature versus magnetic colatitude (PPP15 eq. B.6)
+          - 🟡 **surface.ppp15-fit-structure** [stub/fit] Three-stage structure of the PPP15 temperature-map fit
+            - (see above)
+        - 🟡 **surface.ppp15-fit-flux-recipe** [stub/derivable] Flux through the envelope bottom with neutrino losses (PPP15 App. B item 4)
+          - 🟡 **surface.ppp15-fit-b3-neutrino-limit** [stub/fit] Neutrino-limited polar temperature and corrected pole temperature (PPP15 eqs. B.3-B.4)
+            - (see above)
+        - 🟡 **surface.ppp15-approx-fit-validity** [stub/fit] Domain of the PPP15 Appendix-B Tb-Ts fit
+          - (see above)
+        - 🟡 **pipeline.envelope-tb-ts** [stub/derivable] Envelope T_b to T_s relation (heat-blanketing solve)
+          - 🟡 **surface.ppp15-approx-1d-envelope** [stub/derivable] One-dimensional (radial) heat-blanketing approximation
+            - 🟡 **surface.gh83-approx-1d-anisotropic-slab** [stub/derivable] GH83 one-dimensional anisotropic-conduction slab
+              - (see above)
+          - 🟡 **surface.ppp15-tb-ts-gudmundsson** [stub/fit] Gudmundsson et al. non-magnetic Tb-Ts fit (PPP15 eq. 37)
+            - 🟢 **surface.notation-envelope-fit** [?/?] Symbols of the PPP15 Appendix-B Tb-Ts fit
+              - (see above)
+          - 🟡 **surface.gh83-conductivity-tensor** [stub/derivable] Conductivity tensor in the horizontal frame (GH83 eq. 8)
+            - (see above)
+          - 🟡 **eos.thin-envelope-newtonian-hydrostatics** [stub/derivable] Thin-envelope plane-parallel Newtonian hydrostatics
+            - (see above)
+          - 🟡 **eos.surface-gravity** [stub/derivable] Surface gravity with the GR factor
+            - (see above)
+          - 🟡 **eos.electron-pressure-magnetised** [stub/derivable] Pressure of the ideal magnetised degenerate electron gas
+            - (see above)
+          - 🟡 **eos.relativistic-units-pr-tr** [stub/derivable] Relativistic units of pressure and temperature
+            - (see above)
+          - 🟡 **opacity.quantising-density-rho-b** [stub/derivable] Density bound rho_B for strongly quantising fields
+            - (see above)
+          - 🟡 **pipeline.free-free-opacity** [stub/derivable] Free-free absorption (B = 0 and magnetic)
+            - (see above)
+          - 🟡 **pipeline.scattering-opacity** [stub/derivable] Electron and proton scattering cross sections
+            - (see above)
+          - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+            - (see above)
+        - 🟡 **pipeline.surface-maps-field** [stub/derivable] Surface magnetic field map
+          - (see above)
+        - 🟢 **obs.rxj1856-pulse-amplitude** [leaf/measured] RX J1856.5-3754 fractional pulsation amplitude (van Kerkwijk & Kaplan 2008)
+      - 🟡 **pipeline.surface-maps-field** [stub/derivable] Surface magnetic field map
+        - (see above)
+    - 🟡 **pipeline.sky-radiance** [stub/derivable] Background sky radiance at RX J1856
+      - 🟢 **obs.rxj1856-distance** [leaf/measured] RX J1856.5-3754 distance (Walter+2010 best estimate)
+        - 🟢 **obs.rxj1856-parallax-walter2010-text** [leaf/measured] RX J1856.5-3754 weighted-mean parallax (Walter+2010, text)
+          - 🟢 **obs.approx-walter2010-differential-parallax** [leaf/measured] Differential parallax; reference stars at large distance
+        - 🟢 **obs.approx-walter2010-differential-parallax** [leaf/measured] Differential parallax; reference stars at large distance
+          - (see above)
+      - 🟢 **obs.rxj1856-parallax-walter2010-text** [leaf/measured] RX J1856.5-3754 weighted-mean parallax (Walter+2010, text)
+        - (see above)
+      - 🟢 **obs.rxj1856-proper-motion-total** [leaf/measured] RX J1856.5-3754 total proper motion (Walter+2010, Table 3 mean)
+      - 🟢 **obs.rxj1856-position-walter2010** [leaf/measured] RX J1856.5-3754 nominal coordinates (Walter+2010, as printed)
+      - 🟢 **obs.gaia-reference-epoch-j2016** [leaf/convention] Gaia DR3 / EDR3 astrometric reference epoch J2016.0
+      - 🟢 **obs.gaia-reference-frame-crf3** [leaf/convention] Gaia-CRF3 celestial reference frame (aligned with ICRF3 / ICRS)
+      - 🟢 **obs.gaia-dr3-astrometric-parameters** [leaf/measured] Gaia DR3 five-parameter astrometry and source counts
+        - 🟢 **obs.gaia-reference-epoch-j2016** [leaf/convention] Gaia DR3 / EDR3 astrometric reference epoch J2016.0
+          - (see above)
+        - 🟢 **obs.gaia-reference-frame-crf3** [leaf/convention] Gaia-CRF3 celestial reference frame (aligned with ICRF3 / ICRS)
+          - (see above)
+      - 🟡 **obs.gaia-standard-model-of-stellar-motion** [stub/convention] Standard model of stellar motion (six kinematic parameters, uniform velocity)
+        - 🟢 **obs.gaia-reference-epoch-j2016** [leaf/convention] Gaia DR3 / EDR3 astrometric reference epoch J2016.0
+          - (see above)
+        - 🟢 **obs.gaia-reference-frame-crf3** [leaf/convention] Gaia-CRF3 celestial reference frame (aligned with ICRF3 / ICRS)
+          - (see above)
+      - 🟡 **obs.gaia-perspective-acceleration** [stub/convention] Perspective acceleration term and the radial proper motion mu_r
+        - 🟡 **obs.gaia-standard-model-of-stellar-motion** [stub/convention] Standard model of stellar motion (six kinematic parameters, uniform velocity)
+          - (see above)
+      - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+      - 🟡 **obs.gaia-vegamag-definition** [stub/convention] Gaia VEGAMAG synthetic magnitude
+        - 🟡 **obs.gaia-synthetic-mean-fluxes** [stub/convention] Synthetic mean energy fluxes per wavelength and per frequency through a passband
+          - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+            - (see above)
+        - 🟢 **obs.gaia-vega-f550** [leaf/convention] Gaia Vega reference flux f_550 at 550 nm
+      - 🟡 **obs.gaia-ab-definition** [stub/convention] Gaia AB synthetic magnitude
+        - 🟡 **obs.gaia-synthetic-mean-fluxes** [stub/convention] Synthetic mean energy fluxes per wavelength and per frequency through a passband
+          - (see above)
+      - 🟡 **obs.gaia-zero-points-vegamag** [leaf/measured] Gaia EDR3/DR3 passband zero points, VEGAMAG
+        - 🟡 **obs.gaia-vegamag-definition** [stub/convention] Gaia VEGAMAG synthetic magnitude
+          - (see above)
+        - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+          - (see above)
+      - 🟡 **obs.gaia-zero-points-ab** [leaf/measured] Gaia EDR3/DR3 passband zero points, AB
+        - 🟡 **obs.gaia-ab-definition** [stub/convention] Gaia AB synthetic magnitude
+          - (see above)
+        - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+          - (see above)
+      - 🟡 **obs.gaia-passband-distribution** [stub/table] Gaia G, G_BP, G_RP passband curves: how distributed
+        - 🟡 **obs.gaia-band-flux-integral** [stub/convention] Gaia band flux as integral of photon flux distribution times system response
+          - (see above)
+      - 🟢 **obs.gaia-xp-ecs-definition** [leaf/measured] Externally calibrated BP/RP spectrum (ECS)
+      - 🟡 **obs.gaia-xp-ecs-spd-sed-units** [stub/derivable] ECS: spectral photon distribution and SED units, and usable wavelength range
+        - 🟢 **obs.gaia-xp-ecs-definition** [leaf/measured] Externally calibrated BP/RP spectrum (ECS)
+          - (see above)
+      - 🟢 **obs.gaia-xp-sampled-subset** [leaf/measured] Gaia DR3 XP mean spectra: counts and the sampled ECS subset (G < 15)
+        - 🟢 **obs.gaia-xp-ecs-definition** [leaf/measured] Externally calibrated BP/RP spectrum (ECS)
+          - (see above)
+      - 🟢 **obs.gaia-xp-absolute-calibration** [leaf/measured] SPSS flux scale and grey-normalised internally calibrated mean-spectrum residuals
+        - 🟢 **obs.gaia-xp-ecs-definition** [leaf/measured] Externally calibrated BP/RP spectrum (ECS)
+          - (see above)
+      - 🟢 **obs.gaia-magnitude-range-and-bright-end** [leaf/measured] Gaia EDR3/DR3 magnitude range, and the bright end
+        - 🟢 **obs.gaia-dr3-astrometric-parameters** [leaf/measured] Gaia DR3 five-parameter astrometry and source counts
+          - (see above)
+      - 🟡 **obs.agis-standard-model-direction** [stub/convention] AGIS standard model: coordinate direction at time t (direction-vector form with perspective acceleration)
+        - 🟡 **obs.agis-astrometric-parameter-set** [stub/convention] AGIS: the six astrometric parameters at the reference epoch
+          - 🟡 **obs.agis-uniform-motion-kinematic-parameters** [stub/convention] AGIS: uniform space motion and the six kinematic parameters
+            - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+          - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+            - (see above)
+        - 🟡 **obs.agis-normal-triad** [stub/convention] Normal triad [p q r] of a source in the ICRS
+          - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+            - (see above)
+      - 🟡 **obs.agis-astrometric-parameter-set** [stub/convention] AGIS: the six astrometric parameters at the reference epoch
+        - (see above)
+      - 🟡 **obs.bl-propagation-direction-nolt** [stub/derivable] Epoch propagation of the barycentric direction, light-time neglected
+        - 🟡 **obs.bl-distance-factor-nolt** [stub/derivable] Distance factor f_D neglecting light-time
+          - 🟡 **obs.bl-uniform-rectilinear-model** [stub/convention] Uniform rectilinear model of barycentric stellar motion
+            - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+              - (see above)
+          - 🟡 **obs.bl-parallax-radial-proper-motion** [stub/convention] Parallax, radial proper motion and total proper motion in terms of distance and velocity
+            - 🟡 **obs.bl-proper-motion-components** [stub/convention] Proper motion vector and components via the normal triad
+              - 🟢 **obs.notation-gaia-propagation** [?/?] Epoch-propagation symbols for astrometric parameters
+                - (see above)
+              - 🟡 **obs.agis-normal-triad** [stub/convention] Normal triad [p q r] of a source in the ICRS
+                - (see above)
+        - 🟡 **obs.bl-proper-motion-components** [stub/convention] Proper motion vector and components via the normal triad
+          - (see above)
+      - 🟡 **obs.bl-propagation-parallax-nolt** [stub/derivable] Epoch propagation of the parallax, light-time neglected
+        - 🟡 **obs.bl-distance-factor-nolt** [stub/derivable] Distance factor f_D neglecting light-time
+          - (see above)
+      - 🟡 **obs.bl-propagation-pm-nolt** [stub/derivable] Epoch propagation of the proper-motion vector, light-time neglected
+        - 🟡 **obs.bl-propagation-direction-nolt** [stub/derivable] Epoch propagation of the barycentric direction, light-time neglected
+          - (see above)
+      - 🟡 **obs.bl-propagation-mur-nolt** [stub/derivable] Epoch propagation of the radial proper motion, light-time neglected
+        - 🟡 **obs.bl-distance-factor-nolt** [stub/derivable] Distance factor f_D neglecting light-time
+          - (see above)
+      - 🟡 **obs.bl-lighttime-neglect-criterion** [stub/derivable] Criterion for neglecting light-time effects
+        - 🟡 **obs.bl-lighttime-first-order-effects** [stub/derivable] Light-time effects on propagated parameters: first-order estimates
+          - 🟡 **obs.bl-distance-factor-nolt** [stub/derivable] Distance factor f_D neglecting light-time
+            - (see above)
+          - 🟡 **obs.bl-parallax-radial-proper-motion** [stub/convention] Parallax, radial proper motion and total proper motion in terms of distance and velocity
+            - (see above)
+      - 🟡 **obs.rxj1856-epoch-propagation-estimate** [stub/derivable] RX J1856 epoch propagation: first-order light-time position effect over an illustrative 16 years
+        - 🟡 **obs.bl-lighttime-first-order-effects** [stub/derivable] Light-time effects on propagated parameters: first-order estimates
+          - (see above)
+        - 🟢 **obs.rxj1856-proper-motion-total** [leaf/measured] RX J1856.5-3754 total proper motion (Walter+2010, Table 3 mean)
+          - (see above)
+        - 🟢 **obs.rxj1856-parallax-walter2010-table3** [leaf/measured] RX J1856.5-3754 mean parallax (Walter+2010, Table 3)
+      - 🟢 **obs.hipparcos-optical-realization-icrs** [leaf/convention] Hipparcos 1997 catalogue as the optical realization of the ICRS
+      - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+        - (see above)
+    - 🟡 **pipeline.star-scale-adaptive** [stub/derivable] Scale-adaptive star rendering (point source to resolved disc)
+      - 🟡 **gr.disk-angular-radius** [stub/derivable] Angular radius of the observed stellar disk
+        - (see above)
+      - 🟡 **gr.image-plane-solid-angle** [stub/derivable] Observer-sky solid angle in terms of impact parameter
+        - (see above)
+      - 🟡 **gr.impact-parameter-max** [stub/derivable] Maximum impact parameter b_max
+        - (see above)
+      - 🟡 **gr.observer-sky-angle** [stub/derivable] Angle in the observer sky of a photon with impact parameter b
+        - (see above)
+      - 🟡 **rt.psf-aperture-convention** [leaf/convention] Airy PSF for point-source and unresolved-star rendering (project convention)
+        - 🟡 **rt.airy-intensity-pattern** [stub/derivable] Airy diffraction pattern of a circular aperture (normalised PSF)
+      - 🟡 **pipeline.null-geodesic-trace** [stub/derivable] Exact null geodesic from camera pixel to surface or sky
+        - (see above)
+      - 🟡 **pipeline.frequency-shift** [stub/derivable] Gravitational, Doppler and aberration shift of I_nu
+        - (see above)
+      - 🟡 **pipeline.surface-radiance** [stub/derivable] Surface radiance interface (three interchangeable models)
+        - (see above)
+    - 🟡 **pipeline.surface-parameters** [stub/derivable] RX J1856 star parameters (M, R, T, B, geometry, N_H)
+      - 🟡 **obs.rxj1856-ho2007-tinf** [stub/code] Ho+2007 thin-atmosphere fit: temperature T_inf (B = 4e12 G)
+        - 🟡 **obs.rxj1856-ho2007-b-field** [stub/code] Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)
+          - (see above)
+      - 🟡 **obs.rxj1856-ho2007-teff** [stub/code] Ho+2007 thin-atmosphere model: effective temperature
+        - 🟡 **obs.rxj1856-ho2007-tinf** [stub/code] Ho+2007 thin-atmosphere fit: temperature T_inf (B = 4e12 G)
+          - (see above)
+      - 🟡 **obs.rxj1856-ho2007-rinf** [stub/code] Ho+2007 thin-atmosphere fit: radiation radius R_inf (B = 4e12 G)
+        - 🟡 **obs.approx-ho2007-assumptions** [stub/code] Ho+2007 fit assumptions: distance, M, R, field orientation, single T and B
+      - 🟡 **obs.rxj1856-ho2007-redshift** [stub/code] Ho+2007 thin-atmosphere fit: gravitational redshift z_g (B = 4e12 G)
+        - 🟡 **obs.rxj1856-ho2007-b-field** [stub/code] Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)
+          - (see above)
+      - 🟡 **obs.rxj1856-ho2007-b-field** [stub/code] Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)
+        - (see above)
+      - 🟡 **obs.rxj1856-ho2007-nh** [stub/code] Ho+2007 thin-atmosphere fit: column density N_H (B = 4e12 G)
+        - 🟡 **obs.rxj1856-ho2007-b-field** [stub/code] Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)
+          - (see above)
+      - 🟡 **obs.rxj1856-ho2007-column-depth** [stub/code] Ho+2007 thin-atmosphere fit: hydrogen column depth y_H
+        - (see above)
+      - 🟡 **obs.approx-ho2007-assumptions** [stub/code] Ho+2007 fit assumptions: distance, M, R, field orientation, single T and B
+        - (see above)
+      - 🟢 **obs.rxj1856-xray-kt-chandra** [leaf/measured] RX J1856.5-3754 X-ray blackbody kT_inf (Burwitz+2003, Chandra LETGS)
+      - 🟢 **obs.rxj1856-xray-rinf-chandra** [leaf/measured] RX J1856.5-3754 X-ray blackbody radius R_inf (Burwitz+2003, Chandra LETGS)
+        - 🟢 **obs.rxj1856-xray-kt-chandra** [leaf/measured] RX J1856.5-3754 X-ray blackbody kT_inf (Burwitz+2003, Chandra LETGS)
+          - (see above)
+      - 🟢 **obs.rxj1856-xray-nh-chandra** [leaf/measured] RX J1856.5-3754 hydrogen column density (Burwitz+2003, Chandra LETGS)
+      - 🟢 **obs.rxj1856-xray-bb-r-over-d** [leaf/measured] RX J1856.5-3754 X-ray blackbody normalisation R/d (Kaplan+2011 Table 2)
+        - 🟢 **obs.rxj1856-xray-kt-chandra** [leaf/measured] RX J1856.5-3754 X-ray blackbody kT_inf (Burwitz+2003, Chandra LETGS)
+          - (see above)
+      - 🟢 **obs.rxj1856-distance** [leaf/measured] RX J1856.5-3754 distance (Walter+2010 best estimate)
+        - (see above)
+      - 🟢 **obs.rxj1856-parallax-walter2010-text** [leaf/measured] RX J1856.5-3754 weighted-mean parallax (Walter+2010, text)
+        - (see above)
+      - 🟢 **obs.rxj1856-parallax-walter2010-table3** [leaf/measured] RX J1856.5-3754 mean parallax (Walter+2010, Table 3)
+        - (see above)
+      - 🟢 **obs.approx-walter2010-differential-parallax** [leaf/measured] Differential parallax; reference stars at large distance
+        - (see above)
+      - 🟡 **obs.rxj1856-dipole-field** [stub/derivable] RX J1856.5-3754 inferred dipole field B_dip (van Kerkwijk & Kaplan 2008)
+        - 🟡 **obs.approx-vkk2008-dipole-spindown** [stub/derivable] Dipole spin-down inference of B, Edot, tau_char (van Kerkwijk & Kaplan 2008)
+        - 🟡 **obs.rxj1856-period-derivative** [leaf/measured] RX J1856.5-3754 period derivative (van Kerkwijk & Kaplan 2008)
+          - 🟡 **obs.rxj1856-spin-period** [leaf/measured] RX J1856.5-3754 spin period (van Kerkwijk & Kaplan 2008, coherent solution)
+            - 🟡 **obs.approx-vkk2008-dipole-spindown** [stub/derivable] Dipole spin-down inference of B, Edot, tau_char (van Kerkwijk & Kaplan 2008)
+              - (see above)
+      - 🟡 **obs.rxj1856-spin-period** [leaf/measured] RX J1856.5-3754 spin period (van Kerkwijk & Kaplan 2008, coherent solution)
+        - (see above)
+      - 🟡 **obs.rxj1856-period-derivative** [leaf/measured] RX J1856.5-3754 period derivative (van Kerkwijk & Kaplan 2008)
+        - (see above)
+      - 🟢 **obs.rxj1856-pulse-amplitude** [leaf/measured] RX J1856.5-3754 fractional pulsation amplitude (van Kerkwijk & Kaplan 2008)
+        - (see above)
+      - 🟡 **surface.phc16-rxj1856-polar-field** [stub/code] RX J1856.5-3754 piecewise-dipole fit: polar field
+        - 🟢 **surface.notation-envelope-fit** [?/?] Symbols of the PPP15 Appendix-B Tb-Ts fit
+          - (see above)
+      - 🟡 **surface.phc16-rxj1856-polar-ts** [stub/code] RX J1856.5-3754 piecewise-dipole fit: polar surface temperature
+        - 🟡 **surface.phc16-rxj1856-polar-field** [stub/code] RX J1856.5-3754 piecewise-dipole fit: polar field
+          - (see above)
+      - 🟡 **surface.phc16-rxj1856-teff-inf** [stub/code] RX J1856.5-3754 overall redshifted effective temperature
+        - 🟡 **surface.phc16-rxj1856-polar-ts** [stub/code] RX J1856.5-3754 piecewise-dipole fit: polar surface temperature
+          - (see above)
+        - 🟢 **surface.ppp15-teff-definition** [leaf/convention] Overall effective temperature of a star with non-uniform T_s (PPP15 eq. 39)
+          - (see above)
+      - 🟡 **surface.gh83-pole-geometry-angle** [stub/derivable] Pole-to-line-of-sight angle versus rotation phase (GH83 eq. 21)
+        - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+          - (see above)
+      - 🟡 **eos.surface-gravity** [stub/derivable] Surface gravity with the GR factor
+        - (see above)
+      - 🟡 **surface.rxj1856-rinf-ho2007-rescaled-123pc** [stub/derivable] Ho+2007 R^inf rescaled from 140 pc to 123 pc (M1 input label)
+        - 🟡 **obs.rxj1856-ho2007-rinf** [stub/code] Ho+2007 thin-atmosphere fit: radiation radius R_inf (B = 4e12 G)
+          - (see above)
+        - 🟢 **obs.rxj1856-distance** [leaf/measured] RX J1856.5-3754 distance (Walter+2010 best estimate)
+          - (see above)
+        - 🟡 **obs.approx-ho2007-assumptions** [stub/code] Ho+2007 fit assumptions: distance, M, R, field orientation, single T and B
+          - (see above)
+      - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+        - (see above)
+    - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+      - (see above)
+  - 🟡 **pipeline.display-exposure-tone** [stub/derivable] Exposure, glare and tone mapping
+    - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+      - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+      - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+    - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+      - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+        - (see above)
+      - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+        - (see above)
+      - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+        - (see above)
+    - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+      - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+        - (see above)
+    - 🟢 **colour.reinhard-key-default** [leaf/convention] Default key value a = 0.18
+      - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+        - (see above)
+    - 🟢 **colour.reinhard-key-value-definition** [leaf/convention] Key value
+      - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+        - (see above)
+    - 🟢 **colour.reinhard-log-average-as-key** [leaf/convention] Log-average luminance as scene key
+      - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+        - (see above)
+    - 🟢 **colour.reinhard-global-limitation** [leaf/convention] Global operator loses detail at very high dynamic range
+      - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+        - (see above)
+    - 🟡 **colour.reinhard-bounded-output** [stub/derivable] Eq. 3 output bounded to the displayable range
+      - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+        - (see above)
+    - 🟢 **colour.reinhard-dynamic-range-definition** [leaf/convention] Dynamic range of a scene (computer graphics)
+    - 🟡 **colour.display-exposure-convention** [leaf/convention] Scalar exposure applied before the tone operator (project convention)
+      - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+        - (see above)
+      - 🟡 **colour.reinhard-simple-inverse** [stub/derivable] Inverse of the Reinhard simple operator
+        - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+          - (see above)
+    - 🟡 **colour.reinhard-simple-inverse** [stub/derivable] Inverse of the Reinhard simple operator
+      - (see above)
+    - 🟡 **pipeline.display-colour** [stub/derivable] Spectral radiance to CIE XYZ to linear and encoded sRGB
+      - 🟢 **colour.cie1931-2deg-cmf-file** [leaf/convention] CIE 1931 2-degree colour matching functions, CVRL file
+      - 🟢 **colour.cie1931-2deg-cmf-short-wavelength-error** [leaf/convention] CIE 1931 2-deg CMFs are in error at short wavelengths
+        - 🟢 **colour.notation-cie-cmf** [?/?] CIE 1931 colour matching function symbols and wavelength
+          - 🟢 **colour.cie1931-2deg-cmf-file** [leaf/convention] CIE 1931 2-degree colour matching functions, CVRL file
+            - (see above)
+      - 🟢 **colour.srgb-colorimetric-basis** [leaf/convention] sRGB is defined from the CIE XYZ two-degree observer
+        - 🟢 **colour.notation-stokes-cie-xyz** [?/?] CIE 1931 XYZ tristimulus symbols (sRGB spec)
+      - 🟢 **colour.srgb-red-primary** [leaf/convention] sRGB red primary chromaticity
+        - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+      - 🟢 **colour.srgb-green-primary** [leaf/convention] sRGB green primary chromaticity
+        - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+          - (see above)
+      - 🟢 **colour.srgb-blue-primary** [leaf/convention] sRGB blue primary chromaticity
+        - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+          - (see above)
+      - 🟢 **colour.srgb-primaries-chromaticity** [leaf/convention] sRGB (ITU-R BT.709) primaries chromaticities
+      - 🟢 **colour.srgb-d65-white-chromaticity** [leaf/convention] D65 white chromaticity in sRGB definition
+      - 🟢 **colour.srgb-stokes-d65-white-table02** [leaf/convention] D65 chromaticity of the sRGB illuminant white (Table 0.2)
+        - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+          - (see above)
+      - 🟢 **colour.srgb-viewing-environment** [leaf/convention] sRGB reference viewing environment (Table 0.1)
+        - 🟢 **colour.srgb-d65-white-table01** [leaf/convention] D65 illuminant white in the viewing environment (Table 0.1)
+          - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+            - (see above)
+      - 🟢 **colour.srgb-xyz-to-linear-matrix** [leaf/convention] CIE XYZ to linear sRGB matrix (Stokes eq. 1.1)
+        - 🟢 **colour.notation-cie-xyz** [?/?] CIE XYZ and sRGB tristimulus symbols
+      - 🟢 **colour.srgb-linear-to-xyz-matrix** [leaf/convention] Linear sRGB to CIE XYZ matrix (Stokes eq. 1.8)
+        - 🟢 **colour.srgb-xyz-to-linear-matrix** [leaf/convention] CIE XYZ to linear sRGB matrix (Stokes eq. 1.1)
+          - (see above)
+      - 🟢 **colour.srgb-stokes-xyz-to-linear-matrix** [leaf/convention] CIE XYZ to linear sRGB (Stokes eq. 1.1)
+        - 🟢 **colour.notation-stokes-cie-xyz** [?/?] CIE 1931 XYZ tristimulus symbols (sRGB spec)
+          - (see above)
+        - 🟢 **colour.notation-srgb-linear** [?/?] Linear sRGB tristimulus symbols
+      - 🟢 **colour.srgb-stokes-linear-to-xyz-matrix** [leaf/convention] Linear sRGB to CIE XYZ (Stokes eq. 1.8)
+        - 🟢 **colour.srgb-stokes-xyz-to-linear-matrix** [leaf/convention] CIE XYZ to linear sRGB (Stokes eq. 1.1)
+          - (see above)
+      - 🟢 **colour.srgb-clipping** [leaf/convention] Gamut clipping of sRGB tristimulus values
+        - 🟢 **colour.notation-srgb-linear** [?/?] Linear sRGB tristimulus symbols
+          - (see above)
+      - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+        - 🟢 **colour.notation-srgb-linear** [?/?] Linear sRGB tristimulus symbols
+          - (see above)
+      - 🟢 **colour.srgb-transfer-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+        - 🟢 **colour.notation-cie-xyz** [?/?] CIE XYZ and sRGB tristimulus symbols
+          - (see above)
+      - 🟢 **colour.srgb-transfer-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+        - 🟢 **colour.notation-cie-xyz** [?/?] CIE XYZ and sRGB tristimulus symbols
+          - (see above)
+        - 🟢 **colour.srgb-transfer-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+          - (see above)
+      - 🟢 **colour.srgb-stokes-encode-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+        - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+          - (see above)
+        - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+      - 🟢 **colour.srgb-stokes-encode-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+        - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+          - (see above)
+        - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+          - (see above)
+      - 🟢 **colour.srgb-digital-scaling** [leaf/convention] Conversion to digital code values (Stokes eq. 1.3)
+        - 🟢 **colour.notation-srgb-digital** [?/?] sRGB digital code value symbols
+        - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+          - (see above)
+      - 🟢 **colour.srgb-digital-8bit** [leaf/convention] 24-bit encoding with KDC=0, WDC=255 (Stokes eq. 1.4)
+        - 🟢 **colour.srgb-digital-scaling** [leaf/convention] Conversion to digital code values (Stokes eq. 1.3)
+          - (see above)
+      - 🟢 **colour.srgb-digital-8bit-simplified** [leaf/convention] Simplified 8-bit encoding (Stokes eq. 1.5)
+        - 🟢 **colour.srgb-digital-8bit** [leaf/convention] 24-bit encoding with KDC=0, WDC=255 (Stokes eq. 1.4)
+          - (see above)
+      - 🟢 **colour.srgb-digital-decode** [leaf/convention] 8-bit code to non-linear sRGB (Stokes eq. 1.6)
+        - 🟢 **colour.srgb-digital-8bit-simplified** [leaf/convention] Simplified 8-bit encoding (Stokes eq. 1.5)
+          - (see above)
+      - 🟢 **colour.srgb-decode-threshold** [leaf/convention] Linear-segment threshold for decoding, eq. 1.7 (0.03928)
+        - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+          - (see above)
+      - 🟢 **colour.srgb-inverse-linear** [leaf/convention] sRGB decoding, linear segment (Stokes eq. 1.7a)
+        - 🟢 **colour.srgb-decode-threshold** [leaf/convention] Linear-segment threshold for decoding, eq. 1.7 (0.03928)
+          - (see above)
+        - 🟢 **colour.srgb-stokes-encode-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+          - (see above)
+      - 🟢 **colour.srgb-stokes-decode-power** [leaf/convention] sRGB decoding, power segment (Stokes eq. 1.7b), as printed
+        - 🟢 **colour.srgb-decode-threshold** [leaf/convention] Linear-segment threshold for decoding, eq. 1.7 (0.03928)
+          - (see above)
+        - 🟢 **colour.srgb-inverse-linear** [leaf/convention] sRGB decoding, linear segment (Stokes eq. 1.7a)
+          - (see above)
+        - 🟢 **colour.srgb-stokes-encode-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+          - (see above)
+        - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+          - (see above)
+      - 🟢 **colour.k-cd-luminous-efficacy** [leaf/convention] Luminous efficacy K_cd = 683 lm/W at 540e12 Hz (SI definition)
+      - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+        - (see above)
+      - 🟡 **pipeline.pixel-radiance** [stub/derivable] Pixel spectral radiance in the camera frame (unpolarised)
+        - (see above)
+  - 🟡 **pipeline.display-colour** [stub/derivable] Spectral radiance to CIE XYZ to linear and encoded sRGB
+    - (see above)
+  - 🟡 **pipeline.earth-photometry** [stub/derivable] Earth-distance photometry harness (R5)
+    - 🟢 **obs.stmag-definition** [leaf/convention] STMAG photometric system
+    - 🟢 **obs.rxj1856-f475w-magnitude-walter2010** [leaf/measured] RX J1856.5-3754 ACS/HRC F475W magnitude (Walter+2010)
+    - 🟢 **obs.rxj1856-extrapolated-stmag-f475w** [leaf/measured] RX J1856.5-3754 X-ray-blackbody-extrapolated STMAG, ACS/WFC F475W
+      - 🟢 **obs.stmag-definition** [leaf/convention] STMAG photometric system
+        - (see above)
+    - 🟡 **obs.rxj1856-flux-density-2500** [leaf/measured] RX J1856.5-3754 absorbed flux density at 2500 A (Kaplan+2011 Table 5)
+      - 🟡 **obs.approx-kaplan2011-extinction** [stub/fit] Extinction from X-ray column density (Kaplan+2011)
+      - 🟢 **obs.approx-kaplan2011-powerlaw-excess** [leaf/measured] Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)
+    - 🟢 **obs.rxj1856-optical-excess-2500** [leaf/measured] RX J1856.5-3754 optical excess at 2500 A (Kaplan+2011)
+      - 🟢 **obs.approx-kaplan2011-powerlaw-excess** [leaf/measured] Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)
+        - (see above)
+    - 🟢 **obs.rxj1856-optical-excess-4700** [leaf/measured] RX J1856.5-3754 optical excess at 4700 A (Kaplan+2011)
+      - 🟢 **obs.approx-kaplan2011-powerlaw-excess** [leaf/measured] Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)
+        - (see above)
+    - 🟢 **obs.rxj1856-optuv-powerlaw-index** [leaf/measured] RX J1856.5-3754 optical/UV power-law index alpha (Kaplan+2011)
+      - 🟢 **obs.approx-kaplan2011-powerlaw-excess** [leaf/measured] Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)
+        - (see above)
+    - 🟡 **obs.approx-kaplan2011-extinction** [stub/fit] Extinction from X-ray column density (Kaplan+2011)
+      - (see above)
+    - 🟢 **obs.approx-kaplan2011-powerlaw-excess** [leaf/measured] Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)
+      - (see above)
+    - 🟢 **obs.rxj1856-optical-excess-burwitz** [leaf/measured] RX J1856.5-3754 optical-to-X-ray-blackbody flux ratio (Burwitz+2003)
+    - 🟢 **obs.approx-burwitz2003-two-component** [leaf/measured] Two-component blackbody model of the optical excess (Burwitz+2003)
+    - 🟢 **obs.rxj1856-xray-flux-chandra** [leaf/measured] RX J1856.5-3754 X-ray flux 0.1-1.0 keV (Burwitz+2003, Chandra LETGS)
+    - 🟢 **obs.rxj1856-distance** [leaf/measured] RX J1856.5-3754 distance (Walter+2010 best estimate)
+      - (see above)
+    - 🟡 **rt.observed-flux-redshift-mcphac** [stub/derivable] Observed flux from emergent flux with redshift (McPHAC)
+      - (see above)
+    - 🟡 **surface.ppp15-redshifted-quantities** [stub/derivable] Redshifted (apparent) radius, temperature and luminosity (PPP15 eq. 40)
+      - (see above)
+    - 🟡 **pipeline.star-scale-adaptive** [stub/derivable] Scale-adaptive star rendering (point source to resolved disc)
+      - (see above)
+    - 🟡 **pipeline.null-geodesic-trace** [stub/derivable] Exact null geodesic from camera pixel to surface or sky
+      - (see above)
+    - 🟡 **pipeline.frequency-shift** [stub/derivable] Gravitational, Doppler and aberration shift of I_nu
+      - (see above)
+    - 🟡 **pipeline.surface-radiance** [stub/derivable] Surface radiance interface (three interchangeable models)
+      - (see above)
+    - 🟡 **pipeline.ns-exterior-spacetime** [stub/derivable] Schwarzschild exterior of RX J1856
+      - (see above)
+    - 🟡 **pipeline.constant-set** [stub/derivable] Constant set (CODATA 2018 plus IAU units)
+      - (see above)
+    - 🟡 **obs.rxj1856-ho2007-nh** [stub/code] Ho+2007 thin-atmosphere fit: column density N_H (B = 4e12 G)
+      - (see above)
+    - 🟢 **obs.rxj1856-xray-nh-chandra** [leaf/measured] RX J1856.5-3754 hydrogen column density (Burwitz+2003, Chandra LETGS)
+      - (see above)
+
+- 🟡 **rt.airy-first-zero** [stub/derivable] First zero of the Airy pattern, 1.22 lambda/D — 2 stub(s) below
+  - 🟡 **rt.airy-intensity-pattern** [stub/derivable] Airy diffraction pattern of a circular aperture (normalised PSF)
+
+- 🟡 **rt.feautrier-matrix-coeffs-mcphac** [stub/derivable] Hermitian-method matrix coefficients R and T (McPHAC) — 5 stub(s) below
+  - 🟡 **rt.feautrier-discrete-mcphac** [stub/derivable] Discretised Feautrier equation with Gauss-Legendre angle quadrature (McPHAC)
+    - 🟡 **rt.source-function-mcphac** [stub/derivable] Source function with anisotropic Thomson scattering (McPHAC)
+      - 🟡 **rt.feautrier-second-order-mcphac** [stub/derivable] Feautrier second-order transfer equation (McPHAC)
+        - 🟢 **rt.notation-mcphac** [?/?] McPHAC plane-parallel RT notation (Haakonsen 2012)
+      - 🟡 **rt.approx-coherent-scattering-mcphac** [stub/derivable] Coherent (non-Compton) scattering (McPHAC)
+
+- 🟡 **rt.planck-function-blambda** [stub/derivable] Planck function B_lambda(T) (per unit wavelength) — 2 stub(s) below
+  - 🟡 **rt.planck-function-bnu** [stub/derivable] Planck function B_nu(T) (per unit frequency)
+    - 🟢 **const.planck** [leaf/measured] Planck constant
+    - 🟢 **const.boltzmann** [leaf/measured] Boltzmann constant
+    - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+
+- 🟡 **rt.source-function-val** [stub/derivable] Mode source function with scattering (VAL06) — 2 stub(s) below
+  - 🟡 **rt.two-mode-transfer-val** [stub/derivable] Mode transfer equation in Thomson optical depth (VAL06)
+    - 🟢 **rt.notation-val** [?/?] Two-mode RT with vacuum conversion notation (van Adelsberg & Lai 2006)
+
+- 🟡 **surface.gh83-cap-dominance** [stub/derivable] Condition for polar-cap emission to dominate (GH83 eqs. 2-3) — 2 stub(s) below
+  - 🟡 **surface.gh83-cap-radius** [stub/derivable] Polar cap radius (GH83 eq. 1)
+    - 🟢 **surface.notation-conduction** [?/?] Heat-conduction and polar-cap symbols (GH83)
+
+- 🟡 **surface.gh83-fwhm** [stub/derivable] Full width at half maximum of the small-cap light curve (GH83 eq. 22) — 2 stub(s) below
+  - 🟡 **surface.gh83-pole-geometry-angle** [stub/derivable] Pole-to-line-of-sight angle versus rotation phase (GH83 eq. 21)
+    - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+
+- 🟡 **surface.gh83-spectrum-conclusion** [stub/code] GH83 conclusion on blackbody character of the observed spectrum — 8 stub(s) below
+  - 🟡 **surface.gh83-synthetic-spectrum-fit** [stub/code] Best-fit blackbody temperature of a synthesised GH83 spectrum
+    - 🟡 **surface.gh83-temperature-distribution** [stub/derivable] Greenstein-Hartke surface temperature distribution (GH83 eq. 14)
+      - 🟡 **surface.gh83-surface-flux-relation** [stub/derivable] Surface temperature from the anisotropic slab (GH83 eq. 13)
+        - 🟡 **surface.gh83-conductivity-tensor** [stub/derivable] Conductivity tensor in the horizontal frame (GH83 eq. 8)
+          - 🟢 **surface.notation-conduction** [?/?] Heat-conduction and polar-cap symbols (GH83)
+          - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+        - 🟡 **surface.gh83-flux-balance** [stub/derivable] Surface flux balance (GH83 eq. 11)
+          - 🟡 **surface.gh83-approx-1d-anisotropic-slab** [stub/derivable] GH83 one-dimensional anisotropic-conduction slab
+            - 🟡 **surface.gh83-isotropic-density** [stub/derivable] Density above which conduction is isotropic (GH83 eqs. 4-5)
+
+- 🟢 **colour.cie1931-2deg-cmf-origin** [leaf/convention] Origin of the CIE 1931 2-degree CMFs
+  - 🟢 **colour.notation-cie-cmf** [?/?] CIE 1931 colour matching function symbols and wavelength
+    - 🟢 **colour.cie1931-2deg-cmf-file** [leaf/convention] CIE 1931 2-degree colour matching functions, CVRL file
+
+- 🟢 **colour.reinhard-key-range** [leaf/convention] Typical range of key value a
+
+- 🟢 **colour.reinhard-lwhite-default** [leaf/convention] Default choice of Lwhite
+  - 🟢 **colour.reinhard-white-operator** [leaf/convention] Global operator with burn-out Lwhite, Reinhard eq. 4
+    - 🟢 **colour.reinhard-simple-operator** [leaf/convention] Simple global tone-mapping operator, Reinhard eq. 3
+      - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+        - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+          - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+          - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+        - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+          - (see above)
+        - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+          - (see above)
+    - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+      - (see above)
+
+- 🟢 **colour.srgb-bt709-relation** [leaf/convention] sRGB as a tightened derivative of ITU-R BT.709
+  - 🟢 **colour.srgb-red-primary** [leaf/convention] sRGB red primary chromaticity
+    - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+  - 🟢 **colour.srgb-green-primary** [leaf/convention] sRGB green primary chromaticity
+    - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+      - (see above)
+  - 🟢 **colour.srgb-blue-primary** [leaf/convention] sRGB blue primary chromaticity
+    - 🟢 **colour.notation-chromaticity** [?/?] CIE chromaticity coordinates x, y, z
+      - (see above)
+
+- 🟢 **colour.srgb-gamma22-fit** [leaf/convention] Eq. 1.2 closely fits a gamma 2.2 curve
+  - 🟢 **colour.srgb-stokes-encode-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+    - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+      - 🟢 **colour.notation-srgb-linear** [?/?] Linear sRGB tristimulus symbols
+    - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+  - 🟢 **colour.srgb-stokes-encode-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+    - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+      - (see above)
+    - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+      - (see above)
+
+- 🟢 **colour.srgb-inverse-power** [leaf/convention] sRGB decoding, power segment (Stokes eq. 1.7b)
+  - 🟢 **colour.srgb-decode-threshold** [leaf/convention] Linear-segment threshold for decoding, eq. 1.7 (0.03928)
+    - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+  - 🟢 **colour.srgb-stokes-encode-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+    - 🟢 **colour.srgb-encode-threshold** [leaf/convention] Linear-segment threshold for encoding, eq. 1.2 (0.00304)
+      - 🟢 **colour.notation-srgb-linear** [?/?] Linear sRGB tristimulus symbols
+    - 🟢 **colour.notation-srgb-nonlinear** [?/?] Non-linear sRGB symbols
+      - (see above)
+
+- 🟢 **colour.srgb-inverse-transfer-power** [leaf/convention] sRGB decoding, power segment (Stokes eq. 1.7b)
+  - 🟢 **colour.srgb-transfer-power** [leaf/convention] sRGB encoding, power segment (Stokes eq. 1.2b)
+    - 🟢 **colour.notation-cie-xyz** [?/?] CIE XYZ and sRGB tristimulus symbols
+    - 🟢 **colour.srgb-transfer-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+      - 🟢 **colour.notation-cie-xyz** [?/?] CIE XYZ and sRGB tristimulus symbols
+        - (see above)
+  - 🟢 **colour.srgb-inverse-transfer-linear** [leaf/convention] sRGB decoding, linear segment (Stokes eq. 1.7a)
+    - 🟢 **colour.srgb-transfer-linear** [leaf/convention] sRGB encoding, linear segment (Stokes eq. 1.2a)
+      - (see above)
+
+- 🟢 **colour.zone-system-middle-grey** [leaf/convention] Middle grey is 18% reflectance (zone V)
+  - 🟢 **colour.reinhard-key-default** [leaf/convention] Default key value a = 0.18
+    - 🟢 **colour.reinhard-scaled-luminance** [leaf/convention] Scaled luminance with key value a, Reinhard eq. 2
+      - 🟢 **colour.reinhard-log-average-luminance** [leaf/convention] Log-average (world) luminance, Reinhard eq. 1
+        - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+        - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+      - 🟢 **colour.notation-reinhard-luminance** [?/?] Luminance symbols of the Reinhard operator
+        - (see above)
+      - 🟢 **colour.notation-reinhard-parameters** [?/?] Parameters of the Reinhard operator
+        - (see above)
+
+- 🟢 **const.avogadro** [leaf/measured] Avogadro constant
+
+- 🟢 **const.esu-from-coulomb** [leaf/convention] Gaussian bridge adopted by the project: q[esu] = 10 c[m/s] q[C] (exact by project convention)
+  - 🟢 **const.elementary-charge** [leaf/measured] Elementary charge
+  - 🟢 **const.speed-of-light** [leaf/measured] Speed of light in vacuum
+
+- 🟢 **const.l-sun-nominal** [leaf/convention] Nominal solar luminosity L^N_sun
+
+- 🟢 **const.neutron-mass** [leaf/measured] Neutron mass
+
+- 🟢 **const.r-sun-nominal** [leaf/convention] Nominal solar radius R^N_sun
+
+- 🟢 **obs.hipparcos-five-parameter-set** [leaf/convention] Hipparcos new reduction: basic five-parameter solutions; parallax and proper-motion components tabulated
+
+- 🟢 **obs.hipparcos-new-reduction-star-counts** [leaf/measured] Hipparcos new reduction: 117 955 stars, 102 072 with five-parameter solutions
+
+- 🟢 **obs.hipparcos-observed-magnitude-range** [leaf/measured] Hipparcos observed magnitude range: stars from magnitude -1 to 12.5 were observed
+
+- 🟢 **obs.hipparcos-reference-epoch-j1991-25** [leaf/convention] Hipparcos reference epoch J1991.25 (positional reference frame of the revised catalogue)
+
+- 🟢 **obs.mellinger-availability** [leaf/measured] Mellinger 2009: availability and licence statement
+
+- 🟢 **obs.mellinger-background-and-star-content** [leaf/measured] Mellinger 2009: which light is removed and which kept; stars are NOT removed
+
+- 🟢 **obs.mellinger-photometric-calibration** [leaf/measured] Mellinger 2009: photometric calibration against Yale Bright Star Catalog V magnitudes, S10(V) units
+
+- 🟢 **obs.mellinger-resolution-and-range** [leaf/measured] Mellinger 2009 panorama: pixel scale, limiting magnitude, dynamic range
+
+- 🟢 **obs.rxj1856-xray-pulsed-fraction-limit** [leaf/measured] RX J1856.5-3754 X-ray periodic variation upper limit (Burwitz+2003)
+
+- 🟢 **surface.gh83-modulation-definition** [leaf/convention] Degree of modulation of a pulsed thermal light curve (GH83)
+  - 🟢 **surface.notation-geometry** [?/?] Surface/viewing geometry symbols (GH83, PPP15, PHC16)
+

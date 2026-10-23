@@ -1,0 +1,958 @@
+%%
+%% Beginning of file 'sample.tex'
+%%
+%% Modified 2005 June 21
+%%
+%% This is a sample manuscript marked up using the
+%% AASTeX v5.x LaTeX 2e macros.
+
+%% The first piece of markup in an AASTeX v5.x document
+%% is the \documentclass command. LaTeX will ignore
+%% any data that comes before this command.
+
+%% The command below calls the preprint style
+%% which will produce a one-column, single-spaced document.
+%% Examples of commands for other substyles follow. Use
+%% whichever is most appropriate for your purposes.
+%%
+%%\documentclass[12pt,preprint]{aastex}
+
+%% manuscript produces a one-column, double-spaced document:
+
+%\documentclass[manuscript]{aastex}
+
+%% preprint2 produces a double-column, single-spaced document:
+
+\documentclass[preprint]{aastex}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage[nomarkers]{endfloat}
+%\usepackage{hyperref}
+
+\bibliographystyle{apj}
+
+%% Sometimes a paper's abstract is too long to fit on the
+%% title page in preprint2 mode. When that is the case,
+%% use the longabstract style option.
+
+%% \documentclass[preprint2,longabstract]{aastex}
+
+%% If you want to create your own macros, you can do so
+%% using \newcommand. Your macros should appear before
+%% the \begin{document} command.
+%%
+%% If you are submitting to a journal that translates manuscripts
+%% into SGML, you need to follow certain guidelines when preparing
+%% your macros. See the AASTeX v5.x Author Guide
+%% for information.
+
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand{\myemail}{axel.mellinger@cmich.edu}
+
+
+%% You can insert a short comment on the title page using the command below.
+
+%\slugcomment{Not to appear in Nonlearned J., 45.}
+
+%% If you wish, you may supply running head information, although
+%% this information may be modified by the editorial offices.
+%% The left head contains a list of authors,
+%% usually a maximum of three (otherwise use et al.).  The right
+%% head is a modified title of up to roughly 44 characters.
+%% Running heads will not print in the manuscript style.
+
+\shorttitle{Color All-Sky Panorama Image}
+\shortauthors{A. Mellinger}
+
+%% This is the end of the preamble.  Indicate the beginning of the
+%% paper itself with \begin{document}.
+
+\begin{document}
+
+%% LaTeX will automatically break titles if they run longer than
+%% one line. However, you may use \\ to force a line break if
+%% you desire.
+
+\title{A Color All-Sky Panorama Image of the Milky Way}
+
+%% Use \author, \affil, and the \and command to format
+%% author and affiliation information.
+%% Note that \email has replaced the old \authoremail command
+%% from AASTeX v4.0. You can use \email to mark an email address
+%% anywhere in the paper, not just in the front matter.
+%% As in the title, use \\ to force line breaks.
+
+%\author{Axel Mellinger\altaffilmark{1}}
+\author{Axel Mellinger}
+\affil{Department of Physics, Central Michigan University, Mount Pleasant, MI 48859}
+
+
+%\and
+
+%\author{R. J. Hanisch\altaffilmark{5}}
+%\affil{Space Telescope Science Institute, Baltimore, MD 21218}
+
+%% Notice that each of these authors has alternate affiliations, which
+%% are identified by the \altaffilmark after each name.  Specify alternate
+%% affiliation information with \altaffiltext, with one command per each
+%% affiliation.
+
+% \altaffiltext{1}{Visiting Astronomer, Cerro Tololo Inter-American Observatory.
+% CTIO is operated by AURA, Inc.\ under contract to the National Science
+% Foundation.}
+% \altaffiltext{2}{Society of Fellows, Harvard University.}
+% \altaffiltext{3}{present address: Center for Astrophysics,
+%     60 Garden Street, Cambridge, MA 02138}
+% \altaffiltext{4}{Visiting Programmer, Space Telescope Science Institute}
+% \altaffiltext{5}{Patron, Alonso's Bar and Grill}
+
+%% Mark off your abstract in the ``abstract'' environment. In the manuscript
+%% style, abstract will output a Received/Accepted line after the
+%% title and affiliation information. No date will appear since the author
+%% does not have this information. The dates will be filled in by the
+%% editorial office after submission.
+
+\begin{abstract}
+This article describes the assembly of an optical (RGB) all-sky mosaic image with an image scale of 36~arcsec/pixel, a limiting magnitude of approx.\ 14~mag and an 18~bit dynamic range. Using a portable low-cost system, 70~fields (each covering $40\degr\times 27\degr$) were imaged over a time span of 21 months from dark-sky locations in South Africa, Texas and Michigan. The fields were photometrically calibrated against standard catalog stars.  Using sky background data from the Pioneer 10 and 11 space probes, gradients resulting from artificial light pollution, airglow and zodiacal light were eliminated, while the large-scale galactic and extragalactic background resulting from unresolved sources was preserved. The 648~Megapixel image is a valuable educational tool, being able to fully utilize the resolution and dynamic range of modern full-dome planetarium projection systems. 
+\end{abstract}
+
+%% Keywords should appear after the \end{abstract} command. The uncommented
+%% example has been keyed in ApJ style. See the instructions to authors
+%% for the journal to which you are submitting your paper to determine
+%% what keyword punctuation is appropriate.
+
+\keywords{All-Sky panorama -- dust, extinction -- Milky Way -- sky background }
+
+%% From the front matter, we move on to the body of the paper.
+%% In the first two sections, notice the use of the natbib \citep
+%% and \citet commands to identify citations.  The citations are
+%% tied to the reference list via symbolic KEYs. The KEY corresponds
+%% to the KEY in the \bibitem in the reference list below. We have
+%% chosen the first three characters of the first author's name plus
+%% the last two numeral of the year of publication as our KEY for
+%% each reference.
+
+
+%% Authors who wish to have the most important objects in their paper
+%% linked in the electronic edition to a data center may do so by tagging
+%% their objects with \objectname{} or \object{}.  Each macro takes the
+%% object name as its required argument. The optional, square-bracket 
+%% argument should be used in cases where the data center identification
+%% differs from what is to be printed in the paper.  The text appearing 
+%% in curly braces is what will appear in print in the published paper. 
+%% If the object name is recognized by the data centers, it will be linked
+%% in the electronic edition to the object data available at the data centers  
+
+\section{Introduction}
+
+% In the history of astronomy, wide-field surveys have often pioneered the discovery of new objects and phenomena \textcolor{red}{(References?)}. 
+% \begin{itemize}
+% \item 2MASS
+% \item CO (Dame et al)
+% \item Radio (Bonn)
+% \item ROSAT
+% \item IRAS, Spitzer?
+% \item COMPTON
+% \end{itemize}
+
+Since ancient times, astronomers have sought to draw maps of the sky, similar to their cartographer colleagues' drive to produce ever more accurate maps of the Earth. 
+However, it was not until the invention of photography that faint, large-scale structures of nebulae and dust lanes could be faithfully reproduced. Since the late 19th century, several visible-light, wide-angle photographic surveys of the sky have been completed, such as E.~E.~Barnard's \textit{Atlas of Selected Regions of the Milky Way}~\citep{Bar1927}, the National Geographic Society-Palomar Observatory Sky Survey of the northern sky~\citep{Min1963} and subsequently the equivalent ESO/SERC atlas of the southern sky, and more recently the Sloan Digital Sky Survey \citep{York2000}. In addition, a H$\alpha$ narrow-band optical survey was compiled~\citep{Fin2003}.
+
+
+
+In 2000, the author published an all-sky color image taken on photographic 35~mm color film with a focal length of $f=28$~mm. A total of 51 images were computer-processed into a mosaic measuring $14\,400\times 7\,200$ pixels, equivalent to an image scale of 90~arcsec/pixel \citep{diCicco1999,Kiz2001}. This picture is now widely used for educational purposes in planetariums, exhibitions and textbooks, formed the basis for a photographic star atlas \citep{Mel2005} and illustrates the location of star-forming regions in the Milky Way \citep{Mel2008}.
+With recent advances in digital projection technology, a demand grew for both a higher spatial resolution and a higher dynamic range. The article describes the assembly of a 648 MPixel mosaic from more than 3000 individual CCD images.
+
+\section{Data Acquisition}
+%% In a manner similar to \objectname authors can provide links to dataset
+%% hosted at participating data centers via the \dataset{} command.  The
+%% second curly bracket argument is printed in the text while the first
+%% parentheses argument serves as the valid data set identifier.  Large
+%% lists of data set are best provided in a table (see Table 3 for an example).
+%% Valid data set identifiers should be obtained from the data center that
+%% is currently hosting the data.
+\subsection{Hardware}
+\subsubsection{CCD camera}
+Wide-field imaging equipment based on commercial camera lenses has been successfully used in the past for, e.\,g., emission-line surveys~\citep{SHASSA} and measurements of the night-sky brightness~\citep{Sha2005,Dur2007}.
+After exploring several camera systems on the market, an SBIG STL-11000 CCD camera was chosen due to its
+\begin{itemize}
+\item moderate cost,
+\item large sensor size (36~mm $\times$ 24~mm), 
+\item anti-blooming gate (eliminating the need for software de-blooming), and
+\item compact construction (low back focus, allowing the use of 35~mm camera lenses).
+\end{itemize}
+The camera uses a Kodak KAI-11002 chip, a 4008 (H) $\times$ 2672 (V) progressive scan interline CCD image sensor with an anti-blooming gate~\citep{Kodak}. It uses micro-lenses to enhance its quantum efficiency by directing light to the active pixel areas. Drawbacks of this design include non-linearity and angular quantum-efficiency variations, and are addressed in sections \ref{sec:nonlin} and \ref{sec:preproc}.
+
+\subsubsection{Lens}
+The camera was fitted with a Minolta MD 1.4/50~mm lens originally used on a 35~mm format film-based single-lens reflex camera. To improve the image quality, the lens was stopped down to $f/4$ for all exposures.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{f1.pdf}
+\caption{Transmission curves of the Astronomik RGB filters.}
+\label{fig:RGBcurves}
+\end{figure}
+\subsubsection{Filters}
+As the principal purpose of the panorama image is to create a visual representation of colors in the sky, an RGB filter set (Astronomik Type 2c) was used instead of the Johnson UBVR filters common in photometry. The transmission curves are shown in Fig.~\ref{fig:RGBcurves}.
+
+
+
+
+\subsection{Field Selection}
+The KAI-11002 chip has an active area of $36\times 24$~mm$^2$, resulting in a field of view of approx.\ $40\degr \times 27\degr$ at a focal length of $f=50$~mm. Due to the location of the mounting thread on the camera, a ``portrait'' orientation of the camera was chosen, with the long side of the chip being parallel to circles of constant right ascension. To ensure a seamless mosaic, adjacent fields had to overlap each other by at least 15\%\ of the respective offset in right ascension or declination. With these constraints, a coverage pattern (Fig.~\ref{fig:fieldmap}) was developed by way of trial-and-error. The pattern consists of five
+rings of frames centered at declinations of $+62\degr$, $+32\degr$, $0\degr$, $-32\degr$ and $-62\degr$, in addition to two fields centered at the celestial poles ($\pm 90\degr$). The number of fields and offsets in right ascension are listed in Table~\ref{tab:fields}.
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{f2.jpg}
+\caption{Northern (left) and southern (right) hemisphere coverage maps of the 70 fields.}
+\label{fig:fieldmap}
+\end{figure*}
+
+\begin{deluxetable}{crc}
+\tablecaption{Declination of field centers and RA offsets\label{tab:fields}}
+\tablehead{\colhead{Field number(s)} & \colhead{$\delta_\text{c}$} & \colhead{RA offset}}
+\tablewidth{0pt}
+\startdata
+0     & $+90\degr$ & --\\
+ 1-10 & $+62\degr$ & $2^\text{h} 24^\text{m}$ \\
+11-25 & $+32\degr$ & $1^\text{h} 36^\text{m}$ \\
+26-43 &   $0\degr$ & $1^\text{h} 20^\text{m}$ \\
+44-58 & $-32\degr$ & $1^\text{h} 36^\text{m}$ \\
+59-68 & $-62\degr$ & $2^\text{h} 24^\text{m}$ \\
+69    & $-90\degr$ & --
+\enddata
+\end{deluxetable}
+
+% \begin{table}
+% \caption{Declination of field centers and RA offsets\label{tab:fields}}
+% \centering
+% \begin{tabular}{crc}
+% Field number(s) & $\delta_\text{c}$ & {RA offset}\\ \hline
+% 0     & $+90\degr$ & --\\
+%  1-10 & $+62\degr$ & $2^\text{h} 24^\text{m}$ \\
+% 11-25 & $+32\degr$ & $1^\text{h} 36^\text{m}$ \\
+% 26-43 &   $0\degr$ & $1^\text{h} 20^\text{m}$ \\
+% 44-58 & $-32\degr$ & $1^\text{h} 36^\text{m}$ \\
+% 59-68 & $-62\degr$ & $2^\text{h} 24^\text{m}$ \\
+% 69    & $-90\degr$ & --
+% \end{tabular}
+% 
+% \end{table}
+
+
+\subsection{Exposure times}
+In order to increase the dynamic range beyond the 16~bits of the camera's analog-to-digital converter (of which approx. 12~bits provide data above the noise level), three different exposure times (240~s, 15~s and 0.5~s) were used. Five frames were taken for each exposure time and filter setting.
+
+\subsection{Sites}
+The fields centered at declinations $-90\degr$, $-62\degr$, $-32\degr$ and $0\degr$ were taken in October 2007 and March/April 2008 from dark-sky locations in South Africa (Tab.~\ref{tab:sites}), while the northern hemisphere images (declinations $+32\degr$, $+62\degr$ and $+90\degr$) were taken between December 2008 and August 2009 from Texas and Michigan in the U.S.
+
+
+
+\section{Data Processing}
+\subsection{Non-linearity correction}\label{sec:nonlin}
+\begin{figure}
+%\includegraphics[width=\columnwidth]{linearity}
+\includegraphics[width=\columnwidth]{f3.pdf}
+\caption{Non-linearity of the STL-11000 camera obtained in laboratory tests with a constant-current LED light source. The solid line shows the least squares fit according to Eq.~(\ref{eq:model}).}
+\label{fig:nonlin}
+\end{figure}
+The use of a CCD sensor with an anti-blooming gate often comes at the expense of linearity~\citep{Dur2007}.
+To test the sensor linearity, a uniform white target illuminated by a light-emitting diode (LED) operated in constant-current mode was photographed with a series of exposure times ranging from 0.02 to 30~s. To check for variations in the LED intensity, two series of exposures (one from short to long exposure times, the other from long to short) was taken. After dark-frame subtraction, the flux in a field measuring $200\times 200$ pixels at the image center was measured using the IRAF \texttt{imstat} task. The test revealed a significant deviation from a linear response for a signal as low as 15000 ADUs pixel$^{-1}$, well below the full-well depth of approx.\ 60000 ADUs pixel$^{-1}$~(Fig.\ \ref{fig:nonlin}). However, the observed signal as a function of illumination could be well represented by the quadratic equation
+\begin{equation}
+ S(E) = a_1 E + a_2 E^2\:,
+\label{eq:model}
+\end{equation}
+where $E$ is the exposure (product of light intensity and exposure time) and $S$ is the measured signal. 
+%The parameters $a_1$ and $a_2$ were determined from test data via a least squares fit.
+%At the origin, the slope of this function is equal to $a_1$.
+Based on this data, a non-linearity correction was developed as follows:
+Solving Eq.~(\ref{eq:model}) for $E$ yields
+\[ E = \frac{-a_1 + \sqrt{a_1^2+4a_2S}}{2a_2} \]
+The corrected (linearized) signal is then
+\begin{eqnarray}
+S' &=& a_1 E \nonumber\\
+%   &=& \frac{a_1^2}{2 a_2} \left( \sqrt{1 + \frac{4a_2}{a_1^2}S} -1 \right) \nonumber\\
+   &=& \frac{1}{2\alpha} \left( \sqrt{1+4\alpha S} - 1\right) \:,
+\end{eqnarray}
+where
+\begin{equation}
+\alpha := \frac{a_2}{a_1^2}
+\end{equation}
+From a least squares fit, $\alpha$ was determined as $-7.5334\times 10^{-7}$~ADU$^{-1}$. This function was applied to all raw images, including the flat frames (but not the dark frames, due to their low ADU values).
+
+
+
+
+\subsection{Pre-processing}\label{sec:preproc}
+The standard pre-processing steps (dark-frame subtraction, masking of bad pixels, division by flat frame) were applied to all images. Due to its micro-lenses, the angular quantum efficiency of the CCD chip depends upon the angle of incidence. This angular profile in turn is a function of the wavelength \citep{Kodak}. Hence, flat frames taken through the R, G and B filters differ significantly (Fig.~\ref{fig:flats}).
+\begin{figure}
+\includegraphics[width=\columnwidth]{f4.jpg}
+\caption{Ratio of R and G flat fields.}
+\label{fig:flats}
+\end{figure}
+Depending on the spectral distribution of the sky background, this wavelength-dependent sensitivity of the camera system may lead to residual gradients, even with proper flat-frame calibration. However, these gradients were later eliminated by the background-subtraction procedure detailed in section~\ref{sec:bgsubt}.
+
+Next, the images were upsampled by a factor of 3. Although it increases the file size by $9\times$, this step was found to be necessary in order to minimize the loss of resolution in subsequent resampling with bilinear interpolation. Higher order interpolation methods, such as bicubic or Lanczos resampling could not be used as they  introduce ringing artifacts in undersampled images.
+
+
+\subsection{Astrometric Calibration}
+Wide-angle imaging requires careful astrometric calibration, taking into account distortions of the camera lens beyond a simple gnomonic projection. 
+In each raw image, up to 1500 reference stars were automatically selected using the Source Extractor software~\citep{Ber1996} and pattern-matched against sources in the Hubble Guide Star Catalog~1.2~\citep{Mor2001}. The pattern-matching algorithm was invented by \citet{Val1995} and implemented in C by \citet{Ric2008}. With these reference stars, an astrometric solution was calculated using custom software, and a world coordinate system (WCS) header was added to the FITS file. For each field, all images with a common exposure time and filter setting were then resampled and co-added with the SWarp software~\citep{Ber2002}. Finally, all pixels in the 240~s frames that were masked as saturated (cf.\ section~\ref{sec:preproc}) were replaced by scaled pixel values from the 15~s or 0.5~s frames using the IRAF \texttt{imexpr} task.
+
+
+\subsection{Photometric Calibration}
+A major problem was the photometric calibration of the individual fields. A straight combination without photometric corrections yields a patchy-looking mosaic, as shown in Fig.~\ref{fig:mosaic_nobg_noeq}. Clearly, the sky background level varies significantly between fields, and some fields exhibit strong intra-field background gradients. Moreover, differences in atmospheric transparency may cause the recorded flux $I$ of a star to vary between two frames. 
+
+\begin{figure*}
+{\centering\includegraphics[width=\textwidth]{f5.jpg}\\}
+\caption{R channel mosaic, combined without photometric calibration and background subtraction. There are strong variations in the background level, as well as intra-field gradients.}
+\label{fig:mosaic_nobg_noeq}
+\end{figure*}
+
+\subsubsection{Contributions to the sky background}
+The diffuse night-sky background has a variety of sources (see \citet{Lei1998} for an in-depth discussion):
+\begin{enumerate}
+ \item \textit{Light pollution ($I_\text{LP}$).} Although most images were taken from dark-sky sites (class 1 on Bortle's scale \citep{Bor2001}), time constraints dictated that some fields were taken from sites with slight artificial light pollution (the Michigan sites have Bortle class 2 or 3). In addition, again due to time constraints, some images were taken in the evening sky before the end of astronomical twilight, or in the morning sky past the beginning of astronomical twilight.
+
+\item \textit{Airglow ($I_\text{A}$).} In the absence of light pollution, airglow is the largest contributor to the night sky brightness \citep{Lei1998}. 
+In the visible spectrum, the main sources are atmospheric O$_2$ (for wavelengths $\lambda<430$~nm) and OH (for $\lambda>520$~nm). Air glow is highly variable both in spatial distribution and in time.
+
+\item \textit{Zodiacal light ($I_\text{ZL}$).}  Zodiacal light is sunlight scattered by interplanetary dust particles. Near the ecliptic poles its intensity in the visible spectrum is typically 2-4 times weaker than airglow, but gains significantly as the field of view gets closer to the sun.
+Due to its spatial confinement to the ecliptic region, it can cause strong background gradients in wide-field images.
+
+\item \textit{Tropospheric scattering ($I_\text{sca}$).} Starlight, as well as airglow and zodical are scattered in the troposphere. High clouds, as well as high humidity at ground level can enhance scattering and lead to halos around bright stars.
+
+\item \textit{Integrated starlight ($I_\text{ISL}$).} Another contribution to the sky brightness is the light from from unresolved stars. At visible wavelengths, it is dominated by main sequence stars~\citep{Lei1998}.
+
+\item \textit{Diffuse galactic light ($I_\text{DGL}$).} Diffuse Galactic Light (DGL) is produced when starlight is scattered by dust grains in interstellar space.
+
+\item \textit{Extragalactic background light ($I_\text{EBL}$)}. Light from galaxies that are not individually detected.
+\end{enumerate}
+
+Many of these contributions to the night sky brightness are undesirable in an all-sky mosaic image. Light pollution, airglow, zodiacal light and tropospheric scattering vary between individual fields, as well as within a field, and thus should be removed in the calibration process. However, the contribution from unresolved stars and the diffuse galactic light are features of the Milky Way and should be preserved, together with any extragalactic background. This creates a major calibration problem, as we need to decide on how much of the local background is caused by unwanted sources (1-4) or galactic and extragalactic contributions to be retained (5-7). This problem has plagued a number of ground-based studies of the galactic background~\citep{Lei1998}. However, these effects can be separated using space-borne visual photometry data from the Imaging Photopolarimeters (IPPs) onboard the Pioneer 10 and 11 space probes. Their data was obviously not contaminated by terrestrial sources, and the zodiacal light contribution became negligible for distances above 3.3~AU~\citep{Gor1997, Gor1998}. 
+
+
+The Photometric calibration of the all-sky image was performed in two steps:
+
+\begin{figure}
+\includegraphics[width=\textwidth]{f6.pdf}
+\caption{Calibrated $V$ magnitudes (calculated the measured flux via to Eq.~(\ref{eq:fluxcal})) vs.\ YBS catalog magnitudes.}
+\label{fig:fluxcal}
+\end{figure}
+
+\subsubsection{Standard star processing}
+For each field and color channel, a list of several hundred reference stars (that included their equatorial coordinates, fluxes $S$ (in ADU) and local backgrounds $\beta$) was generated using Source Extractor and matched against the Yale Bright Star (YBS) Catalog~\citep{Hof1995}. Typically, 100\dots 120 matches were found. The reference star magnitude $V$ and the measured flux are related via
+\begin{equation}
+V = Q - 2.5\lg S + \epsilon(B-V)\:,
+\label{eq:fluxcal}
+\end{equation}
+where $Q$ is the instrumental zero point (including effects of atmospheric extinction) and $(B-V)$ is the color index from the YBS Catalog. $Q$ and $\epsilon$ were then determined via a least squares fit. A typical plot of calibrated $V$ magnitudes (calculated according to Eq.~(\ref{eq:fluxcal})) vs.\ YBS catalog magnitudes is shown in Fig.~\ref{fig:fluxcal}.
+As expected, the spectral correction parameter $\epsilon$ was close to $-1$ for the B channel frames and close to $0$ for the G channel, while values of approx.\ $+0.3$ were typical for the R channel. The ADU units were then converted to $S_{10}$(V) units commonly used for measuring surface brightness \citep{Spa1976}. One $S_{10}$(V) unit represents the sky brightness resulting from one $10^\text{th}$ magnitude star per square degree. Thus, 
+\begin{equation}
+1\text{~}S_{10}(\text{V}) = \kappa^2\, 10^{0.4(Q-10)}\text{~ADU}\:,
+\end{equation}
+where $\kappa$ is the image scale in degrees per pixel.
+
+
+\subsubsection{Background subtraction}\label{sec:bgsubt}
+According to the discussion at the start of this subsection, the total light intensity seen by a CCD pixel is 
+\begin{equation}
+I = S + I_\text{bad} + I_{good}\:,
+\end{equation}
+where $S$ is the flux due to point sources or resolved diffuse objects, $I_{bad} = I_\text{LP} + I_\text{A} + I_\text{ZL} + I_\text{sca}$ is the unwanted background contribution from terrestrial and solar system sources, and $I_\text{good} = I_\text{ISL} + I_\text{DGL} + I_\text{EBL}$ is the galactic and extragalactic background to be retained in the image. Since $I_\text{good}$ is known from the Pioneer 10/11 data \citep{Gor1998}, the spatial distribution of $I_\text{bad}$ can be modeled by fitting a surface to $(I-I_\text{good})$.
+
+Unfortunately, the high-resolution background data by \cite{Gor1998} does not cover the entire sky; they excluded  data contaminated with scattered sunlight, taken within 70\degr\ of the Sun for Pioneer 10 and within 45\degr\ for Pioneer 11, respectively. \citet{Lei1998} provide some additional data points on a $10\degr\times 10\degr$ grid; the other missing data was interpolated using a bicubic spline function.
+Some local median filtering was applied in order to remove small-scale artifacts in the data.
+
+With the Pioneer data providing $I_\text{good}$, the ``bad'' background was estimated by applying a strong median filter to $(I-I_\text{good}) = (S + I_\text{bad})$. Subtracting $I_\text{bad}$ from $I$ then yields the desired sum of $S+I_\text{good}$. This approach also eliminates any residual gradient from the wavelength-dependent angular response of the camera system (cf.\ section~\ref{sec:preproc}).
+
+% Although most fields were taken away from the 
+%  In addition. variations in humidity and dust levels 
+% There is inevitably a wide variety in the
+% Photographs taken from a 
+
+% 
+% 
+% Although a significant fraction of the  images were taken from dark-sky sites (), there is inevitably a 
+% Photographs taken from a 
+
+\subsection{Final assembly and color processing}
+The scaled and background-corrected images were resampled and co-added using SWarp. This software can be configured to generate a range of projections defined in the FITS/WCS standard \citep{Cal2002}, including Hammer-Aitoff, equidistant cylindrical (plate carr\'ee), and equidistant azimuthal. In addition, a number of target coordinate systems (equatorial, galactic, etc.) are available.
+
+The resulting R, G and B fits images were converted to a single RGB TIFF file using the STIFF software \citep{Ber2008}. This program converts the 32-bit floating-point brightness values to 8-bit numbers by applying a non-linear transfer function to the luminance channel only. This way, bright objects do not appear ``burnt out'' as is often seen in images where the transfer function is applied directly to the R, G and B channels \citep{Lup2004}.
+
+
+\section{Results}
+The above procedure created a $360\degr\times 180\degr$ panorama image of the entire sky at a scale of 36\arcsec/pixel, equivalent to a size of $36000\times 18000$ pixels. With each pixel represented by a 32-bit (single precision) floating point number, each color channel is approx. 2.5~GByte in size.
+The faintest visible stars are approx.\ 14~mag, while only stars brighter than $+0.7$~mag are saturated. (This saturation could have been avoided by reducing the shortest exposure time below 0.5~s, but this would have reduced the number of reference stars suitable for astrometric calibration.) Hence, the dynamic range is approx.\ 18 bits.
+
+\begin{figure*}
+{\centering\includegraphics[height=0.8\textheight]{f7.jpg}\\}
+\caption{RGB mosaic, combined with photometric calibration and background subtraction. Top: entire sky in Hammer-Aitoff projection. Middle: enlarged view of the central Milky Way. Bottom: full-scale view of the Antares/$\rho$~Oph region.}
+\label{fig:panorama}
+\end{figure*}
+A low-resolution color image of the panorama is shown in Fig.~\ref{fig:panorama}. A zoomable Mercator projection can be seen on the author's web site~\citep{mwpan2_web}. The image provides a detailed view of large-scale galactic structures, such as a halo of unresolved stars extending to $b\le \pm 25\degr$, and numerous dark clouds. Note the strong reddening of starlight in the Ophiuchus/Scorpius region of the Milky Way. In the earlier panorama \citep{Mel2005}, many of these details are missing due to the rather aggressive flat-fielding employed at the time.
+
+Besides galactic stars and nebulae, and some brighter extragalactic objects (most notably, the Magellanic Clouds and the Andromeda Galaxy), the panorama image also shows a number of solar system objects. In most cases, the bright planets could be avoided by scheduling the exposures for times when no planet was near the field of view. No attempt was made to remove or avoid solar system objects invisible to the naked eye.
+% Solar system objects: planets visible to the naked eye were excluded, other objects not. Perhaps show Uranus as example?
+
+Additionally, several of the raw images taken from South Africa in April 2008 exhibit trails of geosynchronous satellites. At that time (2-3 weeks after the southern hemisphere fall equinox), sunlight glinting off reflective surfaces is directed towards the southern hemisphere, causing the satellite to brighten by several magnitudes. As the camera was tracking the stars, each satellite left a 1\degr\ trail on the 240~s exposures. Median-combining the raw frames eliminated most of the satellite trails; however, fields \#34 and 36 had to be re-taken as the blending of multiple trails caused them to be quite apparent even in the combined images.
+
+\section{Applications}
+First and foremost, the all-sky mosaic image is expected to be a valuable educational tool. Modern digital fulldome planetarium projection systems offer 12~bits of resolution per color channel, with 16~bits not too far down the road. With an 18-bit dynamic range, it will be possible to blend over from a view showing only the brightest stars (simulating the view in a light-polluted environment) to a full display of the faint star clouds and nebulae in our Milky Way. 
+The resolution of $36\arcsec$/pixel ensures crisp star images that will be limited by the resolution of the projection equipment and the observer's eye, rather than the image data. As the size of the image (7.5~GByte for a 32-bit floating point representation) may exceed the capabilities of some personal computers, an OpenEXR version is in preparation. This file format uses 16-bit (half-precision) floating point numbers for storing the image data \citep{OpenEXR}, thus reducing the file size by a factor of two.
+
+In addition to its use in education, the image may provide useful data on the Milky Way brightness in studies of the night sky background, such as \citet{Dur2007}.
+
+
+
+%% The equation environment wil produce a numbered display equation.
+
+
+
+
+%% The \notetoeditor{TEXT} command allows the author to communicate
+%% information to the copy editor.  This information will appear as a
+%% footnote on the printed copy for the manuscript style file.  Nothing will
+%% appear on the printed copy if the preprint or
+%% preprint2 style files are used.
+
+%% The eqnarray environment produces multi-line display math. The end of
+%% each line is marked with a \\. Lines will be numbered unless the \\
+%% is preceded by a \nonumber command.
+%% Alignment points are marked by ampersands (&). There should be two
+%% ampersands (&) per line.
+
+
+%% Putting eqnarrays or equations inside the mathletters environment groups
+%% the enclosed equations by letter. For instance, the eqnarray below, instead
+%% of being numbered, say, (4) and (5), would be numbered (4a) and (4b).
+%% LaTeX the paper and look at the output to see the results.
+
+% The Weyl spinors are given in terms of helicity eigenstates
+% $\chi_\lambda(p)$ with $\lambda=\pm1$ by
+% \begin{mathletters}
+% \begin{eqnarray}
+% u(p,\lambda)_\pm & = & (E\pm\lambda|{\bf p}|)^{1/2}\chi_\lambda(p) , \\
+% v(p,\lambda)_\pm & = & \pm\lambda(E\mp\lambda|{\bf p}|)^{1/2}\chi
+% _{-\lambda}(p)
+% \end{eqnarray}
+% \end{mathletters}
+
+%% This section contains more display math examples, including unnumbered
+%% equations (displaymath environment). The last paragraph includes some
+%% examples of in-line math featuring a couple of the AASTeX symbol macros.
+
+
+
+%% The displaymath environment will produce the same sort of equation as
+%% the equation environment, except that the equation will not be numbered
+%% by LaTeX.
+
+
+%% If you wish to include an acknowledgments section in your paper,
+%% separate it off from the body of the text using the \acknowledgments
+%% command.
+
+%% Included in this acknowledgments section are examples of the
+%% AASTeX hypertext markup commands. Use \url without the optional [HREF]
+%% argument when you want to print the url directly in the text. Otherwise,
+%% use either \url or \anchor, with the HREF as the first argument and the
+%% text to be printed in the second.
+
+\acknowledgments
+The author is grateful to William Wren, Aret and Lampies Lambrechts, the staff of Big Bend National Park and the partners of Cederberg Astronomical Observatory, South Africa, for their hospitality and permission to image from their facilities.
+
+%% To help institutions obtain information on the effectiveness of their
+%% telescopes, the AAS Journals has created a group of keywords for telescope
+%% facilities. A common set of keywords will make these types of searches
+%% significantly easier and more accurate. In addition, they will also be
+%% useful in linking papers together which utilize the same telescopes
+%% within the framework of the National Virtual Observatory.
+%% See the AASTeX Web site at http://www.journals.uchicago.edu/AAS/AASTeX
+%% for information on obtaining the facility keywords.
+
+%% After the acknowledgments section, use the following syntax and the
+%% \facility{} macro to list the keywords of facilities used in the research
+%% for the paper.  Each keyword will be checked against the master list during
+%% copy editing.  Individual instruments or configurations can be provided 
+%% in parentheses, after the keyword, but they will not be verified.
+
+%{\it Facilities:} \facility{Nickel}, \facility{HST (STIS)}, \facility{CXO (ASIS)}.
+
+%% Appendix material should be preceded with a single \appendix command.
+%% There should be a \section command for each appendix. Mark appendix
+%% subsections with the same markup you use in the main body of the paper.
+
+%% Each Appendix (indicated with \section) will be lettered A, B, C, etc.
+%% The equation counter will reset when it encounters the \appendix
+%% command and will number appendix equations (A1), (A2), etc.
+
+% \appendix
+% 
+% \section{Appendix material}
+% 
+% Consider once again a task that computes profile parameters for a modified
+% Lorentzian of the form
+% \begin{equation}
+% I = \frac{1}{1 + d_{1}^{P (1 + d_{2} )}}
+% \end{equation}
+% where
+% \begin{mathletters}
+% \begin{displaymath}
+% d_{1} = \frac{3}{4} \sqrt{ \left( \begin{array}{c} \frac{x_{1}}{R_{maj}}
+% \end{array} \right) ^{2} +
+% \left( \begin{array}{c} \frac{y_{1}}{R_{min}} \end{array} \right) ^{2} }
+% \end{displaymath}
+% \begin{equation}
+% d_{2} = \case{3}{4} \sqrt{ \left( \begin{array}{c} \frac{x_{1}}{P R_{maj}}
+% \end{array} \right) ^{2} +
+% \left( \begin{array}{c} \case{y_{1}}{P R_{min}} \end{array} \right) ^{2} }
+% \end{equation}
+% \begin{eqnarray}
+% x_{1} & = & (x - x_{0}) \cos \Theta + (y - y_{0}) \sin \Theta \\
+% y_{1} & = & -(x - x_{0}) \sin \Theta + (y - y_{0}) \cos \Theta
+% \end{eqnarray}
+% \end{mathletters}
+% 
+% For completeness, here is one last equation.
+% \begin{equation}
+% e = mc^2
+% \end{equation}
+
+%% The reference list follows the main body and any appendices.
+%% Use LaTeX's thebibliography environment to mark up your reference list.
+%% Note \begin{thebibliography} is followed by an empty set of
+%% curly braces.  If you forget this, LaTeX will generate the error
+%% "Perhaps a missing \item?".
+%%
+%% thebibliography produces citations in the text using \bibitem-\cite
+%% cross-referencing. Each reference is preceded by a
+%% \bibitem command that defines in curly braces the KEY that corresponds
+%% to the KEY in the \cite commands (see the first section above).
+%% Make sure that you provide a unique KEY for every \bibitem or else the
+%% paper will not LaTeX. The square brackets should contain
+%% the citation text that LaTeX will insert in
+%% place of the \cite commands.
+
+%% We have used macros to produce journal name abbreviations.
+%% AASTeX provides a number of these for the more frequently-cited journals.
+%% See the Author Guide for a list of them.
+
+%% Note that the style of the \bibitem labels (in []) is slightly
+%% different from previous examples.  The natbib system solves a host
+%% of citation expression problems, but it is necessary to clearly
+%% delimit the year from the author name used in the citation.
+%% See the natbib documentation for more details and options.
+
+
+\bibliography{AllSkyPanorama}
+
+
+
+%% Use the figure environment and \plotone or \plottwo to include
+%% figures and captions in your electronic submission.
+%% To embed the sample graphics in
+%% the file, uncomment the \plotone, \plottwo, and
+%% \includegraphics commands
+%%
+%% If you need a layout that cannot be achieved with \plotone or
+%% \plottwo, you can invoke the graphicx package directly with the
+%% \includegraphics command or use \plotfiddle. For more information,
+%% please see the tutorial on "Using Electronic Art with AASTeX" in the
+%% documentation section at the AASTeX Web site,
+%% http://www.journals.uchicago.edu/AAS/AASTeX.
+%%
+%% The examples below also include sample markup for submission of
+%% supplemental electronic materials. As always, be sure to check
+%% the instructions to authors for the journal you are submitting to
+%% for specific submissions guidelines as they vary from
+%% journal to journal.
+
+%% This example uses \plotone to include an EPS file scaled to
+%% 80% of its natural size with \epsscale. Its caption
+%% has been written to indicate that additional figure parts will be
+%% available in the electronic journal.
+
+% \begin{figure}
+% \epsscale{.80}
+% \plotone{f1.eps}
+% \caption{Derived spectra for 3C138 \citep[see][]{heiles03}. Plots for all sources are available
+% in the electronic edition of {\it The Astrophysical Journal}.\label{fig1}}
+% \end{figure}
+% 
+% \clearpage
+
+%% Here we use \plottwo to present two versions of the same figure,
+%% one in black and white for print the other in RGB color
+%% for online presentation. Note that the caption indicates
+%% that a color version of the figure will be available online.
+%%
+
+% \begin{figure}
+% \plottwo{f2.eps}{f2_color.eps}
+% \caption{A panel taken from Figure 2 of \citet{rudnick03}. 
+% See the electronic edition of the Journal for a color version 
+% of this figure.\label{fig2}}
+% \end{figure}
+
+%% This figure uses \includegraphics to scale and rotate the still frame
+%% for an mpeg animation.
+
+% \begin{figure}
+% \includegraphics[angle=90,scale=.50]{f3.eps}
+% \caption{Animation still frame taken from \citet{kim03}.
+% This figure is also available as an mpeg
+% animation in the electronic edition of the
+% {\it Astrophysical Journal}.}
+% \end{figure}
+
+%% If you are not including electonic art with your submission, you may
+%% mark up your captions using the \figcaption command. See the
+%% User Guide for details.
+%%
+%% No more than seven \figcaption commands are allowed per page,
+%% so if you have more than seven captions, insert a \clearpage
+%% after every seventh one.
+
+%% Tables should be submitted one per page, so put a \clearpage before
+%% each one.
+
+%% Two options are available to the author for producing tables:  the
+%% deluxetable environment provided by the AASTeX package or the LaTeX
+%% table environment.  Use of deluxetable is preferred.
+%%
+
+%% Three table samples follow, two marked up in the deluxetable environment,
+%% one marked up as a LaTeX table.
+
+%% In this first example, note that the \tabletypesize{}
+%% command has been used to reduce the font size of the table.
+%% We also use the \rotate command to rotate the table to
+%% landscape orientation since it is very wide even at the
+%% reduced font size.
+%%
+%% Note also that the \label command needs to be placed
+%% inside the \tablecaption.
+
+%% This table also includes a table comment indicating that the full
+%% version will be available in machine-readable format in the electronic
+%% edition.
+
+% \clearpage
+% 
+% \begin{deluxetable}{ccrrrrrrrrcrl}
+% \tabletypesize{\scriptsize}
+% \rotate
+% \tablecaption{Sample table taken from \citet{treu03}\label{tbl-1}}
+% \tablewidth{0pt}
+% \tablehead{
+% \colhead{POS} & \colhead{chip} & \colhead{ID} & \colhead{X} & \colhead{Y} &
+% \colhead{RA} & \colhead{DEC} & \colhead{IAU$\pm$ $\delta$ IAU} &
+% \colhead{IAP1$\pm$ $\delta$ IAP1} & \colhead{IAP2 $\pm$ $\delta$ IAP2} &
+% \colhead{star} & \colhead{E} & \colhead{Comment}
+% }
+% \startdata
+% 0 & 2 & 1 & 1370.99 & 57.35    &   6.651120 &  17.131149 & 21.344$\pm$0.006  & 2
+% 4.385$\pm$0.016 & 23.528$\pm$0.013 & 0.0 & 9 & -    \\
+% 0 & 2 & 2 & 1476.62 & 8.03     &   6.651480 &  17.129572 & 21.641$\pm$0.005  & 2
+% 3.141$\pm$0.007 & 22.007$\pm$0.004 & 0.0 & 9 & -    \\
+% 0 & 2 & 3 & 1079.62 & 28.92    &   6.652430 &  17.135000 & 23.953$\pm$0.030  & 2
+% 4.890$\pm$0.023 & 24.240$\pm$0.023 & 0.0 & - & -    \\
+% 0 & 2 & 4 & 114.58  & 21.22    &   6.655560 &  17.148020 & 23.801$\pm$0.025  & 2
+% 5.039$\pm$0.026 & 24.112$\pm$0.021 & 0.0 & - & -    \\
+% 0 & 2 & 5 & 46.78   & 19.46    &   6.655800 &  17.148932 & 23.012$\pm$0.012  & 2
+% 3.924$\pm$0.012 & 23.282$\pm$0.011 & 0.0 & - & -    \\
+% 0 & 2 & 6 & 1441.84 & 16.16    &   6.651480 &  17.130072 & 24.393$\pm$0.045  & 2
+% 6.099$\pm$0.062 & 25.119$\pm$0.049 & 0.0 & - & -    \\
+% 0 & 2 & 7 & 205.43  & 3.96     &   6.655520 &  17.146742 & 24.424$\pm$0.032  & 2
+% 5.028$\pm$0.025 & 24.597$\pm$0.027 & 0.0 & - & -    \\
+% 0 & 2 & 8 & 1321.63 & 9.76     &   6.651950 &  17.131672 & 22.189$\pm$0.011  & 2
+% 4.743$\pm$0.021 & 23.298$\pm$0.011 & 0.0 & 4 & edge \\
+% \enddata
+% %% Text for table notes should follow after the \enddata but before
+% %% the \end{deluxetable}. Make sure there is at least one \tablenotemark
+% %% in the table for each \tablenotetext.
+% \tablecomments{Table \ref{tbl-1} is published in its entirety in the 
+% electronic edition of the {\it Astrophysical Journal}.  A portion is 
+% shown here for guidance regarding its form and content.}
+% \tablenotetext{a}{Sample footnote for table~\ref{tbl-1} that was generated
+% with the deluxetable environment}
+% \tablenotetext{b}{Another sample footnote for table~\ref{tbl-1}}
+% \end{deluxetable}
+
+%% If you use the table environment, please indicate horizontal rules using
+%% \tableline, not \hline.
+%% Do not put multiple tabular environments within a single table.
+%% The optional \label should appear inside the \caption command.
+
+% \clearpage
+% 
+% \begin{table}
+% \begin{center}
+% \caption{More terribly relevant tabular information.\label{tbl-2}}
+% \begin{tabular}{crrrrrrrrrrr}
+% \tableline\tableline
+% Star & Height & $d_{x}$ & $d_{y}$ & $n$ & $\chi^2$ & $R_{maj}$ & $R_{min}$ &
+% \multicolumn{1}{c}{$P$\tablenotemark{a}} & $P R_{maj}$ & $P R_{min}$ &
+% \multicolumn{1}{c}{$\Theta$\tablenotemark{b}} \\
+% \tableline
+% 1 &33472.5 &-0.1 &0.4  &53 &27.4 &2.065  &1.940 &3.900 &68.3 &116.2 &-27.639\\
+% 2 &27802.4 &-0.3 &-0.2 &60 &3.7  &1.628  &1.510 &2.156 &6.8  &7.5 &-26.764\\
+% 3 &29210.6 &0.9  &0.3  &60 &3.4  &1.622  &1.551 &2.159 &6.7  &7.3 &-40.272\\
+% 4 &32733.8 &-1.2\tablenotemark{c} &-0.5 &41 &54.8 &2.282  &2.156 &4.313 &117.4 &78.2 &-35.847\\
+% 5 & 9607.4 &-0.4 &-0.4 &60 &1.4  &1.669\tablenotemark{c}  &1.574 &2.343 &8.0  &8.9 &-33.417\\
+% 6 &31638.6 &1.6  &0.1  &39 &315.2 & 3.433 &3.075 &7.488 &92.1 &25.3 &-12.052\\
+% \tableline
+% \end{tabular}
+% %% Any table notes must follow the \end{tabular} command.
+% \tablenotetext{a}{Sample footnote for table~\ref{tbl-2} that was
+% generated with the \LaTeX\ table environment}
+% \tablenotetext{b}{Yet another sample footnote for table~\ref{tbl-2}}
+% \tablenotetext{c}{Another sample footnote for table~\ref{tbl-2}}
+% \tablecomments{We can also attach a long-ish paragraph of explanatory
+% material to a table.}
+% \end{center}
+% \end{table}
+
+%% If the table is more than one page long, the width of the table can vary
+%% from page to page when the default \tablewidth is used, as below.  The
+%% individual table widths for each page will be written to the log file; a
+%% maximum tablewidth for the table can be computed from these values.
+%% The \tablewidth argument can then be reset and the file reprocessed, so
+%% that the table is of uniform width throughout. Try getting the widths
+%% from the log file and changing the \tablewidth parameter to see how
+%% adjusting this value affects table formatting.
+
+%% The \dataset{} macro has also been applied to a few of the objects to
+%% show how many observations can be tagged in a table.
+
+% \clearpage
+% 
+% \begin{deluxetable}{lrrrrcrrrrr}
+% \tablewidth{0pt}
+% \tablecaption{Literature Data for Program Stars}
+% \tablehead{
+% \colhead{Star}           & \colhead{V}      &
+% \colhead{b$-$y}          & \colhead{m$_1$}  &
+% \colhead{c$_1$}          & \colhead{ref}    &
+% \colhead{T$_{\rm eff}$}  & \colhead{log g}  &
+% \colhead{v$_{\rm turb}$} & \colhead{[Fe/H]} &
+% \colhead{ref}}
+% \startdata
+% HD 97 & 9.7& 0.51& 0.15& 0.35& 2 & \nodata & \nodata & \nodata & $-1.50$ & 2 \\
+% & & & & & & 5015 & \nodata & \nodata & $-1.50$ & 10 \\
+% \dataset[ADS/Sa.HST#O6H04VAXQ]{HD 2665} & 7.7& 0.54& 0.09& 0.34& 2 & \nodata & \nodata & \nodata & $-2.30$ & 2 \\
+% & & & & & & 5000 & 2.50 & 2.4 & $-1.99$ & 5 \\
+% & & & & & & 5120 & 3.00 & 2.0 & $-1.69$ & 7 \\
+% & & & & & & 4980 & \nodata & \nodata & $-2.05$ & 10 \\
+% HD 4306 & 9.0& 0.52& 0.05& 0.35& 20, 2& \nodata & \nodata & \nodata & $-2.70$ & 2 \\
+% & & & & & & 5000 & 1.75 & 2.0 & $-2.70$ & 13 \\
+% & & & & & & 5000 & 1.50 & 1.8 & $-2.65$ & 14 \\
+% & & & & & & 4950 & 2.10 & 2.0 & $-2.92$ & 8 \\
+% & & & & & & 5000 & 2.25 & 2.0 & $-2.83$ & 18 \\
+% & & & & & & \nodata & \nodata & \nodata & $-2.80$ & 21 \\
+% & & & & & & 4930 & \nodata & \nodata & $-2.45$ & 10 \\
+% HD 5426 & 9.6& 0.50& 0.08& 0.34& 2 & \nodata & \nodata & \nodata & $-2.30$ & 2 \\
+% \dataset[ADS/Sa.HST#O5F654010]{HD 6755} & 7.7& 0.49& 0.12& 0.28& 20, 2& \nodata & \nodata & \nodata & $-1.70$ & 2 \\
+% & & & & & & 5200 & 2.50 & 2.4 & $-1.56$ & 5 \\
+% & & & & & & 5260 & 3.00 & 2.7 & $-1.67$ & 7 \\
+% & & & & & & \nodata & \nodata & \nodata & $-1.58$ & 21 \\
+% & & & & & & 5200 & \nodata & \nodata & $-1.80$ & 10 \\
+% & & & & & & 4600 & \nodata & \nodata & $-2.75$ & 10 \\
+% \dataset[ADS/Sa.HST#O56D06010]{HD 94028} & 8.2& 0.34& 0.08& 0.25& 20 & 5795 & 4.00 & \nodata & $-1.70$ & 22 \\
+% & & & & & & 5860 & \nodata & \nodata & $-1.70$ & 4 \\
+% & & & & & & 5910 & 3.80 & \nodata & $-1.76$ & 15 \\
+% & & & & & & 5800 & \nodata & \nodata & $-1.67$ & 17 \\
+% & & & & & & 5902 & \nodata & \nodata & $-1.50$ & 11 \\
+% & & & & & & 5900 & \nodata & \nodata & $-1.57$ & 3 \\
+% & & & & & & \nodata & \nodata & \nodata & $-1.32$ & 21 \\
+% HD 97916 & 9.2& 0.29& 0.10& 0.41& 20 & 6125 & 4.00 & \nodata & $-1.10$ & 22 \\
+% & & & & & & 6160 & \nodata & \nodata & $-1.39$ & 3 \\
+% & & & & & & 6240 & 3.70 & \nodata & $-1.28$ & 15 \\
+% & & & & & & 5950 & \nodata & \nodata & $-1.50$ & 17 \\
+% & & & & & & 6204 & \nodata & \nodata & $-1.36$ & 11 \\
+% \cutinhead{This is a cut-in head}
+% +26\arcdeg2606& 9.7&0.34&0.05&0.28&20,11& 5980 & \nodata & \nodata &$<-2.20$ & 19 \\
+% & & & & & & 5950 & \nodata & \nodata & $-2.89$ & 24 \\
+% +26\arcdeg3578& 9.4&0.31&0.05&0.37&20,11& 5830 & \nodata & \nodata & $-2.60$ & 4 \\
+% & & & & & & 5800 & \nodata & \nodata & $-2.62$ & 17 \\
+% & & & & & & 6177 & \nodata & \nodata & $-2.51$ & 11 \\
+% & & & & & & 6000 & 3.25 & \nodata & $-2.20$ & 22 \\
+% & & & & & & 6140 & 3.50 & \nodata & $-2.57$ & 15 \\
+% +30\arcdeg2611& 9.2&0.82&0.33&0.55& 2 & \nodata & \nodata & \nodata & $-1.70$ & 2 \\
+% & & & & & & 4400 & 1.80 & \nodata & $-1.70$ & 12 \\
+% & & & & & & 4400 & 0.90 & 1.7 & $-1.20$ & 14 \\
+% & & & & & & 4260 & \nodata & \nodata & $-1.55$ & 10 \\
+% +37\arcdeg1458& 8.9&0.44&0.07&0.22&20,11& 5296 & \nodata & \nodata & $-2.39$ & 11 \\
+% & & & & & & 5420 & \nodata & \nodata & $-2.43$ & 3 \\
+% +58\arcdeg1218&10.0&0.51&0.03&0.36& 2 & \nodata & \nodata & \nodata & $-2.80$ & 2 \\
+% & & & & & & 5000 & 1.10 & 2.2 & $-2.71$ & 14 \\
+% & & & & & & 5000 & 2.20 & 1.8 & $-2.46$ & 5 \\
+% & & & & & & 4980 & \nodata & \nodata & $-2.55$ & 10 \\
+% +72\arcdeg0094&10.2&0.31&0.09&0.26&12 & 6160 & \nodata & \nodata & $-1.80$ & 19 \\
+% \sidehead{I'm a side head:}
+% G5--36 & 10.8& 0.40& 0.07& 0.28& 20 & \nodata & \nodata & \nodata & $-1.19$ & 21 \\
+% G18--54 & 10.7& 0.37& 0.08& 0.28& 20 & \nodata & \nodata & \nodata & $-1.34$ & 21 \\
+% G20--08 & 9.9& 0.36& 0.05& 0.25& 20,11& 5849 & \nodata & \nodata & $-2.59$ & 11 \\
+% & & & & & & \nodata & \nodata & \nodata & $-2.03$ & 21 \\
+% G20--15 & 10.6& 0.45& 0.03& 0.27& 20,11& 5657 & \nodata & \nodata & $-2.00$ & 11 \\
+% & & & & & & 6020 & \nodata & \nodata & $-1.56$ & 3 \\
+% & & & & & & \nodata & \nodata & \nodata & $-1.58$ & 21 \\
+% G21--22 & 10.7& 0.38& 0.07& 0.27& 20,11& \nodata & \nodata & \nodata & $-1.23$ & 21 \\
+% G24--03 & 10.5& 0.36& 0.06& 0.27& 20,11& 5866 & \nodata & \nodata & $-1.78$ & 11 \\
+% & & & & & & \nodata & \nodata & \nodata & $-1.70$ & 21 \\
+% G30--52 & 8.6& 0.50& 0.25& 0.27& 11 & 4757 & \nodata & \nodata & $-2.12$ & 11 \\
+% & & & & & & 4880 & \nodata & \nodata & $-2.14$ & 3 \\
+% G33--09 & 10.6& 0.41& 0.10& 0.28& 20 & 5575 & \nodata & \nodata & $-1.48$ & 11 \\
+% G66--22 & 10.5& 0.46& 0.16& 0.28& 11 & 5060 & \nodata & \nodata & $-1.77$ & 3 \\
+% & & & & & & \nodata & \nodata & \nodata & $-1.04$ & 21 \\
+% G90--03 & 10.4& 0.37& 0.04& 0.29& 20 & \nodata & \nodata & \nodata & $-2.01$ & 21 \\
+% LP 608--62\tablenotemark{a} & 10.5& 0.30& 0.07& 0.35& 11 & 6250 & \nodata &
+% \nodata & $-2.70$ & 4 \\
+% \enddata
+% \tablenotetext{a}{Star LP 608--62 is also known as BD+1\arcdeg 2341p.  We will
+% make this footnote extra long so that it extends over two lines.}
+% %% You can append references to a table using the \tablerefs command.
+% \tablerefs{
+% (1) Barbuy, Spite, \& Spite 1985; (2) Bond 1980; (3) Carbon et al. 1987;
+% (4) Hobbs \& Duncan 1987; (5) Gilroy et al. 1988: (6) Gratton \& Ortolani 1986;
+% (7) Gratton \& Sneden 1987; (8) Gratton \& Sneden (1988); (9) Gratton \& Sneden 1991;
+% (10) Kraft et al. 1982; (11) LCL, or Laird, 1990; (12) Leep \& Wallerstein 1981;
+% (13) Luck \& Bond 1981; (14) Luck \& Bond 1985; (15) Magain 1987;
+% (16) Magain 1989; (17) Peterson 1981; (18) Peterson, Kurucz, \& Carney 1990;
+% (19) RMB; (20) Schuster \& Nissen 1988; (21) Schuster \& Nissen 1989b;
+% (22) Spite et al. 1984; (23) Spite \& Spite 1986; (24) Hobbs \& Thorburn 1991;
+% (25) Hobbs et al. 1991; (26) Olsen 1983.}
+% \end{deluxetable}
+
+%% Tables may also be prepared as separate files. See the accompanying
+%% sample file table.tex for an example of an external table file.
+%% To include an external file in your main document, use the \input
+%% command. Uncomment the line below to include table.tex in this
+%% sample file. (Note that you will need to comment out the \documentclass,
+%% \begin{document}, and \end{document} commands from table.tex if you want
+%% to include it in this document.)
+
+%% \input{table}
+
+%% The following command ends your manuscript. LaTeX will ignore any text
+%% that appears after it.
+
+\clearpage
+
+\begin{deluxetable}{lp{7cm}rrr}
+\tablecaption{Observation sites\label{tab:sites}}
+\tablehead{\colhead{Site abbrev.} & \colhead{Site} & \colhead{latitude} & \colhead{longitude} & elevation (m)}
+\tablewidth{0pt}
+\startdata
+CEDB & Cederberg Observatory, South Africa      & $32\degr 29\arcmin 58\arcsec$ S& $19\degr 15\arcmin 10\arcsec$ E & 865\\
+KOOR & Koornlandskloof Guest Farm,\newline South Africa & $32\degr 13\arcmin 34\arcsec$ S& $20\degr 20\arcmin 48\arcsec$ E & 1273\\
+BBE1 & Big Bend National Park, Texas, USA\newline Rio Grande Village & $29\degr 10\arcmin 45\arcsec$ N& $102\degr 57\arcmin 20\arcsec$ W & 556 \\
+BBE2 & Big Bend National Park, Texas, USA\newline Grapevine Hills & $29\degr 22\arcmin 40\arcsec$ N& $103\degr 13\arcmin 16\arcsec$ W& 1029 \\
+BBE3 & Big Bend National Park, Texas, USA\newline Terlingua Abajo & $29\degr 11\arcmin 57\arcsec$ N& $103\degr 36\arcmin 14\arcsec$ W& 677\\
+FTDV & near Fort Davis, Texas, USA & $30\degr 36\arcmin 54\arcsec$ N& $103\degr 58\arcmin 38\arcsec$ W & 1580 \\
+FRMI & Filion Rd.\ near Bay Port, MI, USA & $43\degr 53\arcmin 12\arcsec$ N & $83\degr 19\arcmin 53\arcsec$ W & 177\\
+MCLL & McCollum Lake, MI, USA & $44\degr 46\arcmin 13\arcsec$ N & $83\degr 54\arcmin 05\arcsec$ W & 285\\
+HNFO & Huron National Forest, MI, USA & $44\degr 39\arcmin 09\arcsec$ N & $83\degr 51\arcmin 47\arcsec$ W & 290
+\enddata
+\end{deluxetable}
+
+
+
+\begin{deluxetable}{ll@{\hspace{8ex}}rr@{\hspace{8ex}}cc}
+\tablecaption{Field list. A few images were affected by the presence of bright planets or satellite trails and were re-taken. In these cases, data from both sets of data was used for correcting the defects.}
+\tablecolumns{6}
+\tablewidth{0pt}
+\tablehead{\colhead{Field} & \colhead{Site} & \multicolumn{2}{c}{image center} & \multicolumn{2}{c}{start of first exposure (UTC)} \\
+ & & RA & Dec & date & time}
+%\tablehead{\colhead{Field} & \colhead{Site} & \colhead{bla} & \colhead{blabla}}
+\startdata
+%test & ab & cdef &fkdsfds & fdsaf\\
+%%%%%%%%%%% ADD 1 DAY to US dates!!!!!!!!
+00 &	BBE2 &	$ 0^\text{h} 00^\text{m}$ & $+90\degr$ &	2008-12-27 &	05:47:01\\
+01 &	BBE1 &	$ 0^\text{h} 00^\text{m}$ & $+62\degr$ &	2008-12-26 &	03:38:41\\
+02 &	BBE1 &	$ 2^\text{h} 24^\text{m}$ & $+62\degr$ &	2008-12-26 &	05:15:59\\
+03 &	BBE2 &	$ 4^\text{h} 48^\text{m}$ & $+62\degr$ &	2008-12-26 &	03:56:00\\
+04 &	FTDV &	$ 7^\text{h} 12^\text{m}$ & $+62\degr$ &	2008-12-30 &	05:54:20\\
+05 &	BBE1 &	$ 9^\text{h} 36^\text{m}$ & $+62\degr$ &	2008-12-25 &	11:03:10\\
+06 &	BBE2 &	$12^\text{h} 00^\text{m}$ & $+62\degr$ &	2008-12-27 &	10:58:39\\
+07 &	BBE3 &	$14^\text{h} 24^\text{m}$ & $+62\degr$ &	2008-12-28 &	09:28:14\\
+08 &	MCLL &	$16^\text{h} 48^\text{m}$ & $+62\degr$ &	2009-05-25 &	03:05:09\\
+09 &	HNFO &	$19^\text{h} 12^\text{m}$ & $+62\degr$ &	2009-07-21 &	03:02:54\\
+10 &	BBE2 &	$21^\text{h} 36^\text{m}$ & $+62\degr$ &	2008-12-27 &	02:14:30\\
+11 &	BBE1 &	$00^\text{h} 00^\text{m}$ & $+32\degr$ &	2008-12-23 &	01:56:22\\
+12 &	BBE1 &	$01^\text{h} 36^\text{m}$ & $+32\degr$ &	2008-12-23 &	03:42:07\\
+13 &	BBE1 &	$03^\text{h} 12^\text{m}$ & $+32\degr$ &	2008-12-23 &	05:28:04\\
+14 &	BBE1 &	$04^\text{h} 48^\text{m}$ & $+32\degr$ &	2008-12-24 &	03:56:22\\
+15 &	BBE1 &	$06^\text{h} 24^\text{m}$ & $+32\degr$ &	2008-12-23 &	07:11:20\\
+16 &	BBE1 &	$08^\text{h} 00^\text{m}$ & $+32\degr$ &	2008-12-23 &	08:53:32\\
+17 &	BBE1 &	$09^\text{h} 36^\text{m}$ & $+32\degr$ &	2008-12-24 &	07:24:30\\
+18 &	BBE1 &	$11^\text{h} 12^\text{m}$ & $+32\degr$ &	2008-12-24 &	09:04:45\\
+19 &	BBE1 &	$12^\text{h} 48^\text{m}$ & $+32\degr$ &	2008-12-24 &	10:36:04\\
+20 &	BBE3 &	$14^\text{h} 24^\text{m}$ & $+32\degr$ &	2008-12-28 &	11:04:58\\
+21 &	MCLL &	$16^\text{h} 00^\text{m}$ & $+32\degr$ &	2009-05-25 &	04:48:28\\
+22 &	MCLL &	$17^\text{h} 36^\text{m}$ & $+32\degr$ &	2009-05-25 &	06:14:52\\
+23 &	HNFO &	$19^\text{h} 12^\text{m}$ & $+32\degr$ &	2009-07-21 &	04:45:24\\
+24 &	HNFO &	$20^\text{h} 48^\text{m}$ & $+32\degr$ &	2009-08-16 &	03:03:46\\
+25 &	BBE3 &	$22^\text{h} 24^\text{m}$ & $+32\degr$ &	2008-12-28 &	01:36:06\\
+26 &	KOOR &	$ 0^\text{h} 00^\text{m}$ & $ 00\degr$ &	2007-10-10 &	20:12:49\\
+%27 &	KOOR &	$ 1^\text{h} 20^\text{m}$ & $0\degr$ & 2007-10-10 &	22:21:36\\
+27 &	KOOR &	$ 1^\text{h} 20^\text{m}$ & $ 00\degr$ &	2007-10-12 &	20:21:02\\
+28 &	KOOR &	$ 2^\text{h} 40^\text{m}$ & $ 00\degr$ &	2007-10-09 &	23:55:27\\
+29 &	KOOR &	$ 4^\text{h} 00^\text{m}$ & $ 00\degr$ &	2007-10-10 &	01:56:45\\
+30 &	KOOR &	$ 5^\text{h} 20^\text{m}$ & $ 00\degr$ &	2007-10-13 &	01:40:04\\
+31 &	KOOR &	$ 6^\text{h} 40^\text{m}$ & $ 00\degr$ &	2008-04-07 &	17:48:53\\
+32 &	KOOR &	$ 8^\text{h} 00^\text{m}$ & $ 00\degr$ &	2008-04-08 &	17:50:36\\
+33 &	KOOR &	$ 9^\text{h} 20^\text{m}$ & $ 00\degr$ &	2008-04-07 &	19:17:06\\
+34 &	KOOR &	$10^\text{h} 40^\text{m}$ & $ 00\degr$ &	2008-04-05 &	19:43:51\\
+34b&	FRMI &	$10^\text{h} 40^\text{m}$ & $ 00\degr$ &	2009-04-25 &	02:47:36\\
+35 &	KOOR &	$12^\text{h} 00^\text{m}$ & $ 00\degr$ &	2008-04-05 &	20:46:28\\
+36 &	KOOR &	$13^\text{h} 20^\text{m}$ & $ 00\degr$ &	2008-04-05 &	22:10:40\\
+36b&	FTDV &	$13^\text{h} 20^\text{m}$ & $ 00\degr$ &	2008-12-30 &	11:18:56\\
+37 &	KOOR &	$14^\text{h} 60^\text{m}$ & $ 00\degr$ &	2008-04-07 &	21:13:17\\
+38 &	KOOR &	$16^\text{h} 00^\text{m}$ & $ 00\degr$ &	2008-04-07 &	22:56:53\\
+39 &	KOOR &	$17^\text{h} 20^\text{m}$ & $ 00\degr$ &	2008-04-08 &	00:34:04\\
+40 &	KOOR &	$18^\text{h} 40^\text{m}$ & $ 00\degr$ &	2007-10-12 &	18:19:46\\
+41 &	KOOR &	$20^\text{h} 00^\text{m}$ & $ 00\degr$ &	2007-10-09 &	18:20:18\\
+42 &	KOOR &	$21^\text{h} 20^\text{m}$ & $ 00\degr$ &	2007-10-09 &	20:02:07\\
+43 &	KOOR &	$22^\text{h} 40^\text{m}$ & $ 00\degr$ &	2007-10-09 &	21:40:59\\
+44 &	KROM &	$00^\text{h} 00^\text{m}$ & $-32\degr$ &	2007-10-04 &	20:27:47\\
+45 &	KROM &	$01^\text{h} 36^\text{m}$ & $-32\degr$ &	2007-10-04 &	22:22:48\\
+46 &	KROM &	$03^\text{h} 12^\text{m}$ & $-32\degr$ &	2007-10-05 &	00:05:33\\
+47 &	KOOR &	$04^\text{h} 48^\text{m}$ & $-32\degr$ &	2007-10-12 &	22:21:22\\
+48 &	KOOR &	$06^\text{h} 24^\text{m}$ & $-32\degr$ &	2007-10-12 &	23:59:58\\
+49 &	CEDB &	$08^\text{h} 00^\text{m}$ & $-32\degr$ &	2008-03-29 &	19:14:05\\
+49 &	KOOR &	$08^\text{h} 00^\text{m}$ & $-32\degr$ &	2008-04-08 &	19:37:29\\
+50 &	CEDB &	$09^\text{h} 36^\text{m}$ & $-32\degr$ &	2008-03-29 &	21:23:53\\
+51 &	CEDB &	$11^\text{h} 24^\text{m}$ & $-32\degr$ &	2008-03-30 &	19:56:46\\
+51 &	KOOR &	$11^\text{h} 24^\text{m}$ & $-32\degr$ &	2008-04-03 &	20:18:02\\
+52 &	KOOR &	$12^\text{h} 48^\text{m}$ & $-32\degr$ &	2008-04-08 &	22:58:17\\
+53 &	KOOR &	$14^\text{h} 24^\text{m}$ & $-32\degr$ &	2008-04-09 &	00:46:19\\
+54 &	KOOR &	$16^\text{h} 00^\text{m}$ & $-32\degr$ &	2008-04-05 &	23:45:24\\
+55 &	KOOR &	$17^\text{h} 36^\text{m}$ & $-32\degr$ &	2008-04-06 &	01:34:05\\
+55b &	KOOR &	$17^\text{h} 36^\text{m}$ & $-32\degr$ &	2008-04-08 &	02:38:10\\
+56 &	CEDB &	$19^\text{h} 12^\text{m}$ & $-32\degr$ &	2007-10-05 &	18:06:31\\
+57 &	CEDB &	$20^\text{h} 48^\text{m}$ & $-32\degr$ &	2007-10-05 &	20:02:16\\
+58 &	KROM &	$22^\text{h} 24^\text{m}$ & $-32\degr$ &	2007-10-04 &	18:39:01\\
+59 &	CEDB &	$00^\text{h} 00^\text{m}$ & $-62\degr$ &	2007-10-05 &	22:01:34\\
+60 &	CEDB &	$02^\text{h} 24^\text{m}$ & $-62\degr$ &	2007-10-05 &	23:45:45\\
+61 &	KOOR &	$04^\text{h} 48^\text{m}$ & $-62\degr$ &	2008-04-05 &	17:58:42\\
+62 &	KOOR &	$07^\text{h} 12^\text{m}$ & $-62\degr$ &	2008-04-03 &	18:01:53\\
+63 &	KOOR &	$09^\text{h} 36^\text{m}$ & $-62\degr$ &	2008-04-08 &	20:55:47\\
+64 &	KOOR &	$12^\text{h} 00^\text{m}$ & $-62\degr$ &	2008-04-01 &	23:47:05\\
+65 &	KOOR &	$14^\text{h} 24^\text{m}$ & $-62\degr$ &	2008-04-03 &	23:26:34\\
+66 &	KOOR &	$16^\text{h} 48^\text{m}$ & $-62\degr$ &	2008-04-04 &	01:03:40\\
+67 &	KOOR &	$19^\text{h} 12^\text{m}$ & $-62\degr$ &	2007-10-08 &	18:13:48\\
+68 &	KOOR &	$21^\text{h} 36^\text{m}$ & $-62\degr$ &	2007-10-08 &	19:52:48\\
+69 &	KOOR &	$00^\text{h} 00^\text{m}$ & $-90\degr$ &	2007-10-08 &	21:41:51
+\enddata
+\end{deluxetable}
+
+
+
+\end{document}
+
+%%
+%% End of file `sample.tex'.

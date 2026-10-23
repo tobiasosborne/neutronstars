@@ -1,0 +1,1656 @@
+                                       Mon. Not. R. Astron. Soc. 000, 1–21 (0000)     Printed 10 November 2018    (MN LATEX style file v2.2)
+
+
+
+
+                                       Atmospheres and Spectra of Strongly Magnetized Neutron
+                                       Stars II: Effect of Vacuum Polarization
+
+                                       Wynn C. G. Ho and Dong Lai
+                                       Center for Radiophysics and Space Research, Department of Astronomy, Cornell University Ithaca, NY 14853, USA
+                                       E-mail: wynnho@astro.cornell.edu, dong@astro.cornell.edu
+
+
+
+                                       Accepted 2002 xxx, Received 2002 xxx; in original form 2002 xxx
+arXiv:astro-ph/0201380v3 17 Dec 2002
+
+
+
+
+                                                                         ABSTRACT
+                                                                         We study the effect of vacuum polarization on the atmosphere structure and radi-
+                                                                         ation spectra of neutron stars with surface magnetic fields B = 1014 − 1015 G, as
+                                                                         appropriate for magnetars. Vacuum polarization modifies the dielectric property of
+                                                                         the medium and gives rise to a resonance feature in the opacity; this feature is narrow
+                                                                         and occurs at a photon energy that depends on the plasma density. Vacuum polariza-
+                                                                         tion can also induce resonant conversion of photon modes via a mechanism analogous
+                                                                         to the MSW mechanism for neutrino oscillation. We construct atmosphere models in
+                                                                         radiative equilibrium with an effective temperature of a few ×106 K by solving the
+                                                                         full radiative transfer equations for both polarization modes in a fully ionized hydro-
+                                                                         gen plasma. We discuss the subtleties in treating the vacuum polarization effects in
+                                                                         the atmosphere models and present approximate solutions to the radiative transfer
+                                                                         problem which bracket the true answer. We show from both analytic considerations
+                                                                         and numerical calculations that vacuum polarization produces a broad depression in
+                                                                         the X-ray flux at high energies (a few keV <      <
+                                                                                                                      ∼ E ∼ a few tens of keV) as compared to
+                                                                         models without vacuum polarization; this arises from the density dependence of the
+                                                                         vacuum resonance feature and the large density gradient present in the atmosphere.
+                                                                         Thus the vacuum polarization effect softens the high energy tail of the thermal spec-
+                                                                         trum, although the atmospheric emission is still harder than the blackbody spectrum
+                                                                         because of the non-grey opacities. We also show that the depression of continuum flux
+                                                                         strongly suppresses the equivalent width of the ion cyclotron line and therefore makes
+                                                                         the line more difficult to observe.
+                                                                         Key words: magnetic fields – radiative transfer – stars: atmospheres – stars: magnetic
+                                                                         fields – stars: neutron – X-rays: stars
+
+
+
+                                       1   INTRODUCTION                                                  spheric layer (with scale height ∼ 0.1 − 10 cm and density
+                                                                                                         ∼ 0.1 − 100 g/cm3 ) that covers the stellar surface. There-
+                                                                                                         fore, to properly interpret the observations of NS surface
+                                       Thermal radiation from the surface of isolated neutron stars
+                                                                                                         emission and to provide accurate constraints on the physi-
+                                       (NSs) can provide invaluable information on the physical
+                                                                                                         cal properties of NSs, it is important to understand in detail
+                                       properties and evolution of NSs. In the last few years, such
+                                                                                                         the radiative properties of NS atmospheres in the presence
+                                       radiation has been detected in four types of isolated NSs:
+                                                                                                         of strong magnetic fields (see Pavlov et al. 1995 and Ho &
+                                       (1) radio pulsars (see Becker 2000), (2) old, radio-quiet
+                                                                                                         Lai 2001 for more detailed references on observations and
+                                       NSs (not associated with supernova remnants), some of
+                                                                                                         on previous works of NS atmosphere modeling).
+                                       which may be accreting from the interstellar medium (see
+                                       Treves et al. 2000), (3) soft gamma-ray repeaters (SGRs)               This paper is the second in a series where we system-
+                                       and anomalous X-ray pulsars (AXPs) (see Hurley 2000; Is-          atically investigate the atmosphere and spectra of strongly
+                                       rael, Mereghetti, & Stella 2001; Mereghetti 2001; Perna et        magnetized NSs. In Ho & Lai (2001, hereafter Paper I), we
+                                       al. 2001), which form a potentially new class of NSs (“mag-       constructed self-consistent NS atmosphere models in radia-
+                                       netars”) endowed with superstrong (B >       14
+                                                                               ∼ 10 G) magnetic          tive equilibrium with magnetic field B ∼ 1012 − 1015 G
+                                       fields (see Thompson & Duncan 1996; Thompson 2001),               and Teff ∼ 106 − 107 K and assuming the atmosphere is
+                                       and (4) young, radio-quiet NSs in supernova remnants,             composed of fully ionized hydrogen or helium. The radia-
+                                       which may include AXPs or SGRs (see Pavlov et al. 2001).          tive opacities include free-free absorption and scattering by
+                                       The NS surface emission is mediated by the thin atmo-             both electrons and ions computed for the two photon po-
+
+                                       c 0000 RAS
+2     W.C.G. Ho and D. Lai
+larization modes in the magnetized electron-ion plasma. It                  tive for E >
+                                                                                       ∼ a few keV (for which the propagation is adia-
+was found that, in general, the emergent thermal radiation                  batic) and ineffective for E <
+                                                                                                         ∼ a few keV (the adiabatic con-
+exhibits significant deviation from blackbody, with harder                  dition breaks down). Because the two photon modes have
+spectra at high energies; the spectra can also show a broad                 vastly different opacities, this vacuum-induced mode con-
+feature (∆E/EBi ∼ 1) around the ion cyclotron resonance                     version can significantly affect radiative transfer in magne-
+EBi = 0.63 (Z/A)(B/1014 G) keV, where Z and A are the                       tar atmospheres (see Section 2.4). To properly account for
+atomic charge and atomic mass of the ion, respectively (see                 this mode conversion effect in the atmosphere models, one
+also Zane et al. 2001), and this feature is particularly pro-               must go beyond the modal description of the radiation field
+nounced when EBi >   ∼ 3kTeff (however, as we show in this                  by formulating and solving the transfer equation in terms
+paper, vacuum polarization can significantly diminish the                   of the photon density matrix and including the effect of the
+equivalent width of the ion cyclotron feature; see Sections 4               refractive index. This is beyond the scope of this paper. In-
+and 6).                                                                     stead, we consider two limiting cases in this paper: no mode
+     In this paper, we study the effect of vacuum polariza-                 conversion and complete mode conversion. These two limits
+tion on the atmosphere structure and radiation spectra of                   correspond to different ways of labeling the photon modes,
+strongly magnetized NSs. It is well-known that polarization                 and the resulting model atmosphere spectra should approx-
+of the vacuum due to virtual e+ e− pairs becomes signifi-                   imately bracket the true spectra.
+cant when B >                         2 3
+              ∼ BQ , where BQ = me c /eh̄ = 4.414 × 10 G
+                                                         13
+
+is the magnetic field at which the electron cyclotron en-                         There have been few previous works studying the effect
+ergy h̄ωBe = h̄eB/me c equals me c2 . Vacuum polarization                   of vacuum polarization on the radiation spectra of strongly
+                                                                            magnetized NSs. Bezchastnov et al. (1996) reported NS at-
+modifies the dielectric property of the medium and the po-
+larization of photon modes (e.g., Adler 1971; Tsai & Er-                    mosphere models with B ∼ 1014 − 1016 G and Teff ≈ 108 K.
+ber 1975; Gnedin, Pavlov, & Shibanov 1978; Heyl & Hern-                     This temperature is not appropriate for SGRs and AXPs,
+                                                                            which have Teff ∼ a few × 106 K (see, e.g., Mereghetti 2001;
+quist 1997b), thereby altering the radiative scattering and
+absorption opacities (e.g., Mészáros & Ventura 1979; Pavlov               Perna et al. 2001). Although the vacuum-induced mode con-
+& Gnedin 1984; see Mészáros 1992 for review). Of particular               version was not discussed, the labeling of the photon modes
+                                                                            in Bezchastnov et al. (1996) amounts to assuming complete
+interest is the “vacuum resonance” phenomenon, which oc-
+curs when the effects of the vacuum and plasma on the linear                mode conversion (see Section 2.4). Bulik & Miller (1997)
+polarization of the modes cancel each other, giving rise to                 considered how blackbody radiation with T ≈ 108 K is mod-
+                                                                            ified as it passes through a tenuous plasma where the opac-
+“resonant” features in the radiative opacities (e.g., Pavlov
+& Shibanov 1979; Ventura, Nagel, & Mészáros 1979; Bulik                   ity is affected by vacuum polarization, but no self-consistent
+& Miller 1997). At a given density ρ, the vacuum-induced                    atmosphere modeling, which is needed to determine the den-
+                                                                            sity and temperature profiles, was attempted, and mode con-
+resonance is located at the photon energy
+                           1/2                                            version was neglected. Özel (2001) studied magnetar atmo-
+                                                                            sphere models (with B >        14                         6
+                                                −1
+EV ≈ 1.02
+                   Ye ρ                  B
+                                                       f (B) keV,   (1.1)                            ∼ 10 G and Teff ∼ a few × 10 K)
+                1 g cm−3             14
+                                    10       G                              which include the effect of vacuum polarization on the opaci-
+                                                                            ties (see also Shibanov et al. 1992 for B ∼ 1012 G atmosphere
+where Ye = Z/A is the electron fraction and f (B) is a slowly-              models which include a similar vacuum polarization effect on
+varying function of B [f (B) = 1 for B ≪ BQ and is of order                 the opacities). Besides neglecting resonant mode conversion,
+a few for B ∼ 1014 − 1016 G; see Section 2]. It has been sug-               Özel’s work also neglects the ion effect and adopts a “satu-
+gested that this vacuum resonance may manifest itself as                    ration” scheme to smooth out the vacuum resonance feature
+absorption-like features in the spectra of X-ray pulsars and                in the opacity. Our analytical and numerical consideration
+magnetars (e.g., Ventura, Nagel, & Mészáros 1979; Bulik &                 of the vacuum resonance feature shows that such a “satu-
+Miller 1997). However, as we show both analytically and nu-                 ration” scheme cannot be justified (see Sections 3 and 6.3).
+merically in this paper (see also Bezchastnov et al. 1996),                 Indeed, as we discuss in this paper, even when neglecting res-
+since the atmosphere spans a wide range of densities and                    onant mode conversion, great care must be taken to properly
+EV depends on ρ, the spectral feature associated with EV is                 handle the narrow and density-dependent vacuum-induced
+spread out significantly and manifests as a broad “depres-                  opacity feature in the radiative transfer (see Section 5).
+sion” in the radiation spectrum.
+     Furthermore, in a recent paper (Lai & Ho 2002a, here-                       In Section 2, we study the effect of vacuum polarization
+after Paper II), we study the effect of the mode conver-                    on the photon propagation modes in a magnetized electron-
+sion that is associated with the vacuum resonance (see also                 ion plasma and clarify the nature of the vacuum resonance
+Gnedin et al. 1978; Pavlov & Gnedin 1984): a photon prop-                   and the associated mode conversion phenomenon. In Sec-
+agating outward in the NS atmosphere can convert from one                   tion 3, we discuss the change in the radiative opacities as
+polarization mode into another as it traverses the resonant                 a result of vacuum polarization. Section 4 shows the qual-
+density ρV , which is given by                                              itative effect of the vacuum resonance feature on the NS
+                             2             2                             surface emission. The difficulties encountered in solving the
+                       E            B
+                 
+ρV ≈ 0.96 Ye−1                        f (B)−2 g cm−3 . (1.2)                radiative transfer equation caused by vacuum polarization is
+                     1 keV   1014 G                                         discussed in Section 5. We present atmosphere models and
+(Across the resonance, the orientation of the polariza-                     spectra for different magnetic field strengths in Section 6.
+tion ellipse rotates by 90◦ , although the helicity does not                Section 7 summarizes and discusses the implications of our
+change.) This resonant mode conversion is analogous to the                  results. Several “toy” atmosphere models that include opac-
+Mikheyev-Smirnov-Wolfenstein (MSW) effect for neutrino                      ities which mimic the vacuum polarization effects are dis-
+oscillations (e.g., Bahcall 1989; Haxton 1995) and is effec-                cussed in Appendix A.
+
+                                                                                                          c 0000 RAS, MNRAS 000, 1–21
+             Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                                                                3
+2       PHOTON POLARIZATION MODES IN A                                                          Vacuum polarization contributes a correction to the di-
+        MAGNETIZED ELECTRON-ION PLASMA                                                     electric tensor:
+        INCLUDING VACUUM POLARIZATION
+                                                                                           ∆ǫ(v) = (a − 1) I + q B̂ B̂,                                                       (2.9)
+In this section, we outline the derivation of the photon polar-
+                                                                                           where I is the unit tensor and B̂ = B/B is the unit vector
+ization modes in a magnetized electron-ion plasma including
+                                                                                           along B. The magnetic permeability tensor µ also deviates
+the effect of vacuum polarization. Following the standard
+                                                                                           from unity because of vacuum polarization; the magnetic
+convention, the two normal modes are termed the extraor-
+                                                                                           field H w of an electromagnetic wave is related to its mag-
+dinary mode (X-mode, j = 1), which is mostly polarized
+                                                                                           netic induction B w by
+perpendicular to the k-B plane, and the ordinary mode (O-
+                                                                                           H w = µ−1 · B w = aI + mB̂ B̂ · B w .
+                                                                                                                                          
+mode, j = 2), which is mostly polarized parallel to the k-B                                                                                                                  (2.10)
+plane, where k is the wave vector along the wave propagation
+                                                                                           For h̄ω ≪ me c2 , general expressions for the vacuum po-
+direction and B is the external magnetic field (e.g., Mészáros
+                                                                                           larization coefficients a, q, and m are given in Heyl &
+1992). We shall see that this classification of the modes be-
+                                                                                           Hernquist (1997a). In the weak-field limit, B ≪ BQ =
+comes ambiguous near the vacuum resonance, where mode
+                                                                                           4.414 × 1013 G, they are given by
+conversion can occur (Sections 2.3 and 2.4).
+                                                                                           a       =     1 − 2δV                                                             (2.11)
+                                                                                           q       =     7δV                                                                 (2.12)
+2.1         Dielectric and Permeability Tensors
+                                                                                           m       =     −4δV ,                                                              (2.13)
+For a cold electron-ion plasma, the plasma contribution to
+                                                                                           where
+the dielectric tensor ǫ(p) can be written, in the coordinate
+                                                                                                     αF 2
+system x′ y ′ z ′ with B along z ′ , as (e.g., Shafranov 1967)                             δV =          b ,                                                                 (2.14)
+                                                                                                     45π
+                              ε      ig     0
+                         "                       #
+ (p)                                                                                     αF = e2 /h̄c = 1/137 is the fine structure constant and
+    ǫ                =       −ig      ε     0        ,                             (2.1)   b = B/BQ (Adler 1971). For B >
+            ẑ ′ =B̂
+                              0       0     η                                                                              ∼ BQ , we use the expan-
+                                                                                           sions given in Heyl & Hernquist (1997a,b; see also Tsai &
+where                                                                                      Erber 1975) to find
+                                                                                                             αF         2       1
+                    X λs vs                                                                                           h
+                                                             1 − M ui                      a       ≈     1+     1.195 − ln b − (0.8553 + ln b)
+ε       =     1−                        ≈ 1 − ve                                   (2.2)                     2π         3       b
+                             λ2s − us                    (1 − ui )(1 − ue )
+                        s
+                                                                                                                    1
+                                                                                                                      i
+                    X vs                                                                                         − 2                                                         (2.15)
+η       =     1−                  ≈ 1 − ve                                         (2.3)                           2b
+                             λs                                                                            αF
+                                                                                                              h
+                                                                                                                2             1
+                        s
+                                                                                           q       ≈     −     − b + 1.272 − (0.3070 + ln b)
+                  X sign(qs )u1/2                                  1/2                                     2π   3             b
+                              s vs                     ve ue
+g       =     −                                 ≈                    .             (2.4)                                  1
+                                                                                                                            i
+                              λ2s − us            (1 − ui )(1 − ue )                                             −0.7003 2                                                   (2.16)
+                    s                                                                                                    b
+                                                                                                           αF 2    1                1
+                                                                                                              h                       i
+In equations (2.2)-(2.4), the sums run over each charged                                   m       ≈     −      + (0.1447 − ln b) − 2 .                                      (2.17)
+particle species s (electron and ion) in the plasma, and                                                   2π 3    b               b
+        2
+us = ωBs  /ω 2 and vs = ωps 2
+                              /ω 2 , where ωBs = |qs |B/(ms c)                                                    (v)
+                                                                                               When |∆ǫij | ≪ 1 or b ≪ 3π/αF (B ≪ 5 × 1016 G), the
+is the cyclotron frequency and ωps = (4πns qs2 /ms )1/2 is the                             plasma and vacuum contributions to the dielectric tensor
+plasma frequency of charged particle s. Damping of the par-                                can be added linearly, i.e., ǫ = ǫ(p) + ∆ǫ(v) . In the frame
+ticle motion is accounted for by λs = 1 + iνs /ω, where                                    with B̂ along ẑ ′ ,
+νs is the damping rate. In the second equalities of equa-
+                                                                                                                         ε    ig     0                â   0       0
+                                                                                                                  "                       #       "                      #
+tions (2.2)-(2.4), we have taken the M ≡ Amp /(Zme ) =
+                                                                                           [ǫ]ẑ ′ =B̂    =             −ig    ε     0        +       0    â      0
+ve /vi = (ue /ui )1/2 ≫ 1 limit and assumed small damping
+                                                                                                                         0     0     η                0    0    â + q
+(νs ≪ ω or λs → 1). The relevant dimensionless parameters
+                                                                                                                         ε′   ig     0
+                                                                                                                  "                       #
+are
+             2                      2                       2                                             =             −ig   ε′     0        ,                              (2.18)
+            ωBe                    ωBi                     ωpe
+ue =            ,           ui =       ,          ve =         ,                   (2.5)                                 0     0     η′
+            ω2                     ω2                      ω2
+where the electron cyclotron frequency ωBe , the ion cy-                                   where â = a − 1, ε′ = ε + â, and η ′ = η + â + q. The total
+clotron frequency ωBi , and the electron plasma frequency                                  magnetic permeability is given by equation (2.10).
+ωpe are given by
+                             eB                                                            2.2       Equations for the Polarization Modes
+EBe = h̄ωBe = h̄                  = 1.158 B14 MeV                                  (2.6)
+                             me c                                                          Using the electric displacement D = ǫ · E and equa-
+                 ZeB                                          Z                            tion (2.10) in the Maxwell equations, we obtain the equation
+                                                             
+EBi = h̄ωBi = h̄       = 0.6305 B14                                      keV       (2.7)
+                 Amp c                                        A                            for plane waves with E ∝ ei(k·r−ωt) :
+                                                                                           n1                 h                    m
+                                                                                                                                                                io
+                                                                                                   ǫij + n2 k̂i k̂j − δij −
+                                          1/2
+                                 4πe2 ne
+                                                              1/2
+                                                               Z           1/2                                                       (k̂ × B̂)i (k̂ × B̂)j           Ej = 0, (2.19)
+Epe = h̄ωpe = h̄                                = 28.71                   ρ1 eV,   (2.8)       a                                   a
+                                   me                          A
+                                                                                           where n = ck/ω is the refractive index and k̂ = k/k. In the
+respectively, B14 = B/(1014 G), and ρ1 = ρ/(1 g cm−3 ).                                    coordinate system xyz with k along the z-axis and B in the
+
+c 0000 RAS, MNRAS 000, 1–21
+4         W.C.G. Ho and D. Lai
+                                                                                                                                            −1         (q + m) (1 − ue )
+x-z plane, such that k̂ × B̂ = − sin θB ŷ (θB is the angle                                                                        â + q
+                                                                                                                       
+                                                                                                               =           1+                    1+
+between k̂ and B̂), the dielectric tensor [eq. (2.18)] is given                                                                    1 − ve                      ue ve
+by                                                                                                        "                                                                        #)
+                                                                                                                                 v − ve (1−M  ui ) −â+q+m(1−ve )
+                                                                                                                                             
+                             ′           2           ′      2                                                 (1 − ui ) 1 − â+m
+                                                                                                                            q+m e        1−ue           q+m
+                            ε cos θB + η sin θB                        ig cos θB
+                      "
+                                                                                                      ×                                                                                 .(2.31)
+[ǫ]ẑ=k̂      =                   −ig cos θB                               ε′                                                       1 − ui − M −1 (1 + ve )
+                            (ε′ − η ′ ) sin θB cos θB                  ig sin θB
+                                                                                                      For ve ≪ 1, equation (2.31) simplifies to
+                                             (ε′ − η ′ ) sin θB cos θB
+                                                                                 #
+                                                    −ig sin θB                       .       (2.20)                    (q + m) (1 − ue )
+                                                                                                      βV ≈ 1 +                           .                                             (2.32)
+                                             ε′ sin2 θB + η ′ cos2 θB                                                        ue ve
+                                                                                                      In addition, from equation (2.21), we find
+The z-component of equation (2.19) gives
+                                                                                                                             (ε − η − q) sin θB cos θB Kj + g sin θB
+Ez = −ǫ−1
+       zz (ǫzx Ex + ǫzy Ey ) .                                                               (2.21)   Kz,j       =         −
+                                                                                                                                 ε sin2 θB + (η + q) cos2 θB + â
+Reinserting this back into equation (2.19) yields                                                                          h                 1
+                                                                                                                                                
+                                                                                                                 =          ue ve 1 − ui −        sin θB cos θB Kj
+                                                                                                                                             M
+                                                             
+      ηxx − n2            ηxy                            Ex
+                                                                    = 0,                     (2.22)
+        ηyx            ηyy − rn2                         Ey                                                                    1 − ue     1 − ui
+                                                                                                                                                                                 i
+                                                                                                              × 1+q                                               − u1/2
+                                                                                                                                                                     e ve sin θB
+                                                                                                                                ue ve 1 − ui − M −1
+where r = 1 + r̂ ≡ 1 + (m/a) sin2 θB and
+                                                                                                              × (1 − ue ) (1 − ui ) 1 + â + q cos2 θB
+                                                                                                                                                                      
+                   1                            1 ′ ′
+ηxx       =            (ǫzz ǫxx − ǫxz ǫzx ) =       εη                                       (2.23)                                                                              −1
+                  aǫzz                        aǫzz                                                             −ve (1 − ui ) 1 − ue cos2 θB − M ui sin2 θB
+                                                                                                                                                         
+                                                                                                                                                                                       .(2.33)
+                   1
+ηyy       =            (ǫzz ǫyy − ǫyz ǫzy )                                                           It is evident from equation (2.33) that the component of
+                  aǫzz
+                   1  ′2                                                                             ej along k is of order ve ∝ ρ/ω 2 , and thus, at sufficiently
+                         ε − g 2 − ε′ η ′ sin2 θB + ε′ η ′
+                                                          
+          =                                                                                  (2.24)   low densities, Kz,j can be neglected so that the modes are
+                  aǫzz
+                             1                                                                        transverse.
+ηyx       =       −ηxy =        (ǫzz ǫyx − ǫyz ǫzx )                                                       Finally, the refractive index nj of the mode can be ob-
+                           aǫzz
+                   1                                                                                  tained from equation (2.22), which gives
+                        −igη ′ cos θB .
+                                       
+          =                                                                                  (2.25)
+                  aǫzz
+                                                                                                                            ′                   
+                                                                                                                gη ′        ε   1
+                                                                                                      n2j =                   +    cos θB            ,                                 (2.34)
+We write the unit polarization vector as                                                                        aǫzz        g   Kj
+                            1
+E = ej =                                (iKj , 1, iKz,j ),                                   (2.26)   where ǫzz = ε′ sin2 θB + η ′ cos2 θB [see eq. (2.20)] and ε′ , η ′ ,
+                   (1 + Kj2 + Kz,j
+                               2
+                                   )1/2                                                               g, and a are as given in equation (2.18).
+where iKj = Ex /Ey , iKz,j = Ez /Ey , and j is the mode
+index (j = 1 for the X-mode, and j = 2 for the O-mode).
+Eliminating n2 from equation (2.22), we obtain                                                        2.3       Vacuum Resonance
+              "                                     1/2   #                                         The polarization parameter β [eqs. (2.28)-(2.32)] directly de-
+                                 j      r                                                             termines the characteristics of photon normal modes in the
+Kj = β 1 + (−1)                      1+ 2                       .                            (2.27)
+                                       β                                                              medium. For most energies (away from the resonance points,
+                                                                                                                                       1/2
+                                                                                                      where β = 0; see below), |β| ∝ ue ≫ 1, and we have
+The polarization parameter β is given by
+                   rηxx − ηyy                                                                                       r    1
+β     =       −i                                                                                      K1 ≈ −          ≈− ,                    K2 ≈ 2β              (|β| ≫ 1).          (2.35)
+                      2ηyx                                                                                         2β   2β
+
+                ε′2 − g 2 − ε′ η ′ sin2 θB + ε′ η ′ (1 − r)                                           Thus the extraordinary mode (j = 1) is almost linearly po-
+                                              
+      =       −                                             .                                (2.28)   larized with its electric field perpendicular to the k-B plane,
+                              2gη ′ cos θB
+                                                                                                      while the electric field of the ordinary mode (j = 2) is in the
+Using ε′ = ε + â and η ′ = η + â + q [see eq. (2.18)] and                                           k-B plane.
+1 − r = −(m/a) sin2 θB , we write                                                                          The condition β = 0 specifies the resonance points. For
+β = β0 βV ,                                                                                  (2.29)   |β| ≪ 1, equation (2.27) yields
+
+                                                                                                      Kj ≈ sign(β) (−1)j r 1/2 + |β|
+                                                                                                                                                    
+where β0 is the polarization parameter in the absence of                                                                                                      (|β| ≪ 1).               (2.36)
+vacuum polarization                                                                                   Thus |Kj | ≈ 1 at β = 0, and both modes are circularly po-
+                 ε2 − g 2 − εη sin2 θB                                                                larized. In general, at a given density ρ, there are three crit-
+                                             
+β0     =       −                                                                                      ical photon energies at which β = 0. The first is located at
+                      2gη cos θB
+                      1/2
+                                                                                                      ω/ωpe ≈ 1−(ωpe /ωBe )2 /[2(q+m)], i.e., close to ω = ωBe . We
+                    ue       sin2 θB                                1 + ve
+                                                                            
+       =                                          1 − ui −                                   (2.30)   will ignore this critical energy since we are considering only
+                  2(1 − ve ) cos θB                                   M                               the ω ≪ ωBe regime in this paper. The second critical en-
+and βV is the correction factor due to vacuum polarization                                            ergy is at ω = ωBi ; this is simply the ion cyclotron resonance
+                                    −1                                                            and is unrelated to vacuum polarization. The third critical
+                          â + q                         ε(â − q) − ηâ − εηm                        point (“vacuum resonance”) is located at [see eqs. (2.31) and
+βV     =            1+                            1+
+                             η                                ε2 − g 2 − εη                           (2.32)]
+
+                                                                                                                                                    c 0000 RAS, MNRAS 000, 1–21
+      Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                                     5
+
+
+
+
+                                                        (0)
+Figure 1. The ratio f (B) = EV (B)/EV (B) as a function of                    Figure 2. The polarization ellipticities Kj [upper panel; see
+B, where EV (B) is the vacuum resonance energy [eq. (2.38)] and               eq. (2.43)] and refractive indices nj [lower panel; see eq. (2.34)]
+ (0)                                                                          of the photon modes as functions of density near the vacuum
+EV (B) = EV (B ≪ BQ ) [eq. (2.39)].
+                                                                              resonance for B = 5 × 1014 G, θB = 45◦ , E = 5 keV, and Ye = 1.
+
+                       1
+                           
+ve ≈ (q + m) 1 −                (1 − â − m)                         (2.37)
+                       ue
+                                                                              2.4   Resonant Conversion of Photon Modes
+or at energy
+      h̄ωpe     1
+                    â + m
+                                                        h̄ωpe                In Section 2.2, we described the photon modes as the
+EV = √      1+     +                                  ≈ √      .     (2.38)   extraordinary mode (X-mode) and ordinary mode (O-
+       q+m     2ue      2                                 q+m
+                                                                              mode). This standard way of classifying photon modes (e.g.,
+Note that for b ≪ 3π/αF (B ≪ 5×1016 G), |â|, |q|, |m| ≪ 1,                   Mészáros 1992) is useful when |β| ≫ 1: the X-mode has
+so that equations (2.37) and (2.38) are good approximations.                  |Kj | ≪ 1, and its E is mostly perpendicular to the k̂-B̂
+For B ≪ BQ , we use equations (2.12)-(2.14) to obtain                         plane; the O-mode has |Kj | ≫ 1 and is polarized along the
+                                    
+                                        15π
+                                              1/2
+                                                        ωpe                   k̂-B̂ plane. The advantage of such a classification is that
+                            (0)
+EV (B ≪ BQ )       =    EV =                                me c2             the X-mode and O-mode interact very differently with mat-
+                                        αF              ωBe
+                                            1/2
+                                                                              ter: the O-mode opacity is largely unaffected by the mag-
+                   =    1.02 Ye1/2 ρ1 B14
+                                       −1
+                                          keV.                       (2.39)   netic field, while the X-mode opacity is significantly reduced
+For B ≫ BQ , we use the leading terms in equations (2.16)                     (by a factor of order ω 2 /ωBe
+                                                                                                          2
+                                                                                                             ) from the zero-field value (see
+and (2.17) to obtain                                                          Section 3). However, the X and O-mode classification be-
+                                  1/2           1/2                        comes ambiguous near |β| = 0 (|Kj | = 1). Indeed, equa-
+                            3π               BQ
+                        
+EV (B ≫ BQ )       ≈                                         h̄ωpe            tion (2.27) or (2.36) shows that Kj is discontinuous (and
+                            αF               B                                changes sign) when crossing through β = 0 at the resonance
+                                            1/2       −1/2
+                   =    0.69 Ye1/2 ρ1 B14                     keV.   (2.40)   density [eq. (2.42)]. This discontinuity in the mode polar-
+                                                                              ization vector can be avoided by adopting a different mode
+For convenience, we define the dimensionless function f (B)
+           (0)
+                                                                              classification scheme: instead of equation (2.27), we define
+via EV = EV f (B), so that                                                    the plus-mode and minus-mode according to
+                               1/2                                                              1/2
+          EV            3δV                                                   K± = β ± β 2 + r           .                                (2.43)
+f (B) =    (0)
+               ≈                        .                            (2.41)
+          EV           q+m
+                                                                              Clearly, K± are continuous functions of β; the plus-mode
+Figure 1 shows that f (B) is a slowly-varying function of b                   always has K+ > 0, and the minus-mode always has K− <
+                                                      1/2
+[f (B) = 1 for b ≪ 1 and f (B) → (b/5)1/2 ≈ 0.673 B14 for                     0.
+b ≫ 1; f (B) varies from ≈ 1 at B14 = 1 to 6.7 at B14 = 100].                       The relationship between the two schemes of mode clas-
+     Since EV depends on density, a photon with a given                       sification (j = 1, 2 for the X and O-modes, and j = ±
+energy E traveling in an inhomogeneous medium encounters                      for the plus and minus-modes) is illustrated by Figure 2,
+the vacuum resonance (β = 0) at the density                                   which shows the values of K± and the refractive indices
+                                                                              n± = ck± /ω for the plus and minus-modes as a func-
+ρV = 0.964 Ye−1 (B14 E1 )2 f (B)−2 g cm−3 ,                          (2.42)
+                                                                              tion of density near the vacuum resonance for E = 5 keV,
+where E1 = E/(1 keV). In Section 2.4, we discuss how the                      B = 5 × 1014 G, and θB = 45◦ (see Fig. 1 in Paper II for the
+photon polarization state changes as the photon traverses                     B = 1014 G case). The plus-mode (minus-mode) manifests
+the resonant density.                                                         as the O-mode (X-mode) at high densities but becomes the
+
+c 0000 RAS, MNRAS 000, 1–21
+6     W.C.G. Ho and D. Lai
+X-mode (O-mode) at low densities. If the density variation              2.5   Mode Collapse and Breakdown of Faraday
+is sufficiently gentle, an O-mode photon created at high den-                 Depolarization
+sities will remain on the K+ -trajectory as it travels outward
+                                                                        Here we comment on the phenomenon of mode collapse
+and will adiabatically convert into the X-mode after travers-
+                                                                        (see also Gnedin & Pavlov 1974; Pavlov, Shibanov, &
+ing the resonance density.1 This is analogous to the MSW
+                                                                        Yakovlev 1980; Soffel et al. 1983; Bulik & Pavlov 1996),
+mechanism for neutrino oscillation (e.g., Bahcall 1989; Hax-
+                                                                        which appears under more restrictive conditions than the
+ton 1995). As shown in Paper II (see also Gnedin et al. 1978;
+                                                                        resonances discussed in Section 2.3 [see discussion following
+Pavlov & Gnedin 1984),2 the adiabaticity condition is
+                                                                        eq. (2.36)]. Mode collapse occurs when the two polariza-
+γres = (E/Ead )3 ≫ 1,                                          (2.44)   tion modes become identical, i.e., K1 = K2 or K     √+ = K−
+                                                                        [eqs. (2.27) and (2.43)], which requires β = ±i r ≈ ±i.
+where
+                                                       1/3            Obviously this is only possible when the dissipative terms,
+                                                 1 cm                   i.e., those involving λs = 1 + iνs /ω, in the dielectric tensor
+Ead = 2.52 [f (B) tan θB ]2/3 |1 − ui |2/3                 keV (2.45)
+                                                  Hρ                    [eq. (2.1)] are retained. Also, we see from equation (2.34)
+                                                                        that the two modes have the same indices of refraction when
+and Hρ = |dz/d ln ρ| is the density scale height along the
+                                                                        mode collapse occurs.
+ray (evaluated at ρ = ρV ). For an ionized hydrogen at-
+                                                                              To determine the mode collapse point, we use equa-
+mosphere, Hρ ≃ 2kT /(mp g cos θ) = 1.65 T6 /(g14 cos θ) cm,
+                                                                        tion (2.28), i.e.,
+where T = 106 T6 K is the temperature, g = 1014 g14 cm s−2
+is the gravitational acceleration, and θ is the angle between                  ε′2 − g 2 − ε′ η ′ (1 + m/a) sin2 θB
+                                                                        β=−                                         .                  (2.46)
+the ray and the surface normal. The probability of a non-                                 2gη ′             cos θB
+adiabatic “jump” (e.g., from the K+ -curve to the K− -curve)
+                                                                        Note that ε′ , g, η ′ , and β are considered complex in this sub-
+at the resonance is given approximately by the Landau-
+                                                                        section. The condition Re(β) = 0 yields the three critical
+Zener formula Pjump = exp(−πγres /2). Thus, for E >   ∼ 2Ead ,          energies E c ≈ EV , EBe , EBi , and these are the resonant en-
+resonant conversion between the X-mode and O-mode is es-
+                                                                        ergies discussed in Section 2.3. Mode collapse also requires
+sentially complete; for E <
+                          ∼ 0.5Ead , a photon will jump across          Im(β) = ±1, so that β = ±i. From equation (2.46), it is
+the adiabatic curves (Fig. 2), and an X-mode (O-mode)
+                                                                        easily shown that
+photon will remain an X-mode (O-mode) photon in pass-
+ing through the resonance.                                                             sin2 θB
+                                                                        Im(β) = β̃γe           ,                                       (2.47)
+     Note that the adiabatic, vacuum polarization-induced,                             cos θB
+resonant mode conversion (from X to O-mode or from O to
+                                                                        where β̃ depends on the photon energy E = h̄ω, magnetic
+X-mode) is an intrinsically coherent phenomenon: the dis-
+                                                                        field B, and density ρ and γe = νe /ω = γα + γr is the
+tance over which the conversion takes place is much smaller
+                                                                        dimensionless damping rate of the electron. For a hydrogen
+than the photon mean-free path due to absorption or scat-
+                                                                        plasma, the collisional and radiative damping rates are
+tering (Paper II). Such mode conversion is clearly different
+                                                                                                          −1/2
+                                                                                  9.24 × 10−5 ρ1 T6              E1−2 1 − e−E/kT
+                                                                                                                                   
+from the incoherent mode-switching due to scattering [see               γα    ≈                                                        (2.48)
+eq. (3.3)], which has been included in previous works (e.g.,            γr    =   9.52 × 10  −6
+                                                                                                   E1 ,                                (2.49)
+Pavlov et al. 1995; Özel 2001; Paper I).
+     As mentioned in Section 1, the formalism of radiative              respectively, where we have neglected the Gaunt factor. The
+transfer in strong magnetic fields developed so far is in-              damping rate of the ion is γi ≈ γe me /mp . Clearly, at a given
+adequate for coping with partial mode conversion at the                 E (≈ EV , EBe , EBi ), the condition Im(β) = ±1 selects out
+vacuum resonance. Thus, in this paper, we shall solve the               a critical angle θB = θcoll at which mode collapse occurs.
+transport equations in the two limiting cases: no mode con-             For example, for ρ = 1 g cm−3 and B = 1014 G, |β̃| ≈
+version [when the adiabatic condition given by eq. (2.44)               350, 1.3 × 106 , 0.21 at E ≈ EV , EBe , EBi , respectively, and
+is never satisfied] and complete mode conversion (when the              for B = 1013 G, |β̃| ≈ 5.6, 130, 0.63.4 Since |β̃|γe ≪ 1 at
+adiabatic condition is always satisfied). In practice, these            E ≈ EV and EBi for these parameters, we see that the
+correspond to two different ways of labeling the modes, i.e.,           mode collapse associated with the vacuum resonance and
+X, O-modes with j = 1, 2 and plus and minus-modes with                  the ion cyclotron resonance occur at θB = θcoll close to 90◦ .
+j = ± (see Sections 5 and 6).3                                               More generally, the modal description of radiative trans-
+                                                                        fer is valid only in the limit of Faraday depolarization, i.e.,
+1                                                                       when the condition |Re(n+ − n− )| ≫ |Im(n+ + n− )| is sat-
+  In other words, as a photon propagates across the vacuum res-
+onance under the adiabatic condition, we use the term mode              isfied (Gnedin & Pavlov 1974). One can show that away
+conversion to imply that the character of the mode, such as the         from the mode collapse points, this is indeed the case. The
+opacity, changes significantly. For example, as a high opacity O-       breakdown of Faraday depolarization at E = EBi appears
+mode photon propagates from high to low density, it becomes a           to be concentrated near θB = 90◦ , but the situation for the
+low opacity X-mode photon. Alternatively, this adiabatic regime         vacuum resonance is more complicated. For ue ≫ 1 (and
+could be called mode conservation since the photon remains on           neglecting the ion effect), we find
+the same plus-mode (or minus-mode) branch across the reso-
+nance. We use the former terminology.
+2 In the context of radio wave propagation in inhomogeneous             (complete) mode conversion. Özel (2001) used equation (2.27)
+plasmas, the analogous problem of linear transformation of modes        as the basis and therefore did not include the mode conversion
+has been extensively studied (e.g., Budden 1961; Ginzburg 1970).        effect.
+3 Bezchastnov et al. (1996) apparently used equation (2.43) as          4 At E ≈ E , one can show that β̃ ≈ −u1/2 /2 = −E
+                                                                                      V                           e         Be /(2EV )
+the basis of the mode; therefore they automatically included            in the limit ue ≫ 1 and EV ≫ EBi .
+
+                                                                                                                 c 0000 RAS, MNRAS 000, 1–21
+          Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                          7
+                                        p            
+Re(n2+ − n2− ) ≈ −2ve u−1/2
+                       e    cos θB Re        1 + β2            (2.50)
+
+Im(n2+ + n2− ) ≈ γe ve sin2 θB + u−1 1 + cos2 θB
+                                                     
+                                  e                        ,   (2.51)
+where
+          1/2
+      ue sin2 θB
+β≈               (βV − iγe )                                   (2.52)
+       2 cos θB
+and βV ≈ 1 − (q + m)/ve = 1 − (E/EV )2 [see eq. (2.31)].
+Thus, for |βV | >∼ γe (i.e., for E slightly away from EV ),
+Faraday depolarization is satisfied for all θB . On the
+other hand, for |βV | ≪ γe (i.e., for E extremely close
+to EV ), the condition |Re(n+ − n− )| >   ∼ |Im(n+ + n− )| re-
+             1/2
+quires (γe ue /2)| sin θB / cos θB | = |Im(β)| <
+                       2
+                                                   ∼ 1; this condi-
+tion translates to θB <              >
+                       ∼ θcoll or θB ∼ π − θcoll . In other words,
+the breakdown of Faraday depolarization at the vacuum res-
+onance (|βV | ≪ γe ) is restricted to an angular region of
+θB around π/2. To satisfy Faraday depolarization for most
+                  1/2
+θB requires γe ue /23/2 ≪ 1, where γe and ue are evalu-
+ated at the vacuum resonance. For a given magnetic field
+B, this requirement implies E ≫ EFar (B): photons with
+energy E much greater than EFar (B) encounter the vac-
+                                                                        Figure 3. Critical energy EFar (B) (at T = 5 × 106 K and
+uum resonance [at ρV (E)] at which Faraday depolarization
+                                                                        θB = 45◦ ) above which the condition for Faraday depolariza-
+is satisfied for most θB ; conversely, for E < EFar (B), Fara-          tion is satisfied at the vacuum resonance ρ = ρV (E). The solid
+day depolarization breaks down at the vacuum resonance                  lines indicate EFar calculated from equation (2.34) with ions in-
+for a significant range of θB around π/2. Figure 3 shows                cluded, while the dashed line indicates approximate values of EFar
+EFar (B) as a function of B. Note that when the ion effect is           calculated from equations (2.50) and (2.51) which neglect ions.
+included, the simple expressions given by equations (2.50)-             Note that at large magnetic fields (B >         15
+                                                                                                                ∼ 3 × 10 G), the function
+(2.52) are modified, and we evaluate the complex n2+ and                EFar (B) (with ion effects included) is multi-valued. The unshaded
+n2− using equation (2.34) and obtain EFar (B) numerically               region is where Faraday depolarization is valid, while the shaded
+[for B14 >∼ 30, the function EFar (B) is multi-valued because
+                                                                        regions are where Faraday depolarization breaks down (see Sec-
+                                                                        tion 2.5 for more details).
+Re(n2+ − n2− ) depends non-monotonically on E]. For exam-
+ple, at B = 5 × 1014 G, photons with E <        ∼ EFar ≈ 2 keV
+encounter the vacuum resonance between the X-mode and
+                                                     (nv)                               [1 ± (Kj cos θB + Kz,j sin θB )]2
+O-mode decoupling layers [ρO < ρV (E) < ρX ; see Sec-                              =                                                (3.1)
+                                                                                               2(1 + Kj2 + Kz,j
+                                                                                                            2
+                                                                                                                )
+tion 4 and Fig. 6], and Faraday depolarization breaks down
+at this resonance for most θB .                                                         (Kj sin θB − Kz,j cos θB )2
+                                                                        |ejz |2    =                                ,               (3.2)
+     Currently it is not clear how significant an effect the                                  1 + Kj2 + Kz,j
+                                                                                                          2
+
+breakdown of Faraday depolarization will have on the ra-
+diative transfer. Given that this breakdown of the modal                where Kj is given by equation (2.27) for j = 1, 2 or equa-
+description occurs for such a narrow range of E [i.e., βV ≪             tion (2.43) for j = ±, and Kz,j is given by equation (2.33).
+γe ≪ 1; note that this range is even narrower than the width                 The electron scattering opacity from mode j (= 1, 2 for
+of the opacity feature around EV ; see Section 3 and eq. (3.19)         the X and O-modes or ± for the plus and minus modes)
+in particular], the effect should be small; but one cannot be           into mode i is given by (Ventura 1979; Ventura, Nagel, &
+sure. The above analysis reinforces our statement in Sec-               Mészáros 1979)
+tions 1 and 2.4 that a rigorous treatment of radiative trans-                             1
+                                                                                  ne σT X        ω2
+fer near the vacuum resonance, in general, requires solving             κes
+                                                                         ji =                                |ejα |2 Aiα ,          (3.3)
+the transport equations for the four Stokes parameters. We                          ρ     (ω + αωBe )2 + νe2
+                                                                                        α=−1
+plan to study this and other related issues in a future pa-
+per. We shall ignore the mode collapse phenomenon and the               where ne is the electron number density, σT is the Thomson
+breakdown of Faraday depolarization in our calculations in              cross-section,  and Aiα is the angle integral given by Aiα =
+                                                                                       i 2
+                                                                               R
+the rest of the paper.                                                  (3/8π) dk |eα | . The electron scattering opacity from mode
+                                                                        j is
+                                                                                          1
+                                                                                  ne σT X        ω2
+3    BEHAVIOR OF OPACITIES AND VACUUM                                   κes
+                                                                         j =                                 |ejα |2 Aα ,           (3.4)
+                                                                                    ρ     (ω + αωBe )2 + νe2
+     POLARIZATION RESONANCE                                                             α=−1
+                                                                                         P2
+The radiative opacities depend on the normal mode polar-                where Aα =         Ai . In the transverse-mode approxima-
+                                                                                       i=1 α
+ization vector through its projection on the rotating frame             tion (Kz,j = 0), the P polarization vector ej satisfies    the
+with the z-axis along B̂. The cyclic components of ej are                                         2     j 2             2
+                                                                                                                              
+                                                                        completeness relation        |e
+                                                                                                  j=1 ±
+                                                                                                          | =   1 + cos   θ B   /2 and
+                                 2                                      P2
+                 1                                                            |ejz |2 = sin2 θB , and thus Aα = 1. For ω ≪ ωBe , a
+|ej± |2         √ ejx ± iejy                                               j=1
+                             
+           =
+                  2                                                     suppression factor (ω/ωBe )2 in the opacity results from the
+
+c 0000 RAS, MNRAS 000, 1–21
+8       W.C.G. Ho and D. Lai
+strong confinement of electrons perpendicular to the mag-                           when crossing the resonance), the opacities are determined
+netic field. Similar features appear in the electron free-free                      with j = ± (right panels).5 Note that since EV depends
+absorption opacity (e.g., Virtamo & Jauho 1975; Pavlov &                            on ρ, the left and right panels of Fig. 4 represent genuinely
+Panov 1976; Nagel & Ventura 1983)                                                   different opacities in the radiative transfer (see below).
+                  1
+                                                                                         The behavior of the opacities near the ion cyclotron
+          α0 X        ω2                                                            resonance EBi = 0.63 B14 keV (for Z = A = 1) was studied
+κff,e
+ j    =                           |ejα |2 ḡαff ,                           (3.5)
+          ρ    (ω + αωBe )2 + νe2                                                   in Paper I. The vacuum resonance feature at EV [eq. (2.40)]
+              α=−1
+                                                                                    arises from the interplay between the plasma and vacuum
+where                                                                               polarization effects discussed in Section 2.3 (e.g., Mészáros
+                          h̄2 c2
+                                    
+                                        2me
+                                              1/2
+                                                     ne ni                          & Ventura 1979; Pavlov & Shibanov 1979; Ventura, Nagel,
+             4π 2 Z 2 α3F 2                                1 − e−h̄ω/kT
+                                                                        
+α0   =                                                                              & Mészáros 1979). To understand the behavior of the X and
+                           me           πkT           ω3
+                   √                                                                O-mode (j = 1, 2) opacities near the vacuum resonance, we
+                  3 3 1
+     =       αff0           ,                                               (3.6)   write the scattering and absorption opacities as
+                   4π ḡ ff
+                                                                                           ne σT                 α0
+                                                                                    κsc
+                                                                                      j =        ξj , κabs    =     ξj ,                    (3.10)
+ni is the ion number density, and αff0 and ḡ ff are the free-free                           ρ
+                                                                                                          j
+                                                                                                                 ρ
+absorption coefficient and velocity-averaged free-free Gaunt
+                                                                                    with
+factor, respectively, in the absence of a magnetic field. In
+                                                                                                  1 j 2    1 j 2              1
+                                                                                                                                           
+                  ff      ff
+equation (3.5), ḡ±1  = ḡ⊥  and ḡ0ff = ḡkff are the velocity-                    ξj ≈            |e | +   |e | + |ejz |2 + ′2
+averaged free-free Gaunt factors in a magnetic field, which                                       ue +     ue −              M
+we evaluate using the expressions given in Mészáros (1992)
+                                                                                                                                                                     
+                                                                                           1                      1
+(see also Nagel 1980).                                                              ×     √ 2        |ej |2 +
+                                                                                                   2 +            √      |ej− |2 + |ejz |2 , (3.11)
+                                                                                      (1 − ui ) + γi          (1 + ui )2
+     The ion contribution to the scattering and absorption
+opacities are                                                                       where M ′ = (Amp /Zme )Z −1/2 for scattering and M ′ =
+                     2            1                                               (Amp /Zme )Z 1/2 for absorption, γi = νi /ω, and we have set
+            Z 2 me         ni σT X        ω2                                        the free-free Gaunt factors to unity in κabs            and Aα = 1 in
+κis
+ ji =                                                |ej |2 Aiα             (3.7)                                                       j
+            Amp              ρ     (ω − αωBi )2 + νi2 α                             κsc
+                                                                                      j for simplicity. Away from the ion cyclotron resonance,
+                                  α=−1
+                                                                                    the ion contribution to the opacities is negligible, and ξj ≈
+                                   1
+                                                                                    (|ej+ |2 + |ej− |2 )/ue + |ejz |2 . In the limit of |β| ≫ 1 (and using
+                     2
+            Z 2 me         ni σT X        ω2
+κis
+ j =                                                  |ejα |2 Aα            (3.8)   the transverse approximation Kz,j ≈ 0 or ve ≪ 1), we find
+            Amp              ρ     (ω − αωBi )2 + νi2
+                                 α=−1                                               from equations (2.35), (3.1), and (3.2) that
+                           2          1                                                                                    
+           1 Z 2 me              α0 X        ω2                                                    1               1                                    1
+κff,i =                                                 |ej |2 ḡ ff . (3.9)        |e1± |2 =           1∓           cos θB       ,       |e1z |2 =         sin2 θB       (3.12)
+ j
+          Z 3 Amp                ρ    (ω − αωBi )2 + νi2 α α                                       2               β                                  (2β)2
+                                   α=−1
+                                                                                                                                           
+Note that the ion cyclotron resonance occurs for α = +1,                                           1                            1
+                                                                                    |e2± |2 =        cos2 θB           1±                       ,
+i.e., when the electric field of the mode rotates in the same                                      2                        β cos θB
+direction as the ion gyration. The total scattering and ab-                                                          
+sorption opacities in a fully ionized medium is then the sum                                               1
+                                                                                    |e2z |2 =         1−       sin2 θB .                                                  (3.13)
+of the electron and ion components, namely κsc         es
+                                                j = κj + κj
+                                                             is                                          (2β)2
+       abs    ff,e    ff,i
+and κj = κj + κj .                                                                  Thus, for the X and O-modes,6
+      In equations (3.3)-(3.9), we have included damping
+                                                                                              1     1
+through νe = νr,e + νc,e and νi = νr,i + νc,i , where νr,e =                        ξ1 ≈         +      sin2 θB ,             ξ2 ≈ sin2 θB              (|β| ≫ 1).        (3.14)
+(2e2 /3me c3 )ω 2 and νr,i = (Z 2 me /Amp )νr,e are radiative                                 ue   4β 2
+damping rates and νc,e = (α0 ḡαff /ne σT )νr,e and νc,i =                          On the other hand, in the limit of |β| ≪ 1, we find from
+(me /Amp )νc,e are collisional damping rates (see Pavlov et                         equation (2.36) that
+al. 1995, and references therein). For the photon frequencies
+                                                                                                           1
+                                                                                                               n                                       2
+of interest, ω ≫ νe , νi , and therefore damping is negligible                      |ej± |2       =                 1 ± (−1)j sign(β) cos θB
+except near resonance.                                                                                     4
+                                                                                                                          r̂
+                                                                                                               h                      i             o
+      Figure 4 shows examples of the absorption opacity κabs
+                                                           j                                               − (−1)j |β| +     sin2 θB                                      (3.15)
+as a function of photon energy for magnetic field B = 1014 G                                                              2
+                                                                                                           1                  r̂
+                                                                                                             h                   i
+and θB = 45◦ at densities and a temperature characteristic                          |ejz |2       =           1 + (−1)j |β| +      sin2 θB .                              (3.16)
+of NS atmospheres. For angles θB not too close to 0◦ or 180◦                                               2                  2
+(e.g., 10◦ <     <     ◦               abs        ◦
+           ∼ θB ∼ 170 ), the opacity κj (θB = 45 ) is indica-
+                           abs           abs                                        5 In plotting the right panels of Fig. 4, we have used β = |β |β
+tive of the behavior of κj (k), while κj (k) exhibits strong                                                                                      0 V
+angle dependence for θB near 0◦ or 180◦ . Because of mode                           [see eqs. (2.29) and (2.30)] in evaluating the polarization param-
+conversion due to the vacuum resonance (see Section 2.4),                           eter β so that the plus or minus-mode is resonant at the ion
+                                                                                    cyclotron energy. If we use β = β0 βV , then the + and − curves
+two sets of photon modes are depicted in Fig. 4: when mode
+                                                                                    will switch across EBi since β changes sign. However, since EBi
+conversion is neglected (e.g., an X-mode photon remains in                          is independent of ρ, it is easy to show that the radiative transfer
+the X-mode when traversing the vacuum resonance), we use                            is the same for both cases (β = |β0 |βV versus β = β0 βV ).
+j = 1, 2 for the X and O-modes (left panels); on the other                          6 Note that in this section, we are considering θ
+                                                                                                                                        B away from 0
+hand, if we assume that mode conversion is complete for all                         and π; when θB is close to 0 or π, the dominant terms in ξj are
+energies (e.g., a plus-mode photon remains in the plus-mode                         different.
+
+                                                                                                                                      c 0000 RAS, MNRAS 000, 1–21
+         Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                                9
+
+
+
+
+Figure 4. Absorption opacity κabs j   as a function of energy for B = 1014 G, θB = 45◦ , and T = 7 × 106 K at ρ = 370 g cm−3 (upper
+panels) and ρ = 0.1 g cm  −3 (lower panels). The left panels show the opacities for the X-mode (j = 1, solid lines) and the O-mode (j = 2,
+dashed lines), while the right panels are for the plus-mode (j = +, solid lines) and the minus-mode (j = −, dashed lines). In the left
+panels, the dotted lines show the the X-mode opacity when vacuum polarization is neglected. Several features are marked in the figure:
+EBi is the ion cyclotron energy, EV is the vacuum resonance energy, and Epe is the electron plasma energy. The variations of the O-mode
+opacity at E <                             2
+              ∼ Epe are due to Kz,j [∝ ωpe ; see eq. (2.33)].
+
+
+Thus we have                                                            sured by the dimensionless “equivalent width”
+    1                                                                                        Z
+ξj ≈ sin2 θB 1 + (−1)j |β|                                                               1
+                         
+                                      (|β| ≪ 1).           (3.17)       ΓV     ≡                       κX dE
+    2                                                                                (nv)
+                                                                                   κX EV         res
+Clearly the X-mode (j = 1) opacity is significantly enhanced                                 Z                      Z 1/2
+near the vacuum resonance (β ∼ 0), while the O-mode opac-                                1
+                                                                               =     (nv)
+                                                                                                       ξX dE ∼ ue            ξX dx,     (3.22)
+ity is only reduced by a factor of two from its usual value.                       ξX E V     res                     −1/2
+At the resonance, the two modes become circularly polarized                                                                           (nv)
+and possess the same opacities (see left panels of Fig. 4).             where the integral is over the region in which ξX /ξX > 1,
+     Equations (3.14) and (3.17) determine the “line shape”             i.e., EV /2 <   <                < <
+                                                                                    ∼ E ∼ 3EV /2 or −1/2 ∼ x ∼ 1/2 (see Fig. 5). Using
+                                                                                                    2
+of the vacuum resonance feature. For x ≡ (E −EV )/EV ≪ 1,               equation (3.20) and for sin θB ∼ cos θB ∼ 1, we find
+equations (2.28)-(2.32) imply |βV | ≈ 2|x| and                                     1/2
+                                                                                 ue          103             1 keV
+                                                                                                                 
+                      sin2 θB   |x|                                     ΓV ∼             ≈                         B14 .                (3.23)
+|β| ≈ u1/2                                                                     |1 − ui |   |1 − ui |           E
+       e |1 − ui ||x|         =                            (3.18)
+                      cos θB    xV
+                                                                        It is important to note that the region |x| <
+                                                                                                                    ∼ (a few xV ) ≪ 1
+with                                                                    contributes most to the integral in equation (3.22). This is
+              cos θB                                                    illustrated by the shaded region in Figure 5, which shows a
+xV ≡     1/2
+                             .                             (3.19)
+        ue |1 − ui | sin2 θB                                            schematic picture of the vacuum resonance feature; note that
+                                                                        from equation (3.20), the continuum is u−1 e   lower than the
+Thus                                                                    peak. This region must be resolved in numerical calculations
+              1
+                 2
+                  sin2 θB (1 − |x|/xV )    |x| ≪ xV                     of atmosphere spectra (see Section 5). Also note that at low
+ξX = ξ1 ≈                                               .(3.20)
+                ue + (xV /2x)2 sin2 θB
+                 −1
+                                           xV ≪ |x| ≪ 1                 densities where EV lies below the ion cyclotron energy so
+                                                                        that ui > 1, the vacuum resonant feature is narrower [see
+This should be compared to the value when there is no vac-              eq. (3.19); also compare the two left panels in Fig. 4].
+uum polarization (nv),                                                        When mode conversion is assumed to be complete, the
+ (nv)                                                                   plus and minus-mode opacities κ± do not exhibit a line fea-
+ξX      ≈ u−1   2    2      −1
+           e + xV sin θB ∼ ue .                            (3.21)
+                                                                        ture but rather show a step function-like change at the vac-
+The strength of the vacuum resonance feature can be mea-                uum resonance energy EV (see the right panels in Fig. 4).
+
+c 0000 RAS, MNRAS 000, 1–21
+10     W.C.G. Ho and D. Lai
+
+
+
+
+Figure 5. A schematic picture of the X-mode opacity near
+the vacuum resonance energy EV . The dashed line represents
+the opacity when vacuum polarization is neglected. The shaded
+region, −3xV < ∼ x <∼ 3xV [see eq. (3.19); note that xV ≪ 1],
+provides the dominant contribution to the equivalent width of
+the vacuum resonance feature [eqs. (3.22) and (3.23)], although a
+much broader region, −0.5 <                                         Figure 6. The density at which photons of different polarization
+                            ∼x<  ∼ 0.5, is affected by vacuum po-
+larization. The opacity at the resonance (E = EV ) is ∼ ue times    modes decouple from the matter as a function of photon energy
+larger than the continuum.                                          for T = 5 × 106 K, θB = 45◦ , and B = 1014 G (lower panel) and
+                                                                    B = 5 × 1014 G (upper panel). The solid lines show the X-mode
+                                                                                           (nc)
+                                                                    decoupling density ρX when vacuum polarization is included
+4    QUALITATIVE DISCUSSION OF THE                                  but mode conversion is neglected, the short-dashed lines are for
+                                                                      (nv)
+     VACUUM POLARIZATION EFFECT ON                                  ρX with no vacuum polarization, the long-dashed lines are for
+     ATMOSPHERE EMISSION                                            the O-mode ρO (note that ρO is unaffected by the magnetic field
+                                                                    and vacuum polarization effects), and the dot-dashed lines show
+In order to understand qualitatively the effects of vacuum          the vacuum resonance density ρV [eq. (2.42)]. The vertical dotted
+polarization on the radiation spectra from magnetar atmo-           lines denote the critical energy Ead for adiabatic mode conversion
+spheres, we estimated in Paper II the location of the decou-        [eq. (2.45)]. In general, vacuum polarization (including the mode
+pling layer at which the optical depth is of order unity for        conversion effect) reduces the decoupling density of X-mode pho-
+photons of different energies and polarization modes. Here          tons with energies between min(Ec1 , Ead ) and Ec2 , where Ec1
+we conduct a somewhat more accurate calculation by in-              and Ec2 are given approximately by equations (4.4) and (4.3), re-
+                                                                    spectively. The ion cyclotron resonance EBi = 0.63 B14 is clearly
+cluding the energy dependence of the Gaunt factor and show
+                                                                    evident, though it can be suppressed when vacuum polarization
+results for different magnetic field strengths. For simplicity,     is taken into account, as in the case of B = 5 × 1014 G.
+we consider fully ionized hydrogen atmospheres, adopt the
+transverse approximation (Kz,j = 0), and present results
+for only θB = 45◦ . We also treat the temperature as a con-
+stant, which is a good approximation when estimating the
+decoupling density since T varies at most by a factor of a          various features in Fig. 6 by setting the Gaunt factor to
+few while ρ varies by many orders of magnitude above the            unity and by ignoring scattering, which is only important
+decoupling layer. For g = (GM/R2 )(1 − 2GM/Rc2 )−1/2 =              for E >
+                                                                          ∼ 10 keV, even though the results shown in Fig. 6 do
+2.4 × 1014 cm s−2 (corresponding to a M = 1.4 M⊙ , R =              account for the actual variation of the Gaunt factor and
+10 km NS), hydrostatic equilibrium and the ideal gas equa-          use the effective opacity which includes scattering. First,
+tion of state, P = 2ρkT /mp , give the density ρ at column          let us ignore vacuum polarization and proton effects. The
+density y (in g cm−2 ) as ρ = 1.45 T6−1 y Rg cm−3 , where           absorption opacity can then be written as κabs
+                                                                                                               j   ≈ κ0 ξj , where
+                                                                                 −1/2 −3
+T6 = T /(106 K). The optical                                        κ0 ≈ 9.3 ρ1 T6   E1 S cm g [with S = 1 − e−E/kT , ρ1 =
+                                                                                               2 −1
+                            R ρ depth τν (= κν dy) at ρ is
+then given by τν = 0.69 T6 0 κν dρ′ . Note that we use here         ρ/(1 g cm−3 ), and E1 = E/(1 keV)] is the zero-field opacity
+the effective opacity defined by κν = [κabs      abs
+                                                     + κsc  1/2     and ξO ∼ 1 and ξX ∼ u−1        [see eqs. (3.10) and (3.14)].
+                                            ν (κν       ν )]
+                                                                                                e
+
+(see Rybicki & Lightman 1979). The decoupling density ρ             The decoupling densities of the two modes [with no vacuum
+can then solved for by setting the optical depth τν = 1.            polarization (nv)] are then approximately
+Numerical results of the decoupling density are shown in             (nv)              −1/4    3/2
+                                                                    ρO      ≈   0.56 T6       E1 S −1/2 g cm−3                  (4.1)
+Figure 6 for B = 1014 and 5 × 1014 G.
+                                                                     (nv)            (nv)
+     We can obtain analytic expressions to understand the           ρX      ≈   u1/2
+                                                                                 e ρO .                                         (4.2)
+
+                                                                                                     c 0000 RAS, MNRAS 000, 1–21
+        Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                     11
+Thus the X-mode photons emerge from deeper in the atmo-            clotron line (Paper I; Zane et al. 2001). However, we see
+sphere and are the main carriers of the X-ray flux.                from Fig. 6 that when EBi lies within the depression trough,
+                                                                                                               −4/5 1/10 <
+      Next, we include vacuum polarization and protons but         i.e., Ec1 <     <              14  <
+                                                                             ∼ EBi ∼ Ec2 or 3 × 10 G ∼ Bf (B)       T6    ∼2×
+neglect resonant mode conversion. For the O-mode, the              1015 G, the continuum flux around EBi is greatly reduced,7
+opacity is largely unaffected by the magnetic field and vac-       and the equivalent width of the ion cyclotron line becomes
+uum polarization effect. Thus the decoupling density ρO is         much narrower. This suppression of the ion cyclotron line by
+       (nv)                         (nv)
+still ρO . For the X-mode, when ρX >     ∼ ρV or                   vacuum polarization makes the line more difficult to detect
+                   −1/6     −2/3
+                                                                   (see Section 6.2).
+E<
+ ∼ Ec2 ≈ 77 T6            B14      f (B)4/3 keV,          (4.3)          In Appendix A, we present a toy atmosphere model
+                                (nv)
+                                                                   that mimics the vacuum resonance effect discussed in this
+the photons created at ρX will encounter the vacuum res-           section.
+onance, near which the X-mode opacity is greatly enhanced;
+thus the decoupling density [with no mode conversion (nc)]
+ (nc)                       (nv)               (nc)
+ρX will be smaller than ρX . For E >  ∼ Ec2 , ρX is close
+    (nv)                                                           5     NUMERICAL METHOD FOR TREATING
+to ρX , with the small difference due to the opacity be-
+                                                                         VACUUM POLARIZATION
+ing slightly modified by the vacuum effect even away from
+the resonance (see the left panels of Fig. 4). To evaluate         We solve the full, angle-dependent radiative transfer equa-
+the X-mode optical depth ∆τ across the resonance region            tions for the two coupled photon modes in order to con-
+                                              1/2
+(e.g., 0.9 < ρ/ρV < 1.1) we note that β ∼ ue x [eq. (3.18)]        struct self-consistent NS atmosphere models. Because the
+                   <
+for |x| ≡ |∆ρ/ρV | ∼ 0.1. Using equations (3.14) and (3.17),       method for rigorously treating partial mode conversion has
+we find ξX ∼ 1/(ue x2 ) for ue
+                                −1/2
+                                      ≪ |x| <                      not been developed, we consider two limiting cases: no mode
+                                            ∼ 0.1 and ξX ∼ 1       conversion and complete mode conversion at all energies
+             −1/2
+for |x| ≪ ue      [compare with eq. (3.20)]. We then have
+                    −1/2           1/2        −1/2
+                                                                   (see Section 2.4). In our models, the temperature corrections
+∆τ ∼ 0.7 κ0 T6 ρV ue      = 6.4 T6 ρ2V E1−3 ue     S, which is     ∆T (τ ) at each Thomson depth τ are applied iteratively un-
+              1/2
+a factor ∼ ue larger than the optical depth of the non-            til ∆T (τ )/T (τ ) <
+                                                                                      ∼ 1%, deviations from radiative equilibrium
+resonant region (ρ <∼ 0.9 ρV ). Thus at energies below Ec2 ,       are <  1%,  and   deviations from constant flux are <
+ (nc)
+                                                                        ∼                                              ∼ 2% (see
+ρX closely follows ρV until E drops below another critical         Paper I for details of our numerical method). Here we dis-
+energy Ec1 , which is set by ∆τ ≈ 1 or                             cuss the numerical difficulties involved when attempting to
+            −1/4     −3/2
+                                                                   include the effects of vacuum polarization in the atmosphere
+Ec1 ∼ 10 T6        B14      f (B)2 keV.                   (4.4)    models.
+              (nc)                                 (nv)
+Below Ec1 , ρX returns to approximately ρX (see Fig. 6).
+     Now consider the effect of mode conversion at the vac-        5.1    No Mode Conversion: Grid Resolution
+uum resonance. For E > 1.3 Ead [see eq. (2.45)], adiabatic
+mode conversion is nearly complete (Pjump < 3%). The O-            As shown in Section 3, vacuum polarization induces a nar-
+mode photons traveling from high densities through ρV are          row, density-dependent resonance feature in the X-mode
+converted to X-mode photons, which then freely stream out          opacities (see Figs. 4 and 5). The “equivalent width” of the
+of the atmosphere. Thus, for 1.3Ead <     <
+                                      ∼ E ∼ Ec2 , the effective
+                                                                   vacuum resonance feature at EV (ρ) is dominated by the nar-
+                                                                                                                          −1/2
+decoupling density for the X-mode is ρX = ρV . For E >   ∼ Ec2 ,   row energy range ∆E/EV = |E − EV |/EV <      ∼ 3 xV ∼ ue    ∼
+the vacuum resonance occurs inside both the X and O-mode           10−3 E1 /B14 , where E1 = E/(1 keV). In a real atmosphere,
+                                          (nv)
+decoupling layers, and therefore ρX ≈ ρX . For E ≪ Ead ,           density and energy gradients are smooth so that such a nar-
+                                                  (nc)
+mode conversion is ineffective; therefore ρX = ρX . Around         row and density-dependent feature is resolved and accounted
+                                                     (nc)          for completely. Numerical atmosphere models, however, nec-
+Ead , the X-mode photons are emitted from both ρX (with
+probability Pjump ) and ρV [with probability (1 − Pjump )].        essarily require finite grids of discrete depth (density), en-
+                  (nc)
+Also note that ρX ≈ ρV for E >                                     ergy, and angle. The difficulty with a finite grid resolution
+                                  ∼ Ec1 .                          is illustrated in Figure 7. Consider a photon with energy E
+     Figure 6 and the above analysis show that vacuum po-
+larization reduces the decoupling density for photons with         that happens to lie very close [|E − EV (ρi )|/EV (ρi ) <∼ xV ]
+energies between min(Ec1 , Ead ) and Ec2 , i.e., these photons     to the vacuum resonance energy EV (ρi ) of one of the den-
+decouple in shallower, lower temperature regions of the at-        sity grid points ρi ; such a photon will encounter a region of
+mosphere. This gives rise to a rather broad depression fea-        strongly enhanced opacity and will therefore decouple from
+ture in the emergent radiation between min(Ec1 , Ead ) and         the matter at a shallow depth. On the other hand, a pho-
+Ec2 (see also Paper II). In other words, even though the vac-      ton with energy E ′ , which lies outside the resonance regions
+uum resonance opacity feature is very narrow, it produces a        of all density grid points will not encounter any enhanced
+broad depression because of its density dependence and the         opacity regions and will decouple deeper in the atmosphere.
+large density gradient present in NS atmospheres. Clearly,
+to quantify the depth of the depression, one must solve for        7   If we use Ead <
+the temperature profile of the atmosphere self-consistently                           ∼ EBi , then the first inequality becomes 4 ×
+                                                                   1014 G <  ∼ Bf (B)−2/3 (tan θ )−2/3 . Note that the range of mag-
+                                                                                                B
+(see Sections 5 and 6).                                            netic fields must be considered very approximate since Ec1 , Ead ,
+     Finally, the sharp absorption feature in Fig. 6 is due to     and Ec2 depend on the direction of photon propagation, and re-
+the ion cyclotron resonance at EBi = 0.63 B14 keV. Previ-          distribution of photon spectral flux occurs in real atmospheres.
+ous atmosphere models which neglect vacuum polarization            For example, even for B = 1014 G, the width of the ion cyclotron
+yield relatively large equivalent widths for the proton cy-        line is reduced by vacuum polarization (see Section 6.2).
+
+c 0000 RAS, MNRAS 000, 1–21
+12      W.C.G. Ho and D. Lai
+                                                                       strength of the opacity feature (see Fig. 7: the area under
+                                                                       the long-dashed line overestimates the area under the solid
+                                                                       line, which represents the true opacity). Nevertheless, by in-
+                                                                       creasing the number of depth grid points, the “equal grid”
+                                                                       method will yield atmosphere models increasingly close to
+                                                                       reality (see Section 6).
+                                                                            An alternative method to produce smooth spectra in-
+                                                                       volves “saturating” the opacities near the vacuum resonance
+                                                                       (Özel 2001). We shall comment on this method in Sec-
+                                                                       tion 6.3.
+
+
+
+                                                                       5.2    Complete Mode Conversion
+                                                                       If we assume the adiabatic condition given by equa-
+                                                                       tion (2.44) is satisfied for all energies, then a plus-mode
+                                                                       (minus-mode) photon will remain in the plus-mode (minus-
+                                                                       mode) as it traverses the vacuum resonance (see Section 2.4).
+                                                                       In this “complete mode conversion” limit, we simply solve
+                                                                       the coupled radiative transfer equations for the plus and
+                                                                       minus-mode photons rather than the X and O-mode pho-
+                                                                       tons. The numerical procedure is analogous to the one out-
+Figure 7. A schematic picture of the radiative opacity as a
+function of energy at three neighboring density grid points ρi−1 ,     lined in Paper I. The modes are calculated using equa-
+ρi , ρi+1 . Density and depth increase upwards, and the vacuum         tion (2.43) for the polarization parameter rather than equa-
+resonance feature occurs at a higher energy in deeper levels [see      tion (2.27). In this case, the vacuum resonance manifests
+eqs. (2.39) or (2.40)]. The opacity at a given depth has been offset   as a step function-like feature in the opacities, as discussed
+for clarity. In the “equal grid” method, the energy grid points        in Section 3 and shown in the right panels of Fig. 4, and
+En−1 , En , En+1 are chosen to be equal to the vacuum resonance        there is no numerical difficulty in handling such an opacity
+energy at one of the density grid points, i.e., En = EV (ρi ). The     feature.
+long-dashed line for ρi indicates the apparent opacity obtained
+by interpolating energy grid points En−1 , En , and En+1 (see
+Section 5.1). The energy E lies close to one of the resonance
+energies, while E ′ lies outside any resonance region.
+                                                                       6     NUMERICAL RESULTS
+                                                                       6.1    Atmosphere Structure
+Therefore, if we choose a general energy grid that is not tied         The temperature profiles for fully ionized hydrogen atmo-
+to the density grid, the computed radiation spectrum will              spheres with Teff = 5 × 106 K and magnetic field B =
+exhibit narrow absorption lines at energies which happen to            5 × 1014 G oriented perpendicular to the surface (i.e., the
+lie close to EV at one of the density grid points. Such nar-           angle between the field and the surface normal is ΘB = 0)
+row lines are numerical artifacts of the finite grid resolution        are plotted in Figure 8. The curves marked “nc#” are mod-
+since, as discussed in Section 4, vacuum polarization is ex-           els which include vacuum polarization but no mode con-
+pected to only produce a broad depression in the emission              version and using the equal grid method described in Sec-
+spectrum.                                                              tion 5.1, with the “#” indicating the number of grid points
+      Clearly, to correctly account for the density-                   per decade in Thomson depth τ . When vacuum polarization
+dependent vacuum resonance, one must have a depth                      is neglected (nv), the temperature profiles show a plateau at
+grid that is sufficiently dense so that the opac-                      τ ∼ 1 − 100 (such a feature was already noted in Paper I8
+ity features at neighboring grid points overlap ap-                    and in Özel 20019 ). This arises because the X-mode pho-
+preciably, i.e., [EV (ρi+1 ) − EV (ρi )]/EV (ρi ) <   ∼ xV or          tons decouple at τ ∼ a few × 102 and thus have very little
+                   −1/2
+(ρi+1 − ρi )/ρi <
+                ∼ ue     ∼  10−3
+                                 E    −1
+                                   1 B14 . Such a dense depth          energy exchange with the matter, while for τ >   ∼ 1, the O-
+grid is beyond the capabilities of the current generation of           mode photons are ineffective at regulating the temperature
+atmosphere models.                                                     because of their small flux. We see from Fig. 8 that vacuum
+      One method to avoid artificial “absorption lines” in the         polarization tends to diminish this plateau in the temper-
+computed spectrum is to adopt an “equal grid” method:                  ature profile since vacuum polarization causes the X and
+we use an equal number of depth (density) and energy                   O-mode opacities to be similar to each other (see Fig. 4)
+grid points with every energy grid point being placed at               and the decoupling densities to be closer (see Fig. 6). We
+En = EV (ρi ) (see Fig. 7). The advantage of this method is
+that it guarantees a smooth spectrum. However, this method
+has problems as well. In order to determine the atmosphere             8   The “no vacuum polarization” models presented here differ
+structure through temperature corrections (see Paper I, and            slightly from those in Paper I because of a numerical error in our
+references therein), it is necessary to compute mean opaci-            calculation of the Gaunt factors in Paper I. This error has been
+ties, which involve integrations over energy, at a given depth;        corrected in the present paper.
+using the “equal grid” method leads to overestimates of the            9 Özel’s models include vacuum polarization; see Section 6.3.
+
+
+
+                                                                                                       c 0000 RAS, MNRAS 000, 1–21
+     Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                       13
+
+
+
+
+Figure 8. Temperature T as a function of Thomson depth τ for
+fully ionized hydrogen atmospheres with B = 5×1014 G, ΘB = 0,
+and Teff = 5×106 K. The curves marked “nc#” are models which
+include vacuum polarization but no mode conversion using the
+“equal grid” method described in Section 5.1, with “#” indicating
+the number of grid points per decade in τ . The long-dashed line
+is for the same model as “nc20” but restricting βV ≥ 10−2 (see      Figure 9. Temperature T as a function of density ρ for fully
+Section 6.3), while the dot-dashed line is for the model with no    ionized hydrogen atmospheres with Teff = 5×106 K, ΘB = 0, and
+vacuum polarization (nv).                                           B = 1014 G (lower panel), B = 5 × 1014 G (middle panel), B =
+                                                                    1015 G (upper panel). The solid lines are for models with vacuum
+                                                                    polarization but no mode conversion (nc), the dashed lines are
+                                                                    for models which assume complete mode conversion (mc), and
+also see that vacuum polarization tends to increase the tem-        the dot-dashed lines are for models with no vacuum polarization
+perature at most depths (and the general temperature gra-           (nv).
+dient) relative to the case without vacuum polarization. In
+the deepest layers where both modes are diffusing, a rise in
+                                                                    with opacities which mimic the vacuum polarization effect.
+the X-mode opacity due to the vacuum resonance feature
+                                                                    The temperature profiles of the toy models are qualitatively
+reduces the bandwidth over which flux can be transported,
+                                                                    similar to the results discussed in this section.
+and a larger temperature gradient is required to maintain a
+constant total flux; these layers are therefore backwarmed
+to higher temperatures (see Mihalas 1978 for a general dis-
+                                                                    6.2   Spectra
+cussion of backwarming). On the other hand, in the plateau
+τ ∼ 1 − 100, the free streaming X-mode photons, generated           Figure 10 shows the spectra of fully ionized hydrogen at-
+from deeper, hotter layers, encounter a sharp rise in opacity       mospheres with B = 5 × 1014 G, ΘB = 0 (magnetic field
+and are absorbed, which causes the temperature to increase.         perpendicular to stellar surface), and Teff = 5 × 106 K. Plot-
+      Figure 9 compares the temperature versus density pro-         ted alongside is the blackbody spectrum at T = 5 × 106 K.
+files for various magnetic fields and vacuum polarization ef-       This figure illustrates the effect of grid resolution for models
+fects. For the models which include vacuum polarization but         which include vacuum polarization but no mode conversion.
+neglect mode conversion (nc), we use twenty grid points per         As discussed in Section 5.1, a lower grid resolution tends to
+decade in τ . Compared to models without vacuum polariza-           overestimate the strength of the vacuum resonance feature,
+tion (nv), the models with complete mode conversion (mc)            which leads to the stronger depression at ∼ 0.2 − 2 keV. In
+show higher temperatures in the deep layers: although the           the following, we shall use the “nc20” model when we show
+O-mode photons at a particular depth are converting into            results which include vacuum polarization but no mode con-
+X-mode photons and carrying away heat, X-mode photons               version and adopt the abbreviation “nc”.
+from deeper, hotter layers are converting into O-mode pho-               Figures 11-13 depict the spectra for fully ionized hy-
+tons and depositing more energy. We also note that larger           drogen atmosphere models with B = 1014 G, 5 × 1014 G,
+magnetic fields cause the vacuum resonance to occur at a            and 1015 G, respectively, ΘB = 0, and Teff = 5 × 106 K. In
+lower energy for a given density or at a higher density for         each figure, the spectra from three models are depicted to-
+a given energy [see eqs. (2.39), (2.40), and (2.42)] and thus       gether with a blackbody spectrum at T = 5×106 K: a model
+shift the region that is heated by vacuum polarization effects      which neglects vacuum polarization (nv), a model which in-
+to deeper layers.                                                   cludes vacuum polarization but no mode conversion (nc),
+      In Appendix A, we construct toy atmosphere models             and a model which assumes complete vacuum polarization-
+
+c 0000 RAS, MNRAS 000, 1–21
+14     W.C.G. Ho and D. Lai
+
+
+
+
+Figure 10. Spectra of fully ionized hydrogen atmospheres with       Figure 11. Spectra of fully ionized hydrogen atmospheres with
+B = 5 × 1014 G, ΘB = 0, and Teff = 5 × 106 K. The curves            B = 1014 G, ΘB = 0, and Teff = 5 × 106 K. The solid line is for
+marked “nc#” are models which include vacuum polarization but       an atmosphere with vacuum polarization but no mode conversion
+no mode conversion using the “equal grid” method described in       (nc), the dashed line is for an atmosphere with complete mode
+Section 5.1, with “#” indicating the number of grid points per      conversion (mc), the dot-dashed line is for an atmosphere with no
+decade in τ . The corresponding temperature profiles are shown      vacuum polarization (nv), and the dotted line is for a blackbody
+in Fig. 8. The dotted line is for a blackbody with T = 5 × 106 K.   with T = 5 × 106 K. The EBi = 0.63 keV ion cyclotron feature
+Note that the absence of the ion cyclotron feature at EBi for       (from ∼ 0.4 to ∼ 1 keV) has an equivalent width ∼ 140 eV
+model nc6 is an artifact of the low grid resolution.                when vacuum polarization is not included (model nv) but is only
+                                                                    ∼ 20 eV in the no mode conversion case (model nc) and ∼ 6 eV
+                                                                    in the complete mode conversion case (model mc).
+
+induced mode conversion (mc). Recall that the nc model
+and the mc model represent two limiting cases, and the true         (EBi = 0.63 keV), 0.1 keV (EBi = 3.15 keV), and 0.2 keV
+results with partial mode conversion (see Section 2.4) are          (EBi = 6.3 keV), i.e., the equivalent widths of the ion cy-
+expected to lie between the nc and mc curves. We see from           clotron line have been reduced by a factor of ∼ 10; when
+Figs. 11-13 that the differences in the spectra between the         mode conversion is assumed to be complete (model mc), the
+two limiting cases are not significant.                             equivalent widths are even smaller: 6 eV (EBi = 0.63 keV),
+     Figures 11-13 show that, when vacuum polarization is           0.09 keV (EBi = 3.15 keV), and 0.03 keV (EBi = 6.3 keV),
+neglected (nv), the spectra exhibit significantly harder high       i.e., a reduction by a factor > 10. This reduction of the
+energy tails and a depletion of low energy photons relative to      ion cyclotron line strength by vacuum polarization was ex-
+the blackbody. The hard tails were already noted in previous        pected from the analysis in Section 4 (see Fig. 6), and it
+studies of NS atmospheres with B <        13
+                                      ∼ 10 G (e.g., Shibanov
+                                                                    occurs when the ion cyclotron energy EBi overlaps with the
+et al. 1992; Pavlov et al. 1995; see also references cited in       broad depression caused by the vacuum resonance. The re-
+Paper I), and they arise because high energy photons have           duced width of the ion cyclotron line makes the line difficult
+lower opacities and thus decouple from deeper, hotter lay-          to observe with current X-ray detectors (see Section 7).
+ers. We see from Figs. 11-13 that vacuum polarization can                 A comparison of the spectra for the models with differ-
+significantly reduce these high energy tails (E >∼ a few keV)
+                                                                    ent magnetic fields is shown in Figure 14 for the case which
+and causes the spectra to be softer compared to the mod-            includes vacuum polarization but no mode conversion (nc)
+els without vacuum polarization. This reduction of the high         and in Figure 15 for the case which includes vacuum po-
+energy tail is due to the broad depression caused by the            larization with complete mode conversion (mc). Note that
+density-dependent vacuum resonance feature, as discussed            despite the suppression of the high energy tails by the vac-
+in Section 4 (see Fig. 6).                                          uum polarization effect, all spectra are still harder than the
+     Figures 11-13 also reveal that vacuum polarization can         blackbody spectrum.
+significantly suppress the ion cyclotron line feature in the
+spectra. When vacuum polarization is neglected, the ion cy-
+                                                                    6.3   Comparison with Previous Work
+clotron line is broad (see Paper I for more discussion of the
+feature; see also Zane et al. 2001), and the equivalent widths      As mentioned in Section 1, there have been few previous
+are 0.14 keV (EBi = 0.63 keV), 2 keV (EBi = 3.15 keV), and          works on magnetar atmosphere models that include the ef-
+4 keV (EBi = 6.3 keV) for B14 = 1, 5, and 10, respectively.         fect of vacuum polarization. The most recent and relevant
+When vacuum polarization is included but mode conversion            one is that by Özel (2001), who constructed self-consistent
+is neglected (model nc), the equivalent widths become 20 eV         atmosphere models with parameters similar to those de-
+
+                                                                                                   c 0000 RAS, MNRAS 000, 1–21
+     Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                        15
+
+
+
+
+Figure 12. Spectra of fully ionized hydrogen atmospheres with       Figure 13. Spectra of fully ionized hydrogen atmospheres with
+B = 5×1014 G, ΘB = 0, and Teff = 5×106 K. The solid line is for     B = 1015 G, ΘB = 0, and Teff = 5 × 106 K. The solid line is for
+an atmosphere with vacuum polarization but no mode conversion       an atmosphere with vacuum polarization but no mode conversion
+(nc), the dashed line is for an atmosphere with complete mode       (nc), the dashed line is for an atmosphere with complete mode
+conversion (mc), the dot-dashed line is for an atmosphere with no   conversion (mc), the dot-dashed line is for an atmosphere with no
+vacuum polarization (nv), and the dotted line is for a blackbody    vacuum polarization (nv), and the dotted line is for a blackbody
+with T = 5 × 106 K. The EBi = 3.15 keV ion cyclotron feature        with T = 5 × 106 K. The EBi = 6.3 keV ion cyclotron feature
+(from ∼ 2 to ∼ 5 keV) has an equivalent width ∼ 2 keV when          (from ∼ 5 to ∼ 10 keV) has an equivalent width ∼ 4 keV when
+vacuum polarization is not included (model nv) but is only ∼        vacuum polarization is not included (model nv) but is only ∼
+0.1 keV in the no mode conversion case (model nc) and ∼ 0.09 keV    0.2 keV in the no mode conversion case (model nc) and ∼ 0.03 keV
+in the complete mode conversion case (model mc).                    in the complete mode conversion case (model mc).
+
+
+scribed in our paper, i.e., Teff ∼ 5×106 K, B ∼ 1014 −1015 G,
+ΘB = 0, and the atmosphere consists of fully ionized hydro-
+gen. While there are qualitative resemblances between some
+aspects of our results and Özel’s, e.g., the temperature pro-
+files show plateau features which are weakened by vacuum
+polarization (compare our Fig. 8 to her Fig. 5), there are
+also major differences in the physical ingredients and meth-
+ods used in our models and those of Özel’s. (1) Özel ap-
+plied the vacuum polarization formulae which are valid only
+for B <                    13          > 15
+       ∼ BQ = 4.4 × 10 G. At B ∼ 10 G, these incor-
+rect formulae underestimate the vacuum resonance energy
+by a factor of a few (see Fig. 1). (2) Özel neglected ions
+in the plasma response and the ion cyclotron resonance in
+the opacities. As discussed in Paper I, the ion effects can-
+not be neglected since they influence the spectrum in the
+same energy range as vacuum polarization effects. Figure 16
+compares the spectra of atmosphere models which include
+ions and neglects ions. Despite the suppression of the ion
+cyclotron feature by the vacuum polarization effect (Sec-
+tion 6.2), the “with ion” and “no ion” cases have apprecia-
+bly different spectra (e.g., at E = 10 keV, the flux of model
+“nc” differs from model “nc/no ions” by a factor of about           Figure 14. Spectra of fully ionized hydrogen atmospheres with
+ten). (3) Özel’s work neglects the mode conversion effect          ΘB = 0 and Teff = 5 × 106 K when vacuum polarization is
+due to vacuum polarization (Paper II; Section 2.4). (4) Even        included but mode conversion is neglected (nc). The long-dashed
+when mode conversion is neglected, Özel’s method of treat-         line is for the B = 1014 G atmosphere, the solid line is for the
+ing the vacuum resonance differs from ours. As discussed            B = 5 × 1014 G atmosphere, the short-dashed line is for the
+in Section 5.1, to fully account for the density-dependent          B = 1015 G atmosphere, and the dotted line is for a blackbody
+vacuum resonance feature in the opacity (and thus produc-           with T = 5 × 106 K.
+ing smooth spectra), one would need to have a prohibitively
+
+c 0000 RAS, MNRAS 000, 1–21
+16     W.C.G. Ho and D. Lai
+
+
+
+
+Figure 15. Spectra of fully ionized hydrogen atmospheres with       Figure 16. Spectra of fully ionized hydrogen atmospheres with
+ΘB = 0 and Teff = 5 × 106 K when mode conversion is complete        B = 5×1014 G, ΘB = 0, and Teff = 5×106 K. The solid line is for
+(mc). The long-dashed line is for the B = 1014 G atmosphere, the    an atmosphere with vacuum polarization but no mode conversion
+solid line is for the B = 5 × 1014 G atmosphere, the short-dashed   (model nc, which includes ions), the dot-dashed line is for an
+line is for the B = 1015 G atmosphere, and the dotted line is for   atmosphere with vacuum polarization but no mode conversion
+a blackbody with T = 5 × 106 K.                                     and neglecting ion effects (nc/no ions), the long-dashed line is
+                                                                    for an atmosphere with no vacuum polarization (model nv, which
+                                                                    includes ions), the short-dashed line is for an atmosphere with no
+high density/depth grid resolution. Özel produces smooth           vacuum polarization and neglecting ion effects (nv/no ions), and
+                                                                    the dotted line is for a blackbody with T = 5 × 106 K.
+spectra by adopting a “saturation” method, whereby the
+peak X-mode opacity is restricted by requiring |βV | ≥ 0.01
+[see eqs. (2.32) and (3.18); recall that the vacuum resonance
+occurs at βV = 0]. However, as discussed in Section 3, the
+                                              −1/2
+region with |βV | ∼ |E/EV − 1| <    ∼ xV ∼ ue      [∼ 0.001 at
+                   14
+1 keV for B = 10 G; see eq. (3.19) and Fig. 5] contributes
+most to the “equivalent width” of the vacuum resonance
+feature. Therefore the saturation method does not capture
+the main contribution of the vacuum resonance feature in
+the opacities and significantly underestimates the effect of
+vacuum polarization. Figure 8 shows the temperature pro-
+file of the atmosphere model using our “equal grid” method
+together with the restriction |βV | ≥ 0.01. Clearly, since the
+saturation scheme does not capture the entire effect of the
+opacity change, the heating of the atmosphere (compared to
+the case in which vacuum polarization is neglected) due to
+the vacuum resonance feature is less than the model with
+no saturation restriction. Figure 17 compares the spectra
+with and without saturation. Two effects are responsible for
+the qualitative differences. First, because saturation under-
+estimates the “equivalent width” of the vacuum resonance
+feature, it does not yield the true decrease in flux (see Sec-
+tion 4) so that the the broad depression does not reach as
+low of energies. Second, the softer spectra of the satura-          Figure 17. Spectra of fully ionized hydrogen atmospheres with
+tion model at energies E > ∼ 1 keV is the result of the lower       B = 5 × 1014 G, ΘB = 0, and Teff = 5 × 106 K. The solid line
+temperature at the photon decoupling layers in this model           (no saturate) is for an atmosphere with vacuum polarization but
+(see Fig. 8). We also note again that even though vacuum            no mode conversion using the “equal grid” method described in
+polarization produces harder spectra at high energies than          Section 5.1, the dashed line (saturate) is for the same atmosphere
+the blackbody spectrum at the same effective temperature,           with vacuum polarization but no mode conversion using the “sat-
+the spectra are still softer than atmosphere models which           uration” method described in Section 6.3, and the dotted line is
+                                                                    for a blackbody with T = 5 × 106 K.
+neglect vacuum polarization (see Figs. 11-13).
+      It is appropriate to reiterate that our own numerical
+
+                                                                                                    c 0000 RAS, MNRAS 000, 1–21
+     Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                        17
+treatment of the vacuum polarization effect also has limi-        softer high energy tails than models without vacuum po-
+tations, and these are discussed in Section 5. We also note       larization10 .
+that Özel’s calculations include the full angular dependence          Another important effect of vacuum polarization on the
+of the scattering opacity, whereas the results presented in       atmospheric spectra is that the strength of the ion cyclotron
+this paper are based upon an approximate calculation of           line is greatly suppressed when vacuum polarization is in-
+the scattering source function in order to speed up the com-      cluded in the atmosphere models (see Figs. 11-13). This
+putation (see Section 2.2 of Paper I). Our numerical tests        is a direct consequence of the aforementioned flux depres-
+show that this approximation does not affect the temper-          sion caused by vacuum polarization (see Fig. 6): when the
+ature profile of the atmosphere and only produces a small         depression trough overlaps with the ion cyclotron line at
+reduction (by less than a factor of two) in the flux at very      EBi = 0.63 Ye B14 keV, i.e., for 1014 G <    <       15
+                                                                                                          ∼ B ∼ 5 × 10 G, the
+high energies (E > ∼ 10 keV). Finally, we have not examined       continuum flux around EBi is greatly reduced, and the ion
+the angular dependence and beaming pattern of the emission        cyclotron line appears narrower (see Section 4). For exam-
+as done in Özel (2001) (see also Özel, Psaltis, & Kaspi 2001    ple, we find that the equivalent width of the 3.15 keV proton
+and Özel 2002 for analyses of the resulting pulse profiles and   cyclotron line for B = 5 × 1014 G is reduced from about
+pulse fractions).                                                 2 keV (no vacuum polarization) to about 0.1 keV (with vac-
+                                                                  uum polarization). Obviously the reduction of the ion cy-
+                                                                  clotron line width makes the line more difficult to detect.
+                                                                  Indeed, recent observations of several AXPs with Chandra
+                                                                  and XMM-Newton X-ray telescopes failed to resolve any sig-
+                                                                  nificant line features in the spectra (e.g., Patel et al. 2001;
+7   DISCUSSION AND CONCLUSION                                     Juett et al. 2002; Tiengo et al. 2002)11 ; this could possibly
+We have presented a detailed study on the atmospheres             be indicating the presence of vacuum polarization effects.
+and thermal radiation of isolated neutron stars with super-            We note that the radiative transfer formalism adopted
+strong magnetic fields B ≥ 1014 G and effective temper-           in this paper (and in previous atmosphere models by other
+atures Teff ∼ a few × 106 K. Such a study is needed since         researchers) relies on the transfer of two photon polariza-
+surface emission has already been detected from a number of       tion modes. This is inadequate for treating the vacuum
+magnetar candidates (AXPs and SGRs), and current/future           polarization-induced resonant mode conversion effect, espe-
+observations, when combined with theoretical modeling, can        cially because the effectiveness of mode conversion depends
+potentially provide important constraints on the properties       on photon energy (see Section 2.4 and Paper II). The at-
+of these enigmatic objects (see Section 1).                       mosphere models studied in this paper represent two limit-
+     Following up our previous work on magnetized neutron         ing solutions to the transfer problem (no mode conversion
+star atmospheres (Paper I), we focus on the effect of vac-        and complete mode conversion), and they are expected to
+uum polarization in this paper. It was already known from         bracket the true solution. Nevertheless, to properly account
+earlier theoretical studies (see Section 1 and Mészáros 1992    for the mode conversion effect associated with vacuum polar-
+for references), which we have generalized to the B >     14
+                                                     ∼ 10 G
+                                                                  ization, as well as mode collapse and the breakdown of Fara-
+regime and included the effect of ions, that vacuum polariza-     day depolarization (see Section 2.5), one must go beyond the
+tion changes the dielectric property of the plasma and gives      modal description of the radiation field by formulating and
+rise to a resonance feature in the opacity at photon energy       solving the transfer equation in terms of the photon density
+               1/2 1/2 −1                                         matrix (or Stokes parameters) and including the effect of a
+EV ≈ 1.02 Ye ρ1 B14        f (B) keV, where Ye = Z/A is the
+electron fraction, ρ1 = ρ/(1 g cm−3 ), B14 = B/(1014 G),          nontrivial refractive index. We plan to study this problem
+and f (B) is a slowly-varying function of B of order unity        in the future (see also Lai & Ho 2002b).
+(see Fig. 1). Furthermore, it was shown in Paper II (see               We caution that our models, as well as previous models
+also Gnedin et al. 1978; Pavlov & Gnedin 1984) that pho-          of magnetar atmospheres (see Section 1), assume that the
+tons with energies E >  ∼ a few keV propagating in the at-
+                                                                  atmospheres are completely ionized. For the magnetic field
+mospheric plasma can adiabatically convert from one polar-
+ization mode into another at the vacuum resonance den-            10   For all the models studied here, the spectra are still harder
+sity ρV ≈ 0.96 Ye−1 E12 B14  2
+                               f (B)−2 g cm−3 , where E1 =
+                                                                  than the blackbody spectrum (with the same effective tempera-
+E/(1 keV); this resonant mode conversion greatly influences       ture) because of the non-grey opacities. Also note that in this pa-
+the radiative transfer because the two modes have vastly dif-     per we are only concerned with thermal emission from the neutron
+ferent opacities in strong magnetic fields. In this paper, we     star surface. Nonthermal emission or the reprocessing of the ther-
+have attempted to incorporate these vacuum polarization ef-       mal emission by the magnetospheric plasma may give rise to high
+fects into self-consistent atmosphere models. Through both        energy, power-law tails in the magnetar spectra (e.g., Thompson,
+analytic considerations (Section 4; see also Paper II) and nu-    Lyutikov, & Kulkarni 2002).
+                                                                  11 For AXP 4U0142+61, Juett et al. (2002) give an upper limit of
+merical calculations (Section 6), we have shown that vacuum
+polarization leads to a broad depression in the high-energy       about 10-50 eV for the equivalent width of any line feature in the
+(E >                                                              spectrum; this is comparable to our predicted value of ∼ 6−20 eV
+    ∼ a few keV) radiation flux from the atmospheres as           at B = 1014 G and ∼ 100 eV at B = 5 × 1014 G. In addition,
+compared to models without vacuum polarization. Despite
+                                                                  it should be noted that the spectra presented in our paper corre-
+the rather sharp vacuum resonance feature in the opacity          spond to emission from a local patch of the neutron star surface.
+at a given density, the depression in the spectrum is broad       When the spectra are integrated over the entire observable sur-
+(from a few keV to tens of keV, depending on the field            face, which necessarily involves (very uncertain) variations in the
+strength) because of the large density gradient in the at-        magnetic field strength and direction and effective temperature,
+mosphere. As a result, the atmosphere emissions possess           the equivalent width of the cyclotron line will be further reduced.
+
+c 0000 RAS, MNRAS 000, 1–21
+18     W.C.G. Ho and D. Lai
+strengths and surface temperatures characteristic of AXPs          Israel, G., Mereghetti, S., & Stella, L. 2001, Mem. Soc. Astron.
+and SGRs, it is not clear that bound atoms and molecules               Italiana, 73, in press (astro-ph/0111093)
+have sufficiently small abundances to contribute negligibly        Juett, A.M., Marshall, H.L., Chakrabarty, D., & Schulz, N.S.
+to the opacity (see the discussion section in Paper I), given          2002, ApJL, 568, L31
+their greatly enhanced binding energies in strong magnetic         Lai, D. 2001, Rev. Mod. Phys., 73, 629
+                                                                   Lai, D. & Ho, W.C.G. 2002a, ApJ, 566, 373 (Paper II)
+fields (see Lai 2001 for a review). However, it may be the
+                                                                   Lai, D. & Ho, W.C.G. 2002b, unpublished note (astro-
+case that, like the ion cyclotron line, absorption lines due to        ph/0204187)
+bound species are suppressed if they fall within the broad         Mereghetti, S. 2001, in Neutron Star-Black Hole Connection, eds.
+flux depression caused by vacuum polarization. The absence             Kouveliotou, C., Ventura, J., & van den Heuvel, E. (Dor-
+of any resolved features in recent observations of several             drecht: Kluwer), p.351
+AXPs (Patel et al. 2001; Juett et al. 2002; Tiengo et al. 2002)    Mészáros, P. 1992, High-Energy Radiation from Magnetized Neu-
+may therefore be indicative of the vacuum polarization effect          tron Stars (Chicago: University of Chicago Press)
+in superstrong magnetic fields. Also of concern is the dense       Mészáros, P. & Ventura, J. 1979, Phys. Rev. D, 19, 3565
+plasma effect on the radiative transfer (see Paper I). Clearly,    Mihalas, D. 1978, Stellar Atmospheres (2d ed.; San Francisco:
+much work remains to be done before we can have complete               W.H. Freeman and Co.)
+                                                                   Nagel, W. 1980, ApJ, 236, 904
+confidence in our quantitative understanding of the radia-
+                                                                   Nagel, W. & Ventura, J. 1983, A&A, 118, 66
+tion from the surfaces of strongly magnetized neutron stars.       Özel, F. 2001, ApJ, 563, 276
+                                                                   Özel, F. 2002, ApJ, 575, 397
+                                                                   Özel, F., Psaltis, D., & Kaspi, V.M. 2001, ApJ, 563, 255
+                                                                   Patel, S.K., et al. 2001, ApJL, 563, L45
+ACKNOWLEDGMENTS                                                    Pavlov, G.G. & Gnedin, Yu.N. 1984, Sov. Sci. Rev. E, 3, 197
+We thank Tomasz Bulik, Lars Hernquist, Jeremy Heyl, Alex           Pavlov, G.G. & Panov, A.N. 1976, Sov. Phys. JETP, 44, 300
+                                                                   Pavlov, G.G. & Shibanov, Yu.A. 1979, Sov. Phys. JETP, 49, 741
+Potekhin, Ira Wasserman, Silvia Zane, and especially George
+                                                                   Pavlov, G.G., Shibanov, Yu.A., & Yakovlev, D.G. 1980, Ap&SS,
+Pavlov for useful discussion and correspondence. We thank              73, 33
+Roberto Turolla for useful comments and questions, which           Pavlov, G.G., Sanwal, D., Garmire, G.P., & Zavlin, V.E. 2001, in
+led us to expand a footnote in the earlier version to the new          Neutron Stars in Supernova Remnants, ASP Conf. Proc., eds.
+Section 2.5. We are grateful to the Cornell Hewitt Computer            Slane, P.O. & Gaensler, B.M., in press (astro-ph/0112322)
+Laboratory for the use of their facilities. This work is sup-      Pavlov, G.G., Shibanov, Yu.A., Zavlin, V.E., & Meyer, R.D. 1995,
+ported in part by NASA grant NAG 5-8484 and NSF grant                  in Lives of the Neutron Stars, eds. Alpar, M.A., Kiziloglu, U.,
+AST 9986740. W.C.G.H. is also supported by a fellowship                & van Paradijs, J. (Boston: Kluwer), p.71
+from the NASA/New York Space Grant Consortium, and                 Perna, R., Heyl, J.S., Hernquist, L.E., Juett, A.M., &
+                                                                       Chakrabarty, D. 2001, ApJ, 557, 18
+D.L. is also supported by a fellowship from the A.P. Sloan
+                                                                   Rybicki, G.B. & Lightman, A.P. 1979, Radiative Processes in As-
+Foundation.
+                                                                       trophysics (New York: John Wiley & Sons)
+                                                                   Shafranov, V.D. 1967, in Reviews of Plasma Physics, vol. 3, ed.
+                                                                       M.A. Leontovich (New York: Consultants Bureau)
+                                                                   Shibanov, Yu.A., Zavlin, V.E., Pavlov, G.G., & Ventura, J. 1992,
+REFERENCES                                                             A&A, 266, 313
+Adler, S.L. 1971, Ann. Phys., 67, 599                              Soffel, M., Ventura, J., Herold, H., Ruder, H., & Nagel, W. 1983,
+Bahcall, J. 1989, Neutrino Astrophysics (Cambridge: Cambridge          A&A, 126, 251
+   University Press)                                               Thompson, C. 2001, in Neutron Star-Black Hole Connection, eds.
+Becker, W. 2000, in Proc. IAU Symp. 195, Highly Energetic Phys-        Kouveliotou, C., Ventura, J., & van den Heuvel, E. (Dor-
+   ical Processes and Mechanisms for Emission from Astrophys-          drecht: Kluwer), p.369
+   ical Plasmas, eds. Martens, P.C.H., Tsuruta, S., & Weber,       Thompson, C. & Duncan, R.C. 1996, ApJ, 473, 322
+   M.A. (San Francisco: ASP), p.49                                 Thompson, C., Lyutikov, M., & Kulkarni, S.R. 2002, ApJ, 574,
+Bezchastnov, V.G., Pavlov, G.G., Shibanov, Yu.A., & Zavlin,            332
+   V.E. 1996, in Gamma-Ray Bursts, AIP Conf. Proc. Ser.            Tiengo, A., Goehler, E., Staubert, R., & Mereghetti, S. 2002,
+   vol. 384, eds. Kouveliotou, C., Briggs, M.F., & Fishman, G.J.       A&A, 383, 182
+   (NY: AIP), p. 907                                               Treves, A., Turolla, R., Zane, S., & Colpi, M. 2000, PASP, 112,
+Budden, K.G. 1961, Radio Waves in the Ionosphere (Cambridge:           297
+   Cambridge University Press)                                     Tsai, W.Y. & Erber, T. 1975, Phys. Rev. D, 12, 1132
+Bulik, T. & Miller, M.C. 1997, MNRAS, 288, 596                     Ventura, J. 1979, Phys. Rev. D, 19, 1684
+Bulik, T. & Pavlov, G.G. 1996, ApJ, 469, 373                       Ventura, J., Nagel, W., & Mészáros, P. 1979, ApJL, 233, L125
+Ginzburg, V.L. 1970, Propagation of Electromagnetic Waves in       Virtamo, J. & Jauho, P. 1975, Nuovo Cimento B, 26, 537
+   Plasmas (2d ed.; Oxford: Pergamon Press)                        Zane, S., Turolla, R., Stella, L., & Treves, A. 2001, ApJ, 560, 384
+Gnedin, Yu.N. & Pavlov, G.G. 1974, Sov. Phys. JETP, 38, 903
+Gnedin, Yu.N., Pavlov, G.G., & Shibanov, Yu.A. 1978, Sov. As-
+   tron. Lett., 4, 117                                             APPENDIX A: ATMOSPHERE INCLUDING
+Haxton, W.C. 1995, ARAA, 33, 459
+                                                                   VACUUM POLARIZATION RESONANCE
+Heyl, J.S. & Hernquist, L. 1997a, J. Phys. A, 30, 6485
+                                                                   EFFECTS: TOY MODELS
+Heyl, J.S. & Hernquist, L. 1997b, Phys. Rev. D, 55, 2449
+Ho, W.C.G. & Lai, D. 2001, MNRAS, 327, 1081 (Paper I)              A1    Opacities
+Hurley, K. 2000, in Gamma-Ray Bursts: Fifth Huntsville Sympo-
+   sium, AIP Conf. Proc. 526, eds. Kippen, R.M., Mallozzi, R.S.,   In Section 4, we examined the effect of the vacuum polar-
+   & Fishman, G.J. (New York: AIP), p. 515                         ization resonance feature on the depth at which the photons
+
+                                                                                                   c 0000 RAS, MNRAS 000, 1–21
+     Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                            19
+
+
+
+
+Figure A1. Toy model opacities used in Appendix A with               Figure A2. The upper panel shows the optical depth τd (in
+j = 1, 2 indicating the X and O-mode, respectively, and j = ± in-    terms of the opacity κL ) at which photons of different modes
+dicating the plus and minus-modes, respectively. Model (a) mim-      decouple from the matter as a function of energy for T = 5 ×
+ics the case where mode conversion is neglected [see eq. (A1)];      106 K, ζ = 0.3, λ = 1.3, κH = κes0 , and κL = 10
+                                                                                                                       −4 κes . The lower
+                                                                                                                           0
+Model (b) mimics the case where mode conversion is complete          panel shows the corresponding density ρd at these depths. The
+[see eq. (A3)]. The opacities are parameterized by the location of   solid lines are for the X-mode with an opacity given by Model (a)
+the resonance feature EV [eq.(A2)], the width parameter λ, and       (the O-mode decoupling depth τd = 1 is not shown), and the
+κH and κL .                                                          short and long-dashed lines are for Model (b) (see Fig. A1). The
+                                                                     vertical dotted lines indicate the critical energies Ec1 [eq. (A5)],
+                                                                     Ec2 [eq. (A6)], Ec+ [eq. (A12)], and Ec− [eq. (A13)].
+that comprise the surface spectrum are emitted. To deter-
+mine the emission spectrum, the temperature profile must
+be determined self-consistently. In this section, we consider
+                                                                          In Model (b), we assume the plus and minus-mode opac-
+several toy atmosphere models based on the simplified opac-
+                                                                     ities are simple step functions:
+ities shown in Figure A1. These models serve to illustrate
+the key physical effects of the vacuum resonance feature and
+                                                                               
+                                                                                   κH    for E < EV
+the numerical subtleties when constructing real atmosphere           κ+
+                                                                      E    =                                  [Model (b)]
+                                                                                   κL    for E ≥ EV
+models (Sections 5 and 6).                                                     
+     As shown in Section 3, in a real atmosphere, the O-                           κL    for E < EV
+                                                                     κ−
+                                                                      E    =                                  [Model (b)].         (A3)
+mode (j = 2) opacity is largely unaffected by the vacuum                           κH    for E ≥ EV
+resonance while the X-mode (j = 1) opacity exhibits a sig-
+                                                                     These opacities resemble the behavior of the plus and minus-
+nificant peak around EV . Therefore, for Model (a), we as-
+                                                                     modes in the right panels of Fig. 4. Thus Model (b) mimics
+sume the O-mode opacity is grey, κO  E = κH , and the X-mode         the atmospheres where mode conversion is assumed to be
+opacity has a simple square function form:
+                                                                     complete.
+        
+            κL        for E < EV or E > λEV
+κX
+ E =                                          [Model (a)], (A1)
+            κH        for EV ≤ E ≤ λEV
+where                                                                A2    Photon-Matter Decoupling Region
+            1/2                                                       As in Section 4, we can calculate the density ρd where pho-
+EV = ζρ           ,                                         (A2)
+                                                                      tons of different modes decouple from the matter. The cor-
+ρ is in g cm−3 , E is in keV, ζ ≈ B14 −1
+                                         f (B) [see eqs. (2.39)-
+                                                                     Rresponding
+                                                                        τd
+                                                                                     decoupling depth τd (E) is determined from 1 =
+(2.41)], and the width of the line feature is (λ − 1)EV . Equa-            dτ L [κE (τ L )/κL ], where dτL = −ρκL dz. Similar to Sec-
+                                                                       0
+tion (A1) thus resembles the X-mode opacity shown in the             tion 4, we assume a constant temperature profile when cal-
+left panels of Fig. 4 near the vacuum polarization resonance.        culating τd and ρd (see Section 4 for justification). Thus, for
+From Section 3, we know that κH /κL ∼ ue at the resonance            a fully ionized hydrogen atmosphere, ρ(τL ) = 1.45 yT6−1 =
+                                        1/2
+peak, and the width is (λ − 1) ∼ (ue |1 − ui |)−1 ; we will          ρ0 τL T6−1 g cm−3 , where ρ0 ≈ 1.45/κL (here κL is in cm2 g−1
+see that only the “equivalent width” (κH /κL )(1 − λ−2 ) ∼           and ρ0 is in g cm−3 ). Combining the density profile with
+  1/2
+ue /|1 − ui | (∼103 at 1 keV for B = 1014 G) matters for             equation (A1) gives the X-mode opacity as a function of τL ,
+the radiation spectrum. Model (a) mimics the real atmo-              i.e., κE (τL ) = κH for (T6 /ρ0 )(E/λζ)2 ≤ τL ≤ (T6 /ρ0 )(E/ζ)2
+sphere models where vacuum-induced mode conversion is                and κE (τL ) = κL otherwise. We then obtain the decoupling
+neglected.                                                           depth τd of the X-mode as a function of energy,
+
+c 0000 RAS, MNRAS 000, 1–21
+20      W.C.G. Ho and D. Lai
+                                                   2
+              1 − (κH /κL − 1) 1 − λ−2 ρ−1
+                                     
+            
+                                       0 T6 (E/ζ)                    A3    Numerical Method
+            
+                          for E < Ec1
+                                                        2             Using the opacities of Models (a) and (b) in our magnetic
+τd (E) =         κL /κH + (1 − κL /κH ) ρ−1
+                                         0 T6 [E/ (ζλ)]
+                                                              .(A4)
+                                                                      diffusion atmosphere code (for simplicity and computation
+                              for Ec1 ≤ E ≤ Ec2
+            
+            
+                                                                      speed) described in Paper I, we obtain self-consistent atmo-
+            
+            
+                 1     for E > Ec2
+                                                                      sphere models for a given choice of ζ, λ, κH , and κL . The
+The two critical energies, Ec1 and Ec2 , corresponding to             results presented in this section are somewhat modified for a
+when the decoupling depth τd = (T6 /ρ0 )(E/ζ)2 and τd =               full, angle-dependent solution of the radiative transfer equa-
+(T6 /ρ0 )(E/λζ)2 are                                                  tion, but since here we are more interested in the qualitative
+                               h       κH 2    −1/2
+                                                  i                   effects of vacuum polarization, the diffusion models are ade-
+                 1/2   −1/2
+Ec1     =    ζρ0 T6           λ 1+        λ −1                (A5)    quate for illustrative purposes. Temperature corrections and
+                                       κL
+                 1/2   −1/2
+                                                                      deviations from radiative equilibrium and constant flux are
+Ec2     =    ζρ0 T6           λ.                              (A6)    < 1% (see Paper I).
+                                                                      ∼
+The decoupling density, ρd = ρ(τd ), is given by                            For illustrative purposes, we choose the parameters ζ,
+                                                                      λ, κH , and κL for the toy models that roughly correspond
+              ρ0 T6−1 − (κH /κL − 1) 1 − λ−2 (E/ζ)2
+                                           
+            
+                                                                     to the case of an atmosphere with magnetic field B = 5 ×
+            
+                            for E < Ec1                              1014 G. For this magnetic field, equations (2.39)-(2.41) give
+ρd (E) =         ρ0 T6−1 κL /κH + (1 − κL /κH ) [E/ (ζλ)]2   . (A7)   ζ ≈ B14 −1
+                                                                                 f (B) ≈ 0.3. We choose a fairly broad width (λ −
+                                 for Ec1 ≤ E ≤ Ec2
+            
+                                                                      1) = 0.3 for the feature so that the required grid resolution is
+            
+            
+                 ρ0 T6−1
+            
+                              for E > Ec2                             not too computationally demanding. We also choose values
+Note that when κL /κH ≪ 1 and λ ≈ 1, the decoupling                   for the parameters κH = κes  0 and κL = 10
+                                                                                                                   −4 es
+                                                                                                                     κ0 so that the
+density ρd (E) ≈ (E/ζ)2 = ρV (E) for Ec1 ≤ E ≤ Ec2 , which            equivalent width of the feature (κH /κL )(1 − λ−2 ) = 4000,
+is in agreement with the result of Section 4 (see Fig. 6).            which corresponds roughly to the equivalent width of the
+Equations (A4) and (A7) are plotted in Figure A2 with ζ =             vacuum resonance feature for B = 5×1014 G [see eq. (3.23)].
+0.3, λ = 1.3, κH = κes         2 −1
+                    0 = 0.4 cm g     , and κL = 10−4 κes
+                                                       0 ; the
+                                                                            As discussed in Section 5, to correctly account for the
+choice of these parameter values is discussed in Section A3.          density-dependent opacity feature, such as in Model (a), in
+The minimum decoupling depth and density occur at Ec1 :               numerical calculations, it is important that the density or
+                                                                      depth grid is sufficiently dense so that the opacity features
+                             1
+τd (Ec1 )    =                                                (A8)    at neighboring density grid points overlap. For Model (a)
+                   λ−2 + κH /κL (1 − λ−2 )
+                                                                      with λ = 1.3, the minimum required grid spacing is |∆ρ|/ρ <
+                        ρ0 T6−1                                       (λ−1)2 = 0.09. In our calculations, we use 50 grid points per
+ρd (Ec1 )    =                           .                    (A9)
+                   λ + κH /κL (1 − λ−2 )
+                    −2
+                                                                      decade in τ (the total number of depth grid points is then
+Clearly the minimum decoupling depth depends critically on            D ≈ 350 covering seven decades in τ ), which corresponds
+the equivalent width of the opacity feature, i.e., (κH /κL )(1−       to (ρi − ρi−1 )/ρi ∼ 0.04 − 0.05. In addition, to obtain an
+λ−2 ), which corresponds to ΓV in equation (3.22). In fact,           accurate representation of the opacity feature in the energy
+in the limit of κL /κH ≪ 1 and λ ≈ 1, the parameters κL ,             domain, we choose an energy grid that is determined from
+κH , and λ enter equations (A4)-(A9) only through the com-            the depth grid: for each depth grid point, we place an energy
+bination (κH /κL )(1 − λ−2 ). The larger the equivalent width,        grid point on either side of the opacity edge, so that the
+the shallower the decoupling depth and hence the cooler the           total number of energy grid points N = 4D for Model (a)
+region where the observable photons are produced and the              and N = 2D for Model (b). In this way, we completely
+deeper the depression that is produced in the emission spec-          characterize the shape and strength of the opacity features
+trum. Also, equations (A5) and (A6) show that, by increas-            in Models (a) and (b).
+ing the magnetic field (or decreasing ζ), the broad depression
+is shifted to lower energies.
+     Now consider Model (b) with opacities given by equa-
+tion (A3). Using the same procedure as above, we obtain               A4    Numerical Results
+the decoupling densities for the plus and minus-mode:                 Figure A3 plots the temperature profiles for the atmosphere
+                                                                      models with Teff = 5 × 106 K using Model (a) (mimicking
+            
+             ρ0 T6−1 κL /κH + (1 − κH /κL ) (E/ζ)2
+ρ+                            for E < Ec+                             the case of no mode conversion) and Model (b) (mimicking
+ d (E) =                                                     (A10)
+             ρ T −1
+                  0 6           for E > Ec+                           the case of complete mode conversion) and ζ = 0.3, λ = 1.3,
+                                                                     κH = κes0 , and κL = 10
+                                                                                               −4 es
+                                                                                                  κ0 . Also shown is the tempera-
+             ρ0 T6−1 − (κH /κL − 1) (E/ζ)2                           ture profile from a double-grey atmosphere, i.e., two photon
+ρ−
+ d (E) =                             for E < Ec−     ,       (A11)    modes each with constant opacities κX E = κL for the X-mode
+             ρ T −1 κ /κ
+                  0 6     L        H     for E > Ec−                  and κOE = κH for the O-mode. We see that both Model (a)
+                                                                      and Model (b) have higher temperatures (at all depths) than
+where                                                                 the double-grey case. This is due to the heating effect asso-
+                 1/2   −1/2
+Ec+   =      ζρ0 T6                                          (A12)    ciated with the increase in opacity (see Section 6 and Figs. 8
+               1/2 −1/2                                               and 9). Also note the temperature inversions that occur near
+Ec−   =      ζρ0 T6     (κL /κH )1/2 .                       (A13)
+                                                                      τ ∼ 600; this is due to the absorption of high-energy X-ray
+Equations (A10) and (A11), along with the corresponding               photons as they encounter the resonance feature. Figure A4
+decoupling depths for the plus and minus-modes, are also              shows the corresponding spectra of the atmosphere models.
+plotted in Fig. A2.                                                   Note that all of these spectra are harder than a blackbody
+
+                                                                                                     c 0000 RAS, MNRAS 000, 1–21
+     Atmospheres and Spectra of Strongly Magnetized Neutron Stars II: Vacuum Polarization                                             21
+
+
+
+
+Figure A3. Temperature T as a function of Thomson depth τ for          Figure A4. Spectra of atmospheres with Teff = 5 × 106 K,
+atmosphere models using the toy opacities given in Appendix A          ζ = 0.3, λ = 1.3, κH = κes0 , and κL = 10
+                                                                                                                −4 κes . The solid line is
+                                                                                                                    0
+(see Fig. A1) and Teff = 5 × 106 K, ζ = 0.3, λ = 1.3, κH = κes   0 ,   for an atmosphere using the Model (a) opacities, the long-dashed
+and κL = 10−4 κes
+                0 . The solid line is for the temperature profile of   line for an atmosphere using the Model (b) opacities, the short-
+an atmosphere with Model (a), the long-dashed line is the profile      dashed line is for a double grey atmosphere, and the dotted line
+for Model (b), and the short-dashed line is for a double grey          is for a blackbody with T = 5 × 106 K.
+atmosphere.
+
+
+at T = 5 × 106 K and are similar to the behavior seen in
+Fig. 12, except without the ion cyclotron line.
+
+
+
+
+c 0000 RAS, MNRAS 000, 1–21
+

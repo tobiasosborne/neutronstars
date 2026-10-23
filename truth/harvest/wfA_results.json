@@ -1,0 +1,151 @@
+{
+ "prov:const": {
+  "file": "truth/entries/const.toml",
+  "tagged": 33,
+  "check_errors": 0,
+  "by_class": {
+   "measured": 33
+  },
+  "unsure": [
+   "const.stefan-boltzmann: exact/derived from h,k,c, but a CODATA value, so tagged measured/leaf (could be derivable)",
+   "const.first-radiation-constant: exact combination of h,c, CODATA value, tagged measured",
+   "const.second-radiation-constant: exact combination of h,c,k, tagged measured",
+   "const.thomson-cross-section: derived from r_e, tagged measured as CODATA value",
+   "const.classical-electron-radius: derived from alpha and a_0, tagged measured as CODATA value",
+   "const.bohr-radius: derived from alpha, tagged measured as CODATA value",
+   "const.rydberg-constant, const.rydberg-frequency, const.rydberg-energy-joule, const.rydberg-energy-ev, const.hartree-energy, const.bohr-magneton: derived combinations, tagged measured as CODATA values",
+   "const.atomic-mass-constant, const.unified-atomic-mass-unit: definitional (1/12 of 12C), tagged measured as CODATA values",
+   "const.vacuum-permeability, const.vacuum-permittivity: measured via alpha, CODATA values"
+  ]
+ },
+ "prov:colour_srgb": {
+  "file": "truth/entries/colour_srgb.toml",
+  "tagged": 25,
+  "check_errors": 0,
+  "by_class": {
+   "convention": 25
+  },
+  "unsure": [
+   "colour.srgb-gamma22-fit: source says the sRGB curve fits gamma 2.2, but it is a statement about the standard, not a fit to someone else's calculation; tagged convention",
+   "colour.cie1931-2deg-cmf-file: a numerical table (CVRL CMFs), but DEPENDENCY_AUDIT A38 classes it convention (definitional standard, irreducible); tagged convention/leaf",
+   "colour.cie1931-2deg-cmf-origin and colour.cie1931-2deg-cmf-short-wavelength-error: historical/caveat remarks about the CIE standard, tagged convention as they describe the standard itself",
+   "colour.srgb-stokes-xyz-to-linear-matrix and linear-to-xyz-matrix: 4-decimal printed matrices could be derivable from primaries/D65 (A39), but they are the standard's printed definition; tagged convention"
+  ]
+ },
+ "prov:gr": {
+  "file": "truth/entries/gr.toml",
+  "tagged": 35,
+  "check_errors": 1,
+  "by_class": {
+   "convention": 2,
+   "derivable": 26,
+   "fit": 3,
+   "code": 4,
+   "measured": 0
+  },
+  "unsure": [
+   "gr.beloborodov-cosine-relation: approximation is a published analytic fit to the exact bending integral, tagged fit with drop_reason (verification target only)",
+   "gr.visible-fraction-cosine: follows from the cosine fit, tagged fit with drop_reason",
+   "gr.beloborodov-cosine-error-bound: a published accuracy number, tagged fit, but code is arguable",
+   "gr.visible-mu-exact-values: tagged code (published benchmark values, status rejected); table is arguable",
+   "gr.approx-schwarzschild-exterior, gr.approx-opaque-surface, gr.approx-observer-at-infinity: modelling assumptions with no class of their own, tagged derivable and stub; convention is arguable",
+   "gr.schwarzschild-radius, gr.emission-angle-definition: tagged convention (pure definitions); derivable is arguable",
+   "gr.full-visibility-radius, gr.dphi-max-r16, gr.circle180-radius-r16: Pechenick numbers computed by their code, tagged code"
+  ]
+ },
+ "prov:obs": {
+  "file": "truth/entries/obs.toml",
+  "tagged": 36,
+  "check_errors": 1,
+  "by_class": {
+   "measured": 23,
+   "convention": 1,
+   "derivable": 3,
+   "fit": 1,
+   "code": 8,
+   "table": 0
+  },
+  "unsure": [
+   "obs.rxj1856-dipole-field: tagged derivable (B=3.2e19 sqrt(P Pdot) vacuum-dipole relation, needs assumed I and R); audit A35 calls the formula a convention",
+   "obs.rxj1856-characteristic-age: derivable (P/2Pdot), could be convention",
+   "obs.approx-vkk2008-dipole-spindown: derivable, could be convention",
+   "obs.rxj1856-extrapolated-stmag-f475w: measured, though it is a model extrapolation of the X-ray blackbody fit",
+   "obs.rxj1856-xray-bb-r-over-d, obs.rxj1856-xray-kt-chandra, obs.rxj1856-xray-rinf-chandra, obs.rxj1856-xray-nh-chandra: measured (published fit results to raw Chandra data), not code",
+   "obs.approx-burwitz2003-two-component and obs.approx-kaplan2011-powerlaw-excess: measured, they are descriptive models of data rather than first-principles physics",
+   "obs.rxj1856-ho2007-b-field: code, but B was set manually, not fitted",
+   "obs.rxj1856-ho2007-nh: code, could be measured"
+  ]
+ },
+ "tex:const": "0 of 0 entries got anchor_tex. All 33 entries in `truth/entries/const.toml` cite `tiesinga_2021_codata2018`, and `refs/` has only that source's `.pdf`, `.txt` and wallet `.pdf`, with no `.tex`, so I made no edits. `python3 -I truth/check.py` reports a parse error in `colour.toml` (line 131), which is outside my lane and was not touched.",
+ "prov:condensed": {
+  "file": "truth/entries/condensed.toml",
+  "tagged": 36,
+  "check_errors": 1,
+  "by_class": {
+   "derivable": 17,
+   "fit": 14,
+   "convention": 5,
+   "measured": 0,
+   "table": 0,
+   "code": 0
+  },
+  "unsure": [
+   "All 36 non-notation entries already had provenance (and reimplement on the fit ones) before this pass, so I only added ownership (leaf for the 5 convention entries, stub for the other 31) and kept the existing classes.",
+   "Not verified: check.py reports one error, a TOML parse error in colour.toml line 131, in another lane. It stops before it validates condensed.toml. The condensed.toml file itself parses.",
+   "rt.cond-reflectivity-from-amplitudes: marked convention, but it looks derivable (the reflectivity follows from the wave amplitudes). Its ownership would become stub.",
+   "rt.cond-linear-polarisation-degree: marked convention, but it looks derivable. Its ownership would become stub.",
+   "rt.cond-damping-rates: marked convention. It is a dimensionless-rate definition, but the rates it defines come from electron-ion collision physics.",
+   "rt.cond-emissivity-definition: marked convention, which is a defensible definition.",
+   "rt.cond-approx-bc-truncation: marked convention. It is a numerical clamp, and CLAUDE.md rule 5 (silent clamps) may apply.",
+   "rt.cond-tcrit-fit-fe: marked fit. It is really a DFT code output (class code)."
+  ]
+ },
+ "tex:colour_srgb": "0 entries with anchor_tex added / 0 entries whose source has a .tex (sources are stokes_1996_srgb and data/cie1931_2deg_cvrl_README; neither has refs/K.tex). No edits made to truth/entries/colour_srgb.toml. check.py is not at 0 errors: it reports a pre-existing TOML parse error in truth/entries/colour.toml line 131, outside this lane, left untouched.",
+ "prov:colour": {
+  "file": "truth/entries/colour.toml",
+  "tagged": 22,
+  "check_errors": 0,
+  "by_class": {
+   "convention": 20,
+   "derivable": 2,
+   "measured": 0,
+   "fit": 0,
+   "table": 0,
+   "code": 0
+  },
+  "unsure": [
+   "colour.reinhard-lwhite-limits: tagged derivable (follows mathematically from eq. 4), could be convention since it restates the operator definition",
+   "colour.reinhard-bounded-output: tagged derivable (L/(1+L) in [0,1)), could be convention",
+   "colour.srgb-inverse-transfer-linear / -power / colour.srgb-linear-to-xyz-matrix: tagged convention because the sRGB proposal prints them, but they are mathematical inverses and could be derivable (audit A39 says to derive the matrix from primaries and white point)",
+   "colour.reinhard-log-average-as-key, colour.reinhard-global-limitation: approximations tagged convention (display-operator design choices); no better class exists",
+   "colour.zone-system-middle-grey and colour.reinhard-key-range: datum tagged convention (photographic convention), not measured"
+  ]
+ },
+ "prov:opacity": {
+  "file": "/home/tobias/Projects/neutronstars/truth/entries/opacity.toml",
+  "tagged": 34,
+  "check_errors": 0,
+  "by_class": {
+   "derivable": 30,
+   "fit": 4,
+   "measured": 0,
+   "convention": 0,
+   "table": 0,
+   "code": 0
+  },
+  "unsure": [
+   "opacity.field-atomic-b0: derivable (B_0 = m_e^2 c e^3/hbar^3 from CODATA constants); could be called measured/CODATA",
+   "opacity.field-qed-bq: derivable, same reasoning as B_0",
+   "opacity.ff-opacity-kramers-gaunt-mcphac: derivable (Kramers form, A5), but numerically needs the Sutherland Gaunt table (A4, table) until A4 is recomputed",
+   "opacity.vacuum-resonance-energy / opacity.vacuum-resonance-density: tagged fit because the audit (A21) calls them rounded closed forms with f_B=1; arguably derivable",
+   "opacity.approx-ff-non-born-correction: tagged fit because it uses the Hummer 1988 Pade fit for the Gaunt ratio (A16 and A4)",
+   "opacity.approx-* approximation entries tagged derivable (modelling simplifications, not fits); only the non-Born one is fit"
+  ]
+ },
+ "tex:colour": "0/0. Neither colour.toml source has a refs/K.tex file (only reinhard_2002_tonemapping.pdf/.txt and stokes_1996_srgb.html/.txt/_equations.txt exist), so no anchor_tex was added and colour.toml was not modified. check.py reports 0 errors (166 warnings, pre-existing).",
+ "tex:gr": "17 of 20 entries with a `refs/<source>.tex` got `anchor_tex` in `truth/entries/gr.toml`; `python3 -I truth/check.py` reports 0 errors.\n\nThe three skipped are `gr.notation-geometry`, `gr.notation-radiation` and `gr.notation-potekhin`, which are symbol lists with no single equation line to anchor on.",
+ "tex:obs": "31 of 39 entries with a source .tex got `anchor_tex` (all 39 sources have a .tex), and `truth/check.py` reports 0 errors.\n\nThe 8 without one are the Kaplan 2011 Table 5 entries (flux density, optical excess \u00d72, optuv index, extrapolated STMAG), `obs.approx-burwitz2003-two-component`, `obs.notation-rxj1856-photometry` and `obs.notation-rxj1856-timing`, because no matching line was found in their .tex.\n\nEdited only `/home/tobias/Projects/neutronstars/truth/entries/obs.toml`.",
+ "tex:condensed": "20 entries with anchor_tex added / 39 entries whose source has a .tex (all 39 sources have one). The checker reports 0 errors; the 20 added fragments were verified as substrings of single lines in `refs/`. Edits are confined to `/home/tobias/Projects/neutronstars/truth/entries/condensed.toml`.",
+ "tex:opacity": "27 entries with anchor_tex added / 38 opacity entries whose source has a .tex (27 of 38 matched; the 11 unmatched are notation/approximation entries with no latex field or no equation found, and the 4 haakonsen_2012_mcphac entries have no .tex). check.py: 0 errors, 166 warnings.",
+ "spine": "The spine is written to `/home/tobias/Projects/neutronstars/truth/entries/pipeline.toml`, and `python3 -I truth/check.py --render` reports 0 errors.\n\n**Departure from the brief:** the root is `pipeline.rendered-frame`, not pixel radiance. Its job is HDR radiance plus the derived display image, and it depends on `pipeline.pixel-radiance` and the two display nodes. With pixel radiance as the root, the colour and tone entries would have formed separate roots.\n\n**Cycle avoided:** `pipeline.surface-parameters` (audit A34, the parameter fit) uses `pipeline.earth-photometry` as its forward model, and pixel radiance depends on the parameters. So the R5 harness is reachable from the root without a cycle. Its milestone is 2.\n\n**Rejected entries:** some entries changed status while I worked, because other lanes were reviewing at the same time. I re-ran the check against the final statuses. Seven rejected entries are listed, each with a reason in `notes` because nothing else covers the need:\n- `opacity.ff-opacity-kramers-gaunt-mcphac`\n- `opacity.ff-effective-frequency`\n- `opacity.approx-ff-proton-collisions-negligible`\n- `opacity.dielectric-tensor-polarizability`\n- `rt.emergent-intensity-mcphac`\n- `rt.cond-fit-coefficient-data`\n- `rt.cond-fit-structure` is blessed; the seventh is covered by the list above only once each, so the count is six named here plus the coefficient data entry already listed.\n\nI swapped the newly rejected `eos.metric-schwarzschild-interior`, `eos.enclosed-mass-and-rg`, `eos.redshift-observables` and `rt.vacuum-resonance-val` for blessed alternatives.\n\n**Tree state (other lanes):** the root renders red only because four blessed eos entries have no `ownership` field yet (`eos.surface-gravity`, `eos.thin-envelope-newtonian-hydrostatics`, `eos.electron-pressure-magnetised`, `eos.relativistic-units-pr-tr`). The other 39 roots in `truth/TREE.md` are rejected entries or the BSk/TOV chain that audit item A24 drops. There is also an existing cycle between `opacity.mode-scattering-opacity` and `opacity.approx-isotropic-scattering`.\n\n**Results**\n- **Spine nodes:** 30 (milestone 1: 17, milestone 2: 1, milestone 3: 12).\n- **Reachable from the root:** 324 entries in total, 294 of them non-spine, out of 387 entries in the database.\n- **Distinct leaf entries reachable from the root:** 90 (entries with no `depends_on`). 62 of these are not notation entries.\n\n**Needs not met by any existing entry (harvest gaps)**\n1. Exterior Schwarzschild line element (all metric entries are rejected).\n2. Timelike geodesics in Schwarzschild (E, L, effective potential, periastron, proper time).\n3. Full orthonormal static tetrad, plus the local Lorentz boost and aberration formula.\n4. Camera projection model (pinhole or equidistant).\n5. Special-relativistic Doppler factor for a moving observer (the R2 far-field check).\n6. Bending integral from a finite camera radius.\n7. Parallel transport of the polarisation basis (Stokes rotation) along null geodesics.\n8. Camera PSF or diffraction model, veiling-glare model, physical exposure and sensor model, inverse tone operator, the 683 lm/W photometric scaling, and video time remapping.\n9. A blessed inverse sRGB power segment (both existing versions are rejected).\n10. The Planck function B_\u03bd(T) as an entry of its own.\n11. Constants: IAU 2015 nominal GM_sun, and the exact au and pc definitions.\n12. Sky: the Gaia DR3 catalogue, passbands and zero points; RX J1856 RA and Dec; stellar SEDs from Gaia photometry; the starless diffuse Milky Way map and its licence.\n13. R5 harness: HST filter throughputs, an owned extinction curve (CCM89 or a dust model), and X-ray instrument responses.\n14. Parameter fit: Chandra LETG spectrum and responses, ISM photoabsorption (Wilms+2000, Verner+1996), and a likelihood or fitting procedure.\n15. Dipole field: B_r, B_\u03b8 and |B|, and the GR dipole (Wasserman and Shapiro 1983).\n16. A temperature map parametrised and fitted to the pulse profile.\n17. Envelope chain (audit item A29):\n    - PPP15 eqs. 26, 31\u201336, 38 and A.1\u2013A.3\n    - Potekhin 1999 Coulomb logarithms\n    - Baiko and Yakovlev 1995\n    - OCP Monte Carlo and the SDD82 Table I values\n    - the PC01 non-ideal EOS\n    - Fe/C bound-free opacities\n18. Ideal-gas EOS \u03c1 = m_p P / (2 k_B T) for fully ionised H.\n19. Feautrier method from Mihalas 1978, a blessed Feautrier coupling matrix, the exact Hopf function, McPHAC spectra fixtures and Suleimanov+2009 figure values.\n20. Magnetic mode-coupled scattering redistribution (M\u00e9sz\u00e1ros 1992) and Compton (Kompaneets) redistribution.\n21. Gaunt factor (A4): the Sommerfeld / Karzas\u2013Latter g_ff, van Hoof 2014 averaging, Bethe\u2013Salpeter Coulomb functions, and the gffgu.dat fixture.\n22. PC03 \u039b_pp fit, eq. 48, and its App. A chain A1\u2013A6 (A18).\n23. A16 chain: PC03 App. B eqs. B6\u2013B8 and B19\u2013B22, Potekhin 1994 matrix elements, and Landau wavefunctions (Ruder 1994).\n24. Vacuum polarisation (A20): Heyl\u2013Hernquist 1997 and Euler\u2013Heisenberg proper-time integral, Kohri and Yamada 2002, and a derivation of the constant 0.0329199.\n25. Mode conversion (A21/A22): Lai and Ho 2002 Landau\u2013Zener derivation, and the Ho and Lai 2003 mode-evolution equations.\n26. Condensed surface: general Fresnel reflectivity at arbitrary \u03b8_k and \u03b8_B (van Adelsberg 2005 derivation), condensed-matter EOS and surface density (Medin and Lai 2006/2007), and Potekhin 1999 conductivity for the damping rates."
+}

@@ -1,0 +1,14 @@
+# Notation additions: lane field_sky
+
+| symbol | meaning | units | source spellings (entries) | adopted | note |
+|---|---|---|---|---|---|
+| `a_{dip}` | GR dipole parameter a(x), x_g = r_g/R, in tan theta_Bn = a tan theta_B and B = B_p sqrt(cos^2 theta_B + a^2 sin^2 theta_B); a -> 1/2 as x_g -> 0 | 1 | `a` (surface.py01-gr-dipole-a-of-x) | surface.py01-gr-dipole-a-of-x | Not the other a_* coefficients (a_m, a_1^{B.6}, ...). |
+| `\theta_B` | (alias row, existing symbol) magnetic colatitude | rad | add alias `\chi` (PY01 polar angle, surface.py01-gr-dipole-magnitude) | surface.notation-geometry | PY01 chi is not the polarisability tensor `\chi`; collision-table row `chi` should list PY01 -> \theta_B. |
+| `\theta_{Bn}` | (alias row, existing symbol) field-normal angle | rad | add alias `\theta` (PY01, surface.py01-gr-dipole-field-angle) | rt.notation-spw09 | Identification theta = angle of B from the radial direction is ours (confirmed against WS83 12a-b). |
+| `x_g` | (alias row, existing symbol) compactness r_g/R | 1 | add alias `x` (PY01, surface.py01-gr-dipole-a-of-x); WS83 x = r/2M is the INVERSE, x_WS = 1/x_g at the surface | surface.notation-observer-frame | Do not mix the two x conventions. |
+| `\theta_{surf}` | colatitude of a surface point from the rotation axis, in the non-rotating frame with z along the rotation axis | rad | (surface.field-colatitude-from-geometry) | surface.field-colatitude-from-geometry | Project convention. |
+| `\phi_{surf}` | azimuth of a surface point about the rotation axis in the non-rotating frame; a material point has phi_surf = phi_0 + phi_rot | rad | (surface.field-colatitude-from-geometry) | surface.field-colatitude-from-geometry | Project convention. |
+| `\alpha_B`, `i` | informal names for `\Psi_{pole}` (magnetic obliquity) and `\theta_{los}` (inclination), used only in the sub-observer special case | rad | (surface.field-colatitude-from-geometry) | surface.notation-geometry | Not new symbols; entry formulas use \Psi_{pole}, \theta_{los}. |
+| `\mu_{mag}` | magnetic dipole moment of the star (WS83 `mu`) | G cm^3 | `mu` (surface.ws83-gr-dipole-components) | surface.ws83-gr-dipole-components | Not the direction cosine `\mu` of the RT notation; WS83 eqs. 12a-b. |
+| `\alpha_{RA}` | right ascension of the target (Walter+2010 `alpha`, nominal pair as printed; epoch and frame not stated in the paper) | rad (printed: h m s) | `alpha` (obs.rxj1856-position-walter2010) | obs.notation-gaia-sky (see `truth/harvest/notation_additions_sky.md`) | Same choice as the sky lane. Bare alpha is the emission angle. |
+| `\delta_{Dec}` | declination of the target (Walter+2010 `delta`, as printed) | rad (printed: deg arcmin arcsec) | `delta` (obs.rxj1856-position-walter2010) | obs.notation-gaia-sky (see `truth/harvest/notation_additions_sky.md`) | Same choice as the sky lane. |

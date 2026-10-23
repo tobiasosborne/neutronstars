@@ -1,0 +1,865 @@
+                                       Astrophysical Journal, in press
+                                       Preprint typeset using LATEX style emulateapj v. 26/01/00
+
+
+
+
+                                                                 ON THE ABSORPTION OF X-RAYS IN THE INTERSTELLAR MEDIUM
+                                                                                                        J. Wilms
+                                                                                 Institut für Astronomie und Astrophysik, Abt. Astronomie
+                                                                                    Waldhäuser Straße 64, D-72076 Tübingen, Germany
+                                                                                                           and
+                                                                                                   A. Allen, R. McCray
+                                                                                               JILA, University of Colorado
+arXiv:astro-ph/0008425v1 28 Aug 2000
+
+
+
+
+                                                                                       Campus Box 440, Boulder, CO 80309-0440, USA
+                                                                                              Astrophysical Journal, in press
+
+                                                                                              ABSTRACT
+                                                   We present an improved model for the absorption of X-rays in the interstellar medium (ISM) intended
+                                                 for use with data from future X-ray missions with larger eﬀective areas and increased energy resolution
+                                                 such as Chandra and the X-ray Multiple Mirror mission, in the energy range & 100 eV. Compared to
+                                                 previous work, our formalism includes recent updates to the photoionization cross section and revised
+                                                 abundances of the interstellar medium, as well as a treatment of interstellar grains and the H2 molecule.
+                                                 We review the theoretical and observational motivations behind these updates and provide a subroutine
+                                                 for the X-ray spectral analysis program XSPEC that incorporates our model.
+                                                 Subject headings: Atomic data — ISM: abundances — dust, extinction — X-rays: ISM
+
+                                                              1. INTRODUCTION                                    and explain our choices of elemental and molecular abun-
+                                                                                                                 dances (§2.3) as well as dust grain parameters (§2.4). We
+                                          The precise knowledge of the modiﬁcation of X-ray ra-
+                                                                                                                 summarize the model, compare it to previous models, and
+                                       diation in the interstellar medium (ISM) is of crucial im-
+                                       portance for the understanding of X-ray spectra from cos-                 point out its remaining shortcomings in Section 3. In the
+                                                                                                                 appendices, we derive the inﬂuence of dust on σISM (Ap-
+                                       mic sources since the observed X-ray spectra have to be
+                                                                                                                 pendix A) and describe the implementation of our model
+                                       corrected for this modiﬁcation before interpreting the ob-
+                                       served data. The current state of the art in the computa-                 into XSPEC (Appendix B).
+                                                                                                                   The intended readership of this paper consists of users
+                                       tion of the energy-dependent photoionization cross section
+                                                                                                                 of the new missions, many of whom do not intend to be-
+                                       of the ISM, σISM , has been summarized by Balucińska-
+                                       Church & McCammon (1992, BM92). These authors                             come specialists on the ISM. We have therefore attempted
+                                                                                                                 to include suﬃcient information to make this paper self-
+                                       greatly improved1 the precision in the computation of σISM
+                                                                                                                 contained, and have chosen a review-like style.
+                                       compared to previous implementations (Strom & Strom
+                                       1961; Brown & Gould 1970; Fireman 1974; Ride & Walker                        2. MODELING THE X-RAY ABSORPTION IN THE ISM
+                                       1977; Morrison & McCammon 1983, MM83) by allowing
+                                       to adjust the assumed abundances of the ISM and by us-                                2.1. X-ray Absorptivity in the ISM
+                                       ing polynomial ﬁts to the photoionization cross sections of                  The total photoionization cross section of the ISM, σISM ,
+                                       Henke et al. (1982).                                                      is obtained by summing over the contributions of the as-
+                                          Although the BM92 model provides suﬃcient precision                    trophysically relevant elements. Taking into account the
+                                       for the data analysis with current instruments, the advent                phases of the ISM, σISM can be written as
+                                       of X-ray missions with instruments of high energy reso-
+                                       lution and large eﬀective areas, such as Chandra or the                                  σISM = σgas + σmolecules + σgrains .      (1)
+                                       Newton X-ray Multiple Mirror mission (XMM-Newton),                        As is common for X-ray applications, we normalize σISM
+                                       will result in large improvements in the precision of X-ray               to the total hydrogen number density (i.e., in molecular,
+                                       astronomical measurements. It is therefore necessary to                   neutral, or ionized form), NH , so that the observed X-ray
+                                       have tools at hand that reﬂect the current understanding                  spectrum of a source, Iobs , is given by
+                                       of the physics of the interaction of X-rays with the ISM at
+                                       the percent level.                                                                       Iobs (E) = e−σISM (E) NH Isource (E),     (2)
+                                          In this paper we improve on the models of BM92 by                                                              −2
+                                                                                                                 where NH is measured in atoms cm and Isource (E) is the
+                                       incorporating recent improvements in the photoionization                  X-ray spectrum as emitted by the X-ray source. We drop
+                                       cross sections and by taking into account the physics of the              the explicit energy dependence of σISM for the rest of the
+                                       interstellar dust and the molecular phase of the interstellar             paper.
+                                       medium. Section 2 describes the formalism employed to                       The contribution of the gaseous, non-molecular cold and
+                                       compute σISM . We describe the atomic physics data (§2.2)                 warm phases of the ISM to σISM is obtained by summing
+                                          1 When referring to the cross sections of BM92 we use their subroutines as implemented as the phabs model in XSPEC, version 10.0z
+                                       (Arnaud 1996). This implementation contains improvements compared to the original publication. Starting with XSPEC, version 11.0, other
+                                       cross-sections are used in the computation of this model (see §2.2 below).
+                                                                                                            1
+2                                                    Wilms, Allen, & McCray
+
+the photoionization cross sections of the individual atoms        Chandra or XMM-Newton. Therefore, we will not make
+and ions in these phases, weighting their contributions by        an attempt to include the resonances that are important
+the abundances. Hence,                                            close to the absorption edges that might well be important
+                X                                                 for the grating instruments aboard these satellites.
+        σgas =     AZ · aZ,i · (1 − βZ,i ) · σbf (Z, i) (3)          For the computation of the photoionization cross section
+                 Z,i                                              of H, we use the ﬁtting formula of Band et al. (1990), which
+where we use the notation pioneered by Ride & Walker              provides a very good approximation of the exact, analytic
+(1977), in which AZ = N (Z)/N (H) is the abundance in             cross section but is much faster to evaluate. The max-
+number of element Z with respect to hydrogen, aZ,i =              imum deviation between the Band et al. (1990) formula
+N (Z, i)/N (Z) is the fraction of ions of element Z that are      and the analytical cross section (e.g., Bethe & Salpeter
+in ionization stage i, and σbf (Z, i) is the total photoioniza-   1957, eq. 71.7, divided by two) is ∼ 1.5% at energies be-
+tion cross section of element Z in ionization stage i. The        low 2 keV.
+depletion of the elements into grains is taken into account          The cross section for helium is taken from the recent
+through the “depletion factor” 1 − βZ,i .                         theoretical evaluation of Yan, Sadeghpour & Dalgarno
+   For the molecular phase of the ISM, only molecular hy-         (1998). Autoionization resonances occur at energies less
+drogen needs to be taken into account due to its large            than 0.08 keV, and the four strongest resonances are in-
+abundance (∼ 20% of the hydrogen might be molecular,              cluded here (as in BM92), using values from Oza (1986)
+see §2.3). Therefore,                                             and Fernley (1987). For energies between 0.1 keV and
+                                                                  1 keV, the helium cross section is smaller by a factor of
+                  σmolecules = AH2 σbf (H2 ).              (4)
+                                                                  ∼ 0.9 to ∼ 0.6 than that assumed in the subroutine used
+For material in the grain phase of the ISM, several com-          by BM92, which is based on theoretical work of Chen,
+plications arise. Since the X-ray optical depth of a large        Cooper & Brion (1991) and on experimental data by Marr
+grain can be much greater than one (see Fig. 3), most             & West (1976). The Yan, Sadeghpour & Dalgarno (1998)
+of the X-ray absorption will occur on its surface. Conse-         cross section, however, agrees with other more recent the-
+quently, the contribution of material “within” the grain          oretical computations (e.g., those of Verner & Yakovlev
+to σISM is small. Thus, the net eﬀect of this shielding is        1995) and is in agreement with more recent experimental
+that the presence of grains reduces the eﬀective absorptiv-       data (Yan, Sadeghpour & Dalgarno 1998, and references
+ity of the ISM relative to the absorptivity of a completely       therein). It also has the correct E −3.5 asymptote required
+gaseous medium. As we show in Appendix A, the total op-           from non-relativistic quantum theory (Bethe & Salpeter
+tical depth for grains with a size distribution dngr (a)/da       1957). For implications of this smaller He cross section on
+is given by                                                       studies of the ISM, see, e.g., Arabadjis & Bregman (1999).
+τgrains = σgrains NH                                                 For all other elements we use the photoionization cross
+                Z ∞                                               sections as originally published by Verner et al. (1993) and
+                     dngr (a)                                     later updated by Verner & Yakovlev (1995), and which are
+        = NH ξg               σgeom (1 − exp (−hσihN i)) da
+                  0    da                                         used in XSPEC version 11.0. These authors ﬁtted the re-
+                                                         (5)      sults from Hartree-Dirac-Slater computations of σbf for in-
+In the derivation of equation (5) we assume that the grains       dividual subshells to a semi-empirical ﬁtting formula. The
+are of chemically homogeneous composition with an av-             major advantage of this semi-empirical ﬁtting formula over
+erage photoabsorption cross section hσi, and can be ap-           previous ﬁtting formulae (such as, e.g., polynomial ﬁts) is
+proximated as spheres with radius a and average column            that it requires only a small number of ﬁtting parameters
+density hN i (measured in atoms cm−2 ). Since the grains          to express σbf to high accuracy while preserving the cor-
+are partly transparent to X-rays, their absorption cross          rect asymptotical properties. A comparison between the
+section is smaller than the grain geometrical cross section,      experimental data and these cross sections is presented by
+σgeom = πa2 . Finally, the number of grains per hydrogen          Verner & Yakovlev (1995), who focus on the overall agree-
+atom along the line of sight is ξg . We discuss the validity of   ment throughout the electromagnetic spectrum. In addi-
+these assumptions in Section 2.4 and give explicit formulae       tion, we compared the total photoionization cross sections
+for all parameters of equation (5) in Appendix A.                 computed from the ﬁtting formula with the compilation of
+  In the following sections we describe the data used for         data presented by Henke, Gullikson & Davis (1993) for the
+evaluating Eqs. (1) and (5) in greater detail.                    range from 0.1 keV to 10 keV. Except for energies close to
+                                                                  the K- and L-shell edges, our comparisons indicate max-
+                       2.2. Atomic Physics                        imum relative deviations between these cross sections on
+                                                                  the order of 5% above 1 keV.
+   Despite decades of eﬀort, the knowledge of elemental              In their determination of σbf close to the K- and L-shell
+photoionization cross sections in the X-ray regime is still       edges, Henke, Gullikson & Davis (1993) used a linear inter-
+uncertain. In many cases, therefore, one has to rely on           polation through the resonances to the edge energy. Since
+either theoretical work or interpolation along the isoelec-       this edge energy was obtained from experimental data,
+tronic sequence to obtain usable cross sections, and then         it includes the eﬀects of energy shifts in the solid state
+use compilations of experimental data to gauge the pre-           and thus is not representative of the true edge energy for
+cision of these theoretical computations. In what follows         the gaseous state of the materials. Indeed, the diﬀerence
+we will describe the basis of the photoionization cross sec-      in edge energy between the solid and the gaseous state
+tions used here, focusing on the region E & 100 eV. The           can be up to several 10 eV (see, e.g., Nicolosi, Jannitti
+emphasis is on the choice of cross sections that are good for     & Tondello 1991, for an illustrative experimental exam-
+instruments with a resolution comparable to the CCDs on
+                                                  X-Ray Absorption in the ISM                                                        3
+
+ple). In many cases, Henke, Gullikson & Davis also do not             abundances by number, normalized to a hydrogen abun-
+consider the diﬀerent subshell threshold energies. On the             dance of log AH = 12, based on the meteoritic abundances
+other hand, the Verner & Yakovlev (1995) cross sections               of Anders & Grevesse (1989). We updated the abundances
+are based on quantum-mechanical computations that in-                 of C and N using the results of Grevesse et al. (1991) and
+clude the resonances, and the edge energy is unaﬀected by             Grevesse & Noels (1993), respectively. The solar abun-
+solid state eﬀects. We have checked the precision of the              dance of iron has been the subject of several discussions
+Verner & Yakovlev edge energies by comparing them with                in recent years (Raassen & Uylings 1998; Kostik, Shchuk-
+the computations of Gould & Jung (1991) which are more                ina & Rutten 1996; Biémont et al. 1991, and references
+appropriate for our work than the Henke et al. (1982) or              therein). We adopted log AFe = 7.50 ± 0.05 as recently de-
+Henke, Gullikson & Davis (1993) values since they assume              termined by Grevesse & Sauval (1999) in a critical reevalu-
+the elements to be in the gas phase. For Z > 8 the edge               ation of the available data on Fe I lines. The uncertainty of
+energies of Verner & Yakovlev (1995) agree on the 10 eV               the solar abundances in Table B2 is ∼ 0.06 dex or smaller
+level with those of Gould & Jung (1991). For C, N, and                with the exception of log ANe and log AAr , for which the
+O, the edge energies adopted by Verner & Yakovlev (1995)              uncertainty is 0.1 dex.
+are between those of Henke, Gullikson & Davis (1993) and                 As more abundance measurements have been made out-
+Gould & Jung (1991). We therefore decided to adopt the                side our solar system, it has become apparent that the
+Verner & Yakovlev edge energies for this work. Note, how-             total gas plus dust ISM abundances are actually lower
+ever, that these diﬀerences in the edge energy are relevant           than the solar abundances (Soﬁa, Cardelli & Savage 1994;
+only for instruments with extremely high resolution and               Savage & Sembach 1996, and references therein). Stud-
+are irrelevant for most other work.                                   ies of the carbon abundance reviewed by Snow & Witt
+   For molecular hydrogen we adopt the cross sections re-             (1995) strongly indicate a subsolar abundance of carbon
+ported by Yan, Sadeghpour & Dalgarno (1998) for energies              in the ISM, with a probable value of ∼ 70% solar. Simi-
+above 85 eV. These cross sections are claimed to be accu-             lar reductions of 20% to 30% with respect to solar abun-
+rate to about 5% and have the correct E −3.5 asymptotics.             dances are also indicated for the other metals (Snow &
+Albeit outside of our formal energy range (E & 100 eV)                Witt 1996; Savage & Sembach 1996). This trend is consis-
+we note that the ﬁt formula given by Yan, Sadeghpour                  tent with new measurements of the gas-phase abundance
+& Dalgarno (1998, eq. 18) for energies below 85 eV has                of O, C, and N obtained with the Goddard High Reso-
+signiﬁcant deviations with respect to the tabulated cross             lution Spectrograph (GHRS) on the Hubble Space Tele-
+sections of Samson & Haddad (1994), on which the Yan,                 scope (Meyer, Jura & Cardelli 1998; Meyer, Cardelli &
+Sadeghpour & Dalgarno values are based. Furthermore                   Soﬁa 1997; Cardelli et al. 1996).
+the ﬁt formula is non-continuous at 85 eV. For energies                  Possible diﬀerences between solar and ISM abundances
+between 30 and 85 eV we ﬁnd that the cross section can                had been noted already at the time of publication of pre-
+be represented by                                                     vious models for σISM , and the previous computations of
+                                X5                                    σISM closely reﬂect the historical changes in the under-
+                   σbf,H2 (x) =    ai x−i               (6)           standing of these local abundances. Ride & Walker (1977),
+                                  i=0                                 for instance, used abundances that were greater than solar
+where x = E/15.4 eV and where σbf is given in Mbarn                   abundances in order to better represent abundance values
+(= 10−18 cm2 ). The ﬁt coeﬃcients ai are given in Ta-                 in an ISM assumed to be chemically enriched by galac-
+ble B1. The maximum deviation between the ﬁt and the                  tic evolution, and the model of BM92 was speciﬁcally de-
+tabulated data is less than 1%. We note that the pho-                 signed to allow adjustments to the assumed abundances2 .
+toabsorption cross section of H2 is ∼ 2.85σH which results            Now that a consistent picture of lower ISM abundance
+in an increase over previous estimates of σISM for regions            seems to have emerged, the cosmic abundance needs to be
+where molecular hydrogen is an important contributor to               revised in models of σISM . To that end we adopt default
+the total absorptivity (i.e., below ∼1 keV). Molecular ef-            recommended abundances for the ISM. These abundance
+fects were not included in the earlier models, so essentially         values are listed in Table B2, and refer to the total abun-
+these models assumed σbf,H2 = 2σbf,H .                                dance of the elements in either the gaseous or grain phase
+                                                                      of the ISM. For C, N, and O, we use the values of Cardelli
+                      2.3. Abundances                                 et al. (1996), Meyer, Cardelli & Soﬁa (1997), and Meyer,
+                                                                      Jura & Cardelli (1998), respectively, while for all other ele-
+   Naturally, the assumed elemental abundances are of cru-            ments we use the abundances given by Snow & Witt (1996,
+cial importance for the computation of σISM . While many              Mg, Si, S, Ca, Ti, Cr, Fe, Ni), or, where no value was rec-
+measurements of gas-phase abundances have been made,                  ommended by these authors, we assume an abundance of
+measurement of the total gas-plus-dust abundance of the               70% with respect to our adopted solar abundances.
+ISM is very diﬃcult. As a result, solar abundances, i.e.,                We are aware that these abundances are still very much
+abundances determined from analysis of the solar photo-               uncertain; the uncertainties in the general ISM abun-
+sphere or (carbonaceous) meteorites, have generally been              dances are still on the order of 0.1 dex or higher and also
+used as the reference abundance for the ISM (Anders &                 strongly depend on the line of sight. However, we feel that
+Ebihara 1982; Grevesse & Anders 1989; Anders & Grevesse               it has been adequately established that solar abundances
+1989; Shull 1993, and references therein). For reference, we          are enriched with respect to the ISM, and that for most
+list in Table B2 what we consider to be the best estimates            astronomical work using the ISM abundances in Table B2
+of these “local” ISM abundances. We list the logarithmic
+   2 The abundances available in XSPEC are those of Anders & Grevesse (1989), Feldman (1992), and Anders & Ebihara (1982); in addition,
+user-speciﬁed abundances are possible. The BM92 model allows the user to vary the abundances with respect to these default abundances.
+4                                                 Wilms, Allen, & McCray
+
+is preferable. Since one may anticipate the need for fur-      chemical composition of the grains in Table B2 in terms
+ther revision of the interstellar abundances, we have also     of the “depletion factor” 1 − βZ , the ratio between the gas
+included an option to change these default abundances in       abundance and the total interstellar abundance of the el-
+the XSPEC implementation of our model (Appendix B),            ements. Table B2 is based on the compilation of measure-
+as BM92 did.                                                   ments given by Shull (1993), which is in general agreement
+   Due to the appreciable diﬀerence in the X-ray cross sec-    with later GHRS measurements (Savage & Sembach 1996).
+tions for molecular and neutral hydrogen (§2.2), it is nec-    Contrary to Shull, we do not assume N to be depleted into
+essary to include the contribution of molecular hydrogen.      grains as is suggested by the observational evidence (Sav-
+About half of the hydrogen in the Galaxy as a whole is         age & Sembach 1996; Meyer, Cardelli & Soﬁa 1997). As
+molecular; however, it is not uniformly distributed (Shull     recommended by Soﬁa, Cardelli & Savage (1994), we also
+& Beckwith 1982). Surveys of low galactic latitudes indi-      assume a larger abundance of Fe in grains than that as-
+cate that the ratio between H2 and H I is strongly depen-      sumed by Shull (1993). For cobalt the values determined
+dent on the radial distance from the galactic center (Brinks   by Mullman et al. (1998) are used.
+1990; Bronfman et al. 1988). UV observations of H2 ab-            To illustrate the large uncertainties associated with the
+sorption lines with Copernicus and with the ORFEUS II          grain composition, we also list in Table B2 the depletions
+(orbiting and retrievable far- and extreme ultraviolet spec-   used by Ride & Walker (1977) and MM83, the previous
+trometer) echelle spectrograph indicate that about 20 . . .    works which included grains in the computation of σISM .
+25% of the hydrogen is in H2 in the local ISM (Savage          The depletion factors of Ride & Walker (1977), as shown
+et al. 1977; Gringel et al. 2000). These results are very      in Table B2, are based on gas-abundance measurements
+line-of-sight dependent, though, with some lines of sight      using Copernicus data. Only one of the depletion factors
+being completely free of H2 . Because of these large ﬂuctu-    of MM83 is based on observation, that for oxygen (de Boer
+ations in the H2 /H I ratio, it is thus diﬃcult to choose a    1979, 1981); for the rest, MM83 considered elements to be
+“typical value”. In order to include the eﬀect of molecular    either completely depleted into grains or entirely in gas
+hydrogen on σISM we therefore choose to use the value of       form. This simplifying assumption represents the maxi-
+20% as the default value. To more accurately account for       mum eﬀect of grains on the ISM opacity.
+the opacity of molecular hydrogen, however, we strongly           We note that grains are included here partly for com-
+recommend that this ratio be set to that corresponding to      pleteness and partly to indicate how changes to the current
+the line-of-sight to the source. The abundances of other       ISM grain model might aﬀect observations made with the
+molecules are much smaller so that their inclusion is only     more recent X-ray observatories, and not as an attempt to
+necessary for work along line of sights with very high NH      model the solid state in the interstellar medium. While a
+and hence not within the scope of this paper.                  “perfect” grain model meeting all abundance and obser-
+                                                               vational requirements remains elusive, our grain model at
+                    2.4. Grain Physics                         least adequately reproduces the observed extinction, emis-
+   Evidence for the presence of dust grains in the ISM         sion features, and depletions of the diﬀuse ISM (Mathis
+comes from the observed interstellar extinction (Fitz-         1996). For more detailed work, the assumption of spheri-
+patrick 1999; Mathis 1990), as well as from the fact that      cal grains must be modiﬁed (Mathis 1990).
+the observed abundances of the elements in the ISM are
+generally less than the abundances assumed for the ISM
+(Savage & Sembach 1996). The ratio between the observed                    3. CONCLUSIONS AND SUMMARY
+and the assumed abundances is called the “depletion”, βZ ,                            3.1. Results
+of the elements. It is generally assumed that the depletion
+                                                                  Using equation (1) and the assumptions described
+indicates the presence of dust in the ISM, especially since
+                                                               above, we compute σISM . The results are shown in Fig. 1,
+the most depleted elements, C, O, and Si, are thought to
+                                                               where we display the X-ray absorptivity as σISM E 3 to em-
+be good candidates for the formation of solids in the ISM
+                                                               phasize deviations from the E −3 proportionality of σbf .
+(Soﬁa, Cardelli & Savage 1994; Snow & Witt 1995; Mathis
+                                                               By reading the plot as a “bar-diagram”, it is easy to esti-
+1996, and references therein).
+                                                               mate the relative importance of the contributors to σISM .
+   We have adopted a simpliﬁed grain model which as-
+                                                               For energies above the oxygen K-edge at ∼0.5 keV(see
+sumes spherical grains in an MRN size distribution
+                                                               Tab. B2), the X-ray opacity is dominated by the metals,
+(Mathis, Rumpl & Nordsieck 1977),
+                                                               and H and He are relatively unimportant. Below 1 keV,
+        dngr (a)                                               C, N, O, and Ne are the important absorbers, while above
+                 ∝ a−3.5 ,   where amin ≤ a ≤ amax , (7)
+          da                                                   1 keV, Si, S, and Fe are important.
+where typically grain size ranges from 0.025 µm to 0.25 µm        Also clear from Fig. 1 is that the eﬀect of grains on
+(Draine & Lee 1984). While the grain composition and           σISM is small for a standard MRN distribution. The ef-
+structure is still a matter of debate (Mathis 1996; Dwek       fect of grains is found to be less than previous estimates
+1997; Smith & Dwek 1998; Wolﬀ, Clayton & Gibson 1998),         such as MM83 in part because our grain model consists of
+here, we assume composite (“ﬂuﬀy”) grains, consisting of       lower-density porous grains and in part because we calcu-
+vacuum inclusions in solids. Thus, the grain density in our    late σgrains for an MRN distribution of grain sizes rather
+model (ρ = 1 g cm−3 ) is less than the ρ = 2 g cm−3 used       than by choosing an average grain size such as 0.3 µm
+in previous models (Fireman 1974; Ride & Walker 1977, ,        as used by Fireman and others. Thus the greatest num-
+MM83).                                                         ber of grains lies in very small grains with τ ≪ 1 above
+   We assume chemically homogeneous grains consisting          ∼ 1 keV, so that self-shielding is not important in these
+of silicates, graphites, and oxides. We list the adopted       grains. Consequently, for an MRN distribution there are
+                                                                                  X-Ray Absorption in the ISM                                                          5
+
+                                                                       0.1                                        1.0                                           10.0
+
+                                                                                                                                                           Ni
+                                    700
+                                                                10-1                                                                                  Fe
+
+                                                                10-2
+                                                  σ [Mbarn/H]
+                                    600
+                                                                10-3
+                                    400                         10-4
+              σ E3keV [10-24 cm2]
+
+
+
+
+                                                                10-5
+                                                                10-6                                                                       Ca
+                                                                                                                                                     Cr
+                                    300
+                                                                            0.1        1.0                 10.0                     S Ar
+                                                                                  E [keV]                                      Si
+                                                                                                                        MgAl
+                                    200                                                                      Ne
+                                                                                                          Fe-L
+                                                                                                      O
+                                    100                                                C      N
+                                                                                                                                    H+He
+                                                                       H2                         H
+
+                                                                       0.1                                        1.0                                           10.0
+                                                                                                      E [keV]
+  Fig. 1.— Absorptivity per hydrogen atom of the ISM using the assumptions described in the text. The dotted line is the absorptivity
+including grains with a MRN distribution, and the dashed line is the absorptivity assuming that all grains are of radius a = 0.3 µm. The
+inset shows the cross section without the multiplication with E 3 . We also illustrate the contribution of hydrogen and hydrogen plus helium
+to the total cross section. The contribution of the H2 cross section to the total hydrogen cross section is indicated by the dot-dashed line.
+
+
+
+
+                                                                                                                                                          Ni
+                                                1000                                                                                                 Fe
+
+
+
+
+                                                                                                                                                Cr
+                                                                                                                                Ar Ca
+                          σ E3keV [10-24 cm2]
+
+
+
+
+                                                                                                                          S
+                                                                                                                   Si
+                                                                                                          Mg Al
+                                                                                             Ne
+                                                                                      Fe-L
+                                                                                  O
+
+
+
+                                                 100                          N
+                                                                       C
+
+
+
+                                                                                                  1                                                             10
+                                                                                                       E [keV]
+
+  Fig. 2.— Absorptivity per hydrogen atom of the ISM for our adopted ISM abundances (solid line) and for the solar abundances of Tab. B2
+(dashed line). For clarity, the cross section has been multiplied with E 3 ; however, the y-axis is logarithmic here, not linear as in Fig. 1. The
+revised abundances produce changes in σISM of up to 30% with respect to the solar abundances.
+6                                                       Wilms, Allen, & McCray
+
+
+
+
+  Fig. 3.— Optical depth of grains for a hydrogen column NH = 1.0 × 1020 cm−2 (see Appendix A). and for grains of radius a = 0.25 µm
+(dot dashed line) and a = 0.025 µm (dashed line) as a function of X-ray energy. The total mass in grains is constant. The shielding reduces
+the optical depth at low energies and for large grain sizes. The labels denote the K-edges of the elements indicated.
+
+
+
+only small diﬀerences between the optical depth of an en-                   As we outlined in Sect. 2.2 and 2.3, the major diﬀerences
+tirely gas-phase ISM and the optical depth for an ISM                    between this model and the previous models are the up-
+in which some of the gas atoms have been depleted into                   dates to the atomic cross sections and the assumed abun-
+grains. This is illustrated in Fig. 3, where we plot the grain           dances. With the use of simulated observations, we can
+optical depth as a function of energy for grains of radius               examine the impact of an updated σISM on the interpre-
+0.25 µm and 0.025 µm, as well as for an MRN distribution                 tation of observations.
+of grains. These optical depths are calculated using Ap-                    In order to demonstrate the eﬀect of the updates to the
+pendix A and considering a hydrogen column density NH                    cross sections, we compare our values of σISM with those
+of 1.0 × 1020cm−2 . The total mass in grains is the same for             of MM83 and BM92. In Fig. 4a we show the relative de-
+all three grain models shown. Clearly, the self-blanketing               viation between our formulation and that of the earlier
+factor aﬀects the opacity more for low energies and larger               models, using our adopted cross-sections and the assumed
+grain sizes. Since the change in grain optical depth for                 abundances of the MM83 and BM92 models, respectively.
+the MRN distribution is quite small, grains only slightly                Thus, the ﬁgure shows the cumulative eﬀect of the up-
+modify the absorptivity of the ISM.                                      dated cross sections. The diﬀerences between the models
+   We stress, however, that the grain model as used here                 at photon energies below 0.3 keV are mainly a result of
+applies to the diﬀuse ISM rather than to dense regions such              the uncertainty in the He cross section. Additional peaks
+as inner molecular clouds or young stellar objects, where                at the K- and L-shell edges are due to ∼ 10 eV discrep-
+grains might play a much more important role (Mathis                     ancies in the assumed edge energy between these models
+1990). By changing the range of grain sizes from the range               (§2.2) and are not relevant for practical work with moder-
+adopted here for the diﬀuse ISM to a grain distribution                  ate resolution instruments. The diﬀerence in the values of
+with larger grains, our formalism (including the XSPEC                   σbf produces the curvature of the relative deviation. The
+routine described in Appendix B) can be used to treat                    missing subshell absorption edges in the MM83 model are
+these regions as well. As an example, we show in Fig. 1                  also readily apparent.
+the inﬂuence of grains with a = 0.3 µm. In this case, X-ray                 In Fig. 4b, we again show the relative deviation between
+observations will allow the detection of the grains due to               our model and that of the earlier models, but this time us-
+the large inﬂuence of self-shielding, even with instruments              ing our default solar abundance (Table B2) for the abun-
+that do not have the high energy resolution to see the                   dances in our model, including the additional elements not
+solid-state resonance eﬀects close to the absorption edges.              contained in the MM83 and BM92 models, as well as the
+                                                                         H2 molecule (important especially below ∼ 300 eV). In this
+           3.2. Comparison with previous models                          ﬁgure, all models are with ”solar” abundances, but the dis-
+                                                      X-Ray Absorption in the ISM                                                                 7
+
+
+
+
+                                     0.20
+                                                                                                                      a
+
+                                     0.15
+
+                                     0.10
+
+                                     0.05
+
+                                     0.00
+
+                                     -0.05
+                relative deviation
+
+
+
+
+                                     -0.10
+                                      0.20
+                                                                                                                      b
+
+                                     0.15
+
+                                     0.10
+
+                                     0.05
+
+                                     0.00
+
+                                     -0.05
+
+                                     -0.10
+                                         0.1                              1.0                                             10.0
+                                                                        E [keV]
+  Fig. 4.— Relative deviation of the cross sections of BM92 (solid line) and MM83 (dashed) from the model described here. The relative
+computation is given as (σi − σ)/σ where i =BM92 or MM83, and where σ is our formulation. The spikes at the K- and L-absorption
+edges are due to slight diﬀerences in the assumed edge energies. a: Relative deviation computed using the abundances of BM92 and MM83,
+respectively. This ﬁgure highlights the eﬀect of the change in the cross-sections. b: Relative deviation to our model, computed using the solar
+abundances of Tab. B2, illustrating the cumulative eﬀect of using diﬀerent default solar abundances and changing cross sections. See §2.2 for
+further discussion.
+8                                                  Wilms, Allen, & McCray
+
+agreement between the “solar” abundances used by the dif-       χ2 value of the ﬁt (χ2red = 1.7). However, the PCA has
+ferent authors results in 10% of the diﬀerence between the      signiﬁcant systematic uncertainties in this region (Wilms
+three models compared in Fig. 4. However, the diﬀerence         et al. 1999), and the deviation seen in our simulation would
+resulting from diﬀerent values of the ”solar” abundance is      probably go undetected in a real observational situation.
+small compared to the diﬀerence that results from using            Although we have not done an exhaustive search of the
+our default abundance values which are reduced with re-         whole NH space, the above result convinces us that for
+spect to solar abundances. The discrepancy in σISM which        most applications using the current moderate resolution
+results from the use of our default ISM abundances instead      instruments, the models of MM83 and BM92 are suﬃ-
+of the solar abundances indicated in Table B2 is shown in       cient. The physical cause for the underestimate of NH is
+Fig. 2.                                                         that for energies above 1 keV, σISM is dominated by the
+   In order to illustrate the observable changes introduced     metals. Since the abundance ratios of the metals are a
+by our updated model of σISM , we studied these eﬀects us-      result of stellar nucleosynthesis, reducing the metal abun-
+ing simulations of observations. We simulated the obser-        dance with respect to hydrogen from the MM83 or BM92
+vation of a bright X-ray source which has a pure power-law      values to our values can be compensated by assuming a
+spectrum with photon index Γ = −1.7, and a normaliza-           diﬀerent (lower) hydrogen column. Nor does the slightly
+tion of APL = 2 ph cm−2 s−1 keV−1 at 1 keV. Such a source       diﬀerent shape of σbf that results from the updated cross
+spectrum is characteristic, e.g., of Cygnus X-1 in the hard     sections produce a noticeable eﬀect in the PCA simula-
+state (Dove et al. 1998). We then used two values of hydro-     tions; the energy resolution of the PCA is insensitive to a
+gen column, NH = 6 × 1021 cm−2 and NH = 6 × 1022 cm−2 ,         diﬀerence of this magnitude.
+to produce the absorbed spectrum using our model for               Our simulations for the EPIC pn camera, on the other
+σISM , using our assumed interstellar abundances. The two       hand, show deviations on the 5% level when ﬁtted with
+values for NH are necessary to illustrate the eﬀects of NH      the MM83 and BM92 models (Fig. 5). These changes are
+both in the low energy band (small NH ) and in the high         clearly due to the update of the abundances and cross sec-
+energy band (large NH ). We simulated an observation by         tions. It is for instruments such as the EPIC pn camera
+folding the photon spectrum through the detector response       that we recommend that our model be used. The EPIC
+matrix and adding Poisson noise. To ensure comparable           observation simulated here is quite short (the raw EPIC
+signal-to-noise ratios in all simulated observations, the ex-   pn count-rate of Cygnus X-1 will be ∼ 2400 cps, so that
+posure times were chosen such that 106 photons were con-        the spectrum used for modeling here has an exposure time
+tained in the resulting spectrum. The detectors we chose        of only 4 ksec – shorter than the minimum XMM-Newton
+to represent current instruments were SIS on the Advanced       observing time of 5 ksec), and the ratio plots in Fig. 5 al-
+Satellite for Cosmology and Astronomy (ASCA) for the            ready show the characteristic curvature due to the devia-
+low NH simulation, and the Proportional Counter Array           tion in the shape of the cross section assumed in the MM83
+(PCA) on the Rossi X-ray Timing Explorer (RXTE) for             models. We note that a similar behavior is also present
+the large NH simulation. The detector chosen to represent       when ﬁtting the simulated spectrum with the BM92 data.
+the quality and energy resolution of the future missions is     When using the BM92 cross sections, however, it is possi-
+the European Photon Imaging Camera (EPIC) pn CCD on             ble to obtain a good description of the overall absorption
+XMM-Newton. In neither case did we take photon pileup           by treating the abundances as free parameters. In this
+or other instrumental eﬀects such as a saturation of the        case the “wavy” residual structure still remains although
+telemetry bandwidth into account.                               the relative abundances found for the elements do come
+   The resulting simulated photon spectrum was rebinned         close to the abundances that we assumed in our modeling
+and analyzed using the MM83 and the BM92 models for             of σISM . As a result, we recommend using our model when-
+σISM . In Fig. 5 we present the ratio between the data          ever high precision work on the 1%–2% level is necessary,
+and the resulting best-ﬁt model using the MM83 model            as well as in cases when the absorbing column resulting
+(the BM92 model without varying the abundances gave             from the spectral ﬁtting process is to be physically inter-
+qualitatively the same results). For the PCA and the SIS,       preted (i.e., when comparing X-ray NH values with radio
+the ﬁts with the MM83 model gave an acceptable descrip-         data, or when modeling an observed X-ray spectrum for
+tion of the data. Our low NH simulation shows that the          which the NH value is known by other means).
+ASCA SIS is able to detect the discrepancy in the oxygen
+abundance between the solar and the ISM values. The                                    3.3. Caveats
+other abundance diﬀerences are not measurable in reason-
+able amounts of observing time. We note in passing that            While we feel that the model for σISM as presented in
+Ebisawa et al. (1996) indeed found residuals in an observa-     the previous sections is well-suited for most X-ray astro-
+tion of the black hole candidate Cygnus X-1 that are very       nomical work, several astronomical or physical issues had
+similar to those shown in Fig. 5, which points towards          to be neglected in the modeling process. In particular, our
+an oxygen abundance of ∼80% solar in the direction to           model does not include the eﬀects of the warm phase or of
+Cyg X-1.                                                        the ionized phase of the ISM. In addition, we ignore Thom-
+   For the large NH simulation, the ﬁt to the simulated         son scattering, which becomes important at moderate to
+RXTE PCA spectrum recovered the input parameters for            high Thomson optical depths and E & 4 keV. These eﬀects
+Γ and for APL to two signiﬁcant digits and found a hydro-       have not been included largely because they are negligible
+gen column of NH = 4 × 1022 cm−2 . The residuals shown          for most situations in which our model is likely to be used.
+in Fig. 5 show some structure below 3 keV that is caused        Furthermore, the model assumes that there is no varia-
+by underestimating NH , which results in the non-optimal        tion of the abundances along the line of sight. Finally, we
+                                                                note that energy-dependent scattering by dust grains has
+                                                                               X-Ray Absorption in the ISM                                       9
+
+
+
+
+                                                          1.10
+                                                                 ASCA SIS, NH=6×1021 cm-2                RXTE PCA, NH=6×1022 cm-2
+                                                          1.05
+
+                                                          1.00
+
+                                                          0.95
+
+                                                          0.90
+              Simulation/Best Fit Using MM83 Absorption
+
+
+
+
+                                                          0.85
+                                                          1.10
+                                                                 EPIC pn, NH=6×1021 cm-2
+                                                          1.05
+
+                                                          1.00
+
+                                                          0.95
+
+                                                          0.90
+
+
+
+                                                          1.05   EPIC pn, NH=6×1022 cm-2
+
+
+
+
+                                                          1.00
+
+
+
+
+                                                          0.95
+                                                                                           1                                    10
+                                                                                               E [keV]
+
+  Fig. 5.— Ratio of simulated X-ray data absorbed with our model for σISM to the best ﬁt model using a power-law model and the MM83
+models, for the ASCA SIS (triangles), RXTE PCA (diamonds), and the XMM-Newton EPIC pn CCDs. The ASCA SIS simulation with our
+model is shown for energies below 2 keV. In all cases, the error bars represent Poisson noise. While older models produce adequate ﬁts for the
+current instruments (with the exception at the O edge, see text), diﬀerences of ∼ 5 . . . 10% are found with the EPIC pn simulations.
+10                                                  Wilms, Allen, & McCray
+
+not been considered here since an XSPEC routine (dust)          work, however, these corrections are negligible.
+already exists to treat it.                                        Finally, we also stress that our model, like its prede-
+   The warm and ionized phases of the ISM have been             cessors MM83 and BM92, is not well suited for extremely
+neglected here for a number of reasons. Large parts of          high-precision work, e.g., high signal-to-noise spectra with
+the ISM are assumed to be (moderately) ionized, and a           the grating spectrometers on XMM-Newton and Chandra.
+good model for σISM should in principle include the ion-        The energy resolution of these very-high-resolution instru-
+ized phase. However, there is even less agreement on the        ments is so high that the X-ray absorption ﬁne structure
+ionization state of the ISM as a whole than there is on         (XAFS) within grains and molecules might become rele-
+the grain phase, which was discussed in §2.4. The major         vant, as well as resonance eﬀects close to the absorption
+reason for this disagreement is a good one: the ioniza-         edges in the absorption cross section itself. For the inclu-
+tion of the ISM depends strongly on the line of sight, so       sion of the resonances much higher resolution cross sec-
+that any general model for the ionization structure of the      tions than those available here are required. XAFS eﬀects
+galaxy is prone to fail. It appears, however, that most of      become noticeable especially in regions of large NH where
+the warm phase of the ISM is only moderately ionized, so        grains are an important ingredient. For these studies, ded-
+that our model will still be applicable except for photon       icated modeling codes are being devised, which should be
+energies close to the K-edges. For oxygen, e.g., the K-edge     used instead. See Forrey, Woo & Cho (1998), Woo, Forrey
+energy increases from 0.54 keV for O I to 0.61 keVfor O IV,     & Cho (1997), Woo (1995), and the references therein, for
+and the photoionization cross section is also dependent on      further details.
+the ionization stage. It should be noted, though, that the
+ionization of hydrogen will strongly inﬂuence σISM for en-                      3.4. Summary and Outlook
+ergies below 0.1 keV. For instance, in their study of soft
+                                                                   We have presented an improved model for the X-ray ab-
+X-ray emission from other galaxies, (Cui et al. 1996), as-
+                                                                sorption in the interstellar medium valid above ∼ 100 eV
+sumed the ratio between H I and H II to be 1. Using the
+code presented in Appendix B, this eﬀect may be taken           by updating the relevant photoionization cross sections
+                                                                and by including the eﬀect of the H2 molecule and a re-
+into account by changing the relative abundances of He
+                                                                vised set of recommended elemental abundances for the
+and the metals with respect to hydrogen.
+   Similar line of sight eﬀects hold also true for the abun-    interstellar medium. Since the abundances of the metals
+                                                                are smaller than previously estimated, our values of σISM
+dances. In the galaxy, measurement of abundances in HII
+                                                                are generally smaller than those used previously. We have
+regions and planetary nebulae has suggested the existence
+of a radial abundance gradient, particularly at small galac-    shown that these updates will be relevant for instruments
+                                                                to be available as this paper goes into print. We have also
+tic radii (Rana 1991; Kaufer et al. 1994, and references
+                                                                reconsidered the eﬀect of grains in the ISM by improving
+therein). When computing the absorption of any back-
+                                                                the grain model and the calculation of τgrains , taking into
+ground object through such a medium with varying abun-
+                                                                account recent studies of the physical properties of inter-
+dances, the abundances measured in the X-rays will be the
+average of the abundance variations along the line of sight.    stellar dust grains. Our results show that the change in
+                                                                opacity due to grains on σISM for realistic grain models and
+Since the abundances in our model are allowed to vary, it
+                                                                realistic chemical composition of the grains is small. As
+is possible to take this eﬀect into account. Obviously, in
+such a case the assumed abundance set with respect to           described in Appendix B, our calculation of σISM is avail-
+                                                                able as a subroutine that can be used with X-ray data
+which the relative abundances are measured is a matter
+                                                                analysis packages such as XSPEC.
+of taste, and using the solar abundances of Tab. B2 as a
+baseline instead of the ISM abundances might be a better           This work highlights the point made by Shull (1993)
+                                                                and others, that great uncertainties remain in much of the
+choice.
+                                                                atomic physics data needed to interpret X-ray astronom-
+   Our model also ignores the inﬂuence of Thomson scat-
+tering because for many observations it will not make a         ical observations. The eﬀective areas and energy resolu-
+                                                                tions of instruments recently launched will be more sensi-
+substantial contribution. This is not to say that it is al-
+                                                                tive than the available atomic data for the X-ray energy
+ways negligible; Thomson scattering is the dominant phys-
+ical process for the attenuation of X-rays above ∼10 keV.       range can accommodate, and the situation is even worse
+                                                                for possible future instruments such as Constellation-X
+As a rough guideline, Thomson scattering should always
+                                                                or XEUS. The diﬀerences between the currently available
+be included in the modeling process when NH & 1022 cm−2
+(see, e.g., Stelzer et al. 1999). Detailed instructions based   cross sections discussed in §2.2 are still at the 5% level. We
+                                                                hope that the advent of the new instruments will also initi-
+on Monte Carlo modeling of Thomson scattering in mod-
+                                                                ate new attempts to more accurately determine the atomic
+erately optically thick media are given by Yaqoob (1997).
+Note, however, that Yaqoob assumes the electrons to be          data on which X-ray astronomy can rely. We will there-
+                                                                fore continue over the next years to update the database of
+free. When the electrons are bound, it is more appropriate
+                                                                the computations presented here and periodically release
+to consider incoherent scattering, i.e., Compton scattering,
+oﬀ the bound electrons. The cross sections for incoherent       new versions of the code presented in Appendix B that
+                                                                will incorporate the improvements in the abundances or
+scattering and the Klein-Nishina cross section are slightly
+                                                                the atomic physics.
+diﬀerent (on the percent level), which should be taken into
+account. Analytical estimates for this eﬀect have been
+given by Gorshkov, Mikhaı̆lov & Sherman (1973) for the             This work has been partially ﬁnanced by NASA Grants
+H atom; for other elements tables are available (Hubbell        NGT 5-80, NAG5-7339, and NAG5-7340, and by a Na-
+et al. 1975; Henke, Gullikson & Davis 1993). For most           tional Physical Science Consortium Fellowship grant to
+                                                                AA. JW acknowledges the hospitality of the high energy
+                                                    X-Ray Absorption in the ISM                                                          11
+
+astrophysics groups at JILA and at the University of Cal-              for providing the code for the helium autionization reso-
+ifornia at San Diego where part of this work was done.                 nances. We also thank Laurie Kovalenko, Phil Maloney,
+We thank the referee Dan McCammon for his comments,                    Katja Pottschmidt, Richard Rothschild, Rüdiger Staubert,
+which greatly improved the presentation of this paper, and             Klaus Werner, and Svet Zhekov for useful comments.
+
+                                                               REFERENCES
+
+Abramowitz, M., & Stegun, I. A., 1964, Handbook of Mathematical        Henke, B. L., Gullikson, E. M., & Davis, J. C., 1993,
+  Functions, (Washington: U.S. Government Printing Oﬃce), (9th           Atomic Data Nucl. Data Tables, 54, 181, available at
+  reprint, Mineola: Dover, 1972)                                         http://cindy.lbl.gov/optical constants/
+Allen, C. W., 1960, Astrophysical Quantities, (London: Athlone),       Henke, B. L., Lee, P., Tanaka, T. J., Shimabukuro, R. L., &
+  1st edition                                                            Fujikawa, B. K., 1982, Atomic Data Nucl. Data Tables, 27, 1
+Anders, E., & Ebihara, M., 1982, Geochim. Cosmochim. Acta, 46,         Hubbell, J. H., et al., 1975, J. Phys. Chem. Ref. Data, 4, 471
+  2363                                                                 Kaufer, A., et al., 1994, A&A, 289,740
+Anders, E., & Grevesse, N., 1989, Geochim. Cosmochim. Acta, 53,        Kostik, R., Shchukina, N. G., & Rutten, R. J., 1996, A&A, 305, 325
+  197                                                                  Marr, G. V., & West, J. B., 1976, Atomic Data Nucl. Data Tables,
+Arabadjis, J. S., & Bregman, J. N., 1999, ApJ, 510, 806                  18, 497
+Arnaud, K. A., 1996, in Astronomical Data Analysis Software and        Mathis, J. S., 1990, ARA&A, 28, 37
+  Systems V, ed. J. H. Jacoby, J. Barnes, (San Francisco: Astron.      Mathis, J. S., 1996, ApJ, 472, 643
+  Soc. Paciﬁc), 17                                                     Mathis, J. S., Cohen, D., Finley, J. P., & Krautter, J., 1995, ApJ,
+Balucińska-Church, M., & McCammon, D., 1992, ApJ, 400, 699              449, 320
+Band, I. M., Trzhaskovskaya, M. B., Verner, D. A., & Yakovlev,         Mathis, J. S., Rumpl, W., & Nordsieck, K. H., 1977, ApJ, 217, 425
+  D. G., 1990, A&A, 237, 267                                           Mathis, J. S., & Whiﬀen, G., 1989, ApJ, 341, 808
+Bethe, H. A., & Salpeter, E. E., 1957, Quantum Mechanics of            Meyer, D. M., Cardelli, J. A., & Soﬁa, U. J., 1997, ApJ, 490, L103
+  One- and Two-Electron Atoms, (Berlin, Göttingen, Heidelberg:        Meyer, D. M., Jura, M., & Cardelli, J. A., 1998, ApJ, 493, 222
+  Springer)                                                            Morrison, R., & McCammon, D., 1983, ApJ, 270, 119
+Biémont, E., Baudoux, M., Kurucz, R. L., Ansbacher, W., &             Mullman, K. L., Lawler, J. E., Zsargó, J., & Federman, S. R., 1998,
+  Pinnington, E. H., 1991, A&A, 249, 539                                 ApJ, 500, 1064
+Brinks, E., 1990, in The Interstellar Medium in Galaxies, ed. H. A.    Nicolosi, F., Jannitti, E., & Tondello, G., 1991, J. Physique IV, C1,
+  Thronson, J. M. Shull, (Dordrecht: Kluwer), 39                         89
+Bronfman, L., Cohen, R. S., Alvarez, H., & Thaddeus, P., 1988,         O’Donnell, J. E., & Mathis, J. S., 1997, ApJ, 479, 806
+  ApJ, 324, 248                                                        Oza, D. H.,1986, Phys. Rev. A, 33, 824
+Brown, R. L., & Gould, R. J., 1970, Phys. Rev. D, 1, 2252              Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery, B. P.,
+Cardelli, J. A., Meyer, D. M., Jura, M., & Savage, B. D., 1996, ApJ,     1992, Numerical Recipes in FORTRAN, (Cambridge: Cambridge
+  467, 334                                                               Univ. Press), 2nd edition
+Chen, W. F., Cooper, G., & Brion, C. E., 1991, Phys. Rev. A, 44,       Raassen, A. J. J., & Uylings, P. H. M., 1998, A&A, 340, 300
+  186                                                                  Rana, N. C., 1991, ARA&A, 29, 129
+Cui, W., Sanders, W. T., McCammon, D., Snowden, S. L., &               Ride, S. K., & Walker, Jr., A. B. C., 1977, A&A, 61, 339
+  Womble, D. S., 1996, ApJ, 468, 102                                   Samson, J. A. R., & Haddad, G. N., 1994, J. Opt. Soc. Am. B, 11,
+de Boer, K. S., 1979, ApJ, 229, 132                                      277
+de Boer, K. S., 1981, ApJ, 244, 848                                    Savage, B. D., Bohlin, R. C., Drake, J. F., & Budich, W., 1977,
+Dove, J. B., Wilms, J., Nowak, M. A., Vaughan, B., & Begelman,           ApJ, 216, 291
+  M. C., 1998, MNRAS, 289, 729                                         Savage, B. D., & Sembach, K. R., 1996, ARA&A, 34, 279
+Draine, B. T., & Lee, H. M., 1984, ApJ, 285, 89                        Schwalb, M. J., & Predehl, P., 1998, Astron. Nachr., 319, 107
+Dwek, E., 1997, ApJ, 484, 779                                          Shull, J., 1993, Physica Scripta, T47, 165
+Ebisawa, K., Ueda, Y., Inoue, H., Tanaka, Y., & White, N. E., 1996,    Shull, J. M., & Beckwith, S., 1982, ARA&A, 19, 163
+  ApJ, 467, 419                                                        Smith, R. K., & Dwek, E., 1998, ApJ, 503, 831
+Feldman, U., 1992, Physica Scripta, 46, 202                            Snow, T. P., & Witt, A. N., 1995, Science, 270, 1455
+Fernley, J. A.,Taylor, K. T. & Seaton, M. J., 1987, 20, 6457           Snow, T. P., & Witt, A. N., 1996, ApJ, 468, L65
+Fireman, E. L., 1974, ApJ, 187, 57                                     Soﬁa, U. J., Cardelli, J. A., & Savage, B. D., 1994, ApJ, 430, 650
+Fitzpatrick, E. L., 1999, PASP, 111, 63                                Stelzer, B., Wilms, J., Staubert, R., Gruber, D., & Rothschild, R.,
+Fogel, M. E., & Leung, C. M., 1998, ApJ, 501, 175                        1999, A&A, 342, 736
+Forrey, R. C., Woo, J. W., & Cho, K., 1998, ApJ, 505, 236              Strom, S. E., & Strom, K. M., 1961, PASP, 73, 43
+Gorshkov, V. G., Mikhaı̆lov, A. I., & Sherman, S. G., 1973, Sov.       Verner, D. A., & Yakovlev, D. G., 1995, A&AS, 109, 125
+  Phys. – JETP, 37, 572 (translation of Zh. Ehksp. Teor. Fiz., 64,     Verner, D. A., Yakovlev, D. G., Band, I. M., & Trzhaskovskaya,
+  1128, 1973)                                                            M. B., 1993, Atomic Data Nucl. Data Tables, 55, 233
+Gould, R. J., & Jung, Y.-D., 1991, ApJ, 373, 271                       Wilms, J., Nowak, M. A., Dove, J. B., Fender, R. P., & di Matteo,
+Grevesse, N., & Anders, E., 1989, in Cosmic abundances of matter,        T., 1999, ApJ, in press
+  ed. C. Waddington, (New York: AIP Conf. Proc.), 1                    Wolﬀ, M. J., Clayton, G. C., & Gibson, S. J., 1998, ApJ, 503, 815
+Grevesse, N., & Sauval, A. J., 1999, A&A, 347, 349                     Woo, J. W., 1995, ApJ, 447, L129
+Grevesse, N., Lambert, D. L., Sauval, A. J., van Dishoeck, E. F.,      Woo, J. W., Clark, G. W., Day, C. S. R., Nagase, F., & Takeshima,
+  Farmer, C. B., & Norton, R. H., 1991, A&A, 242, 488                    T., 1994, ApJ, 436, L5
+Grevesse, N., & Noels, A., 1993, in Origin and Evolution of            Woo, J. W., Forrey, R. C., & Cho, K., 1997, ApJ, 477, 235
+  the Elements, ed. N. Prantzos, E. Vangioni-Flam, M. Casse,           Wright, E. L., 1987, ApJ, 320, 818
+  (Cambridge: Cambridge Univ. Press), 15                               Yan, M., Sadeghpour, H. R., & Dalgarno, A., 1998, ApJ, 496, 1044
+Gringel, W., et al., 2000, A&A, in preparation                         Yaqoob, T., 1997, ApJ, 479, 184
+
+
+
+                                                                APPENDIX
+
+                                                  SELF-SHIELDING IN THE GRAINS
+  To derive the optical depth of the grains (eq. [5]) we consider a population of grains of homogeneous chemical composition
+with size a, geometrical cross section σgeom , column density hN i, and average photoionization cross section hσi (per atom).
+For grains of realistic shape, hN i is a complicated function of a. Since the inﬂuence of grains on σISM is small, however,
+for simplicity we can assume that the grains are spheres with radius a so that
+                                                              4ρa     4na
+                                                       hN i =      =                                                     (A1)
+                                                               3µ      3
+12                                                   Wilms, Allen, & McCray
+
+where ρ is the mass density of the grain, n the number density of the grain, and µ the mean molecular weight of the
+grains constituents. Using the notation of Section 2.1, µ is given by
+                                                X                X
+                                            µ=      AZ · βZ · µZ      AZ · βZ                                 (A2)
+                                                  Z                   Z
+
+Here, µZ is the molecular weight of element Z (Tab. B2). For the default abundances and depletions of Tab. B2,
+µ = 18.2 amu = 3.0 × 10−23 g/atom. Assuming ρ = 1 g cm−3 , the grain number density is n = 3.3 × 1022 atoms cm−3 .
+Ignoring solid state eﬀects, the photoionization cross section of the grain material is given by
+                                                X                    X
+                                         hσi =      AZ · βZ · σbf (Z)      AZ · βZ                           (A3)
+                                                 Z                        Z
+For a column density Ngrains of grains of a single size along the line of sight, the optical depth for photoabsorption of the
+grains is the product between the geometrical optical depth of the grains, Ngrains σgeom , and the fraction of photons that
+encounter the grain and are absorbed:
+                                        τgrains = Ngrains σgeom (1 − exp (−hσihN i)) .                                  (A4)
+In computing σISM for grains of a single size it is sometimes convenient to express τgrains in terms of the optical depth
+that would be observed if the constituents of the grain were in the gaseous phase, τgrains = f Ngas hσi. Hence,
+                                    Ngrains σgeom                        1 − exp (−hσihN i)
+                               f=                 (1 − exp (−hσihN i)) =                    .                           (A5)
+                                      Ngas hσi                                 hσihN i
+since the column density of the grain is Ngas /(Ngrains σgeom ). This factor is called the self-blanketing factor (Fireman
+1974).
+   For the general case that the grains have a size distribution dngr (a)/da, where
+                                                       Z ∞
+                                                            dngr
+                                                                  da = 1                                               (A6)
+                                                        0    da
+a similar derivation shows that
+                                                 Z ∞
+                                                      dngr (a)
+                                 τgrains = NH ξg               σgeom (1 − exp (−hσihN i)) da,                          (A7)
+                                                  0     da
+where ξg is the number of grains per hydrogen atom along the line of sight. For spherical grains,
+                                                              Z
+                                             X                      dngr       4
+                                        ξg =     AZ · βZ · µZ             · ρ · πa3 · da                               (A8)
+                                                                     da        3
+For a power-law size distribution, dngr (a)/da = ka−p , where amin ≤ a ≤ aamax , we can express τgrains in terms of special
+functions. Inserting σgeom = πa2 into equation (A7) and performing a partial integration, we obtain for p < 4
+                                       πk n 1            −4hσinamin /3
+                                                                             1        −4hσinamax /3
+                                                                                                      
+                      τgrains = NH ξg              1  − e                 −       1 − e
+                                      p − 3 ap−3                            ap−3
+                                                                             max
+                                             min
+                                                                                                        o             (A9)
+                                              p−3
+                                 + (4hσin/ 3)     [γ (4 − p, 4hσinamax /3) − γ (4 − p, 4hσinamin /3)] ,
+where the incomplete gamma function is given by (Abramowitz & Stegun 1964, section 6.5)
+                                                        Z x
+                                              γ(α, x) =     e−t tα−1 dt                                                (A10)
+                                                              0
+and can be evaluated using algorithms presented by Press et al. (1992, Section 6.2).
+
+                                             IMPLEMENTATION INTO XSPEC
+  Using the formalism and data described in Section 2, we have written subroutines that can be used in conjunction with
+the popular X-ray data analysis package XSPEC (Arnaud 1996). These subroutines are available at:
+  http://astro.uni-tuebingen.de/nh/
+  Given the uncertainty of many of the parameters entering the model, there are several interfaces to the subroutine.
+The main spectral model, tbabs, is intended as a replacement for the earlier wabs and phabs models, as well as their
+redshifted versions. This model assumes the abundances and depletion factors of Table B2. A subroutine ztbabs for
+modeling redshifted absorption is also available. The latter subroutine does not account for the dust component, as X-ray
+observations with a measurable dust inﬂuence will most probably only include observations of galactic objects, at least
+within the next decade.
+  In addition, the XSPEC model tbvarabs provides a full interface to the X-ray absorption model presented in Section 2
+and allows the user to change all abundances, depletion factors, and grain properties. We stress that this model is very
+powerful and therefore prone to misuse. Caution is required when ﬁtting data with too many free parameters.
+                                            X-Ray Absorption in the ISM                                 13
+
+
+
+                                                Table B1
+             Fit coefficients ai to equation (6) for the H2 photoabsorption cross section.
+
+                                a0        a1          a2           a3           a4          a5
+                               0.664    -11.768     78.118    -231.339     368.053     -189.953
+
+
+
+
+                                             Table B2
+Molecular weight, K edge energies, abundances and depletion factors 1 − βZ for the abundant elements.
+
+                 Element         µZ a   EK b       12 + log AZ           1 − βZ e
+                                                        c
+                                        keV       solar    ISM this paper MM83f Ride77g
+                                                               d
+
+
+                  1       H       1     ···       12.00    12.00        1.0          1.0         1.0
+                  2       He      4     ···       10.99    10.99        1.0          1.0         1.0
+                  6       C      12     0.29       8.60     8.38        0.5          0.0         0.2
+                  7       N      14     0.41       7.97     7.88        1.0          0.0         0.5
+                  8       O      16     0.54       8.93     8.69        0.6          0.75        0.5
+                 10       Ne     20     0.87       8.09     7.94        1.0          1.0         1.0
+                 11       Na     23     1.08       6.31     6.16        0.25         0.0         ···
+                 12       Mg     24     1.31       7.59     7.40        0.2          0.0         0.2
+                 13       Al     27     1.57       6.48     6.33        0.02         0.0         ···
+                 14       Si     28     1.85       7.55     7.27        0.1          0.0         0.5
+                 15       P      31     2.15       5.57     5.42        0.6          ···         ···
+                 16       S      32     2.48       7.27     7.09        0.6          0.0         0.7
+                 17       Cl     35     2.83       5.27     5.12        0.5          0.0         ···
+                 18       Ar     40     3.20       6.56     6.41        1.0          1.0         0.5
+                 20       Ca     40     4.04       6.34     6.20        0.003        0.0         ···
+                 22       Ti     48     4.97       4.93     4.81        0.002        ···         ···
+                 24       Cr     52     5.97       5.68     5.51        0.03         0.0         ···
+                 25       Mn     55     6.55       5.53     5.34        0.07         ···         ···
+                 26       Fe     56     7.12       7.50     7.43        0.3          0.0         0.2
+                 27       Co     59     7.73       4.92     4.92        0.05         ···         ···
+                 28       Ni     59     8.35       6.25     6.05        0.04         0.0         ···
+
+                      a
+                          molecular weight in amu,
+                      b
+                          K edge energy (rounded after Verner & Yakovlev 1995)
+                    c
+                      solar abundance (Anders & Grevesse 1989; Grevesse et al. 1991;
+                  Grevesse & Noels 1993, see also §2.3),
+                      d
+                      adopted abundance of the ISM based on Snow & Witt (1996), Cardelli
+                  et al. (1996), Meyer, Cardelli & Soﬁa (1997) and Meyer, Jura & Cardelli
+                  (1998), see §2.3;
+                    e
+                      ratio of gas abundance to total ISM abundance, 1 − βZ , using our
+                  adopted abundances (§2.4). For comparison, the older values of
+                      f
+                          Morrison & McCammon (1983), and
+                      g
+                          Ride & Walker (1977) are also listed.
+

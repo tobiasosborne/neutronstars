@@ -1,0 +1,1045 @@
+                                               Astronomy & Astrophysics manuscript no. reflefitCOR3                                                                               c ESO 2021
+                                               October 18, 2021
+
+
+
+
+                                                                    Radiative properties of magnetic neutron stars
+                                                                     with metallic surfaces and thin atmospheres
+                                                                       A. Y. Potekhin1,2,3 ⋆ , V. F. Suleimanov4,5 , M. van Adelsberg6 , and K. Werner4
+
+                                                    1
+                                                      Centre de Recherche Astrophysique de Lyon (CNRS, UMR 5574), Université Lyon 1, Ecole Normale Supérieure de Lyon, 46 allée
+                                                      d’Italie, 69364 Lyon Cedex 07, France
+                                                    2
+                                                      Ioffe Physical-Technical Institute, Politekhnicheskaya 26, St. Petersburg 194021, Russia
+                                                    3
+                                                      Isaac Newton Institute of Chile, St. Petersburg Branch, Russia
+                                                    4
+                                                      Institut für Astronomie und Astrophysik, Kepler Center for Astro and Particle Physics, Universität Tübingen, Sand 1, 72076
+arXiv:1208.6582v2 [astro-ph.HE] 15 Feb 2016
+
+
+
+
+                                                      Tübingen, Germany
+                                                    5
+                                                      Kazan Federal University, Kremlevskaja Str., 18, Kazan 420008, Russia
+                                                    6
+                                                      Center for Relativistic Astrophysics, School of Physics, Georgia Institute of Technology, Atlanta, Georgia 30332, USA
+
+                                                    Received ... / Accepted ...
+
+                                                                                                                 ABSTRACT
+
+                                                    Context. Simple models fail to describe the observed spectra of X-ray-dim isolated neutron stars (XDINSs). Interpretating these
+                                                    spectra requires detailed studies of radiative properties in the outermost layers of neutron stars with strong magnetic fields. Previous
+                                                    studies have shown that the strongly magnetized plasma in the outer envelopes of a neutron star may exhibit a phase transition to
+                                                    a condensed form. In this case thermal radiation can emerge directly from the metallic surface without going through a gaseous
+                                                    atmosphere, or alternatively, it may pass through a “thin” atmosphere above the surface. The multitude of theoretical possibilities
+                                                    complicates modeling the spectra and makes it desirable to have analytic formulae for constructing samples of models without going
+                                                    through computationally expensive, detailed calculations.
+                                                    Aims. The goal of this work is to develop a simple analytic description of the emission properties (spectrum and polarization) of the
+                                                    condensed, strongly magnetized surface of neutron stars.
+                                                    Methods. We have improved the method of our earlier work for calculating the spectral properties of condensed magnetized surfaces.
+                                                    Using the improved method, we calculated the reflectivity of an iron surface at magnetic field strengths B ∼ 1012 G – 1014 G, with
+                                                    various inclinations of the magnetic field lines and radiation beam with respect to the surface and each other. We constructed analytic
+                                                    expressions for the emissivity of this surface as functions of the photon energy, magnetic field strength, and the three angles that
+                                                    determine the geometry of the local problem. Using these expressions, we calculated X-ray spectra for neutron stars with condensed
+                                                    iron surfaces covered by thin partially ionized hydrogen atmospheres.
+                                                    Results. We develop simple analytic descriptions of the intensity and polarization of radiation emitted or reflected by condensed
+                                                    iron surfaces of neutron stars with the strong magnetic fields typical of isolated neutron stars. This description provides boundary
+                                                    conditions at the bottom of a thin atmosphere, which are more accurate than previously used approximations. The spectra calculated
+                                                    with this improvement show different absorption features from those in simplified models.
+                                                    Conclusions. The approach developed in this paper yields results that can facilitate modeling and interpretation of the X-ray spectra
+                                                    of isolated, strongly magnetized, thermally emitting neutron stars.
+                                                    Key words. stars: neutron – stars: atmospheres – magnetic fields – radiation mechanisms: thermal – X-rays: stars
+
+
+
+                                              1. Introduction                                                                For interpretating the XDINS spectra, it may be necessary to
+                                                                                                                         take the phenomenon of “magnetic condensation” into account.
+                                              Recent observations of neutron stars have provided a wealth                The strong magnetic field squeezes the electron clouds around
+                                              of valuable information, but they have also raised many new                the nuclei, thereby increasing the binding and cohesive ener-
+                                              questions. Particularly intriguing is the class of radio-quiet neu-        gies (e.g., Medin & Lai 2006, and references therein). Therefore
+                                              tron stars with thermal-like spectra, commonly known as X-ray              XDINSs may be “naked,” with no appreciable atmosphere above
+                                              dim isolated neutron stars (XDINSs), or the Magnificent Seven              a condensed surface, as first conjectured by Zane et al. (2002), or
+                                              (see, e.g., reviews by Haberl 2007 and Turolla 2009, and ref-              they may have a relatively thin atmosphere, with the spectrum of
+                                              erences therein). Some of them (e.g., RX J1856.5−3754) have                outgoing radiation affected by the properties of the condensed
+                                              featureless spectra, whereas others (e.g., RX J1308.6+2127 and             surface beneath the atmosphere, as suggested by Motch et al.
+                                              RX J0720.4−3125) have broad absorption features with energies              (2003).
+                                              ∼ 0.2 – 2 keV. In recent years, an accumulation of observational               Reflectivities of condensed metallic surfaces in strong
+                                              evidence has suggested that XDINSs may have magnetic fields                magnetic fields have been studied in several papers
+                                              B ∼ 1013 – 1014 G and be related to magnetars (e.g., Mereghetti            (Brinkmann 1980; Turolla et al. 2004; van Adelsberg et al.
+                                              2008).                                                                     2005; Pérez-Azorı́n et al. 2005). Brinkmann (1980) and
+                                                                                                                         Turolla et al. (2004) neglected the motion of ions in the con-
+                                                                                                                         densed matter, whereas van Adelsberg et al. (2005) (hereafter
+                                               ⋆
+                                                   e-mail: palex@astro.ioffe.ru                                          Paper I) and Pérez-Azorı́n et al. (2005) considered two opposite
+
+                                                                                                                                                                                               1
+                                      A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+limiting cases, one that neglects the ion motion (“fixed ions”)           In Appendix B we describe an analytic model of normal-mode
+and another where the ion response to the electromagnetic wave            reflectivities at the inner boundary of a thin atmosphere.
+is treated by neglecting the Coulomb interactions between the
+ions (“free ions”). A large difference between these two limits
+occurs at photon frequencies below the ion cyclotron frequency,           2. Spectral properties of a strongly magnetized
+but the two models lead to almost the same results at higher                 neutron star surface
+photon energies. We expect that in reality the surface spectrum           2.1. Condensed magnetized surface
+lies between these two limits (see Paper I for discussion).
+The results of Paper I and of Pérez-Azorı́n et al. (2005) are            Most of the known neutron stars have much larger magnetic
+similar, but differ significantly from the earlier results. In            fields B than the natural atomic unit for the field strength B0 =
+particular, Turolla et al. (2004) find that collisional damping in        e3 m2e c/~3 = 2.35 × 109 G, which is set by equating the electron
+the condensed matter leads to a sharp cutoff in the emission at           cyclotron energy
+low photon energies, but such a cutoff is absent in Paper I and           Ece = ~eB/mec = 115.77 B13 keV                                  (1)
+Pérez-Azorı́n et al. (2005). It is most likely that this difference
+                                                                                                               4   2
+arises from the “one-mode” description for the transmitted                to the Hartree unit of energy me e /~ . Here, me is the electron
+radiation adopted by Turolla et al. (2004) (see Paper I for               mass, e the elementary charge, c the speed of light in vacuum,
+details). All the previous works relied on a complicated method           ~ the Planck constant divided by 2π, and B13 = B/1013 G.
+of finding the transmitted radiation modes, originally due to             Fields with B ≫ B0 profoundly affect the properties of atoms,
+Brinkmann (1980). We replace it with the more reliable method             molecules, and plasma (see, e.g., Haensel et al. 2007, chap. 4).
+described below.                                                          Ruderman (1971) suggested that the strong magnetic field may
+    Ho et al. (2007) (see also Ho 2007) fitted multiwavelength            stabilize linear molecular chains (polymers) aligned with the
+observations of RX J1856.5−3754 with a model of a thin, mag-              magnetic field and eventually turn the surface of a neutron star
+netic, partially ionized hydrogen atmosphere on top of a con-             into the metallic solid state. Later studies have provided support
+densed iron surface; they also discuss possible mechanisms of             for this conjecture, although the surface density ρs and, espe-
+creation of such a thin atmosphere. Suleimanov et al. (2009) cal-         cially, the critical temperature T crit below which such condensa-
+culated various models of fully and partially ionized finite atmo-        tion occurs remain uncertain. Order-of-magnitude estimates sug-
+spheres above a condensed surface including the case of “sand-            gest
+wich” atmospheres, composed of hydrogen and helium layers                 ρs = 8.9 × 103 η AZ −0.6 B1.2    −3
+                                                                                                    13 g cm ,                             (2)
+above a condensed surface.
+                                                                          where A and Z are the atomic mass and charge numbers, and
+    The wide variety of theoretical possibilities complicates the         η ∼ 1 an unknown numerical factor, which absorbs the theoret-
+modeling and interpretation of the spectra. To facilitate this task,      ical uncertainty (see Lai 2001). The value η = 1 corresponds to
+Suleimanov et al. (2010) (hereafter Paper II) suggest an approx-          the equation of state provided by the ion-sphere model (Salpeter
+imate treatment, in which the local spectra, together with tem-           1954). More recent results of the zero-temperature Thomas-
+perature and magnetic field distributions, are fitted by simple           Fermi model for 56 Fe at 1010 G ⩽ B ⩽ 1013 G (Fushiki et al.
+analytic functions. By being flexible and fast, this approach is          1989; Rögnvaldsson et al. 1993) can be approximated (within
+suited to constrain stellar parameters prior to performing more           4%) by Eq. (2) with η ≈ 0.2 + 0.0028/B0.56
+accurate, but computationally expensive calculations of model                                                         13 , whereas the finite-
+                                                                          temperature Thomas-Fermi model of Thorolfsson et al. (1998)
+spectra. The reflectivity of the condensed surface was mod-               does not predict magnetic condensation at all. The most compre-
+eled by a simple steplike function, which roughly described the           hensive study of cohesive properties of the magnetic condensed
+polarization-averaged reflectivity of a magnetized iron surface at        surface has been conducted by Medin & Lai (2006, 2007), based
+B = 1013 G, but depended neither on the magnetic field strength           on density-functional theory (DFT). Medin & Lai (2006) cal-
+B nor on the angle ϕ between the plane of incidence and the               culated cohesive energies Qs of the molecular chains and con-
+plane made by the normal to the surface and the magnetic field            densed phases of H, He, C, and Fe in strong magnetic fields.
+lines.                                                                    A comparison with previous DFT calculations by other authors
+    In the present work, the numerical method of Paper I and              suggests that Qs may vary within a factor of two at B & 1012 G,
+the approximate treatment of Paper II are refined. We develop             depending on the approximations employed (see Medin & Lai
+a less complicated and more stable method of calculations and             2006 for references and discussion). Medin & Lai (2007) cal-
+construct more accurate fitting formulae for the reflectivities of a      culated equilibrium densities of saturated vapors of He, C, and
+condensed, strongly magnetized iron surface, taking the depen-            Fe atoms and chains above the condensed surfaces and obtained
+dence on arguments B and ϕ into account. The new fit reproduces           T crit at several values of B by equating the vapor density to ρs .
+the feature near the electron plasma energy, obtained numeri-             Unlike previous authors, Medin & Lai (2006, 2007) have taken
+cally in Paper I but neglected in Paper II. Two versions of the fit       the electronic band structure of the metallic phase into account
+are presented in Sect. 2 for the models of free and fixed ions dis-       self-consistently. However, in the gaseous phase, they still did
+cussed in Paper I. In addition to the fit for the average reflectivity,   not allow for atomic motion across the magnetic field and did
+we present analytic approximations for each of the two polariza-          not take a detailed treatment of excited atomic and molecu-
+tion modes, which allow us to calculate the polarization of radi-         lar states into account. Medin & Lai (2007) calculated the sur-
+ation of a naked neutron star. In Sect. 3 we consider the radiative       face density assuming that the linear molecular chains (directed
+transfer problem in a finite atmosphere above the condensed sur-          along B) form a rectangular array in the perpendicular plane and
+face, including the reflection from the inner atmosphere bound-           that the distance between the nuclei along the field lines is the
+ary with normal-mode transformations, neglected in the previous           same in the condensed matter as in the separate molecular chain
+studies of thin atmospheres. Conclusions are given in Sect. 4. In         (Medin & Lai 2006; Medin 2012). Medin & Lai (2007) found
+Appendix A we describe the method of calculation for the re-              that the critical temperature is T crit ≈ 0.08Qs/kB . Their numer-
+flectivity coefficients, which is improved with respect to Paper I.       ical results for 56 Fe at 0.5 ⩽ B13 ⩽ 100 can be described by
+
+2
+                                         A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+expression T crit ≈ (5 + 2 B13) × 105 K for the critical tempera-
+ture and by Eq. (2) with η ≈ 0.55 for the surface density, with
+uncertainties below 20% for both quantities. An observational
+determination of the phase state of a neutron star surface would
+be helpful for improving the theory of matter in strong magnetic
+fields.
+    The density of saturated vapor above the condensed sur-
+face rapidly decreases with decreasing T (Lai & Salpeter 1997).
+Therefore, although the surface is hidden by an optically thick
+atmosphere at T ≈ T crit , the atmosphere becomes optically thin
+at T ≪ T crit . Also, as suggested by Motch et al. (2003), there
+may be a finite amount of light chemical elements (e.g., H) on
+top of the condensed surface of a heavier element (e.g., Fe). In
+addition, the same atmosphere may be optically thick for low
+photon energies and transparent at high energies. The energy at              Fig. 1. Illustration of notations. The z axis is chosen perpendic-
+which the total optical thickness of a finite atmosphere equals              ular to the surface, and the (xz) plane is chosen parallel to the
+unity depends on the atmosphere column density, which can in                 magnetic field lines, which make an angle θB with the normal to
+turn depend on temperature. At a fixed energy, the optical thick-            the surface. The direction of the reflected beam with wave vector
+ness of the finite atmosphere is different for different photon po-          kr is determined by the polar angle θk and the azimuthal angle ϕ,
+larizations, therefore the atmosphere can be thick for one po-               and αr is the angle between the reflected beam and the field lines.
+larization mode and thin for another. One should take all these              Thick solid lines show the reflected beam and magnetic field di-
+possibilities into account while interpreting observed spectra of            rections, thin solid lines illustrate the coordinates, and dashed
+neutron stars.                                                               lines show the incident photon wave vector ki and its quadrant.
+                                                                             The lines marked e(i,r)
+                                                                                                   1,2 illustrate the basic polarizations adopted
+2.2. Formation of the spectrum                                               for the description of reflectivities: e(i)       (r)
+                                                                                                                      1,2 and e1,2 are perpendicu-
+                                                                             lar to the wave vectors ki and ki , respectively; e(i,r)
+                                                                                                                                    1  are parallel
+2.2.1. Normal modes and polarization vectors                                                        (i,r)
+                                                                             to the surface, and e2 lie in the perpendicular plane. The axes
+It is well known (e.g., Ginzburg 1970) that under typical con-               x′ and y′ lie in the plane made by e(r)        (r) ′
+                                                                                                                    1 and e2 , x being aligned in
+ditions (e.g., far from the resonances) electromagnetic radiation            the plane made by B and kr .
+propagates in a magnetized plasma in the form of extraordinary
+(X) and ordinary (O) normal modes. These modes have different
+polarization vectors eX and eO , absorption and scattering coef-             2.2.2. Emission and reflection by a condensed surface
+ficients, and refraction and reflection coefficients at the surface.         The condition E > Epe is usually satisfied for X-rays in neutron
+Gnedin & Pavlov (1973) studied conditions for the applicabil-                star atmospheres, but not in the condensed matter. We consider a
+ity of the normal-mode description and formulated the radiative              surface element that is sufficiently small for the variation in the
+transfer problem in terms of these modes.                                    magnetic field strength and inclination to be neglected. We treat
+     Following the works of Shafranov (1967) and Ginzburg                    this small patch as plane, neglecting its curvature and roughness.
+(1970), Ho & Lai (2001) derived convenient expressions for the               We choose the Cartesian z axis perpendicular to this plane and
+normal mode polarization vectors in a fully ionized plasma for               the x axis parallel to the projection of magnetic field lines onto
+photon energies E much higher than the electron plasma energy                the xy plane. We denote the angle between the field and the z
+                                                                             axis as θB , the incidence angle of the radiation as θk , and the
+                    1/2         p                                          angle in the xy plane made by the projection of the wave vector
+Epe = 4π~2 e2 ne /me      ≈ 0.0288 ρ Z/A keV,                         (3)
+                                                                             as ϕ (Fig. 1). The angle between the wave vector and magnetic
+                                                                             field lines is given by
+where ρ is the density in g cm−3 . In the complex representation
+of plane waves with E ∝ e ei(k·r−ωt) , in the coordinate system               cos αi,r = sin θB sin θk cos ϕ ∓ cos θB cos θk                   (5)
+where the z-axis is along the wave vector k, and the magnetic                for the incident and reflected waves, respectively. The surface
+field B lies in the (xz) plane, the polarization vectors are                 emits radiation with monochromatic intensities
+                                                                             IE, j = J j BE /2 ( j = 1, 2).                                    (6)
+                                         iK M (α) 
+                                                      
+                          1
+e M (α) = p                                1        ,          (4)    Here, the basis for polarization is chosen such that the waves
+            1 + |K M (α)|2 + |Kz,M (α)|2 iKz,M (α)
+                                                         
+                                                                             with j = 1 and 2 are linearly polarized parallel and perpendicular
+                                                                             to the incident plane, respectively (Fig. 1); IE, j dΣ dΩ dE dt gives
+We use the notation M = X and M = O for the extraordinary and                the energy radiated in the jth wave by the surface element dΣ, in
+ordinary polarization modes, respectively. K M (α) and Kz,M (α)              the energy band (E, E + dE), during time dt, in the solid angle
+are functions of the angle α between B and k. They are deter-                element dΩ around the direction of the wave vector k. We use
+mined by the dielectric tensor of the plasma and thus depend                 the function
+on the photon energy E, as well as ρ, B, T and the chemical                          Bν         E3
+composition. Ho & Lai (2003) calculated K M and studied the po-              BE =       = 3 3 2 E/k T    ,                                     (7)
+                                                                                    2π~ 4π ~ c (e B − 1)
+larization of normal modes including the effect of the electron-
+positron vacuum polarization, while Potekhin et al. (2004) addi-             where Bν is Planck’s spectral radiance and kB the Boltzmann
+tionally considered an incomplete ionization of the plasma.                  constant. Dimensionless emissivities for the two polarizations,
+
+                                                                                                                                                 3
+                                       A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+normalized to blackbody values, are J j = 1 − R j , where R j is the
+effective reflectivity of mode j defined in Appendix A. The re-
+flectivities depend on surface material, photon energy, magnetic
+field strength B and inclination θB , and on the direction of k.
+For nonpolarized radiation, it is sufficient to consider the mean
+reflectivity R = (R1 + R2 )/2 (see Paper I).
+
+2.2.3. Reflectivity calculation
+A method for calculating reflectivity coefficients was devel-
+oped in Paper I. However, it is not easy to implement. Though
+it mostly produces correct results, in some ranges of model
+parameters it can yield unphysical results, which are difficult
+to distinguish from the correct ones. In the present work we
+present an improved method that avoids this complication (see
+Appendix A).
+    Using our new method, we calculated the spectral properties
+of a condensed Fe surface and compared the results with those
+in Paper I. As in Paper I, we considered two alternative models
+for the response of ions to electromagnetic waves in the con-
+densed phase: one neglects the Coulomb interactions between
+ions, while the other treats ions as frozen at their equilibrium
+positions in the Coulomb crystal (i.e., neglecting their response
+to the electromagnetic wave).
+    In the first limiting case (thick lines in Fig. 2), the reflectivity
+exhibits different behavior in three characteristic energy ranges:
+E < Eci , Eci ⩽ E . EC , and E & EC , where
+Eci = ~ZeB/Amu c = 0.0635 (Z/A) B13 keV                             (8)
+is the ion cyclotron energy, mu is the unified atomic mass unit,
+and
+            2
+EC = Eci + Epe /Ece .                                               (9)
+In addition, there is suppression of the reflectivity at E ∼ Epe ;
+the exact position, width, and depth of the suppression depend
+on the geometry defined by the angles θB , θk , and ϕ.
+      In the opposite case of immobile ions (thin curves in Fig. 2),
+the reflectivity has a similar behavior at E > Eci , but differs at        Fig. 2. Dimensionless emissivity J = 1 − R as a function of pho-
+E . Eci . It does not exhibit the sharp change at E ≈ Eci , but            ton energy E for a condensed Fe surface with B = 1013 G and
+smoothly continues to the lower energies. As argued in Paper I,            T = 106 K. The top panel shows several cases with varying θB
+we expect that the actual reflectivity lies between these two ex-          and fixed θk = π/4, ϕ = π/4. The bottom panel shows several
+tremes.                                                                    cases with varying ϕ and fixed θk = π/4, θB = π/4. These plots
+      The new results, shown in Fig. 2, display the same qualita-          should be compared with Figs. 5 and 6 of Paper I.
+tive behavior as in Paper I, but exhibit considerable deviation
+from the previous calculations for some geometric settings in              2.3.1. Mean reflectivity
+the energy range Eci . E . EC . Thus, the qualitative results and
+conclusions of Paper I are correct, but the new method described           In practice, the average normalized emissivity J = 1 − R is usu-
+in Appendix A is quantitatively more reliable.                             ally more important than the specific emissivities R j . In Paper II,
+      If θB = θk = 0, then an approximate analytic solution (ne-           R(E) was replaced by a constant in each of the three ranges men-
+glecting the finite electron relaxation rate in the medium; see            tioned in Sect. 2.2.3 (E < Eci , Eci < E < ẼC ≈ EC , and E > ẼC ).
+Paper I for discussion) is R ≈ (R+ + R− )/2, where                         For simplicity, the values of these three constants were assumed
+                                                  1/2                     to depend only on θB and θk , but not on ϕ or B. Here we propose
+                  2                       2
+          n(0)
+                               
+  (0)      ± −1          (0)
+                                     Epe                             a more elaborate and accurate fit, which is a function of E, B, θB ,
+R± = (0)            , n± = 1 ±                    .       (10)        θk , and ϕ, for the magnetic field range 1012 G . B . 1014 G and
+          n± + 1                   Ece (E ± Eci ) 
+                                                                           photon energy range 1 eV . E . 10 keV. In the approximation
+Compared to the numerical results, Eq. (10) provides a good ap-            of free ions, the average reflectivity of the metallic iron surface
+proximation at E . Eci . Therefore, we use it in the analytic fit          is approximately reproduced by
+described below.
+                                                                                  JA in Region I,
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                           J=                     J                                       (11)
+2.3. Results for iron surface
+                                                                                  JB (1 − JC ) + C
+                                                                                                         in Region II.
+                                                                                                 1+L
+In the numerical examples presented below we assume a con-                 Region I is the low-energy region defined by the conditions
+densed 56 Fe surface and use the estimate of the surface density           E < Eci and JA > JB . Region II is the supplemental range of
+given by the ion-sphere model – that is, we set η = 1 in Eq. (2).          relatively high energies in which either of these conditions is vi-
+
+4
+                                     A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+                                                                            In the intermediate energy range, Eci < E . ẼC , there is a
+                                                                         wide suppression of the emissivity. We describe this part by the
+                                                                         power-law interpolation between the values at Eci and ẼC :
+                                                                                                                   ln[J(ẼC )/J(Eci )]
+                                                                         JB = (E/ẼC ) p J(ẼC ),   where p =                          .      (17)
+                                                                                                                      ln(ẼC /Eci )
+                                                                         The values J(Eci ) and J(ẼC ) are approximated as follows:
+                                                                                   1     0.05
+                                                                         J(ẼC ) =   +          (1 + | cos θB | sin θk )
+                                                                                   2 1 + B13
+                                                                                   −0.15(1 − | cos θB |) sin α,                               (18)
+                                                                                                                         !
+                                                                                      2n0          | cos θB | − cos θk
+                                                                         J(Eci ) =            1  +                         ,                  (19)
+                                                                                   (1 + n0 )2          2 (1 + B13 )
+                                                                                             2
+                                                                         where n0 = (1 + Epe   /2Ece Eci )1/2 .
+                                                                             The steep slope at E > ẼC is described by Eq. (10) with Epe
+                                                                         replaced by Ẽpe :
+                                                                              (
+                                                                                4ñ/(1 + ñ)2 at E > ẼC ,
+                                                                         JC =                                                        (20)
+                                                                                0 at E ⩽ ẼC ,
+                                                                         ñ being given by Eq. (13).
+                                                                              Finally, the lowering of J(E) at E > ẼC is fit by
+                                                                                "                                   #
+                                                                                  0.17Epe /EC            −(E/Epe )2
+                                                                         L =                  +  0.21  e              (sin θk )2 WL ,         (21)
+                                                                                     1 + X4
+                                                                                       E − EL
+Fig. 3. Dimensionless emissivity J = 1 − R as a function of                     X=            (1 − cos θk )−1 ,
+                                                                                      2Epe WL
+photon energy E for condensed Fe surface at B = 1013 G (top                                h                           ih               i
+panel), B = 1012 G and 1014 G (bottom panel), with magnetic                     E L = Epe 1 + 1.2 (1 − cos θk )3/2 1 − (sin θB )2 /3 ,
+field lines normal to the surface, for two angles of incidence θk =                                     p               h             i
+0 and θk = π/4, as marked near the curves. Solid lines show                     WL = 0.8 (ẼC /Epe )0.2 sin(α/2) 1 + (sin θB )2 .
+our numerical results, and dashed lines demonstrate the fit. For
+                                                                         The line at E L disappears from the fit (L → 0) when radiation
+comparison, dotted lines reproduce the simplified approximation
+                                                                         is parallel to the magnetic field (α → 0). This property is not
+used in Paper II.
+                                                                         exact; our numerical results reveal a remnant of the line at α →
+                                                                         0, which is relatively weak, but may become appreciable if the
+olated. The functions JA , JB , and JC are mainly responsible for        magnetic field is strongly inclined (θB > π/4).
+the behavior of the emissivity at E < Eci , Eci < E . ẼC , and               Examples of the numerical results for the normalized emis-
+E > ẼC , respectively, while the function L describes the line at       sivities are compared to the analytic approximation in Figs. 3 –
+E ≈ Epe . The value                                                      5. For most geometric settings, the fit error lies within 10% in
+                                                                         more than 95% of the interval −3 < log10 E (keV) < 1. The
+              2
+ẼC = Eci + Ẽpe /Ece                                            (12)    remaining < 5% are the narrow ranges of E where J(E) sharply
+                                                                         changes. Exceptions occur for strongly inclined fields (θB > π/4)
+is the energy at which the square of the effective refraction index
+                                                                         and small ϕ, where the error may exceed 20% in up to 10% of
+                   2                                                     the logarithmic energy range.
+                 Ẽpe
+ñ2 = 1 −                                                        (13)         Our fit does not take the dependence of reflectivity on tem-
+            Ece (E − Eci )
+                                                                         perature into account. Temperature of the condensed matter en-
+(analogous to Eq. (10)) becomes positive with increasing E in            ters in the calculations through the effective relaxation time,
+the range E > Eci . In Eqs. (12) and (13),                               which determines the damping factor (see Paper I). This dis-
+          p                                                              regard is justified by the weakness of the T -dependence of the
+Ẽpe = Epe 3 − 2 cos θk .                                (14)            results. With decreasing T , the transitions of R(E) between char-
+   The low-energy part of the fit in Eq. (11) is given by                acteristic energy ranges become sharper, and the feature at E L
+                                                                         becomes stronger. The bulk of our calculations employed in the
+JA = [1 − A(E)] J0(E),                                           (15)    fitting was done at T ∼ 106 K. In Fig. 4, which shows the nu-
+                                                                         merical results at T = 106 K, an additional line is drawn at
+where                                                                    T = 3 × 105 K, in order to illustrate the T -dependence.
+                         "             #
+         1 − | cos θB |         0.45                                          A small modification of the proposed approximation can de-
+A(E) =     √            + 0.7 −          (sin θk )4 (1 − cos α), (16)    scribe the alternative model of fixed ions (see Paper I). In this
+         2 1 + B13              J0 (0)
+                                                                         case, it is sufficient to formally set Eci → 0 in the above equa-
+J0 (E) = 1 − 12 (R(0)     (0)        (0)
+                   − + R+ ), and R± are given by Eq. (10).
+                                                                         tions and replace Eq. (17) by
+                          √             −1  √            −1
+Accordingly, J0 (0) = 4 EC /Eci + 1              Eci /EC + 1 . In                      J(ẼC )                                 1 + sin θB
+Eq. (16) and hereafter, α without subscripts denotes min(αr , αi ).      JB =                         ,       where p = 0.1               .   (22)
+                                                                                1 − p + p (ẼC /E)0.6                           1 + B13
+
+                                                                                                                                                5
+                                    A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+
+
+
+Fig. 4. Dimensionless emissivity J = 1 − R as a function of
+photon energy E for a condensed Fe surface with inclined mag-
+netic field (B = 1013 G, θB = π/4) and inclined incidence of
+radiation (θk = π/4 and four values of ϕ listed in the figure).
+Solid lines show our numerical results for the model of free ions
+at T = 106 K, and short-dashed lines demonstrate the fit. For
+comparison, the dotted line reproduces our numerical results for
+ϕ = π/2 and T = 3 × 105 K.
+
+
+
+
+                                                                        Fig. 6. Dimensionless emissivity for the linear polarization e1 ,
+                                                                        J1 = 1 − R1 , as a function of photon energy E for condensed
+                                                                        Fe surface at different magnetic field strengths and geometric
+                                                                        settings. Top panel: magnetic field B = 1013 G is normal to the
+                                                                        surface, and angles of radiation incidence are θk = 0, π/6, π/4,
+                                                                        and π/3. Bottom panel: B = 1013.5 G, magnetic field lines and
+                                                                        the photon beam are both inclined at θB = θk = π/4, and the
+                                                                        azimuthal angle takes values ϕ = 0, π/4, and π/2. Solid lines
+                                                                        show the numerical results, and dashed lines demonstrate the fit.
+
+
+Fig. 5. Same as in Fig. 4, but for B = 1014 G and two values of         relatively simple, but reproduced general trends. For j = 1, our
+ϕ. For comparison, the dotted and long-dashed lines reproduce           free-ion approximation has the same form as Eq. (11):
+our numerical results and analytic approximation, respectively,               (
+                                                                                JA1 in Region I,
+for the model of fixed ions.                                            J1 =                                                        (23)
+                                                                                JB1 (1 − JC ) + JC (1 − RL ) in Region II.
+
+                                                                        Here, we retain JC given by Eq. (20). The shape of the line near
+                                                                        the plasma frequency is unchanged and is described by Eq. (21),
+As an example, in Fig. 5 the numerical results in the model of          but the line strength is different, since L enters Eq. (23) through
+fixed ions and the fit Eq. (22) are shown in addition to the free-      the function
+ion results.                                                                               h            i L
+                                                                        RL = (sin θB )1/4 2 − (sin α)4           .                      (24)
+                                                                                                           1+L
+2.3.2. Polarization
+                                                                        The functions that describe emissivity in mode 1 at E < ẼC are
+We also constructed approximations for the emissivities in each
+                                                                        JA1 = [1 − A1 ] JA ,                                           (25)
+of the two modes. Their functional dependence on E and geo-                                     a1
+metric angles in Fig. 1 is more complicated than the analogous                   A1 =                         ,
+dependence for the average J = (J1 + J2 )/2. We did not ac-                            1 + 0.6 B13 (cos θB )2
+curately reproduce these complications, in order to keep the fit                 a1 = 1 − (cos θB )2 cos θk − (sin θB )2 cos α;
+
+6
+                                           A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+                                                                               each of the polarization modes separately. We have checked that
+                                                                               this is not a numerical artifact: because the magnetic field vector
+                                                                               B is axial, there is no strict symmetry with respect to the (x, z)
+                                                                               plane. A reflection about this plane would require simultaneous
+                                                                               inversion of the B direction in order to restore the original re-
+                                                                               sults. However, as long as the electromagnetic waves are nearly
+                                                                               transverse (i.e., Kz in (4) and (A.24) are small), the asymmetry
+                                                                               is weak, allowing us to ignore it and thus keep the fit relatively
+                                                                               simple.
+                                                                                   The analytic approximations in Eqs. (11) and (23) allow one
+                                                                               to evaluate the degree of linear polarization of the emitted radia-
+                                                                               tion
+                                                                               Plin = (J1 − J2 )/2J = (R2 − R1 )/(2 − 2R).                              (28)
+                                                                               For example, the two panels of Fig. 7 show Plin for the same
+                                                                               directions of the magnetic field and the photon beam as in the
+                                                                               respective panels of Fig. 6. We see that the analytic formulae,
+                                                                               originally devised to reproduce the normalized emissivities, also
+                                                                               reproduce the basic features of Plin (E). Although the feature at
+                                                                               E ∼ Epe is absent in the top panel of Fig. 6, it reappears in the
+                                                                               top panel of Fig. 7 due to the contribution of R2 in Eq. (28).
+
+                                                                               3. X-ray spectra of thin atmospheres
+                                                                               3.1. Inner boundary conditions
+                                                                               Propagation of radiation in an atmosphere is described by two
+                                                                               normal modes (see Sect. 2.2.1). At the inner boundary of a thin
+                                                                               atmosphere, an incident X-mode beam of intensity IEX gives rise
+                                                                               to reflected beams in both modes, whose intensities are propor-
+                                                                               tional to IEX , and analogously for an incident O-mode. Therefore,
+Fig. 7. Degree of linear polarization Plin [Eq. (28)] as a function            the inner boundary conditions for radiation transfer in an atmo-
+of photon energy E for condensed Fe surface. The values of B,                  sphere of a finite thickness above the condensed surface can be
+directions of the field and the wave vector, and line types are                written as
+same as in Fig. 6.
+                                                                               IEX (θk , ϕ) = 12 JX (θk , ϕ)BE (T ) + RXX (θk , ϕ) IEX (π − θk , ϕ)
+                                           ln[J1 (ẼC )/J1 (Eci )]                                +RXO (θk , ϕ) IEO (π − θk , ϕ),                       (29)
+JB1 = (E/ẼC ) p1 J1 (ẼC ),        p1 =                           ,   (26)
+                                               ln(ẼC /Eci )                   IEO (θk , ϕ)   =   1                                    O
+                                                                                                  2 JO (θk , ϕ)BE (T ) + ROO (θk , ϕ) IE (π − θk , ϕ)
+         J1 (Eci ) = (1 − a1 ) J(Eci ),
+                                                                                                  +ROX (θk , ϕ) IEX (π − θk , ϕ),                       (30)
+                     1     0.05         sin θB
+         J1 (ẼC ) = +             +           .
+                     2 1 + B13            4                                    where IEM (M = X, O) are the specific intensities of the X- and
+                                                                               O-modes in the atmosphere at ρ = ρs , R MM′ are coefficients
+In the fixed-ion case, it is sufficient to set Eci → 0 and to replace          of reflection with allowance for transformation of the incident
+Eq. (26) by                                                                    mode M ′ into the reflected mode M, and J M are the normalized
+              J1 (ẼC )                                                        emissivities. The latter can be written by analogy with J1,2 as
+JB1 =                        .                                         (27)    JX = 1 − RX and JO = 1 − RO , where RX = RXX + RXO and
+        0.1 + 0.9 (ẼC/E)0.4                                                   RO = ROO + ROX (cf. Paper I).
+For the second mode, no additional fitting is needed, because                      Ho et al. (2007) retained only the emission terms 12 J M BE on
+R2 = 2R − R1 and J2 = 2J − J1 .                                                the right-hand sides of Eqs. (29), (30). The reflection was taken
+    Figure 6 compares the use of Eqs. (23) – (26) to numerical                 into account in Paper II, but calculations were performed ne-
+results. The upper panel shows the case where the field lines are              glecting ROO , ROX , and RXO , under the assumption that RXX is
+perpendicular to the surface. In this case the line at E L disappears          equal to R and does not depend on ϕ. Here we use a more re-
+from mode 1, so the line in R seen in Fig. 3 for θk , 0 is entirely            alistic, albeit still approximate, model for R MM′ , described in
+due to mode 2. As soon as the field is inclined, the line is redis-            Appendix B.
+tributed between the two modes (the lower panel of Fig. 6). In
+the latter case the numerical results show a more complex func-                3.2. Results
+tional dependence R1 (E) in the range Eci < E < ẼC , which is
+not fully reproduced by our fit, for the reasons discussed above.              Here, we illustrate the importance of the correct description of
+    The azimuthal angle ϕ enters the fit only through α. As a                  the reflection for computations of thin model atmospheres above
+consequence, the fit is symmetric with respect to a change in                  a condensed surface. To this end, we have calculated a few model
+sign of ϕ. This property may seem natural at first glance; how-                atmospheres with normal magnetic field (therefore, θB = ϕ = 0,
+ever, we note that the numerical results do not strictly obey this             and αr = αi = θk ), taking the model with B = 4 × 1013 G,
+symmetry, which holds for the nonpolarized beam, but not for                   effective temperature T eff = 1.2 ×106 K, and surface density Σ =
+
+                                                                                                                                                          7
+                                    A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+
+
+
+                                                                        Fig. 9. Top panel: dimensionless emissivities for coefficients of
+Fig. 8. Emergent spectra (top panel) and temperature struc-             reflection RXX (dashed curve), RXO (dotted curve), ROX (dash-
+tures (bottom panel) for the fiducial model atmosphere (solid           dot-dotted curve), and ROO (dash-dotted curve). The quantities
+curve) and for model atmospheres that are calculated using the          are calculated at the bottom of the fiducial model atmosphere for
+fixed-ions approximation for the reflectivity calculations (dashed      the angle between the radiation propagation and magnetic field,
+curves), and the inner boundary condition from Paper II (dotted         θk = 10◦ , together with the total dimensionless emissivity (solid
+curves). In the top panel the diluted blackbody spectrum that           curve). Bottom panel: dimensionless outward specific intensities
+fits the high-energy part of the fiducial model spectrum is also        (inner boundary condition) at the bottom of the fiducial model
+shown (dash-dotted curve).                                              atmosphere for the X-mode (solid curve) and O-mode (dashed
+                                                                        curve). For comparison, the dotted curve shows the same for
+                                                                        the X-mode, calculated using the inner boundary condition from
+10 g cm−2 as a fiducial model. In the fiducial model the free-ions      Paper II (in this case the dimensionless specific intensity of the
+assumption for condensed-surface reflectivity is used.                  O-mode equals 0.5).
+    For these computations we use the numerical code described
+in Suleimanov et al. (2009), with a modified iterative procedure                 1
+                                                                                     Z ∞          Z 1
+for temperature corrections. We evaluate these corrections using        kRL =              BE dE       (1 − R) µ dµ,
+the Unsöld-Lucy method (e.g., Mihalas 1978), which gives a bet-              2 Btot 0               0
+                                                                                  Z ∞
+ter convergence for thin-atmosphere models than other standard                1
+                                                                         JR =           dE
+methods. In our case, the deepest atmosphere point is the up-                 2 0
+per point of the condensed surface. The temperature correction                Z 1                                           
+at this point is obtained as follows: the total flux at the bound-          ×       IEX (µ)(RXX + ROX ) + IEO (µ)(RXO + ROO ) µ dµ,
+ary between the atmosphere and the condensed surface is fixed                   0
+                                                                                 Z ∞       Z 0
+and, therefore, the following energy balance condition has to be              1                                  
+satisfied:                                                               H− =          dE       IEX (µ) + IEO (µ) µ dµ.             (32)
+                                                                              2 0            −1
+              4
+        σSB T eff   1 ∞
+                      Z        Z 1                                        Generally, the condition (31) is not fulfilled at a given tem-
+H0 =              =        dE       IEX (µ) + IEO (µ) µ dµ              perature iteration. Therefore, we perform a linear expansion of
+           4π       2 0          −1                                     the integrated blackbody intensity:
+     = Btot kRL + JR + H − .                                  (31)
+                                                                        H0 = (Btot + ∆Btot )kRL + JR + H − ,                         (33)
+Here, σSB is the Stefan-Boltzmann constant, µ = cos θk , and            and find a corresponding temperature correction
+       Z ∞                                                                                                            !
+                                                                                  π       1                         −
+Btot =      BE dE ,                                                     ∆T =                 H0 − Btot kRL − JR − H .                (34)
+         0                                                                     4σSB T 3 kRL
+
+8
+                                     A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+
+
+
+                                                                         Fig. 11. Top panel: total emergent spectrum of the fiducial
+                                                                         model (solid curve), together with emergent spectra in the X-
+                                                                         mode (dashed curve) and in the O-mode (dash-dotted curve).
+Fig. 10. The same as in Fig. 9, but for θk = 60◦ .                       The blackbody spectrum with T = T eff is also shown (dotted
+                                                                         curve). Bottom panel: emergent specific intensities of the fidu-
+                                                                         cial model for six angles θ.
+This last-point correction procedure is stable and has a conver-
+gence rate similar to the Unsöld-Lucy procedure at other depths.
+    We also changed the depth grid for a better description of           with free ions. The flux in the spectrum of the fiducial model is
+the temperature structure in thin-atmosphere models. In semi-            approximately twice that of the alternative model at photon en-
+infinite model atmospheres that do not have a condensed surface          ergies E smaller than the iron cyclotron energy Eci = 0.118 keV.
+as a lower boundary, a logarithmically equidistant set of depths is      At larger energies the spectra are very close to each other. We
+used. However, in thin-atmosphere models, such a set yields in-          note that the old model has been computed using the free-ions
+sufficient accuracy at the boundary between the atmosphere and           assumption.
+condensed surface. To improve the description of the boundary,               The difference in the emergent spectra between the old and
+we divide the model atmosphere into two parts with equal thick-          new model atmospheres is significant. In the old model, there is
+nesses and use logarithmically equidistant depth grids for each          a deep depression of the spectrum between Eci and EC with an
+of them. In the upper part the grid starts from outside (the closest     emission-like feature around the absorption line at the proton cy-
+points are at the smallest depths), while in the lower part it starts    clotron energy Ecp = 0.252 keV. In the new spectra this complex
+from the condensed surface (the closest points are at the deepest        feature between Eci and EC is completely different. The total de-
+depths). This combined grid allows us to describe the whole at-          pression is not significant, but instead of the flux increase, there
+mosphere with the desired accuracy of 1% for the integral flux           appears a deep absorption feature at photon E & Ecp . This ab-
+conservation.                                                            sorption corresponds to the bound-bound transitions in hydrogen
+    In Fig. 8 we show the emergent spectra and temperature               atoms in strong magnetic field (Hb−b feature).
+structures for three different model atmospheres with the same               It is clear that this difference arises due to the inner bound-
+fiducial set of physical parameters. The model spectrum com-             ary condition. The bottom panels of Figs. 9 and 10 illustrate the
+puted using the inner boundary condition described in Paper II           difference in the outgoing flux at the boundary between the at-
+(the “old model”) significantly differs from the two other model         mosphere and the condensed surface for the old and new models.
+spectra computed using the improved boundary conditions of               This difference is especially large for the flux in the X-mode. In
+Eqs. (29), (30). The latter two models are calculated using the          the old model we assumed complete reflection in the X-mode;
+free (fiducial model) and fixed ions (alternative model) assump-         therefore, the reflected flux was small as the atmosphere was
+tions for the condensed surface reflectivities.                          optically thin at these energies. As a result we found a small
+    The differences between the spectra and the temperature              emergent flux at these energies. In the new models, we have sig-
+structures of these two models are very small. The atmo-                 nificant mode transformation due to reflection, which causes an
+sphere temperature near the condensed surface with fixed ions is         appreciable part of the energy from the O-mode to convert into
+slightly smaller than the temperature near the condensed surface         the X-mode; the converted photons then almost freely escape
+
+                                                                                                                                           9
+                                     A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+
+
+
+                                                                         Fig. 13. Comparison of emergent spectra (top panel) and tem-
+Fig. 12. Comparison of emergent spectra (top panel) and tem-             perature structures (bottom panel) of the fiducial model (solid
+perature structures (bottom panel) of the fiducial model (solid          curves) and the model atmosphere with different magnetic field
+curves) with the semi-infinite model atmosphere (dashed curves)          (B = 1014 G), but with the same surface density (dashed curves).
+and with the thinner (Σ = 1 g cm−2 ) model atmosphere (dotted
+curves), but with the same magnetic field.
+
+
+
+from the atmosphere. The reflectivity coefficients R MM′ for two
+                                                                             The angular distribution of the emergent flux is different in
+angles θk are shown in the upper panels of Figs. 9 and 10.
+                                                                         the two models (Fig. 11, bottom panel), especially at photon en-
+    The total equivalent widths (EWs) of the complex absorption          ergies between EC and 4EC . In the old model, the angular distri-
+features in the spectra of the new models are smaller than the EW        bution is peaked around the surface normal. In the new model,
+of this feature in the spectrum of the old model. Nevertheless,          the emergent radiation is almost isotropic, with a peak around
+they are still significant, with EW ≈ 220 – 250 eV, if the con-          the surface normal at the broad Hb−b absorption feature.
+tinuum is assumed to be a diluted blackbody spectrum that fits
+the high-energy tail of the model. The parameters of the diluted             The influence of the atmosphere thickness on its emergent
+blackbody spectrum are a color correction factor fc = T/T eff =          spectrum and the temperature structure is illustrated in Fig. 12.
+1.2, and a dilution factor D = 1.1−4 . The range of values for           A thinner atmosphere with Σ = 1 g cm−2 has an insignificant
+EW is sufficient to explain the observed absorption features of          Hb−b absorption feature because it is formed at higher column
+XDINSs (for reviews, see Haberl 2007; Turolla 2009).                     densities (≈ 1 – 2 g cm−2 ). The fiducial model has the smallest
+    The new and old spectra are strongly polarized, with most of         temperature at these column densities among all the models. As
+the energy radiated in the X-mode (see Fig. 11, upper panel). We         a result, the Hb−b absorption feature is most significant in the
+note that, for the parameters of the fiducial model, the vacuum          spectrum of this model. The spectrum of the semi-infinite atmo-
+resonance density occurs between the X and O mode photon de-             sphere has a hard tail and does not have any feature at Eci .
+coupling densities. Therefore, the polarization signal does not               The importance of the Hb−b absorption feature decreases if it
+exhibit a rotation of the plane of polarization between low and          is located far from the maximum of the spectrum. This is illus-
+high energies. In contrast, models that exhibit this effect, consid-     trated by the comparison of the fiducial model with the model
+ered by Lai & Ho (2003) and van Adelsberg & Lai (2006), have             calculated for B = 1014 G (Fig. 13). In the latter case, the Hb−b
+a lower magnetic field and higher effective temperature, caus-           absorption feature is less visible and cools the atmosphere at col-
+ing the vacuum resonance to occur outside the X and O photo-             umn densities about a few g cm−2 less efficiently, although the
+spheres.                                                                 EW decreases insignificantly.
+
+10
+                                     A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+3.3. Discussion: toward models of observed spectra                       4. Conclusions
+
+Our calculations are presented for a local patch of the neutron-         We have improved the method of Paper I for calculating spec-
+star surface with particular values of T eff and B. By taking sur-       tral properties of condensed magnetized surfaces. Using the im-
+face distributions of T eff and B into account, one can construct        proved method, we calculated a representative set of reflectiv-
+an emission spectrum from the entire neutron star; however this          ities of a metallic iron surface for the magnetic field strengths
+spectrum is necessarily model-dependent, as the T eff and B dis-         B = 1012 G – 1014 G. Based on these calculations, we con-
+tributions are generally unknown. If these distributions are suffi-      structed analytic expressions for emissivities of the magnetized
+ciently smooth, then integration over the surface makes absorp-          condensed surface in the two normal modes as functions of five
+tion features broader and shallower, as demonstrated, e.g., in the       arguments: energy of the emitted X-ray photon E, field strength
+case of cooling neutron stars with dipole magnetic fields and            B, field inclination θB , and the two angles that determine the pho-
+semi-infinite (Ho et al. 2008) or thin (Paper II) partially ionized      ton direction. We considered the alternative limiting approxima-
+hydrogen atmospheres. As shown in Paper II, smearing of the              tions of free and fixed ions for calculating the condensed surface
+features is stronger, if the crustal magnetic field has a strong         reflectivity.
+toroidal component, but weaker, if radiation is formed at small               We improved the inner boundary conditions for the radia-
+hotspots on the surface, where B can be considered as constant.          tion transfer equation in a thin atmosphere above a condensed
+Using the results of Paper II, Hambaryan et al. (2011) fitted ob-        surface. The new boundary condition accounts for the transfor-
+served phase-resolved spectra of XDINS RBS 1223 and derived              mation of normal modes into each other caused by reflection
+constraints on temperature and magnetic field strength and distri-       from the condensed surface. To implement this condition we
+bution in the X-ray emitting areas, their geometry, and the grav-        suggested a method for calculating reflectivities R MM′ in the nor-
+itational redshift at the surface. The present, more detailed ap-        mal modes used for model atmosphere calculations, based on
+proximations for the reflectivities can be directly used to refine       analytic approximations to the reflectivities.
+these fits and constraints.                                                   We computed a few models of thin, partially ionized hydro-
+                                                                         gen atmospheres to investigate the influence of the new bound-
+    In our numerical examples presented above, we evaluated              ary condition on their emergent spectra and temperature struc-
+the density of the condensed matter using Eq. (2) with η = 1.            tures. The allowance for mode transformations makes the com-
+An eventual correction to this approximation is rather straight-         plex absorption feature between Eci and EC less significant and
+forward, once ρs is accurately √ known. Indeed, the density enters       the atomic absorption feature more important. Nevertheless, the
+calculations through Epe ∝ η [Eq. (3)] and through the damp-             equivalent widths of this complex absorption feature in the emer-
+ing factor (Paper I). The latter dependence is relatively weak,          gent spectra are still significant (≈ 200 – 250 eV) and sufficient
+therefore, it is sufficient to correct Epe in the expressions pre-       to explain the observed absorption features in the spectra of
+sented in Sect. 2.                                                       XDINSs. Models of thin atmospheres with inclined magnetic
+    As mentioned in Sect. 3.2, the model spectra are highly po-          fields are necessary for detailed descriptions of their spectra. We
+larized at the stellar surface. However, the observed polariza-          plan to compute such models with vacuum polarization and par-
+tion signal is affected by propagation of the photons through            tial mode conversion in a future paper.
+the neutron-star magnetosphere. In addition to redshift and light
+                                                                         Acknowledgements. A.Y.P. acknowledges useful discussions with Gilles
+bending effects near the stellar surface, the mode eigenvectors          Chabrier, the hospitality of the Institute of Astronomy and Astrophysics at the
+evolve adiabatically along with the direction of the changing            University of Tübingen, and partial financial support from Russian Foundation
+magnetic field in the magnetosphere (see, e.g., Heyl & Shaviv            for Basic Research (RFBR grant no. 11-02-00253-a) and the Russian Leading
+2002). The adiabatic evolution continues until the photons near          Scientific Schools program (grant NSh-4035.2012.2). The work of V.F.S. is
+                                                                         supported by the German Research Foundation (DFG) grant SFB/Transregio 7
+the polarization limiting radius, rpl , which is typically many stel-    “Gravitational Wave Astronomy”.
+lar radii from the surface. At rpl , the modes couple, with the
+intensities and eigenvectors frozen thereafter (in addition, sig-
+nificant circular polarization can be generated in some cases,           References
+for example, in radiation from rapidly rotating neutron stars; see
+                                                                         Anderson, E., Bai, Z., Bischof, C., et al. 1999, LAPACK User’s Guide
+van Adelsberg & Lai 2006, and the references therein).                      (Philadelphia: Society for Industrial and Applied Mathematics)
+    The main effect of adiabatic photon propagation in the mag-          Brinkmann, W. 1980, A&A, 82, 352
+netosphere is on the synthetic polarization signal from a finite         Fushiki, I., Gudmundsson, E. H., & Pethick, C. J. 1989, ApJ, 342, 958
+                                                                         Gnedin, Yu. N., & Pavlov, G. G. 1973, Zh. Eksper. Teor. Fiz., 65, 1806 (English
+region of the neutron-star surface. (There is an additional ef-             transl.: 1974, Sov. Phys.–JETP, 38, 903)
+fect for photons propagating through a quasi-tangential region           Ginzburg, V. L. 1970, The Propagation of Electromagnetic Waves in Plasmas,
+of magnetic field near the stellar surface; in the majority of cases        2nd ed. (London: Pergamon)
+this “QT effect” can be neglected – see Wang & Lai 2009 for              Haberl, F. 2007, Ap&SS, 308, 181
+                                                                         Haensel, P., Potekhin, A. Y., & Yakovlev, D. G. 2007, Neutron Stars 1: Equation
+details). Since the mode properties are fixed at large distances            of State and Structure (New York: Springer)
+from the star, where the magnetic field is aligned for photon tra-       Hambaryan, V., Suleimanov, V., Schwope, A. D., et al. 2011, A&A, 534, A74
+jectories from different areas on the star, the polarization signal      Heyl, J. S., & Shaviv, N. J. 2002, Phys. Rev. D, 66, 023002
+is not as diminished due to variation in the surface magnetic field      Heyl, J. S., Shaviv, N. J., & Lloyd, D. 2003, MNRAS, 342, 134
+as might be expected if vacuum polarization effects are ignored          Ho, W. C. G. 2007, MNRAS, 380, 71
+                                                                         Ho, W. C. G., & Lai, D. 2001, MNRAS, 327, 1081
+(see Heyl & Shaviv 2002; Heyl et al. 2003). Thus, it is possible         Ho, W. C. G., & Lai, D. 2003, MNRAS, 338, 233
+that polarization features of the local thin atmosphere models de-       Ho, W. C. G., Kaplan, D. L., Chang, P., van Adelsberg, M., & Potekhin, A. Y.
+scribed above may be retained in spectra from a finite region of            2007, MNRAS, 376, 793
+the neutron star. Observed spectra and polarization signals have         Ho, W. C. G., Potekhin, A. Y., & Chabrier, G. 2008, ApJS, 178, 102
+                                                                         Lai, D. 2001, Rev. Mod. Phys., 73, 629
+been presented in the literature, employing several atmosphere           Lai, D., & Ho, W.C.G. 2003, Phys. Rev. Lett., 91, 071101
+models for emission from the entire surface (Heyl et al. 2003)           Lai, D., & Salpeter, E. E. 1997, ApJ, 491, 270
+and from a finite sized hotspot (van Adelsberg & Perna 2009).            Medin, Z. 2012, private communication
+
+
+                                                                                                                                                     11
+                                            A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+Medin, Z., & Lai, D. 2006, Phys. Rev. A, 74, 062508                                 A.1. Transmitted modes
+Medin, Z., & Lai, D. 2007, MNRAS, 382, 1833
+Mereghetti, S. 2008, A&A Rev., 15, 225                                              A significant simplification of the equations describing the trans-
+Mihalas, D. 1978, Stellar Atmospheres (2nd ed.) (San Francisco: Freeman)            mitted mode properties can be obtained by writing the transmit-
+Motch, C., Zavlin, V. E., & Haberl, F. 2003, A&A, 408, 323                          ted wave vector as
+Pérez-Azorı́n, J. F., Miralles, J. A., & Pons, J. A., 2005, A&A, 433, 275
+Potekhin, A. Y., Lai, D., Chabrier, G., & Ho, W. C. G. 2004, ApJ, 612, 1034               c          h                                         i
+                                                                                    n j = k j = n j sin θ j (cos ϕ x̂ + sin ϕ ŷ) + cos θ j ẑ
+Rögnvaldsson, Ö. E., Fushiki, I., Gudmundsson, E. H., Pethick, C. J., &                ω
+    Yngvason, J. 1993, ApJ, 416, 276                                                               = sin θk (cos ϕ x̂ + sin ϕ ŷ) + nz, j ẑ,     (A.3)
+Ruderman, M. A. 1971, Phys. Rev. Lett., 27, 1306
+Salpeter, E. E. 1954, Australian J. Phys., 7, 373                                   where x̂, ŷ, ẑ are unit vectors along the x, y, z axes, respec-
+Shafranov, V. D. 1967, in Reviews of Plasma Physics, vol. 3, ed. M. A.
+    Leontovich (New York: Consultants Bureau), 1
+                                                                                    tively, and the quantities cos θ j , sin θ j are complex numbers sat-
+Suleimanov, V., Potekhin, A. Y., & Werner, K. 2009, A&A, 500,891                    isfying the condition: cos2 θ j + sin2 θ j = 1 (cf. Appendix B of
+Suleimanov, V., Hambaryan, V., Potekhin, A. Y., van Adelsberg, M., Neuhäuser,      Paper I). The second equality in Eq. (A.3) follows from Snell’s
+    R., & Werner, K. 2010, A&A, 522, A111 (Paper II)                                Law, n j sin θ j = sin θk , and the definition nz, j ≡ n j cos θ j .
+Thorolfsson, A., Rögnvaldsson, Ö. E., Yngvason, J., & Gudmundsson, E. H.
+    1998, ApJ, 502, 847                                                                 From Maxwell’s equations for the transmitted modes,
+Turolla, R. 2009, in Neutron Stars and Pulsars, ed. W. Becker, Astrophys. Space
+    Sci. Library, 357 (Berlin: Springer) 141
+                                                                                    λ · E = 0,                                                         (A.4)
+Turolla, R., Zane, S., & Drake, J. J. 2004, ApJ, 603, 265                               λ ≡ ǫ + n j ⊗ n j − n2j I,                                     (A.5)
+van Adelsberg, M., & Lai, D. 2006, MNRAS, 373, 1495
+van Adelsberg, M., & Perna, R. 2009, MNRAS, 399, 1523                               where ǫ is the dielectric tensor of the medium (see Eq. (13) of
+van Adelsberg, M., Lai, D., Potekhin, A. Y., & Arras, P. 2005, ApJ, 628, 902        Paper I), I is the unit tensor,  and E is the electric field vector.
+    (Paper I)
+                                                                                                               
+Wang, C., & Lai, D. 2009, MNRAS, 398, 515
+                                                                                    If we note that n2j = n2j sin2 θ j + cos2 θ j = sin2 θk + n2z, j, and
+Zane, S., Turolla, R., & Drake, J. J. 2002, in High Resolution X-ray Spectroscopy   apply the condition det λ = 0 to obtain a nontrivial solution to
+    with XMM-Newton and Chandra, Proceedings of the International Workshop          Eq. (A.4), the result is a fourth-order polynomial in nz, j:
+    held at the Mullard Space Science Laboratory, ed. G. Branduardi-Raymont
+    (University College London, Holmbury St. Mary, Dorking, Surrey, UK), ab-        a4 n4z, j + a3 n3z, j + a2 n2z, j + a1 nz, j + a0 = 0,             (A.6)
+    stract #51                                                                                                                   
+                                                                                        a4 = 1 + sin2 θk / ǫzz − sin2 θk ,                             (A.7)
+                                                                                                                                       
+                                                                                        a3 = 2 sin θk cos ϕ ǫ xz / ǫzz − sin2 θk ,                     (A.8)
+Appendix A: Improved reflectivity calculation                                           a2 = η xx γyy + ηyy γ xx − η xy γyx − ηyx γ xy − β xy βyx ,    (A.9)
+In this Appendix, we describe several improvements to the meth-                         a1 = ηyy β xx − η xy βyx − ηyx β xy ,                         (A.10)
+ods of Paper I that have enabled us to produce a general, efficient                     a0 = η xx ηyy − η xy ηyx ,                                    (A.11)
+code, free of numerical difficulties, which computes the correct
+value of the reflectivities over the full range of parameters used                  where the coefficients have the values:
+in neutron-star atmosphere modeling.
+                                                                                                                                       
+                                                                                    η xx = ǫ xx − sin2 θk sin2 ϕ − ǫ xz
+                                                                                                                      2
+                                                                                                                         / ǫzz − sin2 θk ,            (A.12)
+    In general, each incoming linearly polarized wave E(i)    1 =                                                                              
+     (i)      (i)        (i)
+A1 e1 and E2 = A2 e2 is partially reflected, giving rise to re-                     η xy = ǫ xy + sin2 θk sin ϕ cos ϕ + ǫ xz ǫyz / ǫzz − sin2 θk ,    (A.13)
+                                                                                                                                                 
+flected and transmitted fields1                                                     ηyx = −ǫ xy + sin2 θk sin ϕ cos ϕ − ǫ xz ǫyz / ǫzz − sin2 θk ,    (A.14)
+                                                                                                                                       
+              2
+              X                               2
+                                              X                                     ηyy = ǫyy − sin2 θk cos2 ϕ + ǫyz   2
+                                                                                                                         / ǫzz − sin2 θk ,            (A.15)
+E(r)
+ j = Aj             rm j e(r)
+                          m,       E(t)
+                                    j = Aj          tm j e(t)
+                                                          m.              (A.1)                                                  
+              m=1                             m=1                                   β xx = −2 sin θk cos ϕǫ xz / ǫzz − sin2 θk ,                      (A.16)
+                                                                                                                                         
+As shown in Paper I, the dimensionless emissivities for the two                     β xy = ǫyz cos ϕ − ǫ xz sin ϕ sin θk / ǫzz − sin2 θk ,            (A.17)
+orthogonal linear polarizations are J j = 1 − R j , where                                                                                  
+                                                                                    βyx = − ǫ xz sin ϕ + ǫyz cos ϕ sin θk / ǫzz − sin2 θk ,           (A.18)
+R j = |r j1 |2 + |r j2 |2   ( j = 1, 2).                                  (A.2)                                     
+                                                                                    γ xx = −1 − sin2 θk cos2 ϕ/ ǫzz − sin2 θk ,
+                                                                                                                                    
+                                                                                                                                                      (A.19)
+    The reflected field amplitudes r11 , r12 , r21 , and r22 were cal-
+                                                                                                                                         
+                                                                                    γ xy = γyx = − sin2 θk sin ϕ cos ϕ/ ǫzz − sin2 θk ,               (A.20)
+culated in Paper I using an eighth-order polynomial in the re-                                                                     
+fraction index n j to determine the properties of the transmit-                     γyy = −1 − sin2 θk sin2 ϕ/ ǫzz − sin2 θk ,                        (A.21)
+ted modes. The transmitted wave can be described by two nor-
+mal modes, thus, most of the roots obtained from that polyno-                            The fourth order polynomial defined by Eqs. (A.6)–(A.21)
+mial represent unphysical solutions to the equations. The condi-                    has much better numerical properties than the eighth-order poly-
+tions to identify the correct roots were derived in Appendix B of                   nomial described by Eq. (A4) of Paper I. We find that a stable,
+Paper I, with the requirements that the corresponding reflectivi-                   efficient method for solving Eq. (A.6) can be obtained by defin-
+ties satisfy R1 , R2 ⩽ 1 and that the function R(E) be continuous.                  ing the matrix
+However, for some values of the model parameters, the unphys-                               −a3 /a4 −a2 /a4 −a1 /a4 −a0 /a4 
+                                                                                                                                
+ical roots can satisfy the physical constraints on the solution.                              1       0       0       0 
+    Here we propose an improved method, based on a fourth-                          M ≡                                        ,         (A.22)
+                                                                                                0      1       0       0 
+order polynomial, which allows for easy elimination of the un-                                    0      0       1       0
+physical roots.
+                                                                                    and noting that the eigenvalues of M are equal to the roots of
+  1
+     We use the inverse order of the subscripts in rm j and tm j with respect       Eq. (A.6). We use the ZGEEV subroutine of the LAPACK li-
+to the one used in Paper I.                                                         brary (Anderson et al. 1999) to compute the eigenvalues of M.
+
+12
+                                                   A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+Of the resulting four roots, only two correspond to physical so-                               Appendix B: Approximations for reflectivities at the
+lutions for the transmitted waves. To identify the correct roots,                                bottom of a thin atmosphere
+we write the spatial   variation
+                              of the transmitted electric field
+                 
+as E j (r) ∝ exp iω n j · r/c . The amplitude of the electric field                            B.1. Reflectivities of the normal modes in terms of rm j
+must decay in the transmitted wave region, leading to the condi-                               In general, the interface between the thin atmosphere and mag-
+tion:                                                                                          netic condensed surface has reflection and transmission prop-
+                                                                                               erties that are different from those of the condensed surface in
+Im(n j ) ≤ 0.                                                                       (A.23)     vacuum. Therefore, a separate calculation of the reflectivity co-
+At all energies and angles for the range of magnetic fields B =                                efficients rm j is needed for every set of atmosphere parameters.
+1012 − 1015 G, condition (A.23) identifies two physical solutions                              However, assuming that the atmosphere is sufficiently rarefied,
+to Eq. (A.6). Using these values for n j , we write the polarization                           we may approximately replace these coefficients by those in vac-
+vectors for the transmitted wave as                                                            uum. Under these conditions, the plane waves in the atmosphere
+                                       (t)                                                   are almost transverse, so we can approximately set Kz,M → 0 in
+                                       K j                                               Eq. (4). Then each incident and reflected wave can be expanded
+                    1
+ e(t)                                      1  ,                                        over the linear polarization vectors e1 and e2 that have been em-
+                                                 
+   j  =  q                                                   (A.24)
+           1 + |K (t) | 2 + |K (t) |2  K (t)                                                 ployed in the reflectivity calculation.
+                  j           z, j            z, j
+                                                                                                    For the incident (i) and reflected (r) beams, we define or-
+              γ xy n2z, j + β xy nz, j + α xy                                                  thonormal vectors e(i,r)        = ẑ × k/|ẑ × k| = ẑ × k̂i,r /| sin θk |,
+K (t)   = −                                ,                        (A.25)                                               1
+  j
+           γ xx n2z, j + β xx nz, j + α xx                                                     e(i)
+                                                                                                2   =  k̂i × e (i)
+                                                                                                               1   , and e (r)    (r)
+                                                                                                                           2 = e1 × k̂r , where k̂ denotes the unit
+                                                                                             vector along k. In the notations of Fig. 1,
+ (t)
+        ǫ xz − sin θk sin ϕnz, j − ǫ xz + sin θk cos ϕnz, j K (t)
+                                                              j
+Kz, j =                                      2
+                                                                  . (A.26)                       k̂i,r = sin θk cos ϕ x̂ + sin θk sin ϕ ŷ ∓ cos θk ẑ,            (B.1)
+                                    ǫzz − sin θk
+                                                                                                 e(i)   (r)
+                                                                                                  1 = e1 = − sin ϕ x̂ + cos ϕ ŷ,                                  (B.2)
+A.2. Reflectivity calculation                                                                    e(i,r)
+                                                                                                  2 = cos θk (cos ϕ x̂ + sin ϕ ŷ) ± sin θk ẑ,                    (B.3)
+                                                                                               where the upper and lower signs in ∓ cos θk are for the inci-
+Once the quantities n j and e(t)
+                             j are known, the reflectivity of the                              dent and reflected waves, respectively. The coordinates in which
+medium can be calculated using the boundary conditions for                                     Eq. (4) is written are (x′ , y′ , z′ ) (Fig. 1), defined according to re-
+Maxwell’s equations at the condensed matter surface:
+                                                                                               lations ŷ′ = B × k/|B × k| and x̂′ = ŷ′ × k̂.
+∆E × ẑ = 0,                                                                        (A.27)         The electric field of the incoming ray with unit amplitude
+                                                                                               and polarization M ′ (M ′ =X or M ′ =O) can be written as
+∆B × ẑ = 0,                                                                        (A.28)
+                                                                                               e(i)    (i)     (i)  (i)     (i)
+                                                                                                M ′ = c M ′ 1 e1 + c M ′ 2 e2 ,                                    (B.4)
+where ∆E ≡ E(i) + E(r) − E(t) and ∆B ≡ B(i) + B(r) − B(t) are
+the differences between the fields above (incident and reflected)                              where c(i)           (i)    (i)
+                                                                                                          M′ j = e M′ · e j . According to Eqs. (A.1) and (B.4), the
+and below (transmitted) the condensed surface. For the detailed                                reflected field is
+forms of the fields, see §3.1 of Paper I. Writing out the compo-                                                             2 X
+                                                                                                                               2
+nents of (A.27) and (A.28) for the two orthogonal linear polar-                                       (r)            (r)
+                                                                                                                           X
+                                                                                                ′
+                                                                                               rXM ′e     +  r ′
+                                                                                                                 ′
+                                                                                                              OM O e     =       rm j c(i)    (r)
+                                                                                                                                       M ′ j em .             (B.5)
+izations of the incident wave yields a system of equations for the                                    X
+                                                                                                                           m=1 j=1
+amplitudes of the reflected and transmitted modes, analogous to
+                                                                                                               ′         ′
+Eq. (A6) of Paper I. This set of equations can be solved as two                                The amplitudes rXM ′ and rOM ′ of the reflected-field components
+independent linear systems with complex coefficients, such that                                in the X- and O-modes, respectively, are given by the solution of
+                                                                                               the linear system
+        r11 r12   − cos ϕ              cos θk sin ϕ 
+                                                              
+                                                                                                 (r) (r)  ′           ′             !  (i) (i) 
+                                                                                                 cX1 cO1  rXX rXO        r11 r12  cX1 cO1 
+          r21 r22   − sin ϕ                                                                                       !
+                                               − cos θk cos ϕ 
+                                                                 
+C ·                  =                                   , (A.29)                                                  =                           , (B.6)
+            t11 t12   − cos θk sin ϕ      − cos ϕ 
+                                                                                                            
+                                                                                                      c(r) (r)      ′
+                                                                                                                   rOX  ′
+                                                                                                                       rOO     r21 r22  c(i) c(i) 
+              t21 t22             cos θk cos ϕ    − sin ϕ                                              X2 cO2                                X2 O2
+
+                                                                                               where c(r)      (r)  (r)
+                                                                                                       M j = e M · e j . Since the incident X- and O-modes are
+where
+                                                                                               incoherent, the normal mode reflectivities in Eqs. (29) and (30)
+                  cos ϕ       cos θk sin ϕ
+       
+                                                                                            are
+               sin ϕ      − cos θk cos ϕ
+C =                                                                                        R MM′ = |r′MM′ |2 .                                                 (B.7)
+            − cos θk sin ϕ     cos ϕ
+              cos θk cos ϕ       sin ϕ                                                         According to Eq. (4),
+                            −1                               −1,                                          (i,r) ˆ′
+                                                                                                        iK M    x i,r · e(i,r)       ′ (i,r)
+                                                                                                                         j + ŷ i,r · e j
+                                                                                   
+                             (t)                              (t)
+                            e1,x                            e2,x ,                             c(i,r)
+                                                                                                Mj =                                         ,                     (B.8)
+                                                                                     
+                                                                                                                 q
+                sin θk cos ϕe(t)
+                               1,z − n z,1 e (t)
+                                             1,x sin θk cos ϕe  (t)
+                                                                2,z  − n z,2 e (t) 
+                                                                               2,x 
+                                                                                        
+                                                                                                                  1 + |K M  (i,r) 2
+                                                                                                                                    |
+                                 (t)                               (t)
+                  sin θk sin ϕe1,z − nz,1          sin θk sin ϕe2,z − nz,2                             (i,r)
+                                                                                               where K M     = K M (αi,r ). The explicit expressions for the scalar
+and e(t)     (t)      (t)     (t)                                                              products in Eq. (B.8) are2
+      j,x = e j ·x̂, e j,z = e j ·ẑ. We solve the complex systems using
+the ZGESV subroutine of the LAPACK library (Anderson et al.                                    xˆ′i,r · e(i,r) = sin θB sin ϕ/sin αi,r ,                           (B.9)
+                                                                                                         1
+1999).
+    The corrected results for the case of a magnetized iron sur-                                 2
+                                                                                                   We thank Denis Gonzalez Caniulef for finding an error in the first
+face (to be compared with Paper I) are presented in Sect. 2.2.3.                               version of Eq.(B.12).
+
+
+                                                                                                                                                                       13
+                                                 A. Y. Potekhin et al.: Spectra of neutron stars with metallic surfaces
+
+yˆ′i,r · e(i,r)
+          1     = (cos θB sin θk ± sin θB cos θk cos ϕ)/sin αi,r ,        (B.10)
+xˆ′i,r · e(i,r)
+          2       = (∓ cos θB sin θk − sin θB cos θk cos ϕ)/sin αi,r , (B.11)
+yi,r · e(i,r)
+  ˆ′
+          2       = ± sin θB sin ϕ/ sin αi,r .                            (B.12)
+
+     Caution should be used when employing approximations for
+rm j in Eq. (B.6) if one of the normal modes is almost completely
+reflected, that is, R MM′ ≈ 1. Such a situation occurs for the X-
+mode at Eci < E < EC , if both k and B are close to normal
+(see Paper I). In this case the fit error may exceed (1 − RXX )
+and result in RXX > 1, which is unphysical. In particular, the
+fitting formulae presented below may occasionally give RXX a
+few percent above 1 at very small θB and θk . In such instances
+one should truncate the mode-specific reflectivities, recovered
+from the fit, so as to fulfill the general condition 0 < R MM′ < 1.
+
+B.2. Approximations for rm j
+For calculating R MM′ according to Sect. B.1, we use an analytic
+model of the complex reflectivity coefficients rm j , which agrees
+with the approximations derived in Sect. 2.3 and roughly repro-
+duces the computed dependences of rm j = |rm j | exp(iφm j ) on E
+for many characteristic geometry settings. For the squared mod-
+uli we use the following expressions:
+          
+          
+           0 in Region I,
+      2
+          
+           f (1 − J ) (1 − J )
+|r12 | =    E       B1        C                            (B.13)
+                 +JC RL (1 − sin θB sin2 ϕ)/2 in Region II,
+          
+          
+          
+          
+          
+           0 in Region I,
+|r21 |2 = 
+          
+            fE (1 + JB1 − 2JB ) (1 − JC )                   (B.14)
+          
+          
+          
+                +JC RL sin θk (1 − cos α)/2 in Region II,
+|r11 |2 = 1 − J1 − |r12 |2 ,        |r22 |2 = 1 − J2 − |r21 |2 ,          (B.15)
+and fE ≡ E/(E + ẼC/2). The functions J1 , J2 , JB , JC , JB1 , and RL
+are defined in Sect. 2.3. In the case of the free-ions model, small
+accidental discontinuities at the boundary of Region I are elimi-
+nated by truncating |r11 |2 and |r22 |2 from above by their values at
+E = Eci . Our approximations for the complex phases are
+          π in Region I,
+        
+        
+        
+        
+         −π fL , if E > ẼC ,
+        
+        
+φ11 =           E − Eci                                       (B.16)
+        π+π                  otherwise,
+        
+        
+        
+                 ẼC − Eci
+        (
+          π fL , if E > ẼC ,
+φ22 =                                                           (B.17)
+          φ11 otherwise,
+          −π/2 in Region I,
+        
+        
+        
+         π/2 − 2π fL , if E > ẼC ,
+        
+        
+        
+φ12 =      E − (Eci + ẼC )/2                                 (B.18)
+        π                        otherwise,
+        
+        
+        
+                 Eci − ẼC
+φ21 = φ12 + π,                                                  (B.19)
+where
+    "                    !#−1
+               EL − E
+fL = 1 + exp 5                .
+               E L − ẼC
+
+
+
+
+14
+

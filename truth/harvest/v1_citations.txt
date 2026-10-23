@@ -1,0 +1,116 @@
+constants.jl:3:Source: CODATA 2018 (Tiesinga et al., Rev. Mod. Phys. 93, 025010, 2021).
+atmosphere/blackbody.jl:11:Source: Suleimanov+ (2009) for f_col values.
+atmosphere/blackbody.jl:24:Planck function. Source: standard thermodynamics.
+atmosphere/temp_correction.jl:6:of Rybicki (1971) as implemented by Haakonsen et al. (2012) Appendix A.
+atmosphere/temp_correction.jl:12:Source: Haakonsen et al. (2012) ApJ 749:52, Appendix A, Eqs. A1-A33.
+atmosphere/temp_correction.jl:13:        Rybicki, G.B. (1971) JQSRT 11, 589.
+atmosphere/temp_correction.jl:35:equation (Haakonsen Eq. A2), while the Feautrier solver uses the full
+atmosphere/temp_correction.jl:143:    # Temperature correction: ΔT_i = J̄_i - B̄_i  (from Eq. A5)
+atmosphere/temp_correction.jl:172:        # U_k (Eq. A22): -(dB_k/dT)(1-ρ_k)
+atmosphere/temp_correction.jl:176:        # K_k (Eq. A23)
+utils/tridiag.jl:13:than dividing by them. This guard exists because Haakonsen Eq. A19-A21
+surface/dipole.jl:5:The temperature ansatz is NOT the Greenstein & Hartke (1983) derivation
+surface/dipole.jl:9:centred-dipole result, which is what Greenstein & Hartke (1983) Eq. 1
+surface/dipole.jl:13:form): Greenstein & Hartke, ApJ 271, 283 (1983).
+surface/dipole.jl:46:NOT the Greenstein & Hartke (1983) derivation. GH 1983 derive
+surface/dipole.jl:48:thermal conductivity (their Eq. 1 is the dipole *field magnitude*, not
+surface/dipole.jl:74:Source: Standard dipole field. Greenstein & Hartke (1983).
+NeutronStar.jl:94:# Equation of state
+opacity/gaunt_ff.jl:2:Free-free Gaunt factor interpolation from Sutherland (1998) table.
+opacity/gaunt_ff.jl:4:Source: Sutherland, MNRAS 300, 321 (1998).
+opacity/gaunt_ff.jl:34:Load the Sutherland (1998) gffgu.dat table.
+atmosphere/rt_atmosphere.jl:12:Source: Haakonsen et al. (2012) Sect. 3.
+eos/tov.jl:7:Source: Shapiro & Teukolsky (1983) Ch 5-6; Potekhin+ (2013) Sect. 6.
+atmosphere/atm_structure.jl:5:Source: Haakonsen et al. (2012) Sect. 2-3.
+atmosphere/atm_structure.jl:85:2. P(y) = g_s × y (hydrostatic eq, Haakonsen Eq. 1)
+atmosphere/atm_structure.jl:86:3. T(y) from Eddington approximation (Eq. 10)
+opacity/magnetic_ff.jl:8:Source: Potekhin & Chabrier (2003) ApJ 585, 955, Eqs. 33-52.
+opacity/magnetic_ff.jl:27:"Quantization parameter β_e = ℏω_ce/(k_BT). Eq. (1)."
+opacity/magnetic_ff.jl:33:Proton-proton Coulomb logarithm. P&C 2003 Eq. (48).
+opacity/magnetic_ff.jl:43:Effective free-free absorption frequency. P&C 2003 Eq. (41).
+opacity/magnetic_ff.jl:68:Effective proton-proton collision frequency. P&C 2003 Eq. (47).
+opacity/magnetic_ff.jl:85:P&C 2003 Eq. (51), combined electron+proton treatment.
+opacity/magnetic_ff.jl:103:    # Natural radiative widths (Eq. 39 and analogous for proton)
+opacity/magnetic_ff.jl:110:    # Damping frequencies entering P&C 2003 Eq. (52): ν_e excludes
+opacity/magnetic_ff.jl:115:    # Combined damping (Eq. 52)
+opacity/magnetic_ff.jl:125:    # Full denominator (Eq. 51)
+opacity/magnetic_ff.jl:143:    # From Eq. (41) + (37) with ω_ce → 0:
+opacity/magnetic_ff.jl:152:Proton-proton collision cross-section. P&C 2003 Eq. (46).
+opacity/magnetic_ff.jl:165:    # Damping (Eq. 53): ν_{p,α} = (m_e/m_p) ν_α^ff + ν_p^s + ν^pp
+opacity/magnetic_ff.jl:179:Magnetic electron scattering cross-section. P&C 2003 Eq. (33).
+opacity/magnetic_ff.jl:184:        # Eq. 33, omega_ce -> 0 limit). With the normalized weight sum
+opacity/hydrogen_ff.jl:5:Source: Haakonsen et al. (2012) ApJ 749:52, Eqs. 11-12.
+opacity/hydrogen_ff.jl:21:Haakonsen et al. (2012) Eq. 12.
+opacity/hydrogen_ff.jl:49:Haakonsen et al. (2012) Eq. 11 with f_ion = 1:
+opacity/hydrogen_ff.jl:68:Scattering albedo: ρ_ν = σ / (κ + σ). Haakonsen Eq. 6.
+colorimetry/cie_srgb.jl:131:Source: IEC 61966-2-1:1999.
+colorimetry/cie_srgb.jl:161:Source: Reinhard et al. (2002) Eq. 1-2.
+atmosphere/feautrier.jl:9:Source: Haakonsen et al. (2012) Sect. 3.3, Eqs. 13-17.
+eos/bsk_eos.jl:3:Source: Potekhin et al., A&A 560, A48 (2013), Eq. (3), Table 2.
+eos/bsk_eos.jl:18:    BSk EOS parameters a₁…a₂₃ for Eq. (3) of Potekhin+ (2013).
+eos/bsk_eos.jl:110:Potekhin et al. (2013) Eq. (3).
+eos/bsk_eos.jl:121:    # Potekhin+ (2013) Eq. (3)
+eos/bsk_eos.jl:146:See Potekhin+ (2013) Sect. 3.1, Eq. (1).
+eos/bsk_eos.jl:157:Potekhin+ (2013) Eq. (2). Computed numerically via trapezoidal rule.
+opacity/coulomb_magnetic.jl:8:Source: Potekhin & Chabrier (2003) ApJ 585, 955, Eqs. (44a-e).
+opacity/coulomb_magnetic.jl:23:Magnetic Coulomb logarithm. P&C 2003 Eq. (44a).
+opacity/coulomb_magnetic.jl:54:        # P&C 2003 Eq. (44a) integrates over y ∈ [0, ∞).  A fixed cutoff
+opacity/coulomb_magnetic.jl:69:P&C 2003 Eq. (44b-e).
+opacity/coulomb_magnetic.jl:72:    # Eq. (44d): auxiliary variables
+opacity/coulomb_magnetic.jl:78:    # Eq. (44e): x_n = |u - nβ_e| sqrt(1/4 + y/β_e).
+opacity/coulomb_magnetic.jl:102:    # Eq. (44c): A_n^α
+opacity/coulomb_magnetic.jl:116:    # Eq. (44b): Q_n^α = y / [ζ × ...] × A_n^α
+opacity/coulomb_magnetic.jl:126:Λ_cl = e^{u/2} K₀(u/2). P&C 2003 Eq. (43).
+geodesics/schwarzschild.jl:4:Uses the Beloborodov (2002) approximate cosine relation (Eq. 1):
+geodesics/schwarzschild.jl:15:Also implements exact integral from Beloborodov (2002) Appendix, Eq. (9).
+geodesics/schwarzschild.jl:17:Source: Beloborodov, ApJ 566, L85 (2002). Local: refs/beloborodov_2002_ray_tracing.pdf
+geodesics/schwarzschild.jl:57:Beloborodov (2002) Eq. (1) inverted:
+geodesics/schwarzschild.jl:82:Beloborodov (2002) Eq. (10): sin α = (b/R)√(1 - r_g/R).
+geodesics/schwarzschild.jl:106:Beloborodov (2002) Sect. 3: S_v/(4πR²) = [2(1 - r_g/R)]⁻¹.
+geodesics/schwarzschild.jl:179:        # From Eq. (10): sin α = (b/R)√(1 - u), so
+opacity/dielectric_tensor.jl:12:Source: Ginzburg (1970) §10, Potekhin & Chabrier (2003) ApJ 585, 955,
+opacity/dielectric_tensor.jl:13:        Eq. 25-27. Shafranov (1967) for polarization vectors.
+opacity/dielectric_tensor.jl:31:Sign convention: this uses the Ginzburg (1970) / Lai-Ho convention where
+opacity/dielectric_tensor.jl:33:van Adelsberg & Lai (2006) Eq. (10), `[ε_pl] = [[ε, ig, 0], [-ig, ε, 0],
+opacity/dielectric_tensor.jl:38:textbook Stix (1992) definition D_Stix = (R-L)/2, which carries an extra
+opacity/dielectric_tensor.jl:42:Lai (2006) Eqs. (10, 19) and P&C 2003 Eq. (25) for the underlying tensor
+opacity/dielectric_tensor.jl:56:    # D = g = ε_xy / i in the Ginzburg/Lai tensor (Eq. 10 of vAL2006).
+opacity/dielectric_tensor.jl:70:Ginzburg (1970) §10 / Potekhin & Chabrier (2003) Eqs. 25-27.
+opacity/dielectric_tensor.jl:74:Mode parameter q (P&C 2003 Eq. 25, cold plasma, no vacuum terms):
+opacity/dielectric_tensor.jl:111:    # Compute q from Eq. 25 (full formula, no approximation)
+opacity/dielectric_tensor.jl:155:Potekhin, Lai & Chabrier (2004) Appendix Eqs. (A7)-(A9); the B-frame cyclic
+opacity/dielectric_tensor.jl:156:mode-vector construction follows van Adelsberg & Lai (2006) Eqs. (16)-(18)
+opacity/dielectric_tensor.jl:200:Vacuum polarization coefficients from Potekhin, Lai & Chabrier (2004)
+opacity/dielectric_tensor.jl:215:    # PLC2004 Eq. (A7): â ≈ -(2α/9π) ln[1 + (b²/5)(1 + 0.25487 b^(3/4))/(1 + 0.75 b^(5/4))]
+opacity/dielectric_tensor.jl:220:    # PLC2004 Eq. (A8): q ≈ (7α/45π) b² (1 + 1.2 b)/(1 + 1.33 b + 0.56 b²)
+opacity/dielectric_tensor.jl:224:    # PLC2004 Eq. (A9): m ≈ -(α/3π) b² / (3.75 + 2.7 b^(5/4) + b²)
+opacity/dielectric_tensor.jl:263:Chabrier (2004), written with the sign convention of the local cold-plasma
+opacity/dielectric_tensor.jl:288:(2004).  The `K1/K2` branch labels follow their X/O convention,
+opacity/dielectric_tensor.jl:356:    # (2006) Eqs. (22)-(23). The k-frame eigenvector (Eq. 17) is
+opacity/dielectric_tensor.jl:375:    wp1 = (transverse + 1.0)^2 / (2.0 * norm)  # |e_{+1}|², vAL2006 Eq. (22), upper sign
+opacity/dielectric_tensor.jl:376:    wm1 = (transverse - 1.0)^2 / (2.0 * norm)  # |e_{-1}|², vAL2006 Eq. (22), lower sign
+opacity/dielectric_tensor.jl:377:    w0  = longitudinal^2 / norm                # |e_0|²,    vAL2006 Eq. (23)
+opacity/dielectric_tensor.jl:394:# Source: van Adelsberg & Lai (2006) MNRAS 373, 1495 — Eqs. (2), (3), (4).
+opacity/dielectric_tensor.jl:395:#         Suleimanov, Potekhin & Werner (2009) A&A 500, 891 — Eqs. (13), (16),
+opacity/dielectric_tensor.jl:406:This is van Adelsberg & Lai (2006) Eq. (2):
+opacity/dielectric_tensor.jl:413:varying function of `B` (vAL2006 references Lai & Ho 2003 Eq. 2.41 for the
+opacity/dielectric_tensor.jl:416:subsequent P_jump physics. SPW09 Eq. (13) uses the same expression
+opacity/dielectric_tensor.jl:449:This is van Adelsberg & Lai (2006) Eqs. (3)-(4):
+opacity/dielectric_tensor.jl:461:`I_X → P_jump · I_X + (1 - P_jump) · I_O` (SPW09 Eq. 16), so `1 - P_jump`
+opacity/dielectric_tensor.jl:517:    # vAL2006 Eq. 3: argument of (·)^(2/3) is always ≥ 0; floor at 0 in
+opacity/dielectric_tensor.jl:532:    # vAL2006 Eq. 4 / SPW09 Eq. 17.
+atmosphere/magnetic_atmosphere.jl:9:Source: Suleimanov, Potekhin & Werner (2009) A&A 500, 891.
+atmosphere/magnetic_atmosphere.jl:10:        Haakonsen et al. (2012) ApJ 749:52 (McPHAC), for B=0 limit.
+atmosphere/magnetic_atmosphere.jl:59:    # Vacuum-resonance mode-conversion diagnostics (SPW09 Eq. 16-17).
+atmosphere/magnetic_atmosphere.jl:167:        # Avrett-Krook from their Eq. 19-22 + Kurucz 1970 surface correction)
+atmosphere/magnetic_atmosphere.jl:228:    # / van Adelsberg & Lai (2006) Eqs. (4), (33)-(34). The Feautrier solve
+atmosphere/magnetic_atmosphere.jl:230:    # actual prescription (their §2 around Eq. 16) is to compute that
+atmosphere/magnetic_atmosphere.jl:769:        # Use Hummer (1962) dipole phase function for Thomson scattering, matching
+atmosphere/magnetic_atmosphere.jl:774:        # approximation (inter-mode redistribution = SPW09 Eq. 8 is the full
+atmosphere/magnetic_atmosphere.jl:1017:        # Scattering + source (interior only). Hummer (1962) dipole phase
+opacity/magnetic_modes.jl:10:   (DielectricTensor module) instead of ad-hoc Eq. 26 approximation.
+opacity/magnetic_modes.jl:11:2. Angle-average each mode SEPARATELY (P&C 2003 Eq. 30), then combine
+opacity/magnetic_modes.jl:14:Source: Potekhin & Chabrier (2003) ApJ 585, 955, Eqs. 25-30.
+opacity/magnetic_modes.jl:34:P&C 2003 Eq. (27): κ_j^a = (1/m_H) Σ_α |e_{j,α}|² σ_α^a.
+opacity/magnetic_modes.jl:35:For fully ionized hydrogen, Eq. (31) gives σ_α^a = σ_α^ff + σ_α^pp.
+opacity/magnetic_modes.jl:124:CORRECT implementation: angle-average each mode j separately (P&C 2003 Eq. 30),

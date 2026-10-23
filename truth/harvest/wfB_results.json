@@ -1,0 +1,97 @@
+{
+ "apply:rt": {
+  "accepted": 13,
+  "fixed": 0,
+  "rejected": 2,
+  "dropped": 0,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "- Scope \u03bc explicitly: H:155\u2013160 and V:291 use a positive half-range variable; S:130\u2013140, 148\u2013209 uses signed directions. McPHAC angular index \\(j\\) also differs from magnetic mode index \\(j\\); frequency index \\(k\\) differs from opacity \\(k_\\nu\\).\n- Consolidate remaining aliases: \\(y/y_{\\rm col}/m\\), \\(g/g_s/g_{\\rm surf}\\), \\(\\alpha_{Bk}/\\theta_{kB}/\\text{opacity }\\theta_B\\), and Greek/ASCII vacuum-symbol spellings.\n- Wire \\(E_{Bi}\\) to a separately sourced cyclotron definition: V:224 omits field dependence; S:267\u2013274 supplies it. All 15 entries have a Milestone 2\u20133 role."
+ },
+ "apply:surface": {
+  "accepted": 14,
+  "fixed": 0,
+  "rejected": 1,
+  "dropped": 0,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "Consolidate apparent-radius aliases and distinguish source radius `R_\\infty` from the Rydberg symbol `R_\u221e` in [const.toml:610](/home/tobias/Projects/neutronstars/truth/entries/const.toml:610). Explicitly map compactness `x_g`/`u` and Stefan\u2013Boltzmann `\u03c3_SB`/`\u03c3_sb`/`\u03c3`, retaining their unit systems. | All seven reviewed poor-OCR entries were visually checked here; record `image_verified = true`. All 12 reviewed non-notation entries still lack `provenance` and `ownership`; retained published fits/numerical outputs also need reconstruction routes. | Need: drop magnetospheric-cap-only auxiliaries from the mixed conduction-notation bundle; they fall outside Milestones 1\u20133 and the [PRD scope](/home/tobias/Projects/neutronstars/PRD.md:39)."
+ },
+ "apply:eos": {
+  "accepted": 2,
+  "fixed": 3,
+  "rejected": 2,
+  "dropped": 26,
+  "ids_fixed": [
+   "eos.notation-electron-gas",
+   "eos.surface-gravity",
+   "eos.thin-envelope-newtonian-hydrostatics"
+  ],
+  "check_errors": 0,
+  "cross_entry_issues": "Mechanical check ran first, exit **0**: `357 entries: {'blessed': 220, 'rejected': 46, 'proposed': 91}; 0 errors, 524 warnings`. Warnings comprise 208 missing provenance classes, 313 missing ownership fields, and conflicts for `alpha`, `lambda`, `phi`. EOS contributes 60 missing-field warnings.\n- All **33/33** anchors occur byte-for-byte in their own TXT files. All **12** poor-OCR claims received PDF inspection; currently **0/12** carry `image_verified = true`. Record the verified passes for retained claims. All 30 non-notation entries still require provenance and ownership.\n- Scope drops follow the explicit exclusion of TOV/BSk when M,R come from observational constraints: [worklog:27\u201330](/home/tobias/Projects/neutronstars/worklog/2026-10-23.md:27). Remove dependencies on dropped/rejected entries when consolidating retained claims.\n- Resolve notation aliases explicitly: `omega_c/omega_ce`, `g/g_s/g_surf`, `Phi(r)/Phi`, `Lambda(r)/Lambda`, and apparent-radius spellings, including cm versus observational km. Distinguish chemical `mu` from ray \u03bc, gravitational density from gas density, and BSk \\(c_1,c_2\\) from radiation constants. Keep local \\(T_s\\) distinct from overall \\(T_{\\rm eff}\\).\n- Eq. 12 does not supply an owned EOS closure: PY01 refers elsewhere for the Fermi-integral fit and \u03bc inversion, and gives no cutoff prescription here for \\(n_{\\max}\\): [PY01:238\u2013253](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:238). Those dependencies need sourced first-principles definitions before runtime use."
+ },
+ "prov:rt": {
+  "file": "truth/entries/rt.toml",
+  "tagged": 35,
+  "check_errors": 0,
+  "by_class": {
+   "derivable": 33,
+   "convention": 1,
+   "fit": 1,
+   "measured": 0,
+   "table": 0,
+   "code": 0
+  },
+  "unsure": [
+   "rt.eddington-temperature-profile-mcphac: provenance was already fit with a reimplement; I only added ownership = stub and tagged the reimplement with audit item A12.",
+   "rt.eddington-factors-mcphac: already convention, so ownership = leaf. It is a definition of moments, not a standard's definition in the strict sense.",
+   "rt.pjump-conversion-spw09 and rt.pjump-val: already derivable, so ownership = stub. The Landau-Zener form is quoted from the papers and the derivation is missing (audit A22: Lai & Ho 2002).",
+   "rt.vacuum-resonance-val: already derivable, so ownership = stub. It depends on the PLCH04 A7-A9 fits (audit A20/A21)."
+  ]
+ },
+ "prov:surface": {
+  "file": "truth/entries/surface.toml",
+  "tagged": 34,
+  "check_errors": 0,
+  "by_class": {
+   "derivable": 19,
+   "convention": 3,
+   "fit": 7,
+   "code": 5,
+   "measured": 0,
+   "table": 0
+  },
+  "unsure": [
+   "surface.gh83-temperature-distribution: GH83 eq. 14 marked derivable (follows from the 1-D anisotropic slab); v1 A29 called the cos^2 form an unsourced ansatz, so it could be argued to be fit",
+   "surface.gh83-approx-blackbody-emission: marked derivable, but it is an assumption GH83 took from emissivity studies and the RT atmosphere replaces it",
+   "surface.ppp15-fit-flux-recipe: marked derivable (F_b = sigma T^4 flux balance), though it refers to the fit's T_*",
+   "surface.gh83-synthetic-spectrum-fit and surface.gh83-spectrum-conclusion: marked code with drop_reason 'verification target only' (published GH83 model outputs)",
+   "surface.phc16-rxj1856-polar-field, -polar-ts, -teff-inf: marked code (outputs of Ho+2007 fits), reimplement A34 L0; measured could be argued",
+   "surface.ppp15-approx-fit-validity and surface.ppp15-fit-structure: approximation/definition entries about the fit, tagged fit with reimplement A29"
+  ]
+ },
+ "tex:surface": "added 8 / eligible 21 (8 anchor_tex lines in truth/entries/surface.toml; check.py: 0 errors, 63 warnings)",
+ "tex:rt": "added 13 / eligible 13 (blessed equation entries with refs/K.tex and no anchor_tex; notation entries skipped as they carry no equation). check.py: 0 errors, 63 warnings.",
+ "eos-r2": "Round 2 accepted all three entries, and I set each to `status = \"blessed\"` with a round-2 `[[entry.reviews]]` record. `python3 -I truth/check.py` now reports 0 errors. The review is in `truth/reviews/eos-r2.md`.\n\n- **Entries blessed:** `eos.notation-electron-gas`, `eos.surface-gravity`, `eos.thin-envelope-newtonian-hydrostatics`.\n- **Counts:** 387 entries: blessed 277, rejected 80, proposed 30.\n- **check_errors:** 0 (63 warnings remain).\n- **Extra edit:** The first check run gave 1 error: `eos.surface-gravity` had `ocr = \"poor\"`, was blessed, and had no `image_verified` flag. I added `image_verified = true` to that entry, since the reviewer said PDF p. 3 visually confirms it.\n- **Not done from the reviewer's \"before blessing\" list:** I did not add provenance or ownership to the two hydrostatic entries. I also did not replace `eos.surface-gravity`'s dependency on the rejected `eos.notation-structure`, or map EOS `g` to RT `g_s`/`g_surf`. The checker raises these as warnings, not errors.\n\nEdited file: `/home/tobias/Projects/neutronstars/truth/entries/eos.toml`",
+ "prov:eos": {
+  "file": "truth/entries/eos.toml",
+  "tagged": 30,
+  "check_errors": 0,
+  "by_class": {
+   "derivable": 11,
+   "measured": 1,
+   "fit": 11,
+   "code": 7,
+   "table": 0,
+   "convention": 0
+  },
+  "unsure": [
+   "eos.rho-surface-fe56: tagged measured/leaf (7.86 g/cm3 is the density of Fe-56 at P=0, T=0); the source uses it as a fit boundary, so it could instead be fit/stub.",
+   "eos.m-u-rounded: tagged fit with drop_reason (rounded 1.66e-24 g tied to the BSk fit); it could instead be measured.",
+   "eos.bsk-adiabatic-index: tagged fit (it is the derivative of the BSk fit), but the relation Gamma=(n_b/P)dP/dn_b is itself derivable.",
+   "eos.tov-integration-procedure and the six bsk-*-benchmark/superluminal data: tagged code with drop_reason 'verification target only'.",
+   "eos.relativistic-units-pr-tr: tagged derivable (P_r and T_r are combinations of CODATA constants)."
+  ]
+ },
+ "tex:eos": "added 32 / eligible 33 (skipped eos.bsk-mmax-central-density: the anchor's BSk20 value of 2.27 M\u2299 contradicts refs/potekhin_2013_bsk_eos.tex line 1512, which gives 2.16 M\u2299 at 2.69e15; check.py reports 0 errors)"
+}

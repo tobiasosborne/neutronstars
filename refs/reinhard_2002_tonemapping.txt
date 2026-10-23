@@ -1,0 +1,615 @@
+                   Photographic Tone Reproduction
+                          for Digital Images
+
+                  Erik Reinhard Michael Stark Peter Shirley
+                               Jim Ferwerda
+
+
+                                    UUCS-02-01
+
+
+                                  School of Computing
+                                   University of Utah
+                             Salt Lake City, UT 84112 USA
+
+                                    January 14, 2002
+
+
+                                      Abstract
+A classic photographic task is the mapping of the potentially high dynamic range of real
+world luminances to the low dynamic range of the photographic print. This tone reproduc-
+tion problem is also faced by computer graphics practitioners who must map digital images
+to a low dynamic range print or screen. The work presented in this paper leverages the
+time-tested techniques of photographic practice to develop a new tone reproduction opera-
+tor. In particular, we use and extend the techniques developed by Ansel Adams to deal with
+digital images. The resulting algorithm is simple and is shown to produce good results for
+the wide variety of images that we have tested.
+                     Photographic Tone Reproduction for Digital Images
+                 Erik Reinhard                 Michael Stark              Peter Shirley                 Jim Ferwerda
+                University of Utah            University of Utah        University of Utah            Cornell University
+
+
+
+
+Abstract                                                                     Linear map
+
+A classic photographic task is the mapping of the potentially high
+dynamic range of real world luminances to the low dynamic range
+of the photographic print. This tone reproduction problem is also
+faced by computer graphics practitioners who must map digital im-
+ages to a low dynamic range print or screen. The work presented
+in this paper leverages the time-tested techniques of photographic
+practice to develop a new tone reproduction operator. In particular,
+we use and extend the techniques developed by Ansel Adams to
+deal with digital images. The resulting algorithm is simple and is
+shown to produce good results for the wide variety of images that
+we have tested.
+CR Categories: I.3.7 [Computing Methodologies]: Computer
+Graphics—3D Graphics; I.4.10 [Computing Methodologies]: Im-
+age Processing and Computer Vision—Image Representation
+Keywords: Tone reproduction, dynamic range, Zone System.                     New operator
+
+
+1 Introduction
+The range of light we experience in the real world is vast, spanning
+approximately ten orders of absolute range from star-lit scenes to
+sun-lit snow, and over four orders of dynamic range from shad-
+ows to highlights in a single scene. However, the range of light
+we can reproduce on our print and screen display devices spans at
+best about two orders of absolute dynamic range. This discrep-
+ancy leads to the tone reproduction problem: how should we map
+measured/simulated scene luminances to display luminances and
+produce a satisfactory image?
+   A great deal of work has been done by graphics researchers on
+the tone reproduction problem [Matkovic et al. 1997; McNamara
+et al. 2000; McNamara 2001]. Most of this work has used an ex-
+plicit perceptual model to control the operator [Upstill 1995; Tum-
+blin and Rushmeier 1993; Ward 1994; Ferwerda et al. 1996; Ward         Figure 1: A high dynamic range image is difficult to display directly
+1997; Tumblin et al. 1999]. Such methods have been extended to         without losing visible detail as shown by the linearly mapped image
+dynamic and interactive settings [Ferwerda et al. 1996; Durand and     (top). Our new algorithm (bottom) is designed to overcome these
+Dorsey 2000; Pattanaik et al. 2000; Scheel et al. 2000; Cohen et al.   problems.
+2001]. Other work has focused on the dynamic range compression
+problem by spatially varying the mapping from scene luminances
+to display luminances while preserving local contrast [Oppenheim       2 Background
+et al. 1968; Stockham 1972; Chiu et al. 1993; Schlick 1994; Tum-
+blin and Turk 1999]. Finally, computational models of the human        The tone reproduction problem was first defined by photographers.
+visual system can also guide such spatially-varying maps [Rahman       Often their goal is to produce realistic “renderings” of captured
+et al. 1996; Rahman et al. 1997; Pattanaik et al. 1998].               scenes, and they have to produce such renderings while facing the
+   Using perceptual models is a sound approach to the tone repro-      limitations presented by slides or prints on photographic papers.
+duction problem, and could lead to effective hands-off algorithms,     Many common practices were developed over the 150 years of pho-
+but there are two problems with current models. First, current mod-    tographic practice [London and Upton 1998]. At the same time
+els often introduce artifacts such as ringing or visible clamping      there were a host of quantitative measurements of media response
+(see Section 4). Second, capturing visual appearance depends on        characteristics by developers [Stroebel et al. 2000]. However, there
+more than simply matching contrast and/or brightness; scene con-       was usually a disconnect between the artistic and technical aspects
+tent, image medium, and viewing conditions must often be consid-       of photographic practice, so it was very difficult to produce satis-
+ered [Fairchild 1998]. To avoid these problems, we turn to photo-      factory images without a great deal of experience.
+graphic practices for inspiration. This has led us to develop a tone      Ansel Adams attempted to bridge this gap with an approach he
+reproduction technique designed for a wide variety of images, in-      called the Zone System [Adams 1980; Adams 1981; Adams 1983]
+cluding those having a very high dynamic range (e.g., Figure 1).       which was first developed in the 1940s and later popularized by
+                                                                            Normal map                               High−key map
+
+
+
+      Middle grey
+
+
+
+
+                                                                        Figure 3: A normal-key map for a high-key scene results in an un-
+                                                                        satisfactory image (left). Using a high-key map solves the problem
+                                                                        (right). From [Adams 1981].
+
+                                                                                    Darkest                                            Brightest
+                                                                                    textured                                           textured
+                                                                                    shadow           Dynamic range = 15 scene zones    highlight
+        Light
+
+                                                                        2x L       2x+1 L 2x+2 L 2x+3 L 2x+4 L . . .            2x+15 L 2x+16 L
+                                                                                                                     Middle grey maps to Zone V
+                Dark
+                                                                        0      I       II      III     IV      V    VI    VII   VIII IX    X
+                                                                                                            Print zones
+Figure 2: A photographer uses the Zone System to anticipate po-         Figure 4: The mapping from scene zones to print zones. Scene zones
+tential print problems.                                                 at either extreme will map to pure black (zone 0) or white (zone X)
+                                                                        if the dynamic range of the scene is eleven zones or more.
+
+Minor White [White et al. 1984]. It is a system of “practical sensit-
+ometry”, where the photographer uses measured information in the        Dodging-and-burning: This is a printing technique where some
+field to improve the chances of producing a good final print. The           light is withheld from a portion of the print during develop-
+Zone System is still widely used more than fifty years after its in-        ment (dodging), or more light is added to that region (burn-
+ception [Woods 1993; Graves 1997; Johnson 1999]. Therefore, we              ing). This will lighten or darken that region in the final print
+believe it is useful as a basis for addressing the tone reproduction        relative to what it would be if the same development were
+problem. Before discussing how the Zone System is applied, we               used for all portions of the print.
+first summarize some relevant terminology.
+                                                                        A crucial part of the Zone System is its methodology for predicting
+Zone: A zone is defined as a Roman numeral associated with an           how scene luminances will map to a set of print zones. The pho-
+    approximate luminance range in a scene as well as an approxi-       tographer first takes a luminance reading of a surface he perceives
+    mate reflectance of a print. There are eleven print zones, rang-    as a middle-grey (Figure 2 top). In a typical situation this will be
+    ing from pure black (zone 0) to pure white (zone X) and a           mapped to zone V, which corresponds to the 18% reflectance of the
+    potentially much larger number of scene zones (Figure 4).           print. For high-key scenes the middle-grey will be one of the darker
+                                                                        regions, whereas in low-key scenes this will be one of the lighter re-
+Middle-grey: This is the subjective middle brightness region of         gions. This choice is an artistic one, although an 18% grey-card is
+    the scene, which is typically mapped to print zone V.               often used to make this selection process more mechanical (Fig-
+                                                                        ure 3).
+Dynamic range: In computer graphics the dynamic range of a                 Next the photographer takes luminance readings of both light
+    scene is expressed as the ratio of the highest scene luminance      and dark regions to determine the dynamic range of the scene (Fig-
+    to the lowest scene luminance. Photographers are more inter-        ure 2 bottom). If the dynamic range of the scene does not exceed
+    ested in the ratio of the highest and lowest luminance regions      nine zones, an appropriate choice of middle grey can ensure that all
+    where detail is visible. This can be viewed as a subjective         textured detail is captured in the final print. For a dynamic range of
+    measure of dynamic range. Because zones relate logarithmi-          more than nine zones, some areas will be mapped to pure black or
+    cally to scene luminances, dynamic range can be expressed           white with a standard development process. Sometimes such loss
+    as the difference between highest and lowest distinguishable        of detail is desirable, such as a very bright object being mapped to
+    scene zones (Figure 4).                                             pure white (see [Adams 1983], p. 51). For regions where loss of
+                                                                        detail is objectionable, the photographer can resort to dodging-and-
+Key: The key of a scene indicates whether it is subjectively light,     burning which will locally change the development process.
+    normal, or dark. A white-painted room would be high-key,               The above procedure indicates that the photographic process is
+    and a dim stable would be low-key.                                  difficult to automate. For example, determining that an adobe build-
+ing is high-key would be very difficult without some knowledge
+                                                                              Key value 0.09                     Key value 0.18
+about the adobe’s true reflectance. Only knowledge of the geometry
+and light inter-reflections would allow one to know the difference
+between luminance ratios of a dark-dyed adobe house and a normal
+adobe house. However, the Zone System provides the photogra-
+pher with a small set of subjective controls. These controls form
+the basis for our tone reproduction algorithm described in the next
+section.
+   The challenges faced in tone reproduction for rendered or cap-             Key value 0.36                     Key value 0.72
+tured digital images are largely the same as those faced in conven-
+tional photography. The main difference is that digital images are in
+a sense “perfect” negatives, so no luminance information has been
+lost due to the limitations of the film process. This is a blessing in
+that detail is available in all luminance regions. On the other hand,
+this calls for a more extreme dynamic range reduction, which could
+in principle be handled by an extension of the dodging-and-burning
+process. We address this issue in the next section.
+                                                                           Figure 5: The linear scaling applied to the input luminance allows
+                                                                           the user to steer the final appearance of the tone-mapped image.
+3 Algorithm                                                                The dynamic range of the image is 7 zones.
+The Zone System summarized in the last section is used to develop
+a new tone mapping algorithm for digital images, such as those cre-        high luminances [Mitchell 1984; Stroebel et al. 2000]. A simple
+ated by rendering algorithms (e.g., [Ward Larson and Shakespeare           tone mapping operator with these characteristics is given by:
+1998]) or captured using high dynamic range photography [De-
+bevec and Malik 1997]. We are not trying to closely mimic the                                                   L(x, y)
+actual photographic process [Geigel and Musgrave 1997], but in-                                 Ld (x, y) =               .                  (3)
+                                                                                                              1 + L(x, y)
+stead use the basic conceptual framework of the Zone System to
+manage choices in tone reproduction. We first apply a scaling that         Note that high luminances are scaled by approximately 1/L, while
+is analogous to setting exposure in a camera. Then, if necessary,          low luminances are scaled by 1. The denominator causes a graceful
+we apply automatic dodging-and-burning to accomplish dynamic               blend between these two scalings. This formulation is guaranteed
+range compression.                                                         to bring all luminances with a displayable range. However, as men-
+                                                                           tioned in the previous section, this is not always desirable. Equa-
+3.1    Initial luminance mapping                                           tion 3 can be extended to allow high luminances to burn out in a
+                                                                           controllable fashion:
+We first show how to set the tonal range of the output image based                                                            
+on the scene’s key value. Like many tone reproduction meth-                                             L(x, y) 1 + L   L(x,y)
+                                                                                                                         2
+ods [Tumblin and Rushmeier 1993; Ward 1994; Holm 1996], we                                  Ld (x, y) =                  white
+                                                                                                                                           (4)
+view the log-average luminance as a useful approximation to the                                              1 + L(x, y)
+key of the scene. This quantity L̄w is computed by:
+                                                                         where Lwhite is the smallest luminance that will be mapped to pure
+                    1                                                     white. This function is a blend between Equation 3 and a linear
+             L̄w =     exp        log (δ + Lw (x, y))          (1)         mapping. It is shown for various values of Lwhite in Figure 6. If
+                   N          x,y                                          Lwhite value is set to the maximum luminance in the scene Lmax
+                                                                           or higher, no burn-out will occur. If it is set to infinity, then the
+where Lw (x, y) is the “world” luminance for pixel (x, y), N is the        function reverts to Equation 3. By default we set Lwhite to the
+total number of pixels in the image and δ is a small value to avoid        maximum luminance in the scene. If this default is applied to scenes
+the singularity that occurs if black pixels are present in the image. If   that have a low dynamic range (i.e., Lmax < 1), the effect is a subtle
+the scene has normal-key we would like to map this to middle-grey          contrast enhancement, as can be seen in Figure 7.
+of the displayed image, or 0.18 on a scale from zero to one. This             The results of this function for higher dynamic range images is
+suggests the equation:                                                     shown in the left images of Figure 8. For many high dynamic range
+                                    a                                      images, the compression provided by this technique appears to be
+                      L(x, y) =        Lw (x, y)                    (2)    sufficient to preserve detail in low contrast areas, while compress-
+                                   L̄w
+                                                                           ing high luminances to a displayable range. However, for very high
+where L(x, y) is a scaled luminance and a = 0.18. For low-key              dynamic range images important detail is still lost. For these im-
+or high-key images we allow the user to map the log average to             ages a local tone reproduction algorithm that applies dodging-and-
+different values of a. We typically vary a from 0.18 up to 0.36 and        burning is needed (right images of Figure 8).
+0.72 and vary it down to 0.09, and 0.045. An example of varying is
+given in Figure 5. In the remainder of this paper we call the value        3.2   Automatic dodging-and-burning
+of parameter a the “key value”, because it relates to the key of the
+image after applying the above scaling.                                    In traditional dodging-and-burning, all portions of the print poten-
+   The main problem with Equation 2 is that many scenes have pre-          tially receive a different exposure time from the negative, bringing
+dominantly a normal dynamic range, but have a few high luminance           “up” selected dark regions or bringing “down” selected light re-
+regions near highlights or in the sky. In traditional photography          gions to avoid loss of detail [Adams 1983]. With digital images we
+this issue is dealt with by compression of both high and low lumi-         have the potential to extend this idea to deal with very high dynamic
+nances. However, modern photography has abandoned these “s”-               range images. We can think of this as choosing a key value for ev-
+shaped transfer curves in favor of curves that compress mainly the         ery pixel, which is equivalent to specifying a local a in Equation 2.
+       Lwhite = 0.5   1.0   1.5                 3           ∞
+
+
+   L
+     d
+
+
+           0           1            2           3       4       5
+                                  World luminance (L)
+
+Figure 6: Display luminance as function of world luminance for a
+family of values for Lwhite .
+
+
+                                                                            Simple operator                     Dodging−and−burning
+
+
+
+
+   Input                                    Ouput
+                                                                            Simple operator                     Dodging−and−burning
+Figure 7: Left: low dynamic range input image (dynamic range
+is 4 zones). Right: the result of applying the operator given by          Figure 8: The simple operator of Equation 3 brings out sufficient
+Equation 4.                                                               detail in the top image (dynamic range is 6 zones), although ap-
+                                                                          plying dodging-and-burning does not introduce artifacts. For the
+                                                                          bottom image (dynamic range is 15 zones) dodging-and-burning is
+This serves a similar purpose to the local adaptation methods of the      required to make the book’s text visible.
+perceptually-driven tone mapping operators [Pattanaik et al. 1998;
+Tumblin et al. 1999].
+   Dodging-and-burning is typically applied over an entire region           The center-surround function we use is defined by:
+bounded by large contrasts. For example, a local region might cor-
+respond to a single dark tree on a light background [Adams 1983].                                       V1 (x, y, s) − V2 (x, y, s)
+                                                                                        V (x, y, s) =                                       (7)
+The size of a local region is estimated using a measure of local                                         a2φ /s2 + V1 (x, y, s)
+contrast, which is computed at multiple spatial scales [Peli 1990].
+Such contrast measures frequently use a center-surround function at       where center V1 and surround V2 responses are derived from Equa-
+each spatial scale, often implemented by subtracting two Gaussian         tions 5 and 6. This constitutes a standard difference of Gaussians
+blurred images. A variety of such functions have been proposed, in-       approach, normalized by a2φ /s2 + V1 for reasons explained below.
+cluding [Land and McCann 1971; Marr and Hildreth 1980; Blom-              The free parameters a and φ are the key value and a sharpening
+maert and Martens 1990; Peli 1990; Jernigan and McLean 1992;              parameter respectively.
+Gove et al. 1995; Pessoa et al. 1995] and [Hansen et al. 2000]. After         For computational convenience, we set the center size of the next
+testing many of these variants, we chose a center-surround function       higher scale to be the same as the surround of the current scale. Our
+derived from Blommaert’s model for brightness perception [Blom-           choice of center-surround ratio is 1.6, which results in a difference
+maert and Martens 1990] because it performed the best in our tests.       of Gaussians model that closely resembles a Laplacian of Gaussian
+This function is constructed using circularly symmetric Gaussian          filter [Marr 1982]. From our experiments, this ratio appears to pro-
+profiles of the form:                                                     duce slightly better results over a wide range of images than other
+                                                                        choices of center-surround ratio. However, this ratio can be altered
+                                1             x2 + y 2                    by a small amount to optimize the center-surround mechanism for
+             Ri (x, y, s) =          exp    −            .        (5)     specific images.
+                            π(αi s)2          (αi s)2
+                                                                              Equation 7 is computed for the sole purpose of establishing a
+These profiles operate at different scales s and at different image       measure of locality for each pixel, which amounts to finding a scale
+positions (x, y). Analyzing an image using such profiles amounts          sm of appropriate size. This scale may be different for each pixel,
+to convolving the image with these Gaussians, resulting in a re-          and the procedure for its selection is the key to the success of our
+sponse Vi as function of image location, scale and luminance dis-         dodging-and-burning technique. It is also a deviation from the orig-
+tribution L:                                                              inal Blommaert model [Blommaert and Martens 1990]. The area to
+                                                                          be considered local is in principle the largest area around a given
+                 Vi (x, y, s) = L(x, y) ⊗ Ri (x, y, s).             (6)   pixel where no large contrast changes occur. To compute the size
+                                                                          of this area, Equation 7 is evaluated at different scales s. Note that
+This convolution can be computed directly in the spatial domain,          V1 (x, y, s) provides a local average of the luminance around (x, y)
+or for improved efficiency can be evaluated by multiplication in the      roughly in a disc of radius s. The same is true for V2 (x, y, s) al-
+Fourier domain. The smallest Gaussian profile will be only slightly       though it operates over a larger area at the same scale s. The val-
+larger than one pixel and therefore the accuracy with which the           ues of V1 and V2 are expected to be very similar in areas of small
+above equation is evaluated, is important. We perform the integra-        luminance gradients, but will differ in high contrast regions. To
+tion in terms of the error function to gain a high enough accuracy        choose the largest neighborhood around a pixel with fairly even lu-
+without having to resort to super-sampling.                               minances, we threshold V to select the corresponding scale sm .
+                                 Center                                    pixel’s contrast relative to the surrounding area is increased. For
+                                                 Scale too small           this reason, the above scale selection method is of crucial impor-
+                                 Surround                                  tance, as illustrated in the example of Figure 9. If sm is too small,
+                                                                           then V1 is close to the luminance L and the local operator reduces
+                                   Center                                  to our global operator (s1 in Figure 9). On the other hand, choosing
+                                    Surround         Right scale           sm too large causes dark rings to form around bright areas (s3 in
+                                                                           the same figure), while choosing the scale as outlined above causes
+                                                                           the right amount of detail and contrast enhancement without intro-
+                                                                           ducing unwanted artifacts (s2 in Figure 9).
+                                     Center                                   Using a larger scale sm tends to increase contrast and enhance
+                                      Surround                             edges. The value of the threshold  in Equation 8, as well as the
+                                                                           choice of φ in Equation 7, serve as edge enhancement parameters
+                                                 Scale too large           and work by manipulating the scale that would be chosen for each
+                                                                           pixel. Decreasing  forces the appropriate scale sm to be larger.
+                                                                           Increasing φ also tends to select a slightly larger scale sm , but only
+                                                                           at small scales due to the division of φ by s2 . An example of the
+                                                                           effect of varying φ is given in Figure 10.
+                                                                              A further observation is that because V1 tends to be smaller than
+                                                                           L for very bright pixels, our local operator is not guaranteed to keep
+      Scale too small       Right scale          Scale too large
+                                                                           the display luminance Ld below 1. Thus, for extremely bright areas
+                                                                           some burn-out may occur and this is the reason we clip the display
+                                                                           luminance to 1 afterwards. As noted in section 2, a small amount
+                                                                           of burn-out may be desirable to make light sources such as the sun
+                                                                           look very bright.
+                                                                              In summary, by automatically selecting an appropriate neigh-
+                                                                           borhood for each pixel we effectively implement a pixel-by-pixel
+                                                                           dodging and burning technique as applied in photography [Adams
+                                                                           1983]. These techniques locally change the exposure of a film, and
+                                                                           so darken or brighten certain areas in the final print.
+
+
+                                                                           4 Results
+                                                                           We implemented our algorithm in C++ and obtained the luminance
+                                                                           values from the input R, G and B triplets with L = 0.27R +
+                                                                           0.67G + 0.06B. The convolutions of Equation 5 were computed
+                                                                           using a Fast Fourier Transform (FFT). Because Gaussians are sepa-
+Figure 9: An example of scale selection. The top image shows cen-          rable, these convolutions can also be efficiently computed in image
+ter and surround at different sizes. The lower images show the re-         space. This is easier to implement than an FFT, but it is somewhat
+sults of particular choices of scale selection. If scales are chosen       slower for large images. Because of the normalization by V1 , our
+too small, detail is lost. On the other hand, if scales are chosen too     method is insensitive to edge artifacts normally associated with the
+large, dark rings around luminance steps will form.                        computation of an FFT.
+                                                                              The key value setting is determined on a per image basis, while
+                                                                           unless noted otherwise, the parameter φ is set to 8.0 for all the im-
+Starting at the lowest scale, we seek the first scale sm where:            ages in this paper. Our new local operator uses Gaussian profiles
+                                                                           s at 8 discrete scales increasing with a factor of 1.6 from 1 pixel
+                          |V (x, y, sm )| <                        (8)    wide to 43 pixels wide. For practical purposes we would like the
+                                                                           Gaussian profile at the smallest scale to have 2 standard deviations
+is true. Here  is the threshold. The V1 in the denominator of Equa-       overlap with 1√ pixel. This is achieved by setting the scaling param-
+tion 7 makes thresholding V independent of absolute luminance              eter α1 to 1/2 2 ≈ 0.35. The parameter α2 is 1.6 times as large.
+level, while the a2φ /s2 term prevents V from becoming too large           The threshold  used for scale selection was set to 0.05.
+when V approaches zero.                                                       We use images with a variety of dynamic ranges as indicated
+    Given a judiciously chosen scale for a given pixel, we observe         throughout this section. Note that we are using the photographic
+that V1 (x, y, sm ) may serve as a local average for that pixel. Hence,    definition of dynamic range as presented in Section 2. This results
+the global tone reproduction operator of Equation 3 can be con-            in somewhat lower ranges than would be obtained if a conventional
+verted into a local operator by replacing L with V1 in the denomi-         computer graphics measure of dynamic range were used. However,
+nator:                                                                     we believe the photographic definition is more predictive of how
+                                                                           challenging the tone reproduction of a given image is.
+                                      L(x, y)                                 In the absence of well-tested quantitative methods to compare
+                Ld (x, y) =                                         (9)
+                              1 + V1 (x, y, sm (x, y))                     tone mapping operators, we compare our results to a representative
+                                                                           set of tone reproduction techniques for digital images. In this sec-
+This function constitutes our local dodging-and-burning operator.          tion we briefly introduce each of the operators and show images of
+The luminance of a dark pixel in a relatively bright region will sat-      them in the next section. Specifically, we compare our new operator
+isfy L < V1 , so this operator will decrease the display luminance         of Equation 9 with the following.
+Ld , thereby increasing the contrast at that pixel. This is akin to pho-
+tographic “dodging”. Similarly, a pixel in a relatively dark region        Stockham’s homomorphic filtering Using the observation that
+will be compressed less, and is thus “burned”. In either case the               lighting variation occurs mainly in low frequencies and hu-
+    φ=1                                            φ = 10                                      φ = 15
+
+                                     Figure 10: The free parameter φ in Equation 7 controls sharpening.
+
+
+     mans are more aware of albedo variations, this method op-           the multiscale-Retinex work because it is reminiscent of Pattanaik’s
+     erates by downplaying low frequencies and enhancing high            local adaptation model, while being aimed at much lower contrast
+     frequencies [Oppenheim et al. 1968; Stockham 1972].                 reductions of about 5:1 [Rahman et al. 1996]. Holm has a com-
+                                                                         plete implementation of the Zone System for digital cameras [Holm
+Tumblin-Rushmeier’s brightness matching operator . A model               1996], but his contrast reduction is also too low for our purposes.
+   of brightness perception is used to drive this global operator.       Next, we do not compare with the “layering” method because it re-
+   We use the 1999 formulation [Tumblin et al. 1999] as we have          quires albedo information in addition to luminances [Tumblin et al.
+   found it produces much better subjective results to the earlier       1999]. Finally, we consider some work to be visualization methods
+   versions [Tumblin and Rushmeier 1991; Tumblin and Rush-               for digital images rather than true tone mapping operators. These
+   meier 1993].                                                          are the LCIS filter which consciously allows visible artifacts in ex-
+                                                                         change for visualizing detail [Tumblin and Turk 1999], the mouse-
+Chiu’s local scaling A linear scaling that varies continuously is
+                                                                         driven foveal adaptation method [Tumblin et al. 1999] and Pardo’s
+    used to preserve local contrast with heuristic dodging-and-
+                                                                         multi-image visualization technique [Pardo and Sapiro 2001].
+    burning used to avoid burn-out [Chiu et al. 1993].
+                                                                             The format in which we compare the various methods is a
+Ward’s contrast scale factor A global multiplier is used that aims       “knock-out race” using progressively more difficult images. We
+    to maintain visibility thresholds [Ward 1994].                       take this approach to avoid an extremely large number of images. In
+                                                                         Figure 11 eight different tone mapping operators are shown side by
+Ferwerda’s adaptation model This operator alters contrast, color         side using the Cornell box high dynamic range image as input. The
+    saturation and spatial frequency content based on psy-               model is slightly different from the original Cornell box because we
+    chophysical data [Ferwerda et al. 1996]. We have used the            have placed a smaller light source underneath the ceiling of the box
+    photopic portion of their algorithm.                                 so that the ceiling receives a large quantity of direct illumination, a
+Ward’s histogram adjustment method This method uses an im-               characteristic of many architectural environments. This image has
+    age’s histogram to implicitly segment the image so that sep-         little high frequency content and it is therefore easy to spot any
+    arate scaling algorithms can be used in different luminance          deficiencies in the tone mapping operators we have applied. In this
+    zones. Visibility thresholds drive the processing [Ward 1997].       and the following figures, the operators are ordered roughly by their
+    The model incorporates human contrast and color sensitivity,         ability to bring the image within dynamic range. Using the Cornell
+    glare and spatial acuity, although for a fair comparison we did      box image (Figure 11), we eliminate those operators that darken the
+    not use these features.                                              image too much and therefore we do not include the contrast based
+                                                                         scaling factor and Chiu’s algorithm in further tests.
+Schlick’s rational sigmoid This is a family of simple and fast               Similar to the Cornell box image is the Nave photograph, al-
+     methods using rational sigmoid curves and a set of tunable          though this is a low-key image and the stained glass windows con-
+     parameters [Schlick 1994].                                          tain high frequency detail. From a photographic point of view, good
+                                                                         tone mapping operators would show detail in the dark areas while
+Pattanaik’s local adaptation model Both threshold and supra-             still allowing the windows to be admired. The histogram adjust-
+     threshold vision is considered in this multi-scale model of lo-     ment algorithm achieves both goals, although halo-like artifacts are
+     cal adaptation [Pattanaik et al. 1998]. Chromatic adaptation is     introduced around the bright window. Both the Tumblin-Rushmeier
+     also included.                                                      model and Ferwerda’s visibility matching method fail to bring the
+Note that the goals of most of these operators are different from our    church window within displayable range. The same is true for
+goal of producing a subjectively satisfactory image. However, we         Stockham style filtering and Schlick’s method.
+compare their results with ours because all of the above methods             The most difficult image to bring within displayable range is
+do produce subjectively pleasing images for many inputs. There           presented in Figures 1 and 13. Due to its large dynamic range,
+are comparisons possible with many other techniques that are out-        it presents problems for most tone reproduction operators. This im-
+side the scope of this evaluation. In particular, we do not compare      age was first used for Pattanaik’s local adaptation model [Pattanaik
+our results with the first perceptually-driven works [Miller et al.      et al. 1998]. Because his operator includes color correction as well
+1984; Upstill 1995] because they are not widely used in graphics         as dynamic range reduction, we have additionally color corrected
+and are similar to works we do compare with [Ward 1994; Ferw-            our tone-mapped image (Figure 13) using the method presented
+erda et al. 1996; Tumblin et al. 1999]. We also do not compare with      in [Reinhard et al. 2001]. Pattanaik’s local adaptation operator pro-
+  Ward’s contrast scale factor      Chiu                             Schlick                           Stockham
+
+
+
+
+  Ferwerda                          Tumblin−Rushmeier                Ward’s hist. adj.                 New operator
+
+
+
+
+Figure 11: Cornell box high dynamic range images including close-ups of the light sources. The dynamic range of this image is 12 zones.
+
+
+                                   Schlick                                     Stockham                                     Ferwerda
+
+
+
+
+                         Tumblin−Rushmeier                              Ward’s hist. adj.                               New operator
+
+
+
+
+                                       Figure 12: Nave image with a dynamic range of 12 zones.
+                                                                                Accurate implementation              Spline approximation
+
+
+
+
+                                                                        Figure 14: Compare the spline based local operator (right) with the
+                                                                        more accurate local operator (left). The spline approach exhibits
+                                                                        some blocky artifacts on the table, although this is masked in the
+                                                                        rest of the image.
+  Pattanaik
+                                                                               Algorithm Preprocessing Tone Mapping             Total
+                                                                                        Image size: 512 × 512
+                                                                               Local          1.23            0.08              1.31
+                                                                               Spline         0.25            0.11              0.36
+                                                                               Global         0.02            0.03              0.05
+                                                                                       Image size: 1024 × 1024
+                                                                               Local          5.24            0.33              5.57
+                                                                               Spline         1.00            0.47              1.47
+                                                                               Global         0.70            0.11              0.18
+
+                                                                        Table 1: Timing in seconds for our global (Equation 3) and local
+                                                                        (Equation 9) operators. The middle rows show the timing for the
+                                                                        approximated Gaussian convolution using a multiscale spline ap-
+                                                                        proach [Burt and Adelson 1983].
+
+  New operator
+                                                                        provide a useful trade-off between performance and quality, allow-
+                                                                        ing any user to select the best operator given a specified maximum
+       Figure 13: Desk image (dynamic range is 15 zones).               run-time.
+                                                                           Finally, to demonstrate that our method works well on a broad
+                                                                        range of high dynamic range images, Figure 15 shows a selection
+duces visible artifacts around the light source in the desk image,      of tone-mapped images using our new operator. It should be noted
+while the new operator does not.                                        that most of the images in this figure present serious challenges to
+   The efficiency of both our new global (Equation 3, without           other tonemapping operators. Interestingly, the area around the sun
+dodging-and-burning) and local tone mapping operators (Equa-            in the rendering of the landscape is problematic for any method
+tion 9) is high. Timings obtained on a 1.8 GHz Pentium 4 PC             that attempts to bring the maximum scene luminance within a dis-
+are given in Table 1 for two different image sizes. While we have       playable range without clamping. This is not the case for our oper-
+not counted any disk I/O, the timings for preprocessing as well as      ator because it only brings textured regions within range, which is
+the main tone mapping algorithm are presented. The preprocessing        relatively simple because, excluding the sun, this scene only has a
+for the local operator (Equation 9) consists of the mapping of the      small range of luminances. A similar observation can be made for
+log average luminance to the key value, as well as all FFT calcu-       the image of the lamp on the table and the image with the streetlight
+lations. The total time for a 5122 image is 1.31 seconds for the        behind the tree.
+local operator, which is close to interactive, while our global oper-
+ator (Equation 3) performs at a rate of 20 frames per second, which
+we consider real-time. Computation times for the 10242 images is        5 Summary
+around 4 times slower, which is according to expectation.
+                                                                        Photographers aim to compress the dynamic range of a scene in a
+   We have also experimented with a fast approximation of
+                                                                        manner that creates a pleasing image. We have developed a rela-
+the Gaussian convolution using a multiscale spline based ap-
+                                                                        tively simple and fast tone reproduction algorithm for digital im-
+proach [Burt and Adelson 1983], which was first used in the con-
+                                                                        ages that borrows from 150 years of photographic experience. It
+text of tone reproduction by [Tumblin et al. 1999], and have found
+                                                                        is designed to follow their practices and is thus well-suited for ap-
+that the computation is about 3.7 times faster than our Fourier do-
+                                                                        plications where creating subjectively satisfactory and essentially
+main implementation. This improved performance comes at the
+                                                                        artifact-free images is the desired goal.
+cost of some small artifacts introduced by the approximation, which
+can be successfully masked by the high frequency content of the
+photographs. If high frequencies are absent, some blocky artifacts      Acknowledgements
+become visible, as can be seen in Figure 14. On the other hand,
+just like its FFT based counter-part, this approximation manages to     Many researchers have made their high dynamic range images
+bring out the detail of the writing on the open book in this figure     and/or their tone mapping software available, and without that help
+as opposed to our global operator of Equation 3 (compare with the       our comparisons would have been impossible. Further detail with-
+left image of Figure 8). As such, the local FFT based implementa-       held for anonymity.
+tion, the local spline based approximation and the global operator
+    10 zones                                                                            7 zones
+
+
+
+
+    9 zones                                     11 zones                                5 zones
+
+
+
+
+    5 zones                                                                             4 zones
+
+
+
+
+    4 zones                                                                             8 zones
+
+
+
+
+    4 zones                                     7 zones                                 5 zones
+
+
+Figure 15: A selection of high and low dynamic range images tone-mapped using our new operator. The labels in the figure indicate the
+dynamic ranges of the input data.
+References                                                                               O PPENHEIM , A. V., S CHAFER , R., AND S TOCKHAM , T. 1968. Nonlinear filtering
+                                                                                            of multiplied and convolved signals. Proceedings of the IEEE 56, 8, 1264–1291.
+A DAMS , A. 1980. The camera. The Ansel Adams Photography series. Little, Brown
+   and Company.                                                                          PARDO , A., AND S APIRO , G. 2001. Visualization of high dynamic range images.
+                                                                                           Tech. Rep. 1753, Institute for Mathematics and its Applications, University of Min-
+A DAMS , A. 1981. The negative. The Ansel Adams Photography series. Little, Brown          nesota.
+   and Company.
+                                                                                         PATTANAIK , S. N., F ERWERDA , J. A., FAIRCHILD , M. D., AND G REENBERG , D. P.
+A DAMS , A. 1983. The print. The Ansel Adams Photography series. Little, Brown and          1998. A multiscale model of adaptation and spatial vision for realistic image dis-
+   Company.                                                                                 play. In SIGGRAPH 98 Conference Proceedings, Addison Wesley, M. Cohen, Ed.,
+B LOMMAERT, F. J. J., AND M ARTENS , J.-B. 1990. An object-oriented model for               Annual Conference Series, ACM SIGGRAPH, 287–298.
+   brightness perception. Spatial Vision 5, 1, 15–41.                                    PATTANAIK , S. N., T UMBLIN , J., Y EE , H., , AND G REENBERG , D. P. 2000. Time-
+B URT, P. J., AND A DELSON , E. H. 1983. A multiresolution spline with application          dependent visual adaptation for fast realistic display. In SIGGRAPH 2000 Con-
+   to image mosaics. ACM Transactions on Graphics 2, 4, 217–236.                            ference Proceedings, Addison Wesley, K. Akeley, Ed., Annual Conference Series,
+                                                                                            ACM SIGGRAPH, 47–54.
+C HIU , K., H ERF, M., S HIRLEY, P., S WAMY, S., WANG , C., AND Z IMMERMAN ,
+   K. 1993. Spatially nonuniform scaling functions for high contrast images. In          P ELI , E. 1990. Contrast in complex images. J. Opt. Soc. Am. A 7, 10 (October),
+   Proceedings of Graphics Interface ’93, 245–253.                                          2032–2040.
+
+C OHEN , J., T CHOU , C., H AWKINS , T., AND D EBEVEC , P. 2001. Real-Time high          P ESSOA , L., M INGOLLA , E., AND N EUMANN , H. 1995. A contrast- and luminance-
+   dynamic range texture mapping. In Rendering techniques 2001, S. J. Gortler and            driven multiscale network model of brightness perception. Vision Research 35, 15,
+   K. Myszkowski, Eds., 313–320.                                                             2201–2223.
+
+D EBEVEC , P. E., AND M ALIK , J. 1997. Recovering high dynamic range radiance           R AHMAN , Z., J OBSON , D. J., AND W OODELL , G. A. 1996. A multiscale retinex
+   maps from photographs. In SIGGRAPH 97 Conference Proceedings, Addison Wes-               for color rendition and dynamic range compression. In SPIE Proceedings: Appli-
+   ley, T. Whitted, Ed., Annual Conference Series, ACM SIGGRAPH, 369–378.                   cations of Digital Image Processing XIX, vol. 2847.
+
+D URAND , F., AND D ORSEY, J. 2000. Interactive tone mapping. In Eurographics            R AHMAN , Z., W OODELL , G. A., AND J OBSON , D. J. 1997. A comparison of
+   Workshop on Rendering, 219–230.                                                          the multiscale retinex with other image enhancement techniques. In IS&T’s 50th
+                                                                                            Annual Conference: A Celebration of All Imaging, vol. 50, 426–431.
+FAIRCHILD , M. D. 1998. Color appearance models. Addison-Wesley, Reading, MA.
+                                                                                         R EINHARD , E., A SHIKHMIN , M., G OOCH , B., AND S HIRLEY, P. 2001. Color
+F ERWERDA , J. A., PATTANAIK , S., S HIRLEY, P., AND G REENBERG , D. P. 1996. A             transfer between images. IEEE Computer Graphics and Applications 21 (Septem-
+   model of visual adaptation for realistic image synthesis. In SIGGRAPH 96 Confer-         ber/October), 34–41.
+   ence Proceedings, Addison Wesley, H. Rushmeier, Ed., Annual Conference Series,
+   ACM SIGGRAPH, 249–258.                                                                S CHEEL , A., S TAMMINGER , M., AND S EIDEL , H.-P. 2000. Tone reproduction for
+                                                                                            interactive walkthroughs. Computer Graphics Forum 19, 3 (August), 301–312.
+G EIGEL , J., AND M USGRAVE , F. K. 1997. A model for simulating the photographic
+   development process on digital images. In SIGGRAPH 97 Conference Proceedings,         S CHLICK , C. 1994. Quantization techniques for the visualization of high dynamic
+   Addison Wesley, T. Whitted, Ed., Annual Conference Series, ACM SIGGRAPH,                 range pictures. In Photorealistic Rendering Techniques, Springer-Verlag Berlin
+   135–142.                                                                                 Heidelberg New York, P. Shirley, G. Sakas, and S. Müller, Eds., 7–20.
+
+G OVE , A., G ROSSBERG , S., AND M INGOLLA , E. 1995. Brightness perception,             S TOCKHAM , T. 1972. Image processing in the context of a visual model. Proceedings
+   illusory contours, and corticogeniculate feedback. Visual Neuroscience 12, 1027–         of the IEEE 60, 7, 828–842.
+   1052.                                                                                 S TROEBEL , L., C OMPTON , J., C URRENT, I., AND Z AKIA , R. 2000. Basic photo-
+G RAVES , C. 1997. The zone system for 35mm photographers, second ed. Focal Press.          graphic materials and processes, second ed. Focal Press.
+
+H ANSEN , T., BARATOFF , G., AND N EUMANN , H. 2000. A simple cell model                 T UMBLIN , J., AND RUSHMEIER , H. 1991. Tone reproduction for realistic computer
+   with dominating opponent inhibition for robust contrast detection. Kognitionswis-        generated images. Tech. Rep. GIT-GVU-91-13, Graphics, Visualization, and Use-
+   senschaft 9, 93–100.                                                                     ability Center, Georgia Institute of Technology.
+
+H OLM , J. 1996. Photographics tone and colour reproduction goals. In CIE Expert         T UMBLIN , J., AND RUSHMEIER , H. 1993. Tone reproduction for computer generated
+   Symposium ’96 on Colour Standards for Image Technology, 51–56.                           images. IEEE Computer Graphics and Applications 13, 6 (November), 42–48.
+
+J ERNIGAN , M. E., AND M C L EAN , G. F. 1992. Lateral inhibition and image process-     T UMBLIN , J., AND T URK , G. 1999. LCIS: A boundary hierarchy for detail-preserving
+    ing. In Non-linear vision: determination of neural receptive fields, function, and      contrast reduction. In Siggraph 1999, Computer Graphics Proceedings, Addison
+    networks, R. B. Pinter and B. Nabet, Eds. CRC Press, ch. 17, 451–462.                   Wesley Longman, Los Angeles, A. Rockwood, Ed., Annual Conference Series,
+                                                                                            83–90.
+J OHNSON , C. 1999. The practical zone system. Focal Press.
+                                                                                         T UMBLIN , J., H ODGINS , J. K., AND G UENTER , B. K. 1999. Two methods for
+L AND , E. H., AND M C C ANN , J. J. 1971. Lightness and retinex theory. J. Opt. Soc.
+                                                                                            display of high contrast images. ACM Transactions on Graphics 18 (1), 56–94.
+   Am. 63, 1, 1–11.
+                                                                                         U PSTILL , S. 1995. The Realistic Presentation of Synthetic Images: Image Processing
+L ONDON , B., AND U PTON , J. 1998. Photography, sixth ed. Longman.
+                                                                                            in Computer Graphics. PhD thesis, University of California at Berkeley.
+M ARR , D., AND H ILDRETH , E. C. 1980. Theory of edge detection. Proceedings of
+                                                                                         WARD L ARSON , G., AND S HAKESPEARE , R. A. 1998. Rendering with Radiance.
+   the Royal Society of London, B 207, 187–217.
+                                                                                           Morgan Kaufmann Publishers.
+M ARR , D. 1982. Vision, a computational investigation into the human representation
+                                                                                         WARD , G. 1994. A contrast-based scalefactor for luminance display. In Graphics
+   and processing of visual information. W H Freeman and Company, San Fransisco.
+                                                                                           Gems IV, P. Heckbert, Ed. Academic Press, Boston, 415–421.
+M ATKOVIC , K., N EUMANN , L., AND P URGATHOFER , W. 1997. A survey of tone
+                                                                                         WARD , G. 1997. A visibility matching tone reproduction operator for high dynamic
+   mapping techniques. In 13th Spring Conference on Computer Graphics, W. Straßer,
+                                                                                           range scenes. Tech. Rep. LBNL 39882, Lawrence Berkeley National Laboratory,
+   Ed., 163–170.
+                                                                                           January.
+M C NAMARA , A., C HALMERS , A., AND T ROSCIANKO , T. 2000. STAR: Visual
+                                                                                         W HITE , M., Z AKIA , R., AND L ORENZ , P. 1984. The new zone system manual.
+   perception in realistic image synthesis. In Eurographics 2000 STAR reports, Euro-
+                                                                                            Morgan & Morgan, Inc.
+   graphics, Interlaken, Switzerland.
+                                                                                         W OODS , J. C. 1993. The zone system craftbook. McGraw Hill.
+M C N AMARA , A. 2001. Visual perception in realistic image synthesis. Computer
+   Graphics Forum 20, 4 (December), 211–224.
+M ILLER , N. J., N GAI , P. Y., AND M ILLER , D. D. 1984. The application of computer
+   graphics in lighting design. Journal of the IES 14 (October), 6–26.
+M ITCHELL , E. N. 1984. Photographic Science. John Wiley and Sons, New York.
+

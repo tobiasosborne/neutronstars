@@ -1,0 +1,788 @@
+# truth/entries/condensed.toml -- domain rt: condensed (metallic) magnetised surface emission.
+# Sources: van_adelsberg_2005_condensed_surface, potekhin_2012_condensed_surface. All entries proposed.
+
+[[entry]]
+id = "rt.cond-electron-cyclotron-energy"
+kind = "equation"
+domain = "rt"
+name = "Electron cyclotron energy, Potekhin 2012 eq. 1"
+statement = "The electron cyclotron energy E_ce = hbar e B/(m_e c) equals 115.77 B13 keV, with B13 = B/1e13 G. It is set equal to the Hartree energy m_e e^4/hbar^2 at the natural atomic field B0 = e^3 m_e^2 c/hbar^3 = 2.35e9 G."
+latex = "E_{\\rm ce} = \\hbar e B/m_e c = 115.77\\,B_{13}\\ {\\rm keV}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 1 (p. 2)"
+anchor = "Ece = ~eB/mec = 115.77 B13 keV"
+anchor_tex = "\\Ece = \\hbar eB/\\mel c =115.77~B_{13}\\textrm{ keV}"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.notation-cond-energies-geometry"]
+notes = "van Adelsberg+2005 eq. 4a gives the same quantity as E_Be = 1158 B14 keV."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and eq. 1 match, including the Hartree comparison and field scaling." }]
+
+[[entry]]
+id = "rt.cond-ion-cyclotron-energy"
+kind = "equation"
+domain = "rt"
+name = "Ion cyclotron energy, Potekhin 2012 eq. 8"
+statement = "The ion cyclotron energy of the condensed-matter ions (charge number Z, mass number A) is E_ci = hbar Z e B/(A m_u c) = 0.0635 (Z/A) B13 keV, with m_u the unified atomic mass unit. Below E_ci the free-ion and fixed-ion reflectivities differ sharply."
+latex = "E_{\\rm ci} = \\hbar Z e B/A m_u c = 0.0635\\,(Z/A)\\,B_{13}\\ {\\rm keV}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 8 (p. 4)"
+anchor = "Eci = ~ZeB/Amu c = 0.0635 (Z/A) B13 keV"
+anchor_tex = "=0.0635\\,({Z}/{A})\\, B_{13}"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.notation-cond-energies-geometry"]
+notes = "van Adelsberg+2005 eq. 4b: E_Bi = hbar Z e B/(m_i c) = 0.635 B14 (Z/A) keV (same number). For Fe the fiducial thin-atmosphere model of Sect. 3.2 quotes E_ci = 0.118 keV at B = 4e13 G."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. 8 gives the stated denominator, coefficient and units; the low-energy distinction is supported." }]
+
+[[entry]]
+id = "rt.cond-electron-plasma-energy"
+kind = "equation"
+domain = "rt"
+name = "Electron plasma energy of the condensed matter, Potekhin 2012 eq. 3"
+statement = "The electron plasma energy is E_pe = (4 pi hbar^2 e^2 n_e/m_e)^(1/2) = 0.0288 sqrt(rho Z/A) keV for density rho in g cm^-3. The condition E > E_pe is usually satisfied for atmospheric X-rays, but not in condensed matter."
+latex = "E_{\\rm pe} = \\left(4\\pi\\hbar^2 e^2 n_e/m_e\\right)^{1/2} \\approx 0.0288\\,\\sqrt{\\rho Z/A}\\ {\\rm keV}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 3 (p. 3)"
+anchor = "Epe = 4π~2 e2 ne /me      ≈ 0.0288 ρ Z/A keV,"
+anchor_tex = "\\approx 0.0288\\sqrt{\\rho\\, Z/A}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.notation-cond-energies-geometry"]
+notes = "van Adelsberg+2005 eq. 4c: E_pe = 0.0288 (Z/A)^(1/2) rho_1^(1/2) keV = 10.8 eta^(1/2) Z^(1/5) B14^(3/5) keV at the surface density of their eq. 1 (rho_1 = rho_s/1 g cm^-3). Ion plasma energy (vA 2005 sect. 2.2): E_pi = 6.75e-4 (Z/A) rho_1^(1/2) keV, with Debye frequency omega_D ~ 0.4 E_pi/hbar."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Equation matches the page image. Replace the propagation claim with “The condition \\(E>E_{\\rm pe}\\) is usually satisfied for atmospheric X-rays, but not in condensed matter.” Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 3, coefficient, density units and atmospheric/condensed-matter qualification match the image. [2012:191–204](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:191)." }]
+[[entry]]
+id = "rt.cond-ec-characteristic-energy"
+kind = "equation"
+domain = "rt"
+name = "Upper characteristic energy E_C of the condensed surface, Potekhin 2012 eq. 9"
+statement = "Above the ion cyclotron energy the reflectivity changes character at E_C = E_ci + E_pe^2/E_ce (free-ion model); the three ranges are E < E_ci, E_ci <= E <~ E_C and E >~ E_C. Between E_ci and E_C the emissivity J is strongly suppressed."
+latex = "E_{\\rm C} = E_{\\rm ci} + E_{\\rm pe}^2/E_{\\rm ce}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 9 (p. 4)"
+anchor = "EC = Eci + Epe /Ece .                                               (9)"
+anchor_tex = "\\tEC = \\Eci + \\tEpe^2/\\Ece"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-ion-cyclotron-energy", "rt.cond-electron-plasma-energy", "rt.cond-electron-cyclotron-energy"]
+notes = "van Adelsberg+2005 eq. 19: E_C ~ E_Bi + E_pe^2/E_Be, derived from n_1^2 -> 0 (with n_1^2 = eps + g) at normal incidence."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eq. 9 matches the image. Delete the unrestricted “J -> 0.5 near E_C”: that limit belongs to the special normal-incidence analysis. Add `image_verified = true`.;" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 9 and the free-ion energy ranges match; the suppressed-emissivity interpretation is supported. [2012:254–261,308–310](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:254)." }]
+[[entry]]
+id = "rt.cond-surface-density"
+kind = "equation"
+domain = "rt"
+name = "Order-of-magnitude surface density of the condensed phase, Potekhin 2012 eq. 2"
+statement = "The density of the condensed surface layer is estimated as rho_s = 8.9e3 eta A Z^-0.6 B13^1.2 g cm^-3, where A, Z are the atomic mass and charge numbers and eta ~ 1 is an unknown factor absorbing the theoretical uncertainty; eta = 1 is the ion-sphere (Salpeter 1954) equation of state. The density enters the reflectivity through E_pe and the weakly dependent damping."
+latex = "\\rho_s = 8.9\\times10^{3}\\,\\eta\\,A Z^{-0.6} B_{13}^{1.2}\\ {\\rm g\\,cm^{-3}}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 2 (p. 2)"
+anchor = "ρs = 8.9 × 103 η AZ −0.6 B1.2"
+anchor_tex = "8.9\\times10^3\\,\\eta\\,AZ^{-0.6}\\,B_{13}^{1.2}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Treat eta as a free parameter; recompute from Thomas-Fermi/DFT density of the condensed phase (Medin & Lai) if needed"
+depends_on = ["rt.notation-cond-energies-geometry"]
+notes = "Quoted fits for eta (same page): zero-temperature Thomas-Fermi 56Fe at 1e10 <= B <= 1e13 G: eta ~ 0.2 + 0.0028/B13^0.56 (within 4%); Medin & Lai (2007) DFT for 56Fe at 0.5 <= B13 <= 100: eta ~ 0.55 (uncertainty below 20%); the finite-T Thomas-Fermi model of Thorolfsson+1998 predicts no condensation. van Adelsberg+2005 eq. 1: rho_s ~ 560 eta A Z^(-3/5) B12^(6/5) g cm^-3 (same scaling, B12 = B/1e12 G; eta = 1 is the uniform-electron-gas Wigner-Seitz model, eta may be as small as 0.5). Sect. 2 numerical examples use eta = 1."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Coefficient, exponents and uncertainty factor match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Coefficient, exponents, units, uncertainty factor and ion-sphere interpretation match the image. [2012:108–122](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:108)." }]
+[[entry]]
+id = "rt.cond-tcrit-fit-fe"
+kind = "result"
+domain = "rt"
+name = "Critical temperature for magnetic condensation of Fe, Potekhin 2012 p. 3"
+statement = "Medin & Lai (2007), from DFT cohesive energies Q_s and saturated-vapour densities, found T_crit ~ 0.08 Q_s/k_B, with numerical results for 56Fe at 0.5 <= B13 <= 100 described by T_crit ~ (5 + 2 B13) x 1e5 K (and eta ~ 0.55 in the surface-density eq. 2), with uncertainties below 20% for both quantities. Condensation occurs for T below T_crit."
+latex = "T_{\\rm crit} \\approx 0.08\\,Q_s/k_B,\\qquad T_{\\rm crit} \\approx (5 + 2 B_{13})\\times10^{5}\\ {\\rm K}"
+source = "potekhin_2012_condensed_surface"
+locator = "Sect. 2.1, pp. 2-3; p. 3, column 1, citing Medin & Lai 2007"
+anchor = "expression T crit ≈ (5 + 2 B13) × 105 K for the critical tempera-"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Equate saturated-vapour density to rho_s using DFT cohesive energies (Medin & Lai 2007 method)"
+depends_on = ["rt.cond-surface-density"]
+notes = "The fit is as cited in Potekhin 2012 (Medin & Lai 2007 not in refs/). The 0.08 Q_s/k_B relation is on the previous text line (\"critical temperature is T crit ~ 0.08Qs/kB\"). Other values quoted in van Adelsberg+2005 sect. 2.1: H surface T_crit ~ 8e4, 5e5, 1e6 K for B = 1e13, 1e14, 5e14 G (Lai 2001), with k T_crit ~ 10% of the cohesive energy; Fe upper limit Q_s <~ Z^(9/5) B12^(2/5) eV so T_crit <~ 0.1 Q_s/k <~ 10^5.5 B12^(2/5) K; Potekhin+1999 plasma-phase-transition model gives a critical temperature several times higher (factor-of-few uncertainty in T_crit)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Relations and range match the images as Potekhin’s report of Medin–Lai results. Correct locator to “Sect. 2.1, pp. 2–3; p. 3, column 1”; add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Relations, Fe field range and reported accuracy match; attribution remains explicitly secondary to Medin–Lai. [2012:148–156](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:148)." }]
+[[entry]]
+id = "rt.cond-approx-condensation-condition"
+kind = "approximation"
+domain = "rt"
+name = "Condition for a bare condensed surface (negligible vapour)"
+statement = "A smooth condensed metallic surface with negligible vapour above it is assumed when T is at least a few times below T_crit; for H, van Adelsberg+ state there is no question that the surface is condensed for T <~ T_crit/2. Near T ~ T_crit the surface is hidden by an optically thick atmosphere, and for T << T_crit the atmosphere becomes optically thin (Potekhin+ 2012, p. 3), so intermediate cases need a thin atmosphere on the condensed surface."
+source = "van_adelsberg_2005_condensed_surface"
+locator = "sect. 2.1 (p. 2) and sect. 3 (p. 4)"
+anchor = "there is no question that for T . Tcrit /2, the H"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-tcrit-fit-fe"]
+validity = "T <~ T_crit/2 (H); T at least a few times lower than T_crit, so the saturated-vapour density and optical depth are negligible and radiation emerges directly from the condensed matter. For T ~ T_crit use a finite atmosphere (Potekhin+2012 Sect. 3)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Hydrogen threshold and negligible-vapour assumption are explicitly stated; the approximation remains appropriately conditional.;" }]
+
+[[entry]]
+id = "rt.cond-emissivity-definition"
+kind = "definition"
+domain = "rt"
+name = "Normal-mode intensity emitted by the condensed surface, Potekhin 2012 eq. 6"
+statement = "The surface emits monochromatic intensity I_{E,j} = J_j B_E/2 in linear polarisation j (j = 1 parallel, j = 2 perpendicular to the plane of incidence), where B_E = B_nu/(2 pi hbar) = E^3/[4 pi^3 hbar^3 c^2 (exp(E/kT) - 1)] is the Planck function per unit energy (eq. 7) and the dimensionless emissivity is J_j = 1 - R_j with R_j the effective reflectivity of mode j. For unpolarised radiation the mean R = (R_1 + R_2)/2 and J = 1 - R = (J_1 + J_2)/2."
+latex = "I_{E,j} = J_j B_E/2,\\quad J_j = 1 - R_j,\\quad B_E = \\frac{B_\\nu}{2\\pi\\hbar} = \\frac{E^3}{4\\pi^3\\hbar^3c^2\\,(e^{E/k_BT}-1)}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 6, eq. 7 and text (p. 3-4)"
+anchor = "IE, j = J j BE /2 ( j = 1, 2)."
+anchor_tex = "B_E = \\frac{B_\\nu}{2\\pi\\hbar}="
+ocr = "poor"
+status = "rejected"
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["rt.notation-cond-emissivity-fit"]
+notes = "Eq. 7 is read from the page image (text extraction garbled). I_{E,j} dSigma dOmega dE dt is the energy radiated in wave j. Emission with J dependent on direction (theta_k, phi), B, theta_B, E."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Eqs. 6–7 match the image, but the polarization assignment cannot be accepted unqualified: §2.2.2 says \\(j=1\\) is parallel, whereas Fig. 1 and Appendix B define it perpendicular. “Normal-mode intensity” also conflates linear basis states with X/O modes." }]
+
+[[entry]]
+id = "rt.cond-kirchhoff-law"
+kind = "equation"
+domain = "rt"
+name = "Kirchhoff emission of a macroscopic body, van Adelsberg 2005 eqs. 7-8"
+statement = "Placing the body in an unpolarised blackbody cavity at its own temperature and requiring the cavity field to stay unpolarised gives the intrinsic emission in each reflected polarisation, I_nu,j^(e) = B_nu/2 - I_nu,j^(r) = (1 - R_j) B_nu/2, so that the total emission is I_nu^(e) = (1 - R) B_nu(T) = J B_nu(T) with R = (R_1 + R_2)/2 the reflectivity and J = 1 - R the dimensionless emissivity; these hold also out of equilibrium since they are intrinsic properties of the body."
+latex = "I^{(e)}_{\\nu j} = \\tfrac12 B_\\nu - I^{(r)}_{\\nu j} = \\tfrac12 (1-R_j) B_\\nu,\\qquad I^{(e)}_\\nu = (1-R)\\,B_\\nu(T) \\equiv J B_\\nu(T)"
+source = "van_adelsberg_2005_condensed_surface"
+locator = "eqs. 7a, 7b, 8 (p. 4-5)"
+anchor = "Iν(e) = (1 − R)Bν (T ) ≡ JBν (T )"
+anchor_tex = "I^{(e)}_{\\nu 1}={1\\over 2}B_{\\nu}-I^{(r)}_{\\nu 1}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.notation-cond-emissivity-fit"]
+notes = "Reflected intensities (eq. 6): I_nu1^(r) = (|r11|^2+|r21|^2) B_nu/2 = R_1 B_nu/2 and I_nu2^(r) = (|r12|^2+|r22|^2) B_nu/2 = R_2 B_nu/2, with incident field E_j^(i) = A e_j^(i), A = sqrt(B_nu/2). The angle-averaged emission used for the flux: F_nu = int dphi int dtheta cos theta sin theta J B_nu, <1-R> = F_nu/(pi B_nu) (sect. 4, Fig. 10)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Factors, reflected-polarization indexing and equilibrium argument match the images. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Both polarization factors, reflected-component interpretation and extension outside cavity equilibrium match. [2005:289–333](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:289)." }]
+[[entry]]
+id = "rt.cond-reflectivity-from-amplitudes"
+kind = "equation"
+domain = "rt"
+name = "Effective mode reflectivity from reflected-wave amplitudes, Potekhin 2012 eq. A.2"
+statement = "A linearly polarised incident wave E_j^(i) = A_j e_j^(i) produces reflected field E_j^(r) = A_j sum_m r_mj e_m^(r) and transmitted field E_j^(t) = A_j sum_m t_mj e_m^(t) (eq. A.1); the effective reflectivity of reflected polarisation j under unpolarised incidence is R_j = |r_j1|^2 + |r_j2|^2 with J_j = 1 - R_j."
+latex = "R_j = |r_{j1}|^2 + |r_{j2}|^2\\quad (j=1,2)"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. A.1-A.2 (p. 12)"
+anchor = "R j = |r j1 |2 + |r j2 |2   ( j = 1, 2)."
+anchor_tex = "R_j = |r_{j1}|^2+|r_{j2}|^2"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["rt.cond-emissivity-definition"]
+notes = "Index-order convention: footnote 1 of Potekhin 2012 states that r_mj and t_mj use the inverse order of subscripts relative to Paper I (van Adelsberg+2005), whose eq. 6 has R_1 built from |r11|^2 + |r21|^2."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Keep eq. A.2, but replace “incident polarisation j” with “reflected polarisation j under unpolarised incidence.” A.1 makes incident-state total reflectivity a column sum. Add `image_verified = true`; remove the unsupported basis assignment in notes." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "A.1–A.2 support the reflected-component row sum; the reversed 2005 index convention is documented correctly. [2012:768–788,812–813](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:768)." }]
+[[entry]]
+id = "rt.cond-linear-polarisation-degree"
+kind = "equation"
+domain = "rt"
+name = "Degree of linear polarisation of condensed-surface emission, Potekhin 2012 eq. 28"
+statement = "The degree of linear polarisation of the emitted radiation is P_lin = (J_1 - J_2)/(2J) = (R_2 - R_1)/(2 - 2R). Both papers use the same algebraic expression in their respective bases; P_lin > 0 means J_1 > J_2."
+latex = "P_{\\rm lin} = (J_1 - J_2)/2J = (R_2 - R_1)/(2 - 2R)"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 28 (p. 7)"
+anchor = "Plin = (J1 − J2 )/2J = (R2 − R1 )/(2 − 2R)."
+anchor_tex = "P_\\mathrm{lin} = (J_1-J_2)/2J = (R_2-R_1)/(2-2R)"
+ocr = "good"
+status = "blessed"
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["rt.cond-emissivity-definition"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eq. 28 matches. Replace the cross-paper identification and final sign claim with “Both papers use the same algebraic expression in their respective bases; \\(P_{\\rm lin}>0\\) means \\(J_1>J_2\\).” The 2005 k–B-plane interpretation shown is for normal B.;" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eq. 28 matches; the cross-paper assertion is restricted to algebra in their respective bases. [2012:452–455](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:452), [2005:334–342](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:334)." }]
+[[entry]]
+id = "rt.cond-dielectric-tensor-condensed"
+kind = "equation"
+domain = "rt"
+name = "Cold-plasma dielectric tensor of the condensed matter, van Adelsberg 2005 eqs. 2-3"
+statement = "In the free-electron-gas model with B along z the dielectric tensor is [[eps, i g, 0], [-i g, eps, 0], [0, 0, eta]] with eps +/- g ≃ 1 - v_e/[(1 +/- u_e^(1/2))(1 -/+ u_i^(1/2)) + i gamma_ei^(tr)] and eta ≃ 1 - v_e/(1 + i gamma_ei^(l)), where u_e = (E_Be/E)^2, u_i = (E_Bi/E)^2, v_e = (E_pe/E)^2 and gamma = hbar nu_ei/E are the dimensionless collisional damping rates. The ion terms (the u_i factors) represent quasi-free ions; setting the ion mass m_i = infinity removes them."
+latex = "[\\boldsymbol\\epsilon]_{\\hat z=\\hat B} = \\begin{pmatrix}\\epsilon & i g & 0\\\\ -i g & \\epsilon & 0\\\\ 0 & 0 & \\eta\\end{pmatrix},\\quad \\epsilon\\pm g \\simeq 1 - \\frac{v_e}{(1\\pm u_e^{1/2})(1\\mp u_i^{1/2}) + i\\gamma_{ei}^{(tr)}},\\quad \\eta \\simeq 1 - \\frac{v_e}{1 + i\\gamma_{ei}^{(l)}}"
+source = "van_adelsberg_2005_condensed_surface"
+locator = "eqs. 2, 3a, 3b (p. 3)"
+anchor = "we consider the free electron gas model for"
+anchor_tex = "\\epsilon & i\\,g & 0 \\\\ -i\\,g & \\epsilon & 0"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.notation-cond-matter-dielectric"]
+notes = "Equations 2-3 read from the page image (extracted text garbled). Footnote 7: eq. 13 of Lai & Ho 2003a is wrong, gamma_ei^(+/-) should be gamma_ei(1 + Z m_e/(A m_p)); the factor is neglected (negligible vs the damping uncertainty). Derived classically, identical to the quantum result. Rotated into the surface frame (eq. 13) for the reflectivity calculation; Potekhin 2012 cites this as eq. 13 of Paper I."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Tensor signs and denominators match the image. In `statement`, change the two scalar equalities to approximations, `eps +/- g ≃ …` and `eta ≃ …`, matching the latex and source. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Tensor signs, paired cyclotron factors and damping denominators match; scalar relations retain approximation signs. [2005:194–234](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:194)." }]
+[[entry]]
+id = "rt.cond-damping-rates"
+kind = "definition"
+domain = "rt"
+name = "Collisional damping rates of the condensed matter, van Adelsberg 2005 sect. 2.3"
+statement = "The dimensionless damping rates are gamma_ei^(tr) = hbar nu_ei^(tr)/E and gamma_ei^(l) = hbar nu_ei^(l)/E, with transverse and longitudinal collision frequencies nu_ei^(tr) = 1/tau_perp and nu_ei^(l) = 1/tau_par, where tau_par and tau_perp are the effective collision times of eqs. (28) and (39) of Potekhin (1999) (zero-frequency conductivity tensor of degenerate Coulomb plasmas). Plotted for Fe at T = 1e6 K over B = 1e12-1e14 G in their Fig. 1."
+latex = "\\gamma_{ei}^{(l,tr)} = \\hbar\\nu_{ei}^{(l,tr)}/E,\\qquad \\nu_{ei}^{(l)} = 1/\\tau_\\parallel,\\quad \\nu_{ei}^{(tr)} = 1/\\tau_\\perp"
+source = "van_adelsberg_2005_condensed_surface"
+locator = "Sect. 2.2, p. 3; Sect. 2.3, p. 4"
+anchor = "collision times given by eqs. (28) and"
+ocr = "good"
+status = "rejected"
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["rt.notation-cond-matter-dielectric"]
+notes = "Potekhin (1999) eqs. 28 and 39 are not in refs/; the formulae for tau are therefore not recorded here (skipped)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Definitions match, but the \\(\\gamma=\\hbar\\nu/E\\) relations are on p. 3. Set locator to “Sect. 2.2, p. 3; Sect. 2.3, p. 4.”" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Definitions match, but `notes` falsely says Potekhin (1999) eqs. 28 and 39 are absent locally. **Surviving:** the stated damping definitions; replace that note with the existing source. [2005:296–306](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:296), [1999:310–315,392–399](/home/tobias/Projects/neutronstars/refs/potekhin_1999_magnetic_conductivity.txt:310)." }]
+[[entry]]
+id = "rt.cond-approx-damping-low-energy"
+kind = "approximation"
+domain = "rt"
+name = "Damping from the zero-frequency conductivity at E <~ E_pe"
+statement = "For E >> E_pe electron-ion collisions are treated as independent (free-free rates of one electron-ion pair); this fails for E <~ E_pe where collective effects matter and electron degeneracy is important, so gamma_ei is approximated there by the zero-frequency conductivity result of Potekhin (1999). That calculation neglects the effect of B on ion motion and so applies only for u_i -> 0 (fixed-ion limit) or E >> E_Bi; the emissivity at E <~ E_Bi is insensitive to the damping rates."
+source = "van_adelsberg_2005_condensed_surface"
+locator = "sect. 2.3 (p. 4)"
+anchor = "The calculations of νei and νei adopted in our paper"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-damping-rates"]
+validity = "Damping from zero-frequency conductivity used for E <~ E_pe; strictly valid for u_i -> 0 or E >> E_Bi; emissivity at E <~ E_Bi is almost independent of it (their Fig. 2, no-damping curve), and T dependence of J enters only through the damping (weak)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Independent-collision failure, conductivity substitution, ion-motion limitation and low-energy insensitivity are explicitly supported." }]
+
+[[entry]]
+id = "rt.cond-approx-free-ions"
+kind = "approximation"
+domain = "rt"
+name = "Free-ion limit of the ion response in the condensed matter"
+statement = "Ions respond to the electromagnetic wave as free (quasi-free) particles in the magnetic field, neglecting Coulomb interactions between ions, i.e. the full dielectric tensor of van Adelsberg et al. (2005), eqs. 2-3 with u_i retained. The reflectivity then has sharp structure at E = E_ci, and a broad suppression of J between E_ci and E_C. The actual surface spectrum is expected to lie between the free-ion and fixed-ion limits."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. 1 (p. 1-2) and sect. 2.2.3 (p. 4)"
+anchor = "neglecting the Coulomb interactions between"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-dielectric-tensor-condensed"]
+validity = "Differs strongly from the fixed-ion limit only for E <~ E_ci; the two models give almost the same results at higher energies. Used for the fiducial thin-atmosphere model of Potekhin 2012 Sect. 3.2. Potekhin 2012 fits (eq. 11 with 17) are for this limit."
+notes = "Magnetic forces on the ions are not negligible compared with the Coulomb lattice forces: hbar omega_D/E_Bi ~ 1.6 eta^(1/2) A^(1/2) Z^(-0.3) B14^(-0.4) (van Adelsberg+2005 sect. 2.2)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Definition and limitations match. Change “eqs. 2–3” to “van Adelsberg et al. (2005), eqs. 2–3”; those equation numbers denote different quantities in the cited 2012 paper.;" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Neglected ion–ion coupling, retained ion response and the expected bracketing interpretation match. [2012:83–90,248–253](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:83)." }]
+[[entry]]
+id = "rt.cond-approx-fixed-ions"
+kind = "approximation"
+domain = "rt"
+name = "Fixed-ion limit of the ion response in the condensed matter"
+statement = "Ion motion is neglected altogether (ion mass m_i = infinity, equivalently u_i -> 0 or E_ci -> 0 in the fit formulae), as implicitly adopted by Brinkmann (1980) and Turolla+ (2004). The reflectivity then shows no sharp change at E_ci and continues smoothly to lower energies, where J is lower than in the free-ion case."
+source = "van_adelsberg_2005_condensed_surface"
+locator = "sect. 2.2 (p. 3)"
+anchor = "by setting mi = ∞). It is reasonable to expect"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-dielectric-tensor-condensed"]
+validity = "Similar to the free-ion limit at E > E_ci but differs at E <~ E_ci; the true surface is expected to lie between the two. Not exact even in a crystal because optical-lattice modes make the ion response non-zero."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Fixed-ion prescription matches. Delete the unqualified parenthesis “hbar omega_D ~ E_Bi”: the source gives a ratio dependent on field and composition." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Infinite-ion-mass prescription and its limitations match; stronger low-energy depression is supported. [2005:194–234,466–505](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:194)." }]
+[[entry]]
+id = "rt.cond-approx-planar-patch"
+kind = "approximation"
+domain = "rt"
+name = "Smooth planar surface patch"
+statement = "The emitting surface element is taken small enough that variations of the magnetic field strength and inclination are negligible, and is treated as a plane, neglecting its curvature and roughness."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. 2.2.2 (p. 3)"
+anchor = "this small patch as plane, neglecting its curvature and roughness."
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+validity = "Local patch with uniform B and theta_B; smooth surface. Roughness of the solid condensate (Fe) tends to decrease the reflectivity and bring the spectrum closer to blackbody (van Adelsberg+2005 abstract)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor directly states the uniform-field, planar, smooth-patch assumptions. Roughness qualification is also supported.;" }]
+
+[[entry]]
+id = "rt.cond-approx-no-vacuum-polarisation"
+kind = "approximation"
+domain = "rt"
+name = "Vacuum polarisation neglected in condensed-surface reflectivity"
+statement = "The vacuum-polarisation effect is neglected in the mode equation of the condensed medium because its density is far above the vacuum-resonance density rho_V ~ 0.96 (A/Z) B14^2 (E/keV)^2 g cm^-3; outside the surface the vacuum dielectric and permeability tensors differ negligibly from unity (|q|, |m| << 1) for B << 5e16 G."
+source = "van_adelsberg_2005_condensed_surface"
+locator = "footnote 8 and sect. 3.2 (p. 5)"
+anchor = "vacuum resonance density, ρV ≃"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+validity = "B << 5e16 G (vacuum polarisation correction negligible outside); density of the medium much larger than rho_V ~ 0.96 (A/Z) B14^2 (E/keV)^2 g cm^-3."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Density condition, resonance-density expression and exterior field restriction match." }]
+
+[[entry]]
+id = "rt.cond-reflectivity-regimes"
+kind = "result"
+domain = "rt"
+name = "Characteristic energy ranges of the free-ion reflectivity"
+statement = "For free ions the reflectivity of the condensed surface behaves differently in three ranges, E < E_ci, E_ci <= E <~ E_C and E >~ E_C, with an additional suppression of the emissivity near E ~ E_pe whose position, width and depth depend on theta_B, theta_k and phi. For fixed ions the reflectivity is similar at E > E_ci but without the sharp change at E_ci."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. 2.2.3 (p. 4); Sect. 2.3.1, eq. 21, p. 5"
+anchor = "Finally, the lowering of J(E) at E > ẼC is fit by"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-ec-characteristic-energy"]
+notes = "In the fit the three ranges are replaced by Region I (E < E_ci and J_A > J_B) and Region II. Fig. 2: J = 1 - R for Fe, B = 1e13 G, T = 1e6 K."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "The cited paragraph says suppression of **reflectivity**, conflicting with this entry’s emissivity wording. Eq. 21 supports lowering \\(J\\). Add “Sect. 2.3.1, eq. 21, p. 5” and use anchor `\"Finally, the lowering of J(E) at E > ẼC is fit by\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Energy ranges and fixed-ion behavior match; the added eq. 21 locator supports suppression of emissivity near the plasma feature. [2012:254–270,332–354](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:254)." }]
+[[entry]]
+id = "rt.cond-free-ion-analytic-reflectivity"
+kind = "equation"
+domain = "rt"
+name = "Analytic reflectivity for theta_B = theta_k = 0 (free ions), Potekhin 2012 eq. 10"
+statement = "For field and incidence both normal to the surface, neglecting the finite electron relaxation rate, R ~ (R_+ + R_-)/2 with R_+/- = |(n_+/- - 1)/(n_+/- + 1)|^2 and n_+/- = [1 +/- E_pe^2/(E_ce (E +/- E_ci))]^(1/2) (superscript (0) for the zero-angle case). It is a good approximation at E <~ E_ci and is used in the analytic fit."
+latex = "R^{(0)}_\\pm = \\left|\\frac{n^{(0)}_\\pm - 1}{n^{(0)}_\\pm + 1}\\right|^2,\\quad n^{(0)}_\\pm = \\left[1 \\pm \\frac{E_{\\rm pe}^2}{E_{\\rm ce}(E \\pm E_{\\rm ci})}\\right]^{1/2}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 10 (p. 4)"
+anchor = "discussion) is R ≈ (R+ + R− )/2, where"
+anchor_tex = "R_\\pm^{(0)} = \\left|\\frac{n_\\pm^{(0)}-1}{n_\\pm^{(0)}+1}\\right|^2,"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-ec-characteristic-energy"]
+validity = "theta_B = theta_k = 0; E <~ E_ci for accuracy"
+notes = "Equation read from the page image (extraction garbled). van Adelsberg+2005 eq. 16 gives the same normal-incidence R = (1/2)|(n_1-1)/(n_1+1)|^2 + (1/2)|(n_2-1)/(n_2+1)|^2 with n_1,2^2 = eps +/- g."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Both signs, squared modulus and approximation conditions match the page image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Both signs, squared modulus and zero-angle/neglected-relaxation conditions match the image. [2012:277–290](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:277)." }]
+[[entry]]
+id = "rt.cond-fit-structure"
+kind = "equation"
+domain = "rt"
+name = "Analytic fit for the mean emissivity J, structure, Potekhin 2012 eq. 11"
+statement = "For free ions, the mean emissivity J = 1 - R of a condensed iron surface for 1e12 <~ B <~ 1e14 G and 1 eV <~ E <~ 10 keV is J = J_A in Region I and J = J_B (1 - J_C) + J_C/(1 + L) in Region II. Region I is E < E_ci with J_A > J_B; Region II is the complementary supplemental range of relatively high energies in which either condition is violated."
+latex = "J = \\begin{cases} J_A & {\\rm Region\\ I},\\\\ J_B\\,(1 - J_C) + \\dfrac{J_C}{1 + L} & {\\rm Region\\ II}.\\end{cases}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 11 and text (p. 4)"
+anchor = "Region I is the low-energy region defined by the conditions"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-low-energy", "rt.cond-fit-mid-energy", "rt.cond-fit-high-energy", "rt.cond-fit-line"]
+notes = "J is a function of E, B, theta_B, theta_k, phi; alpha without subscripts denotes min(alpha_r, alpha_i), with cos alpha_{i,r} = sin theta_B sin theta_k cos phi -/+ cos theta_B cos theta_k (eq. 5, upper sign incident)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Piecewise expression and Region-I conjunction match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Piecewise expression, parameter ranges and Region-I conjunction match the image. [2012:280–303](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:280)." }]
+[[entry]]
+id = "rt.cond-fit-low-energy"
+kind = "equation"
+domain = "rt"
+name = "Fit function J_A (low energies), Potekhin 2012 eqs. 15-16"
+statement = "The low-energy part is J_A = [1 - A(E)] J_0(E), with A(E) = (1 - |cos theta_B|)/(2 sqrt(1 + B13)) + [0.7 - 0.45/J_0(0)] (sin theta_k)^4 (1 - cos alpha), and J_0(E) = 1 - (R_-^(0) + R_+^(0))/2 using eq. 10; J_0(0) = 4 (sqrt(E_C/E_ci) + 1)^-1 (sqrt(E_ci/E_C) + 1)^-1."
+latex = "J_A = [1 - A(E)]\\,J_0(E),\\quad A(E) = \\frac{1-|\\cos\\theta_B|}{2\\sqrt{1+B_{13}}} + \\left[0.7 - \\frac{0.45}{J_0(0)}\\right](\\sin\\theta_k)^4(1-\\cos\\alpha),\\quad J_0(E) = 1 - \\tfrac12\\left(R^{(0)}_- + R^{(0)}_+\\right),\\quad J_0(0) = 4\\left(\\sqrt{E_{\\rm C}/E_{\\rm ci}}+1\\right)^{-1}\\left(\\sqrt{E_{\\rm ci}/E_{\\rm C}}+1\\right)^{-1}"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 15-16 (p. 5)"
+anchor = "JA = [1 − A(E)] J0(E),"
+anchor_tex = "0.7-\\frac{0.45}{J_0(0)}\\,"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-free-ion-analytic-reflectivity"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eqs. 15–16 and both reciprocal factors in \\(J_0(0)\\) match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eqs. 15–16 and both reciprocal factors in \\(J_0(0)\\) match the image. [2012:370–385](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:370)." }]
+[[entry]]
+id = "rt.cond-fit-mid-energy"
+kind = "equation"
+domain = "rt"
+name = "Fit function J_B (intermediate energies), Potekhin 2012 eqs. 17-19"
+statement = "In E_ci < E <~ E~_C the emissivity suppression is a power law J_B = (E/E~_C)^p J(E~_C) with p = ln[J(E~_C)/J(E_ci)]/ln(E~_C/E_ci); the end values are J(E~_C) = 1/2 + 0.05/(1 + B13) (1 + |cos theta_B| sin theta_k) - 0.15 (1 - |cos theta_B|) sin alpha and J(E_ci) = [2 n_0/(1 + n_0)^2] [1 + (|cos theta_B| - cos theta_k)/(2(1 + B13))], where n_0 = (1 + E_pe^2/(2 E_ce E_ci))^(1/2)."
+latex = "J_B = (E/\\tilde E_C)^p\\,J(\\tilde E_C),\\ p = \\frac{\\ln[J(\\tilde E_C)/J(E_{\\rm ci})]}{\\ln(\\tilde E_C/E_{\\rm ci})};\\ J(\\tilde E_C) = \\frac12 + \\frac{0.05}{1+B_{13}}(1+|\\cos\\theta_B|\\sin\\theta_k) - 0.15(1-|\\cos\\theta_B|)\\sin\\alpha;\\ J(E_{\\rm ci}) = \\frac{2n_0}{(1+n_0)^2}\\left(1 + \\frac{|\\cos\\theta_B|-\\cos\\theta_k}{2(1+B_{13})}\\right),\\ n_0 = (1 + E_{\\rm pe}^2/2E_{\\rm ce}E_{\\rm ci})^{1/2}"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 17-19 (p. 5)"
+anchor = "JB = (E/ẼC ) p J(ẼC ),   where p =                          .      (17)"
+anchor_tex = "J_\\mathrm{B} = (E/\\tEC)^p J(\\tEC),"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-high-energy"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Power-law exponent, endpoint coefficients and \\(n_0\\) denominator match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Interpolation exponent, endpoint factors and \\(n_0\\) denominator match the image. [2012:308–324](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:308)." }]
+[[entry]]
+id = "rt.cond-fit-high-energy"
+kind = "equation"
+domain = "rt"
+name = "Fit function J_C and the effective energies E~_C, E~_pe, Potekhin 2012 eqs. 12-14, 20"
+statement = "The steep rise above the suppression is J_C = 4 n~/(1 + n~)^2 for E > E~_C and J_C = 0 for E <= E~_C, where n~^2 = 1 - E~_pe^2/[E_ce (E - E_ci)] (eq. 13), E~_C = E_ci + E~_pe^2/E_ce is the energy at which n~^2 becomes positive (eq. 12) and E~_pe = E_pe sqrt(3 - 2 cos theta_k) (eq. 14)."
+latex = "J_C = \\begin{cases} 4\\tilde n/(1+\\tilde n)^2 & E > \\tilde E_C\\\\ 0 & E \\le \\tilde E_C\\end{cases};\\ \\tilde n^2 = 1 - \\frac{\\tilde E_{\\rm pe}^2}{E_{\\rm ce}(E - E_{\\rm ci})};\\ \\tilde E_C = E_{\\rm ci} + \\tilde E_{\\rm pe}^2/E_{\\rm ce};\\ \\tilde E_{\\rm pe} = E_{\\rm pe}\\sqrt{3 - 2\\cos\\theta_k}"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 12-14, 20 (p. 5)"
+anchor = "4ñ/(1 + ñ)2 at E > ẼC ,"
+anchor_tex = "4\\tilde{n}/(1+\\tilde{n})^2"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-free-ion-analytic-reflectivity"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Threshold inequalities, effective-index denominator and square root match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Threshold inequalities, effective-index denominator and effective-plasma-energy square root match. [2012:325–331,356–369](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:325)." }]
+[[entry]]
+id = "rt.cond-fit-line"
+kind = "equation"
+domain = "rt"
+name = "Fit for the line near E_pe, L, Potekhin 2012 eq. 21"
+statement = "The lowering of J at E > E~_C (feature at E ~ E_pe) is fit by L = [0.17 (E_pe/E_C)/(1 + X^4) + 0.21 exp(-(E/E_pe)^2)] (sin theta_k)^2 W_L, with X = (E - E_L)/(2 E_pe W_L) (1 - cos theta_k)^-1, E_L = E_pe [1 + 1.2 (1 - cos theta_k)^(3/2)] [1 - (sin theta_B)^2/3] and W_L = 0.8 (E~_C/E_pe)^0.2 sqrt(sin(alpha/2)) [1 + (sin theta_B)^2]. The line disappears (L -> 0) when radiation is parallel to the field (alpha -> 0), not exactly in the numerical results."
+latex = "L = \\left[\\frac{0.17\\,E_{\\rm pe}/E_C}{1+X^4} + 0.21\\,e^{-(E/E_{\\rm pe})^2}\\right](\\sin\\theta_k)^2 W_L;\\ X = \\frac{E-E_L}{2E_{\\rm pe}W_L}(1-\\cos\\theta_k)^{-1};\\ E_L = E_{\\rm pe}\\left[1+1.2(1-\\cos\\theta_k)^{3/2}\\right]\\left[1-(\\sin\\theta_B)^2/3\\right];\\ W_L = 0.8\\,(\\tilde E_C/E_{\\rm pe})^{0.2}\\sqrt{\\sin(\\alpha/2)}\\left[1+(\\sin\\theta_B)^2\\right]"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 21 (p. 5)"
+anchor = "The line at E L disappears from the fit (L → 0) when radiation"
+anchor_tex = "+0.21\\,\\mathrm{e}^{-(E/\\Epe)^2}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-high-energy"]
+notes = "Numerical results reveal a remnant of the line at alpha -> 0, weak, but appreciable for strongly inclined field (theta_B > pi/4). Superscripts and the square root in W_L read from the page image."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "All four expressions, exponents and the square root match the image; residual-line caveat is retained. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "All four expressions match, including angular exponents and square root; the residual-line qualification is retained. [2012:332–351](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:332)." }]
+[[entry]]
+id = "rt.cond-fit-fixed-ions"
+kind = "equation"
+domain = "rt"
+name = "Fit modification for fixed ions, Potekhin 2012 eq. 22"
+statement = "For the fixed-ion model it suffices to set E_ci -> 0 in the fit formulae and replace eq. 17 by J_B = J(E~_C)/[1 - p + p (E~_C/E)^0.6] with p = 0.1 (1 + sin theta_B)/(1 + B13)."
+latex = "J_B = \\frac{J(\\tilde E_C)}{1 - p + p\\,(\\tilde E_C/E)^{0.6}},\\qquad p = 0.1\\,\\frac{1+\\sin\\theta_B}{1+B_{13}}"
+source = "potekhin_2012_condensed_surface"
+locator = "eq. 22 (p. 5)"
+anchor = "A small modification of the proposed approximation can de-"
+anchor_tex = "p=0.1\\,\\frac{1+\\sin\\theta_B}{1+B_{13}}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-mid-energy", "rt.cond-approx-fixed-ions"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Substitution, denominator and exponent 0.6 match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Zero-ion-energy substitution, denominator, coefficient and exponent \\(0.6\\) match. [2012:376–386](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:376)." }]
+[[entry]]
+id = "rt.cond-fit-validity"
+kind = "approximation"
+domain = "rt"
+name = "Validity of the Potekhin 2012 emissivity fit"
+statement = "The fit of J(E, B, theta_B, theta_k, phi) is constructed for 1e12 <~ B <~ 1e14 G and 1 eV <~ E <~ 10 keV for condensed Fe (rho_s with eta = 1). For most geometric settings the fit error is within 10% over more than 95% of -3 < log10 E(keV) < 1; the remaining <5% are narrow ranges where J(E) changes sharply. Errors may exceed 20% in up to 10% of the logarithmic range for strongly inclined fields (theta_B > pi/4) and small phi. The fit ignores the temperature dependence (numerics at T ~ 1e6 K), justified by the weak T dependence through the damping."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. 2.3.1 (p. 4-5)"
+anchor = "the fit error lies within 10% in"
+ocr = "good"
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-structure"]
+validity = "1e12 G <~ B <~ 1e14 G; 1 eV <~ E <~ 10 keV; condensed Fe, T ~ 1e6 K; typical error <10% over >95% of log E; error up to >20% for theta_B > pi/4 at small phi; no T dependence (lower T sharpens transitions between energy ranges and strengthens the line at E_L)."
+notes = "Fig. 4 compares the numerics at T = 3e5 K (extra dotted line) with the T = 1e6 K fit."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Field/energy range, Fe density convention, error coverage, exceptions and temperature limitations are supported." }]
+
+[[entry]]
+id = "rt.cond-fit-mode1"
+kind = "equation"
+domain = "rt"
+name = "Fit for the emissivity of mode 1, Potekhin 2012 eqs. 23-25"
+statement = "In the free-ion model the emissivity of polarisation 1 is J_1 = J_A1 in Region I and J_1 = J_B1 (1 - J_C) + J_C (1 - R_L) in Region II, where J_C is eq. 20, the line shape of L is unchanged but enters via R_L = (sin theta_B)^(1/4) [2 - (sin alpha)^4] L/(1 + L) (eq. 24); at low energy J_A1 = [1 - A_1] J_A with A_1 = a_1/(1 + 0.6 B13 (cos theta_B)^2) and a_1 = 1 - (cos theta_B)^2 cos theta_k - (sin theta_B)^2 cos alpha (eq. 25). The second mode follows from J_2 = 2J - J_1."
+latex = "J_1 = \\begin{cases}J_{A1} & {\\rm I}\\\\ J_{B1}(1-J_C) + J_C(1-R_L) & {\\rm II}\\end{cases};\\ R_L = (\\sin\\theta_B)^{1/4}\\left[2-(\\sin\\alpha)^4\\right]\\frac{L}{1+L};\\ J_{A1} = [1-A_1]J_A,\\ A_1 = \\frac{a_1}{1+0.6B_{13}(\\cos\\theta_B)^2},\\ a_1 = 1-(\\cos\\theta_B)^2\\cos\\theta_k-(\\sin\\theta_B)^2\\cos\\alpha"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 23-25 (p. 6)"
+anchor = "a1 = 1 − (cos θB )2 cos θk − (sin θB )2 cos α;"
+anchor_tex = "\\frac{0.05}{1+B_{13}}+\\frac{\\sin\\theta_B}{4}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-structure", "rt.cond-fit-line"]
+notes = "The fit is symmetric in phi -> -phi (enters only through alpha) although numerics are not strictly symmetric; Kz of eq. 4 small assumed. Not accurately reproducing R_1(E) in E_ci < E < E~_C for inclined fields."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eqs. 23–25, including both angular exponents in \\(R_L\\), match the image. Add `image_verified = true`; physical orientation remains subject to the shared basis conflict." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Eqs. 23–25 match, including both angular powers in \\(R_L\\); the approximation limitations are recorded. [2012:418–438,493–506](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:418)." }]
+[[entry]]
+id = "rt.cond-fit-mode1-mid"
+kind = "equation"
+domain = "rt"
+name = "Fit for mode-1 intermediate energy and fixed ions, Potekhin 2012 eqs. 26-27"
+statement = "For mode 1 at E <~ E~_C: J_B1 = (E/E~_C)^p1 J_1(E~_C), p1 = ln[J_1(E~_C)/J_1(E_ci)]/ln(E~_C/E_ci), J_1(E_ci) = (1 - a_1) J(E_ci), J_1(E~_C) = 1/2 + 0.05/(1 + B13) + sin(theta_B)/4. In the fixed-ion case set E_ci -> 0 and use J_B1 = J_1(E~_C)/[0.1 + 0.9 (E~_C/E)^0.4]. No fit is needed for the other mode: R_2 = 2R - R_1 and J_2 = 2J - J_1."
+latex = "J_{B1} = (E/\\tilde E_C)^{p_1}J_1(\\tilde E_C),\\ p_1 = \\frac{\\ln[J_1(\\tilde E_C)/J_1(E_{\\rm ci})]}{\\ln(\\tilde E_C/E_{\\rm ci})};\\ J_1(E_{\\rm ci}) = (1-a_1)J(E_{\\rm ci});\\ J_1(\\tilde E_C) = \\frac12+\\frac{0.05}{1+B_{13}}+\\frac{\\sin\\theta_B}{4};\\ {\\rm fixed\\ ions:}\\ J_{B1} = \\frac{J_1(\\tilde E_C)}{0.1+0.9(\\tilde E_C/E)^{0.4}};\\ R_2 = 2R-R_1,\\ J_2 = 2J-J_1"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 26-27 (p. 7)"
+anchor = "R2 = 2R − R1 and J2 = 2J − J1 ."
+anchor_tex = "p_1=\\frac{\\ln[J_1(\\tEC)/J_1(\\Eci)]}{\\ln(\\tEC/\\Eci)}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-mode1", "rt.cond-fit-mid-energy"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Endpoint expressions, logarithmic exponent and fixed-ion denominator match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Endpoint expressions, logarithmic exponent, fixed-ion denominator and second-polarization reconstruction match. [2012:477–492](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:477)." }]
+[[entry]]
+id = "rt.cond-fit-coefficient-data"
+kind = "datum"
+domain = "rt"
+name = "Numerical coefficients of the Potekhin 2012 emissivity fits"
+statement = "Numerical coefficients as printed in the fit formulae for J and J_1 (listed as \"equation: symbol = value\"): eq. 16 A(E): 0.7, 0.45 (and prefactor 1/2 sqrt(1+B13)); eq. 18 J(E~_C): 1/2, 0.05, 0.15; eq. 21 L: 0.17, 0.21, E_L factor 1.2 and exponent 3/2 and 1/3, W_L factor 0.8 and exponent 0.2; eq. 14: sqrt(3 - 2 cos theta_k); eq. 22 p: 0.1, exponent 0.6; eq. 25 A_1: 0.6; eq. 24 R_L: exponent 1/4, 4; eq. 26 J_1(E~_C): 1/2, 0.05, 1/4; eq. 27: 0.1, 0.9, exponent 0.4."
+value = ["eq16 A: 0.7", "eq16 A: 0.45", "eq18 J(E~_C): 0.5", "eq18 J(E~_C): 0.05", "eq18 J(E~_C): 0.15", "eq19 J(E_ci): 2", "eq21 L: 0.17", "eq21 L: 0.21", "eq21 E_L: 1.2", "eq21 E_L: 3/2 (exponent)", "eq21 E_L: 1/3", "eq21 W_L: 0.8", "eq21 W_L: 0.2 (exponent)", "eq14: E~_pe = E_pe sqrt(3 - 2 cos theta_k)", "eq22 p: 0.1", "eq22: 0.6 (exponent)", "eq24 R_L: 1/4 (exponent)", "eq25 A_1: 0.6", "eq26 J_1(E~_C): 0.5", "eq26 J_1(E~_C): 0.05", "eq26 J_1(E~_C): 1/4", "eq27: 0.1", "eq27: 0.9", "eq27: 0.4 (exponent)"]
+units = "1"
+uncertainty = "fit error: see rt.cond-fit-validity"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 14, 16, 18, 21, 22, 24-27 (p. 5-7)"
+anchor = "0.17Epe /EC            −(E/Epe )2"
+ocr = "poor"
+image_verified = true
+status = "rejected"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+notes = "Dimensionless fit constants; no uncertainty is printed per coefficient. Values only valid within the ranges of rt.cond-fit-validity."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Listed coefficients match the page images; the source supplies no separate coefficient uncertainties. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "`1/2 sqrt(1+B13)` is ambiguous; the wording also ambiguously labels \\(1/3\\) an exponent. **Surviving:** the listed constants, with prefactor `1/(2 sqrt(1+B13))` and \\(1/3\\) multiplying \\(\\sin^2\\theta_B\\). [2012:376–378,341–343](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:376)." }]
+[[entry]]
+id = "rt.cond-inner-bc"
+kind = "equation"
+domain = "rt"
+name = "Inner boundary condition of a thin atmosphere on a condensed surface, Potekhin 2012 eqs. 29-30"
+statement = "At the inner boundary (rho = rho_s) the outgoing specific intensity in each normal mode is the surface emission plus reflected incident intensity from both modes: I_E^X(theta_k, phi) = (1/2) J_X B_E(T) + R_XX I_E^X(pi - theta_k, phi) + R_XO I_E^O(pi - theta_k, phi), I_E^O = (1/2) J_O B_E + R_OO I_E^O(pi - theta_k, phi) + R_OX I_E^X(pi - theta_k, phi). Here R_MM' is the reflection coefficient from incident mode M' into reflected mode M, J_X = 1 - R_X, J_O = 1 - R_O, R_X = R_XX + R_XO and R_O = R_OO + R_OX."
+latex = "I_E^X(\\theta_k,\\varphi) = \\tfrac12 J_X B_E(T) + R_{XX} I_E^X(\\pi-\\theta_k,\\varphi) + R_{XO} I_E^O(\\pi-\\theta_k,\\varphi);\\quad I_E^O(\\theta_k,\\varphi) = \\tfrac12 J_O B_E(T) + R_{OO} I_E^O(\\pi-\\theta_k,\\varphi) + R_{OX} I_E^X(\\pi-\\theta_k,\\varphi)"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. 29-30 (p. 7)"
+anchor = "IEX (θk , ϕ) = 12 JX (θk , ϕ)BE (T ) + RXX (θk , ϕ) IEX (π − θk , ϕ)"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-emissivity-definition", "rt.notation-cond-emissivity-fit"]
+notes = "Ho+2007 retained only the emission terms. Paper II (Suleimanov+2010) included reflection but neglected R_OO, R_OX, R_XO and took R_XX = R independent of phi (X-mode total reflection assumed); this difference changes the emergent thin-atmosphere spectra (Sect. 3.2, Figs. 8-10: fiducial B = 4e13 G, Teff = 1.2e6 K, column density Sigma = 10 g cm^-2). Mode transformation by reflection moves part of the O-mode energy into the X-mode, which then escapes. Temperature correction at this boundary uses the Unsoeld-Lucy method with the flux fixed there (eqs. 31-34, not recorded here)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Factors \\(1/2\\), reflected directions, cross-mode indices and row-sum emissivities match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Half-Planck emission terms, reflected directions, cross-mode indices and row-sum emissivities match. [2012:475–490](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:475)." }]
+[[entry]]
+id = "rt.cond-bc-mode-reflection"
+kind = "equation"
+domain = "rt"
+name = "Normal-mode reflectivities R_MM' from the r_mj amplitudes, Potekhin 2012 eqs. B.5-B.7"
+statement = "For a sufficiently rarefied atmosphere, with nearly transverse waves, the normal-mode reflectivities used in the atmosphere boundary condition are R_MM' = |r'_MM'|^2, where the reflected-mode amplitudes r'_XM' and r'_OM' (M' = X, O) solve the 2x2 linear system obtained by expanding the incident mode polarisation vector e_M' = c^(i)_M'1 e_1 + c^(i)_M'2 e_2 (eq. B.4) over the linear polarisation basis, sum_M r'_MM' e_M^(r) = sum_{m,j} r_mj c^(i)_M'j e_m^(r) (eq. B.5); the scalar products c_Mj use K_M(alpha_i,r) from eq. 4 with K_z,M -> 0 (eqs. B.8-B.12). The incident X- and O-modes are incoherent."
+latex = "R_{MM'} = |r'_{MM'}|^2,\\qquad \\sum_{M}r'_{MM'}\\,\\boldsymbol e^{(r)}_M = \\sum_{m=1}^2\\sum_{j=1}^2 r_{mj}\\,c^{(i)}_{M'j}\\,\\boldsymbol e^{(r)}_m"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. B.4-B.8 (p. 13-14)"
+anchor = "normal mode reflectivities in Eqs. (29) and (30)"
+anchor_tex = "R_{MM'} = | r'_{MM'} |^2."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-inner-bc", "rt.cond-reflectivity-from-amplitudes"]
+notes = "Linear system (B.6) and scalar products (B.9)-(B.12) are matrix/trigonometric expressions garbled in extraction; implementer must read them from the page image 13-14. Footnote 2: error in the first arXiv version of eq. B.12 was corrected."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "B.4–B.8 match the image. Add “For a sufficiently rarefied atmosphere, with nearly transverse waves” to `statement`, and `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "B.4–B.8 match; rarefied-atmosphere, transverse-wave and incoherent-incidence conditions are explicit. [2012:824–837,865–935](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:824)." }]
+[[entry]]
+id = "rt.cond-bc-r-moduli"
+kind = "equation"
+domain = "rt"
+name = "Approximate squared moduli |r_mj|^2, Potekhin 2012 eqs. B.13-B.15"
+statement = "Analytic model of the squared reflection-amplitude moduli consistent with the emissivity fits: |r_12|^2 = 0 in Region I and f_E (1 - J_B1)(1 - J_C) + J_C R_L (1 - sin theta_B sin^2 phi)/2 in Region II; |r_21|^2 = 0 in Region I and f_E (1 + J_B1 - 2 J_B)(1 - J_C) + J_C R_L sin theta_k (1 - cos alpha)/2 in Region II; |r_11|^2 = 1 - J_1 - |r_12|^2 and |r_22|^2 = 1 - J_2 - |r_21|^2, with f_E = E/(E + E~_C/2)."
+latex = "|r_{12}|^2 = f_E(1-J_{B1})(1-J_C) + J_C R_L(1-\\sin\\theta_B\\sin^2\\varphi)/2,\\ |r_{21}|^2 = f_E(1+J_{B1}-2J_B)(1-J_C)+J_CR_L\\sin\\theta_k(1-\\cos\\alpha)/2\\ ({\\rm Region\\ II;\\ both\\ 0\\ in\\ Region\\ I});\\ |r_{11}|^2 = 1-J_1-|r_{12}|^2,\\ |r_{22}|^2 = 1-J_2-|r_{21}|^2,\\ f_E = E/(E+\\tilde E_C/2)"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. B.13-B.15 (p. 14)"
+anchor = "and fE ≡ E/(E + ẼC/2)."
+anchor_tex = "|r_{12}|^2 &=& \\left\\{ \\begin{array}{l}"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-fit-mode1", "rt.cond-fit-mode1-mid", "rt.cond-fit-structure"]
+notes = "For free ions, small accidental discontinuities at the boundary of Region I are removed by truncating |r_11|^2 and |r_22|^2 from above by their values at E = E_ci. Printed exponent/layout of (1 - sin theta_B sin^2 phi) read from page image 14."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Both branches, cross terms and diagonal reconstruction match the image. The discontinuity repair is recorded correctly. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Both regional branches, cross terms, diagonal reconstruction and discontinuity repair match. [2012:975–1001](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:975)." }]
+[[entry]]
+id = "rt.cond-bc-r-phases"
+kind = "equation"
+domain = "rt"
+name = "Approximate phases of r_mj, Potekhin 2012 eqs. B.16-B.19"
+statement = "Complex phases phi_mj of r_mj = |r_mj| exp(i phi_mj): phi_11 = pi in Region I, -pi f_L for E > E~_C, and pi + pi (E - E_ci)/(E~_C - E_ci) otherwise; phi_22 = pi f_L for E > E~_C, else phi_11; phi_12 = -pi/2 in Region I, pi/2 - 2 pi f_L for E > E~_C, and pi (E - (E_ci + E~_C)/2)/(E_ci - E~_C) otherwise; phi_21 = phi_12 + pi; with f_L = [1 + exp(5 (E_L - E)/(E_L - E~_C))]^-1."
+latex = "\\phi_{11} = \\begin{cases}\\pi & {\\rm I}\\\\ -\\pi f_L & E>\\tilde E_C\\\\ \\pi + \\pi\\dfrac{E-E_{\\rm ci}}{\\tilde E_C - E_{\\rm ci}} & {\\rm otherwise}\\end{cases},\\ \\phi_{22} = \\begin{cases}\\pi f_L & E>\\tilde E_C\\\\ \\phi_{11} & {\\rm otherwise}\\end{cases},\\ \\phi_{12} = \\begin{cases}-\\pi/2 & {\\rm I}\\\\ \\pi/2 - 2\\pi f_L & E>\\tilde E_C\\\\ \\pi\\dfrac{E-(E_{\\rm ci}+\\tilde E_C)/2}{E_{\\rm ci}-\\tilde E_C} & {\\rm otherwise}\\end{cases},\\ \\phi_{21} = \\phi_{12}+\\pi,\\ f_L = \\left[1+\\exp\\left(5\\,\\frac{E_L - E}{E_L-\\tilde E_C}\\right)\\right]^{-1}"
+source = "potekhin_2012_condensed_surface"
+locator = "eqs. B.16-B.19 (p. 14)"
+anchor = "fL = 1 + exp 5                ."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+provenance = "fit"
+ownership = "stub"
+reimplement = "Compute the reflectivity directly: cold-plasma dielectric tensor (van Adelsberg+2005 eqs. 2-3, rotated by eq. 13), fourth-order mode polynomial (Potekhin+2012 eqs. A.6-A.11, root choice Im n<=0), Maxwell boundary conditions (A.27-A.28), R_j from A.2; compare the fit against it."
+depends_on = ["rt.cond-bc-r-moduli"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "All branch signs, denominators and logistic exponent match the image. Add `image_verified = true`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Every branch sign, denominator and logistic exponent matches the image. [2012:1002–1039](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:1002)." }]
+[[entry]]
+id = "rt.cond-approx-bc-truncation"
+kind = "approximation"
+domain = "rt"
+name = "Truncation of fitted mode reflectivities to 0 < R_MM' < 1"
+statement = "Because the fit error may exceed 1 - R_XX when the X-mode is almost completely reflected (E_ci < E < E_C with k and B near normal), the fitting formulae can give R_XX a few percent above 1 at very small theta_B and theta_k; the mode-specific reflectivities recovered from the fit must then be truncated so that 0 < R_MM' < 1."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. B.1 (p. 14)"
+anchor = "truncate the mode-specific reflectivities, recovered"
+ocr = "good"
+status = "blessed"
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["rt.cond-bc-r-moduli"]
+validity = "Needed for R_MM' ~ 1: X-mode at E_ci < E < E_C with both k and B close to normal; R_XX up to a few percent above 1 at very small theta_B and theta_k."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Accurately records the authors’ conditional repair of unphysical fitted reflectivities, including the affected geometry and energy range." }]
+
+[[entry]]
+id = "rt.cond-approx-bc-vacuum-interface"
+kind = "approximation"
+domain = "rt"
+name = "Reflection at atmosphere-condensed interface replaced by vacuum values"
+statement = "Strictly the reflection coefficients r_mj at the interface between the thin atmosphere and the condensed surface differ from those with vacuum above the surface and would require a separate calculation for each atmosphere. For a sufficiently rarefied atmosphere they are approximately replaced by the vacuum coefficients; the plane waves are then almost transverse, so K_z,M -> 0 in eq. 4 and each wave is expanded over the linear polarisation vectors e_1, e_2."
+source = "potekhin_2012_condensed_surface"
+locator = "sect. B.1 (p. 13)"
+anchor = "approximately replace these coefficients by those in vac-"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.cond-bc-mode-reflection"]
+validity = "Atmosphere sufficiently rarefied at the bottom (low density, nearly transverse waves, K_z,M small); not verified for dense atmospheres."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Rarefied-atmosphere assumption, vacuum substitution and \\(K_{z,M}\\to0\\) approximation are explicit." }]
+
+[[entry]]
+id = "rt.notation-cond-energies-geometry"
+kind = "notation"
+domain = "rt"
+name = "Notation: energies, field and angle geometry of the condensed surface"
+statement = "Characteristic energies and angles used for condensed-surface emission (symbol names adapted where a plain symbol would clash with other domains; the paper writes E, B13, theta_B, theta_k, phi). Universal constants hbar, e, c, m_e, k_B, m_u are as in CODATA and not listed."
+symbols = [
+  { sym = "E", sym_source = "E_{ph}", aliases = ["E_{ph}"], meaning = "photon energy hbar omega", meaning_source = "photon energy hbar omega (paper: E)", units = "keV" },
+  { sym = "B_{13}", meaning = "local magnetic field strength in units of 1e13 G (B/1e13 G)", units = "1" },
+  { sym = "B_{14}", aliases = ["B_14"], meaning = "local magnetic field strength B/(10^14 G)", meaning_source = "local magnetic field strength in units of 1e14 G (B/1e14 G; van Adelsberg+2005)", units = "1" },
+  { sym = "E_{ce}", aliases = ["E_Be", "E_{Be}"], meaning = "electron cyclotron energy hbar omega_ce = hbar e B/(m_e c) = 1158 B_14 keV", meaning_source = "electron cyclotron energy hbar e B/(m_e c)", units = "keV" },
+  { sym = "E_{ci}", aliases = ["E_Bi", "E_ci", "E_{Bi}"], meaning = "ion cyclotron energy hbar omega_ci = hbar Z e B/(A m_u c) = 0.635 (Z/A) B_14 keV", meaning_source = "ion cyclotron energy hbar Z e B/(A m_u c) (van Adelsberg+2005: E_Bi)", units = "keV" },
+  { sym = "E_{pe}", meaning = "electron plasma energy of the condensed matter", units = "keV" },
+  { sym = "E_{C}", meaning = "upper characteristic energy E_ci + E_pe^2/E_ce", units = "keV" },
+  { sym = "\\tilde E_{C}", meaning = "effective characteristic energy E_ci + (E~_pe)^2/E_ce at which the square of the effective refraction index becomes positive", units = "keV" },
+  { sym = "\\tilde E_{pe}", meaning = "angle-dependent effective plasma energy E_pe sqrt(3 - 2 cos theta_k)", units = "keV" },
+  { sym = "E_{L}", meaning = "line energy of the plasma-edge feature in the emissivity fit", units = "keV" },
+  { sym = "\\theta_{Bn}", sym_source = "\\theta_B^{(n)}", aliases = ["Theta", "\\Theta_B", "\\theta_B^{(n)}", "θ_Bn"], meaning = "angle between the magnetic field B and the local surface normal n", meaning_source = "angle between the magnetic field and the surface normal z (paper: theta_B)", units = "rad" },
+  { sym = "\\theta", sym_source = "\\theta_k", aliases = ["\\theta_k", "theta^(i)", "θ"], meaning = "polar angle between the photon wave vector k and the local outward surface normal n; mu = cos theta (Pot12 theta_k is a folded incidence parameter: it equals theta for outgoing rays and pi - theta for incident rays)", meaning_source = "incidence (or reflection) polar angle of the wave vector with respect to the surface normal (van Adelsberg+2005: theta^(i))", units = "rad" },
+  { sym = "\\varphi_k", sym_source = "\\varphi_{k}", aliases = ["\\varphi_{k}", "phi", "φ"], meaning = "azimuthal angle of the photon wave vector about the surface normal, measured from the plane containing B and the normal", meaning_source = "azimuthal angle in the surface plane between the plane of incidence and the plane of the field and normal (paper: phi)", units = "rad" },
+  { sym = "\\theta_{kB}^{(i)}", sym_source = "\\alpha_{i}", meaning = "angle between incident wave vector and magnetic field, cos = sin theta_Bn sin theta cos phi_k - cos theta_Bn cos theta, with theta the polar angle of the folded incidence parameter (Pot12 theta_k)", units = "rad" },
+  { sym = "\\theta_{kB}^{(r)}", sym_source = "\\alpha_{r}", meaning = "angle between reflected (outgoing) wave vector and magnetic field, cos = sin theta_Bn sin theta cos phi_k + cos theta_Bn cos theta", units = "rad" },
+  { sym = "\\theta_{kB}^{(min)}", sym_source = "α", aliases = ["α"], meaning = "min(theta_kB^(r), theta_kB^(i)); Pot12 writes the bare alpha for this angle", units = "rad" },
+]
+conflicts_with = ["const.notation-atomic", "gr.notation-geometry", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "obs.notation-rxj1856-spectral", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "rt.notation-spw09", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "phi: Bel02 surface-element azimuth about the line of sight keeps \\phi. Pech83 orbit-plane azimuth -> \\phi_{orb}; SPW09/Pot12 photon azimuth about the normal -> \\varphi_k; GH83 rotation phase -> \\phi_{rot}.", "theta: RT ray angle to the surface normal keeps \\theta (mu = cos theta). Schwarzschild polar coordinate (Bel02, Pech83) -> \\theta_{Sch}; GH83 line-of-sight colatitude -> \\theta_{los}; Pot12 theta_k merged into \\theta.", "theta_B: Magnetic colatitude keeps \\theta_B. PC03/PLCH04 k-B angle -> \\theta_{kB}; SPW09/Pot12/Ho07 field-normal angle -> \\theta_{Bn}."]
+source = "potekhin_2012_condensed_surface"
+locator = "Sect. 2.1-2.2 (p. 2-4) and Fig. 1"
+anchor = "Ece = ~eB/mec = 115.77 B13 keV"
+ocr = "good"
+status = "rejected"
+notes = "Fig. 1 of the paper: z perpendicular to the surface, (xz) plane parallel to the field projection; Appendix B defines e_1 perpendicular and e_2 parallel to the incidence plane; Sect. 2.2.2 states the reverse."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Energies and angle signs match. Replace the polarization note with “Appendix B defines \\(e_1\\) perpendicular and \\(e_2\\) parallel to the incidence plane; §2.2.2 states the reverse.”" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Locator omits p. 5, where \\(\\tilde E_C,\\tilde E_{\\rm pe},E_L,\\alpha_{\\min}\\) are defined. **Surviving:** the listed source definitions, with locator extended through “Sect. 2.3.1, p. 5”; the stated polarization contradiction is accurate. [2012:337–385](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:337)." }]
+[[entry]]
+id = "rt.notation-cond-emissivity-fit"
+kind = "notation"
+domain = "rt"
+name = "Notation: emissivities, reflectivities and fit functions"
+statement = "Symbols for the emissivity, reflectivity and analytic-fit functions of Potekhin+2012 (some paper symbols renamed where they clash with other domains, e.g. paper R -> R_mean, paper L -> L_line, paper X -> X_L)."
+symbols = [
+  { sym = "J", meaning = "mean dimensionless emissivity J = 1 - R = (J_1 + J_2)/2", units = "1" },
+  { sym = "J_{l}", sym_source = "J_{j}", aliases = ["J_{j}", "J_1"], meaning = "dimensionless emissivity of linear polarisation l = 1 (perpendicular), 2 (parallel to the plane of incidence), J_l = 1 - R_l; orientation fixed by the explicit vectors of Pot12 App. B, which contradict the paper prose at lines 215-216", units = "1" },
+  { sym = "R_{mean}", sym_source = "R", meaning = "mean reflectivity (R_1 + R_2)/2 (paper: R)", units = "1" },
+  { sym = "R_{l}", sym_source = "R_{j}", aliases = ["R_{j}"], meaning = "effective reflectivity of linear polarisation j", units = "1" },
+  { sym = "r_{l'l}", sym_source = "r_{mj}", aliases = ["r_{mj}"], meaning = "complex reflected-field amplitude into polarisation m for incident polarisation j", units = "1" },
+  { sym = "\\phi_{l'l}", sym_source = "\\phi_{mj}", aliases = ["\\phi_{mj}"], meaning = "phase of r_mj", units = "rad" },
+  { sym = "R_{jj'}", sym_source = "R_{MM'}", aliases = ["R_{MM'}"], meaning = "reflection coefficient from incident mode M' into reflected mode M (M, M' = X, O), |r'_MM'|^2", units = "1" },
+  { sym = "J_X", sym_source = "J_{X}", meaning = "normal-mode emissivity 1 - R_X (X-mode), with R_X = R_XX + R_XO", units = "1" },
+  { sym = "J_O", sym_source = "J_{O}", meaning = "normal-mode emissivity 1 - R_O (O-mode), with R_O = R_OO + R_OX", units = "1" },
+  { sym = "I_{E,l}", sym_source = "I_{E,j}", aliases = ["I_{E,j}"], meaning = "specific intensity per unit energy emitted in linear polarisation l (l = 1 perpendicular, 2 parallel to the plane of incidence); I_E = (1.602176634e-9 erg/keV) I_nu/h for per-keV units", units = "erg s^-1 cm^-2 keV^-1 sr^-1" },
+  { sym = "I_E^{j}", sym_source = "I_E^{M}", aliases = ["I_E^{M}"], meaning = "specific intensity per unit energy of normal mode M = X, O in the atmosphere; I_E = (1.602176634e-9 erg/keV) I_nu/h for per-keV units", units = "erg s^-1 cm^-2 keV^-1 sr^-1" },
+  { sym = "B_E", meaning = "Planck function per unit energy, B_E = (1.602176634e-9 erg/keV) B_nu/h for per-keV units", units = "erg s^-1 cm^-2 keV^-1 sr^-1" },
+  { sym = "P_{lin}", meaning = "degree of linear polarisation of the emitted radiation", units = "1" },
+  { sym = "J_A", meaning = "fit emissivity in Region I (low energies)", units = "1" },
+  { sym = "J_B", meaning = "fit emissivity for E_ci < E <~ E~_C (power-law interpolation)", units = "1" },
+  { sym = "J_C", meaning = "fit factor for the steep rise at E > E~_C", units = "1" },
+  { sym = "J_0", meaning = "approximate zero-angle emissivity 1 - (R_- + R_+)/2 of eq. 10, neglecting finite electron relaxation", units = "1" },
+  { sym = "A_{fit}", sym_source = "A(E)", aliases = ["A(E)"], meaning = "fit function A(E) of eq. 16", units = "1" },
+  { sym = "L_{line}", meaning = "fit function describing the line near E_pe (paper: L)", units = "1" },
+  { sym = "X_L", sym_source = "X", aliases = ["X"], meaning = "dimensionless line-profile variable (E - E_L)/(2 E_pe W_L)/(1 - cos theta_k) (paper: X)", units = "1" },
+  { sym = "W_L", meaning = "line width parameter", units = "1" },
+  { sym = "R_{L}", meaning = "line-strength function in the fit of linear polarisation l = 1", units = "1" },
+  { sym = "J_{A1}", meaning = "fit term J_A of the linear-polarisation-1 emissivity J_1 = J_{l=1}", units = "1" },
+  { sym = "J_{B1}", meaning = "fit term J_B of the linear-polarisation-1 emissivity J_1 = J_{l=1}", units = "1" },
+  { sym = "a_1", meaning = "linear-polarisation-1 fit coefficient a_1 of eq. 25", units = "1" },
+  { sym = "A_1", meaning = "linear-polarisation-1 fit coefficient A_1 of eq. 25", units = "1" },
+  { sym = "p", meaning = "power-law exponent of J_B (fit of the mean emissivity)", units = "1" },
+  { sym = "p_1", meaning = "power-law exponent of J_B1 (fit of linear polarisation 1)", units = "1" },
+  { sym = "n_0", meaning = "refractive-index parameter (1 + E_pe^2/(2 E_ce E_ci))^(1/2) of eq. 19", units = "1" },
+  { sym = "\\tilde n", meaning = "effective refraction index with n~^2 = 1 - E~_pe^2/(E_ce (E - E_ci))", units = "1" },
+  { sym = "n_\\pm^{(0)}", meaning = "refraction indices for theta_Bn = theta = 0 (eq. 10), zero-angle approximation neglecting finite relaxation", units = "1" },
+  { sym = "R_\\pm^{(0)}", meaning = "reflectivities for theta_Bn = theta = 0 (eq. 10), zero-angle approximation neglecting finite relaxation", units = "1" },
+  { sym = "f_E", meaning = "smooth weight function E/(E + E~_C/2) of eqs. B.16-B.19", units = "1" },
+  { sym = "f_L", meaning = "logistic weight function of eqs. B.16-B.19", units = "1" },
+]
+conflicts_with = ["gr.notation-geometry", "gr.notation-pechenick", "rt.notation-mcphac", "rt.notation-spw09"]
+adopted = false
+conflict_notes = ["j: j is the normal-mode index (1 = X, 2 = O). McPHAC angle-node index j -> q; Pot12 linear-polarisation index j -> l (m -> l'), Pot12 mode index M -> j.", "M: M is the gravitational mass in g. Pech83 geometric-unit M -> GM/c^2; Pot12 mode label M -> j."]
+source = "potekhin_2012_condensed_surface"
+locator = "Sect. 2.2-2.3 and App. A-B (p. 3-14)"
+anchor = "IE, j = J j BE /2 ( j = 1, 2)."
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Multiple unresolved errors: \\(W_L\\) is dimensionless; the polarization labels inherit the source contradiction; the declared per-keV intensities need an explicit energy-unit convention/Jacobian when using CGS constants in eq. 7." }]
+
+[[entry]]
+id = "rt.notation-cond-matter-dielectric"
+kind = "notation"
+domain = "rt"
+name = "Notation: condensed matter, dielectric tensor and damping"
+statement = "Symbols for the condensed phase and its dielectric tensor (van Adelsberg+2005, Potekhin+2012); renamed where needed to avoid clashes (Z -> Z_nuc, A -> A_mass, eta in rho_s -> eta_rho, eta in tensor -> eta_zz)."
+symbols = [
+  { sym = "A_{ion}", sym_source = "A", aliases = ["A", "A_ion", "A_{mass}"], meaning = "ion mass number A", meaning_source = "atomic mass number of the condensed-matter ion (paper: A)", units = "1" },
+  { sym = "Z_{ion}", sym_source = "Z", aliases = ["Z", "Z_ion", "Z_{nuc}"], meaning = "ion charge number Z (nuclear charge of a fully ionised ion)", meaning_source = "nuclear charge number of the ion (paper: Z)", units = "1" },
+  { sym = "\\rho_{s,cond}", sym_source = "ρ_s", aliases = ["rho_s"], meaning = "zero-pressure density of the condensed surface (paper: rho_s)", units = "g cm^-3" },
+  { sym = "\\eta_{\\rho}", sym_source = "η", aliases = ["η"], meaning = "dimensionless factor eta in the surface density rho_s: uniform-electron (Wigner-Seitz) model, unity for the ion-sphere model", units = "1" },
+  { sym = "T_{crit}", meaning = "critical temperature below which condensation occurs", units = "K" },
+  { sym = "Q_{s}", meaning = "cohesive energy of the condensed phase", units = "eV" },
+  { sym = "n_e", sym_source = "n_{e}", aliases = ["n_{e}"], meaning = "electron number density", meaning_source = "electron number density of the condensed matter", units = "cm^-3" },
+  { sym = "\\varepsilon_\\perp", sym_source = "ε", aliases = ["ε", "epsilon"], meaning = "transverse diagonal element of the dielectric tensor I + 4 pi chi, frame z || B: eps_xx = eps_yy = eps_perp", meaning_source = "diagonal transverse element of the dielectric tensor in the frame with B along z", units = "1" },
+  { sym = "\\varepsilon_\\wedge", sym_source = "g", aliases = ["g"], meaning = "off-diagonal (gyrotropic) element of the dielectric tensor I + 4 pi chi, frame z || B, with eps_xy = +i eps_wedge and eps_yx = -i eps_wedge (convention common to vAL05 and PLCH04)", meaning_source = "off-diagonal (gyrotropic) element of the dielectric tensor (paper: g)", units = "1" },
+  { sym = "\\varepsilon_\\parallel", sym_source = "η", aliases = ["η", "eta"], meaning = "longitudinal element (along B) of the dielectric tensor I + 4 pi chi, frame z || B: eps_zz = eps_parallel", meaning_source = "longitudinal element of the dielectric tensor (paper: eta)", units = "1" },
+  { sym = "u_{e}", meaning = "(E_Be/E)^2, squared ratio of electron cyclotron energy to photon energy", units = "1" },
+  { sym = "u_{i}", meaning = "(E_Bi/E)^2, squared ratio of ion cyclotron energy to photon energy", units = "1" },
+  { sym = "v_{e}", meaning = "(E_pe/E)^2, squared ratio of electron plasma energy to photon energy", units = "1" },
+  { sym = "\\gamma_{ei}^{(tr)}", meaning = "dimensionless collisional damping rate hbar nu/E for motion transverse to B", units = "1" },
+  { sym = "\\gamma_{ei}^{(l)}", meaning = "dimensionless collisional damping rate hbar nu/E for motion longitudinal to B", units = "1" },
+  { sym = "\\nu_{ei}^{(tr)}", meaning = "electron-ion collision frequency transverse to B", units = "s^-1" },
+  { sym = "\\nu_{ei}^{(l)}", meaning = "electron-ion collision frequency longitudinal to B", units = "s^-1" },
+  { sym = "\\Gamma_{coul}", sym_source = "Γ", aliases = ["Γ"], meaning = "Coulomb coupling parameter Gamma = (Ze)^2/(a_ion k_B T) of the ions (van Adelsberg+2005 sect. 2.1)", units = "1" },
+  { sym = "a_{ion}", sym_source = "a_i", aliases = ["a_i"], meaning = "ion-sphere radius a_i, defined by (4 pi a_i^3/3)^(-1) = n_i (ion number density)", units = "cm" },
+]
+conflicts_with = ["colour.notation-cie-xyz", "eos.notation-bsk-fit", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "rt.notation-spw09"]
+adopted = false
+conflict_notes = ["Z: Bare Z is the CIE tristimulus value. Ion charge number -> Z_{ion} (mass number A -> A_{ion}).", "eta: eta is an emissivity (\\eta_\\nu^j). BSk exp(H)-1 -> \\eta_{\\mathcal{H}}; vAL05/PLCH04 longitudinal dielectric element -> \\varepsilon_\\parallel.", "g: g is surface gravity. vAL05/PLCH04 gyrotropic dielectric element g -> \\varepsilon_\\wedge (PHC16 spelling); transverse element epsilon -> \\varepsilon_\\perp."]
+source = "van_adelsberg_2005_condensed_surface"
+locator = "Sect. 2 (p. 2-4)"
+anchor = "we consider the free electron gas model for"
+ocr = "good"
+status = "blessed"
+notes = "Aliases (round-1 review): A_{mass} = A_ion, Z_{nuc} = Z_ion, epsilon = eps_perp, g_{gyr} = g_gyro, eta_{zz} = eta_par, n_e = n_e of the existing notation entries; the condensed-phase/model qualification is retained here."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Source definitions match. Declare aliases to existing `A_ion`, `Z_ion`, `eps_perp`, `g_gyro`, `eta_par` and `n_e`, retaining the condensed-phase/model qualification." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Definitions and units match; aliases retain the condensed-phase/model qualification. [2005:140–175,194–234](/home/tobias/Projects/neutronstars/refs/van_adelsberg_2005_condensed_surface.txt:140)." }]

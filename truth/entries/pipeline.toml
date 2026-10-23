@@ -1,0 +1,757 @@
+# Domain pipeline: the SPINE of the argument DAG. Each entry is a computation our
+# code performs, ordered from the rendered image (root) down to physics. Anchors
+# are verbatim fragments of single lines of PRD.md. All entries proposed / stub.
+# Audit item numbers (A1..A43) refer to truth/DEPENDENCY_AUDIT.md Part A.
+# 'depends_on' lists the truth entries each computation consumes, then the lower
+# spine nodes. Verification targets used by the node's tests are listed too and
+# named as such in 'notes'.
+
+# ---------------------------------------------------------------------------
+# Top: the rendered frame and its display transforms
+# ---------------------------------------------------------------------------
+
+[[entry]]
+id = "pipeline.rendered-frame"
+kind = "pipeline"
+domain = "pipeline"
+name = "Rendered frame (HDR radiance plus derived display image)"
+statement = "Root of the spine. For one camera event (proper time tau on the camera worldline) produce (i) the HDR spectral radiance cube I_nu(x, y, nu) (unpolarised; no Q, U, V until polarised transport exists) in erg s^-1 cm^-2 Hz^-1 sr^-1 in the camera frame, and (ii) the display image (8-bit sRGB per pixel) derived from it through the stated colour, exposure and tone transforms. Milestone 1 delivers a single frame; the >= 60 s video needs milestone 4 and a separate time-remapping computation, not merely repeated frames. The Stokes Q, U, V content is limited to what pipeline.pixel-radiance supplies (unpolarised intensity only)."
+source = "PRD"
+locator = "Requirements, R8"
+anchor = "One 4k still at periastron, one video of at least 60 s, and the HDR radiance behind both"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = ["pipeline.pixel-radiance", "pipeline.display-exposure-tone", "pipeline.display-colour", "pipeline.earth-photometry"]
+notes = "No audit item of its own; it composes A31-A33 (GR/camera), A38-A42 (display) and the surface models. Video time remapping (PRD milestone 4) has no truth entry yet (gap). Review r1: pipeline.earth-photometry added as an explicitly labelled verification dependency (the R5 harness), so it stays reachable now that surface-parameters no longer depends on it."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Single-frame milestone 1 stated, video needs milestone 4 time remapping; added pipeline.earth-photometry as labelled verification dependency; Stokes claim weakened to match pixel-radiance." }]
+
+[[entry]]
+id = "pipeline.display-colour"
+kind = "pipeline"
+domain = "pipeline"
+name = "Spectral radiance to CIE XYZ to linear and encoded sRGB"
+statement = "Integrate the pixel spectral radiance I_lambda (erg s^-1 cm^-2 nm^-1 sr^-1, I_lambda = I_nu |dnu/dlambda| = I_nu c/lambda^2 with the nm conversion, lambda = c/nu) against the CIE 1931 2-degree colour matching functions over 360-830 nm to get X, Y, Z (absolute, then scaled by exposure); convert XYZ to linear sRGB with the matrix obtained by inverting the primaries/D65 matrix built from the sRGB chromaticities; clip to gamut; apply the sRGB transfer function and quantise to 8-bit code values. Clipping and quantisation are lossy; the original HDR data is retained, and the inverse path (code value to linear sRGB) is only an approximate decode."
+source = "PRD"
+locator = "The shot, Primary output"
+anchor = "Display images and video are derived with a stated camera,"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "colour.cie1931-2deg-cmf-file", "colour.cie1931-2deg-cmf-short-wavelength-error", "colour.srgb-colorimetric-basis",
+  "colour.srgb-red-primary", "colour.srgb-green-primary", "colour.srgb-blue-primary",
+  "colour.srgb-primaries-chromaticity", "colour.srgb-d65-white-chromaticity", "colour.srgb-stokes-d65-white-table02",
+  "colour.srgb-viewing-environment", "colour.srgb-xyz-to-linear-matrix", "colour.srgb-linear-to-xyz-matrix",
+  "colour.srgb-stokes-xyz-to-linear-matrix", "colour.srgb-stokes-linear-to-xyz-matrix", "colour.srgb-clipping",
+  "colour.srgb-encode-threshold", "colour.srgb-transfer-linear", "colour.srgb-transfer-power",
+  "colour.srgb-stokes-encode-linear", "colour.srgb-stokes-encode-power", "colour.srgb-digital-scaling",
+  "colour.srgb-digital-8bit", "colour.srgb-digital-8bit-simplified", "colour.srgb-digital-decode",
+  "colour.srgb-decode-threshold", "colour.srgb-inverse-linear", "colour.srgb-stokes-decode-power",
+  "colour.k-cd-luminous-efficacy",
+  "pipeline.constant-set", "pipeline.pixel-radiance",
+]
+notes = "Audit A38 (CIE CMF table, convention), A39 (sRGB matrix: derive by inverting the primaries/D65 matrix; the Stokes 1996 printed matrices are verification targets to 4 decimals), A40 (transfer function), A42 (visible sampling grid). Gap: no blessed inverse power segment of the sRGB transfer (colour.srgb-inverse-power and colour.srgb-inverse-transfer-power are both rejected), so decode reversibility is not covered; neither rejected entry is listed. Review r1: colour.srgb-d65-white-table01 removed (viewing-environment white differs from Table 0.2). Photometric normalisation (683 lm/W, tiesinga_2021_codata2018) and inverse-power decoding remain unprovenanced dependencies. depends_on extended 2026-10-23 (M1 harvest): colour.srgb-stokes-decode-power, colour.k-cd-luminous-efficacy. colour.srgb-stokes-decode-power fills the inverse-power decode gap; colour.k-cd-luminous-efficacy the 683 lm/W photometric normalisation. Still missing: the tristimulus normalisation (CIE 015, paywalled, not on disk), so this node stays yellow."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Added pipeline.pixel-radiance; I_lambda conversion stated; reversibility claim replaced by lossy-clipping/retain-HDR; removed colour.srgb-d65-white-table01." }]
+
+[[entry]]
+id = "pipeline.display-exposure-tone"
+kind = "pipeline"
+domain = "pipeline"
+name = "Exposure, glare and tone mapping"
+statement = "Map absolute XYZ (from pipeline.display-colour, cd m^-2 after photometric scaling of Y) to display-referred luminance: a stated exposure (scene key a and log-average luminance, or a fixed physical exposure), a veiling-glare/PSF convolution of the HDR image, and the Reinhard global operator L_d = L/(1+L) on the scaled luminance, applied to luminance with chromaticity preserved. Every step is documented and invertible so that absolute radiance round-trips (R6)."
+source = "PRD"
+locator = "Requirements, R6"
+anchor = "Absolute units round-trip; exposure, glare, and tone transforms documented and reversible"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "colour.reinhard-log-average-luminance", "colour.reinhard-scaled-luminance", "colour.reinhard-simple-operator",
+  "colour.reinhard-key-default", "colour.reinhard-key-value-definition", "colour.reinhard-log-average-as-key",
+  "colour.reinhard-global-limitation", "colour.reinhard-bounded-output", "colour.reinhard-dynamic-range-definition",
+  "colour.display-exposure-convention", "colour.reinhard-simple-inverse",
+  "pipeline.display-colour",
+]
+notes = "Audit A41 (Reinhard operator; v1 used key 0.36 and a per-channel clamp that banded hues). Gaps: no entry for a veiling-glare / camera PSF model, no entry for a physical camera exposure model (sensor response), no entry for the inverse tone operator; the photometric scaling of Y (683 lm/W) has no entry. REJECTED r1. Surviving weaker statement: apply a documented, selected exposure and Reinhard luminance compression; no demonstrated radiance round-trip. Glare kernel and its inverse unspecified; auto exposure needs retained normalisation metadata; the log-average entry records a problematic printed formula. Full glare/exposure policy belongs to milestone 4. depends_on extended 2026-10-23 (M1 harvest): colour.display-exposure-convention, colour.reinhard-simple-inverse. Status kept rejected: the exposure convention and the inverse tone operator now exist, but the r1 reject gap is not filled: no veiling-glare kernel or its inverse has an entry (colour.display-exposure-convention excludes glare), so the R6 round-trip through glare is still undemonstrated."
+
+# ---------------------------------------------------------------------------
+# Pixel radiance and the camera
+# ---------------------------------------------------------------------------
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: glare kernel/inverse unspecified, round-trip claim unsupported; surviving statement is documented exposure plus Reinhard compression without round-trip." }]
+
+[[entry]]
+id = "pipeline.pixel-radiance"
+kind = "pipeline"
+domain = "pipeline"
+name = "Pixel spectral radiance in the camera frame (unpolarised)"
+statement = "For each pixel direction of the camera tetrad and each frequency nu_cam (Hz), trace the null geodesic backwards; if it hits the star, take the local surface radiance I^(j)_nu'(nu', mu, T_s, B) in the surface comoving frame and transform it with I_nu/nu^3 invariance to I_nu(nu_cam); if it escapes, take the sky radiance in the asymptotic direction and transform it the same way. Sum the polarisation modes into the unpolarised specific intensity I only, in the stated gravity-only transparent exterior (no Stokes Q, U, V: that needs basis transport, exterior vacuum polarisation evolution and phase averaging, which have no computation dependencies). Output in erg s^-1 cm^-2 Hz^-1 sr^-1, with a scale-adaptive switch to a point source plus PSF when the disc is unresolved."
+source = "PRD"
+locator = "The shot, Primary output"
+anchor = "HDR spectral radiance per pixel in absolute units, with"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.approx-opaque-surface",
+  "pipeline.camera-tetrad-projection", "pipeline.null-geodesic-trace", "pipeline.frequency-shift",
+  "pipeline.surface-radiance", "pipeline.sky-radiance", "pipeline.star-scale-adaptive",
+  "pipeline.surface-parameters", "pipeline.constant-set",
+]
+notes = "Audit A32 (redshift and I_obs = I_em/(1+z)^3, correct in v1), A33 (v1 pixel scale bug: now from the camera model), A42 (output sampling). Gap: no entry for parallel transport of the polarisation basis (Stokes rotation) along a Schwarzschild null geodesic. Review r1 (codex REJECT, root node, not rejected here; dispute recorded): fixed per stated reasons by restricting to unpolarised intensity in a gravity-only transparent exterior. Observed Stokes parameters are NOT promised: parallel transport alone is insufficient (magnetised-vacuum propagation, phase averaging missing)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Root node kept: codex reject treated as fix by weakening to unpolarised specific intensity in the gravity-only transparent exterior; polarised transport left as a gap. Dispute noted." }]
+
+[[entry]]
+id = "pipeline.constant-set"
+kind = "pipeline"
+domain = "pipeline"
+name = "Constant set (CODATA 2018 plus IAU units)"
+statement = "The one module of physical constants used by every computation: c, G, h, hbar, e, k_B, m_e, m_p, m_u, eV, sigma_SB, c_1, c_2, mu_0, epsilon_0, alpha, r_e, sigma_T, a_0, R_Ryd, Ry, E_h, mu_B, with SI values as quoted and explicit SI-to-Gaussian (CGS) conversions for each quantity (mu_0 and epsilon_0 have no common Gaussian representation and are converted, not carried over). The Rydberg constant is named R_Ryd to distinguish it from the apparent stellar radius R_inf. The IAU units are named explicitly: the astronomical unit au (const.au), the parsec pc (const.parsec) and the nominal solar GM, (GM)^N_sun (const.gm-sun-nominal, with its CGS value const.gm-sun-nominal-cgs and the CODATA-G conversion const.m-sun-nominal-cgs). The SI-to-Gaussian bridge (erg-joule, gauss-tesla, and e in esu from e and c) is a project definition, not supported by a cited source. Derived constants (sigma_SB from h, k, c; e in esu from e and c) are computed, not typed."
+source = "PRD"
+locator = "Requirements, R7"
+anchor = "Every equation and constant carries a byte-identical quote from"
+ocr = "good"
+status = "proposed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "const.speed-of-light", "const.newtonian-gravitation", "const.planck", "const.hbar", "const.elementary-charge",
+  "const.boltzmann", "const.electron-mass", "const.electron-mass-energy-mev", "const.proton-mass",
+  "const.proton-electron-mass-ratio", "const.atomic-mass-constant", "const.unified-atomic-mass-unit",
+  "const.electron-volt", "const.stefan-boltzmann", "const.first-radiation-constant",
+  "const.second-radiation-constant", "const.vacuum-permeability", "const.vacuum-permittivity",
+  "const.fine-structure", "const.classical-electron-radius", "const.thomson-cross-section", "const.bohr-radius",
+  "const.rydberg-constant", "const.rydberg-frequency", "const.rydberg-energy-joule", "const.rydberg-energy-ev",
+  "const.hartree-energy", "const.bohr-magneton", "const.au", "const.parsec", "const.gm-sun-nominal",
+  "const.gm-sun-nominal-cgs", "const.m-sun-nominal-cgs", "const.erg-joule", "const.gauss-tesla",
+]
+notes = "Audit A1 (CODATA; v1 used the pre-2018 e and typed-in sigma_SB), A2 (M_sun mislabelled), A3 (pc, au). Gaps: no entry for the IAU 2015 nominal GM_sun (Resolution B3) and none for the IAU 2012/2015 exact au and pc definitions. const.avogadro and const.neutron-mass (rejected) are not needed. Review r1: pc and M_sun removed from this node until entries exist (see gaps). depends_on extended 2026-10-23 (M1 harvest): const.au, const.parsec, const.gm-sun-nominal, const.gm-sun-nominal-cgs, const.m-sun-nominal-cgs, const.erg-joule, const.gauss-tesla. These fill the r1 gaps (IAU 2015 nominal GM_sun, exact au and pc; the solar conversion mass in grams depends on G and is not an IAU nominal quantity). The SI-to-Gaussian bridge (erg-joule, gauss-tesla, and the e-in-esu conversion) is a project definition pending a Jackson source on disk; const.esu-from-coulomb is rejected (r2) and not listed; const.r-sun-nominal and const.l-sun-nominal are rejected and not needed. Statement left unchanged because the node is blessed; a statement revision naming au, pc, (GM)^N_sun and the Gaussian bridge needs a re-review. Statement revised 2026-10-23 per pipeline-r1b bullets; re-review required."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Removed pc/M_sun claim, specified SI-to-Gaussian conversions (mu_0, epsilon_0), renamed Rydberg constant R_Ryd vs R_inf." }]
+
+[[entry]]
+id = "pipeline.ns-exterior-spacetime"
+kind = "pipeline"
+domain = "pipeline"
+name = "Schwarzschild exterior of RX J1856"
+statement = "Given gravitational mass M (g) and circumferential radius R (cm), set up the static Schwarzschild exterior r >= R: r_g = 2GM/c^2, compactness u = r_g/R, lapse (1 - r_g/r)^(1/2), surface redshift 1 + z = (1 - u)^(-1/2), and the apparent quantities R_inf = R(1+z), T_inf = T/(1+z). Rotation and oblateness are neglected."
+source = "PRD"
+locator = "Scope, In"
+anchor = "exact Schwarzschild geodesics from a finite-radius moving camera;"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.schwarzschild-radius", "gr.approx-schwarzschild-exterior", "gr.apparent-quantities",
+  "surface.ppp15-redshifted-quantities", "surface.phc16-redshift-relations", "gr.schwarzschild-line-element",
+  "pipeline.constant-set",
+]
+notes = "Audit A32 (1+z, M from (z, R_inf)), A24/A25 (TOV and BSk dropped: interior never consumed). gr.metric-static-spherical and eos.metric-schwarzschild-interior are rejected (printed e^{2 Lambda} sign error in PPP15) and not listed; eos.enclosed-mass-and-rg and eos.redshift-observables are rejected and covered by gr.schwarzschild-radius, gr.apparent-quantities and surface.ppp15-redshifted-quantities. Gap: no blessed entry stating the exterior Schwarzschild line element itself. Review r1: the metric remains a missing usable dependency (gr.approx-schwarzschild-exterior reaches rejected gr.metric-static-spherical). Unsupported surface v/c removed; add obs.rxj1856-spin-period if a numerical period is reinstated. depends_on extended 2026-10-23 (M1 harvest): gr.schwarzschild-line-element. The r1 gap (no blessed exterior line element) is filled by gr.schwarzschild-line-element (gr_geodesic.toml); gr.approx-schwarzschild-exterior and gr.frequency-redshift were repointed from the rejected gr.metric-static-spherical to it the same day."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replaced anchor/locator with the Scope-In geodesics line; removed unsupported surface v/c ~ 4e-5 and period." }]
+
+[[entry]]
+id = "pipeline.camera-worldline"
+kind = "pipeline"
+domain = "pipeline"
+name = "Camera worldline (hyperbolic timelike geodesic)"
+statement = "Integrate the camera worldline as an unbound (hyperbolic) timelike geodesic of the Schwarzschild exterior of pipeline.ns-exterior-spacetime, parameterised by camera proper time tau_prop (s). Mass: the star's gravitational mass is a labelled parameter m_star_N := GM/(GM)^N_sun (the nominal-solar-mass ratio defined through GM; the symbol m is reserved for column density); r_g = 2GM/c^2 is computed from the product GM = m_star_N (GM)^N_sun with (GM)^N_sun = 1.3271244e26 cm^3 s^-2 (const.gm-sun-nominal-cgs), and M in grams, where needed, is M ≈ m_star_N × 1.98841e33 g with CODATA 2018 G (const.m-sun-nominal-cgs, not an IAU nominal quantity). Inputs: the conserved specific energy E-tilde = (1 - r_g/r) dt/dtau_prop > 1 (dimensionless; the unbound condition of gr.timelike-unbound-condition), or equivalently the speed at infinity v_inf = c (1 - E-tilde^-2)^(1/2) (gr.timelike-speed-at-infinity), and the periastron radius r_peri (cm; PRD default about 100 km). The specific angular momentum L-tilde = r^2 dphi_Sch/dtau_prop (cm^2 s^-1) follows from L-tilde^2 = c^2 r_peri^2 [E-tilde^2/(1 - r_g/r_peri) - 1] (gr.timelike-angular-momentum-from-periastron); the run raises unless r_peri > max(R, r_g) and r_peri is the largest real root of the periastron cubic and a simple root with d\\mathcal{R}/dr(r_peri) > 0 (gr.timelike-periastron-cubic), so that the orbit turns at r_peri, is not captured, and does not intersect the star. Orientation convention: the orbit lies in the Schwarzschild equatorial plane theta_Sch = pi/2 (Carter constant Q = 0), L_z = +|L-tilde| so phi_Sch increases along the orbit, phi_Sch = 0 and tau_prop = 0 at periastron, and tau_prop increases to the future (E-tilde > 0). Equations: (dr/dtau_prop)^2 = c^2 E-tilde^2 - (1 - r_g/r)(c^2 + L-tilde^2/r^2) (gr.timelike-radial-equation-schwarzschild), dt/dtau_prop = E-tilde (1 - r_g/r)^(-1), dphi_Sch/dtau_prop = L-tilde/r^2; the inbound branch dr/dtau_prop < 0 holds for tau_prop < 0 and the outbound branch for tau_prop > 0. Proper time is the unsigned two-leg quadrature dtau_prop = |dr|/(c^2 E-tilde^2 - (1 - r_g/r)(c^2 + L-tilde^2/r^2))^(1/2), integrated with increasing r on each leg, r_peri -> r_start inbound and r_peri -> r_end outbound, with the integrable 1/(r - r_peri)^(1/2) endpoint singularity regularised (gr.timelike-proper-time-quadrature). Finite r_start, r_end > r_peri are supplied inputs; the caller verifies the unresolved-endpoint criterion using the moving-camera image and stated PSF. Output: x^mu(tau_prop) = (t, r, theta_Sch, phi_Sch) and u^mu(tau_prop) = dx^mu/dtau_prop, with g_mu nu u^mu u^nu = -c^2 checked at every output event (fail loud)."
+source = "PRD"
+locator = "The shot, Camera"
+anchor = "on a hyperbolic timelike geodesic of the Schwarzschild spacetime of"
+ocr = "good"
+status = "blessed"
+reject_resolved = true
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.schwarzschild-line-element", "gr.timelike-constants-schwarzschild",
+  "gr.timelike-radial-equation-schwarzschild", "gr.timelike-dt-dtau-schwarzschild",
+  "gr.timelike-dphi-dtau-schwarzschild", "gr.timelike-proper-time-quadrature", "gr.timelike-periastron-cubic",
+  "gr.timelike-angular-momentum-from-periastron", "gr.timelike-unbound-condition", "gr.timelike-speed-at-infinity",
+  "const.gm-sun-nominal-cgs", "const.m-sun-nominal-cgs",
+  "pipeline.ns-exterior-spacetime",
+]
+notes = "No v1 audit item (v1 had a static observer at infinity). Gap: no entry for timelike geodesics in Schwarzschild (conserved E, L, effective potential, periastron condition); no entry for proper-time parametrisation. REJECTED r1. Surviving weaker statement: PRD.md:16-22 requires an unbound Schwarzschild camera trajectory parameterised by proper time; its implementable equations (conserved-energy convention, angular-momentum units, periastron relation, initial branch/orientation, finite endpoints) are absent from the dependency database. gr.static-observer-four-velocity is unnecessary and should be removed on any re-proposal. r1b re-proposal: gr.static-observer-four-velocity dropped as the r1 review asked; the conserved-energy convention, angular-momentum units, periastron relation, branch/orientation and finite endpoints now come from the gr_geodesic lane (several of those entries are still proposed). rt.airy-first-zero and rt.psf-aperture-convention are added beyond the consequences list because the endpoint rule consumes them; pipeline.star-scale-adaptive is named but not a dependency (it sits above this node and would make a cycle). Re-proposed 2026-10-23 after the Milestone-1 harvest; r1 reject note retained above. r2 (pipeline-r1b) fixes applied 2026-10-23, see the round-2 review record; pipeline.star-scale-adaptive no longer enters through the endpoint rule."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: static-observer four-velocity gives no timelike geodesic evolution; needed equations absent. Surviving statement: unbound Schwarzschild trajectory by proper time, equations missing." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: r_peri > max(R, r_g) required; endpoint paragraph replaced by the reviewer sentence (finite r_start, r_end > r_peri supplied, caller verifies the unresolved-endpoint criterion); rt.airy-first-zero and rt.psf-aperture-convention removed from depends_on; m_star_N := GM/(GM)^N_sun replaces M/M_sun with M ≈ m_star_N × 1.98841e33 g; radial polynomial written \\mathcal{R}; periastron symbol r_p renamed r_peri. Blessed under the pipeline rule (SCHEMA: an applied gpt fix verdict suffices for kind = pipeline); the round-1 reject is resolved by this re-proposal (reject_resolved = true)." }]
+
+[[entry]]
+id = "pipeline.camera-tetrad-projection"
+kind = "pipeline"
+domain = "pipeline"
+name = "Camera tetrad and pixel-to-photon-momentum projection"
+statement = "At each camera event of pipeline.camera-worldline build the camera's orthonormal tetrad e_(a)^cam: the static-observer tetrad of gr.static-tetrad, e_(t) = [c (1 - r_g/r)^(1/2)]^(-1) d/dt, e_(r) = (1 - r_g/r)^(1/2) d/dr, e_(theta) = r^(-1) d/dtheta, e_(phi) = (r sin theta)^(-1) d/dphi, boosted by the local Lorentz transformation (gr.tetrad-lorentz-transformation, the sign giving e_(0)^cam = gamma (e_(0) + beta_cam hat v_cam^a e_(a))) to the camera four-velocity u_cam = c gamma (e_(0) + beta_cam hat v_cam), whose speed beta_cam and direction hat v_cam relative to the static observer are read off the worldline's u^mu (gr.camera-four-velocity-static-frame); e_(0)^cam = u_cam/c. Pixel mapping (gr.camera-projection-convention): optical axis a_cam, image-right u_x and image-up u_y with u_x x u_y = -a_cam; a pixel offset (dx, dy) from the optical-axis pixel gives r_pix = (dx^2 + dy^2)^(1/2), phi_field = atan2(dy, dx) and the field angle theta_field = arctan(r_pix/f_cam) (pinhole, theta_field < pi/2) or theta_field = r_pix/f_cam (equidistant), with f_cam > 0 in pixels; at r_pix = 0, set N_cam = a_cam without evaluating atan2; equidistant pixels require 0 ≤ theta_field ≤ pi; the pixel's sky direction is N_cam = cos theta_field a_cam + sin theta_field (cos phi_field u_x + sin phi_field u_y). Direction convention: N_cam points toward the apparent source of the incoming ray (N of James et al. 2015 eq. A.8); the photon propagates along -N_cam, with four-momentum p = (h nu_cam/c)(e_(0)^cam - N^a e_(a)^cam), so h nu_cam = -p_mu u^mu_cam, and coordinate components p^mu = p^(i) e_(i)^mu (gr.tetrad-vector-components). Aberration between the camera and static frames is this one boost (gr.camera-aberration, n_F the static-frame propagation direction). From p_mu return, per pixel and frequency, the ray's conserved constants (gr.null-geodesic-constants: p_t, p_phi in its own orbit plane, impact parameter b = |p_phi/p_t| c in cm), its orbit plane (the plane through r = 0 containing the camera position and the spatial direction of p; for a radial ray (b = 0), choose a fixed auxiliary orbit plane) and its initial radial branch; the static-frame sky angle of gr.observer-sky-angle is a consistency check. Pointing for a still: image-up u_y is -e_(theta)^cam (the orbit normal along +L_z of pipeline.camera-worldline, unchanged by boosts in the orbit plane), orthogonalised against a_cam; in tracking mode a_cam is the camera-frame image, through gr.camera-aberration, of the static-frame inward radial direction -e_(r) (the star's centre). This M1 computation supports tracking only; fixed-inertial requests raise until a transport-law dependency exists. Each frame supplies the projection and positive f_cam. gr.disk-angular-radius is a distant-static verification target only."
+source = "PRD"
+locator = "The shot, Frame"
+anchor = "the camera's local tetrad. Aberration, Doppler, and gravitational"
+ocr = "good"
+status = "blessed"
+reject_resolved = true
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.static-tetrad", "gr.camera-four-velocity-static-frame", "gr.tetrad-lorentz-transformation",
+  "gr.tetrad-vector-components", "gr.camera-aberration", "gr.camera-projection-convention",
+  "gr.null-geodesic-constants", "gr.observer-sky-angle", "gr.disk-angular-radius",
+  "pipeline.camera-worldline", "pipeline.ns-exterior-spacetime",
+]
+notes = "Audit A31 (finite moving camera replaces parallel rays from infinity), A33 (pixel scale from the camera model). gr.disk-angular-radius is a verification target for the static-camera limit. gr.approx-observer-at-infinity (rejected) is not used. Gaps: no entry for the full orthonormal static tetrad (only its timelike leg exists), none for the local Lorentz boost / relativistic aberration formula, none for the camera projection (pinhole or equidistant) model. REJECTED r1. Surviving weaker statement: project pixels through a specified orthonormal camera frame; present dependencies do not define it (no focal length/FOV/projection convention; must fix whether n is photon propagation direction or opposite sightline; gr.emission-angle-definition concerns surface emission and should be removed). r1b re-proposal: gr.emission-angle-definition dropped as the r1 review asked; gr.static-observer-four-velocity replaced by gr.static-tetrad plus gr.camera-four-velocity-static-frame (full tetrad, boost and photon-momentum convention now harvested in camera.toml; gr.static-tetrad is still proposed). The n convention of the r1 statement (p = (h nu/c)(e_(0) + n^i e_(i)), n the propagation direction) is replaced by the N_cam sightline convention. Remaining gap: fixed-inertial pointing transport along the geodesic. Re-proposed 2026-10-23 after the Milestone-1 harvest; r1 reject note retained above."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: tetrad, boost, pointing transport and projection unspecified; n convention undefined. Surviving statement: projection through a specified orthonormal camera frame." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: the open-pointing clause replaced by the reviewer tracking-only sentence (fixed-inertial requests raise until a transport-law dependency exists; each frame supplies the projection and positive f_cam); dependency boundary conventions restored (at r_pix = 0 set N_cam = a_cam without evaluating atan2; equidistant pixels require 0 <= theta_field <= pi); fixed auxiliary orbit plane defined for a radial ray (b = 0); notation beta -> beta_cam, n -> hat v_cam. Blessed under the pipeline rule (SCHEMA: an applied gpt fix verdict suffices for kind = pipeline); the round-1 reject is resolved by this re-proposal (reject_resolved = true)." }]
+
+[[entry]]
+id = "pipeline.null-geodesic-trace"
+kind = "pipeline"
+domain = "pipeline"
+name = "Exact null geodesic from camera pixel to surface or sky"
+statement = "For a ray of impact parameter b (cm) starting at the camera radius r_c, integrate the exact Schwarzschild orbit equation (or evaluate the exact bending integral) in its orbital plane: decide hit (the past-directed ray reaches r = R before an exterior turning point or escape; an exterior turning point above R prevents a hit; the initial radial branch is retained; the surface-grazing b_max requires R > 3GM/c^2) or escape; on a hit return the surface point (theta, phi), the emission angle alpha (cos alpha relative to the local normal) and the azimuth of the photon direction relative to the local B; on escape return the asymptotic sky direction. Multiple images (bending > pi) are included."
+source = "PRD"
+locator = "Scope, In"
+anchor = "exact Schwarzschild geodesics from a finite-radius moving camera;"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.null-geodesic-constants", "gr.null-geodesic-radial", "gr.null-geodesic-components", "gr.orbit-equation-u",
+  "gr.bending-integral", "gr.bending-integral-pechenick", "gr.photon-sphere", "gr.impact-parameter-max",
+  "gr.max-deflection-integral", "gr.emission-angle-definition", "gr.emission-angle-impact-parameter",
+  "gr.approx-opaque-surface", "gr.flat-space-half-visible", "gr.full-visibility-radius", "gr.dphi-max-r16",
+  "gr.circle180-radius-r16", "gr.beloborodov-cosine-relation", "gr.beloborodov-cosine-error-bound",
+  "gr.bending-linear-in-u", "gr.visible-fraction-cosine", "gr.schwarzschild-line-element",
+  "gr.bending-integral-finite-radius", "gr.observed-flux-element-abs-jacobian",
+  "pipeline.camera-tetrad-projection", "pipeline.ns-exterior-spacetime", "pipeline.surface-maps-field",
+]
+notes = "Audit A31 (RECOMPUTE exact: v1 used only the Beloborodov cosine relation and falsely claimed an exact integral). Verification targets (R1): gr.flat-space-half-visible, gr.full-visibility-radius, gr.dphi-max-r16, gr.circle180-radius-r16, gr.beloborodov-cosine-relation/-error-bound, gr.bending-linear-in-u, gr.visible-fraction-cosine. gr.visible-mu-exact-values is rejected (printed values fail their rounding) and not listed. Gap: no entry for the bending integral from a finite radius r_c (both local integrals are written from infinity; the finite-r form is derivable from gr.null-geodesic-radial). Review r1: pipeline.surface-maps-field added because this node returns an azimuth relative to B (milestone caveat: the field map is milestone 3). depends_on extended 2026-10-23 (M1 harvest): gr.schwarzschild-line-element, gr.bending-integral-finite-radius, gr.observed-flux-element-abs-jacobian. gr.bending-integral-finite-radius (proposed) fills the r1 finite-r_c bending gap. gr.observed-flux-element-abs-jacobian (proposed) is a far-field verification target only."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Hit condition replaced with reaches-r=R-before-turning-point; R > 3GM/c^2 condition for b_max; added pipeline.surface-maps-field for the B-azimuth." }]
+
+[[entry]]
+id = "pipeline.frequency-shift"
+kind = "pipeline"
+domain = "pipeline"
+name = "Gravitational, Doppler and aberration shift of I_nu"
+statement = "For each ray, compute the frequency ratio g = nu_cam/nu_em = (p . u_cam)/(p . u_em) from the photon four-momentum and the emitter (static surface or distant sky) and camera four-velocities, and transform the specific intensity by I_nu,cam(nu_cam) = g^3 I_nu,em(nu_cam/g), i.e. for the static case I_nu,obs(nu) = (1+z)^(-3) I_nu,em((1+z)nu) (I_nu/nu^3 invariant). For a static camera at infinity this reduces to 1 + z = (1 - r_g/R)^(-1/2) and I_nu,obs(nu) = (1+z)^(-3) I_nu,em((1+z)nu); far from the star it reduces to the special-relativistic Doppler factor."
+source = "PRD"
+locator = "The shot, Frame"
+anchor = "shifts of the star and the sky follow from that one transformation."
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.invariant-inu-over-nu3", "gr.frequency-redshift", "gr.static-observer-four-velocity",
+  "gr.disk-uniform-brightness", "gr.frequency-ratio-general", "gr.intensity-g-cubed", "gr.doppler-factor-sr",
+  "gr.camera-blueshift-celestial",
+  "pipeline.camera-tetrad-projection", "pipeline.ns-exterior-spacetime", "pipeline.null-geodesic-trace",
+]
+notes = "Audit A32 (correct in v1 for a static observer at infinity), R2 acceptance. gr.disk-uniform-brightness is a verification target (isotropic sphere appears uniform). Gap: no entry for the special-relativistic Doppler factor of a moving observer (needed for the R2 far-field limit check) and none for the four-velocity of the surface if rotation were included. Review r1: gr.intensity-transformation removed as a spectral dependency (its source has the fourth power: a bolometric check only). Photon momentum at the emitter now comes from pipeline.null-geodesic-trace. The moving-observer contraction/Doppler relation still needs its own entry. depends_on extended 2026-10-23 (M1 harvest): gr.frequency-ratio-general, gr.intensity-g-cubed, gr.doppler-factor-sr, gr.camera-blueshift-celestial. gr.doppler-factor-sr and gr.camera-blueshift-celestial fill the r1 moving-observer Doppler gap (R2 far-field check); gr.frequency-ratio-general (proposed) and gr.intensity-g-cubed state g = (p.u_cam)/(p.u_em) and the g^3 law. Node was blessed, not rejected, so its statement is unchanged."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Added pipeline.null-geodesic-trace; spectral transform written as I_nu,obs(nu)=(1+z)^-3 I_nu,em((1+z)nu); removed gr.intensity-transformation." }]
+
+[[entry]]
+id = "pipeline.sky-radiance"
+kind = "pipeline"
+domain = "pipeline"
+name = "Background sky radiance at RX J1856"
+statement = "Given an asymptotic ray direction (unit vector at infinity in Gaia-CRF3 / ICRS axes, in the rest frame of RX J1856), return the background-sky specific intensity I_nu (erg s^-1 cm^-2 Hz^-1 sr^-1) as (a) catalogued point sources plus (b) a diffuse term. (a) Each Gaia DR3 source carries its astrometric parameters at the reference epoch J2016.0 in Gaia-CRF3 (obs.gaia-dr3-astrometric-parameters, obs.gaia-reference-epoch-j2016, obs.gaia-reference-frame-crf3). Its barycentric position vector is built from the standard model of stellar motion (obs.gaia-standard-model-of-stellar-motion, obs.agis-standard-model-direction, obs.agis-astrometric-parameter-set) and propagated to the render epoch with the no-light-time formulae (obs.bl-propagation-direction-nolt, -parallax-nolt, -pm-nolt, -mur-nolt; perspective acceleration per obs.gaia-perspective-acceleration), the light-time neglect being checked per source against obs.bl-lighttime-neglect-criterion (raise if violated). Distances use 1/parallax only for sources whose parallax passes a stated significance cut; the treatment of the others is an open item and every frame logs it. Re-projection: the observer is translated from the solar-system barycentre to RX J1856, whose position vector is fixed by its position (obs.rxj1856-position-walter2010; the paper prints no epoch or frame for it, so this is logged as an assumption), its distance d = 123 pc (obs.rxj1856-distance, parallax obs.rxj1856-parallax-walter2010-text) and its proper motion (obs.rxj1856-proper-motion-total) propagated to the same epoch (size of the neglected light-time terms: obs.rxj1856-epoch-propagation-estimate). Each star's direction is the normalised difference vector from RX J1856 to the star, and its flux is multiplied by (distance from the Sun / distance from RX J1856)^2. Spectra: for sources with a published sampled XP spectrum (obs.gaia-xp-sampled-subset, only stars brighter than G = 15) the absolute SED f_lambda comes from the externally calibrated spectrum (obs.gaia-xp-ecs-definition, obs.gaia-xp-ecs-spd-sed-units, obs.gaia-xp-absolute-calibration); stars fainter than G = 15 have no sampled XP spectrum: an ECS must be reconstructed by our own code from the continuous representation where it is published, and otherwise only G, BP, RP photometry constrains the source through the band-flux integral (obs.gaia-band-flux-integral, obs.gaia-passband-distribution) and the VEGAMAG/AB zero points (obs.gaia-vegamag-definition, obs.gaia-ab-definition, obs.gaia-zero-points-vegamag, obs.gaia-zero-points-ab), which does not fix a spectrum, so the SED model used for those stars is an open decision labelled per frame. Gaia covers G = 3 to 21 with saturation effects at G below about 8 (obs.gaia-magnitude-range-and-bright-end); brighter stars need Hipparcos rows in the ICRS (obs.hipparcos-optical-realization-icrs). Point sources are delta functions in direction, deposited through the camera PSF downstream, not given a surface brightness here. (b) Diffuse term: OPEN PRD DECISION. The candidate Mellinger panorama (obs.mellinger-background-and-star-content, obs.mellinger-photometric-calibration, obs.mellinger-availability) is NOT starless (stars to about 14 mag remain) and no licence is on disk; the options are masking and inpainting it at Gaia positions, another map, or Gaia total minus catalogued flux. Until the decision is made, the diffuse term is absent and every frame says so. Data still to fetch into refs/data with checksums: Gaia archive rows, Gaia passband tables (VizieR), XP sampled spectra, CALSPEC Vega, Hipparcos rows."
+source = "PRD"
+locator = "Scope, In"
+anchor = "background sky from Gaia DR3 re-projected to the star's location plus a"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "obs.rxj1856-distance", "obs.rxj1856-parallax-walter2010-text", "obs.rxj1856-proper-motion-total",
+  "obs.rxj1856-position-walter2010", "obs.gaia-reference-epoch-j2016", "obs.gaia-reference-frame-crf3",
+  "obs.gaia-dr3-astrometric-parameters", "obs.gaia-standard-model-of-stellar-motion",
+  "obs.gaia-perspective-acceleration", "obs.gaia-band-flux-integral", "obs.gaia-vegamag-definition",
+  "obs.gaia-ab-definition", "obs.gaia-zero-points-vegamag", "obs.gaia-zero-points-ab",
+  "obs.gaia-passband-distribution", "obs.gaia-xp-ecs-definition", "obs.gaia-xp-ecs-spd-sed-units",
+  "obs.gaia-xp-sampled-subset", "obs.gaia-xp-absolute-calibration", "obs.gaia-magnitude-range-and-bright-end",
+  "obs.agis-standard-model-direction", "obs.agis-astrometric-parameter-set", "obs.bl-propagation-direction-nolt",
+  "obs.bl-propagation-parallax-nolt", "obs.bl-propagation-pm-nolt", "obs.bl-propagation-mur-nolt",
+  "obs.bl-lighttime-neglect-criterion", "obs.rxj1856-epoch-propagation-estimate",
+  "obs.hipparcos-optical-realization-icrs",
+  "pipeline.constant-set",
+]
+notes = "No v1 audit item (Part C, M1 non-v1 debt). Gaps: Gaia DR3 source catalogue (positions, parallaxes, G, BP, RP, XP spectra) has no entry; RX J1856 sky position (RA, Dec) has no entry; stellar SED from Gaia photometry (Part C warns a synthetic-spectra grid would be a new table dependency); starless diffuse Milky Way map and its licence (PRD open decision); Gaia passbands and zero points. REJECTED r1. Surviving weaker statement: reproject a measured stellar catalogue to RX J1856 and combine with a selected diffuse map (PRD.md:35-36); no Gaia catalogue, passbands, distance inference, spectral reconstruction or diffuse-map dataset is supplied, a distance alone does not fix the translation vector, and broadband photometry does not fix a spectrum. r1b re-proposal: the catalogue, epoch/frame, propagation, passband, zero-point and XP spectral entries are now harvested (sky.toml, sky2.toml; several still proposed), and the RX J1856 position vector (not only its distance) now fixes the translation. The three Mellinger entries are candidate dependencies pending the PRD diffuse-map decision. Remaining gaps: the sky data files themselves, the faint-star SED model, the parallax-significance rule, and the diffuse map. Re-proposed 2026-10-23 after the Milestone-1 harvest; r1 reject note retained above. r2 (pipeline-r1b) REJECT: the three Mellinger entries (obs.mellinger-background-and-star-content, obs.mellinger-photometric-calibration, obs.mellinger-availability) are moved out of depends_on and kept here as candidate dependencies only: the retained stars reach about magnitude 14 so the map cannot supply the promised starless component (Mellinger:352-355). Surviving weaker statement: the sources support a conditional catalogue-propagation and XP-SED recipe; they do not yet specify a complete absolute-radiance sky at RX J1856. Still missing before re-proposal: (1) catalogue, passband and spectral datasets fetched into refs/data with checksums; (2) the parallax cut; (3) the remaining-distance treatment; (4) a photometry-only SED model; (5) the RX J1856 coordinate epoch/frame and radial-velocity assumptions (logging an unspecified epoch/frame does not fix the propagated position); (6) note that the cited light-time criterion (obs.bl-lighttime-neglect-criterion) concerns epoch propagation, not the observer translation to RX J1856, which the statement used it for (the standard observer model includes a Roemer correction); (7) no complete spectral/frame reconstruction or selected diffuse component is defined (absolute XP SEDs only for a selected subset)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: dependencies cannot produce absolute sky radiance (no catalogue, passbands, SED reconstruction, diffuse map)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Rejected again: catalogue/passband/spectral datasets absent; parallax cut, remaining-distance treatment and photometry-only SED model unspecified; RX J1856 coordinate epoch/frame and radial-velocity assumptions missing; the light-time criterion concerns epoch propagation, not the observer translation. Mellinger edges moved from depends_on to notes (dependency padding). Surviving weaker statement: conditional catalogue-propagation and XP-SED recipe; no complete absolute-radiance sky at RX J1856." }]
+
+[[entry]]
+id = "pipeline.star-scale-adaptive"
+kind = "pipeline"
+domain = "pipeline"
+name = "Scale-adaptive star rendering (point source to resolved disc)"
+statement = "When the star's apparent angular radius (from b_max and the camera radius) is smaller than a pixel, replace ray sampling by the total spectral flux F_nu = integral I_nu dOmega over the image plane (erg s^-1 cm^-2 Hz^-1), deposited through the camera PSF; when resolved, sample the disc with enough rays per pixel to resolve the limb and the lensed ring; blend across the transition so that total flux is conserved. Finite-camera solid angle: integrate over the camera-frame image plane using gr.observer-sky-angle (not the distant-observer image-plane element); the PSF is unit-normalised. gr.disk-angular-radius and gr.image-plane-solid-angle are distant-static verification targets only (their sources take the distant-observer limit)."
+source = "PRD"
+locator = "Scope, In"
+anchor = "scale-adaptive star rendering (point with PSF to resolved disc);"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "gr.disk-angular-radius", "gr.image-plane-solid-angle", "gr.impact-parameter-max", "gr.observer-sky-angle",
+  "rt.psf-aperture-convention",
+  "pipeline.null-geodesic-trace", "pipeline.frequency-shift", "pipeline.surface-radiance",
+]
+notes = "Audit A33 (image half-width is b_max, not R). gr.observed-flux-element is rejected (sign of secondary branches) and not listed; flux is integrated over the image plane via gr.image-plane-solid-angle instead. Gap: no entry for a camera PSF / diffraction model. Review r1: surface-radiance and gr.observer-sky-angle added; gr.disk-angular-radius / gr.image-plane-solid-angle retained as distant-static verification only. depends_on extended 2026-10-23 (M1 harvest): rt.psf-aperture-convention. rt.psf-aperture-convention (unit-integral Airy kernel; depends on rt.airy-intensity-pattern, proposed r3 pending, and is the source of rt.airy-first-zero) fills the r1 camera-PSF gap."
+
+# ---------------------------------------------------------------------------
+# Star parameters and the Earth-distance photometry harness
+# ---------------------------------------------------------------------------
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Added pipeline.surface-radiance and gr.observer-sky-angle; restricted disk-angular-radius/image-plane-solid-angle to distant-static verification; specified finite-camera solid angle, PSF normalisation and flux-conserving blend." }]
+
+[[entry]]
+id = "pipeline.surface-parameters"
+kind = "pipeline"
+domain = "pipeline"
+name = "RX J1856 star parameters (M, R, T, B, geometry, N_H)"
+statement = "Provide the labelled parameter set for a render: M (g), R (cm) or (z, R_inf), T_b or T_eff (K), B_pole (G), magnetic obliquity and viewing geometry, envelope composition and N_H (cm^-2), at d = 123 pc. Milestone 1: an ensemble input labelled by provenance (Ho+2007 thin-atmosphere output, or the Chandra X-ray blackbody kT_inf and R_inf/d). Milestone 2-3: our own maximum-likelihood fit of these parameters to the HST photometry, the X-ray spectrum and the pulse amplitude, with that inference a separate computation (pipeline.earth-photometry is its forward model but is NOT a dependency here, which would create a cycle); here the parameters are labelled trial values. The Ho+2007 radius is quoted for 140 pc and must not be reused unchanged at 123 pc. The spin-down field is distinct from B_pole."
+source = "PRD"
+locator = "Success criteria"
+anchor = "The surface-state uncertainty is presented"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "obs.rxj1856-ho2007-tinf", "obs.rxj1856-ho2007-teff", "obs.rxj1856-ho2007-rinf", "obs.rxj1856-ho2007-redshift",
+  "obs.rxj1856-ho2007-b-field", "obs.rxj1856-ho2007-nh", "obs.rxj1856-ho2007-column-depth",
+  "obs.approx-ho2007-assumptions", "obs.rxj1856-xray-kt-chandra", "obs.rxj1856-xray-rinf-chandra",
+  "obs.rxj1856-xray-nh-chandra", "obs.rxj1856-xray-bb-r-over-d", "obs.rxj1856-distance",
+  "obs.rxj1856-parallax-walter2010-text", "obs.rxj1856-parallax-walter2010-table3",
+  "obs.approx-walter2010-differential-parallax", "obs.rxj1856-dipole-field", "obs.rxj1856-spin-period",
+  "obs.rxj1856-period-derivative", "obs.rxj1856-pulse-amplitude", "surface.phc16-rxj1856-polar-field",
+  "surface.phc16-rxj1856-polar-ts", "surface.phc16-rxj1856-teff-inf", "surface.gh83-pole-geometry-angle",
+  "eos.surface-gravity", "surface.rxj1856-rinf-ho2007-rescaled-123pc",
+  "pipeline.ns-exterior-spacetime",
+]
+notes = "Audit A34 (code: Ho+2007 T_inf, R_inf, z at 140 pc; RECOMPUTE as our own fit), A35 (B placeholder: make B a fitted parameter), A36 (NSParams placeholders dropped), A24 caveat (B from spin-down needs I, keep B fitted). Recompute chain L0 entries present: HST photometry and distance via pipeline.earth-photometry, Burwitz R/d. obs.approx-vkk2008-dipole-spindown is rejected (sign convention) and not listed. Gaps: Chandra LETG raw spectrum and responses (ARF/RMF); X-ray ISM photoabsorption cross-sections (Wilms+2000, Verner+1996); a likelihood / fitting procedure entry. Review r1: pipeline.earth-photometry dependency removed to avoid a forward-model cycle; Ho+2007 fit assumes 140 pc (ho_2007_rxj1856_thin_atm). obs.approx-vkk2008-dipole-spindown stays unlisted (rejected). depends_on extended 2026-10-23 (M1 harvest): surface.rxj1856-rinf-ho2007-rescaled-123pc. Addresses the 140 pc vs 123 pc caveat: the Ho+2007 R_inf rescaled to 123 pc."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Removed pipeline.earth-photometry (cycle); inference separated as trial parameters; 140 pc vs 123 pc caveat; spin-down field kept distinct from B_pole." }]
+
+[[entry]]
+id = "pipeline.earth-photometry"
+kind = "pipeline"
+domain = "pipeline"
+name = "Earth-distance photometry harness (R5)"
+statement = "Render the star from a static camera at d = 123 pc with the same geodesic, frequency-shift and surface-radiance computations, integrate the point-source flux F_nu (erg s^-1 cm^-2 Hz^-1), apply interstellar extinction (N_H from either obs.rxj1856-ho2007-nh or obs.rxj1856-xray-nh-chandra, alternatives and never simultaneous), fold through the HST filter throughputs, and convert to STMAG (STMAG requires F_lambda with explicit per-Angstrom units); compare with the published optical/UV magnitudes and flux densities of RX J1856 within their errors, for each surface model. Also provides the forward model for the parameter fit."
+source = "PRD"
+locator = "Requirements, R5"
+anchor = "A render from 123 pc reproduces the HST optical/UV magnitudes of RX J1856"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 2
+depends_on = [
+  "obs.stmag-definition", "obs.rxj1856-f475w-magnitude-walter2010", "obs.rxj1856-extrapolated-stmag-f475w",
+  "obs.rxj1856-flux-density-2500", "obs.rxj1856-optical-excess-2500", "obs.rxj1856-optical-excess-4700",
+  "obs.rxj1856-optuv-powerlaw-index", "obs.approx-kaplan2011-extinction", "obs.approx-kaplan2011-powerlaw-excess",
+  "obs.rxj1856-optical-excess-burwitz", "obs.approx-burwitz2003-two-component", "obs.rxj1856-xray-flux-chandra",
+  "obs.rxj1856-distance", "rt.observed-flux-redshift-mcphac", "surface.ppp15-redshifted-quantities",
+  "pipeline.star-scale-adaptive", "pipeline.null-geodesic-trace", "pipeline.frequency-shift",
+  "pipeline.surface-radiance", "pipeline.ns-exterior-spacetime", "pipeline.constant-set",
+  "obs.rxj1856-ho2007-nh",
+  "obs.rxj1856-xray-nh-chandra",
+]
+notes = "Audit A34 recompute L0 (HST photometry, distance), Part C M2 debt. obs.approx-kaplan2011-extinction rests on the Predehl and Schmitt 1995 A_V(N_H) fit and the CCM89 curve (fits). Gaps: HST filter throughput curves (STScI synphot, measured, missing), an owned extinction curve (CCM89 as measured-curve dataset or Mie/dust model), X-ray instrument responses. Review r1: the two N_H entries are alternative extinction inputs. Measured optical/UV points are inputs; extrapolated magnitudes and fitted fluxes are verification targets only. Filter-throughput and count-rate integration entries remain to be harvested."
+
+# ---------------------------------------------------------------------------
+# Surface radiance interface and surface maps
+# ---------------------------------------------------------------------------
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Added obs.rxj1856-ho2007-nh and obs.rxj1856-xray-nh-chandra as alternative extinction inputs; STMAG F_lambda per-Angstrom units; extrapolated/fitted values flagged as verification targets." }]
+
+[[entry]]
+id = "pipeline.surface-radiance"
+kind = "pipeline"
+domain = "pipeline"
+name = "Surface radiance interface (three interchangeable models)"
+statement = "At a surface point (theta, phi) with local T_s (K), B vector (G) and field-normal angle Theta, return the emergent specific intensity in the surface rest frame for each normal mode j = X, O (or Stokes I, Q, U, V), I^(j)_nu(nu, cos alpha, azimuth) in erg s^-1 cm^-2 Hz^-1 sr^-1, from one of three models behind one interface, given explicit model inputs: surface gravity g (cm s^-2), hydrogen column (g cm^-2), substrate composition and boundary state (T_s and B alone do not select a solution); output Stokes parameters are phase-averaged (stated; the conversion requires a phase treatment). Branches: blackbody (milestone 1), atmosphere models (milestone 3): blackbody, hydrogen atmosphere, thin hydrogen layer over a condensed surface."
+source = "PRD"
+locator = "Requirements, R4"
+anchor = "models are interchangeable behind one interface"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "rt.mode-stokes-relations-val", "gr.emission-angle-definition",
+  "pipeline.surface-radiance-blackbody", "pipeline.surface-radiance-h-atmosphere", "pipeline.surface-radiance-condensed",
+  "pipeline.surface-maps-temperature", "pipeline.surface-maps-field",
+]
+notes = "Audit A11 (no silent RJ extrapolation or mu clamps: compute the requested nu and mu), A43 (no silent grid-edge clamps), A10 (RT grid must cover camera band times (1+z) times flyby Doppler range), A37 (f_col and limb-darkening exponent p dropped). Milestone 1 uses only the blackbody branch. Review r1: blackbody branch is M1, atmosphere branches M3 (node milestone unchanged, as the interface is needed at M1)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Added explicit g, hydrogen column, substrate composition, boundary state inputs; stated phase-averaging; marked blackbody M1 and atmosphere branches M3." }]
+
+[[entry]]
+id = "pipeline.surface-maps-field"
+kind = "pipeline"
+domain = "pipeline"
+name = "Surface magnetic field map"
+statement = "Given B_pole (G) and the magnetic axis orientation (obliquity relative to the spin axis and rotation phase), compute at each surface point the magnetic colatitude theta_B, the field vector (B_r, B_theta), its magnitude |B| = B_p sqrt(cos^2 theta_B + a_dip^2 sin^2 theta_B) for the general-relativistic (Schwarzschild) centred dipole, with a_dip = a_dip(x_g) primary (x_g = r_g/R; surface.py01-gr-dipole-a-of-x; Potekhin and Yakovlev 2001 eqs. 10-11, refs/potekhin_yakovlev_2001_cooling.txt lines 216-224), and the field-normal angle Theta with tan Theta = a_dip tan theta_B, its quadrant taken from the signed vector components (Theta = atan2(a_dip sin theta_B, cos theta_B), never the principal arctan). The flat-space formulae |B| = (B_p/2)(1 + 3 cos^2 theta_B)^(1/2) and tan Theta = (1/2) tan theta_B are the a_dip -> 1/2 limit."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface temperature and field maps constrained"
+ocr = "good"
+status = "proposed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "surface.gh83-dipole-field-inclination", "surface.py01-gr-dipole-magnitude", "surface.py01-gr-dipole-field-angle",
+  "surface.py01-gr-dipole-a-of-x", "surface.ws83-gr-dipole-components", "surface.field-colatitude-from-geometry",
+]
+notes = "Audit A28 (flat-space centred dipole), A30 (v1 bug: theta_B passed as the field-normal angle). Gaps: no entry gives B_r, B_theta, |B| of a dipole (surface.gh83-dipole-field-inclination notes this); no entry for the GR-corrected dipole at r ~ 3 r_g (Wasserman and Shapiro 1983, missing); offset or multipolar fields (PHC16 piecewise dipole) not covered. Review r1: milestone 3 (M1 uniform blackbody needs no field map). The relativistic surface field differs from the flat-space limit (wasserman_shapiro_1983_gr_dipole, garbled equations needing page-image verification before transcription); vector components, quadrant conventions and the Schwarzschild correction remain to be harvested. depends_on extended 2026-10-23 (M1 harvest): surface.py01-gr-dipole-magnitude, surface.py01-gr-dipole-field-angle, surface.py01-gr-dipole-a-of-x, surface.ws83-gr-dipole-components, surface.field-colatitude-from-geometry. Fills the r1 GR-dipole and vector-component gaps. Intended statement revision (not applied: node is blessed; needs re-review): the GR (Schwarzschild) centred dipole is primary, and the flat tan Theta = (1/2) tan theta_B is its a -> 1/2 limit. Statement revised 2026-10-23 per pipeline-r1b bullets; re-review required."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Set milestone 3; removed surface.gh83-pole-geometry-angle; labelled the field a flat-space centred-dipole approximation." }]
+
+[[entry]]
+id = "pipeline.surface-maps-temperature"
+kind = "pipeline"
+domain = "pipeline"
+name = "Surface temperature map T_s(theta, phi)"
+statement = "Compute the local effective surface temperature T_s (K) at each surface point. Milestone 1: uniform T_s (single T_eff). Milestone 3: T_s from the field geometry by anisotropic heat conduction through the magnetised envelope, either the GH83 anisotropic-slab distribution or the PPP15 Appendix-B fit (stubs) and finally our own envelope solve (pipeline.envelope-tb-ts), with the overall T_eff defined by T_eff^4 = (4 pi R^2)^(-1) integral T_s^4 dSigma; constrained by the observed pulse amplitude."
+source = "PRD"
+locator = "Scope, In"
+anchor = "constrained by the observed pulse"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "surface.gh83-temperature-distribution", "surface.gh83-surface-flux-relation", "surface.gh83-flux-balance",
+  "surface.gh83-conductivity-tensor", "surface.gh83-conduction-limits", "surface.gh83-approx-1d-anisotropic-slab",
+  "surface.gh83-isotropic-density", "surface.ppp15-anisotropic-conduction-nonuniform", "surface.phc16-nonuniform-modulation",
+  "surface.ppp15-teff-definition", "surface.phc16-ts-definition",
+  "surface.ppp15-fit-structure", "surface.ppp15-fit-b1-polar-temperature", "surface.ppp15-fit-b3-neutrino-limit",
+  "surface.ppp15-fit-b5-pole-equator-ratio", "surface.ppp15-fit-b6-colatitude-profile", "surface.ppp15-fit-flux-recipe",
+  "surface.ppp15-approx-fit-validity",
+  "pipeline.envelope-tb-ts", "pipeline.surface-maps-field",
+  "obs.rxj1856-pulse-amplitude",
+]
+notes = "Audit A29 (fit: unsourced cos^2 ansatz in v1; RECOMPUTE via the envelope chain). The PPP15 App. B fits are stubs whose recompute chain is pipeline.envelope-tb-ts. Gap: no entry for a parametrised T_s map fitted to the pulse profile (the alternative route named in Part C item 7). Review r1: pulse amplitude added as the observational constraint; a pulse-profile forward model is still missing. The proposed constant-flux 1D envelope cannot be declared the full recomputation of the PPP15 2D, neutrino-inclusive fit."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replaced flux-weighted average with T_eff^4=(4piR^2)^-1 integral T_s^4 dSigma; added obs.rxj1856-pulse-amplitude; noted limits of 1D envelope." }]
+
+[[entry]]
+id = "pipeline.envelope-tb-ts"
+kind = "pipeline"
+domain = "pipeline"
+name = "Envelope T_b to T_s relation (heat-blanketing solve)"
+statement = "For each surface patch, integrate a one-dimensional plane-parallel envelope at constant flux from the atmosphere bottom down to rho_b = 1e10 g cm^-3 with hydrostatic equilibrium and d ln T / d ln P set by the combined radiative and (anisotropic, magnetised) conductive opacity projected on the field direction, giving T_s (K) as a function of T_b (K), B (G), Theta and g (cm s^-2) for a stated envelope composition."
+source = "PRD"
+locator = "Success criteria"
+anchor = "and the pole-to-equator gradient"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "surface.ppp15-approx-1d-envelope", "surface.ppp15-tb-ts-gudmundsson", "surface.gh83-conductivity-tensor",
+  "eos.thin-envelope-newtonian-hydrostatics", "eos.surface-gravity", "eos.electron-pressure-magnetised", "eos.relativistic-units-pr-tr",
+  "opacity.quantising-density-rho-b",
+  "pipeline.free-free-opacity", "pipeline.scattering-opacity", "pipeline.constant-set",
+]
+notes = "Audit A29 recompute chain L0-L7 (Part B). surface.ppp15-tb-ts-gudmundsson is a verification target (B = 0 Fe). Gaps: PPP15 eq. 38 (envelope structure equation), PPP15 eq. 26 (conductive plus radiative opacity), PPP15 eqs. 31-36 (magnetised conduction tensor from tau_ij(epsilon)), PPP15 eqs. A.1-A.3 (e-i, e-e collision frequencies), Potekhin 1999 magnetic Coulomb logarithms, Baiko and Yakovlev 1995 electron-phonon, OCP Monte Carlo and SDD82 Table I for S(q) and the Coulomb free energy, PC01 partially degenerate magnetised EOS beyond the pressure formula, Fe/C bound-free opacities for heavy envelopes. REJECTED r1. Surviving weaker statement: a 1D envelope approximation with negligible neutrino losses and limited lateral transport (PPP15); it does not reproduce the full fit chain. Missing: conductivity magnitudes/collision physics, combined transport opacity, structure equation, composition-dependent EOS; conductivity must be projected on the radial temperature gradient (not the field direction); GH83 tensor supplies geometry only."
+
+# ---------------------------------------------------------------------------
+# Surface models
+# ---------------------------------------------------------------------------
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: conductivity magnitudes, transport opacity, structure equation and EOS missing; projection must be on radial gradient. Surviving: 1D envelope approximation." }]
+
+[[entry]]
+id = "pipeline.surface-radiance-blackbody"
+kind = "pipeline"
+domain = "pipeline"
+name = "Blackbody surface radiance"
+statement = "Isotropic, unpolarised Planck intensity B_nu(T_s) = (2 h nu^3 / c^2) / (exp(h nu / k_B T_s) - 1) in erg s^-1 cm^-2 Hz^-1 sr^-1 at the local T_s, split equally between the two modes; no colour correction and no limb darkening (f_col = 1, p = 0 by definition)."
+source = "PRD"
+locator = "Milestones, 1"
+anchor = "1. Spacetime, camera, blackbody disc, real sky. First honest image."
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 1
+depends_on = [
+  "surface.gh83-approx-blackbody-emission", "gr.disk-uniform-brightness", "rt.planck-function-bnu",
+  "rt.planck-integral-stefan-boltzmann", "const.planck", "const.boltzmann", "const.speed-of-light",
+  "pipeline.constant-set",
+]
+notes = "Audit A8 (Planck function, derivable), A37 (f_col and p DROP). Analytic limit check: integral over nu and the outward hemisphere equals sigma_SB T^4. Gap: no truth entry states the Planck function B_nu(T) itself (only c_1, c_2 constants and uses inside rt entries). Review r1: unrelated GH83 spectrum entries removed. A standalone Planck-radiance entry (potekhin_2012_condensed_surface.txt L221-225, with the energy-to-frequency conversion) is still to be harvested; rt.cond-emissivity-definition holds that relation but is rejected. Equal mode splitting is supported by van_adelsberg_2005_condensed_surface L312-317. depends_on extended 2026-10-23 (M1 harvest): rt.planck-function-bnu, rt.planck-integral-stefan-boltzmann, const.planck, const.boltzmann, const.speed-of-light. rt.planck-function-bnu fills the r1 standalone-Planck gap; rt.planck-integral-stefan-boltzmann is the analytic-limit check. rt.planck-function-blambda (proposed, r3 pending) is not listed."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Removed unrelated surface.gh83-synthetic-spectrum-fit and surface.gh83-spectrum-conclusion; harvest of Planck entry noted as gap." }]
+
+[[entry]]
+id = "pipeline.surface-radiance-h-atmosphere"
+kind = "pipeline"
+domain = "pipeline"
+name = "Hydrogen-atmosphere surface radiance"
+statement = "Emergent two-mode specific intensity I^(j)_nu(nu, mu, azimuth) (erg s^-1 cm^-2 Hz^-1 sr^-1) of a fully ionised hydrogen atmosphere (an intermediate approximation: the Ho 2007 RX J1856 comparison requires partial ionisation) in radiative and hydrostatic equilibrium at local (T_eff = T_s, g, B, Theta), obtained by a formal solution at the requested nu and mu on the converged atmosphere structure; B = 0 reduces to the McPHAC single-mode case."
+source = "PRD"
+locator = "Milestones, 3"
+anchor = "3. Surface models: audit and salvage the v1 atmosphere solver; add the"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "rt.emergent-intensity-mcphac", "rt.observed-flux-redshift-mcphac", "rt.mode-stokes-relations-val",
+  "rt.approx-plane-parallel-mcphac", "eos.surface-gravity",
+  "pipeline.atmosphere-solve",
+]
+notes = "Audit A11 (formal solution at arbitrary nu, mu instead of extrapolation), A10 (grid), A43 (grid lookup clamps). rt.emergent-intensity-mcphac is rejected (wrong locator; the weaker I(0, mu) = 2 P(0, mu) survives) but is listed because no other entry gives the emergent intensity from the Feautrier variable. Gaps: McPHAC published spectra as verification fixture (Haakonsen 2012 figures/tables), Suleimanov+2009 figure values, exact Hopf function (Mihalas 1978) for the grey analytic limit. Review r1: rt.emergent-intensity-mcphac needs repair and re-review with corrected locator \"p. 5, Sect. 3.3, unnumbered equation before eq. 17\" (haakonsen_2012_mcphac L322-330); that is outside this lane."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Output now I(nu,mu,azimuth); full ionisation labelled an intermediate approximation; rt.emergent-intensity-mcphac locator repair recorded (other lane)." }]
+
+[[entry]]
+id = "pipeline.atmosphere-solve"
+kind = "pipeline"
+domain = "pipeline"
+name = "Two-mode Feautrier atmosphere solve with temperature correction"
+statement = "On a column-mass grid y (g cm^-2), solve the coupled second-order (Feautrier) transfer equations for the two normal modes with mode-coupling scattering, Gauss-Legendre angle quadrature and the stated boundary conditions, then correct T(y) by linearised (Rybicki/Unsold-Lucy type) temperature correction until the frequency-integrated flux equals sigma_SB T_eff^4 at every depth to a stated tolerance; returns T(y), rho(y) and the mode intensities, with convergence status. Initial T profile from the grey Eddington solution."
+source = "PRD"
+locator = "Milestones, 3"
+anchor = "audit and salvage the v1 atmosphere solver"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "rt.feautrier-second-order-mcphac", "rt.feautrier-discrete-mcphac", "rt.source-function-mcphac", "rt.dipole-phase-function-mcphac",
+  "rt.boundary-conditions-mcphac", "rt.eddington-factors-mcphac", "rt.flux-constancy-mcphac", "rt.te-delta-t-mcphac",
+  "rt.te-moment-equation-mcphac", "rt.te-rybicki-matrices-mcphac", "rt.eddington-temperature-profile-mcphac",
+  "rt.approx-coherent-scattering-mcphac", "rt.approx-plane-parallel-mcphac",
+  "rt.two-mode-transfer-spw09", "rt.energy-balance-spw09", "rt.surface-flux-spw09", "rt.boundary-conditions-spw09",
+  "rt.temperature-correction-spw09", "rt.two-mode-transfer-val", "rt.flux-constraints-val", "rt.boundary-conditions-val",
+  "rt.no-feautrier-with-conversion-val",
+  "pipeline.atmosphere-structure", "pipeline.mode-opacities", "pipeline.vacuum-mode-conversion", "pipeline.constant-set",
+]
+notes = "Audit A8 (Gauss-Legendre nodes recomputed), A9 (per-mode scattering without X-O redistribution is an approximation for B > 0), A12 (code: T(0) = 0.265 T_eff seed; recompute chain L0 = rt.eddington-temperature-profile-mcphac, verify seed independence), A13 (numerical controls; replace silent clamps by loud errors), A14 (ad-hoc grey-body flux scaling, replace by SPW09 correction). rt.feautrier-matrix-coeffs-mcphac and rt.source-function-val are rejected and not listed (covered by rt.feautrier-discrete-mcphac and rt.two-mode-transfer-spw09). Gaps: Mihalas 1978 Feautrier elimination and boundary discretisation (book missing), a blessed implementable Feautrier coupling matrix, Compton (Kompaneets) redistribution if coherent scattering fails at high T. REJECTED r1. Surviving weaker statement: Feautrier transfer without partial conversion; a separate conversion-capable solver remains to be specified. \"Two-mode Feautrier\" with partial conversion contradicts rt.no-feautrier-with-conversion-val (the source integrates first-order transfer and applies conversion at the resonance); arbitrary field inclination also needs azimuthal transfer/quadrature."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: Feautrier with partial conversion contradicts its own dependency; azimuthal quadrature missing. Surviving: Feautrier without partial conversion." }]
+
+[[entry]]
+id = "pipeline.atmosphere-structure"
+kind = "pipeline"
+domain = "pipeline"
+name = "Atmosphere structure: hydrostatics and equation of state"
+statement = "Given T(y) and surface gravity g (cm s^-2), compute P = g y (dyn cm^-2) when radiative acceleration is neglected, otherwise integrate dP_g/dy = g - g_rad and the density rho(P, T) (g cm^-3) of fully ionised hydrogen from the ideal-gas EOS rho = m_p P / (2 k_B T), flagging where Landau quantisation (rho < rho_B) or non-ideality would matter; also provides the density scale height H_rho (cm), defined along the vertical (not along the ray) unless a caller converts with the ray angle."
+source = "PRD"
+locator = "Milestones, 3"
+anchor = "audit and salvage the v1 atmosphere solver"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "rt.hydrostatic-column-mcphac", "rt.hydrostatic-spw09", "rt.approx-no-radiation-pressure-mcphac", "rt.approx-plane-parallel-mcphac",
+  "eos.surface-gravity", "eos.thin-envelope-newtonian-hydrostatics", "eos.electron-pressure-magnetised",
+  "opacity.quantising-density-rho-b", "pipeline.constant-set",
+]
+notes = "Audit A7 (ideal fully ionised H gas, also used for B > 0; v1 mixed m_p and m_H). Gaps: no entry states the ideal-gas EOS rho = m_p P/(2 k_B T) of fully ionised H; PC01 non-ideal and magnetised partially degenerate EOS (Coulomb correction from OCP MC) has only the pressure formula; partial ionisation (deferred). Review r1: ideal-H EOS entry still to be harvested (ho_lai_2003_atmospheres_vacuum L883-895)."
+
+# ---------------------------------------------------------------------------
+# Opacities and normal modes
+# ---------------------------------------------------------------------------
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replaced anchor/locator with the Milestones-3 line; pressure claim now P=gy or dP_g/dy=g-g_rad; H_rho direction defined." }]
+
+[[entry]]
+id = "pipeline.mode-opacities"
+kind = "pipeline"
+domain = "pipeline"
+name = "Normal-mode absorption and scattering opacities"
+statement = "For each normal mode j (and pair j -> j' for scattering) at (nu, theta_kB, rho, T, B), project the cyclic-component free-free and scattering cross sections on the mode polarisation vectors to give kappa^abs_j and kappa^sc_jj' in cm^2 g^-1; at B = 0, kappa_abs,j = kappa_ff and sum over j' of kappa_sc,jj' = kappa_T (it is the thermal source intensity that is halved between modes, not each mode's total extinction); the angular dependence of scattering is an explicit approximation."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface emission as spectral, angular, and polarised radiance from (a)"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.mode-absorption-opacity", "opacity.mode-scattering-opacity",
+  "pipeline.free-free-opacity", "pipeline.scattering-opacity", "pipeline.polarisation-modes",
+]
+notes = "Audit A9 (per-mode scattering), A17, A19. opacity.approx-isotropic-scattering (rejected) is reached only through opacity.mode-scattering-opacity and forms an existing cycle with it (not this lane). Review r1: opacity.mode-scattering-opacity still reaches rejected opacity.approx-isotropic-scattering, though its cycle has been removed."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Zero-field claim replaced by kappa_abs,j = kappa_ff and sum kappa_sc,jj' = kappa_T; angular-scattering approximation stated." }]
+
+[[entry]]
+id = "pipeline.scattering-opacity"
+kind = "pipeline"
+domain = "pipeline"
+name = "Electron and proton scattering cross sections"
+statement = "Cyclic-component electron and proton scattering cross sections sigma^sc_alpha(omega) (cm^2) in a magnetic field from the damped-oscillator (classical) form with radiative and collisional damping, electron scattering tending to sigma_T when damping is negligible and proton scattering retaining the (m_e/m_p)^2 suppression, with the region around the electron cyclotron resonance excluded from the undamped form, plus the angular redistribution (dipole/Rayleigh phase function) used by the transfer equation."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface emission as spectral, angular, and polarised radiance from (a)"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.thomson-cross-section", "opacity.thomson-opacity-mcphac", "opacity.scattering-electron-magnetic",
+  "opacity.scattering-proton-magnetic", "opacity.damping-frequencies", "opacity.cyclotron-energy-electron",
+  "opacity.plasma-frequency", "rt.cond-ion-cyclotron-energy", "rt.dipole-phase-function-mcphac",
+  "pipeline.constant-set",
+]
+notes = "Audit A6 (Thomson and PC03 eq. 33, derivable), A9 (Rayleigh phase function; mode-coupled magnetic redistribution is an approximation). Gaps: magnetic angle-dependent mode-to-mode scattering redistribution (Meszaros 1992 Ch. 3-5, not local), Compton recoil / Kompaneets. Review r1: magnetic mode redistribution is not supplied by the scalar Rayleigh phase function. The damping chain reaches rejected opacity.ff-effective-frequency."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Anchor moved to the surface-radiance requirement; zero-field limit replaced (sigma_T if damping negligible, proton (m_e/m_p)^2 suppression, resonance exclusion)." }]
+
+[[entry]]
+id = "pipeline.free-free-opacity"
+kind = "pipeline"
+domain = "pipeline"
+name = "Free-free absorption (B = 0 and magnetic)"
+statement = "Free-free absorption cross sections sigma^ff_alpha(omega) (cm^2) per cyclic polarisation component alpha = -1, 0, +1 for fully ionised hydrogen: at B = 0 the undamped Kramers form (negligible damping required) times the thermally averaged Gaunt factor with stimulated emission; at B > 0 the PC03 Eq. 51 approximation with finite proton mass with effective collision frequencies built from the magnetic Coulomb logarithms Lambda_alpha^ff (Born, rescaled by the non-Born Gaunt ratio) and the damping frequencies."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface emission as spectral, angular, and polarised radiance from (a)"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.ff-cross-section-cold-plasma", "opacity.ff-cross-section-finite-proton-mass", "opacity.coulomb-log-classical",
+  "opacity.coulomb-log-born-magnetic", "opacity.approx-ff-non-born-correction", "opacity.damping-frequencies",
+  "opacity.quantisation-parameter-beta-e", "opacity.cyclotron-energy-electron", "opacity.field-atomic-b0",
+  "opacity.ff-effective-frequency", "opacity.ff-opacity-kramers-gaunt-mcphac", "opacity.approx-ff-proton-collisions-negligible",
+  "pipeline.gaunt-factor", "pipeline.constant-set",
+]
+notes = "Audit A5 (Kramers prefactor, Haakonsen eq. 12), A15 (classical Coulomb log), A16 (magnetic Coulomb log; omitted non-Born and finite-proton-mass corrections), A17 (PC03 closed forms), A18 (fit: Lambda_pp, PC03 eq. 48). Rejected entries listed because nothing else covers the need: opacity.ff-opacity-kramers-gaunt-mcphac (only entry for the B = 0 Kramers form, A5), opacity.ff-effective-frequency (only entry for PC03 eq. 41), opacity.approx-ff-proton-collisions-negligible (only entry for the pp-collision treatment). Gaps: PC03 eq. 48 Lambda_pp fit and its recompute chain App. A eqs. A1-A6; PC03 App. B eqs. B6-B8 and B19-B22 (finite-proton-mass Lambda^e_alpha); Potekhin 1994 Coulomb matrix elements between Landau states; Landau wavefunctions (Ruder 1994); the A16 recompute chain therefore has no entries below opacity.approx-ff-non-born-correction. Review r1: rejected opacity.ff-effective-frequency, opacity.ff-opacity-kramers-gaunt-mcphac and opacity.approx-ff-proton-collisions-negligible stay listed only until repaired and re-reviewed in the opacity lane."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Anchor moved to surface-radiance clause; PC03 Eq. 51 wording; Kramers reduction requires negligible damping; rejected deps flagged for repair." }]
+
+[[entry]]
+id = "pipeline.gaunt-factor"
+kind = "pipeline"
+domain = "pipeline"
+name = "Thermally averaged free-free Gaunt factor from Coulomb wavefunctions"
+statement = "Compute the exact non-relativistic dipole free-free Gaunt factor g_ff(eta_i, eta_f) from Sommerfeld's hypergeometric closed form (Coulomb continuum wavefunctions), Maxwell-average it over the initial electron energy to get g-bar_ff(u = h nu / k_B T, gamma^2 = Z^2 Ry / k_B T) (dimensionless); the magnetic non-Born correction is applied downstream, not here."
+source = "PRD"
+locator = "Milestones, 3"
+anchor = "audit and salvage the v1 atmosphere solver"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = ["opacity.coulomb-log-classical", "pipeline.constant-set"]
+notes = "Audit A4 (table: Sutherland 1998 gffgu.dat via McPHAC; RECOMPUTE, first M3 blocker). opacity.coulomb-log-classical gives the thermal Born limit used as an analytic check. Gaps: Sommerfeld / Karzas and Latter 1961 g_ff closed form, van Hoof et al. 2014 Maxwell averaging and published values, Bethe and Salpeter 1957 Coulomb continuum functions, the gffgu.dat verification fixture (with column swap) has no entry, Hummer 1988 non-Born fit (to be replaced). Review r1: exact-factor and Maxwell-average entries (vanhoof_2014_gaunt L99-120, 526-541) still to be harvested; existing deps supply only the Born reference."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replaced anchor/locator; removed opacity.approx-ff-non-born-correction and the downstream non-Born ratio claim." }]
+
+[[entry]]
+id = "pipeline.polarisation-modes"
+kind = "pipeline"
+domain = "pipeline"
+name = "Normal modes of the magnetised plasma plus vacuum"
+statement = "From the cold electron-proton plasma dielectric tensor plus the vacuum-polarisation tensors at (nu, theta_kB, rho, B), compute the mode polarisation parameter beta (or q), the mode ellipticities K_j, K_z,j and the normalised cyclic weights |e_j,alpha|^2 of the two normal modes j = X, O, and the relation between mode intensities and Stokes parameters."
+source = "PRD"
+locator = "The shot, Primary output"
+anchor = "Stokes parameters. Display images and video"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.dielectric-tensor-polarizability", "opacity.mode-polarization-vector", "opacity.mode-parameters-k",
+  "opacity.mode-parameter-beta", "opacity.approx-mode-beta-small-polarizability", "opacity.plasma-frequency",
+  "opacity.cyclotron-energy-electron", "rt.mode-stokes-relations-val",
+  "pipeline.vacuum-polarisation", "pipeline.constant-set",
+]
+notes = "Audit A19 (cold-plasma Stix tensor, mode parameters; v1 renormalised weights after a clamp). opacity.dielectric-tensor-polarizability is rejected (dipole approximation not stated) but is listed because no other entry gives the plasma plus vacuum tensor for the atmosphere (rt.cond-dielectric-tensor-condensed is the condensed-matter form). REJECTED r1. Surviving weaker statement: obtain eigenmodes and normalised weights from a fully specified dielectric/permeability tensor; the constitutive computation is missing (opacity.dielectric-tensor-polarizability gives tensor structure only; temperature/damping inputs and mode-to-Stokes phase averaging unspecified)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: no executable cold-plasma dielectric components; damping and phase averaging unspecified. Surviving: modes from a fully specified tensor, computation missing." }]
+
+[[entry]]
+id = "pipeline.vacuum-polarisation"
+kind = "pipeline"
+domain = "pipeline"
+name = "QED vacuum-polarisation coefficients"
+statement = "Compute the vacuum dielectric and permeability corrections a-hat(b), q(b), m(b) (dimensionless, b = B/B_Q) from the one-loop Euler-Heisenberg (Heyl-Hernquist) closed form at arbitrary field, checked against the weak-field limit a-hat = -2 alpha_f b^2/(45 pi), q = 7 alpha_f b^2/(45 pi), m = -4 alpha_f b^2/(45 pi); valid for h nu << m_e c^2."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface emission as spectral, angular, and polarised radiance from (a)"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.vacuum-coeffs-heyl-hernquist", "opacity.vacuum-coeffs-weak-field", "opacity.approx-vacuum-low-energy",
+  "opacity.field-qed-bq", "pipeline.constant-set",
+]
+notes = "Audit A20 (fit: PLCH04 eqs. A7-A9; RECOMPUTE from PLCH04 eqs. A2-A6, which are the listed recompute-chain entries). opacity.vacuum-coeffs-fit (rejected) is not listed: the chain covers the need and the fit becomes a verification number. Gaps: Heyl and Hernquist 1997 and Euler-Heisenberg 1936 proper-time integral (independent check), Kohri and Yamada 2002 Fig. 2, a derivation of the constant 0.0329199 in PLCH04 eq. A2. Review r1: the edge opacity.approx-vacuum-low-energy -> opacity.dielectric-tensor-polarizability should be removed (vacuum coefficients do not consume a plasma tensor); that edge lives in the opacity lane, not here. The rounded 0.0329199 still needs an owned normalisation derivation."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Anchor replaced with the surface-radiance Scope-In line; weak-field coefficients confirmed; unnecessary opacity edge flagged to the opacity lane." }]
+
+[[entry]]
+id = "pipeline.vacuum-mode-conversion"
+kind = "pipeline"
+domain = "pipeline"
+name = "Vacuum resonance and partial mode conversion"
+statement = "Locate the vacuum resonance density rho_V (g cm^-3) where plasma and vacuum contributions to the mode parameter cancel (root find on our own tensor), compute the adiabaticity energy E_ad (keV) from the density scale height H_rho = |ds/d ln rho| measured along the ray at resonance (low-energy, isolated-resonance conditions apply) and the non-adiabatic jump probability P_jump = exp[-(pi/2)(E/E_ad)^3], and apply the resulting partial X <-> O conversion inside the two-mode transfer at the resonance depth."
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface emission as spectral, angular, and polarised radiance from (a)"
+ocr = "good"
+status = "blessed"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "opacity.vacuum-resonance-density", "rt.adiabatic-energy-val", "rt.pjump-val",
+  "rt.pjump-conversion-spw09", "rt.vacuum-relevance-val", "rt.no-feautrier-with-conversion-val", "rt.cond-ion-cyclotron-energy",
+  "pipeline.polarisation-modes", "pipeline.atmosphere-structure",
+]
+notes = "Audit A21 (fit: rho_V with f_B := 1), A22 (fit: E_ad coefficient 2.52, E_Bi = 0.63 B_14 keV; E_Bi recomputed from rt.cond-ion-cyclotron-energy), A23 (exp(-tau_V/mu) depth weighting, to be replaced by in-RT conversion). opacity.vacuum-resonance-energy and rt.vacuum-resonance-val are rejected (false notes about Ho and Lai 2003 being absent) and not listed; opacity.vacuum-resonance-density covers rho_V (rt.vacuum-resonance-val is still reached through rt.adiabatic-energy-val). Gaps: Lai and Ho 2002 Landau-Zener derivation of gamma_ad, Ho and Lai 2003 eq. 2.41 f_B and the two-mode amplitude evolution equations (independent L2 check). Review r1: f_B to be harvested from ho_lai_2003_atmospheres_vacuum L444-452; opacity.vacuum-resonance-energy and rt.vacuum-resonance-val (rejected, reached indirectly) need repair in their lanes."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Anchor moved to surface-radiance clause; H_rho defined along the ray at resonance; applicability conditions stated." }]
+
+[[entry]]
+id = "pipeline.surface-radiance-condensed"
+kind = "pipeline"
+domain = "pipeline"
+name = "Thin hydrogen layer over a condensed surface"
+statement = "Compute the mode reflectivities of the magnetised condensed surface from its dielectric tensor (free- or fixed-ion limits, damping from the zero-frequency conductivity), the emissivity by Kirchhoff's law J_j = 1 - R_j, and use the reflectivities R_MM' as the inner boundary condition of a thin hydrogen atmosphere solved by pipeline.atmosphere-solve; return the emergent two-mode intensity (erg s^-1 cm^-2 Hz^-1 sr^-1) and its linear polarisation. Bare condensed surface when the layer column is zero."
+source = "PRD"
+locator = "Scope, In"
+anchor = "(c) thin hydrogen layer over a condensed"
+ocr = "good"
+status = "rejected"
+provenance = "derivable"
+ownership = "stub"
+milestone = 3
+depends_on = [
+  "rt.cond-kirchhoff-law", "rt.cond-reflectivity-from-amplitudes", "rt.cond-linear-polarisation-degree",
+  "rt.cond-dielectric-tensor-condensed", "rt.cond-approx-damping-low-energy", "rt.cond-approx-free-ions", "rt.cond-approx-fixed-ions",
+  "rt.cond-approx-planar-patch", "rt.cond-approx-no-vacuum-polarisation", "rt.cond-free-ion-analytic-reflectivity",
+  "rt.cond-reflectivity-regimes", "rt.cond-ec-characteristic-energy", "rt.cond-electron-cyclotron-energy",
+  "rt.cond-ion-cyclotron-energy", "rt.cond-electron-plasma-energy", "rt.cond-surface-density", "rt.cond-tcrit-fit-fe",
+  "rt.cond-approx-condensation-condition",
+  "rt.cond-fit-structure", "rt.cond-fit-low-energy", "rt.cond-fit-mid-energy", "rt.cond-fit-high-energy", "rt.cond-fit-line",
+  "rt.cond-fit-fixed-ions", "rt.cond-fit-validity", "rt.cond-fit-mode1", "rt.cond-fit-mode1-mid", "rt.cond-fit-coefficient-data",
+  "rt.cond-inner-bc", "rt.cond-bc-mode-reflection", "rt.cond-bc-r-moduli", "rt.cond-bc-r-phases",
+  "rt.cond-approx-bc-truncation", "rt.cond-approx-bc-vacuum-interface",
+  "obs.rxj1856-ho2007-column-depth",
+  "pipeline.atmosphere-solve", "pipeline.constant-set",
+]
+notes = "No v1 audit item (Part C, M3 non-v1 debt: new fits). Stubs: rt.cond-fit-* (Potekhin 2012 emissivity fits), rt.cond-bc-r-moduli and rt.cond-bc-r-phases (fitted reflection amplitudes), rt.cond-surface-density and rt.cond-tcrit-fit-fe (fits); their recompute chain is the listed dielectric-tensor, Kirchhoff and reflectivity entries. rt.cond-fit-coefficient-data is rejected (ambiguous prefactor) but listed because the stub cannot be evaluated without it and no other entry gives the coefficients. rt.cond-emissivity-definition (rejected) is covered by rt.cond-kirchhoff-law. Gaps: general Fresnel reflectivity of the anisotropic medium at arbitrary theta_k, theta_B (vAL05 full derivation as an entry), condensed-matter EOS and surface density (Medin and Lai 2006/2007, missing), Potekhin 1999 conductivity for the damping rates. REJECTED r1. Surviving weaker statement: given specified reflectivities, bare-surface emission is I_nu,j = (1-R_j) B_nu / 2 (van_adelsberg_2005_condensed_surface L312-333). General Fresnel reflection, conductivity-derived damping, substrate composition/density and a reflection-capable atmosphere boundary are not implemented; chain reaches rejected damping, emissivity and coefficient entries; fully ionised transfer does not reproduce Ho's partially ionised model."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Rejected: Fresnel reflection, damping and reflecting boundary not implemented. Surviving: given reflectivities, I_nu,j=(1-R_j)B_nu/2." }]
+

@@ -1,0 +1,983 @@
+                                               Astronomy & Astrophysics manuscript no. bskfit23                                                                                     c ESO 2015
+                                               May 14, 2015
+
+
+
+
+                                                          Analytical representations of unified equations of state
+                                                                          for neutron-star matter⋆
+                                                                    A. Y. Potekhin1,2,3⋆⋆ , A. F. Fantina4 , N. Chamel4 , J. M. Pearson5 , and S. Goriely4
+
+                                                   1
+                                                     Centre de Recherche Astrophysique de Lyon, Université de Lyon, Université Lyon 1, Observatoire de Lyon, Ecole Normale
+                                                     Supérieure de Lyon, CNRS, UMR 5574, 9 avenue Charles André, Saint Genis Laval F-69230, France
+                                                   2
+                                                     Ioffe Physical-Technical Institute, Politekhnicheskaya 26, St. Petersburg 194021, Russia
+                                                   3
+                                                     Isaac Newton Institute of Chile, St. Petersburg Branch, Russia
+arXiv:1310.0049v5 [astro-ph.SR] 13 May 2015
+
+
+
+
+                                                   4
+                                                     Institut d’Astronomie et d’Astrophysique, Université Libre de Bruxelles, CP-226, 1050 Brussels, Belgium
+                                                   5
+                                                     Département de Physique, Université de Montréal, Montréal (Québec), H3C 3J7 Canada
+                                                   Received 15 April 2013 / Accepted 23 September 2013 / Published 3 December 2013: A&A 560, A48 (2013)
+
+                                                                                                                 ABSTRACT
+
+                                                   Context. An equation of state (EoS) of dense nuclear matter is a prerequisite for studies of the structure and evolution of compact
+                                                   stars. A unified EoS should describe the crust and the core of a neutron star using the same physical model. The Brussels-Montreal
+                                                   group has recently derived a family of such EoSs based on the nuclear energy-density functional theory with generalized Skyrme
+                                                   effective forces that have been fitted with great precision to essentially all the available mass data. At the same time, these forces were
+                                                   constrained to reproduce microscopic calculations of homogeneous neutron matter based on realistic two- and three-nucleon forces.
+                                                   Aims. We represent basic physical characteristics of the latest Brussels-Montreal EoS models by analytical expressions to facilitate
+                                                   their inclusion in astrophysical simulations.
+                                                   Methods. We consider three EoS models, which significantly differ by stiffness: BSk19, BSk20, and BSk21. For each of them we
+                                                   constructed two versions of the EoS parametrization. In the first version, pressure P and gravitational mass density ρ are given as
+                                                   functions of the baryon number density nb . In the second version, P, ρ, and nb are given as functions of pseudo-enthalpy, which
+                                                   is useful for two-dimensional calculations of stationary rotating configurations of neutron stars. In addition to the EoS, we derived
+                                                   analytical expressions for several related quantities that are required in neutron-star simulations: number fractions of electrons and
+                                                   muons in the stellar core, nucleon numbers per nucleus in the inner crust, and equivalent radii and shape parameters of the nuclei in
+                                                   the inner crust.
+                                                   Results. We obtain analytical representations for the basic characteristics of the models of cold dense matter, which are most im-
+                                                   portant for studies of neutron stars. We demonstrate the usability of our results by applying them to calculations of neutron-star
+                                                   mass-radius relations, maximum and minimum masses, thresholds of direct Urca processes, and the electron conductivity in the
+                                                   neutron-star crust.
+                                                   Key words. dense matter – equation of state – stars: neutron
+
+
+
+                                              1. Introduction                                                             consistencies, which can manifest themselves by the occurrence
+                                                                                                                          of spurious instabilities in neutron-star dynamical simulations.
+                                              The equation of state (EoS) of dense matter is crucial as input for         Even if the transitions are treated using a unified approach, in-
+                                              neutron-star structure calculations. Usually, neutron-star matter           stabilities might still arise due to numerical errors. In addition,
+                                              is strongly degenerate, and therefore the EoS is barotropic (i.e.,          realistic EoSs are generally calculated only for specific densi-
+                                              the pressure is temperature-independent), except for the outer-             ties and/or pressures. These limitations can be circumvented by
+                                              most envelopes (a few meters thick).                                        using analytical representations of the EoSs. In this paper we
+                                                   A unified EoS is based on a single effective nuclear                   construct analytical representations of three recent unified EoSs
+                                              Hamiltonian and is valid in all regions of the neutron-star                 for cold catalyzed nuclear matter developed by the Brussels-
+                                              interior. For unified EoSs, the transitions between the outer               Montreal group: BSk19, BSk20, and BSk21 (Goriely et al.
+                                              crust and the inner crust, and between the inner and the core               2010; Pearson et al. 2011, 2012).
+                                              are treated consistently using the same physical model (e.g.,
+                                              Douchin & Haensel 2000; Pearson et al. 2012). Other (nonuni-                    We follow the approach developed by Haensel & Potekhin
+                                              fied) EoSs consist of crust and core segments obtained using                (2004), who constructed analytical representations for the previ-
+                                              different models. The crust-core interface there has no phys-               ous unified EoS models FPS (Pandharipande & Ravenhall 1989)
+                                              ical meaning, and both segments are joined using an ad hoc                  and SLy4 (Douchin & Haensel 2001). In addition, we present
+                                              matching procedure. This generally leads to thermodynamic in-               analytical parametrizations of the composition of the crust and
+                                                                                                                          number fractions of leptons and nucleons in the core of a neutron
+                                                ⋆
+                                                  Our analytical fitting expressions have been implemented                star. We adopt the “minimal model” (e.g., Haensel et al. 2007),
+                                              in Fortran subroutines that are publicly available at the                   which means we assume the nucleon-lepton matter without ex-
+                                              CDS via anonymous ftp to cdsarc.u-strasbg.fr (130.79.128.5)                 otic particles.
+                                              or via http://cdsweb.u-strasbg.fr/cgi-bin/qcat?J/A+A/, or at
+                                              http://www.ioffe.ru/astro/NSG/BSk/                                             The composition of the neutron-star crust can depend on its
+                                               ⋆⋆
+                                                  e-mail: palex@astro.ioffe.ru                                            formation history. For example, if the star experienced accre-
+
+                                                                                                                                                                                                 1
+                                    A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+tion, then the crust could be formed by the nuclear transforma-            Table 1. Properties of the Skyrme forces BSk19, BSk20, and
+tions that accompany gradual density increase under the weight             BSk21 (Goriely et al. 2010). See text for details.
+of the newly accreted matter (Haensel & Zdunik 1990). It dif-
+fers from the matter in beta-equilibrium (cold catalyzed matter)
+                                                                                                          BSk19     BSk20     BSk21
+that constitutes the crust soon after the birth of a neutron star.
+Moreover, the nonequilibrium composition of an accreted crust                        σ(matom ) [MeV]       0.583     0.583     0.577
+can also depend on the composition of the ashes of accretion-                           σ(Rch ) [fm]      0.0283    0.0274    0.0270
+induced thermonuclear burning (Haensel & Zdunik 2003). Here,                               av [MeV]       −16.078   −16.080   −16.053
+however, we do not consider these complications, but focus on                             nb,0 [fm−3 ]    0.1596    0.1596    0.1582
+the cold catalyzed matter.                                                                 Kv [MeV]        237.3     241.4     245.8
+                                                                                            J [MeV]         30.0      30.0     30.0
+     In Sec. 2 we briefly review the nuclear models used to con-                            L [MeV]         31.9      37.4     46.6
+struct the Brussels-Montreal EoSs, including a discussion of                               Kτ [MeV]       −342.8    −317.1    −264.6
+constraints coming from nuclear physics experiments and many-                                   m∗s /m      0.80      0.80     0.80
+body calculations. In Sect. 3 we present a set of fully analytical                              m∗v /m      0.61      0.65     0.71
+approximations to the EoSs in the crust and the core of a neutron                       ncaus [fm−3 ]       1.45      0.98     0.99
+star. This set includes pressure P and baryon number density nb                                NeuM         FPa      APRb       LSc
+as functions of gravitational mass density ρ, the inverse function
+ρ(nb ), and a fit of ρ as a function of the pseudo-enthalpy, which is      References. (a) Friedman & Pandharipande (1981); (b) Akmal et al.
+a particularly convenient independent variable for simulations of          (1998); (c) Li & Schulze (2008).
+rapidly rotating neutron stars (Bonazzola et al. 1993). In Sect. 4
+we give analytical approximations to number fractions of elec-
+trons and muons in the core and the inner crust of a neutron               EoS labeled “A18 + δv + UIX”, and the BSk21 EDF was ad-
+star as functions of nb . Based on the one-dimensional approx-             justed to the stiff EoS labeled “V18” in Li & Schulze (2008).
+imation of the nuclear shapes suggested by Onsi et al. (2008),                 These NeuM constraints make the EDFs BSk19–21 suit-
+we describe the shapes of the nuclei in the inner crust as fully           able for application to the neutron-rich environments encoun-
+analytical functions of two arguments, the radial coordinate in            tered in many different astrophysical situations, and our making
+a Wigner-Seitz cell r and the mean baryon density nb . We also             three different such EDFs available reflects the current lack of
+present effective proton and neutron sizes of the nuclei in the in-        knowledge of the high-density behavior of dense matter. In ad-
+ner crust as analytical functions of nb . In Sect. 5 we consider an        dition, these three EDFs were also constrained to reproduce sev-
+application of the results to the calculation of electron conduc-          eral other properties of homogeneous nuclear matter as obtained
+tivity in the stellar crust. The impact of the analytical represen-        from many-body calculations using realistic two- and three-
+tation of the EoSs on neutron-star structure is studied in Sect. 6.        nucleon interactions; among those, the ratio of the isoscalar ef-
+Concluding remarks are given in Sect. 7.                                   fective mass m∗s to bare nucleon mass m in symmetric nuclear
+                                                                           matter at saturation was set to the realistic value of 0.8, and
+                                                                           all three EDFs predict a neutron effective mass that is higher
+2. The unified Brussels-Montreal EoSs                                      than the proton effective mass in neutron-rich matter, as found
+                                                                           both experimentally and from microscopic calculations. Various
+The unified Brussels-Montreal EoSs that we consider here are               properties of the BSk19, BSk20, and BSk21 EDFs are summa-
+based on the nuclear energy-density functionals (EDFs), labeled            rized in Table 1 (Goriely et al. 2010), namely: the rms deviations
+BSk19, BSk20, and BSk21, respectively. These EDFs were                     to the 2149 measured atomic masses σ(matom ) and to the 782
+derived from generalized Skyrme interactions, supplemented                 measured charge radii σ(Rch ), the energy per nucleon of sym-
+with microscopic contact pairing interactions, a phenomenolog-             metric nuclear matter at saturation density av , the baryon num-
+ical Wigner term and correction terms for the collective en-               ber density at saturation nb,0 , the incompressibility of symmetric
+ergy (Goriely et al. 2010; Chamel 2010). Calculating the nuclear           nuclear matter at saturation Kv (which was required to fall in
+energy with the Hartree-Fock-Bogoliubov (HFB) method, the                  the experimental range 240 ± 10 MeV, according to Colò et al.
+EDFs were fitted to the 2149 measured masses of atomic nu-                 2004), the symmetry energy coefficient J and its slope L, the
+clei with proton number Z ≥ 8 and neutron number N ≥ 8                     isospin compressibility Kτ , the isoscalar and isovector effective
+from the 2003 Atomic Mass Evaluation (Audi et al. 2003) with               masses m∗s and m∗v relative to the bare nucleon mass m, and the
+an root mean square (rms) deviation as low as 0.58 MeV. In                 limiting baryonic density ncaus after which the EoSs of neutron-
+making these fits the Skyrme part of the EDFs were simulta-                star matter violate causality. The last line indicates the NeuM
+neously constrained to fit the zero-temperature EoS of homoge-             EoS to which each EDF was fitted.
+neous neutron matter (NeuM), as determined by many-body cal-                   The Brussels-Montreal EDFs BSk19, BSk20, and BSk21
+culations with realistic two- and three-nucleon forces. Actually,          were used to compute the EoS of all regions of a neutron star.
+several realistic calculations of the EoS of NeuM have been                Following the BPS model (Baym et al. 1971), the outer crust was
+made, and while they all agree fairly closely at nuclear and sub-          assumed to consist of fully ionized atoms arranged in a body-
+nuclear densities, at the much higher densities that can be en-            centered cubic lattice at zero temperature. The EoSs of the outer
+countered towards the center of neutron stars they differ greatly          crust were calculated using either experimental atomic masses
+in their stiffness, and there are very few data, either observa-           when available or theoretical masses obtained from the HFB
+tional or experimental, to distinguish between the different pos-          mass models constructed with the BSk19, BSk20, and BSk21
+sibilities. It is in this way that the three different functionals were    EDFs, as appropriate (see Pearson et al. 2011, for details). For
+constructed, as follows. The BSk19 EDF was constrained to the              the inner crust, where neutron-proton clusters coexist with free
+soft Friedman & Pandharipande (1981) EoS obtained from the                 neutrons, the kinetic-energy part of the appropriate EDF was cal-
+realistic Urbana v14 nucleon-nucleon force with the three-body             culated using the semi-classical extended Thomas-Fermi method
+force TNI, the BSk20 EDF was fitted to the Akmal et al. (1998)             with proton quantum shell corrections added via the Strutinsky
+
+2
+                                  A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+integral theorem; neutron shell effects, which are known to be           or many-body calculations. For example, the values of L ob-
+much smaller, were neglected (see Pearson et al. 2012, for de-           tained with BSk19–21 EDFs are all compatible with the range
+tails). This method is a computationally very fast approximation         of values L = 55 ± 25 MeV deduced by Centelles et al. (2009)
+to the full Hartree-Fock equations. In order to further reduce the       and Warda et al. (2009) from measurements of the neutron-skin
+computations, nuclear clusters were assumed to be spherical, and         thickness in nuclei. The L coefficients obtained with BSk20 and
+parametrized nucleon distributions were introduced. Finally, the         BSk21 are also in agreement with the values 36 MeV< L <
+electrostatic energy was calculated using the Wigner-Seitz ap-           55 MeV found by Steiner & Gandolfi (2012) combining quan-
+proximation, and pairing effects were neglected. The overall re-         tum Monte Carlo calculations with neutron-star mass and ra-
+sulting errors in the EoS of the inner crust were found to be about      dius measurements. Incidentally, this latter constraint would rule
+5% at the neutron-drip point. The EoSs of the core, assumed to           out three of the only five functionals that survive the analysis
+consist of homogeneous beta-equilibrated matter made of nucle-           of Dutra et al. (2012). Various other constraints on J and L ob-
+ons and leptons (electrons and muons), were calculated essen-            tained from the analysis of different experiments (Tsang et al.
+tially analytically from the adopted EDF (Goriely et al. 2010).          2012; Lattimer & Lim 2013) have been summarized in Fig. 1.
+     In a recent paper, Dutra et al. (2012) analyzed 240 Skyrme          The figure shows the constraint deduced by Tsang et al. (2009)
+parametrizations, including BSk EDFs, by comparing their pre-            from heavy-ion collisions (HIC), that derived by Chen et al.
+dicted properties of symmetric nuclear matter and pure NeuM to           (2010) from measurement of the neutron skin thickness in tin
+some empirical constraints. On this basis, these authors rejected        isotopes, and that obtained from the analysis of giant dipole res-
+BSk19–21 EDFs (along with all but five of the 240 parametriza-           onance (GDR) (Trippa et al. 2008; Lattimer & Lim 2013) and
+tions that they considered). We now argue that this rejection is         the electric dipole polarizability (Piekarewicz et al. 2012) in
+                                                                         208
+unjustified. In the first place, BSk19–21 EDFs are claimed to be             Pb. For comparison, the constraint obtained from our HFB nu-
+incompatible with the constraint labeled “SM3” by Dutra et al.           clear mass models BSk9–26 (Goriely et al. 2013; Pearson et al.
+(2012), a constraint on the EoS of symmetric nuclear matter ob-          2009, and references therein) as well as unpublished ones are
+tained from the analysis of particle-flow measurements in Au-Au          also shown. Values of J and L have also been extracted from
+collisions (Danielewicz et al. 2002) that can be represented by a        pygmy dipole resonances (Carbone et al. 2010) and isobaric
+band in the plot of pressure vs. density. Now the pressures cal-         analogue states (Danielewicz & Lee 2009). However, we have
+culated with the EDFs BSk19–21 fall within this band over 80%            not included them in the figure because of large experimental
+of the density range and never deviate by more than about 20%            and theoretical uncertainties (see, e.g., Reinhard & Nazarewicz
+from those inferred by Danielewicz et al. (2002) (see, e.g., Fig.        2010; Daoutidis & Goriely 2011). The HFB mass model not
+3 of Chamel et al. 2011). Nevertheless, Dutra et al. (2012) reject       only agrees with GDR, neutron skin and dipole polarizability
+these functionals on the grounds that the calculated EoSs do not         data, but also provides relatively strict constraints on the J an L
+fall within the band of Danielewicz et al. (2002) over 95% of the        values.
+density range. This criterion is quite arbitrary, and without any
+sound statistical foundation. In addition, it has to be noted that
+the interpretation by Danielewicz et al. (2002) of the raw exper-
+imental data is subject to uncertainties of two different kinds of
+model dependence: i) the transport model that determines the
+particle flow in a given collision experiment; ii) extrapolation
+from the charge-asymmetric Au + Au system ((N −Z)/A ≈ 20%)
+to symmetric nuclear matter. As demonstrated by Gale et al.
+(1990), the flow is generated during the early nonequilibrium
+stages of the collision, whereas the interpretation in terms of the
+EoS by Danielewicz et al. (2002) is an equilibrium version of
+a simplified momentum-dependent interaction. Viewed in this
+light, the deviations of the pressures obtained with BSk19–21
+from the values of Danielewicz et al. (2002) are altogether in-
+significant.
+     The EDFs BSk19-21 are also found to violate the NeuM
+constraint “PNM2” by Dutra et al. (2012). However, this con-
+straint was actually obtained by Danielewicz et al. (2002) from          Fig. 1. Experimental constraints on the symmetry energy param-
+the symmetric nuclear matter constraint “SM3” using a simple             eters (see text for details), taken from Lattimer & Lim (2013).
+parametrization for the symmetry energy. For this reason, the            The dashed line represents the constraint obtained from fitting
+constraint “PNM2” is even less meaningful than the constraint            experimental nuclear masses using the Brussels-Montreal HFB
+“SM3”.                                                                   models with a root-mean-square deviation below 0.84 MeV (best
+     Dutra et al. (2012) also studied the density dependence of          fits are for J = 30 MeV). Star symbols correspond to the models
+the symmetry energy. In particular, they found that the coef-            BSk19, BSk20, and BSk21.
+ficient L obtained with BSk19 and BSk20 EDFs falls outside
+the range of empirical values determined by Chen et al. (2010)
+thus violating the constraints labeled “MIX2” and “MIX5”.                    Dutra et al. (2012) also point out that the values of Kτ ob-
+However, the situation regarding the symmetry energy still re-           tained for the EDFs BSk19, BSk20, and BSk21 are incompatible
+mains a matter of debate, different experiments and/or theoret-          with the range −760 MeV < Kτ < −372 MeV that they extract
+ical calculations leading to different and sometimes contradict-         from experimental data using a liquid-drop like approach (the
+ing predictions, as shown e.g. in Fig. 12 of Lattimer (2012) (see        constraint labeled “MIX3”). On the other hand, the values of Kτ
+also Tsang et al. 2012; Goriely et al. 2010, Sect. IIIB). Different      obtained with BSk19, BSk20, and BSk21 are all compatible with
+Skyrme EDFs can thus be selected depending on the experiments            the range of values −370 ± 120 MeV inferred from isospin diffu-
+
+                                                                                                                                          3
+                                   A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+sion in heavy-ion collisions by Chen et al. (2009). Just as for the       Table 2. Parameters of Eq. (3).
+L coefficient, the uncertainties in Kτ still remain very large (see
+e.g. Sect. IIIC in Goriely et al. 2010, for a thorough discussion).
+                                                                                             i                  ai
+    Thus the rejection of BSk19–21 EDFs by Dutra et al. (2012)
+is ungrounded. On the contrary, these EDFs are well adapted to                                    BSk19       BSk20       BSk21
+a unified treatment of all parts of neutron stars: the outer crust,                         1     3.916        4.078      4.857
+the inner crust and the core. The relevance of these EDFs to the                            2     7.701        7.587      6.981
+core of neutron stars arises not only from their fit to the EoS                             3    0.00858     0.00839     0.00706
+of NeuM but also from the good agreement between their pre-                                 4    0.22114     0.21695     0.19351
+                                                                                            5     3.269        3.614      4.085
+dicted EoS of symmetric nuclear matter and realistic calcula-
+                                                                                            6    11.964       11.942      12.065
+tions, which implies that they take correct account of the pres-                            7    13.349       13.751      10.521
+ence of protons. Since these EDFs were fitted to nuclear masses,                            8    1.3683       1.3373      1.5905
+they also take account of inhomogeneities, and thus are appro-                              9     3.254        3.606      4.104
+priate for the calculation of the inner crust of neutron stars. As                         10    −12.953     −22.996     −28.726
+for the outer crust, its properties are determined entirely by the                         11    0.9237       1.6229      2.0845
+mass tables that have been generated for the appropriate EDFs                              12      6.20        4.88        4.89
+by Pearson et al. (2011).                                                                  13    14.383       14.274      14.302
+                                                                                           14    16.693       23.560      22.881
+                                                                                           15    −1.0514     −1.5564     −1.7690
+3. Analytical representations of the EoS                                                   16     2.486        2.095      0.989
+                                                                                           17    15.362       15.294      15.313
+3.1. Preliminary remarks                                                                   18     0.085        0.084      0.091
+                                                                                           19      6.23        6.36        4.68
+The first law of thermodynamics for a barotropic EoS implies                               20     11.68        11.67      11.65
+the relation (see, e.g., Haensel & Proszynski 1982) P(nb ) =                               21    −0.029      −0.042      −0.086
+n2b c2 d(ρ/nb)/dnb , which can be also used in the integral forms:                         22      20.1        14.8        10.0
+                                                                                           23     14.19        14.18      14.15
+                      P(n′b ) ′
+                Z nb                      ! Z ρ
+ρ(nb ) ρs                              nb             c2 dρ′
+         =    +        ′2
+                             dn b , ln     =          ′      ′ 2
+                                                                 , (1)
+   nb      ns    ns nb c2              ns      ρs P(ρ ) + ρ c
+                                                                          The latter quantity is a convenient variable for models of rotating
+where ρs and ns are the values of ρ and nb at the neutron-star            stars in General Relativity (see Stergioulas 2003, for review).
+surface. In the present paper we put ρs equal to the density of
+56
+   Fe at zero pressure and zero temperature, ρs = 7.86 g cm−3 .
+One of the advantages of an analytical representation of the EoS          3.2. Pressure as a function of density
+is that it allows one to fulfill the relations (1) precisely.
+     There are three qualitatively different domains of the inte-         We introduce the variables ξ = log(ρ/g cm−3 ) and ζ =
+rior of a neutron star: the outer crust, which consists of elec-          log(P/dyn cm−2 ). Here and hereafter, log denotes log10 , while
+trons and atomic nuclei; the inner crust, which consists of elec-         the natural logarithm is denoted by ln. Our parametrization of
+trons, neutron-proton clusters, and “free” neutrons; and the core,        P(ρ) reads
+which contains electrons, neutrons, protons, muons, and possi-                  a1 + a2 ξ + a3 ξ 3 
+                                                                                                    exp a5 (ξ − a6 ) + 1 −1
+                                                                                                                    
+bly other particles (see, e.g., Haensel et al. 2007 for review and        ζ =
+references). In addition, there can be density discontinuities at                   1 + a4 ξ
+                                                                                +(a7 + a8 ξ) exp a9 (a6 − ξ) + 1 −1
+                                                                                                             
+the interfaces between layers containing different nuclei in the
+crust. An approximation of the EoS by a fully analytical func-                  +(a10 + a11 ξ) exp a12 (a13 − ξ) + 1 −1
+                                                                                                                 
+tion neglects these small discontinuities. However, the different
+                                                                                +(a14 + a15 ξ) exp a16 (a17 − ξ) + 1 −1
+                                                                                                                 
+character of the EoS in the three major domains is reflected by
+the complexity of our fit, which consists of several fractional-                          a18                      a21
+                                                                                +                      2
+                                                                                                         +                       .       (3)
+polynomial parts, matched together with the use of the function                   1 + [a19 (ξ − a20 )]     1 + [a22 (ξ − a23 )]2
+(e x + 1)−1 .
+     For ρ < 106 g cm−3 the BSk EoSs are inadequate, primarily            The parameters ai are given in Table 2. The typical fit error of
+because atoms are not completely ionized, and thermal effects             P is ≈ 1% for ξ & 6. The maximum error is 3.7% at ξ = 9.51;
+become non-negligible. The temperature dependence can be                  it is determined by the jumps at the interfaces between layers
+roughly described as (Haensel & Potekhin 2004) P = Pfit + P0 ,            containing different nuclides in the tabulated EoS. The fit (3)
+where Pfit is given by the fitting function presented below, and          smoothly interpolates across these jumps.
+P0 = A(T ) ρ provides a low-density continuation. For exam-                    Compared to Eq. (14) of Haensel & Potekhin (2004), Eq. (3)
+ple, if the outer envelope consists of fully ionized iron, then           contains additional terms in the last line with coefficients a18 –
+A(T ) ≈ 4 × 107 T K−1 (cm/s)2 . Partial ionization decreases A(T ):       a23 . These terms improve the fit near the boundaries between
+for example, at T = 107 K the best interpolation to the OPAL              the outer and inner crust and between the crust and the core,
+EoS (Rogers et al. 1996) is given by A = 3.5 × 1014 (cm/s)2 (that         where the slope of P(ρ) sharply changes. In SLy4 the analogous
+is, 14% smaller than for the fully ionized ideal gas).                    changes were less abrupt. In the case of BSk models, however,
+     We constructed analytical parametrizations for pressure P,           the residuals of the fit without these additional terms may reach
+gravitational mass density ρ, and baryon number density nb as             about 10% (Fantina et al. 2012).
+functions of ρ, nb , or pseudo-enthalpy                                        In Fig. 2 we compare the EoSs BSk19, BSk20, and BSk21
+      Z P                                                                 with their analytical representations. Symbols on the upper panel
+                  dP′                                                     show the data, and lines show the fit. For comparison, the ad-
+H=              ′   2   ′
+                          .                                     (2)       ditional dotted line represents SLy4 EoS according to the fit
+        0 ρ(P ) c + P
+
+
+4
+                                   A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+                                                                          Table 3. Parameters of Eq. (6).
+
+                                                                                      i                         bi
+                                                                                             BSk19            BSk20         BSk21
+                                                                                     1        0.259           0.632           3.85
+                                                                                     2        2.30             2.71           3.19
+                                                                                     3       0.0339           0.0352         0.0436
+                                                                                     4       0.1527           0.383           1.99
+                                                                                     5    1.085 × 10−5     1.087 × 10−5   1.075 × 10−5
+                                                                                     6        3.50             3.51           3.44
+                                                                                     7       0.6165           0.6167         0.6154
+                                                                                     8        3.487           3.4815         3.531
+
+                                                                          Table 4. Parameters of Eq. (7).
+
+                                                                                      i                         ci
+                                                                                             BSk19            BSk20         BSk21
+                                                                                     1        0.378           0.152          0.085
+                                                                                     2        1.28             1.02          0.802
+                                                                                     3        17.20           10.26          16.35
+                                                                                     4        3.844           3.691          3.634
+                                                                                     5        3.778           2.586          2.931
+                                                                                     6    1.071 × 10−5     1.067 × 10−5   1.050 × 10−5
+                                                                                     7        3.287           3.255          3.187
+                                                                                     8       0.6130           0.6123         0.6110
+                                                                                     9      12.0741          12.0570        12.0190
+
+
+                                                                          calculate H(ρ) using Eqs. (2) and (3), and then refine the values
+Fig. 2. Comparison of the data and fits for the pressure as a func-
+                                                                          of nb using Eq. (5). Our fit to the result is
+tion of mass density for the EoS models BSk19, BSk20, and                                             √
+BSk21. Upper panel: rarefied tabular data (symbols) and the fit                           b1 nb2 + b3 n            n
+(3) (lines); lower panel: relative difference between the data and        ∆ρ = (1 − f1 )               2
+                                                                                                          + f1             ,              (6)
+                                                                                            (1 + b4 n)         b5 + b6 nb7
+fit. Filled dots and dashed lines: BSk19; open circles and dot-
+                                                                          where f1 ≡ exp(1.1 log n + b8 ) + 1 −1 , n = nb /fm−3 , and param-
+                                                                                                               
+dashed lines: BSk20; filled triangles and solid lines: BSk21. For
+comparison, the dotted line in the upper panel reproduces the fit         eters bi are given in Table 3. The typical error of Eq. (6) for ∆ρ
+to the EoS SLy4 (Haensel & Potekhin 2004).                                is (1–2)%, and the maximum relative error of 4.2% is at the low
+                                                                          end of the fitted density range, min(ρ) = 106 g cm−3 (but at such
+                                                                          low densities ∆ρ is itself negligible).
+of Haensel & Potekhin (2004). In order to make the differences                The inverse fit nb (ρ) is given by the formula
+between different EoSs visible, we plot the function ζ − 1.4ξ             ρ̃                 c1 ρ̃c2 + c3 ρ̃c4       ρ̃
+(cf. Fig. 4 of Haensel & Potekhin 2004). The data points in the              = 1 + (1 − f2 )                   +              f2 ,       (7)
+figure are rarefied, i.e., we show only a small fraction of all nu-       n                   (1 + c5 ρ̃)3       c6 + c7 ρ̃c8
+merical data used for the fitting. The lower panel of Fig. 2 shows        where f2 ≡ exp(ξ − c9 ) + 1 −1 , the dimensionless argument is
+                                                                                                            
+the difference between the tabulated and fitted EoSs and thus il-         defined as ρ̃ ≡ (ρ/mu ) fm3 = ρ/(1.66 × 1015 g cm−3 ), and pa-
+lustrates the accuracy of Eq. (3).                                        rameters ci are given in Table 4. As well as Eq. (6), the fit (7)
+                                                                          also minimizes ∆ρ , and its residuals are similar: the average er-
+3.3. Mass density versus number density                                   ror is less than 2%, and the maximum relative error is 3.8% at
+                                                                          the lower end of the fitted density range.
+In some applications, it may be convenient to use nb as inde-
+pendent variable, and treat ρ and P as functions of nb . For this
+purpose we construct a fit to the deviation from the linear law           3.4. Density as a function of pseudo-enthalpy
+ρ = nb mu , where mu = 1.66 × 10−24 g is the atomic mass unit:            As noted in Sect. 3.1, analytical expressions of ρ and P as func-
+          ρ                                                               tions of the pseudo-enthalpy H are expected to be useful for
+∆ρ ≡          − 1.                                                 (4)    numerical simulations of rotating stars. In order to achieve the
+       n b mu                                                             maximal consistency of our parametrizations, we first calculate
+In view of the relation (see, e.g., Haensel & Potekhin 2004)              H(ρ) using Eqs. (2) and (3), and then parametrize the result
+                                                                          (cf. Sect. 3.3). The best fit reads
+H = ln(h/hs),                                                      (5)          "
+                                                                                           21.84 η0.1843
+                                                                                                         #
+                                                                          ξ = 2.367 +                      f3
+where h = (ρc2 + P)/nb is the zero-T enthalpy per baryon and hs                              1 + 0.7η
+is the value of h at the stellar surface, ∆ρ must be consistent with              d1 + d2 log η + (d3 + d4 log η)(d5 η)d10
+Eq. (3). In order to fulfill Eq. (5) as closely as possible, we first           +                                          (1 − f3 )
+                                                                                             1 + d6 η + (d5 η)d10
+
+                                                                                                                                           5
+                                       A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+Table 5. Parameters of Eq. (8).
+
+                      i                 di
+                            BSk19     BSk20     BSk21
+                      1     93.650    81.631    63.150
+                      2     36.893    31.583    23.484
+                      3     15.450    15.310    15.226
+                      4      0.672     0.594     0.571
+                      5     61.240    58.890    54.174
+                      6      68.97     56.74     37.15
+                      7      0.292     0.449     0.596
+                      8       5.2       4.5       3.6
+                      9      0.48      0.58       0.51
+                     10       6.8       7.5       10.4
+
+
+Table 6. Parameters of Eq. (9).
+
+                 i        BSk19      BSk20       BSk21
+                                       q(e)
+                                         i
+                1         −0.0157    −0.0078    0.00575
+                2         0.9063      0.745      0.4983
+                3             0       0.508       9.673
+                4          26.97     22.888       16.31
+                5          106.5      0.449      38.364
+                6           4.82     0.00323        0
+                                       qi(µ)
+                1         −0.0315    −0.0364    −0.0365
+                2           0.25     0.2748      0.247
+                3             0      0.2603      11.49                        Fig. 3. Mass density as a function of pseudo-enthalpy. Upper
+                4          12.42      12.99      24.55                        panel: rarefied data to be fitted, calculated by integration ac-
+                5           72.4     0.0767     48.544                        cording to Eqs. (2) and (3) (symbols), compared with the fit (8)
+                6           19.5     0.00413       0                          (lines). Lower panel: fractional difference between the data and
+                                                                              fit. The symbols and line styles for BSk19, BSk20, and BSk21
+                                                                              are the same as in Fig. 2.
+
+     +d7 exp d8 (d9 − log η) + 1 −1 ,
+                          
+                                                                       (8)    4.1. Nucleons and leptons in the core
+                                                                              The core of a neutron star contains free neutrons, protons, elec-
+where η ≡ eH − 1, f3 ≡ exp(84 log η + 167.2) + 1 −1 , and the
+                                                     
+                                                                              trons, and muons, whose number fractions relative to the total
+parameters di are given in Table 5.                                           number of nucleons are, respectively, 1 − Yp , Yp , Ye , and Yµ . The
+    A comparison of the fit and the data is presented in Fig. 3.              condition of electric neutrality requires that Yp = Ye + Yµ . For
+The typical fit error of ρ is about 1% in the interval 6 × 10−5 .             Ye and Yµ , shown in Fig. 4, we obtained the following fitting
+η . 4, which corresponds to the considered mass density range                 expression:
+106 g cm−3 . ρ . 1016 g cm−3 . The maximum fit errors of (3 –
+                                                                                        (e,µ)      (e,µ)        (e,µ) 4
+5)% occur, as expected, near physical discontinuities, where the                       q1       + q2       n + q3   n                  
+slope of the function ξ(η) quickly changes: at η ∼ 0.01, where                Ye,µ =                                      exp −q(e,µ)
+                                                                                                                                6 n ,
+                                                                                                                                      5
+                                                                                                                                               (9)
+the fit goes smoothly through a break at the neutron-drip point,                       1 + q(e,µ)
+                                                                                            4 n
+                                                                                                  3/2 + q(e,µ) n4
+                                                                                                         5
+and at η ∼ 0.03 – 0.1, near the crust-core interface.                                                                            (e,µ)
+                                                                              where n = nb /fm−3 , and parameters qi are given in Table 6.
+                                                                              Whenever Eq. (9) gives a negative value, it must be replaced
+                                                                              by zero. At the densities in the core, this can occur for muons,
+4. Particle number fractions and density                                      when the muon chemical potential is smaller than the electron
+   distributions                                                              rest energy. The fit residuals are typically (1 – 3)×10−4 with a
+                                                                              maximum of 7 × 10−4 . Here, unlike in the preceding section,
+The physical input for numerical simulations of neutron-star                  we quote absolute (not fractional) errors, because the fractional
+thermal evolution includes the heat capacity, neutrino emissiv-               error loses its sense for a quantity that may be zero, as Yµ . The
+ity, and thermal conductivity tensors in the crust and the core               deviations of the fit from the data are displayed in the bottom
+(see Yakovlev & Pethick 2004; Page et al. 2006, for reviews).                 panel of Fig. 4.
+The evolution of the magnetic field is coupled to the thermal                     As well known, fractional abundances of leptons in the
+evolution and depends on the electrical conductivity tensor (e.g.,            neutron-star core directly affect the thermal evolution of a neu-
+Pons et al. 2009, and references therein). For calculation of these           tron star at the neutrino cooling stage (e.g., Yakovlev & Pethick
+quantities, it is important to know the nucleon distributions in the          2004; Page et al. 2006). In the region of a neutron-star core
+crust and the composition of the core.                                        where the Fermi momenta of protons (pFp ), neutrons (pFn ), and
+
+6
+                                   A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+                                                                          (2008). This is a semi-classical approximation to the HFB
+                                                                          method, with proton shell corrections added perturbatively. A
+                                                                          spherical Wigner-Seitz cell is assumed, with the neutron and pro-
+                                                                          ton density distributions parametrized according to
+                                                                          nq (r) = n0q fq (r) + nout,q ,                                         (10)
+                                                                          where r is the distance to the center of the Wigner-Seitz cell,
+                                                                          q = n for neutrons and q = p for protons, nout,q represents a
+                                                                          constant background term, while fq (r) is a damped version of
+                                                                          the usual Fermi profile. Specifically, we write it as
+                                                                                                   r − Cq −1
+                                                                                   "                      !#
+                                                                           fq (r) = 1 + Dq (r) exp             ,                    (11)
+                                                                                                     aq
+                                                                          where Cq is the width of fq (r) at half maximum and aq is the
+                                                                          diffuseness parameter, while Dq (r) is a damping factor given by
+                                                                                                 !2     
+                                                                                        Cq − RWS
+                                                                                       
+                                                                                                        
+                                                                                                         
+                                                                          Dq (r) = exp              − 1   ,                          (12)
+                                                                                                         
+                                                                                        r − RWS
+                                                                                                        
+                                                                                                         
+                                                                                                         
+
+                                                                          where RWS is the Wigner-Seitz cell radius The purpose of this
+                                                                          factor is to ensure that fq (r) and all its derivatives will vanish
+                                                                          at the surface of the cell, a necessary condition for the validity
+                                                                          of the semi-classical approximations that underlie the TETFSI
+                                                                          method.
+                                                                              But whether we include this damping factor, or set it equal
+                                                                          to unity, leaving us with a simple Fermi profile, the parametriza-
+                                                                          tion of Eq. (10) eliminates an arbitrary separation into liquid and
+Fig. 4. Upper panel: Number fractions of electrons Ye (solid              gaseous phases within the Wigner-Seitz cell, and, strictly speak-
+lines) and muons Yµ (dashed lines) in the core of a neutron               ing, makes it illegitimate to draw a distinction between a “neu-
+star, relative to the number of nucleons, as functions of nucleon         tron gas” and “nuclei”. Nevertheless, if we denote by N ′ the total
+number density nb for the three EoSs indicated near the curves.           number of neutrons in the cell at a given density, it is convenient
+Lower panel: Differences between the fit (9) and numerically              to define the number of cluster neutrons as
+computed tables for Ye and Yµ , plotted against nb . The vertical         N = N ′ − nout,n VWS ,                                                 (13)
+dotted lines show the position of the boundary between the crust
+and the core (ncc in Table 7).                                            where VWS = 4πR3WS /3 is the volume of the Wigner-Seitz cell,
+                                                                          with a similar expression for the number of cluster protons Z.
+                                                                          Actually, almost everywhere in the inner crust nout,p = 0, so that
+electrons (pFe ) satisfy the triangle inequality |pFp − pFe | < pFn <     Z = Z ′ , the total number of protons in the cell. However, near the
+pFp + pFe , the direct Urca (durca) process of neutrino emis-             transition to the core some protons tend to spread over the entire
+sion overpowers the more common modified Urca process and                 cell, so that Z < Z ′ . This spreading corresponds to a smooth
+greatly accelerates the cooling of the star (Lattimer et al. 1991;        (second or higher order) phase transition between the crust and
+Haensel 1995). As discussed by Chamel et al. (2011), the tri-             the core suggested by Pearson et al. (2012).
+angle inequality is never satisfied in the BSk19 model, but the               It turns out that for all three models considered here the num-
+models BSk20 and BSk21 allow it at sufficiently high densities            ber of protons Z ′ in the Wigner-Seitz cell is equal to 40 for all
+nb > ndurca . The fitting expressions (9) allow us to reproduce the       densities. However, the number of neutrons N ′ in the cell varies
+thresholds ndurca = 1.49 fm−3 for BSk20 and ndurca = 0.45 fm−3            considerably with density, and, in fact, will be nonintegral in
+for BSk21 (Chamel et al. 2011) with discrepancies of 0.08% and            general since it is taken in the TETFSI method as one of the vari-
+0.3%, respectively.                                                       ables with respect to which the energy is minimized. The notion
+                                                                          of a fractional number of neutrons per cell corresponds to the
+                                                                          physical reality of delocalized neutrons. On the other hand, since
+4.2. Nucleon numbers in the crust
+                                                                          the TETFSI method calculates proton (but not neutron) shell ef-
+The outer crust consists of separate shells of different isotopes.        fects, Z ′ cannot be allowed to become nonintegral, even when
+The nuclear mass numbers A and charge numbers Z are con-                  the protons become delocalized.
+stant within each shell and differ from one shell to another. The             With N, Z, and A′ = N ′ +Z ′ varying smoothly with nb , we ob-
+nuclei are embedded in the sea of degenerate electrons. Layers            tained the following parametrizations over the inner crust (note
+of diffusive mixing between adjacent shells are very narrow (see          that Z ′ = 40 everywhere):
+Hameury et al. 1983) and, therefore, unimportant for most appli-
+cations. In particular, Pearson et al. (2011) have presented tables                p1 + p2 log x + (p3 log x)3.5 h                 i
+                                                                          A−Z =                          p
+                                                                                                                  1 − (nb /ncc ) p0 ,            (14)
+of Z and A in the outer crust for the models BSk19, BSk20, and                           1 + (p4 log x)   5
+
+                                                                                                      ′′                ′′
+BSk21.
+                                                                                                        h                i
+                                                                               Z = Z exp −(nb /ncc ) p1 1 − (nb /ncc) p0 ,
+                                                                                    ′
+                                                                                                                                                 (15)
+    In the case of the inner crust, the EoS of Pearson et al.
+(2012) is based on the TETFSI (temperature-dependent ex-                              p′1 + p′2 log x + p′3 (log x)2             h
+                                                                                                                                          ′ 2
+                                                                                                                                               i
+                                                                              A′ =                                   (1 + p ′
+                                                                                                                            5 x)   1 − (p 6 x)   , (16)
+tended Thomas-Fermi Strutinsky integral) method of Onsi et al.                              1 + (p′4 log x)4
+
+                                                                                                                                                     7
+                                   A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+Table 7. Fitting parameters for Eqs. (14), (15), and (16). The
+last two lines list the number densities of baryons at the neu-
+tron drip point, nd , and at the crust/core boundary, ncc (in fm−3 )
+(Pearson et al. 2012).
+
+                BSk19             BSk20              BSk21
+       i                             pi
+       0        8.40               9.30                10.8
+       1        93.0               92.8                92.3
+       2        11.90             12.95               13.80
+       3        1.490             1.493               1.625
+       4        0.334             0.354              0.3874
+       5        5.05               7.57                13.8
+       i                             p′i
+       1        134.7             134.7              132.6
+       2        183.7             188.2              187.6
+       3        308.7             275.6              229.2
+       4       0.3814             0.4346            0.5202
+       5     −5.8 × 10−4         0.00163            0.00637
+       6     4.9 × 10−4          0.00149            0.00151
+       i                            p′′i
+       0          16                20                27
+       1          19                19                17
+      nd    2.63464 × 10−4    2.62873 × 10−4    2.57541 × 10−4
+     ncc        0.0885            0.0854            0.0809
+
+
+
+Here, x = nb /nd , nd is the baryon number density at the neutron-
+drip point, and ncc is the density of the transition to the homoge-
+neous core. The parameters pi , p′i , p′′i are listed in Table 7 along
+with the densities nd and ncc . The square brackets with the large
+power indices p0 in Eq. (14) and p′′0 in Eq. (15) ensure the quick        Fig. 5. Effective nuclear parameters in the neutron-star crust, ac-
+decrease of A and Z to zero in a narrow density interval at the           cording to different models, as functions of baryon number den-
+transition from the crust to the core; they almost do not affect the      sity nb in the crust of a neutron star. Top panel: nuclear mass
+fits in the bulk of the crust.                                            number A (the middle group of curves), the number of pro-
+     In the upper panel of Fig. 5 we show the numbers A′ , A, and         tons in a cluster Z (the lower curves), and the effective Wigner-
+Z as functions of nb in the outer and inner crust of a neutron star.      Seitz cell mass number A′ (the upper curves). Bottom panel:
+In the lower panel we show the rms radius of the charge distribu-         rms charge radius of the nucleus. The results are shown for the
+tion, Rch . The values obtained in the models BSk19, BSk20, and           models BSk19 (dashed lines and filled dots), BSk20 (dot-dashed
+BSk21 are compared with the smooth-composition (SC) model                 lines and open circles), BSk21 (solid lines and filled triangles),
+(Appendix B.2 of Haensel et al. 2007; see the next section). The          and, for comparison, the smooth-composition model (the dotted
+vertical dotted lines mark the position of the neutron-drip point,        curves). The left vertical dotted line shows the position of the
+which separates the inner and outer crust, and the transition from        boundary between the inner and outer crust, nb = nd (to the left
+the crust to the core. In the inner crust, the fitted values (lines)      of this line A′ = A). The right vertical dotted lines mark ncc ,
+are compared with the numerical results (symbols) for the BSk             the interface between the crust and the core, in the BSk models.
+models. The numerical data are rarefied, in order to avoid crowd-         Between these boundaries, the curves represent analytical fits,
+ing of the symbols. The agreement between the data and the fits           and the symbols show some of the numerical data.
+are typically within a fraction of percent, except for a vicin-
+ity of the boundary with the core. Near the latter boundary, at
+0.065 fm−3 . nb < ncc , the neutron and proton distributions be-          4.3. Nuclear shapes and sizes in the crust
+come rather flat (see Fig. 6 below), which hampers an accurate
+determination of the shape parameters. Therefore the numerical            In applications one sometimes needs a more detailed infor-
+data suffer a significant scatter in this density interval, but the       mation about microscopic distributions of nucleons than given
+fits show an acceptable qualitative agreement with them. In the           by the numbers A, A′ , Z, and Z ′ considered in Sect. 4.2. For
+outer crust (at nb < nd ) we use the elemental composition A and          example, cross sections of scattering of charged particles de-
+Z from Pearson et al. (2011) and Rch from bruslib.1 From Fig. 5           pend on the charge distribution in a nucleus. Previous calcu-
+we see that the SC model predicts a considerable jump of A′               lations of neutrino bremsstrahlung (e.g., Kaminker et al. 1999)
+at the neutron-drip point, while in the BSk models A′ is almost           and electron heat conduction (e.g., Gnedin et al. 2001) in the
+continuous. The latter continuity is equivalent to the equality of        crust of a neutron star employed nuclear form factors provided
+RWS at both sides of the drip boundary.                                   by the SC model based on the parametrization (10) with fq (r) =
+                                                                          [1 − (r/rmax,q )bq ]3 (Oyamatsu 1993). Note that nout,p is effectively
+  1
+    The Brussels Nuclear Library for Astrophysics Application,            zero, and nout,n = (A′ − A)/VWS . Kaminker et al. (1999) fitted
+http://www.astro.ulb.ac.be/bruslib/                                       RWS , n0q , rmax,q , and bq as functions of nb by interpolating the
+
+8
+                                   A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+                                                                          Table 8. Parameters si of Eq. (17) for Cq and aq .
+
+                                                                                 i     BSk19     BSk20        BSk21     BSk19     BSk20          BSk21
+                                                                                                 si (Cp )                          si (ap )
+                                                                                 1     5.500     5.493         5.457    0.4377    0.4353         0.4316
+                                                                                 2      11.7      12.8         14.2      4.360     4.440          4.704
+                                                                                 3     0.643     0.636         0.601       1           1            1
+                                                                                 4      472       484           566      1084      1154           1253
+                                                                                                 si (Cn )                          si (an )
+                                                                                 1     5.714     5.714         5.728    0.639      0.632         0.636
+                                                                                 2     14.05      16.3         22.2     1.461      1.98           5.32
+                                                                                 3     0.642     0.645         0.663    0.457      0.514         0.739
+                                                                                 4      182       175           144     1137       1122           624
+
+
+                                                                          Table 9. Parameters of Eqs. (19) and (20).
+
+                                                                                                   q(p)
+                                                                                                    i                                q(n)
+                                                                                                                                      i
+                                                                             i        BSk19      BSk20         BSk21     BSk19      BSk20          BSk21
+                                                                             1       0.05509    0.05382       0.05273   0.10336    0.10283        0.10085
+                                                                             2        0.1589     0.1400        0.1107   0.0772     0.0825          0.0942
+                                                                             3           0      0.01715       0.02218    1.129      1.189           1.279
+                                                                             4        0.4917     0.566         0.6872      –          –               –
+
+Fig. 6. Neutron (nn ) and proton (np ) density profiles at the values
+                                                                          Table 10. Parameters si of Eq. (17) for xnuc and xnuc,n .
+of the average baryon density nb = 3 × 10−4 fm−3 (near the top
+of the inner crust), 0.01 fm−3 , 0.06 fm−3 , and 0.075 fm−3 (near
+the bottom of the inner crust), according to the models BSk19,                                   si (xnuc )                       si (xnuc,n )
+BSk20, and BSk21. The SC model (Haensel et al. 2007) is also                     i     BSk19     BSk20         BSk21    BSk19      BSk20         BSk21
+shown for comparison.                                                            1     0.1120    0.1094        0.1045   0.122       0.119        0.114
+                                                                                 2      2.06       2.04          2.09    2.27        2.30         2.56
+                                                                                 3      0.633     0.613         0.586   0.618       0.603        0.595
+Oyamatsu (1993) values of these parameters through the inner                     4       507        509          513     193          182         107
+crust and making use of the Haensel & Pichon (1994) data for
+the outer crust.
+    In Fig. 6 we show neutron and proton density distributions                                    (p)
+                                                                          with parameters qi and q(n)  i listed in Table 9. The agreement
+near the center of a Wigner-Seitz cell as given by Pearson et al.
+                                                                          between the data and the fits are typically ∼ 1% or better, except
+(2012), i.e., as described by Eqs. (11) and (12) for the mod-
+                                                                          for a bottom crust layer, as explained in the previous section.
+els BSk19, BSk20, and BSk21. The four panels correspond to
+four different values of the mean baryon density nb in the inner
+crust. The neutron and proton density profiles predicted by the           5. Conductivity in the neutron-star crust
+SC model are also shown for comparison. We present the param-
+eters Cq , aq , and n0q that enter Eqs. (10) and (11) as functions of     As an example of application of our fitting formulae, we con-
+n = nb /fm−3 ,                                                            sider the electron conductivities in the crust of a neutron star.
+                                                                          Practical formulae for calculation of the electron electrical and
+     s1 + s2 n s3                                                         thermal conductivities of fully ionized plasmas have been devel-
+y=                ,                                               (17)
+      1 − s4 n3                                                           oped by Potekhin et al. (1999) in the approximation of pointlike
+where y = Cp , ap , Cn , or an , with numerical parameters si listed      nuclei (see references therein for earlier works) and extended
+in Table 8. The decreasing denominator ensures the accelerated            by Gnedin et al. (2001) to the case where the finite nuclear size
+increase of the size and diffuseness of the nuclei when the den-          cannot be neglected. The latter authors considered different nu-
+sity approaches that of the uniform nuclear matter near the crust-        clear shape models and concluded that their effect on electrical
+core interface. The values of n0q are related to the other fitted         conductivity σ√is mainly governed by the ratio xnuc = Reff /RWS ,
+parameters via                                                            where Reff = 5/3 Rch is the effective radius of the uniformly
+       Z RWS                (                                             charged sphere that has the same rms radius of the charge dis-
+                      2         A − Z for q = n,                          tribution, Rch , as the considered nucleus. The same parameter
+4π n0q        fq (r) r dr =                                     (18)      xnuc determines the effect of nuclear form factors on the thermal
+         0
+                                  Z for q = p.
+                                                                          conductivity κ, except at low temperatures where quantum lat-
+Nevertheless we find it convenient for applications to have sep-          tice effects violate the Wiedemann-Franz relation in a nontrivial
+arate simple fits                                                         way (Gnedin et al. 2001). Under the assumption that the charge
+                     (p)
+                                                                         distribution is proportional to the proton distribution,
+          (p)    q 2   n      h                i
+n0p = q1 − (p)          (p) 
+                                   1 − (nb /ncc )9 ,        (19)                    R RWS
+                 q3 + nq4                                                         5     0
+                                                                                             fp (r) r4 dr
+                 (n) √
+                                       h                  i              x2nuc =         R RWS               ,                        (21)
+n0n = q(n)   1 + q2     n − q(n)    3 n 1 − (nb /ncc )
+                                                        16
+                                                             , (20)               3 R2
+                                                                                      WS 0       fp (r) r2 dr
+
+                                                                                                                                                            9
+                                  A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+                                                                         models, at contrast to the SC model where it abruptly decreases
+                                                                         at the drip point.
+                                                                              Similarly, we have used the analytical fits for calculating
+                                                                         thermal conductivity κ. It has to be noted that electron conduc-
+                                                                         tion is probably the main mechanism of heat transport in the en-
+                                                                         tire neutron-star crust despite the existence of competing trans-
+                                                                         port channels. Radiative conduction is negligible at the crust
+                                                                         densities (Potekhin & Yakovlev 2001; Pérez-Azorin et al. 2006),
+                                                                         the heat transport by phonons is generally weaker than the elec-
+                                                                         tron transport (Pérez-Azorin et al. 2006; Chugunov & Haensel
+                                                                         2007), and the heat transport by superfluid neutrons in the in-
+                                                                         ner crust (Bisnovatyi-Kogan & Romanova 1982; Aguilera et al.
+                                                                         2009) may be suppressed because of the strong coupling of the
+                                                                         neutron superfluid to the nuclei due to nondissipative entrain-
+                                                                         ment effects (Chamel 2012). We have found that the difference
+                                                                         between the BSk and SC models for the electron heat conduc-
+                                                                         tivity κ is smaller than the corresponding difference for σ. The
+                                                                         smaller difference is explained by the large contribution of the
+                                                                         electron-electron scattering into the thermal resistivity of the in-
+                                                                         ner crust (Shternin & Yakovlev 2006).
+
+                                                                         6. Neutron star configurations
+                                                                         In order to estimate the errors introduced in the fitting formu-
+Fig. 7. Electrical conductivity σ of the neutron-star crust with         lae described in Sect. 3 on global neutron-star properties, we
+nuclear parameters given by the models BSk19 (dashed lines),             have computed the mass and radius of a neutron star from the
+BSk20 (dot-dashed lines), BSk21 (solid lines), and the smooth-           tabulated EoSs and their analytical representations. For a non-
+composition (SC) model (dotted curves) as functions of mass              rotating neutron star, we integrated the Tolman-Oppenheimer-
+density ρ for T = 108 K, 108.5 K, and 109 K. The vertical dotted         Volkoff (TOV) equation from the center, with the central mass
+lines show the boundaries nd and ncc of the inner crust according        density ρc as a free parameter, outward to ρs , using the fourth-
+to the three BSk models (Table 7).                                       order Runge-Kutta method with an adaptive step and controlled
+                                                                         accuracy. We avoided an affixment of an integration step to the
+                                                                         calculated points using either linear or cubic spline interpolation
+we obtained a direct fit to this quantity, which facilitates calcu-      in the tabulated EoSs. The neutron-star masses M obtained using
+lation of the conductivities. In addition, we calculated and fitted      these two types of interpolation agree to ∼ 10−4 M⊙ . The radii R
+the analogous size parameter xnuc,n = Reff,n /RWS for the neu-           agree typically to ∼ 0.1%, if M & 0.3 M⊙ .
+tron distribution fn (r). The fitting was done for the quantities            Figure 8 shows the mass-radius relation of nonrotating neu-
+obtained from Eqs. (21) and (11) with calculated (not fitted) val-       tron stars for the EoSs BSk19, BSk20, and BSk21. The neutron-
+ues of Cq , aq , and RWS at each density. The fits have the form         star configurations obtained with the original EoSs and with their
+of Eq. (17) with the parameters listed in Table 10. The residuals        analytical representations are drawn as dots and lines respec-
+are similar, with maxima of several percent near the end of the          tively. The maximum neutron-star masses are Mmax = 1.86 M⊙
+nb range and an order of magnitude smaller typical values.               at ρc = 3.48 × 1015 g cm−3 for BSk19, Mmax = 2.16 M⊙ at
+    Figure 7 displays electrical conductivities σ calculated with        ρc = 2.69 × 1015 g cm−3 for BSk20, and Mmax = 2.27 M⊙ at
+the fitted A′ , A, Z, and xnuc at temperatures and densities char-       ρc = 2.27 × 1015 g cm−3 for BSk21, in close agreement with
+acteristic of the outer and inner crusts of neutron stars. Here,         Chamel et al. (2011) and Fantina et al. (2012). The differences
+the calculations are performed for a body-centered cubic lattice         between Mmax obtained using the original data and the fit are
+of the nuclei without impurities. The crystalline structure of the       about 0.09%, 0.09%, and 0.17%, and the differences for corre-
+crust is favored by recent results of molecular-dynamics simula-         sponding ρc values are about 0.03%, 0.02%, and 0.7%, respec-
+tions (Hughto et a. 2011) and supported by comparison of obser-          tively. At higher ρc the condition of hydrostatic stability dM/dρc
+vations of X-ray transients in quiescence with simulations of the        is violated; the unstable configurations are shown by the dot-
+cooling of their crust (Shternin et al. 2007; Cackett et al. 2010).      ted parts of the curves to the left of the maxima in Fig. 8. The
+We have removed switching from Umklapp to normal processes               crosses in Fig. 8 correspond to the largest values of ρc for which
+of electron-phonon scattering at low T from the previously de-           dP/dρ < c2 (2.18 × 1015 g cm−3 for BSk19 and BSk20, and
+veloped code (Gnedin et al. 2001), since Chugunov (2012) has             2.73 × 1015 g cm−3 for BSk21). At higher densities the EoS be-
+shown that the normal processes have no effect under the condi-          comes superluminal. The fit (3) and its first derivative determine
+tions in a neutron-star crust. Figure 7 shows that the BSk models        these densities with accuracies within 2%. The corresponding
+predict typically 1.5 – 2 times higher conductivity σ in the in-         stellar masses determined from the fit and from the tables agree
+ner crust, than the SC model. On the other hand, this difference         to ∼ 0.1%. Note that the EoS BSk20 becomes superluminal be-
+in σ can be removed by allowing a modest impurity parameter              fore the limit of hydrostatic stability is reached. Configurations
+Zimp = h(Z − hZi)2 i1/2 ∼ 3. The difference between the BSk              with higher ρc , corresponding to 2.14 M⊙ < M < Mmax and
+and SC models increases near the bottom of the crust, where the          shown by the dashed curve in Fig. 8, cannot be fully trusted (see,
+BSk models (unlike SC) provide a continuous transition to the            e.g., Haensel et al. 2007, § 5.15, for a discussion)
+uniform nuclear matter in the stellar core. The conductivity is              The minimum neutron-star masses are 0.093 M⊙, 0.090 M⊙,
+also almost continuous at the neutron drip density in the BSk            and 0.087 M⊙ for the models BSk19, BSk20, and BSk21, with
+
+10
+                                  A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+
+
+
+Fig. 8. Top panels: gravitational mass (in solar masses) versus circumferential radius of nonrotating neutron stars for the EoSs
+BSk19-20-21 (dots) and their analytical representations from Eq. (3) (lines). The solid and dotted parts of the lines correspond
+to the hydrostatically stable and unstable configurations, respectively. The dashed segment in the middle panel corresponds to
+superluminal EoS at the stellar center. The crosses mark the threshold beyond which the EoS becomes superluminal. The middle and
+bottom panels show respectively a zoom around the maximum neutron-star mass and the low mass region where the discrepancies
+are the largest.
+
+
+discrepancies between the original data and the fit ∼ 0.7%, 0.1%,        tate the checks of this kind. In this respect, it is worth noting
+and 0.03%, respectively. The radii of neutron stars with the mass        that the effective nucleon masses m∗n and m∗p , which are needed
+of 1.4 M⊙ are R = 10.74 km, 11.74 km, and 12.57 km, with                 for cooling simulations, are readily obtained in analytical form
+discrepancies between the original data and the fit of ∼ 0.1%,           from Eq. (A10) of Chamel et al. (2009), using the appropriate
+∼ 0.02%, and ∼ 0.2%. The discrepancies in the circumferential            parameter set given in Goriely et al. (2010).
+radii (R = 11.5 km, 11.9 km, and 12.4 km) of neutron stars with              Similarly, we have analyzed the structure of a neutron
+M = 0.5 M⊙ are also smaller than 0.2% for all three EoSs.                star rotating at a frequency of 716 Hz, equal to the fre-
+                                                                         quency of PSR J1748−2446ad, the fastest-spinning pulsar
+    As mentioned in § 4.1 the triangle condition for the durca           known (Hessels et al. 2006). For this purpose we used the
+processes can be fulfilled for BSk20 and BSk21 models at nb >            Lorene/Codes/Nrotstar/nrotstar code from the public li-
+ndurca . The threshold ndurca cannot be reached in a stable neutron      brary lorene.2 We have generated tables of the analytical EoSs
+star in frames of the model BSk20, but it is reached for neutron         from Eq. (8) and used them as an input in the nrotstar code.
+stars with M > 1.59 M⊙ in the model BSk21. The latter mass               The results obtained using the original EoSs and their analytical
+value, first obtained by Chamel et al. (2011), is reproduced by          representations are shown in Fig. 9. Here we plot only the sta-
+the present fit with a discrepancy of 0.3%. Chamel et al. (2011)         ble stellar configurations that are described by subluminal EoSs.
+noted that all three EoSs are compatible with the constraint that        The relative differences in the maximum neutron-star masses are
+no durca process should occur in neutron stars with masses 1 –           of similar magnitudes to those found for static neutron stars,
+1.5 M⊙ (Klähn et al. 2006). On the other hand, according to the         namely ∼ 0.03%, ∼ 0.08% and ∼ 0.2% for the EoSs BSk19,
+analysis of Yakovlev et al. (2008), the situation where the most         BSk20, and BSk21. The errors in the radii of 1 M⊙ neutron stars
+massive neutron stars with nucleon superfluidity in the core ex-         are ∼ 0.1%, ∼ 0.09%, and ∼ 0.5%, respectively.
+perience enhanced cooling due to the durca processes appears in              All in all, the discrepancies lie far below the ob-
+a better agreement with observations than the complete absence           servational uncertainties and therefore they do not af-
+of such processes in any stars. Thus the model BSk21 may bring
+the cooling theory in a better agreement with observations than            2
+                                                                             Langage Objet pour la Relativité Numérique,
+the other models. The fitting formulae presented above facili-           http://www.lorene.obspm.fr/
+
+
+                                                                                                                                       11
+                                              A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+                                             BSk19                                     BSk20                                 BSk21
+                            2.5                                       2.5                                  2.5
+
+                 M [Msun]    2                                         2                                    2
+
+                            1.5                                       1.5                                  1.5
+
+                             1              table
+                                                                       1                                     1
+                                            fit
+                            0.5                                       0.5                                  0.5
+
+                             0                                         0                                    0
+                                  9   10 11 12 13 14                        9   10 11 12 13 14                   9     10 11 12 13 14
+                                                                      2.3
+              M [Msun]
+
+
+
+
+                         1.88                                       2.2                                    2.3
+                         1.86                                         2.1
+                         1.84                                           2                                 2.2
+                                      9.2           9.6          10             10.8           11.2                   11.2    11.6        12
+                                                                      1.1                                 1.3
+                             1
+                 M [Msun]
+
+
+
+
+                                                                       1                                  1.2
+                            0.9                                                                           1.1
+                            0.8                                       0.9                                   1
+                            0.7                         0.8                                               0.9
+                               12 12.2 12.4 12.6 12.8 13 13                      13.2    13.4          13.6           14      14.4    14.8
+                                        R [km]                                      R [km]                                   R [km]
+Fig. 9. Top panels: gravitational mass (in solar masses) versus circumferential radius of rotating neutron stars (rotation frequency
+716 Hz) for the EoSs BSk19-20-21 (dots) and their analytical representations from Eq. (8) (solid lines). The middle and bottom
+panels show respectively a zoom around the maximum neutron-star mass and the low mass region where the discrepancies are the
+largest.
+
+
+fect the comparison with observational data. In comput-                                  4
+ing the neutron star configurations, we have checked the                                                    BSk19
+violations of the general-relativistic virial identities GRV2                                               BSk20
+                                                                                                            BSk21
+(Bonazzola 1973; Bonazzola & Gourgoulhon 1994) and GRV3                                    3                SLy4
+(Gourgoulhon & Bonazzola 1994). The absolute deviations lie
+between 10−3 and 10−6 thus confirming the high precision of the
+analytical representation of the EoSs.
+                                                                                         2
+                                                                                       Γ
+
+
+
+
+7. Conclusions
+We constructed analytical representations, in terms of the contin-
+                                                                                           1
+uous and differentiable functions of a single chosen variable, of
+three recently developed equations of state BSk19, BSk20, and
+BSk21 (Pearson et al. 2011, 2012). We considered two choices
+of the independent variable. The first one is the mass density ρ.                        0
+Then Eq. (3) gives function P(ρ), which fits the numerical EoS                           10           11         12          13      14        15       16
+                                                                                                                                  -3
+tables at 106 g cm−3 < ρ . 2 × 1016 g cm−3 with a typical er-                                                          log ρ [g cm ]
+ror of ∼ 1%. The baryon number density nb can be calculated
+from Eq. (1) to satisfy exactly the first law of thermodynamics.
+Alternatively, nb can be evaluated using our fit (7). A variant is                     Fig. 10. Adiabatic index Γ for SLy4 and BSk EoSs.
+to choose nb as an independent variable and calculate ρ(nb ) from
+the fit (6) and P(ρ(nb )) from Eq. (3). Then, if necessary, ρ can be
+corrected using the first integral relation in Eq. (1).                                which is included in the computer code that realizes the fit.
+    Differentiation of P(ρ) then yields analytical representations                     Different regions of neutron-star interior are characterized by
+of the adiabatic index                                                                 distinct behavior of Γ as discussed, e.g., in Haensel & Potekhin
+                "          #                                                           (2004). This behavior remains qualitatively the same for differ-
+      nb dP            P ρ dP                                                          ent EoSs, but quantitative differences can be significant, as illus-
+Γ=            = 1+ 2             ,                              (22)                   trated in Fig. 10.
+      P dnb          ρc P dρ
+
+12
+                                          A. Y. Potekhin et al.: Analytical equations of state for neutron-star matter
+
+    The other choice of the independent variable is the pseudo-                       Fantina, A. F., Chamel, N., Pearson, J. M., & Goriely, S. 2012, J. Phys.: Conf.
+enthalpy H, Eq. (2). This choice is particularly advantageous for                         Ser., 342, 012003
+simulations of neutron-star dynamics. We represented the EoSs                         Friedman, B., & Pandharipande, V. R. 1981, Nucl. Phys. A, 361, 502
+                                                                                      Gale, C., Welke, G. M., Prakash, M., Lee, S. J., & Das Gupta, S. 1990,
+by the continuous and differentiable functions P(H), ρ(H), and                            Phys. Rev. C, 41, 1545
+n(H), where ρ(H) is given by Eq. (8) with typical accuracy ∼                          Gnedin, O. Y., Yakovlev, D. G., & Potekhin, A. Y. 2001, MNRAS, 324, 725
+1%, while P(H) and nb (H) are calculated from the functions P(ρ)                      Goriely, S., Chamel, N., & Pearson, J. M. 2010, Phys. Rev. C, 82, 035804
+and nb (ρ), respectively.                                                             Goriely, S., Chamel, N., & Pearson, J. M. 2013, Phys. Rev. C, 88, 024308
+                                                                                      Gourgoulhon, E., & Bonazzola, S. 1994, Class. Quantum Grav., 11, 443
+    We also obtained analytical representations of number frac-                       Haensel, P. 1995, Space Sci. Rev., 74, 427
+tions of neutrons, protons, electrons and muons in the inner crust                    Haensel, P., & Pichon, 1994, A&A, 283, 313
+and the core, and nuclear shape parameters in the inner crust                         Haensel, P., & Potekhin, A. Y. 2004, A&A, 498, 191
+of a neutron star as functions of nb . These results can be used,                     Haensel, P., & Proszynski, M. 1982, ApJ, 258, 306
+e.g., for neutron-star cooling simulations. As an application, we                     Haensel, P., & Zdunik, J. L. 1990, A&A, 229, 117
+                                                                                      Haensel, P., & Zdunik, J. L. 2003, A&A, 404, L33
+calculate electron conductivities in the crust with the use of the                    Haensel, P., Potekhin, A. Y., & Yakovlev, D. G. 2007, Neutron Stars 1: Equation
+BSk models. Compared to the results of the smooth-composition                             of State and Structure (New York: Springer)
+model (Gnedin et al. 2001), we find that the BSk models yield                         Hameury, J. M., Heyvaerts, J., & Bonazzola, S. 1983, A&A, 121, 259
+appreciably higher electrical conductivities in the inner crust of                    Hessels, J. W. T., Ransom, S. M., Stairs, I. H., et al. 2006, Science, 311, 1901
+                                                                                      Hughto, J., Schneider, A. S., Horowitz, C. J., & Berry, D. K. 2011, Phys. Rev. E,
+a neutron star.                                                                           84, 016401
+    Finally, we estimated the errors introduced in the fitting for-                   Kaminker, A. D., Pethick C. J., Potekhin A. Y., Thorsson V., & Yakovlev D. G.
+mulae on global neutron-star properties and showed that they lie                          1999, A&A, 343, 1009
+far below the observational uncertainties and therefore they do                       Klähn, T., Blaschke, D., Typel, S., et al. 2006, Phys. Rev. C, 74, 035802
+                                                                                      Lattimer, J. M. 2012, Annu. Rev. Nucl. Particle Sci., 62, 485
+not affect the comparison of theoretical models with observa-                         Lattimer, J. M., & Lim, Y. 2013, ApJ, 771, 51
+tional data.                                                                          Lattimer, J. M., Pethick, C. J., Prakash, M., & Haensel, P. 1991, Phys. Rev. Lett.,
+    The present work is mainly aimed at astrophysicists as they                           66, 2701
+do not have to perform nuclear physics calculations for simula-                       Li, Z. H., & Schulze, H. J. 2008, Phys. Rev. C, 78, 028801
+tions of neutron-star structure and evolution. When required, the                     Onsi, M., Dutta, A. K., Chatri, H., et al. 2008, Phys. Rev. C, 77, 065805
+                                                                                      Oyamatsu, K. 1993, Nucl. Phys. A, 561, 431
+same method of constructing analytical approximations can be                          Page, D., Geppert, U., & Weber, F. 2006, Nucl. Phys. A, 777, 497
+applied to other EoSs (see, e.g., Haensel et al. 2007 and Lattimer                    Pandharipande, V. R., & Ravenhall, D. G. 1989, in Nuclear Matter and Heavy Ion
+2012, for references).                                                                    Collisions, NATO ADS Ser., vol. B205, ed. M. Soyeur, H. Flocard, B. Tamain,
+                                                                                          & M. Porneuf (Dordrecht: Reidel), 103
+Acknowledgements. The work of A.Y.P. was partially supported by the Ministry          Pearson, J. M., Goriely, S., Chamel, N., Samyn, M., & Onsi, M. 2009, in Bulk
+of Education and Science of the Russian Federation (Agreement No. 8409,                   Nuclear Properties: 5th ANL/MSU/JINA/INT FRIB Workshop, AIP Conf.
+2012), the Russian Foundation for Basic Research (RFBR grant 11-02-00253-                 Proc., ed. P. Danielewicz, 1128, 29
+a), the Russian Leading Scientific Schools program (grant NSh-4035.2012.2),           Pearson, J. M., Goriely, S., & Chamel, N. 2011, Phys. Rev. C, 83, 065810
+and the Programme National de Physique Stellaire (CNRS/INSU, France). The             Pearson, J. M., Chamel, N., Goriely, S., & Ducoin, C. 2012, Phys. Rev. C, 85,
+work of A.F.F., N.C. and S.G. was supported by FNRS (Belgium). The work of                065803
+J.M.P. was supported by the NSERC (Canada).                                           Pérez-Azorin, J. F., Miralles, J. A., & Pons, J. A. 2006, A&A, 451, 1009
+                                                                                      Piekarewicz, J., Agrawal, B. K., Colò, G., et al. 2012, Phys. Rev. C, 85, 041302
+                                                                                      Pons, J. A., Miralles, J. A., & Geppert, U. 2009, A&A, 496, 207
+                                                                                      Potekhin, A. Y., & Yakovlev, D. G. 2001, A&A, 374, 213
+References                                                                            Potekhin, A. Y., Baiko, D. A., Haensel, P., & Yakovlev, D. G. 1999, A&A, 346,
+Aguilera, D. N., Cirigliano, V., Pons, J. A., Reddy, S., & Sharma, R. 2009,               345
+   Phys. Rev. Lett., 102, 091101                                                      Reinhard, P. G. & Nazarewicz, W. 2010, Phys. Rev. C, 81, 051303
+Akmal, A., Pandharipande, V. R., & Ravenhall D. G. 1998, Phys. Rev. C, 58,            Rogers, F. J., Swenson, F. J., & Iglesias, C. A. 1996, ApJ, 456, 902
+   1804                                                                               Shternin, P. S., & Yakovlev, D. G. 2006, Phys. Rev. D, 74, 043004
+Audi, G., Wapstra, A. H., & Thibault, C. 2003, Nucl. Phys. A, 729, 337                Shternin, P. S., Yakovlev, D. G., Haensel, P., & Potekhin, A. Y. 2007, MNRAS,
+Baym G., Pethick, C., & Sutherland P. 1971, ApJ, 170, 299                                 382, L43
+Bisnovatyi-Kogan, G. S., & Romanova, M. M. 1982, Sov. Phys. JETP, 56, 243             Steiner, A. W., & Gandolfi, S. 2012, Phys. Rev. Lett., 108, 081102
+Bonazzola, S. 1973, ApJ, 182, 335                                                     Stergioulas,      N. 2003,        Living     Rev.    Relativity,   6, 3,      URL
+Bonazzola, S., Gourgoulhon, E., Salgado, M., & Marck, J. A. 1993, A&A, 278,               http://www.livingreviews.org/lrr-2003-3/
+   421                                                                                Trippa, L., Colò, G. & Vigezzi, E. 2008, Phys. Rev. C, 77, 061304
+Bonazzola, S., & Gourgoulhon, E. 1994, Class. Quantum Grav., 11, 1775                 Tsang, M. B., Stone, J. R., Camera, F., et al. 2012, Phys. Rev. C, 86, 015803
+Carbone, A., Colò, G., Bracco, A., et al. 2010, Phys. Rev. C, 81, 041301             Tsang M. B., Zhang, Y., Danielewicz, P., et al. 2009, Phys. Rev. Lett., 102,
+Cackett E. M., Brown E. F., Cumming, A., et al. 2010, ApJ, 722, L137                      122701
+Centelles, M., Roca-Maza, X., Viñas, X., & Warda, M. 2009, Phys. Rev. Lett.,         Yakovlev, D. G., & Pethick, C. J. 2004, ARA&A, 42, 169
+   102, 122502                                                                        Yakovlev, D. G., Gnedin, O. Y., Kaminker, A. D., & Potekhin, A. Y. 2008, in 40
+Chamel, N. 2010, Phys. Rev. C, 82, 014313                                                 Years of Pulsars: Millisecond Pulsars, Magnetars and More, AIP Conf. Proc.,
+Chamel, N. 2012, Phys. Rev. C, 85, 035801                                                 eds. C. Bassa, Z. Wang, A. Cumming, & V. M. Kaspi, 983, 379
+Chamel, N., Goriely, S., & Pearson, J. M. 2009, Phys. Rev. C, 80, 065804              Warda, M., Viñas, X., Roca-Maza, X., & Centelles, M. 2009, Phys. Rev. C, 80,
+Chamel, N., Fantina, A. F., Pearson, J. M., & Goriely, S. 2011, Phys. Rev. C, 84,         024316
+   062802(R)
+Chen, L.-W., Cai, B.-J., Ko, C. M., et al. 2009, Phys. Rev. C, 80, 014322
+Chen, L.-W., Ko, C. M., Li, B.-A., & Xu, J. 2010, Phys. Rev. C, 82, 024321
+Chugunov, A. I. 2012, Astron. Lett., 38, 25
+Chugunov, A. I., & Haensel, P. 2007, MNRAS, 381, 1143
+Colò, G., van Giai, N., Meyer, J., Bennaceur, K., & Bonche, P. 2004,
+   Phys. Rev. C, 70, 024307
+Danielewicz, P., Lacey, R., & Lynch, W. G. 2002, Science, 298, 1592
+Danielewicz, P., & Lee, J. 2009, Int. J. Mod. Phys. E, 18, 892
+Daoutidis, I., & Goriely, S. 2011, Phys. Rev. C, 84, 027301
+Douchin, F., & Haensel, P., 2000, Phys. Lett. B, 485, 107
+Douchin, F., & Haensel, P., 2001, A&A, 380, 151
+Dutra, M., Lourenço, O., Sá Martins, J. S., et al. 2012, Phys. Rev. C, 85, 035201
+
+
+                                                                                                                                                                      13
+

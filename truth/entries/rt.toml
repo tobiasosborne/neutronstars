@@ -1,0 +1,832 @@
+# truth/entries/rt.toml: radiative transfer and atmosphere-solver ground truth (proposed; harvested by the rt lane).
+
+[[entry]]
+id = "rt.notation-mcphac"
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:82"
+kind = "notation"
+domain = "rt"
+name = "McPHAC plane-parallel RT notation (Haakonsen 2012)"
+statement = "Symbols used by the McPHAC unmagnetised plane-parallel transfer, structure and temperature-correction equations. mu is the positive cosine of the angle to the outward normal; outgoing intensity is I(y,mu) and ingoing is I(y,-mu)."
+symbols = [
+  { sym = "\\mu", sym_source = "μ", aliases = ["μ"], meaning = "cosine of the angle between a ray and the outward surface normal (positive); ingoing rays are written with -μ", units = "1" },
+  { sym = "I_\\nu(m,\\mu)", sym_source = "I_ν(y,μ)", meaning = "specific intensity of outgoing radiation at column depth y, frequency ν, direction μ", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "I_\\nu(m,-\\mu)", sym_source = "I_ν(y,-μ)", meaning = "specific intensity of ingoing radiation (direction -μ)", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "P_\\nu(m,\\mu)", sym_source = "P_ν(y,μ)", meaning = "Feautrier variable: half the sum of outgoing and ingoing specific intensity, (I(y,μ)+I(y,-μ))/2", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "m", sym_source = "y_col", aliases = ["y", "y_col"], meaning = "column density (mass per unit area above the point), dm = -rho dz", meaning_source = "column depth y (mass of material per unit area above the point); written y in McPHAC", units = "g cm^-2" },
+  { sym = "g", sym_source = "g_s", aliases = ["g_s", "g_surf"], meaning = "surface gravity (local proper) g = GM/(R^2 sqrt(1 - r_g/R)), taken uniform through the atmosphere", meaning_source = "surface gravity, taken uniform through the atmosphere", units = "cm s^-2" },
+  { sym = "P_g", sym_source = "P(y)", aliases = ["P", "P(y)", "P_gas"], meaning = "gas pressure (electrons plus ions)", meaning_source = "gas pressure at column depth y", units = "dyn cm^-2" },
+  { sym = "\\tau_\\nu", sym_source = "τ_ν", meaning = "effective normal optical depth, dτ_ν = k_ν dy", units = "1" },
+  { sym = "\\kappa_\\nu", sym_source = "κ_ν", aliases = ["kappa_nu", "κ_ν"], meaning = "B = 0 true-absorption opacity at photon frequency nu (free-free for fully ionised hydrogen; McPHAC also allows other absorption processes)", meaning_source = "true absorption opacity (free-free for fully ionised H)", units = "cm^2 g^-1" },
+  { sym = "\\sigma_{T,r}", sym_source = "σ_T,r", aliases = ["sigma_T_r", "σ_T,r"], meaning = "reduced Thomson scattering opacity of McPHAC (per gram, includes the ionisation fraction)", meaning_source = "reduced Thomson scattering opacity", units = "cm^2 g^-1" },
+  { sym = "k_\\nu", sym_source = "k_ν", meaning = "total opacity k_ν = κ_ν + σ_T,r (called total absorption opacity in the paper)", units = "cm^2 g^-1" },
+  { sym = "\\varpi_\\nu", sym_source = "ρ_ν", aliases = ["ρ_ν"], meaning = "dimensionless scattering albedo σ_T,r/(κ_ν+σ_T,r) = σ_T,r/k_ν (not mass density)", units = "1" },
+  { sym = "B_\\nu(T)", sym_source = "B_ν(T)", meaning = "blackbody (Planck) intensity at temperature T", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "S_\\nu(m,\\mu)", sym_source = "S_ν(y,μ)", meaning = "source function", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "d\\sigma_{T,r}/d\\mu'(\\mu,\\mu')", sym_source = "dσ_T,r/dμ′(μ,μ′)", meaning = "differential amount of scattering from directions μ′ into directions μ", units = "cm^2 g^-1" },
+  { sym = "\\mu_q", sym_source = "μ_j", aliases = ["μ_j"], meaning = "Gauss-Legendre angle nodes on (0,1); M of them", units = "1" },
+  { sym = "a_q", sym_source = "a_j", aliases = ["a_j"], meaning = "Gauss-Legendre weights on (0,1); M of them", units = "1" },
+  { sym = "J_\\nu", sym_source = "J_ν", meaning = "mean specific intensity, integral over 0..1 of P_nu dmu; the moment-equation J_nu equals the transfer-solution mean only as the temperature correction vanishes (McPHAC)", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "f_\\nu", sym_source = "f_ν", meaning = "Eddington factor (second moment of P_ν over J_ν)", units = "1" },
+  { sym = "h_\\nu", sym_source = "h_ν", meaning = "surface Eddington factor (first moment of P_ν over J_ν)", units = "1" },
+  { sym = "k_R", meaning = "Rosseland mean total absorption opacity", units = "cm^2 g^-1" },
+  { sym = "T_s", sym_source = "T_eff,atm", meaning = "local effective surface temperature in the local reference frame at the stellar surface", meaning_source = "target effective temperature of the plane-parallel atmosphere (sets the flux sigma T_eff^4)", units = "K" },
+  { sym = "T^{(0)}", sym_source = "T0(y)", aliases = ["T_0(y)", "T0"], meaning = "present best-guess temperature profile T_0(y) of the iteration, T = T_0 + Delta T", units = "K" },
+  { sym = "\\Delta T", sym_source = "ΔT", meaning = "temperature correction Delta T(y), T(y) = T_0(y) + Delta T(y)", units = "K" },
+]
+conflicts_with = ["colour.notation-chromaticity", "colour.notation-reinhard-parameters", "const.notation-fundamental", "eos.notation-electron-gas", "gr.notation-geometry", "opacity.notation-particles-plasma", "rt.notation-cond-emissivity-fit", "rt.notation-spw09", "rt.notation-vacuum", "rt.notation-val"]
+adopted = true
+adopted_syms = ["mu", "k", "tau", "S"]
+conflict_notes = ["mu: RT direction cosine keeps \\mu. Bel02 mu = cos psi -> \\cos\\psi; PY01 chemical potential -> \\mu_e; PC03 reduced mass -> \\mu_{red}.", "rho: Mass density keeps \\rho. McPHAC albedo rho_nu -> \\varpi_\\nu.", "k: McPHAC k_nu (B = 0 total opacity) keeps k_\\nu. SPW09 k_nu^i (mode absorption) -> \\kappa^a_j; CODATA k -> k_B.", "tau: Monochromatic optical depth keeps \\tau_\\nu. VAL06 Thomson depth tau -> \\tau_T.", "j: j is the normal-mode index (1 = X, 2 = O). McPHAC angle-node index j -> q; Pot12 linear-polarisation index j -> l (m -> l'), Pot12 mode index M -> j.", "y: Chromaticity keeps x, y, z. Reinhard pixel position -> (x_{pix},y_{pix}); McPHAC column depth y -> m.", "S: S_nu is the source function. Bel02 visible area S_v -> S_{vis}; VAL06 stimulated-emission factor S -> S_{stim}."]
+source = "haakonsen_2012_mcphac"
+locator = "Sects. 2–3.4, eqs. 1–7, 10, 19–22; Appendix A, eq. A4"
+anchor = "for outgoing (Iν (y, μ)) and ingoing (Iν (y, −μ)) specific inten-"
+ocr = "good"
+status = "blessed"
+notes = "Units of y, opacities and gs follow the paper (g cm^-2, cm^2 g^-1, cgs). The same quantity as g_s appears as g in SPW09 and VAL06. The paper uses rho_nu for the albedo; project notation must not reuse it for density."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator widened per reviewer (H:155-223, 260-293, 359-371, 405-418, 1107-1115)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches H:160; locator expanded to cover definitions." }]
+
+[[entry]]
+id = "rt.notation-spw09"
+kind = "notation"
+domain = "rt"
+name = "Two-mode RT notation (Suleimanov, Potekhin, Werner 2009)"
+statement = "Symbols of the SPW09 hydrostatic, two-mode transfer, energy-balance and temperature-correction equations. Index i = 1,2 labels the polarisation mode; mu = cos theta is the cosine of the angle between the photon direction and the surface normal n and takes values in [-1,1]."
+symbols = [
+  { sym = "\\theta", sym_source = "θ", aliases = ["\\theta_k", "theta^(i)", "θ"], meaning = "polar angle between the photon wave vector k and the local outward surface normal n; mu = cos theta (Pot12 theta_k is a folded incidence parameter: it equals theta for outgoing rays and pi - theta for incident rays)", meaning_source = "polar angle between photon wave vector k and surface normal n (μ = cos θ)", units = "rad" },
+  { sym = "\\varphi_k", sym_source = "φ", aliases = ["\\varphi_{k}", "phi", "φ"], meaning = "azimuthal angle of the photon wave vector about the surface normal, measured from the plane containing B and the normal", meaning_source = "azimuthal angle (in the inclined-field version, between the projected B and k, as shown in Fig. 1)", units = "rad" },
+  { sym = "\\theta_{Bn}", sym_source = "θ_Bn", aliases = ["Theta", "\\Theta_B", "\\theta_B^{(n)}", "θ_Bn"], meaning = "angle between the magnetic field B and the local surface normal n", meaning_source = "angle θ_B between magnetic field B and surface normal n", units = "rad" },
+  { sym = "\\theta_{kB}", sym_source = "α_Bk", aliases = ["theta_B", "α_Bk", "θ_kB"], meaning = "angle between the photon wave vector k and the magnetic field B", meaning_source = "angle α between B and wave vector k (equals θ when B is along n); same quantity as θ_kB in VAL06", units = "rad" },
+  { sym = "j", sym_source = "i", aliases = ["i", "j"], meaning = "normal-mode index, j = 1 extraordinary (X), j = 2 ordinary (O)", units = "1" },
+  { sym = "I_\\nu^j", sym_source = "I_ν^i(μ,φ)", aliases = ["I^(j)_nu", "I_ν^i(μ,φ)", "I_ν^j(τ,±μ)"], meaning = "specific intensity in normal mode j (j = 1 X, 2 O) as a function of depth and direction; +mu outgoing, -mu ingoing", meaning_source = "specific intensity in mode i", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "m", aliases = ["y", "y_col"], meaning = "column density (mass per unit area above the point), dm = -rho dz", meaning_source = "column density, dm = -ρ dz", units = "g cm^-2" },
+  { sym = "\\rho", sym_source = "ρ", aliases = ["rho", "rho_gas", "ρ"], meaning = "mass density (TOV/EOS: gravitational mass density = energy density/c^2; atmosphere/opacity: plasma mass density, equal to it up to O(k_B T/(m_u c^2)))", meaning_source = "gas density", units = "g cm^-3" },
+  { sym = "z_{vert}", sym_source = "z_vert", meaning = "vertical distance z in the atmosphere (SPW09)", units = "cm" },
+  { sym = "P_g", aliases = ["P", "P(y)", "P_gas"], meaning = "gas pressure (electrons plus ions)", meaning_source = "gas pressure", units = "dyn cm^-2" },
+  { sym = "g", sym_source = "g_surf", aliases = ["g_s", "g_surf"], meaning = "surface gravity (local proper) g = GM/(R^2 sqrt(1 - r_g/R)), taken uniform through the atmosphere", meaning_source = "surface gravitational acceleration GM_NS/(R_NS^2 sqrt(1-R_S/R_NS)) as used in the atmosphere (g in SPW09; same quantity as g_s in McPHAC)", units = "cm s^-2" },
+  { sym = "g_{rad}", sym_source = "g_rad", meaning = "radiative acceleration", units = "cm s^-2" },
+  { sym = "M", sym_source = "M_NS", aliases = ["M_NS"], meaning = "total gravitational stellar mass, M = M_R", units = "g" },
+  { sym = "R", sym_source = "R_NS", aliases = ["R_NS"], meaning = "stellar (circumferential) radius", units = "cm" },
+  { sym = "r_g", sym_source = "R_S", aliases = ["R_S"], meaning = "Schwarzschild radius 2GM/c^2 of the star", units = "cm" },
+  { sym = "\\kappa^a_j", sym_source = "k_ν^i", aliases = ["k_ν^i", "kappa^abs_j", "kappa_a_j", "κ_j^abs", "κ_j^ff"], meaning = "true-absorption (free-free for fully ionised H) opacity of normal mode j; depends on direction through theta_kB", meaning_source = "true absorption opacity in mode i (depends on μ, φ)", units = "cm^2 g^-1" },
+  { sym = "\\kappa^s_j", sym_source = "σ_ν^i", aliases = ["kappa_s_j", "κ_j^sc", "σ_ν^i"], meaning = "total scattering opacity out of normal mode j, kappa^s_{j1} + kappa^s_{j2}; depends on direction through theta_kB", meaning_source = "electron-scattering opacity out of mode i (depends on μ, φ)", units = "cm^2 g^-1" },
+  { sym = "d\\kappa^s_{ji}/d\\Omega", sym_source = "σ_ν^ij(μ,φ;μ′,φ′)", meaning = "differential scattering opacity from mode j direction (mu',phi') into mode i direction (mu,phi); under SPW09 definitions dkappa^s_{ji}/dOmega = sigma_nu^{ij}/(2 pi), not sigma_nu^{ij} itself", units = "cm^2 g^-1 sr^-1" },
+  { sym = "\\tau_\\nu^j", sym_source = "τ_ν^i", meaning = "optical depth in mode i, dτ_ν^i = (k_ν^i+σ_ν^i) dm", units = "1" },
+  { sym = "S_\\nu^j", sym_source = "S_ν^i", aliases = ["S_ν^i", "S_ν^j(μ)"], meaning = "source function of normal mode j", meaning_source = "source function in mode i", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "\\eta_\\nu^j", sym_source = "η_ν^i", meaning = "emissivity in mode i, per unit mass-column normalisation of eq. 10", units = "erg s^-1 g^-1 Hz^-1 sr^-1" },
+  { sym = "H_\\nu", sym_source = "H_ν(m)", aliases = ["H_ν(m)"], meaning = "Eddington flux at column density m", units = "erg s^-1 cm^-2 Hz^-1" },
+  { sym = "H_0", meaning = "σT_eff^4/(4π), the required Eddington flux integrated over frequency", units = "erg s^-1 cm^-2" },
+  { sym = "\\varepsilon_H", sym_source = "ε_H(m)", meaning = "relative flux error 1 - H_0/∫H_ν dν", units = "1" },
+  { sym = "\\varepsilon_\\Lambda", sym_source = "ε_Λ(m)", meaning = "energy-balance error as a function of depth", units = "erg s^-1 g^-1" },
+  { sym = "\\Lambda^j_{\\nu,diag}", sym_source = "Λ^i_ν,diag", meaning = "diagonal element of the Λ operator for mode i, a function of the mean optical depth", units = "1" },
+  { sym = "\\varpi_\\nu^j", sym_source = "α_ν^i", aliases = ["α_ν^i"], meaning = "scattering albedo of mode i from averaged opacities, σ̄/(k̄+σ̄)", units = "1" },
+  { sym = "\\Delta T_\\Lambda", sym_source = "ΔT_Λ", meaning = "temperature correction from the integral Λ-iteration", units = "K" },
+  { sym = "E_V", sym_source = "E_V(ρ)", aliases = ["E_V (VAL06)", "E_V(ρ)"], meaning = "photon energy of the vacuum resonance (plasma and vacuum contributions to the dielectric tensor cancel) at given B and rho", meaning_source = "photon energy of the vacuum resonance at given B and ρ", units = "keV" },
+  { sym = "E_{ci}", sym_source = "E_ci", aliases = ["E_Bi", "E_ci", "E_{Bi}"], meaning = "ion cyclotron energy hbar omega_ci = hbar Z e B/(A m_u c) = 0.635 (Z/A) B_14 keV", meaning_source = "ion cyclotron energy, 0.635 keV (B/10^14 G)(Z/A)", units = "keV" },
+]
+conflicts_with = ["const.notation-atomic", "const.notation-fundamental", "eos.notation-bsk-fit", "gr.notation-geometry", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "obs.notation-rxj1856-spectral", "opacity.notation-modes-polarization", "opacity.notation-opacity-symbols", "opacity.notation-particles-plasma", "rt.notation-cond-emissivity-fit", "rt.notation-cond-energies-geometry", "rt.notation-cond-matter-dielectric", "rt.notation-mcphac", "surface.notation-geometry"]
+adopted = true
+adopted_syms = ["theta", "rho", "j", "eta", "g", "H"]
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "phi: Bel02 surface-element azimuth about the line of sight keeps \\phi. Pech83 orbit-plane azimuth -> \\phi_{orb}; SPW09/Pot12 photon azimuth about the normal -> \\varphi_k; GH83 rotation phase -> \\phi_{rot}.", "theta: RT ray angle to the surface normal keeps \\theta (mu = cos theta). Schwarzschild polar coordinate (Bel02, Pech83) -> \\theta_{Sch}; GH83 line-of-sight colatitude -> \\theta_{los}; Pot12 theta_k merged into \\theta.", "theta_B: Magnetic colatitude keeps \\theta_B. PC03/PLCH04 k-B angle -> \\theta_{kB}; SPW09/Pot12/Ho07 field-normal angle -> \\theta_{Bn}.", "rho: Mass density keeps \\rho. McPHAC albedo rho_nu -> \\varpi_\\nu.", "k: McPHAC k_nu (B = 0 total opacity) keeps k_\\nu. SPW09 k_nu^i (mode absorption) -> \\kappa^a_j; CODATA k -> k_B.", "sigma: sigma is a cross section (cm^2). CODATA Stefan-Boltzmann sigma -> \\sigma_{SB}; SPW09 scattering opacity sigma_nu^i -> \\kappa^s_j, differential sigma_nu^ij -> d\\kappa^s_{ji}/d\\Omega.", "j: j is the normal-mode index (1 = X, 2 = O). McPHAC angle-node index j -> q; Pot12 linear-polarisation index j -> l (m -> l'), Pot12 mode index M -> j.", "eta: eta is an emissivity (\\eta_\\nu^j). BSk exp(H)-1 -> \\eta_{\\mathcal{H}}; vAL05/PLCH04 longitudinal dielectric element -> \\varepsilon_\\parallel.", "g: g is surface gravity. vAL05/PLCH04 gyrotropic dielectric element g -> \\varepsilon_\\wedge (PHC16 spelling); transverse element epsilon -> \\varepsilon_\\perp.", "H: H_nu is the Eddington flux. BSk pseudo-enthalpy H -> \\mathcal{H}."]
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "Sect. 2, eqs. 1-25"
+anchor = "the specific intensity in mode i, Pg is the gas pressure, and"
+ocr = "good"
+status = "blessed"
+notes = "The paper does not say which of i=1,2 is X or O in Sect. 2; VAL06 eq. 21 text assigns j=1 to X and j=2 to O for the K_j labelling. Units of eta and eps_Lambda are inferred from the equations (not printed in the paper); the paper prints g cm^-2 for m and cm^2 g^-1 for opacities (Figs. 2-4). sigma in eq. 18 is the Stefan-Boltzmann constant (not named in text)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Units of eta and eps_Lambda per S:223-230, 463-470; phi defined between projected B and k as in Fig. 1 (text at S:111-112 says n; Fig. 1 governs)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches S:138; emissivity/energy-error units and Fig. 1 phi confirmed." }]
+
+[[entry]]
+id = "rt.notation-val"
+kind = "notation"
+domain = "rt"
+name = "Two-mode RT with vacuum conversion notation (van Adelsberg & Lai 2006)"
+statement = "Symbols of the VAL06 mode transfer equation, flux constraints and source function. j labels the photon mode; mu = k.z >= 0 with +/-mu denoting outgoing/ingoing; tau is the Thomson optical depth."
+symbols = [
+  { sym = "\\tau_T", sym_source = "τ", aliases = ["τ"], meaning = "Thomson optical depth, dτ = -ρ κ_T dz", units = "1" },
+  { sym = "\\kappa_T", sym_source = "κ_T", meaning = "Thomson scattering opacity, 0.4 cm^2 g^-1", units = "cm^2 g^-1" },
+  { sym = "I_\\nu^j", sym_source = "I_ν^j(τ,±μ)", aliases = ["I^(j)_nu", "I_O", "I_X", "I_ν^i(μ,φ)", "I_ν^j(τ,±μ)"], meaning = "specific intensity in normal mode j (j = 1 X, 2 O) as a function of depth and direction; +mu outgoing, -mu ingoing", meaning_source = "specific intensity of mode j, outgoing (+μ) or ingoing (-μ)", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "\\kappa_j", sym_source = "κ_j^tot", aliases = ["kappa_j", "κ_j^tot"], meaning = "total extinction opacity of normal mode j, kappa^a_j + kappa^s_j", meaning_source = "total opacity of mode j, κ_j^ff + κ_j^sc", units = "cm^2 g^-1" },
+  { sym = "\\kappa^s_j", sym_source = "κ_j^sc", aliases = ["κ_j^sc"], meaning = "total scattering opacity out of normal mode j, kappa^s_{j1} + kappa^s_{j2}; depends on direction through theta_kB", units = "cm^2 g^-1" },
+  { sym = "\\kappa^s_{jj'}", sym_source = "κ_ji^sc", aliases = ["κ_ji^sc"], meaning = "scattering opacity kappa^s_{jj'} from mode j into mode j'", units = "cm^2/g" },
+  { sym = "\\kappa^a_j", sym_source = "κ_j^abs", aliases = ["k_ν^i", "kappa^abs_j", "kappa_a_j", "κ_j^abs", "κ_j^ff"], meaning = "true-absorption (free-free for fully ionised H) opacity of normal mode j; depends on direction through theta_kB", meaning_source = "absorption (free-free) opacity of mode j as used in the radiative-equilibrium constraint", units = "cm^2 g^-1" },
+  { sym = "S_\\nu^j", sym_source = "S_ν^j(μ)", aliases = ["S_ν^i", "S_ν^j(μ)"], meaning = "source function of normal mode j", meaning_source = "source function of mode j", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "J_\\nu^j", sym_source = "J_ν^j", meaning = "mean intensity of mode j, (1/2)∫_0^1 dμ [I(μ)+I(-μ)]", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "u_\\nu^j", sym_source = "u_ν^j", meaning = "specific energy density of mode j, (2π/c)∫_-1^1 dμ′ I_ν^j(μ′)", units = "erg cm^-3 Hz^-1" },
+  { sym = "F_{ph}", sym_source = "F_rad", aliases = ["F_rad"], meaning = "local radial photon energy flux density at the stellar surface", meaning_source = "constant radiative flux", units = "erg cm^-2 s^-1" },
+  { sym = "\\sigma_{SB}", sym_source = "σ_sb", aliases = ["sigma_SB", "σ", "σ_SB", "σ_sb"], meaning = "Stefan-Boltzmann constant", meaning_source = "Stefan-Boltzmann constant (F_rad = σ_sb T_eff^4)", units = "erg cm^-2 s^-1 K^-4", units_source = "erg s^-1 cm^-2 K^-4" },
+  { sym = "P_g", sym_source = "P_gas", aliases = ["P", "P(y)", "P_gas"], meaning = "gas pressure (electrons plus ions)", meaning_source = "pressure of electrons and ions (P in VAL06 eq. 7)", units = "dyn cm^-2" },
+  { sym = "E", aliases = ["E_{ph}"], meaning = "photon energy hbar omega", meaning_source = "photon energy", units = "keV" },
+  { sym = "\\theta_{kB}", sym_source = "θ_kB", aliases = ["theta_B", "α_Bk", "θ_kB"], meaning = "angle between the photon wave vector k and the magnetic field B", meaning_source = "angle between the magnetic field and the direction of photon propagation", units = "rad" },
+]
+conflicts_with = ["rt.notation-mcphac"]
+adopted = false
+conflict_notes = ["tau: Monochromatic optical depth keeps \\tau_\\nu. VAL06 Thomson depth tau -> \\tau_T."]
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "Sects. 2-3.1, eqs. 6-9, 30-34"
+anchor = "is the Thomson scattering opacity, τ is the Thomson optical"
+ocr = "good"
+status = "blessed"
+notes = "The paper writes mu (U+00B5) for the cosine; project canonical symbol is the Greek mu of rt.notation-mcphac. Energies are in keV as printed. VAL06 g (surface gravity) is the same quantity as g_s (McPHAC) and g (SPW09)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Definitions match V:291-332, 459-478, 517, 533-534; kappa_T is an opacity." }]
+
+[[entry]]
+id = "rt.notation-vacuum"
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:71"
+kind = "notation"
+domain = "rt"
+name = "Vacuum-resonance notation (van Adelsberg & Lai 2006)"
+statement = "Symbols of the vacuum-polarisation resonance and partial mode conversion: resonance energy and density, adiabatic energy, jump probability, ion and electron cyclotron energies and the scaled variables used in their formulae."
+symbols = [
+  { sym = "E_V", sym_source = "E_V (VAL06)", aliases = ["E_V (VAL06)", "E_V(ρ)"], meaning = "photon energy of the vacuum resonance (plasma and vacuum contributions to the dielectric tensor cancel) at given B and rho", meaning_source = "photon energy at which plasma and vacuum contributions to the dielectric tensor cancel (vacuum resonance)", units = "keV" },
+  { sym = "\\rho_V", sym_source = "ρ_V", aliases = ["rho_V", "ρ_V"], meaning = "density at which a photon of energy E meets the vacuum resonance", units = "g cm^-3" },
+  { sym = "E_{ad}", sym_source = "E_ad", meaning = "adiabatic energy; resonant conversion occurs when E >~ E_ad", units = "keV" },
+  { sym = "P_{jump}", sym_source = "P_jump", meaning = "non-adiabatic jump probability; 1-P_jump is the O<->X conversion probability", units = "1" },
+  { sym = "E_{ci}", sym_source = "E_Bi", aliases = ["E_Bi", "E_ci", "E_{Bi}"], meaning = "ion cyclotron energy hbar omega_ci = hbar Z e B/(A m_u c) = 0.635 (Z/A) B_14 keV", meaning_source = "ion cyclotron energy", units = "keV" },
+  { sym = "E_{ce}", sym_source = "E_Be", aliases = ["E_Be", "E_{Be}"], meaning = "electron cyclotron energy hbar omega_ce = hbar e B/(m_e c) = 1158 B_14 keV", meaning_source = "electron cyclotron energy, 1158 B_14 keV", units = "keV" },
+  { sym = "f_B", sym_source = "f_B (VAL06)", aliases = ["f_B (VAL06)"], meaning = "slowly varying function of B, f(B) ~ [3 delta_V/(q + m)]^(1/2) ~ 1 (Ho & Lai 2003, lines 444-457 of the local copy; VAL06 uses f_B ~ 1)", units = "1" },
+  { sym = "H_\\rho", sym_source = "H_ρ", meaning = "density scale height along the ray, |ds/d ln ρ|", units = "cm" },
+  { sym = "Y_e", sym_source = "Y_e (VAL06)", aliases = ["Y_e (VAL06)"], meaning = "electron fraction Z/A", meaning_source = "electron fraction Z/A, same quantity as Y_e in the opacity notation entries", units = "1" },
+  { sym = "\\rho_1", sym_source = "ρ_1", aliases = ["ρ_1"], meaning = "rho/(1 g cm^-3), dimensionless density", units = "1" },
+  { sym = "B_{14}", sym_source = "B_14", aliases = ["B_14"], meaning = "local magnetic field strength B/(10^14 G)", units = "1" },
+  { sym = "E_1", sym_source = "E_1", meaning = "photon energy E / (1 keV)", units = "1" },
+  { sym = "B_l", meaning = "approximate, energy- and temperature-dependent field scale above which the vacuum resonance lies between the X- and O-mode photospheres for typical photons (not a universal field threshold)", units = "G" },
+  { sym = "T_6", sym_source = "T_6", meaning = "T / (10^6 K)", units = "1" },
+  { sym = "S_{stim}", sym_source = "S", aliases = ["S"], meaning = "stimulated-emission factor S_stim = 1 - exp(-E/k_B T)", units = "1" },
+]
+conflicts_with = ["gr.notation-geometry", "rt.notation-mcphac"]
+adopted = false
+conflict_notes = ["S: S_nu is the source function. Bel02 visible area S_v -> S_{vis}; VAL06 stimulated-emission factor S -> S_{stim}."]
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "Sect. 2, eqs. 1-5"
+anchor = "where θkB is the angle between the magnetic field and direction of propagation,"
+ocr = "good"
+status = "blessed"
+notes = "Z, A are atomic number and mass number. s is the path length along the ray. The (VAL06) suffixes on E_V, f_B, Y_e only avoid a symbol-table clash with the opacity-lane notation entries for the same quantities; dedup should merge them."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "E_Bi numeric formula removed: V:224 prints a field-independent value conflicting with S:267-274 (E_ci has B dependence)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches V:224; definitions match V:181-247; defective ion-cyclotron assertion removed." }]
+
+[[entry]]
+id = "rt.hydrostatic-column-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Hydrostatic equilibrium in column depth (McPHAC)"
+statement = "With radiation pressure neglected, the pressure at any depth equals the weight of the integrated column y of material above it, with uniform surface gravity g_s."
+latex = "P(y) = g_s\\, y"
+source = "haakonsen_2012_mcphac"
+locator = "eq. 1"
+anchor = "P (y) = gs y,                     (1)"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.approx-no-radiation-pressure-mcphac", "rt.approx-plane-parallel-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/atm_structure.jl:85"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and equation match H:198-210." }]
+
+[[entry]]
+id = "rt.feautrier-second-order-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Feautrier second-order transfer equation (McPHAC)"
+statement = "Second-order form of the radiative transfer equation in the Feautrier variable P_nu = (I(mu)+I(-mu))/2, with effective normal optical depth tau_nu and source function S_nu."
+latex = "\\mu^2 \\frac{d^2 P_\\nu(y,\\mu)}{d\\tau_\\nu^2} = P_\\nu(y,\\mu) - S_\\nu(y,\\mu), \\qquad P_\\nu(y,\\mu) \\equiv \\tfrac{1}{2}\\left[I_\\nu(y,\\mu)+I_\\nu(y,-\\mu)\\right]"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 2-3, 13"
+anchor = "= Pν (y, μ) − Sν (y, μ),                       (2)"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.notation-mcphac"]
+notes = "Eq. 2 as printed has denominator d tau_nu without the square (verified on page image); the squared form used here is supplied by eq. 13 (d tau_j^2)."
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:87"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eq. 2 prints denominator d tau_nu without square (verified H:151-154); eq. 13 supplies d tau_j^2. Latex carries the squared form; note added, locator extended." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches H:152; PDF images confirm missing square in Eq. 2 and Eq. 13 denominator." }]
+
+[[entry]]
+id = "rt.source-function-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Source function with anisotropic Thomson scattering (McPHAC)"
+statement = "Source function as thermal emission weighted by absorption fraction plus scattered intensity weighted by the scattering fraction; scattering is not assumed isotropic. The scattering albedo is rho_nu = sigma_T,r/(kappa_nu+sigma_T,r) = sigma_T,r/k_nu."
+latex = "S_\\nu(y,\\mu) = \\frac{\\kappa_\\nu}{\\kappa_\\nu+\\sigma_{T,r}} B_\\nu(T(y)) + \\frac{2}{\\kappa_\\nu+\\sigma_{T,r}}\\int_0^1 P_\\nu(y,\\mu^\\prime)\\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu,\\mu^\\prime)\\,d\\mu^\\prime, \\qquad \\rho_\\nu = \\frac{\\sigma_{T,r}}{\\kappa_\\nu+\\sigma_{T,r}} = \\frac{\\sigma_{T,r}}{k_\\nu}"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 4, 6"
+anchor = "the true absorption opacity κν and the reduced scattering opacity"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.feautrier-second-order-mcphac", "rt.approx-coherent-scattering-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Thermal coefficient, scattering factor 2, angular integral and albedo match H:169-178, 199-203." }]
+
+[[entry]]
+id = "rt.feautrier-discrete-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Discretised Feautrier equation with Gauss-Legendre angle quadrature (McPHAC)"
+statement = "The angle integral in the source function is replaced by a Gauss-Legendre sum with weights a_j, and the transfer equation is rewritten with total opacity k_nu and albedo rho_nu using d tau_nu = k_nu dy."
+latex = "\\int_0^1 P_\\nu(y,\\mu^\\prime)\\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu,\\mu^\\prime)d\\mu^\\prime \\approx \\sum_{j^\\prime=1}^{M} P_\\nu(y,\\mu_{j^\\prime})\\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu,\\mu_{j^\\prime})a_{j^\\prime}, \\qquad \\frac{\\mu^2}{k_\\nu}\\frac{d}{dy}\\left(\\frac{1}{k_\\nu}\\frac{dP_\\nu(y,\\mu)}{dy}\\right) = P_\\nu(y,\\mu) - (1-\\rho_\\nu)B_\\nu(T(y)) - \\frac{2\\rho_\\nu}{\\sigma_{T,r}}\\sum_{j^\\prime=1}^{M} P_\\nu(y,\\mu_{j^\\prime})\\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu,\\mu_{j^\\prime})a_{j^\\prime}"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 4-7 (last term derived from eqs. 4-6, not literal eq. 7)"
+anchor = "is the total absorption opacity, allows"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.source-function-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+notes = "CORRECTED (round 1): the latex carries 2 rho_nu / sigma_T,r, derived from eqs. 4-6; eq. 7 as printed omits the normalisation. Original flag:  as printed (verified on the page image), the last term of eq. 7 carries 2*rho_nu*dsigma/dmu without the 1/sigma_T,r normalisation that eq. A1 has (2*rho_nu/sigma_T,r), and eq. 4 gives the equivalent 2/(kappa+sigma) factor. Read literally, eq. 7 is dimensionally inconsistent unless dsigma/dmu is normalised by sigma_T,r. A reviewer should confirm against eq. 4, eq. 14 and eq. A1 before blessing the latex as an implementable form."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Scattering coefficient normalised by sigma_T,r (derived from eqs. 4-6; H:174-175, 1065-1068); eq. 7 as printed lacks the normalisation (H:213-218)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected coefficient 2/(kappa+sigma) follows H:169-203, agrees with A1; distinguished from defective Eq. 7." }]
+
+[[entry]]
+id = "rt.dipole-phase-function-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Dipole (Rayleigh) and isotropic Thomson scattering kernels (McPHAC)"
+statement = "Differential scattering used by McPHAC: dipole phase function after Hummer (1962), integrated over azimuth, and the isotropic limit with phase function g = 1/2."
+latex = "\\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu_j,\\mu_{j^\\prime}) = \\sigma_{T,r}\\,\\frac{3}{16}\\left(3 + 3\\mu_j^2\\mu_{j^\\prime}^2 - \\mu_j^2 - \\mu_{j^\\prime}^2\\right) \\;\\text{(dipole)}, \\qquad \\frac{d\\sigma_{T,r}}{d\\mu^\\prime}(\\mu_j,\\mu_{j^\\prime}) = \\frac{\\sigma_{T,r}}{2} \\;\\text{(isotropic)}"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 16-17"
+anchor = "Using the phase function for dipole scattering (Hummer"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.source-function-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+notes = "Consistency check available from the formulae: the integral over mu-prime in (0,1) of the dipole kernel equals sigma_T,r/2, matching the isotropic kernel. This check is arithmetic on the printed formula, not a statement from the paper."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Both kernels match H:299-306, 324-330; page image confirms 3/16." }]
+
+[[entry]]
+id = "rt.feautrier-matrix-coeffs-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Hermitian-method matrix coefficients R and T (McPHAC)"
+statement = "The transfer equation is written in the general form of Auer (1976) with discrete frequency-angle index j; for the present problem the coupling matrix R and the source vector T are given in terms of the scattering kernel and the Planck function."
+latex = "\\mu_j^2 \\frac{d^2 P_j}{d\\tau_j^2} = \\sum_{j^\\prime} R_{j,j^\\prime}P_{j^\\prime} - T_j, \\qquad R_{j,j^\\prime} = 1 - \\frac{2}{\\kappa_\\nu+\\sigma_{T,r}}\\frac{d\\sigma_{T,r}}{d\\Omega}(\\mu_j,\\mu_{j^\\prime})a_{j^\\prime}, \\qquad T_j = \\frac{\\kappa_\\nu}{\\kappa_\\nu+\\sigma_{T,r}}B_\\nu(T(y))"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 13-15"
+anchor = "are discrete frequency–angle points. To apply that"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "rejected"
+depends_on = ["rt.feautrier-discrete-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+notes = "Eq. 14 prints dsigma/dOmega where eqs. 4, 7, 16 use dsigma/dmu; the paper does not distinguish them in text. Eq. 13 as extracted from the text layer is ocr-clean on the page image only for the 4th-line index structure; reviewer should confirm the sum limits."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Eq. 14 prints 1 in coupling matrix and dsigma/dOmega; identity term required by eq. 13 and conversion to the dmu' kernel of eq. 4 unresolved, cannot be blessed as an implementable matrix (H:355-370)." }]
+
+[[entry]]
+id = "rt.boundary-conditions-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Transfer-equation boundary conditions (McPHAC)"
+statement = "Zero incident specific intensity at the surface (so P_nu is half the outgoing intensity there) and P_nu equal to the blackbody intensity B_nu at the deepest point considered; the bottom condition is a second-order accurate approximation to the diffusion boundary condition and ensures isotropic intensity at the bottom depth."
+latex = "I_\\nu(0,-\\mu) = 0 \\;(I^- = 0), \\qquad P_\\nu(y_{\\max},\\mu) = B_\\nu"
+source = "haakonsen_2012_mcphac"
+locator = "Sect. 2 (p. 3) and Sect. 3.3 (p. 5)"
+anchor = "The boundary conditions used are zero in-"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.feautrier-second-order-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match H:162-165, 308-317." }]
+
+[[entry]]
+id = "rt.emergent-intensity-mcphac"
+kind = "definition"
+domain = "rt"
+name = "Emergent specific intensity from the Feautrier solution (McPHAC)"
+statement = "After solving for P_nu(y,mu) on the depth-angle grid, the emergent specific intensity at the surface in direction mu is twice P_nu at the surface, since the incident intensity vanishes there."
+latex = "I_\\nu(0,\\mu) = 2P_\\nu(0,\\mu)"
+source = "haakonsen_2012_mcphac"
+locator = "p. 5, Sect. 3.3 (unnumbered, after eq. 17 discussion)"
+anchor = "The emergent specific intensity at the surface is then"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "rejected"
+depends_on = ["rt.boundary-conditions-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/rt_atmosphere.jl:259"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Provenance changed to derivable: follows from Feautrier definition and zero incident intensity (H:158-164)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Locator wrong: equation precedes Eq. 17 (H:322-330). Use 'p. 5, Sect. 3.3, unnumbered equation before eq. 17'. Weaker statement I(0,mu)=2P(0,mu) survives; derivable supported." }]
+
+[[entry]]
+id = "rt.eddington-temperature-profile-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Eddington-approximation initial temperature profile (McPHAC)"
+statement = "In the Eddington approximation the temperature profile satisfies a differential equation in column depth involving the Rosseland mean opacity; integrated from the surface with T(0) = 0.265 T_eff it gives the initial guess for the iteration."
+latex = "\\frac{d}{dy}\\left(\\frac{T}{T_{\\rm eff}}\\right) = \\frac{3}{16}\\,k_R\\left(\\frac{T}{T_{\\rm eff}}\\right)^3, \\qquad T(0) = 0.265\\,T_{\\rm eff}"
+source = "haakonsen_2012_mcphac"
+locator = "eq. 10 and following text, p. 4"
+anchor = "In the Eddington approximation, the temperature"
+ocr = "good"
+provenance = "fit"
+reimplement = "Starting guess only (audit A12): recompute the grey/Eddington temperature structure from the Rosseland mean opacity of our own opacity module; the converged solution does not depend on it."
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.hydrostatic-column-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/atm_structure.jl:205"
+notes = "The paper cites Z96 for the equation and says the 0.265 T_eff surface value is closer to the converged hydrogen value than the previous choice. Used only as a starting guess, not as a final solution."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "H:275-293 prints exponent 3 and 0.265 T_eff; restricted to initialisation." }]
+
+[[entry]]
+id = "rt.eddington-factors-mcphac"
+kind = "definition"
+domain = "rt"
+name = "Eddington factors and mean intensity (McPHAC)"
+statement = "Eddington factor f_nu is the second angular moment of P_nu normalised by the mean intensity J_nu; h_nu is the first moment normalised by J_nu, used at the surface boundary condition of the temperature correction."
+latex = "f_\\nu = J_\\nu^{-1}\\int_0^1 \\mu^2 P_\\nu(y,\\mu)\\,d\\mu, \\qquad J_\\nu = \\int_0^1 P_\\nu(y,\\mu)\\,d\\mu, \\qquad h_\\nu = J_\\nu^{-1}\\int_0^1 \\mu P_\\nu(y,\\mu)\\,d\\mu"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 19, 20, 22"
+anchor = "is one of the Eddington factors and"
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+depends_on = ["rt.notation-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/temp_correction.jl:51"
+notes = "Paper Sect. 4.5 states f = 1/3 and h = 1/2 for isotropic specific intensity; not made a separate entry (see skipped)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All three integrals match H:359-367, 414-418." }]
+
+[[entry]]
+id = "rt.te-delta-t-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Linearised temperature correction enforcing constant flux (McPHAC App. A)"
+statement = "Expanding the Planck function to first order about the current temperature profile and requiring the frequency-integrated energy balance gives the temperature correction DeltaT; the correction satisfies constant energy flux through the atmosphere."
+latex = "\\Delta T = \\frac{\\int_0^\\infty (J_\\nu - B_\\nu(T_0))\\kappa_\\nu\\,d\\nu}{\\int_0^\\infty \\frac{dB_\\nu}{dT}\\kappa_\\nu\\,d\\nu}"
+source = "haakonsen_2012_mcphac"
+locator = "eq. A5"
+anchor = "which can be solved for the temperature correction:"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.flux-constancy-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/temp_correction.jl:143"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Numerator, denominator, sign match H:1107-1133." }]
+
+[[entry]]
+id = "rt.flux-constancy-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Radiative equilibrium: flux independent of depth (McPHAC App. A)"
+statement = "Integrating the second-order transfer equation over mu and over frequency gives that the divergence of the total flux equals the integral of (J_nu - B_nu) kappa_nu; in radiative equilibrium the energy flux is the same at every depth, so the right-hand side vanishes."
+latex = "\\frac{1}{4\\pi}\\frac{d}{dy}\\int_0^\\infty F_\\nu\\,d\\nu = \\int_0^\\infty (J_\\nu - B_\\nu(T(y)))\\kappa_\\nu\\,d\\nu = 0, \\qquad F_\\nu = \\frac{4\\pi}{k_\\nu}\\frac{d}{dy}(f_\\nu J_\\nu)"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. A3, A4 and surrounding text"
+anchor = "In radiative equilibrium, the energy flux"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.eddington-factors-mcphac", "rt.feautrier-second-order-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/temp_correction.jl:143"
+notes = "F_nu = (4 pi/k_nu) d(f_nu J_nu)/dy is quoted from the paper text immediately before eq. A3. The paper gives the left-hand side of A3 as (1/4pi) d/dy of the integral of F_nu."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match H:1081-1106." }]
+
+[[entry]]
+id = "rt.te-moment-equation-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Moment equation and boundary conditions for the temperature correction (McPHAC)"
+statement = "With the Eddington factor f_nu frozen from the full angular solution, J_nu is found from a one-dimensional moment equation (the transfer equation integrated over mu with the Taylor-expanded Planck function); at the top boundary d(f J)/(k dy) = h J, and at the bottom J_nu = B_nu."
+latex = "\\frac{1}{k_\\nu}\\frac{d}{dy}\\left[\\frac{1}{k_\\nu}\\frac{d}{dy}(f_\\nu J_\\nu)\\right] = \\left[J_\\nu - B_\\nu(T_0) - \\frac{dB_\\nu}{dT}\\frac{\\int_0^\\infty (J_\\nu - B_\\nu(T_0))\\kappa_\\nu d\\nu}{\\int_0^\\infty \\frac{dB_\\nu}{dT}\\kappa_\\nu d\\nu}\\right](1-\\rho_\\nu), \\qquad \\frac{1}{k_\\nu}\\frac{d}{dy}(f_\\nu J_\\nu) = h_\\nu J_\\nu \\;(\\text{top}), \\qquad J_\\nu = B_\\nu \\;(\\text{bottom})"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. A6, A26–A27"
+anchor = "To solve this equation, the fν computed by solving the full"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.te-delta-t-mcphac", "rt.eddington-factors-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/temp_correction.jl:51"
+notes = "Latex follows eq. A6 (factor 1-rho_nu). Eq. 18 prints 1/k_nu instead and is not asserted equivalent."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator restricted to eqs. A6, A26-A27: eq. 18 prints 1/k_nu whereas A6 prints (1-rho_nu) (H:347-357 vs 1138-1146); latex matches A6." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches H:1147; A6 and boundary conditions match H:1134-1174; PDF image confirms grouping." }]
+
+[[entry]]
+id = "rt.te-rybicki-matrices-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Rybicki-form discretised temperature-correction system (McPHAC App. A)"
+statement = "The discretised moment equation is Ai J_{i-1} + Bi J_i + Ci J_{i+1} = Qi on K frequencies; restructured with the Rybicki method into tridiagonal matrices T_k per frequency plus a coupling U_k through the weighted-mean vector Jbar, with explicit interior-row elements for 1 < i < N_temp."
+latex = "\\Delta_1 = [k_\\nu(y_i)+k_\\nu(y_{i-1})](y_i-y_{i-1}),\\ \\Delta_2 = [k_\\nu(y_{i+1})+k_\\nu(y_i)](y_{i+1}-y_i),\\ \\pi = \\Delta_1+\\Delta_2;\\quad (\\bar J)_i = \\frac{\\sum_{k^\\prime}J_{k^\\prime}\\kappa_{k^\\prime}b_{k^\\prime}}{\\sum_{k^\\prime}\\frac{dB_{k^\\prime}}{dT}\\kappa_{k^\\prime}b_{k^\\prime}};\\quad \\mathbf{T}_k\\mathbf{J}_k+\\mathbf{U}_k\\bar{\\mathbf{J}}=\\mathbf{K}_k;\\quad (T_k)_{i,i-1} = -\\frac{8f_k(y_{i-1})}{\\pi\\Delta_1},\\ (T_k)_{i,i+1} = -\\frac{8f_k(y_{i+1})}{\\pi\\Delta_2},\\ (T_k)_{i,i} = \\left[\\frac{1-\\rho_k}{f_k(y_i)}+\\frac{8}{\\pi\\Delta_1}+\\frac{8}{\\pi\\Delta_2}\\right]f_k(y_i),\\ (U_k)_{i,i} = -\\frac{dB_k}{dT}(1-\\rho_k),\\ (K_k)_i = \\left[B_k(T(y_i)) - \\frac{dB_k}{dT}\\frac{\\sum_{k^\\prime}B_{k^\\prime}(T_0)\\kappa_{k^\\prime}b_{k^\\prime}}{\\sum_{k^\\prime}\\frac{dB_{k^\\prime}}{dT}\\kappa_{k^\\prime}b_{k^\\prime}}\\right](1-\\rho_k)"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. A12-A23 (A15-A23 core)"
+anchor = "for 1 < i < Ntemp . All other elements of Tk and Uk are zero"
+ocr = "poor"
+image_verified = true
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.te-moment-equation-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/temp_correction.jl:153"
+notes = "Transcribed from the page image (pp. 15-16); text layer is garbled for these equations. SOURCE-TEXT FLAGS: (1) A14 defines a symbol printed as pi (not capital Pi) as Delta_1+Delta_2, and A19-A21 use it as pi*Delta_i; reproduced as printed, a reviewer should check it against the McPHAC source before implementing (as printed it looks like a notation slip). (2) The quadrature weights b_k are used in A17, A23, A25 but not defined in the extracted text of Appendix A. (3) Boundary rows are A29-A33, not included here. (4) image_verified set in round 1 (PDF pp. 15-16). Note pi in A14 is the paper's grid variable Delta1+Delta2, not numerical pi."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "image_verified set from PDF pp. 15-16 per reviewer (H:1136-1154, 1175-1218); pi in A14 is the paper's grid variable Delta1+Delta2, not numerical pi." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches H:1216; A12-A23 confirmed by extraction and visual inspection of PDF pp. 15-16." }]
+
+[[entry]]
+id = "rt.observed-flux-redshift-mcphac"
+kind = "equation"
+domain = "rt"
+name = "Observed flux from emergent flux with redshift (McPHAC)"
+statement = "For a neutron star with homogeneous surface temperature the flux observed at distance D follows from the emergent flux at the stellar surface radius R, evaluated at the blueshifted frequency, with the Schwarzschild redshift factor 1+z."
+latex = "F(D,\\nu_{\\rm obs}) = (1+z)^{-1}\\frac{R^2}{D^2}F\\left(R,(1+z)\\nu_{\\rm obs}\\right), \\qquad 1+z = \\frac{1}{\\sqrt{1-\\frac{2GM}{Rc^2}}}"
+source = "haakonsen_2012_mcphac"
+locator = "eqs. 8-9"
+anchor = "F (D, νobs ) = (1 + z)−1      F (R, (1 + z)νobs ) ,       (8)"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+notes = "The paper quotes this from McClintock et al. (2004). Uniform-surface distant-observer flux benchmark."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Removed unsupported 'no light bending' / 'flat-space solid angle' claims; apparent-radius magnification is in refs/potekhin_pons_page_2015_thermal.txt:2106-2111." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and both equations match H:226-243; McClintock attribution retained." }]
+
+[[entry]]
+id = "rt.hydrostatic-spw09"
+kind = "equation"
+domain = "rt"
+name = "Hydrostatic equilibrium with radiation pressure (SPW09)"
+statement = "Hydrostatic equilibrium in column density m including radiative acceleration, with surface gravity from the exterior Schwarzschild metric, and the definition of column density."
+latex = "\\frac{dP_g}{dm} = g - g_{\\rm rad}, \\quad g = \\frac{GM_{\\rm NS}}{R_{\\rm NS}^2\\sqrt{1-R_S/R_{\\rm NS}}}, \\quad g_{\\rm rad} = \\frac{1}{c}\\sum_{i=1}^{2}\\int_0^\\infty d\\nu\\int_0^{2\\pi}d\\varphi\\int_{-1}^{+1}(k_\\nu^i+\\sigma_\\nu^i)\\,\\mu\\,I_\\nu^i(\\mu,\\varphi)\\,d\\mu, \\quad dm = -\\rho\\,dz"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 1-4"
+anchor = "1. The hydrostatic equilibrium equation"
+anchor_tex = "\\frac {\\mathrm{d} P_{\\rm g}}{\\mathrm{d}m} = g - g_{\\rm rad},"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.notation-spw09"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:92"
+notes = "The paper states radiation pressure is unimportant in the models presented but can matter at higher effective temperature. R_S = 2GM_NS/c^2."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match S:120-145." }]
+
+[[entry]]
+id = "rt.two-mode-transfer-spw09"
+kind = "equation"
+domain = "rt"
+name = "Radiative transfer equations for the two modes with scattering (SPW09)"
+statement = "Transfer equation for the specific intensity in mode i (i = 1,2) as a function of mu and phi, with source function containing thermal emission and scattering from both modes, the optical depth defined with true absorption plus scattering opacity, and the scattering opacity obtained by integrating the differential scattering over all directions and both modes. The emissivity combines scattering and thermal terms."
+latex = "\\mu\\frac{dI_\\nu^i}{d\\tau_\\nu^i} = I_\\nu^i - S_\\nu^i, \\quad S_\\nu^i = \\frac{k_\\nu^i}{k_\\nu^i+\\sigma_\\nu^i}\\frac{B_\\nu}{2} + \\frac{1}{2\\pi}\\frac{1}{k_\\nu^i+\\sigma_\\nu^i}\\sum_{j=1}^{2}\\int_0^{2\\pi}d\\varphi^\\prime\\int_{-1}^{+1}\\sigma_\\nu^{ij}(\\mu,\\varphi;\\mu^\\prime,\\varphi^\\prime)I_\\nu^j(\\mu^\\prime,\\varphi^\\prime)d\\mu^\\prime, \\quad d\\tau_\\nu^i = (k_\\nu^i+\\sigma_\\nu^i)dm, \\quad \\sigma_\\nu^i(\\mu,\\varphi) = \\frac{1}{2\\pi}\\sum_{j=1}^{2}\\int_0^{2\\pi}d\\varphi^\\prime\\int_{-1}^{+1}\\sigma_\\nu^{ij}(\\mu,\\varphi;\\mu^\\prime,\\varphi^\\prime)d\\mu^\\prime, \\quad \\eta_\\nu^i(\\mu,\\varphi) = \\frac{1}{2\\pi}\\sum_{j=1}^{2}\\int_0^{2\\pi}d\\varphi^\\prime\\int_{-1}^{+1}\\sigma_\\nu^{ij}I_\\nu^j(\\mu^\\prime,\\varphi^\\prime)d\\mu^\\prime + k_\\nu^i\\frac{B_\\nu}{2}"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 5-8, 10"
+anchor = "2. The radiation transfer equations for the two modes"
+anchor_tex = "\\mu\\frac{\\mathrm{d} I_{\\nu}^i}{\\mathrm{d} \\tau_{\\nu}^i}"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.notation-spw09", "rt.hydrostatic-spw09"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:632"
+notes = "Transcribed from the page image (extraction of eq. 6 is garbled in the text layer; anchor is the section heading). v1 uses scalar per-mode scattering albedo and does not implement the full sigma^{ij} redistribution kernel (see truth/harvest/v1_approximations.md A8)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eqs. 5-10 match page image and S:148-230." }]
+
+[[entry]]
+id = "rt.energy-balance-spw09"
+kind = "equation"
+domain = "rt"
+name = "Energy balance (radiative equilibrium) equation, two modes (SPW09)"
+statement = "Frequency-integrated absorption minus emission, summed over both modes and integrated over all directions, vanishes at every depth."
+latex = "\\frac{1}{2\\pi}\\sum_{i=1}^{2}\\int_0^\\infty d\\nu\\int_0^{2\\pi}d\\varphi\\int_{-1}^{+1}\\left[(k_\\nu^i+\\sigma_\\nu^i)I_\\nu^i(\\mu,\\varphi)-\\eta_\\nu^i(\\mu,\\varphi)\\right]d\\mu = 0"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eq. 9"
+anchor = "3. The energy balance equation"
+anchor_tex = "\\frac{1}{2\\pi} \\, \\sum_{i=1}^2  \\, \\int_0^{\\infty} \\mathrm{d}\\nu"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.two-mode-transfer-spw09"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. 9 matches S:211-221." }]
+
+[[entry]]
+id = "rt.surface-flux-spw09"
+kind = "equation"
+domain = "rt"
+name = "Surface flux condition and Eddington flux (SPW09)"
+statement = "The emergent Eddington flux integrated over frequency must satisfy the effective-temperature condition at m=0; the Eddington flux is the mu-weighted angular integral of the mode intensities; the relative flux error is used as a convergence diagnostic."
+latex = "4\\pi\\int_0^\\infty H_\\nu(m=0)\\,d\\nu = \\sigma T_{\\rm eff}^4 = 4\\pi H_0, \\quad H_\\nu(m) = \\frac{1}{4\\pi}\\sum_{i=1}^{2}\\int_0^{2\\pi}d\\varphi\\int_{-1}^{+1}\\mu\\,I_\\nu^i(\\mu,\\varphi,m)\\,d\\mu, \\quad \\varepsilon_H(m) = 1 - \\frac{H_0}{\\int_0^\\infty H_\\nu(m)\\,d\\nu}"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 18-20"
+anchor = "where the Eddington flux at any given depth m is defined as"
+anchor_tex = "H_{\\nu}(m) = \\frac{1}{4\\pi} \\sum_{i=1}^2 \\, \\int_{0}^{2\\pi} d\\varphi"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.energy-balance-spw09"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:92"
+notes = "Convergence criteria stated in the paper (p. 5): relative flux error below 1 percent and relative flux derivative error below 0.01 percent. sigma is the Stefan-Boltzmann constant."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eqs. 18-20 match S:367-387." }]
+
+[[entry]]
+id = "rt.boundary-conditions-spw09"
+kind = "equation"
+domain = "rt"
+name = "Outer and inner boundary conditions, two modes (SPW09)"
+statement = "No external radiation at the outer boundary (incoming rays vanish at m_1) and the diffusion approximation at the inner boundary, with each mode carrying B_nu/2 for outgoing rays at m_max."
+latex = "I_\\nu^i(\\mu<0,\\,m=m_1)=0, \\qquad I_\\nu^i(\\mu>0,\\,m=m_{\\max}) = \\frac{B_\\nu}{2}"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 14-15"
+anchor = "We use the conventional condition (no external radiation) at"
+anchor_tex = "I_{\\nu}^i(\\mu > 0, m = m_{\\rm max}) = \\frac{B_{\\nu}}{2}"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.two-mode-transfer-spw09"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:632"
+notes = "Depth grid in the paper: 90 points log-equidistant from m_1 about 1e-5 g cm^-2 to m_max about 1e5 g cm^-2 for a semi-infinite atmosphere (p. 3)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match S:323-333." }]
+
+[[entry]]
+id = "rt.pjump-conversion-spw09"
+kind = "equation"
+domain = "rt"
+name = "Partial mode conversion at the vacuum resonance (SPW09)"
+statement = "At the vacuum resonance the extraordinary-mode intensity converts partially into the ordinary mode with probability 1 - P_jump and vice versa; P_jump is an exponential function of (E/E_ad)^3, where E_ad depends on E, B, rho, T, mu."
+latex = "I_\\nu^{1,2}\\rightarrow P_{\\rm jump}I_\\nu^{1,2}+(1-P_{\\rm jump})I_\\nu^{2,1}, \\qquad P_{\\rm jump} = \\exp\\left[-\\frac{\\pi}{2}(E/E_{\\rm ad})^3\\right]"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 16-17"
+anchor = "Iν1,2 → Pjump Iν1,2 + (1 − Pjump ) Iν2,1 ,                       (16)"
+anchor_tex = "P_{\\rm jump} = \\exp \\left[-\\frac{\\pi}{2}(E/E_{\\rm ad})^3\\right]"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.pjump-val", "rt.notation-vacuum"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:227"
+notes = "Applies only where the vacuum resonance lies inside the atmosphere (see rt.vacuum-relevance-val). SPW09 defers the definition of E_ad to VAL06 (rt.adiabatic-energy-val)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match S:334-365." }]
+
+[[entry]]
+id = "rt.temperature-correction-spw09"
+kind = "equation"
+domain = "rt"
+name = "Lambda-iteration temperature correction for two modes (SPW09)"
+statement = "The integral Lambda-iteration temperature correction at a given depth is minus the energy-balance error divided by the frequency integral of Phi_nu, built from the diagonal Lambda-operator elements of each mode and averaged opacities. The Lambda correction is used in the upper layers; the Avrett-Krook flux correction (using the relative flux error) is used in deep layers; a Kurucz surface correction is used at the surface."
+latex = "\\Delta T_\\Lambda = \\frac{-\\varepsilon_\\Lambda(m)}{\\int_0^\\infty\\Phi_\\nu\\,d\\nu}, \\quad \\Phi_\\nu = \\sum_{i=1}^{2}\\left[(\\Lambda^i_{\\nu{\\rm diag}}-1)/(1-\\alpha_\\nu^i\\Lambda^i_{\\nu{\\rm diag}})\\right]\\overline{k}_\\nu^i\\,(dB_\\nu/dT), \\quad \\varepsilon_\\Lambda(m) = \\sum_{i=1}^{2}\\int_0^\\infty d\\nu\\int_0^{2\\pi}d\\varphi\\int_{-1}^{+1}\\left((k_\\nu^i+\\sigma_\\nu^i)I_\\nu^i-\\eta_\\nu^i\\right)d\\mu, \\quad \\overline{k}_\\nu^i = \\frac{1}{4\\pi}\\int_0^{2\\pi}d\\varphi\\int_{-1}^{+1}k_\\nu^i\\,d\\mu"
+source = "suleimanov_potekhin_werner_2009_mag_atm"
+locator = "eqs. 21-25"
+anchor = "modified for the two-mode radiation transfer, based on the en-"
+anchor_tex = "\\Delta T_{\\Lambda} = \\frac{-\\varepsilon_{\\Lambda}(m)}{\\int_0^{\\infty}"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.energy-balance-spw09"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:160"
+notes = "Printed alpha_nu^i = sigma-bar^i/(k-bar^i + sigma-bar^i_mu) (the subscript mu on the second sigma-bar looks like a typo in the source; verified on the page image). Averaged sigma-bar is defined analogously to k-bar (eq. 25). The paper defers details of the Lambda-diag(tau) dependence and the Avrett-Krook and surface corrections to Kurucz (1970), not in refs/. The v1 code did not implement this (it used an ad-hoc grey-body flux scaling, magnetic_atmosphere.jl:160-167)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Page image confirms signs, mode sum, Lambda denominator; S:463-487, 390-422." }]
+
+[[entry]]
+id = "rt.two-mode-transfer-val"
+kind = "equation"
+domain = "rt"
+name = "Mode transfer equation in Thomson optical depth (VAL06)"
+statement = "Plane-parallel, fully ionised atmosphere with B along the normal: coupled transfer equations for the two photon modes in Thomson optical depth, with total opacity (free-free plus scattering) in units of the Thomson opacity; hydrostatic equilibrium in the same variable."
+latex = "\\pm\\mu\\frac{\\partial I_\\nu^j(\\tau,\\pm\\mu)}{\\partial\\tau} = \\frac{\\kappa_j^{\\rm tot}}{\\kappa_T}\\left[I_\\nu^j(\\tau,\\pm\\mu)-S_\\nu^j(\\tau,\\pm\\mu)\\right], \\quad P = \\frac{g}{\\kappa_T}\\tau, \\quad d\\tau = -\\rho\\kappa_T\\,dz"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 6-7"
+anchor = "The standard method used in all previous work involves solving the coupled radiative transfer equations for the two"
+anchor_tex = "\\pm\\mu{\\partial I^j_{\\nu}(\\tau,\\pm\\mu)\\over \\partial\\tau}={\\kappa^{tot}_j\\over \\kappa_T}"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.notation-val"]
+validity = "Normal-mode transfer requires the Faraday depolarisation condition; it breaks down near the vacuum resonance."
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:632"
+notes = "Eq. 6 extraction is partially garbled; the form above was read against the text layer (kappa_tot/kappa_T prefactor visible). kappa_T = 0.4 cm^2 g^-1. Surface gravity in the paper: g = (GM/R^2)(1-2GM/Rc^2)^(-1/2) = 2.4e14 cm s^-2 for M = 1.4 Msun, R = 10 km."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Validity added: Faraday depolarisation condition required, breaks down near vacuum resonance (V:268-274, 585-588)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and equations match V:281-332; Faraday limitation matches V:268-274, 585-588." }]
+
+[[entry]]
+id = "rt.flux-constraints-val"
+kind = "equation"
+domain = "rt"
+name = "Radiative equilibrium and constant flux constraints (VAL06)"
+statement = "The transfer equation is solved subject to radiative equilibrium (frequency-integrated absorption equals emission, summed over modes) and a constant radiative flux equal to sigma_sb T_eff^4."
+latex = "\\int_0^\\infty d\\nu\\sum_{j=1}^{2}\\kappa_j^{\\rm abs}\\left(\\frac{B_\\nu}{2}-J_\\nu^j\\right) = 0, \\qquad F_{\\rm rad} = 2\\pi\\sum_{j=1}^{2}\\int_0^\\infty d\\nu\\int_0^1 d\\mu\\,\\mu\\left[I_\\nu^j(\\mu)-I_\\nu^j(-\\mu)\\right] = \\sigma_{sb}T_{\\rm eff}^4"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 8-9"
+anchor = "hydrostatic and radiative equilibria, as well as constant radiative flux Frad , given by:"
+anchor_tex = "F_{\\rm rad} = 2\\pi\\sum_{j=1}^2\\int_0^{\\infty}d\\nu\\int_0^1d\\mu \\mu\\left[I_{\\nu}^j(\\mu)-I_{\\nu}^j(-\\mu)\\right]"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.two-mode-transfer-val"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:92"
+notes = "J_nu^j = (1/2)∫_0^1 dmu [I(mu)+I(-mu)]. The paper neglects electron conduction (flux below a few percent in the region of interest)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match V:297-332." }]
+
+[[entry]]
+id = "rt.source-function-val"
+kind = "equation"
+domain = "rt"
+name = "Mode source function with scattering (VAL06)"
+statement = "Source function of mode j as thermal emission (free-free fraction of Planck/2) plus scattering from both modes; with the Ho & Lai (2001) approximation that the differential scattering cross-section does not depend on the initial photon direction, scattering reduces to the specific energy density of each mode."
+latex = "S_\\nu^j(\\mu) = \\frac{\\kappa_j^{\\rm ff}(\\mu)}{\\kappa_j^{\\rm tot}(\\mu)}\\frac{B_\\nu}{2} + \\frac{2\\pi}{\\kappa_j^{\\rm tot}(\\mu)}\\sum_{i=1}^{2}\\int_0^1 d\\mu^\\prime\\frac{d\\kappa^{sc}(\\mu^\\prime i\\to\\mu j)}{d\\Omega}\\left[I_\\nu^j(\\mu)+I_\\nu^i(-\\mu)\\right] \\;\\approx\\; \\frac{\\kappa_j^{\\rm ff}(\\mu)}{\\kappa_j^{\\rm tot}(\\mu)}\\frac{B_\\nu}{2} + \\sum_i\\frac{\\kappa_{ji}^{sc}(\\mu)}{\\kappa_j^{\\rm tot}(\\mu)}\\frac{c\\,u_\\nu^i}{4\\pi}, \\qquad u_\\nu^j = \\frac{2\\pi}{c}\\int_{-1}^{1}d\\mu^\\prime I_\\nu^j(\\mu^\\prime)"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 30, 32"
+anchor = "The source function in eq. (6) can be written as"
+ocr = "poor"
+provenance = "derivable"
+ownership = "stub"
+status = "rejected"
+depends_on = ["rt.two-mode-transfer-val"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:774"
+notes = "SOURCE-TEXT FLAG: eq. 30 as printed (page image) has the bracket [I_nu^j(mu)+I_nu^i(-mu)] with mixed mode indices and an unprimed mu inside the integral over mu-prime; this looks like a typographical slip in the source (the intended bracket is presumably I^i(mu-prime)+I^i(-mu-prime)). Latex above reproduces the printed form. Eq. 32 is clean. Reviewer to decide which form is implementable."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Eq. 30 literally contains mixed mode indices and unprimed mu inside the mu' integral (V:484-493); transcription confirmed, general scattering source function defective; eq. 32 does not repair the bundled claim." }]
+
+[[entry]]
+id = "rt.boundary-conditions-val"
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:966"
+kind = "equation"
+domain = "rt"
+name = "Boundary conditions for integrating the mode equations (VAL06)"
+statement = "Upward and downward integration of the mode transfer equation starts from the thermalised deep boundary (Planck/2 for outgoing rays) and zero incident intensity at the outer edge; tau_max and tau_min are chosen to span 5-8 orders of magnitude."
+latex = "I_\\nu^j(\\tau\\to\\tau_{\\max},+\\mu)\\to B_\\nu/2, \\qquad I_\\nu^j(\\tau\\to\\tau_{\\min},-\\mu)\\to 0"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 35-36"
+anchor = "Iνj (τ → τmax , +µ)      →   Bν /2"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.two-mode-transfer-val"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match V:541-547." }]
+
+[[entry]]
+id = "rt.vacuum-resonance-val"
+kind = "equation"
+domain = "rt"
+name = "Vacuum resonance energy and density (VAL06)"
+statement = "For a photon propagating in constant density rho, the plasma and vacuum contributions to the dielectric tensor cancel at the energy E_V; equivalently a photon of energy E meets the resonance at density rho_V. At the resonance both modes are circularly polarised."
+latex = "E_V = 1.02\\,(Y_e\\rho_1)^{1/2}B_{14}^{-1}f_B\\ \\mathrm{keV}, \\qquad \\rho_V = 0.96\\,Y_e^{-1}E_1^2B_{14}^2f_B^{-2}\\ \\mathrm{g\\,cm^{-3}}"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 1-2"
+anchor = "EV = 1.02 (Ye ρ1 )1/2 B14"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "rejected"
+depends_on = ["rt.notation-vacuum"]
+validity = "E \\ll E_{Be}"
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:26"
+notes = "Verified on the page image (p. 4 for eq. 2; eq. 1 on p. 3). f_B is given by eq. 2.41 of Ho & Lai (2003), not in refs/."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Validity E << E_Be added (V:173-187). f_B delegated to Ho & Lai 2003, not local." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Note claiming Ho & Lai (2003) not in refs/ is false: L:444-454 supplies Eq. 2.41 locally. Delete assertion and link local definition. Eqs. 1-2 hold in stated E<<E_Be regime." }]
+
+[[entry]]
+id = "rt.adiabatic-energy-val"
+kind = "equation"
+domain = "rt"
+name = "Adiabatic energy for resonant conversion (VAL06)"
+statement = "Lai & Ho (2002): a photon undergoes resonant mode conversion when E is greater than about E_ad, with E_ad depending on the field-photon angle, the ion cyclotron energy and the density scale height along the ray."
+latex = "E_{ad} = 2.52\\left[f_B\\tan\\theta_{kB}\\left|1-(E_{Bi}/E)^2\\right|\\right]^{2/3}\\left(\\frac{1\\ \\mathrm{cm}}{H_\\rho}\\right)^{1/3}"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eq. 3"
+anchor = "undergoes resonant mode conversion when the adiabatic"
+anchor_tex = "2.52\\left[f_B\\tan\\theta_{kB}\\left|1-\\left({E_{Bi}/E}\\right)^2\\right|"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.vacuum-resonance-val"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:26"
+notes = "Read from the page image because the text layer lost the exponent placement. The unit of E_ad (keV, as E) is not printed beside eq. 3. The printed E_Bi definition omits field dependence; use a separately sourced cyclotron-energy definition. H_rho = |ds/d ln rho|. Footnote 3: since E_ad depends on E, one must solve for E >~ E_ad to find the adiabatic region."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eq. 3 matches p. 4 image; E_Bi numeric assertion removed from notes since printed definition omits field dependence (compare S:267-274)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches V:216; PDF p. 4 confirms bars, exponents 2/3 and 1/3, coefficient 2.52." }]
+
+[[entry]]
+id = "rt.pjump-val"
+kind = "equation"
+domain = "rt"
+name = "Non-adiabatic jump probability and mode conversion rule (VAL06)"
+statement = "With probability 1 - P_jump an O-mode photon converts to X-mode (and vice versa) at the vacuum resonance; P_jump is the non-adiabatic jump probability. Intensities are exchanged across the resonance accordingly. Complete conversion is P_jump = 0 and no conversion is P_jump = 1."
+latex = "P_{\\rm jump} = \\exp\\left[-\\frac{\\pi}{2}(E/E_{ad})^3\\right], \\qquad I_X \\to P_{\\rm jump}I_X+(1-P_{\\rm jump})I_O, \\qquad I_O \\to P_{\\rm jump}I_O+(1-P_{\\rm jump})I_X"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 4, 33-34"
+anchor = "Pjump = exp − (E/Ead )3 ."
+anchor_tex = "P_{\\rm jump}=\\exp\\left[-{\\pi\\over 2}(E/E_{ad})^3\\right]"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.adiabatic-energy-val"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:227"
+notes = "Complete-conversion and no-conversion limits are from Sect. 3.1.4 text. The intensities IX, IO here are the mode intensities at the resonance."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match V:227-232, 251-255, 529-545." }]
+
+[[entry]]
+id = "rt.vacuum-relevance-val"
+kind = "approximation"
+domain = "rt"
+name = "Field strength above which vacuum resonance matters (VAL06)"
+statement = "For B above about B_l the vacuum resonance density lies between the X-mode and O-mode photospheres for typical photon energies, so mode conversion suppresses spectral features and softens the hard X-ray tail. For B below about B_l the resonance lies outside both photospheres and the emission spectrum is unaltered, although observed polarisation is still affected."
+latex = "B \\gtrsim B_l \\simeq 6.6\\times10^{13}\\,T_6^{-1/8}E_1^{-1/4}S^{-1/4}\\ \\mathrm{G}"
+validity = "B above B_l (about 6.6e13 G at T = 1e6 K, E = 1 keV): vacuum resonance inside the photosphere region, spectrum altered; B below B_l: spectrum unaltered (polarisation still affected). Pure scaling estimate from Lai & Ho 2003a, Ho & Lai 2004."
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eq. 5"
+anchor = "the vacuum resonance density lies between the X-mode and O-mode photospheres"
+anchor_tex = "B \\go B_l \\simeq 6.6\\times 10^{13}\\, T_6^{-1/8}E_1^{-1/4}S^{-1/4}"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.vacuum-resonance-val"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:227"
+notes = "For the RX J1856-like field (order 1e13 G or below) the resonance lies outside both photospheres and P_jump conversion is irrelevant to the emergent spectrum. T_6 = T/(1e6 K), S = 1 - exp(-E/kT)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Scaling powers and spectral vs polarisation distinction match V:235-244." }]
+
+[[entry]]
+id = "rt.no-feautrier-with-conversion-val"
+kind = "approximation"
+domain = "rt"
+name = "Standard Feautrier substitution not used for VAL06 partial conversion"
+statement = "Because the resonance density depends on photon energy and the conversion rule couples the two modes at a depth that varies with E, there is no simple way to incorporate the conversion into Feautrier forward/backward substitution; VAL06 instead integrates the transfer equation by Runge-Kutta up and down from the boundary conditions, stopping at the resonance to apply the conversion."
+validity = "Applies to the standard Feautrier forward/backward substitution procedure when partial vacuum mode conversion (eqs. 33-34) is included."
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "Sect. 3.1.4"
+anchor = "standard Feautrier procedure for integrating the radiative"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.pjump-val", "rt.feautrier-second-order-mcphac"]
+v1_ref = "archive/v1/src/atmosphere/magnetic_atmosphere.jl:227"
+notes = "v1 applied conversion as a post-processing swap on top of a decoupled Feautrier solve (magnetic_atmosphere.jl:227-266); that is NOT the VAL06 scheme and is not an adversarially accepted approximation."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Renamed and restricted to the standard Feautrier substitution for VAL06 partial conversion; low-B exemption removed (V:536-545, 242-244)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches V:536; restricted claim and resonance-stop procedure reproduce V:536-545." }]
+
+[[entry]]
+id = "rt.mode-stokes-relations-val"
+kind = "equation"
+domain = "rt"
+name = "Mode intensities from Stokes parameters and back (VAL06)"
+statement = "Away from the vacuum resonance, neglecting dissipative terms in the dielectric tensor, the mode intensities follow from Stokes I, Q, V and the mixing angle theta_m; conversely the Stokes parameters follow from the mode intensities with a random phase difference Delta phi between the modes, so Q, U, V need phase sampling while the mode intensities do not."
+latex = "I_\\nu^{\\pm} = \\tfrac{1}{2}\\left[I_\\nu \\pm (\\cos2\\theta_m Q_\\nu+\\sin2\\theta_m V_\\nu)\\right], \\quad I_\\nu = I_\\nu^{+}+I_\\nu^{-}, \\quad Q_\\nu = \\cos2\\theta_m(I_\\nu^{+}-I_\\nu^{-}) - 2\\sin2\\theta_m(I_\\nu^{+}I_\\nu^{-})^{1/2}\\cos\\Delta\\phi, \\quad U_\\nu = -2(I_\\nu^{+}I_\\nu^{-})^{1/2}\\sin\\Delta\\phi, \\quad V_\\nu = \\sin2\\theta_m(I_\\nu^{+}-I_\\nu^{-}) + 2\\cos2\\theta_m(I_\\nu^{+}I_\\nu^{-})^{1/2}\\cos\\Delta\\phi"
+source = "van_adelsberg_lai_2006_magnetic_atm"
+locator = "eqs. 43-47"
+anchor = "Conversely, given the mode intensities, the Stokes"
+anchor_tex = "I_{\\nu}^{\\pm}={1\\over 2}\\left[I_{\\nu}\\pm\\left(\\cos 2\\theta_m Q_{\\nu} + \\sin 2\\theta_m V_{\\nu}\\right)\\right]"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+depends_on = ["rt.two-mode-transfer-val"]
+notes = "cos theta_m = K_+/sqrt(1+K_+^2), sin theta_m = 1/sqrt(1+K_+^2) (text after eq. 42). Delta phi = Delta phi_i + (omega/c)∫(n_+ - n_-)dz with random initial Delta phi_i. For the thermal-emission use case, averaging over Delta phi gives Q_nu = cos2theta_m(I+ - I-), U = 0."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Statement qualified: neglecting dissipative terms in the dielectric tensor (V:615-622). Eqs. 43-47 match V:624-638." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches V:627; dissipation qualification V:615-622; Eqs. 43-47 signs and factors match V:624-638." }]
+
+[[entry]]
+id = "rt.approx-plane-parallel-mcphac"
+kind = "approximation"
+domain = "rt"
+name = "Plane-parallel atmosphere (McPHAC)"
+statement = "The plane-parallel assumption is used since the scale height of the atmosphere is much smaller than the neutron-star radius; surface gravity is taken uniform because a negligible fraction of the star mass lies in the atmosphere."
+validity = "Atmosphere scale height much smaller than R; surface gravity constant through the atmosphere."
+source = "haakonsen_2012_mcphac"
+locator = "Sect. 2, assumption 6 (p. 3)"
+anchor = "the plane-parallel assumption is used, since the scale height"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+v1_ref = "archive/v1/src/atmosphere/atm_structure.jl:47"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Match H:183-185, 203-210." }]
+
+[[entry]]
+id = "rt.approx-coherent-scattering-mcphac"
+kind = "approximation"
+domain = "rt"
+name = "Coherent (non-Compton) scattering (McPHAC)"
+statement = "Scattering is treated as coherent. Because of this the radiative transfer equation is solved one frequency at a time with no direct frequency coupling; the paper notes this could cause inaccuracies at energies above 5 keV (1 percent of the electron rest mass)."
+validity = "Coherent-scattering assumption; inaccuracies may occur above 5 keV and at very high T_eff; no guaranteed safe cutoff is supplied."
+source = "haakonsen_2012_mcphac"
+locator = "Sect. 2, assumption 2 (p. 3); Sect. 3.3"
+anchor = "coherent scattering is assumed, which could lead to inac-"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+v1_ref = "archive/v1/src/atmosphere/feautrier.jl:400"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Validity replaced: only warnings, no validated cutoff (H:174-177, 1005-1009)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and energy warning match H:174-177; high-T caveat H:1005-1009; no safe cutoff claimed." }]
+
+[[entry]]
+id = "rt.approx-no-radiation-pressure-mcphac"
+kind = "approximation"
+domain = "rt"
+name = "Radiation pressure neglected (McPHAC)"
+statement = "Radiation pressure is neglected so that the pressure at any depth equals the weight of the overlying column; the paper says this is appropriate for atmospheres with T_eff much less than 1e7 K."
+validity = "T_eff much less than 1e7 K (Z96 as cited by Haakonsen et al.). SPW09 eq. 1 retains radiation pressure for hotter models."
+source = "haakonsen_2012_mcphac"
+locator = "Sect. 2, assumption 7 (p. 3)"
+anchor = "radiation pressure is neglected, which is appropriate for"
+ocr = "good"
+provenance = "derivable"
+ownership = "stub"
+status = "blessed"
+v1_ref = "archive/v1/src/atmosphere/atm_structure.jl:85"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "H:186-187 gives T_eff << 1e7 K; page image confirms." }]
+

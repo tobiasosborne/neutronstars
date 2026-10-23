@@ -1,0 +1,910 @@
+                                               Astronomy & Astrophysics manuscript no. 12121tx                                                                                     c ESO 2021
+                                               March 23, 2021
+
+
+
+
+                                                         Models of magnetized neutron star atmospheres: thin
+                                                       atmospheres and partially ionized hydrogen atmospheres
+                                                                      with vacuum polarization
+                                                                                         V. Suleimanov1,2 , A. Y. Potekhin3,4 , K. Werner1
+arXiv:0905.3276v1 [astro-ph.SR] 20 May 2009
+
+
+
+
+                                                   1
+                                                     Institut für Astronomie und Astrophysik, Kepler Center for Astro and Particle Physics, Universität Tübingen, Sand 1, 72076
+                                                     Tübingen, Germany
+                                                   2
+                                                     Kazan State University, Kremlevskaja str., 18, Kazan 420008, Russia
+                                                   3
+                                                     Ioffe Physical-Technical Institute, Polytekhnicheskaya str., 26, St. Petersburg 194021, Russia
+                                                   4
+                                                     Isaac Newton Institute of Chile, St. Petersburg Branch, Russia
+                                                   Received XX Xxxxx 2009 / Accepted XX Xxxx XXXX
+
+                                                                                                                 ABSTRACT
+
+                                                   Context. Observed X-ray spectra of some isolated magnetized neutron stars display absorption features, sometimes interpreted as ion
+                                                   cyclotron lines. Modeling the observed spectra is necessary to check this hypothesis and to evaluate neutron star parameters.
+                                                   Aims. We develop a computer code for modeling magnetized neutron star atmospheres in a wide range of magnetic fields (1012 − 1015
+                                                   G) and effective temperatures (3 × 105 − 107 K). Using this code, we study the possibilities to explain the soft X-ray spectra of isolated
+                                                   neutron stars by different atmosphere models.
+                                                   Methods. The atmosphere is assumed to consist either of fully ionized electron-ion plasmas or of partially ionized hydrogen. Vacuum
+                                                   resonance and partial mode conversion are taken into account. Any inclination of the magnetic field relative to the stellar surface
+                                                   is allowed. We use modern opacities of fully or partially ionized plasmas in strong magnetic fields and solve the coupled radiative
+                                                   transfer equations for the normal electromagnetic modes in the plasma.
+                                                   Results. Spectra of outgoing radiation are calculated for various atmosphere models: fully ionized semi-infinite atmosphere, thin
+                                                   atmosphere, partially ionized hydrogen atmosphere, or novel “sandwich” atmosphere (thin atmosphere with a hydrogen layer above
+                                                   a helium layer). Possibilities of applications of these results are discussed. In particular, the outgoing spectrum using the “sandwich”
+                                                   model is constructed. Thin partially ionized hydrogen atmospheres with vacuum polarization are shown to be able to improve the fit
+                                                   to the observed spectrum of the nearby isolated neutron star RBS 1223 (RX J1308.8+2127).
+                                                   Key words. radiative transfer – methods: numerical – stars: neutron – stars: atmospheres – X-rays: stars – stars: individual: RX
+                                                   J1308.8+2127
+
+
+                                              1. Introduction                                                            (Haberl 2007). The central energies of these features appear
+                                                                                                                         to be harmonically spaced (Sanwal et al. 2002; Schwope et al.
+                                              In the last two decades, several new classes of neutron stars              2007; van Kerkwijk & Kaplan 2007; Haberl 2007). The optical
+                                              (NSs) have been discovered by X-ray observatories. They in-                counterparts of some XDINSs are also known (see review by
+                                              clude X-ray dim isolated NSs (XDINSs), or Magnificent Seven                Mignani et al. 2007), and their optical/ultraviolet fluxes are a few
+                                              (see review by Haberl 2007), central compact objects (CCOs)                times larger than the blackbody extrapolation of the X-ray spec-
+                                              in supernova remnants (Pavlov et al. 2002, 2004), anomalous X-             tra (Burwitz et al. 2001, 2003; Kaplan et al. 2003; Motch et al.
+                                              ray pulsars and soft-gamma repeaters (AXPs and SGRs; see re-               2003).
+                                              views by Kaspi 2007; Mereghetti et al. 2007; Mereghetti 2008).
+                                              The NSs in the last two classes have superstrong magnetic fields               The XDINs are nearby objects, and parallaxes of some of
+                                              (B >     14                                                                them can be measured (Kaplan et al. 2002a). Therefore, they
+                                                  ∼ 10 G) and are commonly named magnetars. The XDINSs
+                                              can have B ∼ a few × 1013 G, as evaluated from period changes              give a good possibility to measure the NS radii, yielding useful
+                                              and from absorption features in the observed spectra, if they are          information on the equation of state (EOS) for the NS inner core
+                                              interpreted as ion cyclotron lines (see reviews by Haberl 2007;            (Trümper et al. 2004; Lattimer & Prakash 2007), which is one
+                                              van Kerkwijk & Kaplan 2007).                                               of the most important problems in the NS physics. For example,
+                                                  These NSs are relatively young with ages ≤ 106 yr and suf-             the EOS is necessary for computations of templates of gravi-
+                                              ficiently hot (T eff ∼ 106 − 107 K) to be observed as soft X-ray           tational wave signals which arise during neutron stars merging
+                                              sources. The thermal spectra of these objects can be described by          (e.g. Baiotti et al. 2008).
+                                              blackbody spectra with (color) temperatures from 40 to 700 eV                  For a sufficiently accurate evaluation of NS radii, a
+                                              (see, for example, Mereghetti et al. 2002). Some of the XDINSs             good model of the NS surface radiation for the observed
+                                              and CCOs in supernova remnants have one or more absorption                 X-ray spectra fitting is necessary. The isolated NS surface
+                                              features in their X-ray spectrum at the energies 0.2 – 0.8 keV             layers can either be condensed or have a plasma enve-
+                                                                                                                         lope (Lai & Salpeter 1997; Lai 2001). In the latter case, the
+                                              Send offprint requests to: V. Suleimanov                                   outer envelope layer forms an NS atmosphere. The structure
+                                              Correspondence to: e-mail: suleimanov@astro.uni-tuebingen.de               and emergent spectrum of this atmosphere can be computed
+2                             Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres
+
+by using stellar model atmosphere methods (e.g. Mihalas
+1978). Such modeling has been performed by many scien-                                            z, n
+tific groups for NS model atmospheres without magnetic field                                                 B
+(Romani 1987; Zavlin et al. 1996; Rajagopal & Romani 1996;                                                         O- mode
+Werner & Deetjen 2000; Gänsicke et al. 2002; Pons et al. 2002)
+                                                        12
+and by several groups for models with strong (B >   ∼ 10 G) mag-                                                       X-mode
+netic fields (Shibanov et al. 1992; Rajagopal et al. 1997; Özel                                             θ
+                                                                                                    θB
+2001; Ho & Lai 2001, 2003, 2004; van Adelsberg & Lai 2006).                                              α         k
+These model spectra were used to fit the observed isolated NS
+X-ray spectra (see review by Zavlin 2009).                                                                                   y
+                                                                                                             ϕ
+     Modeling of magnetized NS star atmospheres is based on
+the theory of electromagnetic wave propagation in a magne-
+tized plasma in two normal modes, extraordinary (X) and or-                               x
+dinary (O) ones (Ginzburg 1970; Mésźaros 1992), and on the
+methods of opacity calculations for these two modes (Ventura
+1979; Kaminker et al. 1982, 1983). Methods of fully ionized
+model atmospheres modeling are well developed (see, e.g.,
+                                                                      Fig. 1. Geometry of the radiation transfer.
+Zavlin 2009 for references). Partially ionized hydrogen atmo-
+spheres have been modeled (Potekhin et al. 2004; Ho & Lai
+2004; Ho et al. 2008), using the opacity and EOS calculations by      2. Method of atmosphere structure calculations
+Potekhin & Chabrier (2003, 2004), which accurately take into
+account the motional Stark effect and plasma nonideality ef-          We compute model atmospheres of hot, magnetized NSs subject
+fects in quantizing magnetic fields. Mid-Z element atmospheres        to the constraints of hydrostatic and radiative equilibrium assum-
+for strongly magnetized NSs have been modeled by Mori & Ho            ing planar geometry and homogeneous magnetic field. There are
+(2007), who treat the motional Stark effect using a perturbation      two versions of the code. In the first one, we consider the mag-
+theory (Pavlov & Mészáros 1993) valid at relatively low T .         netic field B perpendicular to the surface. In this case the angle
+     For magnetar atmospheres, polarization of the vacuum can         α between B and a radiation wave vector k is equal to the angle
+be significant, which was studied by Pavlov & Gnedin (1984)           θ between k and the normal n to the surface (see Fig. 1). It is the
+and recently by Lai & Ho (2002, 2003). Model atmospheres with         simplest case, because opacities depend on α, and the geome-
+partial mode conversion due to the vacuum polarization have           try of radiation propagation depends on θ. In the second version,
+been computed by Ho & Lai (2003) and van Adelsberg & Lai              the angle θB between B and n is arbitrary, and calculations are
+(2006).                                                               more expensive. In this case the opacities depend not only on
+                                                                      the polar angle θ, but also on the azimuthal angle ϕ between the
+     If the temperature is sufficiently low or the magnetic           projections of B and n onto the stellar surface, therefore it is
+field is sufficiently strong, the thick atmosphere can be re-         necessary to solve radiation transfer equations for a significantly
+placed by a condensed surface (Lai & Salpeter 1997; Lai 2001;         larger number of directions.
+Medin & Lai 2007) as a result of the plasma phase tran-                   The model atmosphere structure for a NS with effective tem-
+sition (cf. Potekhin et al. 1999; Potekhin & Chabrier 2004).          perature T eff , surface gravity g, magnetic field B, and given
+Emission and absorption properties of such surfaces in strong         chemical composition is described by the following set of equa-
+magnetic fields have been studied by Turolla et al. (2004);           tions:
+van Adelsberg et al. (2005); Pérez-Azorı́n et al. (2005).
+     In recent years, evidence has appeared that some of the          1. The hydrostatic equilibrium equation
+XDINSs may have a “thin” atmosphere above the condensed                   dPg
+surface. Such atmosphere could be optically thick to low-energy               = g − grad ,                                           (1)
+photons and optically thin to high-energy photons. Motch et al.           dm
+(2003) fitted the spectrum of RX J0720.4−3125 using a non-               where
+magnetic thin hydrogen atmosphere model, and Ho et al. (2007)
+fitted the spectrum of RX J1856.4−3754 using a magnetic, par-                      GMNS
+                                                                         g=       √            ,                                     (2)
+tially ionized, thin hydrogen atmosphere model.                               R2NS 1 − RS /RNS
+     In this paper we present a new computer code for model at-
+                                                                                     2    Z ∞ Z 2π Z +1
+mospheres of magnetized NSs and some new results, which were                      1X
+obtained by using this code. The code is applicable to modeling          grad =              dν  dϕ   (kνi + σiν ) µ Iνi (µ, ϕ) dµ   (3)
+                                                                                  c i=1       0     0        −1
+of fully ionized NS atmospheres and partially ionized hydrogen
+atmospheres accounting for the partial mode conversion due to
+the vacuum polarization. The magnetic field can be normal or             allows for the radiation pressure, and RS = 2GMNS /c2 is the
+inclined to NS surface. We use this code to study various thin           Schwarzschild radius of the NS. Here µ = cos θ, Iνi (µ, ϕ) is
+atmospheres above a condensed NS surface. In particular, we              the specific intensity in mode i, Pg is the gas pressure, and
+consider a novel “sandwich” atmosphere model, where a thin at-           the column density m is determined as
+mosphere is composed of a hydrogen layer above a helium layer.           dm = −ρ dz .                                                (4)
+We also discuss the possibility to apply our thin partially ionized
+hydrogen model atmospheres with vacuum polarization to fit the           The variable ρ denotes the gas density and z is the vertical
+spectrum of RBS 1223. Our numerical method is outlined in § 2;           distance. Of course, radiation pressure is unimportant in the
+Results are presented and discussed in § 3. Conclusions are sum-         models presented below, but it can be more significant at
+marized in § 4.                                                          higher effective temperatures.
+                                      Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres                                      3
+
+2. The radiation transfer equations for the two modes
+        dIνi                                                                                                            o
+                                                                                                                                               6
+                                                                                                                                        T=7 10 K
+    µ        = Iνi − S νi                                                  (5)                             5
+                                                                                                                 θ=5
+        dτiν                                                                                         10                                 ρ = 30 g cm
+                                                                                                                                                   -3
+
+                                                                                                           1                                   14
+    where                                                                                            10                                 B = 10 G
+                                                                                                           -3      FF
+                  kνi   Bν                                                                           10
+         S νi =            +                                            (6)                                                  ES
+               kν + σiν 2
+                i
+                                                                                                     10
+                                                                                                           -7
+
+                       2 Z 2π    Z +1
+          1     1     X
+                                      ij                  j                                               -11
+                             dϕ′
+                                     σν (µ, ϕ; µ′ , ϕ′ ) Iν (µ′ , ϕ′ ) dµ′                           10
+         2π kνi + σiν j=1 0                                                                                             o         proton cyclotron
+
+
+
+
+                                                                                 
+                                  −1                                                                       5    θ = 45
+
+
+
+
+                                                                                  2SDFLW\FP J
+                                                                                                     10                           line
+
+
+
+
+                                                                                 
+    is the source function, Bν is the blackbody (Planck) intensity,                                        1
+    and the optical depth τiν is defined as                                                          10
+                                                                                                           -3
+                                                                                                     10
+    dτiν = (kνi + σiν ) dm.                                                (7)
+                                                                                                           -7
+    Here, the true absorption and electron scattering opacities kνi
+                                                                                                     10
+                                                                                                          -11                      vacuum resonance
+    and σiν depend on µ and ϕ. Specific intensity in given direc-                                    10
+    tion and mode can be scattered in some other direction and                                             5
+    in both modes                                                                                    10
+                                                                                                                         o
+                     2 Z                                                                             10
+                                                                                                           1
+                                                                                                                θ = 90
+                  1 X 2π ′ +1 i j
+                                Z
+    σiν (µ, ϕ) =            dϕ       σν (µ, ϕ; µ′ , ϕ′ ) dµ′   (8)                                         -3
+                 2π j=1 0         −1                                                                 10
+                                                                                                           -7
+3. The energy balance equation                                                                       10
+                                                                                                          -11
+          2 Z
+      1 X ∞
+                        Z 2π                                                                         10
+                    dν          dϕ                                                                        0.01           0.1      1          10
+     2π i=1 0              0
+       Z +1                                                                                                        3KRWRQHQHUJ\NH9
+                                                 
+     ×        (kνi + σiν )Iνi (µ, ϕ) − ηiν (µ, ϕ) dµ = 0                   (9)
+             −1
+
+    with emissivity
+                            2    Z 2π Z +1                                       Fig. 2. Dependence of the free-free and electron scattering opac-
+                     1 X                   ij                 j
+    ηiν (µ, ϕ)    =                 dϕ′  σν (µ, ϕ; µ′ , ϕ′ ) Iν (µ′ , ϕ′ ) dµ′   ities in two modes on the photon energy at different angles
+                    2π j=1        0        −1                                    in a fully ionized hydrogen plasma. The proton cyclotron and
+                          Bν                                                     vacuum resonances are also shown. The plasma temperature is
+                  + kνi      .                                           (10)    7×106 K, the plasma density is 30 g cm−3 , the magnetic field
+                          2
+                                                                                 strength is 1014 G.
+    Equations (1) – (10) must be completed by the EOS and the
+charge and particle conservation laws. In the code two different
+cases of these laws are considered.
+    In the first (simplest) case, a fully ionized atmosphere are
+calculated. Therefore, the EOS is the ideal gas law
+                                                                                 fields. A nonmagnetic version of this modified code was pre-
+Pg = ntot kT ,                                                           (11)    viously used to model atmospheres of super-soft X-ray sources
+                                                                                 (Swartz et al. 2002; Ibragimov et al. 2003), atmospheres of
+where ntot is the number density of all particles. Opacities                     non-magnetized NSs (Suleimanov & Werner 2007; Rauch et al.
+are calculated in the same way as in the paper by                                2008), and atmospheres of spreading layers on the surface of ac-
+van Adelsberg & Lai (2006) (see references therein for the back-                 creting NSs (Suleimanov & Poutanen 2006).
+ground theory and more sophisticated approaches). The vac-
+                                                                                     The scheme of calculations is as follows. First of all, the
+uum polarization effect is taken into account following the same
+                                                                                 input parameters of the model atmosphere are defined: T eff , g,
+work. Examples of opacities as functions of photon energy and
+                                                                                 B and the chemical composition. Then a starting model using
+angle θ for a magnetized electron-proton plasma are shown in
+                                                                                 a grey temperature distribution is calculated. The calculations
+Figs. 2 and 3.
+                                                                                 are performed with a set of 90 depth points m j distributed log-
+     The second considered case is a partially ionized hydrogen
+atmosphere. In this case the EOS and the corresponding opac-                     arithmically in equal steps from m1 ≈ 10−5 g cm−2 to mmax ≈
+ities are taken from tables calculated by Potekhin & Chabrier                    105 g cm−2 in the case of a semi-infinite atmosphere. It is also
+(2003, 2004). The normal mode polarization vectors are taken                     possible to calculate thin atmospheres with arbitrary values of
+from the calculations by Potekhin et al. (2004). The vacuum po-                  mmax . In this case the temperature at the inner boundary is con-
+larization effect is also included.                                              sidered as the temperature of a condensed NS surface.
+     For solving the above equations and computing the model                         In the starting model, all number densities and opacities at all
+atmosphere, we used a version of the computer code ATLAS                         depth points and all photon energies are calculated. We use 200
+(Kurucz 1970, 1993), modified to deal with strong magnetic                       logarithmically equidistant energy points in our computations in
+4                                                            Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres
+
+                                                                                                      the range 0.001 -20 keV with 9 additional points near each ion
+                            10
+                                      2                                                               cyclotron resonance
+                                           E=1 keV                                                                              B        Z
+                                                                                 O - mode             Eci = 0.635 keV                        ,                         (12)
+    
+
+
+
+
+                                                                                                                           1014 G A
+    2SDFLW\FP J
+                                      0
+                            10
+    
+
+
+
+
+                                                                                                      where Z is the ionic charge and A the atomic weight in the atomic
+                                  -2                           free-free absorption (FF)              units. If the vacuum resonance is taken into consideration, then
+                            10                                                                        another photon energy grid is used, which is constructed using
+                                                                                                      the “equal grid” method (Ho & Lai 2003). In this method every
+                                  -4                                                                  point in the depth grid m j corresponds to the point in the energy
+                            10                     electron scattering (ES)
+                                                                                                      grid defined by the equation
+                                                                                   X - mode
+                                  -6
+                                                                                                      Ei = EV (ρ(m j ))                                                (13)
+                            10
+                                                                                                      (if this energy point is in the considered energy range 0.001 -20
+                                                                                                      keV). Here EV (ρ) is the energy of the vacuum resonance at given
+                                                                             E ~ ECp                  B and ρ (see van Adelsberg & Lai 2006). The opacity averaged
+      
+
+
+
+
+                                                                                                      in the energy interval (Ei−1 , Ei+1 ) is used to avoid opacity over-
+         2SDFLW\FP J
+
+
+
+
+                                      5
+                            10                                                                        estimation in frequency integrals like (9). This energy grid is re-
+      
+
+
+
+
+                                                          FF                                          calculated after every iteration. Note that the vacuum resonance
+                                                                                                      energy EV (ρ) in a partially ionized plasma is shifted relative to
+                                      1                                                               its value in a fully ionized plasma (see Fig. 4).
+                            10
+                                                                                                           The radiation transfer equation (5) is solved on a set of
+                                                                                                      40 polar angles θ and 6 azimuthal angles ϕ (in the case of
+                                  -3                                                                  inclined magnetic field) by the short characteristic method
+                            10                            ES                                          (Olson & Kunasz 1987).
+                                                                                                           We use the conventional condition (no external radiation) at
+                                                                                                      the outer boundary
+                                  -7
+                            10
+                                            0           20          40          60          80        Iνi (µ < 0, m = m1 ) = 0.                                        (14)
+
+                                                             θ GHJUHH                             The diffusion approximation is used as the inner boundary con-
+                                                                                                      dition
+                                                                                                                                    Bν
+                                                                                                      Iνi (µ > 0, m = mmax ) =         .                               (15)
+Fig. 3. Dependence of the free-free and electron scattering opac-                                                                   2
+ities in two modes on the angle between the magnetic field lines                                           The code allows one to take into account the partial mode
+and the direction of photon propagation for two photon energies:                                      conversion according to van Adelsberg & Lai (2006). At the
+1 keV and at the proton cyclotron energy. Plasma parameters and                                       vacuum resonance, the intensity in the extraordinary mode par-
+magnetic field strength are the same as in Fig. 2.                                                    tially converts with the probability 1 − Pjump to the intensity in
+                                                                                                      the ordinary one and vice versa
+
+                            10
+                                 6                                                                    Iν1,2 → Pjump Iν1,2 + (1 − Pjump ) Iν2,1 ,                       (16)
+                                                                                       6
+                                                    ion cyclotron line          T = 10 K
+                                 4                                                          -3        where
+                            10                                                  ρ = 1 g cm
+      -1
+         Opacity, cm g
+
+
+
+
+                                                                                         13
+                                                                                                                  π         
+                                          O-mode                                B = 4 10 G
+                                                                                                      Pjump = exp − (E/Ead )3 .                                        (17)
+      2
+
+
+
+
+                                 2                                                     o
+                            10                                                  θ = 60                             2
+                            10
+                                 0                                                                    The value Ead is a function of E, B, ρ, T, µ (see
+                                                                                                      van Adelsberg & Lai 2006 for details).
+                            10
+                                 -2                                                                       The solution of the radiative transfer equation (5) is checked
+                                           X-mode
+                                                                                                      for the energy balance equation (9), together with the surface
+                            10
+                                 -4                                                                   flux condition
+                                                                                                         Z ∞
+                                 -6
+                                                                  vacuum resonance                                                4
+                            10                                                                        4π      Hν (m = 0) dν = σT eff = 4πH0 ,                       (18)
+                                             0.1                         1                       10        0
+                                                    Photon energy, keV                                where the Eddington flux at any given depth m is defined as
+Fig. 4. Dependence of the true opacities in two modes on the                                                      1 X
+                                                                                                                       2   Z 2π          Z +1
+photon energy for fully (dashed curves) and partially ionized                                         Hν (m) =                      dϕ            µIνi (µ, ϕ, m) dµ.   (19)
+(solid curves) hydrogen. The vacuum polarization effect is taken                                                 4π i=1     0                −1
+into account. The plasma temperature is 106 K, the plasma den-
+sity is 1 g cm−3 , the magnetic field strength is 4 × 1013 G. The                                     The relative flux error
+angle between photon propagation direction and the magnetic                                                                 H0
+field is 60◦ .                                                                                        εH (m) = 1 − R ∞                   ,                             (20)
+                                                                                                                       0
+                                                                                                                           Hν (m)dν
+                                                             Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres                                  5
+                                                                                                                         i
+                                                                                                         and αiν = σiν /(kν + σiµ ). Averaged opacities are defined as
+ -1                                                                                                               Z 2π       Z +1
+  H E , erg cm s keV                                                                                       i    1
+                       10
+                             21                                                                           kν =           dϕ         kνi (µ, ϕ) dµ,                       (24)
+                                                                                                               4π 0           −1
+                                                                                                                  Z 2π       Z +1
+ -1
+
+
+
+
+                                                                                                                1
+                                                                                                         σiν =           dϕ         σiν (µ, ϕ) dµ.                       (25)
+                                                                                                               4π 0
+ -2
+
+
+
+
+                             20                                                                                               −1
+                       10
+                                                                                                         Λiνdiag is the diagonal matrix element of the Λ operator depend-
+                                                                                                         ing on the mean optical depth in given mode i. The mean optical
+                                                                                                                                         i
+                       10
+                             19                                                                          depth is defined by d τiν = (kν + σiµ ) dm (see Kurucz 1970 for
+                                                                                                         details of Λνdiag – τν dependence). This procedure is used in the
+                                                                                                         upper atmospheric layers. The second procedure is the Avrett-
+                                                                                                         Krook flux correction, which uses the relative flux error εH (m),
+                             0.1                     1           10                                      and it is performed in the deep layers. And the third one is the
+                                              Photon energy, keV                                         surface correction, which is based on the emergent flux error (see
+                            16                                                                           Kurucz 1970 for a detailed description).
+                                                         6                                                    The iteration procedure is repeated until the relative flux er-
+                            14          Teff = 5 10 K                                                    ror is smaller than 1% and the relative flux derivative error is
+                            12          log g = 14.3                                                     smaller than 0.01%. As a result of these calculations, we obtain
+     L D
+
+
+
+
+                                        B = 5 10 G
+                                                  14                                                     a self-consistent isolated NS model atmosphere, together with
+  
+
+
+
+
+                            10                                                                           the emergent spectrum of radiation.
+                             8          ionized H                                                             Our method of calculation has been tested by a compari-
+                                                                                                         son to models for magnetized NS atmospheres (Shibanov et al.
+                             6
+                                                                                                         1992; Pavlov et al. 1994; Ho & Lai 2001; Özel 2001; Ho & Lai
+                             4                                                                           2003). Model atmospheres with partially ionized hydrogen are
+                             2                                                                           compared to models computed by Ho et al. (2007). We have
+                                                                                                         found that our models are in a good agreement with these cal-
+                             0           -4         -2             0        2        4        6          culations. Our results are presented in Fig. 5, where the temper-
+                                    10         10             10       10       10       10              ature structures and the emergent spectra of models with and
+                                                                                                       without vacuum polarization are compared to a model with-
+                                              FROXPQGHQVLW\JFP                                     out magnetic field. In Fig. 6 we present emergent spectra and
+                                                                                                         temperature structures of the semi-infinite and thin model atmo-
+                                                                                                         spheres with the same parameters as used by Ho et al. (2007).
+Fig. 5. Emergent spectra and temperature structures of fully ion-
+ized hydrogen model atmospheres of neutron stars with T eff =
+5 × 106 K and log g = 14.3. The models with and without (dash-                                           3. Results
+dotted curves) strong (B = 5 × 1014 G) magnetic field as well                                            In this work we use the developed code mainly for studies of thin
+as with (solid curves) and without (dashed curves) vacuum po-                                            atmospheres above a condensed NS surface. In all calculations
+larization effect are shown. The blackbody spectrum with the                                             below we use the same surface gravity, log g = 14.3.
+temperature equal the effective temperature is also shown in the                                             One of the problem related to magnetars (in particular,
+upper panel (dotted curve).                                                                              AXPs) is the lack of any absorption feature at the proton cy-
+                                                                                                         clotron energy, although early models of the magnetized NS
+and the energy balance error as functions of depth                                                       atmospheres predicted a strong feature at the magnetar field
+                                                                                                         strengths (Ho & Lai 2001; Zane et al. 2001). Ho & Lai (2003)
+            2 Z ∞      Z 2π
+           X                                                                                             suggested that a possible solution of this problem is the sup-
+  εΛ (m) =          dν      dϕ                                                                           pression of the cyclotron absorption feature due to the vacuum
+                                  i=1   0           0
+    Z +1                                                                                                polarization. We confirm this result (see Fig. 5). In addition, we
+                                                                                                        demonstrate that this absorption line is further reduced in a thin
+  ×       (kνi + σiν )Iνi (µ, ϕ) − ηiν (µ, ϕ) dµ                                                  (21)   atmosphere without vacuum polarization. Figure 7 demonstrates
+                       −1
+                                                                                                         emergent spectra of thin atmospheres without allowance for the
+are calculated.                                                                                          vacuum polarization effect. In the semi-infinite atmosphere, a
+    Temperature corrections are then evaluated using three dif-                                          wide proton cyclotron line forms in agreement with the results
+ferent procedures. The first is the integral Λ-iteration method,                                         of Ho & Lai (2001); Zane et al. (2001). However, the absorp-
+modified for the two-mode radiation transfer, based on the en-                                           tion feature disappears with decreasing the atmosphere surface
+ergy balance equation (9). In this method the temperature cor-                                           density Σ. The thin atmosphere is transparent to the continuum
+rection for a particular depth is found from                                                             and absorption line wings, therefore the emergent spectrum ap-
+        −εΛ (m)                                                                                          proaches the spectrum of the condensed surface everywhere ex-
+∆T Λ = R ∞        ,                                                                               (22)   cept for a narrow energy band at the center of the cyclotron line.
+        0
+           Φ ν dν
+                                                                                                         The width of this absorption depends on the atmosphere thick-
+where                                                                                                    ness.
+      2 h                                                                                                    Some XDINSs and CCOs show one or two absorption fea-
+     X                                    i i
+Φν =      (Λiνdiag − 1)/(1 − αiν Λiνdiag ) kν (dBν/dT )                                           (23)   tures (Haberl 2007; Sanwal et al. 2002; Schwope et al. 2007).
+                       i=1
+                                                                                                         Various hypothesis (so far inconclusive) were considered for
+6                                                   Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres
+
+
+                                                                                                                              19
+                                                                                                                         10
+
+
+
+
+                                                                                                     -1
+                           19                                                          5
+                      10                                           Teff = 5.25 10 K
+    -1
+
+
+
+
+                                                                                                      HE, erg cm s keV
+    Fλ , erg cm s A
+                                                                                       5
+                                                                   Tinfty = 4.3 10 K
+    -1
+
+
+                           17
+
+
+
+
+                                                                                                     -1
+                      10                                                     12                                          10
+                                                                                                                              18
+    -2
+
+
+
+
+                                                                   B = 4 10 G
+
+
+
+
+                                                                                                     -2
+                           15
+                      10                                           z = 0.22
+                                                                                                                                          6
+                           13                                                                                                 17   Teff = 10 K
+                      10                                                                                                 10              14
+                                                                                                                                   B = 10 G
+                           11
+                      10
+                            9                                                                                                         0.1           1
+                      10 1                          2                    3                      4
+                        10                     10        10                                10                                       Photon energy, keV
+                                               Wavelength, A
+                                                                                                    Fig. 7. Emergent spectra of the thin fully ionized hydrogen at-
+                                                                                                    mospheres above a solid surface with T eff = 106 K and B = 1014
+                                                                                                    G in comparison to the semi-infinite atmosphere (dashed curve).
+                            6
+                                                                                                    The spectra of atmospheres with surface densities Σ=1 (solid
+                      10                                                                            curve) and 100 g cm−2 (dash-dotted curve) together with the cor-
+                                                                                                    responding blackbody (dotted curve) are shown. Vacuum polar-
+         T, K
+
+
+
+
+                                                                                                    ization effect is not included.
+
+                            5
+                      10
+                                                                                                    ture change can be reduced. We plan to calculate models with
+                                                                                                    this kind of transition zone in future work.
+                                -7        -5        -3        -1         1         3            5        For comparison to observations, it is necessary to integrate
+                           10        10        10        10         10       10            10       the local model spectra over the NS surface. The effective tem-
+                                                                                  -2                perature and magnetic field strengths are not uniform over the
+                                          column density, g cm
+                                                                                                    NS surface, and generally the magnetic field is not perpendicular
+                                                                                                    to the surface (see Ho et al. 2008). Therefore, it is necessary to
+                                                                                                    compute model atmospheres with inclined magnetic field. This
+Fig. 6. Top panel: Emergent spectra of the partially ionized hy-                                    possibility is included in our code. For example, Fig. 9 shows
+drogen semi-infinite (dashed curve) and thin (Σ = 1.2gcm−2 ,                                        spectra and temperature structures of model atmospheres with
+solid curve) model atmospheres (T eff = 5.25×106 K, B = 4×1012                                      magnetic field perpendicular and parallel to the NS surface.
+G) together with the corresponding blackbody spectrum (dot-                                              Most of the XDINSs have magnetic fields B ≥ 1013 G and
+ted curve). The spectra are calculated with gravitational redshift                                  color temperatures ≈ 106 K (Haberl 2007). Hydrogen model at-
+(z=0.22) taking into consideration. Bottom panel: Temperature                                       mospheres are partially ionized under these conditions and the
+structures of the models from the top panel together with the                                       vacuum polarization effect is also significant. Here we present
+temperature structure of a fully ionized hydrogen model (dotted                                     first results of modeling of partially ionized hydrogen atmo-
+curve).                                                                                             spheres using our radiative transfer code. In Fig. 10 we com-
+                                                                                                    pare spectra and temperature structures of the partially ionized
+                                                                                                    hydrogen model atmospheres with and without the partial mode
+an explanation (see Mori & Ho 2007 and references therein).                                         conversion effect. When the X-mode (having smaller opacity)
+Here we suggest another one, which we name “sandwich at-                                            partially converts to the O-mode in the surface layers of the at-
+mosphere”. A thin, chemically layered atmosphere above a con-                                       mosphere, the energy absorbed by the O-mode heats these upper
+densed NS surface can arise from accretion of interstellar gas                                      layers. As a result, the emergent spectra are closer to the black-
+with cosmic chemical composition. In this case, hydrogen and                                        body.
+helium quickly separate due to the high gravity (according to                                            For some of the XDINSs, optical counterparts have been
+Brown et al. 2002, the He/H stratification timescale can be es-                                     found (Mignani et al. 2007). The observed optical fluxes are a
+timated as ∼ ρ1.3   −0.3 −2
+                 1 T6    g14 s, where ρ1 = ρ/10 g cm−3 , T 6 =                                      few times larger compared to the blackbody extrapolation from
+T/106 K, and g14 = g/1014 cm s−2 ). In this “sandwich atmo-                                         X-rays to the optical range (see top panel of Fig. 12 for illus-
+sphere” a layer of hydrogen is located above a helium slab, and                                     tration). Ho et al. (2007) demonstrated, that a single partially
+the emergent spectrum has two absorption features, correspond-                                      ionized thin hydrogen atmosphere can explain this problem in
+ing to proton and α-particle cyclotron energies. In Fig. 8 the                                      the case of brightest isolated NS RX J1856.4−3754: the model
+emergent spectrum for one of such models is shown. The emis-                                        fits well both, the observed optical flux and the X-ray spec-
+sion feature at the helium absorption line arises due to a local                                    trum. RX J1856.4−3754 has very low pulsed fraction of radia-
+temperature bump at the boundary between the helium and hy-                                         tion (≈ 1.2 %, Tiengo & Mereghetti 2007), therefore it is pos-
+drogen layers. This bump arises due to sharp changing of the                                        sible to fit the radiation of this star by the single model atmo-
+plasma density and the opacity between helium and hydrogen                                          sphere. Other XDINSs have larger pulse fractions, up to 18%
+layers. Clearly, some transition zone with mixed H/He chemical                                      (RBS 1223, Haberl et al. 2004). In this case the temperature dis-
+composition must exist between layers, and this rapid tempera-                                      tribution across the NS surface is not homogenous, and the ex-
+                                              Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres                                                            7
+
+
+
+                          19
+
+
+
+
+                                                                                      -1
+                     10
+ -1
+
+
+
+
+                                                                                       HE, erg cm s keV
+  HE, erg cm s keV
+                                                                                                               19
+                                                                                                          10
+
+
+
+
+                                                                                      -1
+ -1
+
+
+
+
+                          18
+                     10
+
+
+
+
+                                                                                      -2
+ -2
+
+
+
+
+                                                                                                               18
+                                                                                                          10
+                                                6
+                          17         Teff = 10 K
+                     10                        14
+                                     B = 10 G                                                                  17
+                                                                                                          10
+
+                                        0.1          1                                                                        0.1         1                                      10
+                                     Photon energy, keV                                                                        Photon energy, keV
+
+                                                                                                                7                            6
+                           6                                                                              10             Teff = 1.5 10 K
+                     10                                                                                                            13
+                                                                                                                         B = 4 10 G
+
+
+
+
+                                                                                        T, K
+    T, K
+
+
+
+
+                                                                                                                6
+                                                                                                          10
+
+                           5
+                     10
+                               -5        -3              -1        1             3                                  -6        -4        -2            0        2             4
+                          10        10              10        10            10                                 10        10        10            10       10            10
+                                                                                                                                                                   -2
+                                    column density, g cm
+                                                                       -2                                                 column density, g cm
+
+
+Fig. 8. Emergent spectrum (top panel) and temperature struc-                         Fig. 9. Emergent spectra and temperature structures of partially
+ture (bottom panel) of the “sandwich” model atmosphere above                         ionized hydrogen model atmospheres with T eff = 1.5 × 106 K
+a solid surface with T eff = 106 K and B = 1014 G (solid curve)                      with inclinations of the magnetic field (B = 4×1013 G) to the sur-
+in comparison with the thin fully ionized hydrogen atmosphere                        face normal θB equal 0◦ (solid curves) and 90◦ (dashed curves).
+(dashed curve) with the same parameters. The surface densities                       The vacuum polarization effect is not included. The correspond-
+of both model atmospheres are 100 g cm−2 , in the “sandwich”                         ing blackbody spectrum is also shown in the upper panel (dotted
+model the H slab has 25 g cm−2 surface density and the He slab                       curve).
+has 75 g cm−2 . The corresponding blackbody spectrum (dotted
+curve) is also shown in the top panel.
+                                                                                         In Fig. 12 (bottom panel) we show the ratio of the model at-
+                                                                                     mosphere flux to the X-ray fitted blackbody flux in the optical
+cess optical flux can be explained by the radiation from cool                        band depending on Σ for both sets. The observed ratio is about
+surface parts (Schwope et al. 2005).                                                 5 (Kaplan et al. 2002b), in agreement with the semi-infinite at-
+     We now investigate properties of partially ionized hydro-                       mosphere models. However, the observed blackbody like X-ray
+gen modes, which can be applied to the RBS 1223 atmosphere.                          spectrum agrees with the thin atmosphere models, for which
+The color temperature of this star, found from X-ray spectra fit-                    this ratio is close to 1. Therefore, the observed optical excess
+ting, is close to 106 K, with magnetic field B ≈ 4 × 1013 G                          cannot be explained by the thin atmosphere model alone; in-
+(Schwope et al. 2007). In particular, we investigate the optical                     stead, it can arise due to a nonuniform surface temperature dis-
+flux excess in comparison to the X-ray fitted blackbody flux in                      tribution, in agreement with the RBS 1223 light curve modeling
+this kind of models. For this aim we have calculated two sets of                     (Schwope et al. 2005).
+models with vacuum polarization and partial mode conversion.
+The models in the first set have effective temperatures T eff = 106                  4. Conclusions
+K and the models of second one have effective temperatures
+T eff = 1.2 × 106 K. In both sets B = 4 × 1013 G, and models                         In this paper a new code for the computation of magnetized NS
+with surface densities Σ = 1, 3, 10, 30, 100 and 105 (semi-infinite                  model atmosphere is presented. It can model fully ionized and
+model) g cm−2 are computed. In Fig. 11 we show emergent spec-                        partially ionized hydrogen atmospheres in a wide range of effec-
+tra and temperature structures for some models from the second                       tive temperatures (3 × 105 – 107 K) and magnetic fields (1012 –
+set. Clearly, the X-ray spectra of the models with Σ ≤ 10 g cm−2                     1015 G), with any inclination of the magnetic field to the stellar
+are close to a blackbody and, therefore, better fit the observed                     surface. The vacuum polarization effect with partial mode con-
+X-ray spectrum.                                                                      version is taken into consideration. Calculated emergent spectra
+8                                                 Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres
+
+
+
+    -1
+
+
+
+
+                                                                                                     -1
+    HE, erg cm s keV
+
+
+
+
+                                                                                                     HE, erg cm s keV
+                            19                                                                                               19
+                       10                                                                                               10
+    -1
+
+
+
+
+                                                                                                     -1
+    -2
+
+
+
+
+                                                                                                     -2
+                            18                                                                                               18
+                       10                                                                                               10
+
+                            17                                                                                               17
+                       10                                                                                               10
+
+                                           0.1         1                                      10                                           0.1         1                            10
+                                           Photon energy, keV                                                                              Photon energy, keV
+
+                             7                            6                                                                   7
+                       10             Teff = 1.5 10 K                                                                   10
+                                                                                                                                                         6
+                                      B = 4 10 G
+                                                 13                                                                                    Teff = 1.2 10 K
+
+
+
+
+                                                                                                          T, K
+                                                                                                                                                   13
+                                                                                                                                       B = 4 10 G
+      T, K
+
+
+
+
+                             6                                                                                                6
+                       10                                                                                               10
+
+
+
+                                 -6        -4        -2            0        2             4                                       -6          -4             -2        0        2        4
+                            10        10        10            10       10            10                                      10          10             10        10       10       10
+                                                                                -2                                                                                          -2
+                                       column density, g cm                                                                               column density, g cm
+
+
+Fig. 10. Emergent spectra and temperature structures of the par-                                   Fig. 11. Emergent spectra and temperature structures of the par-
+tially ionized hydrogen model atmospheres with T eff = 1.5 × 106                                   tially ionized hydrogen model atmospheres with T eff = 1.2 × 106
+K with (solid curves) and without (dashed curves) vacuum polar-                                    K with vacuum polarization effect the partial mode conversion
+ization effect (with the partial mode conversion). The magnetic                                    shown for various surface densities Σ (solid curves - 1 g cm−2 ,
+field strength is B = 4 × 1013 G. The corresponding blackbody                                      dashed curves - 10 g cm−2 , dash-dotted curves - semi-infinite at-
+spectrum is also shown in the upper panel (dotted curve).                                          mosphere). The magnetic field strength is B = 4 × 1013 G. The
+                                                                                                   corresponding blackbody spectrum is also shown in the upper
+                                                                                                   panel (dotted curve).
+and temperature structures of the model atmospheres agree with
+previously published ones.
+    We presented new results obtained using this code. We have                                         The accuracy of the thin and sandwich model atmospheres
+                                                                                                   is currently limited by the inner boundary condition for the ra-
+studied the properties of thin atmospheres above condensed NS
+surfaces. We demonstrated that the proton cyclotron absorption                                     diation transfer equation. We used blackbody radiation as this
+line disappears in the thin hydrogen model atmospheres. A new                                      condition, but a higher accuracy can be achieved by replacing it
+                                                                                                   by the condensed surface condition (van Adelsberg et al. 2005).
+thin “sandwich” model atmosphere (hydrogen layer above he-
+lium layer) is proposed to explain the occurrence of two absorp-                                   This will be done in a future work. We are also planning to in-
+tion features in the observed X-ray spectra of some isolated NSs.                                  clude the effect of magnetic field and temperature distributions
+                                                                                                   over the stellar surface to compute an integral emergent spec-
+    We analyzed the optical excess (relative to the X-ray fitted
+                                                                                                   trum from isolated NSs.
+blackbody flux) in the model spectra of partially ionized hy-
+drogen atmospheres with vacuum polarization and partial mode                                       Acknowledgements. VS thanks DFG for financial support (grant We 1312/35-
+conversion.                                                                                        1 and grant SFB/Transregio 7 ”Gravitational Wave Astronomy”) and the
+    A set of model atmospheres with parameters (effective tem-                                     President’s programme for support of leading science schools (grant NSh-
+                                                                                                   4224.2008.2). The work of AYP is supported by RFBR grants 05-02-2203
+perature and the magnetic field strength) close to the probable                                    and 08-02-00837 and the President’s programme for support of leading science
+parameters of the isolated NS RBS 1223 were calculated. We                                         schools (grant NSh-2600.2008.2).
+found the optical flux excess ≈ 5 for the semi-infinite model
+atmospheres decreases down to 1 with decreasing surface den-
+sity Σ of the atmosphere. Spectra of thin model atmospheres fit                                    References
+the observed RBS 1223 X-ray spectrum better, therefore we con-                                     Baiotti, L., Giacomazzo, B. & Rezzolla, L. 2008, Phys. Rev. D, 78, 084033
+clude that the observed optical excess should be explained by                                      Brown, E. F., Bildsten, L,, & Chang, P. 2002, ApJ, 574, 920
+nonuniform surface temperature distribution.                                                       Burwitz, V., Zavlin, V.E., Neuhäuser, R. et al. 2001, A&A, 379, L35
+                                       Suleimanov, Potekhin & Werner: Models of magnetized neutron star atmospheres                                              9
+
+                                                                                 Kurucz, R. 1993, Atomic data for opacity calculations. Kurucz CD-ROMs,
+                                                                                     Cambridge, Mass.: Smithsonian Astrophysical Observatory, 1993, 1
+ -1
+                                                                6                Lai, D. 2001, Reviews of Modern Physics, 73, 629
+  Hλ , erg cm s A
+                         16                             Teff = 10 K              Lai, D. & Salpeter, E. E. 1997, ApJ, 491, 270
+                    10                                              13           Lai, D. & Ho. W.C.G. 2002, ApJ, 566, 373
+ -1
+
+
+
+                                                        B = 4 10 G               Lai, D. & Ho. W.C.G. 2003, ApJ, 588, 962
+ -2
+
+
+
+
+                         14                                                      Lattimer, J.M. & Prakash, M. 2007, Phys. Rep., 442, 109
+                    10                                                           Medin, Z. & Lai, D. 2007, MNRAS, 382, 1833
+                                                                                 Mereghetti, S. 2008, A&A Rev., 15, 225
+                         12                                                      Mereghetti, S., Tiengo, A., & Israel, G. L. 2002, ApJ, 569, 275
+                    10                                                           Mereghetti, S., Esposito, P. & Tiengo, A. 2007, A&SS, 308, 13
+                                                                Fatm             Mésźaros, P. 1992, High-Energy Radiation from Magnetized Neutron Stars
+                         10                                                          (Chicago, Univ. Chicago Press)
+                    10                                                           Mignani, R.P, Bagnulo, S., De Luca, A. et al. 2007, A&SS, 308, 203
+                                                          FBB                    Mihalas, D. 1978, Stellar atmospheres, 2nd edition (San Francisco,
+                                                                                     W. H. Freeman and Co.)
+                                                                                 Mori, K. & Ho, W.C.G. 2007, MNRAS, 377, 905
+                              10    100     1000                10000            Motch, C., Zavlin, V.E. & Haberl, F. 2003, A&A, 408, 323
+                                   Wavelength, A                                 Olson, G.L. & Kunasz, P.B. 1987, JQSRT, 38, 325
+                                                                                 Özel, F. 2001, ApJ, 563, 276
+                                                                                 Pavlov, G. G., & Gnedin, Yu. N. 1984, Astrophys. Space Phys. Rev., 3, 197
+                                                    6
+                         6         Teff = 1.2 10 K                               Pavlov, G. G., & Mészáros, P. 1993, ApJ, 416, 752
+                                           6                                     Pavlov, G.G., Shibanov, Yu.A., Ventura, J. & Zavlin, V.E. 1994, A&A, 289, 837
+                                   Teff = 10 K                                   Pavlov, G. G., Sanwal, D., Garmire, G.P., 2002, In: Slane, P.O., Gaensler, B.M.
+                         5                                                           (eds) Neutron Stars in Supernova Remnants. ASP Conf. Ser. 271, 247
+        Fatm / FBB
+
+
+
+
+                                               13
+                                    B = 4 10 G                                   Pavlov, G. G., Sanwal, D., Teter, M.A., 2004, in Young Neutron Stars and Their
+                         4                                                           Enviroments (Proceedings of the IAU Symp. 218), ed. F. Camilo & B. M.
+                                                                                     Gaensler (ASP, San Francisco), 239
+                                                                                 Pérez-Azorı́n, J. F., Miralles, J. A., & Pons, J. A. 2005, A&A, 433, 275
+                         3                                                       Pons, J. A., Walter, F. M., Lattimer, J., et al. 2002, ApJ, 564, 981
+                                                                                 Potekhin, A.Y. & Chabrier G. 2003, ApJ, 585, 955
+                         2                                                       Potekhin, A.Y. & Chabrier G. 2004, ApJ, 600, 317
+                                                                                 Potekhin, A.Y., Chabrier G.& Shibanov, Yu. A. 1999, Phys. Rev. E, 60, 2193
+                         1                                                       Potekhin, A.Y., Lai, D., Chabrier G., & Ho, W. C. G. 2004, ApJ, 612, 1034
+                                                                                 Rajagopal, M. & Romani, R. W. 1996, ApJ, 461, 327
+                              1      10        100       1000 10000              Rajagopal, M., Romani, R. W., & Miller, M. C. 1997, ApJ, 479, 347
+                                                                         -2
+                                                                                 Rauch, T., Suleimanov, V. & Werner, K. 2008, A&A, 490, 1127
+                         Atmosphere surface density Σ , g cm                     Romani, R. W. 1987, ApJ, 313, 718
+                                                                                 Sanwal, D., Pavlov, G.G., Zavlin, V.E. et. al. 2002, ApJ, 574, L61
+                                                                                 Schwope, A.D, Hambaryan, V., Haberl, F. et al. 2005, A&A, 441, 597
+                                                                                 Schwope, A.D, Hambaryan, V., Haberl, F. & Motch, C. 2007, A&SS, 308, 619
+                                                                                 Shibanov, I. A., Zavlin, V. E., Pavlov, G. G., & Ventura, J. 1992, A&A, 266, 313
+Fig. 12. Top panel: Emergent spectrum of the partially ionized                   Suleimanov, V. & Poutanen, J. 2006, MNRAS, 369, 2036
+hydrogen model atmosphere of neutron stars with T eff = 106                      Suleimanov, V. & Werner, K. 2007, A&A, 466, 661
+K with vacuum polarization effect, partial mode conversion and                   Swartz, D. A., Ghosh, K. K., Suleimanov, V., Tennant, A. F., & Wu, K. 2002,
+magnetic field strength B = 4 × 1013 G. The blackbody spectrum                       ApJ, 574, 382
+fitted to the maximum flux of the spectral distribution is also                  Tiengo, A. & Mereghetti, S. 2007, ApJ, 657, L101
+                                                                                 Trümper, J.E., Burwitz, V., Haberl, F. & Zavlin, V.E. 2004, Nuclear Phys. B Proc.
+shown (dashed curve). At the optical band the model atmosphere                       Suppl., 132, 560
+flux in a few times larger than the blackbody flux. Bottom panel:                Turolla, R., Zane, S., & Drake, J. J. 2004, ApJ, 603, 265
+Ratios of the model atmosphere flux to the blackbody (X-ray fit-                 van Adelsberg, M. & Lai, D. 2006, MNRAS, 373, 1495
+ted) flux at the optical band depending on the model atmosphere                  van Adelsberg, M., Lai, D., Potekhin, A.Y. & Arras, P. 2005, ApJ, 628, 902
+                                                                                 van Kerkwijk, M. H., & Kaplan, D. L. 2007, A&SS, 308, 191
+thickness (surface density Σ) for the models with T eff = 106 K                  Ventura, J. 1979, Phys. Rev. D, 19, 1684
+and T eff = 1.2 × 106 K.                                                         Werner, K., & Deetjen, J. 2000, in Pulsar Astronomy – 2000 and Beyond, ed.
+                                                                                     M. Kramer, N. Wex, & R. Wielebinski, ASP Conf. Ser., 202, 623
+                                                                                 Zane, S., Turolla, R., Stella, L., & Treves, A. 2001, ApJ, 560, 384
+Burwitz, V., Haberl, F., Neuhäuser, R. et al. 2003, A&A, 399, 1109              Zavlin, V. E. 2009, Theory of radiative transfer in neutron star atmospheres and
+Gänsicke, B. T., Braje, T. M., & Romani, R. W. 2002, A&A, 386, 1001                 its applications, in Neutron Stars and Pulsars (Proceedings of the 363. WE-
+Ginzburg, V.L. 1970, The Propagation of Electromagnetic Waves in Plasmas,            Heraeus Seminar), ed. W. Becker (Springer, New York), 181
+   (2nd ed. Oxford: Pergamon)                                                    Zavlin, V. E., Pavlov, G. G., & Shibanov, I. A. 1996, A&A, 315, 141
+Haberl, F., Motch, C., Zavlin, V.E. et al. 2004, A&A, 424, 635
+Haberl, F. 2007, A&SS, 308, 181
+Ho, W. C. G. & Lai, D. 2001, MNRAS, 327, 1081
+Ho, W. C. G. & Lai, D. 2003, MNRAS, 338, 233                                     List of Objects
+Ho, W. C. G. & Lai, D. 2004, ApJ, 607, 420
+Ho, W. C. G., Kaplan, D.L., Chang, P., van Adelsberg, M. & Potekhin, A.Y.        ‘RX J1856.4−3754’ on page 6
+   2007, MNRAS, 375, 821                                                         ‘RBS 1223’ on page 7
+Ho, W. C. G., Potekhin, A.Y. & Chabrier, G. 2008, ApJS, 178, 102
+Ibragimov, A. A., Suleimanov, V. F., Vikhlinin, A., & Sakhibullin, N. A. 2003,
+   Astronomy Reports, 47, 186
+Kaminker, A.D., Pavlov, G.G. & Shibanov Yu.A. 1982, Ap&SS, 86, 249
+Kaminker, A.D., Pavlov, G.G. & Shibanov Yu.A. 1983, Ap&SS, 91, 167
+Kaplan, D.L., van Kerkwijk, M.H. Anderson, J. 2002a, ApJ, 571, 447
+Kaplan, D.L., Kulkarni, S.R. & van Kerkwijk, M.H. 2002b, ApJ, 579, L29
+Kaplan, D.L., van Kerkwijk, M.H., Marshall, H.L., et al. 2003, ApJ, 590, 1008
+Kaspi, V.M. 2007, A&SS, 308, 1
+Kurucz, R. L. 1970, SAO Special Report, 309
+

@@ -1,0 +1,102 @@
+# truth/entries/display_psf.toml -- display2 lane: inverse Reinhard, exposure convention, Airy PSF.
+
+[[entry]]
+id = "colour.reinhard-simple-inverse"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "colour"
+name = "Inverse of the Reinhard simple operator"
+statement = "The inverse of the simple global operator L_d = L_sc/(1+L_sc) (Reinhard eq. 3) is L_sc = L_d/(1-L_d). It is valid only for 0 <= L_d < 1; L_d >= 1 has no preimage (the operator maps [0, inf) onto [0, 1)), and L_d -> 1 diverges, so code must raise on L_d >= 1 or L_d < 0 and never clamp."
+latex = "L_{sc} = \\frac{L_d}{1 - L_d}, \\qquad 0 \\le L_d < 1"
+source = "reinhard_2002_tonemapping"
+locator = "eq. 3 (p. 4), inverted"
+anchor = "tone mapping operator with these characteristics is given by:"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and Eq. 3 match refs/reinhard_2002_tonemapping.txt:170-174; page 4 equation image-verified. Inverse L_sc = L_d/(1-L_d) and domain 0 <= L_d < 1 correct." }]
+depends_on = ["colour.reinhard-simple-operator"]
+notes = "Derivation from eq. 3: L_d (1 + L_sc) = L_sc  =>  L_d = L_sc (1 - L_d)  =>  L_sc = L_d/(1 - L_d), provided L_d != 1 (L_d = 1 would need 1 = 0 after the first step, so no finite L_sc exists). Monotone: dL_d/dL_sc = 1/(1+L_sc)^2 > 0, so the inverse is unique on [0, 1). Verification by code: round trip L_sc -> L_d -> L_sc to relative 1e-12 over many decades, and the raise on L_d >= 1. Eq. 3 equation text is the one image-verified in colour.reinhard-simple-operator; the anchor is the same prose line. Inverse of the burn-out operator (eq. 4, colour.reinhard-white-operator) NOT harvested: that entry is status rejected (optional extension, not needed for M1-M3), so a depends_on on it would be a dependency on a rejected node. If it is ever re-admitted: eq. 4 with L_d(1+L_sc) = L_sc(1+L_sc/L_white^2) gives L_sc^2/L_white^2 + (1-L_d) L_sc - L_d = 0; the physical root is the + root L_sc = (L_white^2/2)[-(1-L_d) + sqrt((1-L_d)^2 + 4 L_d/L_white^2)] (the - root is negative for L_d > 0); the discriminant is positive for all L_d >= 0, so no domain restriction beyond L_d >= 0 (L_d is unbounded above, eq. 4 permits L_d > 1 for L_sc > L_white). Not blessed, not harvested."
+
+[[entry]]
+id = "colour.display-exposure-convention"
+kind = "pipeline"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Scalar exposure applied before the tone operator (project convention)"
+statement = "Project convention: the scaled luminance entering the tone operator is L_sc = t_exp k_exp Y_pre, where Y_pre is the unexposed Y of the rendered spectrum (the Y of pipeline.display-colour before any exposure factor is applied), t_exp the exposure time and k_exp the exposure scale factor. Domain: require finite Y_pre, t_exp, k_exp, L_sc, with Y_pre >= 0, t_exp > 0, k_exp > 0, and [k_exp] = [Y_pre]^-1 s^-1 so that L_sc is dimensionless; any violation raises. A single scalar t_exp k_exp is applied; t_exp, k_exp (or their product) is a logged parameter of every rendered frame. L_sc is the Reinhard scaled luminance, so L_d = L_sc/(1+L_sc) and its inverse L_sc = L_d/(1-L_d) recovers Y_pre = L_sc/(t_exp k_exp)."
+latex = "L_{sc} = t_{exp}\\,k_{exp}\\,Y_{pre}, \\qquad Y_{pre}\\ \\text{finite},\\ Y_{pre}\\ge 0,\\ t_{exp}>0,\\ k_{exp}>0,\\ [k_{exp}] = [Y_{pre}]^{-1}\\,\\mathrm{s}^{-1}"
+source = "PRD"
+locator = "The shot, Primary output"
+anchor = "Display images and video are derived with a stated camera,"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: exposure convention is L_sc = t_exp k_exp Y_pre with Y_pre the unexposed Y; domain Y_pre finite >= 0, t_exp > 0, k_exp > 0, [k_exp] = [Y_pre]^-1 s^-1; unsourced photographic claim H ~ L t/N^2 deleted; L_in merged into L_sc. Blessed as pipeline entry on applied fix." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: complete the domain: “Require finite \\(Y_{\\rm pre},t_{\\exp},k_{\\exp},L_{sc}\\), with \\(Y_{\\rm pre}\\ge0,\\ t_{\\exp}>0,\\ k_{\\exp}>0\\).” Currently \\(t_{\\exp}=\\infty\\) satisfies the stated inequalities and produces \\(L_d=\\mathrm{NaN}\\)." }]
+depends_on = ["colour.reinhard-simple-operator", "colour.reinhard-simple-inverse"]
+notes = "Convention fixed by this project; no photographic source is claimed (the earlier unsourced photographic H proportional to L t/N^2 claim is deleted per review). Y_pre is specified as the unexposed Y because pipeline.display-colour already includes exposure. The Reinhard key-based exposure (eq. 2, colour.reinhard-scaled-luminance, L_sc = a L_w/Lbar_w) is a special case: k_exp t_exp = a/Lbar_w with t_exp = 1. Bare L and the synonym L_in are retired in favour of L_sc. Glare (PRD, veiling glare) is not part of this entry. Blessed as kind = pipeline under the SCHEMA rule that an applied gpt fix suffices for pipeline entries; the fix is applied here."
+
+[[entry]]
+id = "rt.airy-intensity-pattern"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "rt"
+name = "Airy diffraction pattern of a circular aperture (normalised PSF)"
+statement = "The intensity PSF of an ideal incoherent imaging system with a circular aperture of diameter D_ap, focal length f_foc and wavelength lambda is the Airy function PSF(r') = (2 J_1(r')/r')^2 (normalised to 1 at the centre) with r' = pi D_ap r_fp/(f_foc lambda), r_fp being the radial distance in the focal plane. Under the paraxial substitution r_fp = f_foc theta_psf (theta_psf the small angle off the optical axis) this is I_psf(theta_psf) = I_peak [2 J_1(x_psf)/x_psf]^2 with x_psf = pi D_ap theta_psf/lambda, I_peak the central intensity."
+latex = "I_{psf}(\\theta_{psf}) = I_{peak} \\left[\\frac{2 \\mathrm{J}_1(x_{psf})}{x_{psf}}\\right]^2, \\qquad x_{psf} = \\frac{\\pi D_{ap}\\,\\theta_{psf}}{\\lambda}"
+source = "norton_2025_hmi_stray_light"
+locator = "Sec. 2.1, eqs. 4-5"
+anchor = 'the intensity of the ideal PSF can be described as an Airy function which is proportional to the Bessel function of the first kind'
+anchor_tex = 'PSF(r\prime) &=& \left( \frac {2J_1(r^{\prime})}  {r^\prime} \right)^2\\'
+ocr = "good"
+symbols = [
+  { sym = "I_{psf}", meaning = "specific intensity of the ideal Airy PSF at off-axis angle theta_psf", units = "same as I" },
+  { sym = "I_{peak}", meaning = "central (theta_psf = 0) intensity of the Airy PSF", units = "same as I" },
+  { sym = "\\theta_{psf}", meaning = "small off-axis angle in the camera frame, theta_psf = r_fp/f_foc (paraxial); distinct from the ray angle theta", units = "rad" },
+  { sym = "x_{psf}", meaning = "Airy argument pi D_ap theta_psf/lambda", units = "1" },
+  { sym = "r_{fp}", meaning = "radial distance in the focal plane", units = "cm" },
+  { sym = "D_{ap}", meaning = "circular aperture diameter of the camera model (logged parameter)", units = "cm" },
+  { sym = "f_{foc}", meaning = "camera focal length", units = "cm" },
+  { sym = "\\mathrm{J}_1", meaning = "Bessel function of the first kind, order 1", units = "1" }
+]
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: latex now I_psf(theta_psf) = I_peak [2 J_1(x_psf)/x_psf]^2, x_psf = pi D_ap theta_psf/lambda; collisions with theta, x, I_0, r, D resolved via symbols list (theta_psf, I_psf, I_peak, x_psf, r_fp, D_ap, f_foc, J_1) and truth/harvest/notation_additions_display2.md; paraxial substitution r_fp = f_foc theta_psf stated; dependency on rt.airy-first-zero removed (reversed)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: The notation repair remains incomplete in `notes`: replace “flux normalisation of I_0” with “flux normalisation of I_peak”; \\(I_0\\) already denotes emitted surface intensity." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Round-2 correction is complete: notes say “flux normalisation of I_peak”; remaining `I_0` identifies the distinct surface intensity. Both anchors match `.tex` lines 104 and 106. Equations match [refs/norton_2025_hmi_stray_light.txt:106–118](/home/tobias/Projects/neutronstars/refs/norton_2025_hmi_stray_light.txt:106), including the square, factor 2 and argument; the paraxial substitution is explicit. Needed for Milestone 1." }]
+notes = "Source prints PSF(r') = (2J_1(r')/r')^2 with r' = pi D r/(f lambda), followed by 'r' is a normalized radius'; its eq. 4 is the normalised form (value 1 at r' = 0 since 2J_1(x)/x -> 1). The angular form is the disclosed paraxial substitution r_fp = f_foc theta_psf (f_foc the focal length): x_psf = pi D_ap theta_psf/lambda. Notation: scoped PSF symbols theta_psf, I_psf, I_peak, x_psf, r_fp, D_ap avoid collisions with theta (surface-normal ray angle), x (CIE chromaticity), I_0 (emitted surface intensity), r (stellar areal radius) and D (observer distance); see truth/harvest/notation_additions_display2.md. I_peak is not printed by the source as a function of total flux; the flux normalisation of I_peak must be derived and checked by quadrature and is NOT harvested here. In code the PSF used for the renderer must be unit-normalised over the pixel grid (see pipeline.star-scale-adaptive). Intensity not amplitude: the square is printed. Verification: (2J_1(x_psf)/x_psf)^2 -> 1 as x_psf -> 0 by series J_1(x) = x/2 - x^3/16 + ...; check numerically. The source uses it as a model of HMI optics; the full HMI PSF there is an Airy convolved with a Lorentzian, which is not harvested."
+
+[[entry]]
+id = "rt.airy-first-zero"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "rt"
+name = "First zero of the Airy pattern, 1.22 lambda/D"
+statement = "The first minimum of the Airy function is found at 1.22 lambda/D, where lambda is the wavelength and D the aperture diameter. Derivation from Eqs. 4-5 (rt.airy-intensity-pattern): with x_psf = pi D_ap theta_psf/lambda, the pattern vanishes where J_1(x_psf) = 0 and x_psf != 0, so the first minimum is at x_1, the first positive root of J_1, giving theta_{1,psf} = (x_{1,psf}/pi) lambda/D_ap, and x_{1,psf}/pi = 1.21966989... is approximately 1.22 (the paper's three-digit rounding)."
+latex = "\\theta_{1,psf} = \\frac{x_{1,psf}}{\\pi}\\,\\frac{\\lambda}{D_{ap}} \\simeq 1.22\\,\\frac{\\lambda}{D_{ap}}, \\qquad \\mathrm{J}_1(x_{1,psf}) = 0,\\ x_{1,psf} = 3.8317059702\\ \\text{(first positive root)}"
+source = "norton_2025_hmi_stray_light"
+locator = "Sec. 2.1, after eqs. 4-5"
+anchor = 'The first minimum of the Airy function is found at 1.22'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: Rayleigh separation removed from name, two-source resolution sentence deleted; equality corrected to theta_{1,psf} = (x_1/pi) lambda/D_ap ~ 1.22 lambda/D_ap with x_1 first positive root of J_1, stated as derivation from Eqs. 4-5; x_1 = 3.8317059702 and x_1/pi = 1.21966989 printed in notes with Python check; dependency reversed (now depends on rt.airy-intensity-pattern)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches [the text:121–122](/home/tobias/Projects/neutronstars/refs/norton_2025_hmi_stray_light.txt:121). The Rayleigh claim is removed, \\(1.22\\) is correctly marked approximate, and the root calculation is explicitly distinguished from the source’s printed result. Independent Python recomputation confirms both decimals. Dependency direction is corrected." }]
+depends_on = ["rt.airy-intensity-pattern"]
+notes = "Source prints 1.22 lambda/D only; the root of J_1 is the derivation step from Eqs. 4-5 and is NOT printed by the source. First positive root of J_1: x_{1,psf} = 3.8317059702; x_{1,psf}/pi = 1.21966989 (Python check: power series for J_1 plus bisection on [3.0, 4.5] gives x_{1,psf} = 3.831705970207512 and x_{1,psf}/pi = 1.2196698912665045; printed 1.22, absolute error 3.3e-4, tolerance 5e-3). Code: compute the first positive zero of J_1 here (series/bracketing, no table) and verify x_{1,psf}/pi against the printed 1.22 at tolerance 5e-3. Zeros of the pattern are zeros of J_1 only for x_psf != 0 (the central value is 1). The Rayleigh resolution criterion is not supplied by this source and is not harvested. Encircled-energy statement: NOT printed in the source, not harvested. Symbols renamed 2026-10-23 to the dictionary spelling (notation merge)."
+
+[[entry]]
+id = "rt.psf-aperture-convention"
+kind = "pipeline"
+provenance = "convention"
+ownership = "leaf"
+domain = "rt"
+name = "Airy PSF for point-source and unresolved-star rendering (project convention)"
+statement = "Project convention: the renderer convolves every unresolved source (point-source background stars and the unresolved neutron star) with the unit-integral Airy kernel K_{psf} = 1_S A_{psf} / integral over S of A_{psf} dOmega, on a logged support S restricted to the paraxial regime, with K_{psf} = 0 outside S, where A_{psf} = [2 J_1(x_psf)/x_psf]^2 is the peak-normalised pattern of rt.airy-intensity-pattern (A_{psf} = 1 at the centre) for a stated circular aperture diameter D_ap. The printed A_{psf} is peak-normalised, not unit-normalised; the unit-integral normalisation is the division by its integral. The support S and any truncation within it are logged. D_ap and the wavelength sampling used for x_psf = pi D_ap theta_psf/lambda are logged parameters of every rendered frame. The per-wavelength PSF is the primary option; evaluating at a single stated effective wavelength is an approximation and is logged. Total flux is conserved by the unit-integral normalisation."
+latex = "K_{psf} = \\frac{A_{psf}}{\\int A_{psf}\\,d\\Omega}, \\qquad A_{psf} = \\left[\\frac{2\\mathrm{J}_1(x_{psf})}{x_{psf}}\\right]^2,\\ x_{psf} = \\frac{\\pi D_{ap}\\theta_{psf}}{\\lambda}"
+source = "PRD"
+locator = "Scope, In"
+anchor = "scale-adaptive star rendering (point with PSF to resolved disc);"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: normalisation stated as K_lambda = A_lambda / integral of A_lambda over the sky (over the stated support when truncated), A_lambda = [2 J_1(x_psf)/x_psf]^2 peak-normalised; no longer claims the printed kernel is unit-normalised; effective-wavelength option labelled an approximation; truncation logged. Blessed as pipeline entry on applied fix." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: Use “\\(K_\\lambda=\\mathbf1_S A_\\lambda/\\int_S A_\\lambda\\,d\\Omega\\), on a logged support \\(S\\) restricted to the paraxial regime; \\(K_\\lambda=0\\) outside \\(S\\).” “over the sky” extends the dependency’s explicitly paraxial angular pattern beyond its stated regime; the source supplies the focal-plane pattern ([text:109–118](/home/tobias/Projects/neutronstars/refs/norton_2025_hmi_stray_light.txt:109)), not a full-sky angular response." }]
+depends_on = ["rt.airy-intensity-pattern"]
+notes = "Convention only. The PRD asks for a point-with-PSF treatment; the choice of an ideal unobscured Airy PSF (no obstruction, no aberrations, no scattering, in contrast with the HMI PSF of the source which adds a Lorentzian) is ours, as is D_ap being a free parameter. Per-wavelength vs effective-wavelength PSF is left to the implementation but must be logged. Truncating the Airy tail at finite radius loses flux: any truncation must be stated and renormalised over the retained support, never silent. Blessed as kind = pipeline under the SCHEMA rule that an applied gpt fix suffices; the fix is applied here. Symbols renamed 2026-10-23 to the dictionary spelling (notation merge)."

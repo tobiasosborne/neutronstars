@@ -1,0 +1,729 @@
+# Domain "eos": TOV structure, surface gravity/redshift, BSk analytic EOS fits, BSk benchmarks,
+# electron-gas pressure. Harvested from refs/ only. All status = proposed.
+# NOTE: refs/potekhin_chabrier_2001_eos.pdf is actually Potekhin & Yakovlev, A&A 374, 213 (2001)
+# "Thermal structure and cooling of neutron stars with magnetized envelopes" (arXiv:astro-ph/0105261).
+# Entries citing it are tagged accordingly in notes.
+
+# ---------------------------------------------------------------- notation
+[[entry]]
+id = "eos.notation-structure"
+kind = "notation"
+domain = "eos"
+name = "Stellar-structure symbols (TOV, metric, redshift)"
+statement = "Symbols for the spherically symmetric Schwarzschild-type stellar interior and exterior: coordinates, metric potentials, enclosed mass, stellar mass and radius, Schwarzschild radius, pressure and gravitational mass density."
+symbols = [
+  { sym = "r", meaning = "radial coordinate measured from the stellar centre (areal radius)", units = "cm" },
+  { sym = "R", meaning = "stellar (circumferential) radius", units = "cm" },
+  { sym = "M_r", meaning = "gravitational mass inside a sphere of radius r, M_r = 4 pi int_0^r rho r'^2 dr'", units = "g" },
+  { sym = "M", meaning = "total gravitational stellar mass, M = M_R", units = "g" },
+  { sym = "r_g", aliases = ["R_S"], meaning = "Schwarzschild radius 2GM/c^2 of the star", units = "cm" },
+  { sym = "\\Phi", sym_source = "Phi(r)", aliases = ["Phi", "Phi(r)"], meaning = "metric function Phi(r): g_tt = -e^(2 Phi) c^2", meaning_source = "metric potential in g_tt = -exp(2 Phi) c^2", units = "1" },
+  { sym = "\\Lambda", sym_source = "Lambda(r)", aliases = ["Lambda", "Lambda(r)"], meaning = "metric function Lambda(r): g_rr = e^(2 Lambda)", meaning_source = "metric function in g_rr = exp(2 Lambda) = 1 - 2 G M_r /(c^2 r) (as printed in PPP15 eq. 1)", units = "1" },
+  { sym = "P", meaning = "pressure", units = "dyn cm^-2" },
+  { sym = "\\rho", sym_source = "rho", aliases = ["rho", "rho_gas", "ρ"], meaning = "mass density (TOV/EOS: gravitational mass density = energy density/c^2; atmosphere/opacity: plasma mass density, equal to it up to O(k_B T/(m_u c^2)))", meaning_source = "gravitational mass density (energy density divided by c^2)", units = "g cm^-3" },
+  { sym = "g", aliases = ["g_s", "g_surf"], meaning = "surface gravity (local proper) g = GM/(R^2 sqrt(1 - r_g/R)), taken uniform through the atmosphere", meaning_source = "surface gravity (local proper) g = GM/(R^2 sqrt(1 - r_g/R))", units = "cm s^-2" },
+  { sym = "G", meaning = "gravitational constant", units = "cm^3 g^-1 s^-2" },
+  { sym = "c", meaning = "speed of light", units = "cm s^-1" },
+  { sym = "T_s", meaning = "local effective surface temperature in the local reference frame at the stellar surface", units = "K" },
+  { sym = "T_s^\\infty", sym_source = "T_s^inf", meaning = "redshifted (apparent) surface temperature as seen by a distant observer", units = "K" },
+  { sym = "L_{ph}", sym_source = "L", aliases = ["L", "L_ph"], meaning = "photon luminosity in the local reference frame at the stellar surface", meaning_source = "luminosity in the local reference frame at the surface", units = "erg s^-1" },
+  { sym = "L_{ph}^\\infty", sym_source = "L^inf", aliases = ["L^inf", "L_ph^inf", "L_ph^∞"], meaning = "apparent photon luminosity for a distant observer, L_ph^inf = (1 - r_g/R) L_ph", meaning_source = "redshifted (apparent) luminosity at infinity", units = "erg s^-1" },
+  { sym = "R^\\infty", sym_source = "R^inf", aliases = ["R^inf", "R^∞", "R_inf", "R_infty"], meaning = "apparent radius of the star for a distant observer, R^inf = R/sqrt(1 - r_g/R) = R(1 + z_g)", meaning_source = "apparent radius for a distant observer", units = "cm" },
+]
+conflicts_with = ["colour.notation-reinhard-luminance", "const.notation-atomic", "gr.notation-potekhin", "obs.notation-rxj1856-spectral", "surface.notation-observer-frame"]
+adopted = false
+conflict_notes = ["R_inf: Apparent stellar radius is R^\\infty (one spelling). CODATA Rydberg R_inf -> R_{Ry}; Ho07 emission-region apparent radius -> R_{em}^\\infty.", "L: Bare L retired. PPP15 local luminosity -> L_{ph}; Reinhard scaled luminance -> L_{sc}(x_{pix},y_{pix})."]
+source = "potekhin_pons_page_2015_thermal"
+locator = "p. 4-5, eqs. 1-3 and text"
+anchor = "is the mass inside a sphere of radius r, G is the gravitational"
+anchor_tex = "$r_g=2GM/c^2=2.95(M/M_\\odot)$ km is the Schwarzschild"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Anchor supports only part of the bundle; gravity needs PY01 and thermal quantities p. 41; repeats the erroneous radial metric coefficient." }]
+notes = "Symbols r, R, M_r, M, r_g, Phi, Lambda, P, rho, G, c from PPP15 pp. 4-5; g from PY01 p. 3 (surface gravity); T_s, L, and the superscript-inf quantities from PPP15 eq. 40 (p. 41). rho is explicitly the gravitational mass density, not the rest-mass density. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] T_s^\\infty: T_s^inf = T_s sqrt(1 - r_g/R) (sqrt sign dropped by the text layer), refs/potekhin_yakovlev_2001_cooling.txt L227-233, verbatim \"Ts∞ = Ts 1 − rg /R\"."
+
+[[entry]]
+id = "eos.notation-bsk-fit"
+kind = "notation"
+domain = "eos"
+name = "BSk analytic-fit symbols"
+statement = "Variables and constants appearing in the Potekhin et al. (2013) analytic representations of the BSk equations of state: log variables, baryon number density, surface reference values, pseudo-enthalpy, mass-density excess, and the fit parameter families."
+symbols = [
+  { sym = "\\xi_\\rho", sym_source = "xi", aliases = ["xi"], meaning = "xi = log10(rho / g cm^-3); log denotes log10, ln the natural logarithm", units = "1" },
+  { sym = "\\zeta_P", sym_source = "zeta", aliases = ["zeta"], meaning = "zeta = log10(P / dyn cm^-2)", units = "1" },
+  { sym = "n_b", meaning = "baryon number density", units = "cm^-3" },
+  { sym = "n_{fm}", sym_source = "n", aliases = ["n"], meaning = "dimensionless baryon density n = n_b / fm^-3 used in the fits", units = "1" },
+  { sym = "\\rho_s", sym_source = "rho_s", meaning = "value of rho at the neutron-star surface, set to the density of 56Fe at zero pressure and temperature", units = "g cm^-3" },
+  { sym = "n_s", meaning = "value of n_b at the neutron-star surface", units = "cm^-3" },
+  { sym = "m_u^{BSk}", sym_source = "m_u", aliases = ["m_u"], meaning = "atomic mass unit as used in the fits, 1.66e-24 g", units = "g" },
+  { sym = "\\mathcal{H}", sym_source = "H", aliases = ["H"], meaning = "pseudo-enthalpy H = int_0^P dP'/(rho(P') c^2 + P') = ln(h/h_s)", units = "1" },
+  { sym = "h_b", sym_source = "h", aliases = ["h"], meaning = "zero-temperature enthalpy per baryon h = (rho c^2 + P)/n_b", units = "erg" },
+  { sym = "h_{b,s}", sym_source = "h_s", aliases = ["h_s"], meaning = "value of h at the stellar surface", units = "erg" },
+  { sym = "\\eta_{\\mathcal{H}}", sym_source = "eta", meaning = "eta = exp(H) - 1", units = "1" },
+  { sym = "\\Delta_\\rho", sym_source = "Delta_rho", meaning = "fractional deviation from the linear law rho = n_b m_u, Delta_rho = rho/(n_b m_u) - 1", units = "1" },
+  { sym = "\\tilde\\rho", sym_source = "rho~", meaning = "dimensionless density rho~ = (rho/m_u) fm^3 = rho/(1.66e15 g cm^-3)", units = "1" },
+  { sym = "a_i^{BSk}", sym_source = "a_i", aliases = ["a_i"], meaning = "fit parameters of Eq. (3), i = 1..23, per EoS model (Table 2)", units = "1" },
+  { sym = "b_i^{BSk}", sym_source = "b_i", aliases = ["b_i"], meaning = "fit parameters of Eq. (6), i = 1..8, per EoS model (Table 3)", units = "1" },
+  { sym = "c_i^{BSk}", sym_source = "c_i", aliases = ["c_i"], meaning = "fit parameters of Eq. (7), i = 1..9, per EoS model (Table 4)", units = "1" },
+  { sym = "\\Gamma_{ad}", sym_source = "Gamma", aliases = ["Gamma"], meaning = "adiabatic index Gamma = (n_b/P) dP/dn_b (note: unrelated to the plasma Coulomb coupling parameter)", units = "1" },
+]
+conflicts_with = ["const.notation-fundamental", "eos.notation-electron-gas", "gr.notation-pechenick", "opacity.notation-modes-polarization", "opacity.notation-vacuum", "rt.notation-cond-matter-dielectric", "rt.notation-spw09"]
+adopted = false
+conflict_notes = ["h: Planck constant keeps h. BSk enthalpy per baryon -> h_b (surface value h_{b,s}).", "xi: Bare xi retired. BSk log10 rho -> \\xi_\\rho; Pech83 sky angle -> \\xi_{sky}; PLCH04 1/b -> \\xi_{vac}.", "eta: eta is an emissivity (\\eta_\\nu^j). BSk exp(H)-1 -> \\eta_{\\mathcal{H}}; vAL05/PLCH04 longitudinal dielectric element -> \\varepsilon_\\parallel.", "c_i: c_1, c_2 are the radiation constants. BSk fit coefficients a_i, b_i, c_i -> a_i^{BSk}, b_i^{BSk}, c_i^{BSk}.", "n: Bare n retired. BSk n_b/fm^-3 -> n_{fm}; Landau level index -> n_L.", "H: H_nu is the Eddington flux. BSk pseudo-enthalpy H -> \\mathcal{H}."]
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.1-3.4, eqs. 1-5, 22"
+anchor = "We introduce the variables ξ = log(ρ/g cm−3 ) and ζ ="
+anchor_tex = "$\\zeta = \\log(P/\\dync)$. Here and hereafter, $\\log$ denotes"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Unused BSk/TOV notation. Definitions are supported across BSk:248–383, but the locator omits η’s definition after Eq. 8 at 430." }]
+notes = "Parameter families d_i (Eq. 8) and q_i (Eq. 9) not catalogued because Eqs. 8-9 are not entered in this pass (see skipped list)."
+
+[[entry]]
+id = "eos.notation-electron-gas"
+kind = "notation"
+domain = "eos"
+name = "Magnetised degenerate-electron-gas symbols"
+statement = "Symbols used for the ideal magnetised electron gas pressure: relativistic field strength, cyclotron frequency, Compton wavelength, Landau-level index, chemical potential, and relativistic pressure and temperature units."
+symbols = [
+  { sym = "b_{rel}", sym_source = "b", aliases = ["b", "b_rel"], meaning = "relativistic field parameter b = B/B_Q = hbar omega_ce/(m_e c^2) = B_12/44.14", meaning_source = "magnetic field strength in relativistic units b = hbar omega_c/(m_e c^2) = B_12/44.14", units = "1" },
+  { sym = "\\omega_{ce}", sym_source = "omega_c", aliases = ["omega_c", "omega_ce"], meaning = "electron cyclotron angular frequency omega_ce = eB/(m_e c) (Gaussian CGS)", meaning_source = "electron cyclotron angular frequency; omega_c = omega_ce; Gaussian CGS; omega_c = eB/(m_e c)", units = "s^-1" },
+  { sym = "B_{12}", sym_source = "B_12", aliases = ["B_12"], meaning = "magnetic field B/(10^12 G)", units = "1" },
+  { sym = "\\lambda_e", sym_source = "lambda_e", meaning = "electron Compton wavelength hbar/(m_e c)", units = "cm" },
+  { sym = "a_m", meaning = "magnetic length (hbar c/(eB))^(1/2) = lambda_e / sqrt(b)", units = "cm" },
+  { sym = "\\mu_e", sym_source = "mu_e (source mu)", aliases = ["mu", "mu_e (source mu)"], meaning = "electron chemical potential including rest energy", units = "erg" },
+  { sym = "n_L", sym_source = "n (Landau)", aliases = ["n (Landau)"], meaning = "Landau level index n = 0..n_max in the electron-pressure sum", units = "1" },
+  { sym = "\\chi_n", sym_source = "chi_n", meaning = "chi_n = (mu - m_e c^2 sqrt(1+2bn))/(k_B T), reduced chemical potential of level n", units = "1" },
+  { sym = "\\tau_n", sym_source = "tau_n", meaning = "tau_n = (1/sqrt(1+2bn)) T/T_r, reduced temperature of level n", units = "1" },
+  { sym = "P_r", meaning = "relativistic unit of pressure m_e c^2/lambda_e^3 = 1.4218e25 dyn cm^-2", units = "dyn cm^-2" },
+  { sym = "T_r", meaning = "relativistic unit of temperature m_e c^2/k_B = 5.930e9 K", units = "K" },
+  { sym = "I_{1/2}(\\chi,\\tau)", sym_source = "I_{1/2}(chi, tau)", meaning = "standard Fermi-Dirac integral of order 1/2 for relativistic electrons (given by a fit in Chabrier & Potekhin 1998 per PY01)", units = "1" },
+]
+conflicts_with = ["eos.notation-bsk-fit", "gr.notation-geometry", "opacity.notation-fields", "opacity.notation-particles-plasma", "rt.notation-mcphac"]
+adopted = false
+conflict_notes = ["mu: RT direction cosine keeps \\mu. Bel02 mu = cos psi -> \\cos\\psi; PY01 chemical potential -> \\mu_e; PC03 reduced mass -> \\mu_{red}.", "b: Impact parameter keeps b. Relativistic field parameter B/B_Q -> b_{rel}.", "n: Bare n retired. BSk n_b/fm^-3 -> n_{fm}; Landau level index -> n_L."]
+source = "potekhin_yakovlev_2001_cooling"
+locator = "p. 1 (b, lambda_e, omega_c) and p. 4, eq. 12 and text"
+anchor = "b = h̄ωc /me c2 = B12 /44.14 is the magnetic field strength"
+anchor_tex = "$b=\\hbar\\omega_\\mathrm{c}/m_\\mathrm{e} c^2 = B_{12}/44.14$"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Specify omega_c as electron cyclotron angular frequency (omega_c = omega_ce, Gaussian CGS) and qualify chemical potential as mu_e (source mu) to distinguish ray-direction mu. Applied." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round 2 accept: anchor and corrected statement match source." }]
+notes = "refs/potekhin_chabrier_2001_eos.pdf is in fact Potekhin & Yakovlev 2001 (A&A 374, 213), not Potekhin & Chabrier 2001 (the EoS paper); refs/INDEX.md mislabels it. These symbols are as defined in that paper. The symbol n is dimensionless baryon density in the BSk fits but the Landau index here; listed as 'n (Landau)' to avoid a clash."
+
+# ---------------------------------------------------------------- structure / TOV
+[[entry]]
+id = "eos.metric-schwarzschild-interior"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Static spherically symmetric metric"
+statement = "Line element of a spherically symmetric non-rotating star in standard spherical coordinates, with exp(2 Lambda) = 1 - 2 G M_r /(c^2 r) and metric potential Phi(r) fixed by the Phi equation."
+latex = 'ds^2 = -e^{2\Phi(r)} c^2 dt^2 + e^{2\Lambda(r)} dr^2 + r^2 (d\theta^2 + \sin^2\theta\, d\varphi^2), \qquad e^{2\Lambda(r)} = 1 - 2GM_r/c^2 r'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 1, p. 4"
+anchor = "space-time is described by the Schwarzschild metric (e.g. Misner et al. 1973)"
+anchor_tex = "\\dd s^2 = - \\mathrm{e}^{2\\Phi(r)} c^2 \\dd t^2 +"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Source prints e^{2 Lambda}=1-2GM_r/(c^2 r), conflicting with the exterior null relations in Beloborodov; surviving weaker claim is only the diagonal line element with Lambda unspecified." }]
+depends_on = ["eos.notation-structure"]
+notes = "Equation text read off the PDF page 4 image by harvester; reviewer must confirm. Outside the star M_r = M and this is the Schwarzschild metric."
+
+[[entry]]
+id = "eos.metric-phi-equation"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Metric potential Phi equation and boundary condition"
+statement = "The metric potential Phi(r) is determined by dPhi/dP = -(P + rho c^2)^-1, with boundary condition exp(2 Phi(R)) = 1 - r_g/R at the stellar radius."
+latex = 'd\Phi(r)/dP(r) = -\left[P(r) + \rho(r) c^2\right]^{-1}, \qquad e^{2\Phi(R)} = 1 - r_g/R'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 2, pp. 4-5"
+anchor = "with the boundary condition e2Φ (R) = 1 − rg /R at the stellar radius R. Here, rg ="
+anchor_tex = "\\dd \\Phi(r)/\\dd P(r) = - \\big[P(r) + \\rho(r) c^2\\big]^{-1}"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Anchor, minus sign, inverse and surface boundary condition match the PDF: PPP15:204–211. Interior Φ(P) is outside the adopted flyby pipeline; retain the needed surface lapse through canonical GR claims." }]
+depends_on = ["eos.metric-schwarzschild-interior"]
+notes = "Eq. 2 and the boundary condition read off PDF page images 4-5 by harvester; reviewer must confirm. The anchor is the boundary-condition line (intact)."
+
+[[entry]]
+id = "eos.enclosed-mass-and-rg"
+kind = "definition"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Enclosed gravitational mass and Schwarzschild radius"
+statement = "The mass inside radius r is M_r = 4 pi int_0^r rho r'^2 dr' with rho the gravitational mass density; the stellar mass is M = M_R; the Schwarzschild radius is r_g = 2GM/c^2 = 2.95 (M/Msun) km."
+latex = 'M_r = 4\pi \int_0^r \rho(r) r^2 dr, \qquad M \equiv M_R, \qquad r_g = 2GM/c^2 = 2.95\,(M/M_\odot)\ \mathrm{km}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "p. 5 (text after eq. 2)"
+anchor = "is the mass inside a sphere of radius r, G is the gravitational"
+anchor_tex = "$M_r=4\\pi\\int_0^r\\rho(r)r^2\\dd r$ is the mass inside a sphere of radius"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Integral, M=M_R, and rounded 2.95 km coefficient match the PDF: PPP15:211–215. Enclosed interior mass is unused; the needed Schwarzschild-radius definition already exists as `gr.schwarzschild-radius`." }]
+v1_ref = "archive/v1/src/eos/tov.jl:172"
+depends_on = ["eos.notation-structure"]
+notes = "Integral sign is garbled in the text layer; latex read off PDF page 5 image by harvester; reviewer must confirm. 2.95 km is a rounded coefficient as printed."
+
+[[entry]]
+id = "eos.tov-pressure"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Tolman-Oppenheimer-Volkoff pressure equation"
+statement = "Hydrostatic equilibrium of a non-rotating spherically symmetric relativistic star: dP/dr in terms of enclosed mass M_r, density rho, pressure P and radius r. Together with dM_r/dr = 4 pi r^2 rho and a barotropic EoS rho(P) it determines the structure."
+latex = 'dP/dr = -\frac{G M_r \rho}{r^2}\left(1 + \frac{P}{\rho c^2}\right)\left(1 + \frac{4\pi r^3 P}{M_r c^2}\right)\left(1 - \frac{2 G M_r}{r c^2}\right)^{-1}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 3, p. 5"
+anchor = "Tolman-Oppenheimer-Volkoff equation"
+anchor_tex = "- \\frac{GM_r\\,\\rho}{r^2}\\,"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All signs, factors and powers match PDF Eq. 3: PPP15:216–227. Interior stellar-structure integration is unnecessary for Milestones 1–3 under the recorded M,R decision." }]
+depends_on = ["eos.notation-structure", "eos.enclosed-mass-and-rg"]
+v1_ref = "archive/v1/src/eos/tov.jl:166"
+notes = "Equation text read off PDF page 5 image by harvester; reviewer must confirm. The mass equation dM_r/dr = 4 pi r^2 rho follows from the printed definition of M_r (integral form) and is not separately printed as a differential equation. PPP15 states the TOV equation but gives no derivation; Potekhin et al. 2013 Sect. 6 says only that the TOV equation is integrated from the centre with central density rho_c as free parameter outward to rho_s."
+
+[[entry]]
+id = "eos.tov-integration-procedure"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "How the BSk benchmark M-R curves were integrated"
+statement = "Potekhin et al. 2013 integrate the TOV equation from the centre with central mass density rho_c as a free parameter, outward to rho_s, with a fourth-order Runge-Kutta method with adaptive step and controlled accuracy; linear versus cubic-spline interpolation of the tabulated EoS changes M by about 1e-4 Msun, and radii agree to about 0.1 percent for M above about 0.3 Msun."
+value = "RK4 adaptive; rho_c free parameter; outer boundary rho_s"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 10"
+anchor = "Volkoff (TOV) equation from the center, with the central mass"
+anchor_tex = "we integrated the Tolman-Oppenheimer-Volkoff (TOV) equation"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: RK4, boundary and interpolation comparisons match BSk:735–744. Unused benchmark procedure. Delete the unsupported note `\"not at P = 0\"`; the source specifies stopping at ρ_s without making that distinction." }]
+v1_ref = "archive/v1/src/eos/tov.jl:59"
+depends_on = ["eos.tov-pressure", "eos.rho-surface-fe56"]
+notes = "Recorded so the benchmark entries below are reproducible: the integration stops at rho = rho_s, not at P = 0."
+
+[[entry]]
+id = "eos.surface-gravity"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Surface gravity with the GR factor"
+statement = "Near the surface (z much less than R) the general-relativistic hydrostatic equilibrium reduces to the Newtonian form dP/dz = g rho, with surface gravity g = GM/(R^2 sqrt(1 - r_g/R)); z is local proper depth, increasing inward."
+latex = 'dP/dz = g\rho, \qquad g = GM/\left(R^2 \sqrt{1 - r_g/R}\right)'
+source = "potekhin_yakovlev_2001_cooling"
+locator = "p. 3 (text after eq. 7 introduction, before eq. 7)"
+anchor = "dP/dz = gρ, where g = GM/(R2 1 − rg /R ) is the sur-"
+anchor_tex = "where $g=GM/(R^2 \\sqrt{1-r_g/R}\\,)$ is the surface gravity."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Add that z is local proper depth, increasing inward (PY01 p. 3), so the sign of dP/dz is unambiguous. Applied." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round 2 accept: anchor and corrected statement match source." }]
+depends_on = ["eos.notation-structure"]
+v1_ref = "archive/v1/src/eos/tov.jl:189"
+notes = "Source is Potekhin & Yakovlev 2001 (file mislabelled potekhin_chabrier_2001_eos). The square root over (1 - r_g/R) is lost in the text layer; reading follows the intact definition in the same source and the sibling definition r_g = 2GM/c^2; reviewer must confirm against page image."
+
+[[entry]]
+id = "eos.thin-envelope-newtonian-hydrostatics"
+kind = "approximation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Thin-envelope plane-parallel Newtonian hydrostatics"
+statement = "For depths z much smaller than R the GR hydrostatic equilibrium is replaced by dP/dz = g rho with constant surface gravity g; in the heat-blanketing envelope one neglects the variation of gravitational acceleration; one neglects neutrino-induced flux variation only when those losses are small, and lateral Ts variation when its length scale greatly exceeds z_b."
+validity = "z << R; heat-blanketing envelope, depth of order 100 m for rho_b = 1e10 g cm^-3, containing about 1e-7 of the stellar mass (PPP15); local plane-parallel geometry."
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 5.1, pp. 38–39, before eq. 38"
+anchor = "can neglect the variation of the gravitational acceleration in this layer"
+anchor_tex = "variation of the gravitational acceleration in this layer."
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator Sect. 5.1, pp. 38-39 before eq. 38; replace unconditional flux/Ts claim by the conditional neglect stated in PPP15. Applied." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round 2 accept: anchor and corrected statement match source." }]
+depends_on = ["eos.surface-gravity"]
+notes = "PY01 p. 3 gives the same approximation in the sentence containing dP/dz = g rho (anchor in eos.surface-gravity)."
+
+[[entry]]
+id = "eos.redshift-observables"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Redshifted apparent radius, temperature and luminosity"
+statement = "Quantities Ts, Teff and L refer to the local frame at the surface; as detected by a distant observer, R^inf = R/sqrt(1 - r_g/R), T^inf = T sqrt(1 - r_g/R), L^inf = (1 - r_g/R) L (Thorne 1977)."
+latex = 'R^\infty = R/\sqrt{1 - r_g/R}, \qquad T_{\rm eff}^\infty = T_{\rm eff}\sqrt{1 - r_g/R}, \qquad L_{\rm ph}^\infty = (1 - r_g/R)\, L_{\rm ph}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 40, p. 41"
+anchor = "(“apparent”) quantities as detected by a distant observer are (Thorne 1977):"
+anchor_tex = "\\Teff^\\infty = \\Teff \\, \\sqrt{1-r_g/R},"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: PDF confirms all three factors at PPP15:2106–2111. Duplicate of `gr.apparent-quantities` and `surface.ppp15-redshifted-quantities`; Eq. 40 specifically uses T_{\rm eff} and L_{\rm ph}." }]
+depends_on = ["eos.notation-structure"]
+notes = "Square roots are broken across lines in the text layer; reviewer must confirm on page image. PY01 p. 4 states the same relations for T_s, T_e and L. Consistent with e^{2 Phi(R)} = 1 - r_g/R."
+
+# ---------------------------------------------------------------- BSk EOS fit
+[[entry]]
+id = "eos.barotropic-first-law"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "First law for a barotropic EoS (integral forms)"
+statement = "For a barotropic EoS P(n_b) = n_b^2 c^2 d(rho/n_b)/dn_b, equivalent to the integral forms rho(n_b)/n_b = rho_s/n_s + int P/(n'^2 c^2) dn' and ln(n_b/n_s) = int_{rho_s}^{rho} c^2 d rho'/(P + rho' c^2), with rho_s and n_s the surface values."
+latex = 'P(n_b) = n_b^2 c^2\, d(\rho/n_b)/dn_b, \quad \frac{\rho(n_b)}{n_b} = \frac{\rho_s}{n_s} + \int_{n_s}^{n_b} \frac{P(n_b^\prime)}{n_b^{\prime 2} c^2}\, dn_b^\prime, \quad \ln\left(\frac{n_b}{n_s}\right) = \int_{\rho_s}^{\rho} \frac{c^2\, d\rho^\prime}{P(\rho^\prime) + \rho^\prime c^2}'
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.1, eq. 1, p. 4"
+anchor = "The first law of thermodynamics for a barotropic EoS implies"
+anchor_tex = "P(\\nb)=\\nb^2 c^2 \\dd(\\rho/\\nb)/\\dd\\nb,"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Differential relation, both integrals, limits and c² factors match PDF Eq. 1: BSk:248–263. This cold barotropic structure branch is unused by the adopted surface-model pipeline." }]
+depends_on = ["eos.notation-bsk-fit"]
+notes = "Latex read off PDF page 4 image by harvester; reviewer must confirm."
+
+[[entry]]
+id = "eos.pseudo-enthalpy"
+kind = "definition"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Pseudo-enthalpy"
+statement = "Pseudo-enthalpy H = int_0^P dP'/(rho(P') c^2 + P') equals ln(h/h_s), where h = (rho c^2 + P)/n_b is the zero-T enthalpy per baryon and h_s its surface value."
+latex = 'H = \int_0^P \frac{dP^\prime}{\rho(P^\prime) c^2 + P^\prime}, \qquad H = \ln(h/h_s), \quad h = (\rho c^2 + P)/n_b'
+source = "potekhin_2013_bsk_eos"
+locator = "eqs. 2 and 5, pp. 4-5"
+anchor = "H = ln(h/hs),                                                      (5)"
+anchor_tex = "where $h=(\\rho c^2 +P)/\\nb$ is the zero-$T$ enthalpy per baryon"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Integral and zero-temperature enthalpy relation match BSk:300–307 and 375–383, with PDF confirmation. Unneeded interior-structure variable." }]
+v1_ref = "archive/v1/src/eos/bsk_eos.jl:159"
+depends_on = ["eos.notation-bsk-fit"]
+
+[[entry]]
+id = "eos.bsk-pressure-fit"
+kind = "equation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk analytic fit P(rho)"
+statement = "Fully analytical fit of pressure as function of gravitational mass density, zeta = log P as sum of fractional-polynomial pieces matched by the Fermi-like switch function (e^x + 1)^-1, with 23 parameters a_i per EoS model (Table 2)."
+latex = '\zeta = \frac{a_1 + a_2\xi + a_3\xi^3}{1 + a_4\xi}\left\{\exp[a_5(\xi - a_6)] + 1\right\}^{-1} + (a_7 + a_8\xi)\left\{\exp[a_9(a_6 - \xi)] + 1\right\}^{-1} + (a_{10} + a_{11}\xi)\left\{\exp[a_{12}(a_{13} - \xi)] + 1\right\}^{-1} + (a_{14} + a_{15}\xi)\left\{\exp[a_{16}(a_{17} - \xi)] + 1\right\}^{-1} + \frac{a_{18}}{1 + [a_{19}(\xi - a_{20})]^2} + \frac{a_{21}}{1 + [a_{22}(\xi - a_{23})]^2}'
+source = "potekhin_2013_bsk_eos"
+locator = "eq. 3, p. 4"
+anchor = "The parameters ai are given in Table 2. The typical fit error of"
+anchor_tex = "\\frac{a_1+a_2\\xi+a_3\\xi^3}{1+a_4\\,\\xi}\\,"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: PDF confirms every term, including a₆ in the second switch: BSk:266–293. Unused cold BSk19–21 fit; not an atmosphere EOS." }]
+depends_on = ["eos.notation-bsk-fit"]
+v1_ref = "archive/v1/src/eos/bsk_eos.jl:121"
+notes = "Eq. 3 is spread over several lines in the text layer; latex read off the PDF page 4 image by harvester (note a_6 appears in both the first and second switch functions, as printed); reviewer must confirm. Defined for BSk19, BSk20, BSk21 only. Potekhin et al. 2013 does NOT contain BSk24."
+
+[[entry]]
+id = "eos.bsk-pressure-fit-accuracy"
+kind = "approximation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "Accuracy of the P(rho) analytic fit"
+statement = "Eq. (3) reproduces the tabulated BSk pressures with typical error about 1 percent for xi >= 6; the maximum error is 3.7 percent at xi = 9.51, set by the jumps at interfaces between layers of different nuclides in the tabulated EoS, which the fit smoothly interpolates across."
+validity = "BSk19, BSk20, BSk21; fitted range 1e6 g cm^-3 < rho < about 2e16 g cm^-3 (xi >= 6)."
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.2, p. 4; Sect. 7, p. 12"
+anchor = "P is ≈ 1% for ξ & 6. The maximum error is 3.7% at ξ = 9.51;"
+anchor_tex = "$\\approx1$\\% for $\\xi\\gtrsim6$. The maximum error is 3.7\\%"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: The 1%, 3.7%, ξ=9.51 and discontinuity explanation match BSk:289–293; upper density limit matches 885–886. Unused fit assessment." }]
+depends_on = ["eos.bsk-pressure-fit"]
+
+[[entry]]
+id = "eos.bsk-low-density-inadequate"
+kind = "approximation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk EoS inadequate below 1e6 g/cm^3; ideal-gas continuation"
+statement = "For rho below 1e6 g cm^-3 the BSk EoSs are inadequate (incomplete ionisation, thermal effects). A rough temperature-dependent description is P = P_fit + P0 with P0 = A(T) rho, A about 4e7 T K^-1 (cm/s)^2 for fully ionised iron; at T = 1e7 K partial ionisation lowers A to 3.5e14 (cm/s)^2."
+validity = "BSk fit applicable for rho >= 1e6 g cm^-3 only; the A(T) continuation is stated as an example for an iron envelope and is not a general fit."
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.1, p. 4"
+anchor = "because atoms are not completely ionized, and thermal effects"
+anchor_tex = "not completely ionized, and thermal effects become non-negligible."
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Warning and both iron-continuation coefficients match BSk:289–299. Preserve this warning in the salvage audit; the discarded BSk continuation is not a required runtime claim." }]
+depends_on = ["eos.bsk-pressure-fit"]
+notes = "Directly relevant to the atmosphere: the BSk fit is not a substitute for the envelope/atmosphere EoS."
+
+[[entry]]
+id = "eos.m-u-rounded"
+kind = "constant"
+provenance = "fit"
+drop_reason = "BSk fit-specific rounding; BSk fit not consumed by the flyby (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "Atomic mass unit as used in the BSk fits"
+statement = "Value of the atomic mass unit m_u used in the linear law rho = n_b m_u and in rho~ (rounded to three figures in the source)."
+latex = 'm_u = 1.66\times 10^{-24}\ \mathrm{g}'
+value = 1.66e-24
+units = "g"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.3, p. 5"
+anchor = "ρ = nb mu , where mu = 1.66 × 10−24 g is the atomic mass unit:"
+anchor_tex = "where $m_\\mathrm{u} = 1.66\\times10^{-24}$~g is the"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Printed 1.66\times10^{-24} g matches BSk:370–374. Fit-specific rounded mass scale is unnecessary once the BSk branch is removed." }]
+depends_on = ["eos.notation-bsk-fit"]
+notes = "Rounded value as printed; the fit coefficients are tied to this rounding, so use this value (not CODATA) when evaluating Eqs. 4, 6, 7."
+
+[[entry]]
+id = "eos.rho-surface-fe56"
+kind = "constant"
+provenance = "measured"
+ownership = "leaf"
+domain = "eos"
+name = "Reference surface density rho_s"
+statement = "In the BSk fits rho_s is put equal to the density of 56Fe at zero pressure and zero temperature."
+latex = '\rho_s = 7.86\ \mathrm{g\,cm^{-3}}'
+value = 7.86
+units = "g cm^-3"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 3.1, p. 4"
+anchor = "Fe at zero pressure and zero temperature, ρs = 7.86 g cm−3 ."
+anchor_tex = "Fe}$ at zero pressure and zero temperature, $\\rho_{\\rm"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Composition, zero-pressure/temperature condition and 7.86 g cm⁻³ match BSk:260–263. This reference density belongs to the unused cold BSk structure model." }]
+depends_on = ["eos.notation-bsk-fit"]
+notes = "The superscript 56 of 56Fe is on the previous line of the text layer."
+
+[[entry]]
+id = "eos.bsk19-a-coefficients"
+kind = "constant"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk19 coefficients a_1..a_23 of Eq. (3)"
+statement = "Parameters a_1 through a_23, in order, of the P(rho) fit Eq. (3) for the BSk19 model."
+latex = 'a_i,\ i = 1,\dots,23\ \text{(BSk19 column of Table 2)}'
+value = [3.916, 7.701, 0.00858, 0.22114, 3.269, 11.964, 13.349, 1.3683, 3.254, -12.953, 0.9237, 6.20, 14.383, 16.693, -1.0514, 2.486, 15.362, 0.085, 6.23, 11.68, -0.029, 20.1, 14.19]
+units = "1"
+source = "potekhin_2013_bsk_eos"
+locator = "Table 2, p. 4 (BSk19 column)"
+anchor = "1     3.916        4.078      4.857"
+anchor_tex = "1  & 3.916 &     4.078 &   4.857 \\\\"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All 23 values match Table 2, BSk:227–251: maximum absolute transcription error 0, tolerance 0. Unused fit coefficients." }]
+v1_ref = "archive/v1/src/eos/bsk_eos.jl:80"
+depends_on = ["eos.bsk-pressure-fit"]
+notes = "Values transcribed from text layer and cross-checked against the page image by harvester. Anchor is the first table row and carries all three models."
+
+[[entry]]
+id = "eos.bsk20-a-coefficients"
+kind = "constant"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk20 coefficients a_1..a_23 of Eq. (3)"
+statement = "Parameters a_1 through a_23, in order, of the P(rho) fit Eq. (3) for the BSk20 model."
+latex = 'a_i,\ i = 1,\dots,23\ \text{(BSk20 column of Table 2)}'
+value = [4.078, 7.587, 0.00839, 0.21695, 3.614, 11.942, 13.751, 1.3373, 3.606, -22.996, 1.6229, 4.88, 14.274, 23.560, -1.5564, 2.095, 15.294, 0.084, 6.36, 11.67, -0.042, 14.8, 14.18]
+units = "1"
+source = "potekhin_2013_bsk_eos"
+locator = "Table 2, p. 4 (BSk20 column)"
+anchor = "1     3.916        4.078      4.857"
+anchor_tex = "1  & 3.916 &     4.078 &   4.857 \\\\"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All 23 values match Table 2, BSk:227–251: maximum absolute transcription error 0, tolerance 0. Unused fit coefficients." }]
+v1_ref = "archive/v1/src/eos/bsk_eos.jl:53"
+depends_on = ["eos.bsk-pressure-fit"]
+notes = "Values transcribed from text layer and cross-checked against the page image by harvester."
+
+[[entry]]
+id = "eos.bsk21-a-coefficients"
+kind = "constant"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk21 coefficients a_1..a_23 of Eq. (3)"
+statement = "Parameters a_1 through a_23, in order, of the P(rho) fit Eq. (3) for the BSk21 model."
+latex = 'a_i,\ i = 1,\dots,23\ \text{(BSk21 column of Table 2)}'
+value = [4.857, 6.981, 0.00706, 0.19351, 4.085, 12.065, 10.521, 1.5905, 4.104, -28.726, 2.0845, 4.89, 14.302, 22.881, -1.7690, 0.989, 15.313, 0.091, 4.68, 11.65, -0.086, 10.0, 14.15]
+units = "1"
+source = "potekhin_2013_bsk_eos"
+locator = "Table 2, p. 4 (BSk21 column)"
+anchor = "1     3.916        4.078      4.857"
+anchor_tex = "1  & 3.916 &     4.078 &   4.857 \\\\"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All 23 values match Table 2, BSk:227–251: maximum absolute transcription error 0, tolerance 0. Unused fit coefficients." }]
+depends_on = ["eos.bsk-pressure-fit"]
+v1_ref = "archive/v1/src/eos/bsk_eos.jl:18"
+notes = "Values transcribed from text layer and cross-checked against the page image by harvester. BSk21 is the model used for the canonical 1.4 Msun star in v1."
+
+[[entry]]
+id = "eos.bsk-delta-rho-fit"
+kind = "equation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk fit of the density excess Delta_rho(n_b)"
+statement = "Fit of Delta_rho = rho/(n_b m_u) - 1 as a function of n = n_b/fm^-3, with switch f_1 = [exp(1.1 log n + b_8) + 1]^-1 and eight parameters b_i per model (Table 3); it is constructed to be consistent with the pseudo-enthalpy relation, Eq. (5)."
+latex = '\Delta_\rho = (1 - f_1)\frac{b_1 n^{b_2} + b_3\sqrt{n}}{(1 + b_4 n)^2} + f_1\frac{n}{b_5 + b_6 n^{b_7}}, \qquad f_1 \equiv \left[\exp(1.1\log n + b_8) + 1\right]^{-1}'
+source = "potekhin_2013_bsk_eos"
+locator = "eq. 6, p. 5"
+anchor = "eters bi are given in Table 3. The typical error of Eq. (6) for ∆ρ"
+anchor_tex = "(1-f_1)\\,\\frac{b_1 n^{b_2}+b_3 \\sqrt{n}}{(1+b_4 n)^2}"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Powers, denominator, switch and base-10 logarithm match PDF Eq. 6: BSk:341–356. Unused BSk density conversion." }]
+depends_on = ["eos.notation-bsk-fit", "eos.bsk-pressure-fit", "eos.m-u-rounded"]
+notes = "Latex read off PDF page 5 image by harvester; reviewer must confirm. Typical error 1-2 percent, max 4.2 percent at rho = 1e6 g cm^-3."
+
+[[entry]]
+id = "eos.bsk21-b-coefficients"
+kind = "constant"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk21 coefficients b_1..b_8 of Eq. (6)"
+statement = "Parameters b_1 through b_8, in order, of the Delta_rho(n_b) fit Eq. (6) for BSk21."
+latex = 'b_i,\ i = 1,\dots,8\ \text{(BSk21 column of Table 3)}'
+value = [3.85, 3.19, 0.0436, 1.99, 1.075e-5, 3.44, 0.6154, 3.531]
+units = "1"
+source = "potekhin_2013_bsk_eos"
+locator = "Table 3, p. 5 (BSk21 column)"
+anchor = "Table 3. Parameters of Eq. (6)."
+anchor_tex = "\\caption[]{Parameters of \\req{fit.rho-n}.}"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: All eight coefficients, including b_5=1.075\times10^{-5}, match Table 3 and its PDF: BSk:313–324. Unused fit coefficients." }]
+depends_on = ["eos.bsk-delta-rho-fit"]
+notes = "b_5 = 1.075e-5 printed as 1.075 x 10^-5. Values read off the page image (Table 3). BSk19/BSk20 columns not entered in this pass."
+
+[[entry]]
+id = "eos.bsk-nb-of-rho-fit"
+kind = "equation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk inverse fit n_b(rho)"
+statement = "Inverse fit giving n_b from rho through the dimensionless density rho~ = (rho/m_u) fm^3 = rho/(1.66e15 g cm^-3), switch f_2 = [exp(xi - c_9) + 1]^-1, and nine parameters c_i per model (Table 4)."
+latex = '\frac{\tilde\rho}{n} = 1 + (1 - f_2)\frac{c_1\tilde\rho^{c_2} + c_3\tilde\rho^{c_4}}{(1 + c_5\tilde\rho)^3} + \frac{\tilde\rho}{c_6 + c_7\tilde\rho^{c_8}} f_2, \qquad f_2 \equiv \left[\exp(\xi - c_9) + 1\right]^{-1}'
+source = "potekhin_2013_bsk_eos"
+locator = "eq. 7, p. 5"
+anchor = "The inverse fit nb (ρ) is given by the formula"
+anchor_tex = "\\frac{\\tilde{\\rho}}{n} = 1+"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Numerators, cubic denominator and switch match PDF Eq. 7: BSk:357–367. Unused BSk inverse conversion." }]
+depends_on = ["eos.notation-bsk-fit", "eos.bsk-pressure-fit", "eos.m-u-rounded"]
+notes = "Latex read off PDF page 5 image by harvester; reviewer must confirm. Average error below 2 percent, max 3.8 percent at the lower end. Table 4 coefficients not entered in this pass."
+
+[[entry]]
+id = "eos.bsk-adiabatic-index"
+kind = "equation"
+provenance = "fit"
+drop_reason = "BSk analytic fit never consumed by the flyby: interior structure not on the render path (audit A24 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "Adiabatic index from the P(rho) fit"
+statement = "Differentiating the fit P(rho) gives the adiabatic index Gamma = (n_b/P) dP/dn_b = [1 + P/(rho c^2)] (rho/P) dP/drho."
+latex = '\Gamma = \frac{n_b}{P}\frac{dP}{dn_b} = \left[1 + \frac{P}{\rho c^2}\right]\frac{\rho}{P}\frac{dP}{d\rho}'
+source = "potekhin_2013_bsk_eos"
+locator = "eq. 22, p. 12"
+anchor = "Differentiation of P(ρ) then yields analytical representations"
+anchor_tex = "\\Gamma=\\frac{\\nb}{P}\\,\\frac{\\dd P}{\\dd \\nb}"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Both derivative expressions and relativistic factor match PDF Eq. 22: BSk:892–897. Unused cold-EOS derivative." }]
+depends_on = ["eos.bsk-pressure-fit", "eos.notation-bsk-fit"]
+notes = "Latex read off PDF page 12 image by harvester; reviewer must confirm. Useful for the dP/drho < c^2 (causality) check."
+
+# ---------------------------------------------------------------- BSk benchmarks
+[[entry]]
+id = "eos.bsk-mmax-benchmark"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk19/20/21 maximum neutron-star mass"
+statement = "Maximum gravitational mass of non-rotating neutron stars: 1.86 Msun (BSk19), 2.16 Msun (BSk20), 2.27 Msun (BSk21). Differences between original tables and the analytic fit are about 0.09, 0.09 and 0.17 percent."
+value = [1.86, 2.16, 2.27]
+units = "Msun (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 10"
+anchor = "The maximum neutron-star masses are Mmax = 1.86 M⊙"
+anchor_tex = "neutron-star masses are $M_\\mathrm{max}=1.86\\,M_\\odot$ at"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Masses [1.86, 2.16, 2.27] and discrepancies [0.09, 0.09, 0.17]% match BSk:749–756. Unneeded TOV benchmark." }]
+depends_on = ["eos.tov-integration-procedure", "eos.bsk-pressure-fit"]
+notes = "Verification target. v1 reproduced 2.2735 / 2.1640 / 1.8598 Msun (per truth/harvest/v1_verification_log.md; not a source). Potekhin+2013 has no 'Table 1' of M and R: its Table 1 lists Skyrme-force nuclear properties, so CLAUDE.md's 'Table 1' reference is wrong; the M-R benchmarks are text values in Sect. 6 and Fig. 8."
+
+[[entry]]
+id = "eos.bsk-mmax-central-density"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "Central density at maximum mass, BSk19/20/21"
+statement = "Central mass density rho_c at which the maximum mass is reached: 3.48e15 g cm^-3 (BSk19), 2.69e15 (BSk20), 2.27e15 (BSk21); differences between original data and fit are about 0.03, 0.02 and 0.7 percent."
+value = [3.48e15, 2.69e15, 2.27e15]
+units = "g cm^-3 (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 10"
+anchor = "ρc = 2.69 × 1015 g cm−3 for BSk20, and Mmax = 2.27 M⊙ at"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Densities [3.48, 2.69, 2.27]×10¹⁵ g cm⁻³ and discrepancies match BSk:750–757. Unneeded TOV benchmark." }]
+depends_on = ["eos.bsk-mmax-benchmark"]
+
+[[entry]]
+id = "eos.bsk-radius-1p4-benchmark"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk19/20/21 radius of a 1.4 Msun star"
+statement = "Circumferential radii of non-rotating neutron stars of mass 1.4 Msun are 10.74 km (BSk19), 11.74 km (BSk20) and 12.57 km (BSk21); discrepancies between original data and fit are about 0.1, 0.02 and 0.2 percent."
+value = [10.74, 11.74, 12.57]
+units = "km (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 11"
+anchor = "of 1.4 M⊙ are R = 10.74 km, 11.74 km, and 12.57 km, with"
+anchor_tex = "$1.4\\,M_\\odot$ are $R=10.74$ km, 11.74 km, and 12.57 km,"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Radii [10.74, 11.74, 12.57] km and discrepancies match BSk:789–792. Unneeded TOV benchmark." }]
+depends_on = ["eos.tov-integration-procedure", "eos.bsk-pressure-fit"]
+notes = "Primary 4-significant-figure TOV verification target (BSk21: 12.57 km). v1 log states R = 12.59 km for BSk21, i.e. 0.16 percent off this value, inside the quoted 0.2 percent fit discrepancy but not a 4-digit match; not a source."
+
+[[entry]]
+id = "eos.bsk-radius-0p5-benchmark"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk19/20/21 radius of a 0.5 Msun star"
+statement = "Circumferential radii of neutron stars of mass 0.5 Msun are 11.5 km (BSk19), 11.9 km (BSk20) and 12.4 km (BSk21); discrepancies between original data and fit are smaller than 0.2 percent."
+value = [11.5, 11.9, 12.4]
+units = "km (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 11"
+anchor = "radii (R = 11.5 km, 11.9 km, and 12.4 km) of neutron stars with"
+anchor_tex = "km, 11.9 km, and 12.4 km) of neutron stars with"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Radii [11.5, 11.9, 12.4] km and discrepancies below 0.2% match BSk:793–794. Unneeded TOV benchmark." }]
+depends_on = ["eos.tov-integration-procedure"]
+
+[[entry]]
+id = "eos.bsk-mmin-benchmark"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "BSk19/20/21 minimum neutron-star mass"
+statement = "Minimum masses of non-rotating neutron stars are 0.093 Msun (BSk19), 0.090 Msun (BSk20) and 0.087 Msun (BSk21); fit-versus-data discrepancies about 0.7, 0.1 and 0.03 percent."
+value = [0.093, 0.090, 0.087]
+units = "Msun (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 10-11"
+anchor = "The minimum neutron-star masses are 0.093 M⊙, 0.090 M⊙,"
+anchor_tex = "The minimum neutron-star masses are $0.093\\,M_\\odot$,"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Masses [0.093, 0.090, 0.087] match BSk:771–772; discrepancies match 788–789. Unneeded TOV benchmark." }]
+depends_on = ["eos.tov-integration-procedure"]
+notes = "Low-mass end where fit and table discrepancies are largest; useful as the Newtonian-limit sanity check."
+
+[[entry]]
+id = "eos.bsk-superluminal-density"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only; TOV/EOS not on the render path (audit A24/A25 DROP, Part B)"
+ownership = "stub"
+domain = "eos"
+name = "Density above which BSk EoS become superluminal"
+statement = "Largest central densities for which dP/drho < c^2: 2.18e15 g cm^-3 for BSk19 and BSk20, 2.73e15 g cm^-3 for BSk21; the fit and its first derivative determine these within 2 percent. BSk20 becomes superluminal before the hydrostatic stability limit."
+value = [2.18e15, 2.18e15, 2.73e15]
+units = "g cm^-3 (order: BSk19, BSk20, BSk21)"
+source = "potekhin_2013_bsk_eos"
+locator = "Sect. 6, p. 10"
+anchor = "dP/dρ < c2 (2.18 × 1015 g cm−3 for BSk19 and BSk20, and"
+anchor_tex = "($2.18\\times10^{15}$ \\gcc{} for BSk19 and BSk20, and"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: Thresholds, inequality, 2% accuracy and BSk20 stability caveat match BSk:760–769. Unused BSk causality benchmark." }]
+depends_on = ["eos.bsk-mmax-benchmark", "eos.bsk-adiabatic-index"]
+
+# ---------------------------------------------------------------- electron gas (Potekhin & Yakovlev 2001)
+[[entry]]
+id = "eos.electron-pressure-magnetised"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Pressure of the ideal magnetised degenerate electron gas"
+statement = "Electron pressure of a magnetised Fermi gas expressed through the chemical potential mu and temperature T, as a sum over Landau levels n = 0..n_max of Fermi-Dirac integrals I_{1/2}(chi_n, tau_n); P_r and T_r are the relativistic units of pressure and temperature."
+latex = 'P_e = P_r \frac{b\,\tau_0^{3/2}}{\sqrt{2}\,\pi^2}\sum_{n=0}^{n_{\max}} (2 - \delta_{n0})(1 + 2bn)^{1/4} I_{1/2}(\chi_n, \tau_n)'
+source = "potekhin_yakovlev_2001_cooling"
+locator = "eq. 12, p. 4"
+anchor = "pressure can be expressed through the chemical potential"
+anchor_tex = "P_r\\,{b \\tau_0^{3/2}\\over\\sqrt2\\pi^2}"
+ocr = "poor"
+status = "blessed"
+image_verified = true
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "PDF Eq. 12 confirms the prefactor, tau_0^{3/2}, degeneracy factor, quarter power and integral arguments; notes correctly distinguish this from a complete hydrogen EOS." }]
+depends_on = ["eos.notation-electron-gas", "eos.relativistic-units-pr-tr"]
+notes = "Source is Potekhin & Yakovlev 2001 (file mislabelled potekhin_chabrier_2001_eos). Equation text layer is garbled; latex read off PDF page 4 image by harvester; reviewer must confirm. The I_{1/2} fit (Chabrier & Potekhin 1998) and the mu(rho, T, B) iterative procedure (Potekhin & Yakovlev 1996) are referenced, not given, in this paper. The paper's own use is the outer-envelope EoS (partially ionised iron treated via an effective charge): this is not a hydrogen-atmosphere EoS."
+
+[[entry]]
+id = "eos.relativistic-units-pr-tr"
+kind = "constant"
+provenance = "derivable"
+ownership = "stub"
+domain = "eos"
+name = "Relativistic units of pressure and temperature"
+statement = "Relativistic unit of pressure P_r = m_e c^2/lambda_e^3 = 1.4218e25 dyn cm^-2 and of temperature T_r = m_e c^2/k_B = 5.930e9 K, used to reduce the electron-gas variables."
+latex = 'P_r = m_e c^2/\lambda_e^3 \approx 1.4218\times 10^{25}\ \mathrm{dyn\,cm^{-2}}, \qquad T_r = m_e c^2/k_B \approx 5.930\times 10^{9}\ \mathrm{K}'
+value = [1.4218e25, 5.930e9]
+units = "dyn cm^-2 (P_r); K (T_r)"
+source = "potekhin_yakovlev_2001_cooling"
+locator = "p. 4, text after eq. 12"
+anchor = "Pr = me c2 /λ3e ≈ 1.4218 × 1025 dyn cm−2 and Tr ="
+anchor_tex = "$P_\\mathrm{r}=m_\\mathrm{e} c^2/\\lambda_\\mathrm{e}^3"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Definitions, powers, CGS units and rounded values 1.4218e25 and 5.930e9 match PY01." }]
+depends_on = ["eos.notation-electron-gas"]
+notes = "Source is Potekhin & Yakovlev 2001 (file mislabelled). Rounded printed values; for production recompute from CODATA constants and use these only as a check."

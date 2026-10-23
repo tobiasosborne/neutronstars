@@ -1,0 +1,700 @@
+# truth/entries/const.toml -- CODATA 2018 recommended values (Tiesinga et al. 2021).
+# All values SI as printed in Table XXXI (non-SI units: Table XXXIV). value/uncertainty strings follow the printed
+# table: '(NN)' is the standard uncertainty in the last digits of the value; 'exact' = no uncertainty;
+# an ellipsis marks an exact quantity whose printed digits are truncated. CGS conversion is left to the code
+# (the source states no CGS factors).
+
+[[entry]]
+id = "const.speed-of-light"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Speed of light in vacuum"
+statement = "CODATA 2018 value of the speed of light in vacuum, an exact (defining) quantity."
+latex = "c = 299\\,792\\,458\\ \\mathrm{m\\,s^{-1}}"
+value = "299 792 458"
+units = "m s^-1"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "speed of light in vacuum                                         c     299 792 458                           m s−1               exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:11"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3444 confirms `299 792 458 m s^-1`, exact, at the stated table/page; defining status is supported by L119–123." }]
+
+[[entry]]
+id = "const.newtonian-gravitation"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Newtonian constant of gravitation"
+statement = "CODATA 2018 recommended Newtonian constant of gravitation G; the digits in parentheses are the standard uncertainty in the last two digits of the value."
+latex = "G = 6.674\\,30(15)\\times10^{-11}\\ \\mathrm{m^3\\,kg^{-1}\\,s^{-2}}"
+value = "6.674 30 × 10^-11"
+units = "m^3 kg^-1 s^-2"
+uncertainty = "(15)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Newtonian constant of gravitation                               G      6.674 30"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:14"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3449 confirms `6.674 30(15) × 10^-11 m^3 kg^-1 s^-2` and relative uncertainty `2.2 × 10^-5`." }]
+notes = "Relative standard uncertainty u_r = 2.2 × 10^-5 as printed."
+
+[[entry]]
+id = "const.planck"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Planck constant"
+statement = "CODATA 2018 Planck constant h, exact since the 2019 SI redefinition (units J Hz^-1 = J s)."
+latex = "h = 6.626\\,070\\,15\\times10^{-34}\\ \\mathrm{J\\,Hz^{-1}}"
+value = "6.626 070 15 × 10^-34"
+units = "J Hz^-1"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Planck constanta                                                 h     6.626 070 15 × 10−34                  J Hz−1              exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:17"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3451 confirms `6.626 070 15 × 10^-34 J Hz^-1`, exact; the SI revision is supported by L96, L110–126." }]
+
+[[entry]]
+id = "const.hbar"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Reduced Planck constant"
+statement = "CODATA 2018 reduced Planck constant; exact, the printed digits are truncated at the ellipsis."
+latex = "\\hbar = 1.054\\,571\\,817\\ldots\\times10^{-34}\\ \\mathrm{J\\,s}"
+value = "1.054 571 817… × 10^-34"
+units = "J s"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "ℏ     1.054 571 817… × 10−34                Js                  exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:20"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "L3453 confirms the exact, truncated value `1.054 571 817… × 10^-34 J s`. Remove “(h divided by 2 pi)”: that defining relation is not stated at the locator." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor L3453 on Table XXXI p. 45 confirms the exact truncated value; unsupported defining relation removed." }]
+
+[[entry]]
+id = "const.elementary-charge"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Elementary charge"
+statement = "CODATA 2018 elementary charge e in coulomb (SI), exact. No Gaussian/esu conversion factor is stated by the source."
+latex = "e = 1.602\\,176\\,634\\times10^{-19}\\ \\mathrm{C}"
+value = "1.602 176 634 × 10^-19"
+units = "C"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "elementary charge                                                e   1.602 176 634 × 10−19                   C                   exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:41"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3462 confirms `1.602 176 634 × 10^-19 C`, exact. This supports the SI value." }]
+
+[[entry]]
+id = "const.boltzmann"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Boltzmann constant"
+statement = "CODATA 2018 Boltzmann constant, printed as k in the source (k_B in this project), exact."
+latex = "k = 1.380\\,649\\times10^{-23}\\ \\mathrm{J\\,K^{-1}}"
+value = "1.380 649 × 10^-23"
+units = "J K^-1"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "Boltzmann constant                                              k     1.380 649 × 10−23                       J K−1               exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:23"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3731 confirms symbol `k`, value `1.380 649 × 10^-23 J K^-1`, exact." }]
+
+[[entry]]
+id = "const.avogadro"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Avogadro constant"
+statement = "CODATA 2018 Avogadro constant, exact."
+latex = "N_A = 6.022\\,140\\,76\\times10^{23}\\ \\mathrm{mol^{-1}}"
+value = "6.022 140 76 × 10^23"
+units = "mol^-1"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "Avogadro constant                                              NA     6.022 140 76 × 1023                     mol−1               exact"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "L3730 confirms `6.022 140 76 × 10^23 mol^-1`, exact; no molar calculation is required by PRD Milestones 1–3." }]
+
+[[entry]]
+id = "const.electron-mass"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Electron mass"
+statement = "CODATA 2018 electron mass in kg."
+latex = "m_e = 9.109\\,383\\,7015(28)\\times10^{-31}\\ \\mathrm{kg}"
+value = "9.109 383 7015 × 10^-31"
+units = "kg"
+uncertainty = "(28)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "electron mass                                                    me         9.109 383 7015"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:29"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3497 confirms `9.109 383 7015(28) × 10^-31 kg` and relative uncertainty `3.0 × 10^-10`." }]
+notes = "Relative standard uncertainty u_r = 3.0 × 10^-10 as printed."
+
+[[entry]]
+id = "const.electron-mass-energy-mev"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Electron mass energy equivalent in MeV"
+statement = "CODATA 2018 electron mass energy equivalent m_e c^2 in MeV (second row of the energy-equivalent entry for the electron; the J row is 8.187 105 7769(25) x 10^-14 J)."
+latex = "m_e c^2 = 0.510\\,998\\,950\\,00(15)\\ \\mathrm{MeV}"
+value = "0.510 998 950 00"
+units = "MeV"
+uncertainty = "(15)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "0.510 998 950 00(15)             MeV              3.0 × 10−10"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3499–3500 explicitly associate `0.510 998 950 00(15) MeV` with `m_e c^2`; the accompanying joule value also matches." }]
+notes = "Relative standard uncertainty u_r = 3.0 × 10^-10 as printed."
+
+[[entry]]
+id = "const.proton-mass"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Proton mass"
+statement = "CODATA 2018 proton mass in kg."
+latex = "m_p = 1.672\\,621\\,923\\,69(51)\\times10^{-27}\\ \\mathrm{kg}"
+value = "1.672 621 923 69 × 10^-27"
+units = "kg"
+uncertainty = "(51)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-47"
+anchor = "proton mass                                                      mp            1.672 621 923 69"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:32"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3586 confirms `1.672 621 923 69(51) × 10^-27 kg` and relative uncertainty `3.1 × 10^-10`." }]
+notes = "Relative standard uncertainty u_r = 3.1 × 10^-10 as printed."
+
+[[entry]]
+id = "const.neutron-mass"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Neutron mass"
+statement = "CODATA 2018 neutron mass in kg."
+latex = "m_n = 1.674\\,927\\,498\\,04(95)\\times10^{-27}\\ \\mathrm{kg}"
+value = "1.674 927 498 04 × 10^-27"
+units = "kg"
+uncertainty = "(95)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-47"
+anchor = "neutron mass                                                    mn         1.674 927 498 04"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "L3616 confirms `1.674 927 498 04(95) × 10^-27 kg`; free-neutron microphysics is outside the exterior-spacetime and surface-model work in Milestones 1–3." }]
+notes = "Relative standard uncertainty u_r = 5.7 × 10^-10 as printed."
+
+[[entry]]
+id = "const.proton-electron-mass-ratio"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Proton-electron mass ratio"
+statement = "CODATA 2018 ratio of the proton mass to the electron mass (dimensionless)."
+latex = "m_p/m_e = 1836.152\\,673\\,43(11)"
+value = "1836.152 673 43"
+units = "1"
+uncertainty = "(11)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-47"
+anchor = "proton-electron mass ratio                                    mp =me           1836.152 673 43(11)                          6.0 × 10−11"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3590 confirms `m_p/m_e = 1836.152 673 43(11)`, dimensionless, with relative uncertainty `6.0 × 10^-11`." }]
+notes = "Relative standard uncertainty u_r = 6.0 × 10^-11 as printed."
+
+[[entry]]
+id = "const.atomic-mass-constant"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Atomic mass constant (unified atomic mass unit)"
+statement = "CODATA 2018 atomic mass constant m_u, one twelfth of the mass of a 12C atom (the table row gives m_u = 2hcR_inf/(alpha^2 c^2 A_r(e))); same value as the unified atomic mass unit u."
+latex = "m_u = 1.660\\,539\\,066\\,60(50)\\times10^{-27}\\ \\mathrm{kg}"
+value = "1.660 539 066 60 × 10^-27"
+units = "kg"
+uncertainty = "(50)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "atomic mass constantf                                          mu     1.660 539 066 60"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:35"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace “footnote f gives” with “the table row gives”: the formula is at L3737. Footnote f, L3786–3788, establishes `m_u = m(12C)/12 = 1 u`; L3735 confirms the numeric value and uncertainty." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "L3735 confirms value and relative uncertainty; L3737 gives the m_u formula; footnote f (L3786-3787) gives m_u = m(12C)/12." }]
+notes = "Relative standard uncertainty u_r = 3.0 × 10^-10 as printed."
+
+[[entry]]
+id = "const.unified-atomic-mass-unit"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Unified atomic mass unit u"
+statement = "CODATA 2018 unified atomic mass unit u (one twelfth of the mass of a 12C atom) from the non-SI-units table; equals the atomic mass constant m_u."
+latex = "u = 1.660\\,539\\,066\\,60(50)\\times10^{-27}\\ \\mathrm{kg}"
+value = "1.660 539 066 60 × 10^-27"
+units = "kg"
+uncertainty = "(50)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXIV, p. 025010-51"
+anchor = "(unified) atomic mass unit: 12 m"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:35"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor is correctly at L3893, Table XXXIV, p. 51: `1.660 539 066 60(50) × 10^-27 kg`. Equality with `m_u` is explicit at L3786–3787." }]
+notes = "Relative standard uncertainty u_r = 3.0 × 10^-10 as printed."
+
+[[entry]]
+id = "const.electron-volt"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Electron volt in joules"
+statement = "CODATA 2018 value of the electron volt (e/C) J in joules, exact."
+latex = "\\mathrm{eV} = 1.602\\,176\\,634\\times10^{-19}\\ \\mathrm{J}"
+value = "1.602 176 634 × 10^-19"
+units = "J"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXIV, p. 025010-51"
+anchor = "electron volt: (e=C) J                             eV                  1.602 176 634 × 10−19                  J                    exact"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:60"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3891 confirms `(e/C) J`, `1.602 176 634 × 10^-19 J`, exact." }]
+
+[[entry]]
+id = "const.stefan-boltzmann"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Stefan-Boltzmann constant"
+statement = "CODATA 2018 Stefan-Boltzmann constant sigma = (pi^2/60) k^4/(hbar^3 c^2), exact; printed digits truncated at the ellipsis."
+latex = "\\sigma = \\frac{\\pi^2}{60}\\frac{k^4}{\\hbar^3 c^2} = 5.670\\,374\\,419\\ldots\\times10^{-8}\\ \\mathrm{W\\,m^{-2}\\,K^{-4}}"
+value = "5.670 374 419… × 10^-8"
+units = "W m^-2 K^-4"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "Stefan-Boltzmann constant"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:26"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "L3762 confirms the complete formula and `5.670 374 419… × 10^-8 W m^-2 K^-4`, exact. Delete “The source lists no radiation constant a = 4 sigma/c.” The embedded relation for `a` is unsupported at this locator." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "L3762 confirms formula and exact value; unsupported radiation-constant claim removed." }]
+
+[[entry]]
+id = "const.first-radiation-constant"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "First radiation constant"
+statement = "CODATA 2018 first radiation constant c_1 = 2 pi h c^2, exact; printed digits truncated at the ellipsis. (Table prints the unit as W m^2.)"
+latex = "c_1 = 2\\pi h c^2 = 3.741\\,771\\,852\\ldots\\times10^{-16}\\ \\mathrm{W\\,m^2}"
+value = "3.741 771 852… × 10^-16"
+units = "W m^2"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "first radiation constant 2πhc2 ¼ π sr c1L                        c1         3.741 771 852… × 10−16            ½W m2"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3765 confirms `2πhc²`, `3.741 771 852… × 10^-16`, exact. PDF p. 49 visually confirms `[W m²]`; footnote h is at L3792." }]
+notes = "The unit cell is garbled in the text layer (printed as a bracketed W m2 with a footnote letter); W m^2 is the SI unit of 2 pi h c^2. Verify against the page image before use."
+
+[[entry]]
+id = "const.second-radiation-constant"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Second radiation constant"
+statement = "CODATA 2018 second radiation constant c_2 = hc/k, exact; printed digits truncated at the ellipsis."
+latex = "c_2 = hc/k = 1.438\\,776\\,877\\ldots\\times10^{-2}\\ \\mathrm{m\\,K}"
+value = "1.438 776 877… × 10^-2"
+units = "m K"
+uncertainty = "exact"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-49"
+anchor = "second radiation constant hc=k                                   c2         1.438 776 877… × 10−2             [m K]b              exact"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3766 confirms `c_2 = hc/k = 1.438 776 877… × 10^-2 m K`, exact; the unit qualification is at L3774–3776." }]
+
+[[entry]]
+id = "const.vacuum-permeability"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Vacuum magnetic permeability"
+statement = "CODATA 2018 vacuum magnetic permeability mu_0 (no longer exactly 4 pi x 10^-7 after the SI redefinition)."
+latex = "\\mu_0 = 4\\pi\\alpha\\hbar/(e^2 c) = 1.256\\,637\\,062\\,12(19)\\times10^{-6}\\ \\mathrm{N\\,A^{-2}}"
+value = "1.256 637 062 12 × 10^-6"
+units = "N A^-2"
+uncertainty = "(19)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "vacuum magnetic permeability 4παℏ=e2 c                          μ0     1.256 637 062 12"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3445–3446 confirm `4παℏ/(e²c)`, `1.256 637 062 12(19) × 10^-6 N A^-2`, and departure from the former exact value." }]
+notes = "Relative standard uncertainty u_r = 1.5 × 10^-10 as printed."
+
+[[entry]]
+id = "const.vacuum-permittivity"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Vacuum electric permittivity"
+statement = "CODATA 2018 vacuum electric permittivity epsilon_0."
+latex = "\\epsilon_0 = 1/(\\mu_0 c^2) = 8.854\\,187\\,8128(13)\\times10^{-12}\\ \\mathrm{F\\,m^{-1}}"
+value = "8.854 187 8128 × 10^-12"
+units = "F m^-1"
+uncertainty = "(13)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "vacuum electric permittivity 1=μ0 c2                            ϵ0     8.854 187 8128"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3447 confirms `1/(μ_0 c²) = 8.854 187 8128(13) × 10^-12 F m^-1`." }]
+notes = "Relative standard uncertainty u_r = 1.5 × 10^-10 as printed."
+
+[[entry]]
+id = "const.fine-structure"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Fine-structure constant"
+statement = "CODATA 2018 fine-structure constant alpha (dimensionless)."
+latex = "\\alpha = \\frac{e^2}{4\\pi\\epsilon_0\\hbar c} = 7.297\\,352\\,5693(11)\\times10^{-3}"
+value = "7.297 352 5693 × 10^-3"
+units = "1"
+uncertainty = "(11)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "fine-structure constant e2 =4πϵ0 ℏc                             α          7.297 352 5693"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:47"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3481 confirms the SI expression `e²/(4πε_0ℏc)`, value `7.297 352 5693(11) × 10^-3`, and relative uncertainty `1.5 × 10^-10`." }]
+notes = "Relative standard uncertainty u_r = 1.5 × 10^-10 as printed."
+
+[[entry]]
+id = "const.classical-electron-radius"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Classical electron radius"
+statement = "CODATA 2018 classical electron radius r_e = alpha^2 a_0."
+latex = "r_e = \\alpha^2 a_0 = 2.817\\,940\\,3262(13)\\times10^{-15}\\ \\mathrm{m}"
+value = "2.817 940 3262 × 10^-15"
+units = "m"
+uncertainty = "(13)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-46"
+anchor = "classical electron radius α2 a0                                 re              2.817 940 3262"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:50"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3525 confirms `α²a_0 = 2.817 940 3262(13) × 10^-15 m`." }]
+notes = "Relative standard uncertainty u_r = 4.5 × 10^-10 as printed."
+
+[[entry]]
+id = "const.thomson-cross-section"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Thomson cross section"
+statement = "CODATA 2018 Thomson cross section sigma_e = (8 pi/3) r_e^2 (symbol sigma_e in the source; sigma_T in this project's code)."
+latex = "\\sigma_e = (8\\pi/3) r_e^2 = 6.652\\,458\\,7321(60)\\times10^{-29}\\ \\mathrm{m^2}"
+value = "6.652 458 7321 × 10^-29"
+units = "m^2"
+uncertainty = "(60)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-46"
+anchor = "Thomson cross section ð8π=3Þr2e                                 σe              6.652 458 7321ð60Þ × 10−29     m2            9.1 × 10−10"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/constants.jl:44"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3526 confirms source symbol `σ_e`, factor `(8π/3)r_e²`, and `6.652 458 7321(60) × 10^-29 m²`." }]
+notes = "Relative standard uncertainty u_r = 9.1 × 10^-10 as printed."
+
+[[entry]]
+id = "const.bohr-radius"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Bohr radius"
+statement = "CODATA 2018 Bohr radius a_0."
+latex = "a_0 = \\hbar/(\\alpha m_e c) = 4\\pi\\epsilon_0\\hbar^2/(m_e e^2) = 5.291\\,772\\,109\\,03(80)\\times10^{-11}\\ \\mathrm{m}"
+value = "5.291 772 109 03 × 10^-11"
+units = "m"
+uncertainty = "(80)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Bohr radius ℏ=αme c ¼ 4πϵ0 ℏ2 =me e2                            a0         5.291 772 109 03"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3487 confirms both algebraic expressions and `5.291 772 109 03(80) × 10^-11 m`; denominators were checked against PDF p. 45." }]
+notes = "Relative standard uncertainty u_r = 1.5 × 10^-10 as printed."
+
+[[entry]]
+id = "const.rydberg-constant"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Rydberg constant"
+statement = "CODATA 2018 Rydberg constant R_inf (inverse length, m^-1)."
+latex = "R_\\infty = 10\\,973\\,731.568\\,160(21)\\ \\mathrm{m^{-1}}"
+value = "10 973 731.568 160"
+units = "m^-1"
+uncertainty = "(21)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Rydberg constant                                               R∞          10 973 731.568 160(21)            ½m−1"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3486 confirms `10 973 731.568 160(21) m^-1`; L3774 specifies cycles or periods per metre." }]
+notes = "Relative standard uncertainty u_r = 1.9 × 10^-12 as printed."
+
+[[entry]]
+id = "const.rydberg-frequency"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Rydberg frequency"
+statement = "CODATA 2018 Rydberg frequency c R_inf."
+latex = "cR_\\infty = \\alpha^2 m_e c^2/2h = E_h/2h = 3.289\\,841\\,960\\,2508(64)\\times10^{15}\\ \\mathrm{Hz}"
+value = "3.289 841 960 2508 × 10^15"
+units = "Hz"
+uncertainty = "(64)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Rydberg frequency α2 me c2 =2h ¼ Eh =2h                       cR∞          3.289 841 960 2508"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3483 confirms both expressions, `α²m_e c²/(2h) = E_h/(2h)`, and `3.289 841 960 2508(64) × 10^15 Hz`." }]
+notes = "Relative standard uncertainty u_r = 1.9 × 10^-12 as printed."
+
+[[entry]]
+id = "const.rydberg-energy-joule"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Rydberg energy in joules"
+statement = "CODATA 2018 Rydberg energy hcR_inf (energy equivalent of the Rydberg constant) in joules."
+latex = "hcR_\\infty = 2.179\\,872\\,361\\,1035(42)\\times10^{-18}\\ \\mathrm{J}"
+value = "2.179 872 361 1035 × 10^-18"
+units = "J"
+uncertainty = "(42)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "energy equivalent                                        hcR∞          2.179 872 361 1035"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3484 confirms `hcR_∞ = 2.179 872 361 1035(42) × 10^-18 J`." }]
+notes = "Relative standard uncertainty u_r = 1.9 × 10^-12 as printed."
+
+[[entry]]
+id = "const.rydberg-energy-ev"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Rydberg energy in electronvolts"
+statement = "CODATA 2018 Rydberg energy hcR_inf in electronvolts (second row of the energy-equivalent entry)."
+latex = "hcR_\\infty = 13.605\\,693\\,122\\,994(26)\\ \\mathrm{eV}"
+value = "13.605 693 122 994"
+units = "eV"
+uncertainty = "(26)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "13.605 693 122 994(26)            eV               1.9 × 10−12"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3484–3485 associate `13.605 693 122 994(26) eV` with the same `hcR_∞` energy equivalent." }]
+notes = "Relative standard uncertainty u_r = 1.9 × 10^-12 as printed."
+
+[[entry]]
+id = "const.hartree-energy"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Hartree energy in joules"
+statement = "CODATA 2018 Hartree energy E_h = 2 hcR_inf in joules."
+latex = "E_h = \\alpha^2 m_e c^2 = e^2/(4\\pi\\epsilon_0 a_0) = 2hcR_\\infty = 4.359\\,744\\,722\\,2071(85)\\times10^{-18}\\ \\mathrm{J}"
+value = "4.359 744 722 2071 × 10^-18"
+units = "J"
+uncertainty = "(85)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Hartree energy α2 me c2 ¼ e2 =4πϵ0 a0 ¼ 2hcR∞                  Eh          4.359 744 722 2071"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3488 confirms all three defining expressions and `4.359 744 722 2071(85) × 10^-18 J`; PDF p. 45 confirms denominator grouping." }]
+notes = "Relative standard uncertainty u_r = 1.9 × 10^-12 as printed."
+
+[[entry]]
+id = "const.bohr-magneton"
+provenance = "measured"
+ownership = "leaf"
+kind = "constant"
+domain = "const"
+name = "Bohr magneton"
+statement = "CODATA 2018 Bohr magneton mu_B = e hbar/(2 m_e)."
+latex = "\\mu_B = e\\hbar/2m_e = 9.274\\,010\\,0783(28)\\times10^{-24}\\ \\mathrm{J\\,T^{-1}}"
+value = "9.274 010 0783 × 10^-24"
+units = "J T^-1"
+uncertainty = "(28)"
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, p. 025010-45"
+anchor = "Bohr magneton eℏ=2me                                            μB   9.274 010 0783"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "L3469 confirms `eℏ/(2m_e) = 9.274 010 0783(28) × 10^-24 J T^-1`." }]
+notes = "Relative standard uncertainty u_r = 3.0 × 10^-10 as printed."
+
+[[entry]]
+id = "const.notation-fundamental"
+provenance = "measured"
+ownership = "leaf"
+kind = "notation"
+domain = "const"
+name = "Notation: fundamental constants (CODATA 2018)"
+statement = "Symbols used by Tiesinga et al. (2021) Table XXXI for the fundamental constants; where this project's code uses a different name it is given in the meaning. The symbols c (speed of light) and G (gravitational constant) are already defined in eos.notation-structure and are not redeclared here; their CODATA SI values are the const.speed-of-light and const.newtonian-gravitation entries."
+symbols = [
+  { sym = "h", meaning = "Planck constant", meaning_source = "Planck constant, printed h in the source (h is taken in the eos domain for enthalpy per baryon)", units = "J Hz^-1" },
+  { sym = "\\hbar", sym_source = "ℏ", aliases = ["hbar", "ℏ"], meaning = "reduced Planck constant h/(2 pi)", meaning_source = "reduced Planck constant, h/2 pi", units = "J s" },
+  { sym = "e", meaning = "elementary charge", units = "C" },
+  { sym = "k_B", sym_source = "k", aliases = ["k"], meaning = "Boltzmann constant", meaning_source = "Boltzmann constant (k_B in project code)", units = "J K^-1" },
+  { sym = "N_A", meaning = "Avogadro constant", units = "mol^-1" },
+  { sym = "\\sigma_{SB}", sym_source = "σ", aliases = ["sigma_SB", "σ", "σ_SB", "σ_sb"], meaning = "Stefan-Boltzmann constant", meaning_source = "Stefan-Boltzmann constant (sigma_SB in project code)", units = "W m^-2 K^-4" },
+  { sym = "c_1", meaning = "first radiation constant, 2 pi h c^2", units = "W m^2" },
+  { sym = "c_2", meaning = "second radiation constant, hc/k", units = "m K" },
+  { sym = "\\varepsilon_0", sym_source = "ε_0", meaning = "vacuum electric permittivity", units = "F m^-1" },
+  { sym = "\\mu_0", sym_source = "μ_0", meaning = "vacuum magnetic permeability", units = "N A^-2" },
+  { sym = "\\mathrm{eV}", sym_source = "eV", meaning = "electron volt, an energy unit: 1 eV = 1.602176634e-19 J", meaning_source = "electron volt in joules", units = "J" },
+]
+conflicts_with = ["eos.notation-bsk-fit", "opacity.notation-opacity-symbols", "rt.notation-mcphac", "rt.notation-spw09"]
+adopted = true
+adopted_syms = ["h", "c_i"]
+conflict_notes = ["h: Planck constant keeps h. BSk enthalpy per baryon -> h_b (surface value h_{b,s}).", "k: McPHAC k_nu (B = 0 total opacity) keeps k_\\nu. SPW09 k_nu^i (mode absorption) -> \\kappa^a_j; CODATA k -> k_B.", "sigma: sigma is a cross section (cm^2). CODATA Stefan-Boltzmann sigma -> \\sigma_{SB}; SPW09 scattering opacity sigma_nu^i -> \\kappa^s_j, differential sigma_nu^ij -> d\\kappa^s_{ji}/d\\Omega.", "c_i: c_1, c_2 are the radiation constants. BSk fit coefficients a_i, b_i, c_i -> a_i^{BSk}, b_i^{BSk}, c_i^{BSk}."]
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, pp. 025010-45, 025010-49"
+notes = "[r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] N_A: Table XXXI p. 025010-49 (exact), refs/tiesinga_2021_codata2018.txt L3730, verbatim \"NA     6.022 140 76 × 1023\". c_1: Table XXXI p. 025010-49; printed in SI W m^2, refs/tiesinga_2021_codata2018.txt L3765, verbatim \"first radiation constant 2πhc2\". c_2: Table XXXI p. 025010-49; printed in SI m K, refs/tiesinga_2021_codata2018.txt L3766, verbatim \"second radiation constant hc=k\"."
+anchor = "Newtonian constant of gravitation                               G      6.674 30"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Anchor L3449 identifies `G`, which the symbol list excludes. It does not substantiate that list; several listed quantities instead occur on pp. 49 and 51. `h_P` is project notation, whereas the statement claims source notation. Split and re-anchor." }]
+
+[[entry]]
+id = "const.notation-particles"
+provenance = "measured"
+ownership = "leaf"
+kind = "notation"
+domain = "const"
+name = "Notation: particle masses (CODATA 2018)"
+statement = "Symbols used by Tiesinga et al. (2021) Table XXXI for particle and atomic masses."
+symbols = [
+  { sym = "m_e", meaning = "electron mass", units = "kg" },
+  { sym = "m_p", meaning = "proton mass", units = "kg" },
+  { sym = "m_n", meaning = "neutron mass", units = "kg" },
+  { sym = "m_u", sym_source = "u", aliases = ["u"], meaning = "atomic mass constant m_u (= unified atomic mass unit u)", meaning_source = "unified atomic mass unit, equal to the atomic mass constant m_u (m_u itself is used in the eos domain for the fits value 1.66e-24 g)", units = "kg" },
+  { sym = "m_p/m_e", meaning = "proton-electron mass ratio", units = "1" },
+]
+conflicts_with = ["gr.notation-geometry", "gr.notation-pechenick", "opacity.notation-photon-cyclotron"]
+adopted = false
+conflict_notes = ["u: Bare u retired. CODATA atomic mass unit -> m_u; Bel02 compactness -> x_g; Pech83 M/r -> u_{geo}; PC03 hbar omega/kT -> u_{kT}."]
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, pp. 025010-45, 025010-47, 025010-49 (footnote f)"
+anchor = "electron mass                                                    me         9.109 383 7015"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace locator with `'Table XXXI, pp. 025010-45, 025010-47, 025010-49 (footnote f)'`. Electron mass is at L3497; proton, neutron and ratio at L3586, L3616, L3590; `u = m_u` at L3786–3787." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "L3497, L3586, L3590, L3616 and L3786-3787 confirm every listed symbol; expanded locator covers all." }]
+
+[[entry]]
+id = "const.notation-atomic"
+provenance = "measured"
+ownership = "leaf"
+kind = "notation"
+domain = "const"
+name = "Notation: atomic and electromagnetic constants (CODATA 2018)"
+statement = "Symbols used by Tiesinga et al. (2021) Table XXXI for atomic-scale and electromagnetic constants."
+symbols = [
+  { sym = "\\alpha_f", sym_source = "α", aliases = ["alpha", "alpha_f", "α"], meaning = "fine-structure constant e^2/(hbar c)", meaning_source = "fine-structure constant", units = "1" },
+  { sym = "r_e", meaning = "classical electron radius, alpha^2 a_0", units = "m" },
+  { sym = "\\sigma_T", sym_source = "σ_e", aliases = ["sigma_T", "σ_e"], meaning = "Thomson cross section (8 pi/3) r_e^2, r_e = e^2/(m_e c^2)", meaning_source = "Thomson cross section, (8 pi/3) r_e^2 (sigma_T in project code)", units = "m^2" },
+  { sym = "a_0", meaning = "Bohr radius", units = "m" },
+  { sym = "R_{Ry}", sym_source = "R_∞", aliases = ["R_∞"], meaning = "Rydberg constant", units = "m^-1" },
+  { sym = "cR_{Ry}", sym_source = "cR_∞", meaning = "Rydberg frequency", units = "Hz" },
+  { sym = "\\mathrm{Ry}", sym_source = "hcR_∞", aliases = ["hcR_∞"], meaning = "Rydberg energy", units = "J" },
+  { sym = "E_h", meaning = "Hartree energy, 2 hcR_inf", units = "J" },
+  { sym = "\\mu_B", sym_source = "μ_B", meaning = "Bohr magneton: SI e hbar/(2 m_e); Gaussian e hbar/(2 m_e c) = E_ce/(2B)", units = "J T^-1" },
+  { sym = "u_r", meaning = "relative standard uncertainty", units = "1" },
+]
+conflicts_with = ["eos.notation-structure", "gr.notation-geometry", "gr.notation-pechenick", "gr.notation-potekhin", "obs.notation-rxj1856-photometry", "obs.notation-rxj1856-spectral", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "rt.notation-cond-energies-geometry", "rt.notation-spw09", "surface.notation-geometry", "surface.notation-observer-frame"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "R_inf: Apparent stellar radius is R^\\infty (one spelling). CODATA Rydberg R_inf -> R_{Ry}; Ho07 emission-region apparent radius -> R_{em}^\\infty."]
+source = "tiesinga_2021_codata2018"
+locator = "Table XXXI, pp. 025010-45–025010-46"
+notes = "[r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] \\alpha_f: Gaussian definition alpha_f = e^2/(hbar c); CODATA L3481 prints the SI form \"e2 =4πϵ0 ℏc\", refs/potekhin_lai_chabrier_ho_2004_polarization.txt L544, verbatim \"where αf = e2 /~c = 1/137.036 is the fine-structure constant\"."
+anchor = "fine-structure constant e2 =4πϵ0 ℏc                             α          7.297 352 5693"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace locator with `'Table XXXI, pp. 025010-45–025010-46'`: `r_e` and `σ_e` occur at L3525–3526 on p. 46, outside the current locator. Other listed symbols match p. 45." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "L3469, L3481-3488, L3525-3526 and L3441-3442 confirm every listed symbol; expanded locator includes p. 46." }]

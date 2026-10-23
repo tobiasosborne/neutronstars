@@ -1,0 +1,753 @@
+                                            Astronomy & Astrophysics manuscript no. 8357                                                                                        c ESO 2024
+                                            November 26, 2024
+
+
+
+
+                                                                       Validation of the new Hipparcos reduction
+                                                                                                         Floor van Leeuwen
+
+                                                  Institute of Astronomy, Madingley Road, Cambridge, UK
+
+                                                  Received 27 July 2007 / Accepted 8 August 2007
+arXiv:0708.1752v1 [astro-ph] 13 Aug 2007
+
+
+
+
+                                                                                                              ABSTRACT
+
+                                                  Context. A new reduction of the astrometric data as produced by the Hipparcos mission has been published, claiming accuracies for
+                                                  nearly all stars brighter than magnitude Hp = 8 to be better, by up to a factor 4, than in the original catalogue.
+                                                  Aims. The new Hipparcos astrometric catalogue is checked for the quality of the data and the consistency of the formal errors as well
+                                                  as the possible presence of error correlations. The differences with the earlier publication are explained.
+                                                  Methods. The internal errors are followed through the reduction process, and the external errors are investigated on the basis of a
+                                                  comparison with radio observations of a small selection of stars, and the distribution of negative parallaxes. Error correlation levels
+                                                  are investigated and the reduction by more than a factor 10 as obtained in the new catalogue is explained.
+                                                  Results. The formal errors on the parallaxes for the new catalogue are confirmed. The presence of a small amount of additional noise,
+                                                  though unlikely, cannot be ruled out.
+                                                  Conclusions. The new reduction of the Hipparcos astrometric data provides an improvement by a factor 2.2 in the total weight
+                                                  compared to the catalogue published in 1997, and provides much improved data for a wide range of studies on stellar luminosities
+                                                  and local galactic kinematics.
+                                                  Key words. space vehicles: instruments–methods: data analysis–catalogues–astrometry
+
+
+
+                                           1. Introduction                                                             fully understood from the differences between the old and new
+                                                                                                                       reduction methods.
+                                           Since the publication of the Hipparcos catalogue (ESA 1997)
+                                           there have been suggestions, though not always well founded,                    One may get the impression that errors were made in the
+                                           of the presence of systematic errors in the astrometric data the            original reduction of the Hipparcos data, but this is not the cor-
+                                           catalogue contains (see for example: Narayanan & Gould 1999;                rect way of describing what has happened. Several aspects have
+                                           Soderblom et al. 2005). Suspicion was in particular raised con-             to be considered before judging the performance of the original
+                                           cerning the reliability of the parallaxes at the sub-milli arcsec-          reduction by the two consortia, FAST (Kovalevsky et al. 1992)
+                                           ond level. Such errors, if present, may become apparent when                and NDAC (Lindegren et al. 1992):
+                                           for example averaging parallax information for open clusters.
+                                           Here systematic or correlated errors would be the most conspic-             1. The original aim of the mission was to achieve a parallax ac-
+                                           uous and damaging, as the formal accuracy on a cluster parallax                curacy of around 2 milli arcseconds (mas). The final results
+                                           can well exceed those of individual stellar parallax determina-                as published in 1997 were about a factor two better, despite
+                                           tions in the catalogue. Some problems with the Hipparcos as-                   a very serious problem with the orbit of the satellite;
+                                           trometric data, as due to inaccuracies in the along-scan attitude           2. Computing hardware available around 1993 to 1996, when
+                                           reconstruction, have since been suggested by Makarov (2002)                    the final calculations took place, was much less powerful
+                                           and identified in detail by van Leeuwen (2005). As these prob-                 than what is available today. This reflected in the time re-
+                                           lems were found to be curable, the concept of a new reduction                  quired for a single iteration (more than 6 months), and a
+                                           (van Leeuwen & Fantino 2005) became a viable option. This re-                  limitation to how often this could be done. It also limited
+                                           duction was recently completed and a full description of the pro-              the possibility to interact efficiently with the reduced data to
+                                           cesses used is now in press (van Leeuwen 2007). In that publi-                 check results. What took more than 6 months some 12 years
+                                           cation, however, the emphasis is on illustrating the proper use of             ago, takes currently about a week on a single desktop com-
+                                           the Hipparcos astrometric data and the way these have been ob-                 puter;
+                                           tained in the new reduction. The data used to illustrate these pro-         3. The Hipparcos measurement principle is complex and sen-
+                                           cesses were obtained from (mainly nearly-final) iteration phases.              sitive. Some of this was well understood before the start
+                                           The present paper provides the overall quality check on the new                of the mission, not least thanks to the preparatory work of
+                                           catalogue as it will become available in 2007 through the data                 Lennart Lindegren. An input catalogue (Turon et al. 1992)
+                                           disk included in (van Leeuwen 2007) and early 2008 through                     with an even distribution of target stars over the sky was cre-
+                                           AstroGrid 1 .                                                                  ated to ensure a stable astrometric solution for the mission
+                                               With the availability of a new and potentially more accurate               data. How sensitive the solution really is became only clear
+                                           astrometric catalogue, it is now also possible to do a detailed                during the iterations of the new reduction. In particular, the
+                                           investigation of the catalogue published in 1997. The importance               principal requirement of linking the data in the two fields of
+                                           of this investigation is that any observed differences need to be              view is critical, and links can far more easily be weakened
+                                                                                                                          than was imagined 25 years ago, when in the 1980s the input
+                                            1
+                                                http://www2.astrogrid.org/                                                catalogue was constructed.
+2                                     Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+This paper, and the two associated with it (van Leeuwen 2005;
+van Leeuwen & Fantino 2005), are therefore not an accusation
+of bad workmanship in the creation of the catalogue published
+in 1997. The intention is rather to show that the principle of the
+Hipparcos instrument, now also being implemented for the Gaia
+satellite, is valid and is the only way one may measure directly,
+fully reliable absolute parallaxes, and do so for large numbers of
+stars. These papers show that the reduction of the Hipparcos data
+is far from simple, but also that complications associated with
+the reduction of those data are now much better understood, and
+can be sufficiently controlled.
+     For clarity of the current paper, the main issues that have
+been resolved in the new reduction, and which have led to a sig-
+nificant improvement in accuracies for the new catalogue are
+briefly summarized here. For a more comprehensive descrip-
+tion the reader is referred to the two papers already mentioned
+above (van Leeuwen 2005; van Leeuwen & Fantino 2005) and
+to van Leeuwen (2007).                                                                                       √
+                                                                      Fig. 1. The normalized errors (σβ3 × M1 Itot ) on the modulation
+     The noise on the astrometric data as gathered by Hipparcos       phases for transits over the modulating grid. The data are for
+originates from two main sources. The first source is the             orbit 174, 21 January 1990.
+Poisson noise on the original photon counts from which the
+measurements of transit times were derived, and which sets
+the accuracy limit for those data. The second is the noise
+from the along-scan attitude reconstruction, which provides
+                                                                      ferent from that used in the original reductions, where abscissae
+the reference frame used to transform transit times to one-
+                                                                      referred to angular positions as projected onto a reference great
+dimensional positions on the sky, a transformation that needs
+                                                                      circle. In the new reduction, the abscissae are measured strictly
+to be free from distortions. Significant improvements in the
+                                                                      with respect to the instantaneous scan direction.
+attitude reconstruction have been obtained in the new reduc-
+tion through a much improved understanding of peculiarities in             The present paper will refer to various observational aspects
+the dynamics of the satellite, in particular concerning non-rigid     of the Hipparcos mission, without going into detail. Extensive
+events (scan-phase discontinuities) and hits by dust particles.       descriptions on how the Hipparcos data were obtained can be
+Abandoning the great-circle reduction technique (van der Marel        found in Volume 3 of ESA (1997), as well as in (van Leeuwen
+1988; van der Marel & Petersen 1992) for a global iterative so-       2007).
+lution allowed for a better control over the attitude reconstruc-          This paper has been organized as follows. Section 2 summa-
+tion, but makes it necessary to iterate the reduction between the     rizes the statistical tests carried out on the internal formal errors
+attitude reconstruction and the reconstruction of the astromet-       at the relevant stages of the data reductions. Also considered are
+ric parameters. A similar iteration is also planned, and has al-      correlation levels of the abscissa residuals and the global depen-
+ready been tested extensively (O’Mullane et al. 2006), for the        dencies of the formal errors on the astrometric data. Section 3
+Gaia data reductions (Lindegren 2005).                                presents the external verification of the data, though the possibil-
+     The final improvement for the new reduction comes from           ities for this are rather limited at accuracies better than 0.3 mas.
+a better understanding of the connectivity requirement in the         Section 4 gives a brief impression of the potential impact of the
+reconstruction of the along-scan attitude. The connectivity re-       new reduction. Finally, Section 5 presents a summary of the con-
+quirement, when applied correctly, enables sufficient contribu-       clusions derived from this study.
+tions to the along-scan attitude from both fields of view of the
+telescope. This is essential for obtaining a reconstructed sky free
+from local small distortions. Such distortions can ultimately lead
+                                                                      2. The internal accuracy verification
+to local variations in the parallax zero point. Weights of data
+contributions from the two fields of view can in practice fluctu-     2.1. The transit data
+ate considerably, despite the construction of the Hipparcos Input
+Catalogue, which was designed to provide a more or less homo-         The positional information obtained by Hipparcos is derived
+geneous distribution of selected stars over the sky (ESA 1992).       from the modulated signal created by the transit of a stellar im-
+The weight-ratio allowed in the along-scan attitude reconstruc-       age over a regular grid of transparent lines. These transits are
+tion for the two fields of view affects the convergence of the        examined over fixed time intervals of just over 2 s, and it took
+final catalogue as well as the noise level for the brightest stars.   9 such transits to cross the 0.◦ 9 field of view. The grid, with a
+Experiments done during the construction of the new catalogue         periodicity of 1.2 arcsec as projected on the sky, creates a signal
+arrived at an optimal value of around 2.7. A larger value would       which is dominated by a first and second harmonic. The mod-
+make the convergence move along very slowly, a smaller value          ulation phases define the transit time for a stellar image with
+would create unacceptable noise levels for the brightest stars.       respect to a reference grid line. The modulation amplitudes of
+     The Hipparcos data are obtained in the form of transit times,    the harmonics are weak functions of stellar colour and position
+which are transformed to angular positions along the scan di-         on the grid, dependencies which are calibrated and used to detect
+rections. These positions are referred to as asbscissae, and in       double stars. Data for different stars are obtained pseudo simul-
+all applications the input consists of abscissa residuals, the dif-   taneously by switching the small sensitive area of the photomul-
+ferences between the observed and predicted angular positions         tiplier detector between different stellar images as these move
+along the scan direction. This definition of the abscissae is dif-    across the grid. The first formal error to enter the reduction is
+                                      Floor van Leeuwen: Validation of the new Hipparcos reduction                                      3
+
+
+
+
+                                                                      Fig. 3. The formal errors on the combined abscissa residuals, in-
+                                                                      cluding the errors on the predicted positions. The diagonal line
+                                                                      is drawn in the same position as in Fig. 2. The upturn towards the
+                                                                      brighter transits reflects the contribution from the uncertainty in
+                                                                      the stellar reference positions. The data are for orbit 174.
+
+
+                                                                      reduction, the noise on the astrometric parameters for these stars
+                                                                      was entirely caused by inaccuracies in the attitude reconstruc-
+                                                                      tion, and showed significant correlations for in particular bright
+Fig. 2. The distribution of numbers of observations (top) and         stars at small separations on the sky (see further Section 2.5).
+mean errors on the modulation phase (bottom), as a function of             The transit observations are used as input for the along-scan
+the integrated photon count of the observation. The diagonal line     attitude determination. They are combined with a preliminary
+in the lower diagram shows the slope of the photon noise rela-        estimate of the attitude (based on star mapper data) and predicted
+tion. The offset is fairly arbitrary because of variations in M1 .    positions from the last version of the astrometric catalogue to
+This also reflects in the variations in the data for the brightest    provide abscissa residuals. Studies concerning the dynamics of
+transits. The data are for orbit 174.                                 Hipparcos (van Leeuwen & Fantino 2003) have shown that reg-
+                                                                      ular positional variations with amplitudes above 0.1 mas are
+                                                                      mostly restricted to time scales above 50 s. It therefore seems
+therefore the error on the estimate of the modulation phase, rep-     justified to group data over 10 s intervals. There have been noted
+resented traditionally by β3 (for details see van Leeuwen 2007):      a few instances when still not fully-understood disturbances of
+         0.25                                                         the rotational motion of the satellite took place on shorter time
+σβ3 ≈      √    arcsec.                                        (1)    scales. This affected only small parts of about half a dozen or-
+        M1 Itot                                                       bits. For those few data sets, the relevant parameter (the density
+Here M1 is the relative modulation amplitude of the first har-        of nodes in the spline fitting) for the attitude model was adjusted.
+monic, with a typical value between 0.6 and 0.75, mainly de-          The grouping of data, which is done for each field of view sep-
+pending on the colour index of the observed star. The integrated      arately, has a number of advantages. It creates pseudo measure-
+intensity Itot is obtained from the total photon count of the sig-    ments with smaller formal errors, which allow for a better detec-
+nal. The scaling factor 0.25 is stable to within 1 per cent over      tion of attitude disturbances such as hits and basic-angle drifts.
+the mission, and contains amongst others the conversion from          The number of observations in an otherwise relatively large so-
+modulation phase to positional displacements in the focal plane.      lution is reduced by about a factor 5, requiring less processing
+Figure 1 shows a histogram of the “normalized” formal errors          time. The formal errors assigned to individual (pseudo) measure-
+as observed for the transit data in one orbit near the start of the   ments take into account the accuracies of the predicted transit
+mission.                                                              times as derived from the available astrometric solution. This
+    The integrated photon count Itot for an observation varied        means that the formal errors tend to be larger than that given by
+considerably, as stars from magnitude -1 to 12.5 were observed.       the photon statistics alone, in particular for the brightest stars
+In general, the brighter stars were assigned less observing time      (Fig. 3). Where more than one observation of the same star con-
+than the fainter ones, but this provided only a weak compensa-        tributed to a group, the contribution of the external error was
+tion for the intensity differences, as the possible maximum ratio     appropriately adjusted.
+in observing time was only a factor 16 (equivalent to 3 magni-
+tudes), while the typical range was more like a factor four to six.   2.2. The basic angle and other instrument parameters
+Figure 2 shows an example of the distributions of formal errors
+near the start of the mission. These diagrams immediately ex-         Stability of the basic angle is a critical requirement when it
+pose a problem with the published data. The formal errors on          comes to triangularization of the sky with an instrument like
+single transits of the brightest stars are already smaller than the   Hipparcos. The stability of the basic angle is naturally not ex-
+accuracy of the reconstructed position as derived from the astro-     act, and some noise is left from small variations. The presence
+metric parameters and their covariance matrix in the 1997 publi-      of such variations, and their scale can be demonstrated by means
+cation, which are based on all mission data combined. In the old      of a detailed study of the residuals left after the along-scan at-
+4                                       Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+                                                                         mately 0.1 mas. This correction, too, is very stable over the mis-
+                                                                         sion. It is resolved only as a function of the transit ordinate by
+                                                                         means of collecting abscissa residuals left after the astrometric
+                                                                         solutions, at a resolution of 1000 intervals across scan. There
+                                                                         is also a fourth correction, which describes the detailed colour
+                                                                         dependence of the abscissa residuals. The detailed colour and
+                                                                         the small-scale geometric correction also provide information on
+                                                                         local abscissa noise, from which formal error corrections have
+                                                                         been derived as a function of transit ordinate and star colour in-
+                                                                         dex. These corrections compensate for inaccuracies in the cal-
+                                                                         culation of the modulation factor M1 in Eq. 1, when calculat-
+                                                                         ing formal errors. Further details on these calibrations are pro-
+                                                                         vided by van Leeuwen (2007). For the assessment of the inter-
+                                                                         nal accuracies of the Hipparcos data, the most important aspect
+                                                                         of these calibrations is that they appear to have been able, to-
+                                                                         gether, to represent the geometric distortions down to a level of
+                                                                         about 0.1 mas, which is insignificant with respect to other noise
+                                                                         contributions.
+Fig. 4. The correlation between abscissa residuals in the preced-
+ing and following fields of view. The residuals have been aver-          2.3. The along-scan attitude
+aged over intervals of 16 minutes (1/8 rotation of the satellite)
+to increase the resolution. The correlation shows small varia-           The along-scan attitude has been derived using the
+tions of the basic angle taking place at time scales longer than         fully-dynamic model (FDM) as presented first by
+16 minutes. The data are for orbit 174.                                  van Leeuwen & Fantino (2005). For details the reader is
+                                                                         referred to that paper or to van Leeuwen (2007). Here only a
+                                                                         summary relevant to the accuracy assessment is presented.
+titude reconstruction. To make this visible, residuals have been              Through the FDM the underlying torques acting on the satel-
+averaged over 16 minute intervals (equivalent to a 45 degrees ro-        lite are reconstructed. From these torques are derived the satellite
+tation of the satellite), so that the noise level is reduced by nearly   rotation rates by means of integration over the Euler equation
+a factor 10.                                                             for the motion of a rigid body in space. Error angles are then
+    Figure 4 is an example of such an abscissa-residual test,            obtained through integration of the rotation rates. Both integra-
+showing a correlation with an amplitude of about 0.4 mas, which          tions require starting points, which are also part of the attitude
+would contribute an additional abscissa noise of 0.3 mas. A test         modelling. In an iterative fitting procedure for the along-scan at-
+involving 10 successive well-covered orbits shows the same ap-           titude, abscissa residuals are fitted as a function of time with a
+proximate level of the correlations, but there are no signs of sys-      5th order exact spline function (van Leeuwen & Fantino 2003;
+tematic variations, i.e. the variations are not linked to the ro-        van Leeuwen 2007), the second derivative of which provides
+tation phase or the orbital phase of the satellite. The observed         the correction to the torque model. The integrations are car-
+variations are likely to be a reflection of the temperature-control      ried out over uninterrupted intervals. Interruptions can be caused
+cycle of the payload. As was explained by van Leeuwen (2005),            by thruster firings, scan-phase jumps, (micro meteoroid) hits or
+a spin-synchronous modulation could have led to a systematic             large gaps in the data stream (due to occultations, perigee pas-
+offset in the parallaxes, but is clearly not observed. That such a       sages, no ground-station coverage etc.). The underlying, contin-
+modulation is unlikely to be present was also shown indirectly           uous, torque model covers time intervals between any two gaps
+through the determination of the parallax zero point, which              in the data that are longer than 1 minute. For each integration
+was found to be correct to within 0.1 mas (Arenou et al. 1995;           interval, the starting values for the pointing and rate integrations
+Lindegren 1995).                                                         are also determined. Thus, the reconstructed attitude can be eval-
+                                                                         uated at any point of time, except for times very close to the
+    A few actual basic-angle drifts have been observed over the
+                                                                         discontinuities.
+mission, and these are linked to known thermal-control problems
+of the payload. A detailed description and identification of the              The attitude-reconstruction process ensures the proper level
+orbits affected is found in van Leeuwen (2007).                          of connectivity between observations in the two fields of view.
+    Next to the basic angle, three sets of instrument parameters         This is achieved through controlling the relative weights of data
+have been used to describe the large-, medium- and small-scale           from the two fields of view contributing to the attitude recon-
+distortions of the description of the geometric projection of the        structions. These weights are checked for each interval between
+sky on the focal plane and the measuring grid. The large-scale           nodes of the spline function. A maximum weight ratio of 2.72
+distortions describe the projection effects of the telescope op-         is allowed. For any larger ratio, the largest weight is reduced to
+tics and their variation with time. These distortions are repre-         2.72 times the smaller weight for the data contained in the node
+sented by a two-dimensional third-order polynomial in position           interval. Very few exceptions were made to this rule, to allow
+and a linear colour correction. The medium-scale distortion cor-         some short stretches of time with data from only one field of
+rections reflect the small-scale optical and the grid distortions,       view.
+which are observed to be very stable over the mission, with a
+maximum amplitude just below 1 mas. The large- and medium-               2.4. Field-of-view transits and astrometric parameters
+scale distortions are both resolved over the grid. The small-scale
+distortions represent the printing characteristics of the modulat-       The next step in the processing of the transits is the combina-
+ing grid, and are reconstructed to an accuracy level of approxi-         tion of the abscissa residuals (after correcting for the large- and
+                                       Floor van Leeuwen: Validation of the new Hipparcos reduction                                       5
+
+
+
+
+Fig. 5. The goodness-of-fit statistics for the combination of the
+transit data to field transits. The histogram shows the observed
+distribution, and the curve the equivalent Gaussian distribution       Fig. 6. The distribution of formal errors (bottom) and numbers
+for the same number of observations. The data are for orbit 174.       of observations (top) for the field transits. The position of the
+                                                                       diagonal line in the bottom diagram is the same as in the similar
+                                                                       Fig. 2 and Fig 3 above.
+medium-scale distortions and determining the along-scan atti-
+tude) to mean abscissa residuals for field-of-view transits. This
+may involve up to 10 individual measurements. A goodness-of-
+fit statistic is calculated for each field-of-view transit, based on
+the formal errors of the transit measurements as described above.
+Figure 5 shows a typical example of the observed distributions
+for this statistic. There is an indication of a small underestimate
+of the formal errors on the transit data in this particular case,
+shown by the offset of the data from the ideal Gaussian distri-
+bution. Data of this kind have been collected for all orbits and
+examined for deviations as part of the quality assurance process.
+     The formal errors on the field transits are still governed by
+the same dependencies as for the transit data, and are dominated
+by photon count statistics, as can be observed in Fig. 6. These
+field transit data are the input to the astrometric-parameter es-
+timation and the calibration of the small-scale geometric dis-
+tortions. They are referred to as field-transit abscissa residuals     Fig. 7. The dispersions of abscissa residuals after fitting of astro-
+(FTAR).                                                                metric parameters for single stars with five-parameter solutions.
+     At each cycle of the iterative process that ultimately builds     The diagonal line is the same as in the preceding figures, and
+the final astrometric catalogue, corrections to the assumed astro-     shows that these residuals are still largely dominated by photon
+metric parameters have been determined based on the FTARs.             noise. Only at the brightest end, the attitude noise (at about 0.6
+These corrections have been accumulated as corrections to the          mas) dominates.
+astrometry in the catalogue of 1997. A basic five-parameter as-
+trometric solution has been sufficient for application to 102 072
+out of a total of 117 955 stars. Indicative of the improvement in           Examination of the dispersions of the FTARs after the as-
+quality of the new solution is the number of stars for which the       trometric parameter solutions (Fig. 7) provides the final check
+old catalogue gave a so-called stochastic solution (1561), that are    on the internal consistency of the data, as well as a measure of
+solved as normal solutions in the new reduction (962). Stochastic      the remaining attitude noise. This noise is found to be approx-
+solutions represent cases where remaining residuals are signifi-       imately 0.6 mas as applicable to a FTAR. In comparison, the
+cantly larger than expected. This can be caused by unresolved          attitude noise left in the 1997 catalogue was 1.5 to 2 mas at the
+orbital motion, but in case of the published data, also by an ac-      level of the combined FTARs for an orbit. With on average 4.5
+cidental accumulation of unresolved problems in the satellite at-      FTARs per orbit, the equivalent attitude noise in the original re-
+titude reconstruction.                                                 duction was about 3 to 4 mas, at least a factor five larger than
+6                                       Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+
+
+
+                                                                         Fig. 9. Top: Abscissa-error correlation level (ρ) for field-transit
+Fig. 8. Abscissa-error correlations for mean orbit transit residu-       abscissa residuals (FTARs) with formal errors below 6 mas,
+als with formal errors below 3 mas as a function of separation           as a function of separation along the scan direction. Bottom:
+along the reference great circle. Top: the NDAC data as pub-             Coincidence fraction c of field-transit measurements as a func-
+lished in 1997; bottom: the new reduction. The peaks are found           tion of separation on the sky. The coincidence data are based on
+at intervals of an integer times the basic angle of 58 degrees, and      a random selection covering 10 per cent of all single stars in the
+fold back at 180 degrees.                                                new catalogue.
+
+in the new reduction. This reduction in attitude noise reflects in
+the formal errors of the astrometric parameters, which are de-           data on field transit residuals (with formal errors below 6 mas)
+termined by photon statistics down to about magnitude 3.5 to 4           have been collected over all orbits of the mission. The resulting
+in the new reduction, but only down to magnitude 8 to 9 in the           curve is shown in Fig. 9 (upper graph). The error limit is about
+1997 catalogue.                                                          equivalent to the one used above for the mean orbit transits.
+                                                                             What is also important for the astrometric data derived from
+                                                                         the FTARs is how correlations between abscissa residuals can
+2.5. Abscissa-residual error correlations
+                                                                         accumulate into correlations in astrometric parameters. This is
+A rather troublesome issue with the astrometric catalogue pub-           largely determined by the coincidence factor, as introduced by
+lished in 1997 was the correlation level of the abscissa resid-          van Leeuwen (1999). The coincidence factor for star A with re-
+uals, and the way this affected the determination of astro-              spect to star B gives the fraction of observations of star A for
+metric parameters for, for example, star clusters (see further           which there are observations of star B, contained within the
+van Leeuwen & Evans 1998). Two kinds of determinations of                same field of view passage. Also taken into account is the typ-
+the correlation levels have been made for the new reduction, for         ical length between nodes in the along-scan attitude modelling,
+the field transits and for mean orbit transits. The latter serves as     which stretches well beyond the width of the field of view. The
+material for comparison with the 1997 publication, as abscissa-          coincidence factor thus defines to what extent the underlying
+error correlations for the published data were determined for            abscissa-error correlations could accumulate into correlated er-
+mean orbit transits rather than for the field transits that are avail-   rors in the astrometric parameters. Coincidence only plays a role
+able in the new reduction. As abscissa-error correlations origi-         for stars at relatively short separations on the sky (Fig. 9, lower
+nate from inaccuracies in the along-scan attitude determination,         graph). Coincidences with specific stars in the other field of view
+they naturally show most clearly in the data for the brightest tran-     are rarely repeated over the mission. The coincidence level for
+sits, where the photon noise is lowest. Figure 8 shows for the old       FTARs is generally about a factor two lower than for mean orbit
+and the new reduction the the correlations for mean orbit transits       transits, where apparent coincidence would be related to projec-
+as derived for transits with formal accuracies better than 3 mas.        tion on a reference great circle rather than actual coincidence of
+This essentially selects only the brighter stars. The large differ-      the measurements.
+ence between the NDAC results of 1997 and the new reduction                  The coincidence factor together with the correlation level de-
+is the result of the improved accuracy of the attitude modelling.        termine the chance of accumulating correlated errors in the as-
+The repeated peaks for the NDAC data show how the great-circle           trometric parameters; the coincidence fraction defines the aver-
+reduction process used for building the 1997 catalogue was repli-        age percentage of observations of two stars that could be cor-
+cating, up to 9 times, local errors in the along-scan attitude solu-     related, at a level defined by the correlation for that separation
+tion.                                                                    (or slightly smaller due to projection effects). Considering that
+     For the processing of the new catalogue data the correlations       the correlation levels in the new reduction are nearly ten times
+between the FTARs are relevant rather than those between the             smaller than in the 1997 catalogue, and the coincidence factors
+mean transit residuals per orbit. To examine these correlations,         two times smaller, it will be clear that for the new reduction
+                                       Floor van Leeuwen: Validation of the new Hipparcos reduction                                     7
+
+
+
+
+Fig. 10. Parallax correlations in the 1997 catalogue, as observed
+from the correlation level ρ between the parallax updates in the
+new catalogue for neighbouring stars as a function of their sep-
+aration on the sky. Only stars with formal errors on the parallax
+(in the new catalogue) below 1.2 mas were selected. Based on
+the abscissa-error correlations for the old and the new catalogue,
+these correlations most likely originate from the 1997 catalogue.
+
+the sensitivity to accumulation of abscissa-error correlations into
+astrometric-parameter correlations has been very significantly
+reduced.
+    Considering the smaller formal errors on the astrometric pa-
+rameters in the new reduction, the much lower correlation levels,
+and the lower coincidence statistics, the differences between the
+new and the original astrometric parameters can reveal corre-
+lation levels in the published data. An example of such test is
+shown in Fig. 10 for the parallax data of stars with formal errors     Fig. 11. The formal errors on parallaxes for 9976 stars with rel-
+on the parallax less than 1.2 mas in the new reduction. The level      ative errors on the parallaxes of less than 5 per cent. The near-
+of the correlations is quite high, but their extent over the sky is    linear relation with magnitude represents the photon statistics.
+small, and agrees, at least qualitatively, with what could be ex-      The two bands in the distribution represent stars around the
+pected based on the coincidence statistics for mean orbit abscissa     ecliptic poles (lower band) and stars around the ecliptic plane
+residuals. Beyond a radius of 3 degrees no correlations are ob-        (upper band).
+served, though there may also be (small) anti-correlations exist-
+ing for stars at 180 degrees separation, considering the abscissa-     Table 1. Published and new determinations for the astrometry of
+error-correlation dependencies (Fig. 8) for the 1997 catalogue.        the primary (HIP 71) and secondary (HIP 70) components of a
+                                                                       wide-binary system.
+2.6. Formal errors and their dependencies                               Star   Param.      Old            σ     New       σ   units
+                                                                        70     ̟           5.25       13.87     5.95   3.08   mas
+The main error dependencies left in the new catalogue are:
+                                                                        71     ̟           9.13        1.84     7.33   1.36   mas
+ – The photon noise on the observations, which is a function of         70     µα∗       −46.78       16.42   −23.25   3.27   mas/yr
+   the magnitude of the star at the time of observation and the         71     µα∗       −24.50        2.05   −23.61   1.39   mas/yr
+   (variable) integration time;                                         70     µδ         −0.88       11.24   −18.58   1.92   mas/yr
+                                                                        71     µδ        −19.47        1.40   −20.55   0.85   mas/yr
+ – The number and distribution of observations, which is a
+   function mainly of ecliptic latitude, but which has been lo-
+   cally affected by incompleteness in the scan coverage due to            Figure 12 shows the distributions of parallax errors (below
+   lack of ground-station coverage, observing conditions (like         3.6 mas) for 98 560 stars with simple five-parameter solutions in
+   excessively high background signal), and data loss, most of         the 1997 publication and the new reduction. Some of the discrete
+   which was due to hardware problems;                                 features in the distribution for the 1997 catalogue may be due to
+ – Calibration noise, primarily originating from the attitude re-      the a posteriori corrections that had been applied to formal errors
+   construction.                                                       on abscissa residuals.
+All these contributions can be recognized in Fig. 11. The main
+linear relation represents the photon statistics. The two discrete     2.7. Special cases
+distributions are due to the differences in coverage between the
+ecliptic poles (lower band, good coverage) and ecliptic plane          For at least two special cases of stars in the Hipparcos catalogue
+(upper band, relatively poor coverage). The photon noise rela-         the new reduction has provided a more than average improve-
+tions do not continue towards the brightest stars, as the errors for   ment. The first group concerns secondary stars in double sys-
+these stars are still dominated by attitude noise.                     tems with separate measurements for the two components, but
+8                                     Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+
+
+
+                                                                      Fig. 13. Differences (VLBI-HIP) in parallax between VLBI mea-
+Fig. 12. Histogram of the number of single stars for intervals of     surements and the new reduction, as a function of the parallax.
+width 0.1 mas in parallax error. The dots show the results for the    Data points indicated with crosses refer to double stars. Error
+new solution, the crosses for the 1997 solution.                      bars represent the combined formal errors on the two sets of ob-
+                                                                      servations.
+
+with the components still sufficiently close to cause disturbed
+transits. The improvement on those stars stems from the resolu-
+tion of the data in field transits, which provides much better es-
+timates of the instantaneous orientation of a double system with
+respect to the modulating grid than can be obtained from mean
+orbit transits. This, in turn, allows for a significant improvement
+in the prediction of the position of the brighter component of the
+system relative to the targeted fainter component. An accurate
+relative position with respect to target star and the modulating
+grid is essential for correcting the signal of the target star from
+the disturbance of the bright companion. An example of how
+this affected the astrometric data of such systems is shown in
+Table 1. Contrary to the 1997 solution, the new reduction now
+clearly shows this system as a physical binary.
+    The second group of stars are those with extreme red colour
+indices, many of which are in addition variable. In the new re-
+duction, epoch-resolved colour indices have been used, which
+has two effects. The calibrations of geometric parameters can
+                                                                      Fig. 14. Differences (VLBI-HIP) in proper motion between
+also be supported by the very red stars, and in the application
+                                                                      VLBI measurements and the new reduction. Data points indi-
+of a calibration, the applicable colour of a star is more accu-
+                                                                      cated with crosses refer to double stars. Error bars represent the
+rately known. Data on the epoch-resolved colours of the red stars
+                                                                      combined formal errors on the two sets of observations.
+has been provided by Dimitri Pourbaix (see further: Platais et al.
+2003; Knapp et al. 2001, 2003).
+                                                                      significant differences between the 1997 catalogue and the new
+2.8. Conclusions on the internal accuracies
+                                                                      reduction in as far as these transformations are concerned. The
+                                                                      focus is on the VLBI measurements of 12 stars, and the trans-
+The internal accuracies of the new astrometric data appear to be      formations between the astrometric parameters as determined
+in all aspects consistent with what should be expected on the         through radio observations, the 1997 catalogue and the new re-
+basis of the two most important noise contributors, the photon        duction.
+noise and the attitude noise. The reduction in correlation level          In the preparation of the linking of the Hipparcos catalogue
+between abscissa residuals is in agreement with the reduced           to the ICRS as defined by radio observations (Arias et al. 1995;
+noise on the attitude, which has been the result of provisions        Lestrade et al. 1995, 1999) a dozen stars were measured over
+that were made for two major types of disturbance (scan-phase         a period of time also partly covered by the Hipparcos mission.
+discontinuities and hits) in the attitude modelling.                  Four out of these twelve stars are double stars, and may there-
+                                                                      fore be complicated in their solutions. Some of these stars are in
+                                                                      addition variable. The radio-star positions have been measured
+3. External accuracy verification                                     relative to extra-galactic sources and are thus effectively equiva-
+3.1. Comparison with radio-star observations                          lent to absolute in parallax and proper motion.
+                                                                          The parallax comparison is shown graphically in Fig. 13, dis-
+The final transformation of the Hipparcos catalogue to an inertial    tinguishing between single and double stars. The weighted mean
+reference frame involved several types of measurements, and a         of the parallax difference for the 8 single stars is determined as
+complete description can be found in Chapter 18 of Volume 3 of        −0.013 ± 0.48 mas, with a unit-weight standard deviation (the
+ESA (1997). Here the main interest is on whether there are any        square root of the normalized χ2 ) of 1.55 ± 0.39. A similarly
+                                       Floor van Leeuwen: Validation of the new Hipparcos reduction                                     9
+
+                                                                       3.2. The optical realization of the ICRS
+                                                                       The Hipparcos catalogue as published in 1997 serves as the opti-
+                                                                       cal realization of the International Celestial Reference System or
+                                                                       ICRS (Feissel & Mignard 1998). This section looks at the over-
+                                                                       all agreement between the new reduction and the 1997 catalogue
+                                                                       in positions and proper motions.
+                                                                            The transformations between the new and old catalogues
+                                                                       are again based on Eq. 2. The observations are the positional
+                                                                       or proper motion differences between the old and the new cat-
+                                                                       alogue. The errors on these observations are partly correlated
+                                                                       (when dominated by photon statistics), depending on the bright-
+                                                                       ness of the object. For the brightest stars there is effectively no
+                                                                       correlation, and the errors are as given by the 1997 catalogue,
+                                                                       while for the faintest stars the correlation can be considerable.
+                                                                       With the brighter stars providing most of the weight for the so-
+                                                                       lution, errors have been assigned according to the formal errors
+Fig. 15. Differences (VLBI-HIP) in positions between VLBI              given in the published catalogue. The comparisons are based on
+measurements and the new reduction. Data points indicated with         the data of 99 130 stars with basic five-parameter solutions in
+crosses refer to double stars. Error bars represent the combined       both catalogues. In position the following transformation values
+formal errors on the two sets of observations.                         are found:
+
+                                                                       ǫ x = 0.058 ± 0.002 mas                                        (5)
+non-significant result is obtained when also including the dou-        ǫy = −0.011 ± 0.002 mas
+ble stars. The VLBI and new Hipparcos parallaxes can thus be
+considered to be in good agreement, with a possible hint of an         ǫz = 0.028 ± 0.003 mas,
+underestimate of the formal errors in one or both sets of obser-
+                                                                       with a unit-weight standard deviation of 0.87. As expected, the
+vations.
+                                                                       standard deviation is less than 1.0, reflecting the partial corre-
+      The transformation in either position or proper motion be-
+                                                                       lation of the data. The same transformation using the formal
+tween two catalogues is given by a set of small rotations
+                                                                       errors from the new catalogue for calculating the observation
+(ǫ1 , ǫ2 , ǫ3 ) around three orthogonal axes as:
+                                                                       weights gives marginally different results, and a unit-weight
+ "        # "                                     # ǫ                standard deviation of 1.24. In both cases the rotations observed
+   dα∗           − cos α sin δ − sin α sin δ cos δ  1          are, though significant on their own, more than an order of mag-
+            ≈                                      ·  ǫ .    (2)
+   dδ                   sin α       − cos α      0  2              nitude smaller than the accuracy with which the positions in the
+                                                       ǫ3
+                                                                       published catalogue have been linked to the ICRS to provide its
+A derivation of these relations can be found in van Leeuwen            optical realization (Arias et al. 1995; Feissel & Mignard 1998).
+(2007). A nearly identical set of equations is used for deter-             A similar comparison has been made for the proper motions,
+mining the relative spin between two catalogues, with on the           giving the following values:
+left-hand side the differences in proper motion and on the right-
+hand side the spin vector ω. A comparison has been made for            ω x = −0.001 ± 0.003 mas/yr                                    (6)
+the proper motions, and is shown in Fig. 14. The differences in        ωy = −0.005 ± 0.003 mas/yr
+proper motion do not represent a significant spin between the
+two systems. The spin components are determined as:                    ωz = +0.006 ± 0.003 mas/yr,
+
+ω1 = 0.17 ± 0.36 mas yr−1 ,                                            and a unit-weight standard deviation of 0.90 (or 1.26 when new
+ω2 = 0.10 ± 0.30 mas yr−1 ,                                            weights are applied). It can therefore be concluded that the new
+                                                                       catalogue as a reference frame is essentially identical to the 1997
+ω3 = 0.40 ± 0.34 mas yr−1 ,                                     (3)    catalogue, and only very small and insignificant differential ro-
+with a unit-weight standard deviation of 1.8 and 12 observations.      tations have been introduced in its preparation.
+Excluding the double stars does not provide an improvement of
+these results. The comparison in positions (Fig. 15) gives a sim-      3.3. Parallaxes
+ilar result:
+                                                                       The verification of formal errors on parallaxes in the published
+ǫ1 = −0.11 ± 0.85 mas,                                                 catalogue relies primarily on the observed distribution of nega-
+ǫ2 = 0.06 ± 0.86 mas,                                                  tive parallaxes. Such verification is only partially possible with
+ǫ3 = −0.14 ± 0.79 mas,                                          (4)    the new reduction. The main reason is that amongst those stars
+                                                                       for which a negative parallax was derived, the smallest formal
+with a unit-weight standard error of 2.0. Given the small number       error is 0.23 mas. There are no negative parallaxes amongst the
+of observations, one third of which are double stars, the standard     1000 stars with smaller errors than this value, and only two for
+deviations for these transformations are likely to be affected by      the first 2400 stars, when ranked according to formal parallax
+peculiarities in the astrometric parameters of the individual stars,   error. Figure 16 shows the overall distribution of negative paral-
+in particular orbital motion. Differences in the positional origins    laxes as a function of the formal errors, as well as the histogram
+of the radio and optical signals may also play a role in a few         of the numbers of stars in intervals of 0.1 mas width in formal
+cases.                                                                 error.
+10                                    Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+                                                                      Table 2. Data on the ten stars with negative parallaxes and the
+                                                                      smallest formal errors.
+                                                                          HIP       π    σπ       Hp   B−V         HD    Name        Spectr.
+                                                                       103312   −0.22   0.23   5.801    0.408   199478   V2140 Cyg   B8Ia
+                                                                        57741   −0.20   0.24   5.761    0.233   102878               A3Iab
+                                                                        54751   −0.03   0.30   4.718    0.541    97534   V533 Car    A6Ia
+                                                                        44904   −0.68   0.32   6.861    0.150    78949               A1/A2III
+                                                                       107749   −0.21   0.32   6.569    0.381   207673               A2Ib
+                                                                        61703   −0.56   0.33   6.269    0.007   109867   KY Mus      B1Ia
+                                                                        52004   −0.16   0.33   5.551    0.500    92207   V370 Car    A0Ia
+                                                                        97485   −0.01   0.34   6.490    0.129   187459   V1765 Cyg   B0.5Ibvar
+                                                                        88298   −0.13   0.36   5.732   -0.030   164402               B0Iab...
+                                                                        41074   −0.27   0.37   5.979    0.379    70761               F2Iab
+
+
+
+
+                                                                      low number of stars with negative parallaxes, far too few for
+                                                                      any objective statistical treatment, as can be seen from Fig. 16
+                                                                      and Fig. 17. The overall decrease in the total number of negative
+                                                                      parallaxes is one of the clear indications for the improvements
+                                                                      achieved with the construction of the new catalogue.
+                                                                           Given the very low numbers of negative parallaxes for those
+                                                                      stars with the smallest formal errors, it seems more appropriate
+                                                                      to examine the individual cases for which a negative parallax
+                                                                      has been obtained rather than to treat these as some statistical
+                                                                      variable. The ten stars with negative parallaxes and the smallest
+                                                                      formal errors are presented in Table 2. All but one of these stars
+                                                                      are supergiants. The spectral information for star HIP 44904 was
+Fig. 16. Top: the histogram, for all single stars with five-          given by Eggen (1986), who stated that the data for this star
+parameter solutions, of the formal error on the parallaxes.           could also be interpreted as coming from a high-mass supergiant.
+Bottom: the distribution of parallaxes less than 1 mas s−1 as a       The latter seems to be the case, judging by the parallax informa-
+function of formal error on the parallax determination for the        tion. It is also clear from a comparison between colour indices
+new solution. The diagonal lines show the one, two and three          and spectral types that most of these stars are considerably red-
+sigma levels as based on the formal errors.                           dened, which should not be surprising given that for most the
+                                                                      distance is well over 1 kpc.
+                                                                           Unfortunately, there is considerable uncertainty (or intrin-
+                                                                      sic spread) in the absolute magnitudes of these supergiants (see
+                                                                      also Wegner 2007) and the reddening corrections to be applied to
+                                                                      the observed magnitudes (Wegner 2003). Also the spectroscopic
+                                                                      classification is not always uniquely defined. From an examina-
+                                                                      tion of the distribution in parallaxes and apparent magnitudes of
+                                                                      the type Ia stars, it seems that the brightest of these supergiants
+                                                                      have an absolute magnitude of around −7, but there could be
+                                                                      many fainter by up to three magnitudes (though this is at least
+                                                                      partly caused by reddening). There is an indication of some stars
+                                                                      still being brighter. These could be the so-called “hypergiants”,
+                                                                      with absolute magnitudes of around −8. An example is the star
+                                                                      HIP 95657 (HD 183143), identified as a possible hypergiant at
+                                                                      a distance of 2 kp by Chentsov (2004), for which in the new re-
+                                                                      duction a parallax of 0.47 ± 0.54 has been determined. There are
+Fig. 17. The cumulative percentage of negative parallaxes as a        no type Iab stars close enough for a comparable estimate. These
+function of the formal error on the parallax, σint . The grey curve   results are illustrated by Fig. 18, showing all supergiants with
+in the background shows the same information as derived from          apparent magnitude brighter than Hp = 7. Given the uncertain-
+the 1997 catalogue.                                                   ties in classification as well as associated absolute magnitudes
+                                                                      and reddening corrections, no firm conclusions should be drawn
+                                                                      from the observed distribution of negative parallaxes.
+    Considering the discussion of the internal errors in the pre-          There is, however, another approach that can be made. The
+ceding section it seems incorrect to apply any form of error scal-    distribution of negative parallaxes and their formal errors can be
+ing as was done for the 1997 catalogue (see Volume 3 of ESA           represented as a unit-weight error distribution, assuming all ac-
+1997). What could be considered is a random background noise          tual parallaxes are zero as an absolute lower limit. In that case
+that can not be detected in the internal error analysis. This could   the negative parallaxes, divided by their formal errors, represent
+be noise left in the reference frame as determined through the        one half of a Gaussian distribution with σ = 1. The χ2 of the
+iterations between the along-scan attitude reconstruction and the     parallax measurements for the ten stars in Table 2 equals 10.34,
+astrometric-parameter determination. This would most likely be        with 9 degrees of freedom. The P-value is 0.32, so the test gives
+a residual effect still left over from the 1997 catalogue. Such       no ground to reject the assumption that the formal errors are
+noise residual could be noticeable for those stars with the small-    correct. Such procedure can in principle also be extended to a
+est formal errors. However, among those there is only a very          non-zero parallax assumption, but that would have to be based
+                                      Floor van Leeuwen: Validation of the new Hipparcos reduction                                     11
+
+                                                                      Table 3. Comparisons of accumulated weight statistics for par-
+                                                                      allax measurements of single stars with five-parameter solutions
+                                                                      in the old and the new Hipparcos reductions. The errors are given
+                                                                      in mas.
+                                                                                    Observations      Mean error     Weight
+                                                                       Interval     New        Old    New    Old      ratio
+                                                                            All   101783 100037       0.66 0.96        2.16
+                                                                        Hp ≥ 9     34799     33347    1.23 1.33        1.23
+                                                                        Hp < 9     66984     66690    0.56 0.86        2.36
+                                                                        Hp < 7     10883     11127    0.33 0.70        4.29
+
+
+                                                                      The change in weight is then given by the ratio of the w val-
+                                                                      ues for the new and old reductions. For the entire catalogue, the
+                                                                      increase in weight achieved by the new reduction equals a fac-
+                                                                      tor 2.16. Details for different magnitude ranges are presented in
+                                                                      Table 3. A decrease is noted for the number of bright stars with
+                                                                      five-parameter solutions in the new reduction. This is the result
+                                                                      of the increased sensitivity at higher accuracy to any orbital dis-
+                                                                      turbance. Somewhat of a surprise has been the improvements
+                                                                      observed for the faint stars. However, already the comparisons
+                                                                      between the FAST and NDAC data in the 1997 reduction showed
+                                                                      that the noise on the data for these stars as published in the
+                                                                      old catalogue also contained a significant instrument-modelling
+                                                                      component, as was shown by the error correlation statistics (see
+                                                                      Volume 3 of ESA 1997).
+                                                                          The largest impact of the new reduction is likely to be for
+                                                                      Cepheids and for star clusters and associations. For the Cepheids
+Fig. 18. The distribution of single stars with luminosity class       we examine stars of relatively high intrinsic brightness and at
+Ia (top) and Iab (bottom) in measured parallax and Hp magni-          distances above 300 pc. Using the selection criteria for the
+tude. The magnitudes have not been corrected for reddening. The       Cepheid study of Feast & Catchpole (1997), about four times
+curve in the upper diagram represents an absolute magnitude of        more stars would be selected. This shows in a study based on
+MV = −7.0, and in the lower diagram for MV = −5.5. The ob-            the one-but-final iteration results obtained in the construction of
+served spread is due to both the formal errors on the parallaxes      the new catalogue by van Leeuwen et al. (2007). While based on
+(as shown) and the (unspecified) formal errors on the spectral        the 1997 reduction only the zero point of the Cepheids PL rela-
+classifications.                                                      tion could be determined (Feast & Catchpole 1997), there is now
+                                                                      also significant information available on the slope of this relation
+                                                                      (see also van Leeuwen 2007).
+on assumed absolute magnitudes, and would require reddening               For open cluster studies preliminary results are presented by
+corrections and the inclusion of all stars with parallaxes smaller    van Leeuwen (2007), which show an improvement of the formal
+than predicted, and not only those with negative parallaxes. This     errors by about a factor 2 to 2.5, with formal errors on the par-
+would then make the calculations model dependent. A simplified        allaxes of the 8 nearest clusters in the range of 0.09 to 0.19 mas.
+experiment shows, however, that even if we assume all reference       The gains for the open clusters are made in three areas:
+parallaxes to equal 0.2 mas, the P-value of the χ2 test would be
+as high as 0.17, thus still not inconsistent with the assumptions.     – The improvements in the formal errors for the brightest stars;
+    Concluding, it seems from the data that could be analyzed          – The significant reduction in the correlations between the ab-
+that there is no proof for the presence of an additional noise con-      scissa errors;
+tribution to the parallax errors. However, the detection capability    – The much improved handling of the connectivity condition
+of the data for such contribution, at a level of a few tenths of a       in the along-scan attitude reconstruction.
+mas, is not very high, and its presence can not be excluded ei-
+                                                                      The second point simplifies the reduction of the open cluster data
+ther. Findings for the internal accuracies and the convergence of
+                                                                      to single cluster parallax and proper motion values considerably.
+the new reduction make such noise contributions not very likely.
+                                                                      The third point avoids the potential Pleiades problem to which
+                                                                      open cluster data in particular can be very sensitive. This is due
+                                                                      to the concentrations of relatively bright stars and the weight
+4. The potential impact of the new reduction                          these may potentially assert in the along-scan attitude recon-
+The potential impact of the new reduction can be estimated            struction. The open cluster analysis and results will be presented
+from the formal errors on for example the parallaxes of the sin-      in a separate paper, currently in preparation.
+gle stars. Considering only simple five-parameter solutions, the          A significant impact can also be made on studies of galactic
+combined weight for a selection of stars in either the new or the     dynamics. A repeat of the study by Binney et al. (2000), for ex-
+old solution is given by the sum of the inverse squared formal        ample, shows a factor two more stars available, resulting in addi-
+errors:                                                               tional measurements towards later spectral types (van Leeuwen
+     X                                                                2007). Three more data points could be added to the asymmet-
+w=       (1/σπ )2 .                                           (7)     ric drift diagram, for Cepheids, Red Clump and RGB stars, as is
+      i
+                                                                      shown in Fig. 19. Preliminary results on the solar motion and
+12                                          Floor van Leeuwen: Validation of the new Hipparcos reduction
+
+                                                                                References
+                                                                                Arenou, F., Lindegren, L., Frœschlé, M., et al. 1995, A&A, 304, 52
+                                                                                Arias, E. F., Charlot, P., Feissel, M., & Lestrade, J.-F. 1995, A&A, 303, 604
+                                                                                Binney, J., Dehnen, W., & Bertelli, G. 2000, MNRAS, 318, 658
+                                                                                Chentsov, E. L. 2004, Astronomy Letters, 30, 325
+                                                                                Eggen, O. J. 1986, PASP, 98, 423
+                                                                                ESA, ed. 1992, The Hipparcos Input Catalogue, SP No. 1136 (ESA)
+                                                                                ESA, ed. 1997, The Hipparcos and Tycho Catalogues, SP No. 1200 (ESA)
+                                                                                Feast, M. W. & Catchpole, R. M. 1997, MNRAS, 286, L1
+                                                                                Feissel, M. & Mignard, F. 1998, A&A, 331, L33
+                                                                                Knapp, G., Pourbaix, D., & Jorissen, A. 2001, A&A, 371, 222
+                                                                                Knapp, G. R., Pourbaix, D., Platais, I., & Jorissen, A. 2003, A&A, 403, 993
+                                                                                Kovalevsky, J., Falin, J. L., Pieplu, J. L., et al. 1992, A&A, 258, 7
+                                                                                Lestrade, J.-F., Jones, D. L., Preston, R. A., et al. 1995, A&A, 304, 182
+                                                                                Lestrade, J.-F., Preston, R. A., Jones, D. L., et al. 1999, A&A, 344, 1014
+                                                                                Lindegren, L. 1995, A&A, 304, 61
+                                                                                Lindegren, L. 2005, in ESA SP-576: The Three-Dimensional Universe with
+                                                                                   Gaia, ed. C. Turon, K. S. O’Flaherty, & M. A. C. Perryman, 29–34
+                                                                                Lindegren, L., Hoeg, E., van Leeuwen, F., et al. 1992, A&A, 258, 18
+Fig. 19. The asymmetric drift in the galactic rotation shown as                 Makarov, V. 2002, AJ, 124, 3299
+the relation between the observed values of v0 and S 2 ≡ 2σ2 for                Narayanan, V. K. & Gould, A. 1999, ApJ, 523, 328
+main sequence stars and Red Clump and RGB stars (indicated                      O’Mullane, W., Lammers, U., Bailer-Jones, C., et al. 2006, ArXiv Astrophysics
+                                                                                   e-prints
+by triangles). The value observed for the Cepheids is shown by                  Platais, I., Pourbaix, D., Jorissen, A., et al. 2003, A&A, 397, 997
+× (from van Leeuwen 2007).                                                      Soderblom, D. R., Nelan, E., Benedict, G. F., et al. 2005, AJ, 129, 1616
+                                                                                Turon, C., Gomez, A., Crifo, F., et al. 1992, A&A, 258, 74
+                                                                                van der Marel, H. 1988, PhD thesis, Technische Universiteit Delft
+galactic rotation, as based on the new reduction, can also be                   van der Marel, H. & Petersen, C. S. 1992, A&A, 258, 60
+found in van Leeuwen (2007).                                                    van Leeuwen, F. 1999, in Harmonizing cosmic distance scales in a post-
+                                                                                   Hipparcos era, ed. D. Egret & A. Heck, Vol. 167 (PASPC), 52–71
+                                                                                van Leeuwen, F. 2005, A&A, 439, 805
+5. Conclusions                                                                  van Leeuwen, F. 2007, Hipparcos, the new reduction of the raw data (Dordrecht:
+                                                                                   Springer)
+The possibilities to verify astrometric data down to a level of                 van Leeuwen, F. & Evans, D. W. 1998, A&A, 323, 157
+                                                                                van Leeuwen, F. & Fantino, E. 2003, Space Sci. Rev., 108, 537
+0.1 mas are rather limited, in particular for relatively bright stars.          van Leeuwen, F. & Fantino, E. 2005, A&A, 439, 791
+The internal verification has to provide the main body of evi-                  van Leeuwen, F., Feast, M. W., Whitelock, P. A., & Laney, C. D. 2007, ArXiv
+dence, as almost no data is available for an independent external                  e-prints, 705
+verification. Independent here means free from assumptions de-                  Wegner, W. 2003, Astronomische Nachrichten, 324, 219
+rived from the application of those data to the analysis of astro-              Wegner, W. 2007, MNRAS, 374, 1549
+physical objects, and in particular when that involves assumed
+absolute magnitudes and their intrinsic dispersion. The internal
+verification of the new reduction appears to provide fully self-
+consistent results and, as such, provides the main element of the
+data quality verification. The limitations of the external verifi-
+cation leave open a number of questions, for which the answers
+may not be available until a much improved independent cata-
+logue, such as the one expected from the Gaia mission, is avail-
+able.
+     The improvements achieved by the new reduction of the
+Hipparcos astrometric data put the results of this mission signif-
+icantly above its original aim, which was set at 2 mas. In setting
+this aim, the efficiency of the detectors had been underestimated,
+and the noise contribution of the instrument calibrations overes-
+timated. The original reductions, as published in 1997, already
+provided data that was a factor two better on average. The new
+reduction has made this a factor three on average, and more than
+a factor ten for many of the brightest stars. With these improve-
+ments, significant progress can again be made in a wide range of
+luminosity calibration studies and studies of galactic dynamics.
+     Above all, however, the new reduction has shown that the
+principle of Hipparcos for obtaining absolute parallaxes works,
+though it requires very careful implementation of various as-
+pects of the data processing, and in particular the along-scan
+attitude reconstruction. The latter could only be achieved for
+the Hipparcos mission through a thorough understanding of the
+satellite dynamics.
+Acknowledgements. I would like to express my thanks to Lennart Lindegren,
+Dafydd W. Evans, Rudolf Le Poole and Elena Fantino for their support, sugges-
+tions, ideas and corrections along the long way of this study.
+

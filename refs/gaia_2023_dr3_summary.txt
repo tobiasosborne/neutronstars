@@ -1,0 +1,1783 @@
+                                               Astronomy & Astrophysics manuscript no. AA43940-22                                                             ©ESO 2022
+                                               August 2, 2022
+
+
+
+
+                                                                                         Gaia Data Release 3:
+                                                                        Summary of the content and survey properties
+                                                       Gaia Collaboration, A. Vallenari 1 , A.G.A. Brown 2 , T. Prusti 3 , J.H.J. de Bruijne 3 , F. Arenou 4 ,
+                                                C. Babusiaux 5, 4 , M. Biermann6 , O.L. Creevey 7 , C. Ducourant 8 , D.W. Evans 9 , L. Eyer 10 , R. Guerra 11 ,
+                                                    A. Hutton12 , C. Jordi 13 , S.A. Klioner 14 , U.L. Lammers 11 , L. Lindegren 15 , X. Luri 13 , F. Mignard7 ,
+                                                   C. Panem16 , D. Pourbaix† 17, 18 , S. Randich 19 , P. Sartoretti4 , C. Soubiran 8 , P. Tanga 7 , N.A. Walton 9 ,
+                                                    C.A.L. Bailer-Jones20 , U. Bastian 6 , R. Drimmel 21 , F. Jansen22 , D. Katz 4 , M.G. Lattanzi 21, 23 , F. van
+                                                  Leeuwen9 , J. Bakker11 , C. Cacciari 24 , J. Castañeda 25 , F. De Angeli 9 , C. Fabricius 13 , M. Fouesneau 20 ,
+                                                   Y. Frémat 26 , L. Galluccio 7 , A. Guerrier16 , U. Heiter 27 , E. Masana 13 , R. Messineo28 , N. Mowlavi 10 ,
+arXiv:2208.00211v1 [astro-ph.GA] 30 Jul 2022
+
+
+
+
+                                                 C. Nicolas16 , K. Nienartowicz 29, 30 , F. Pailler 16 , P. Panuzzo 4 , F. Riclet16 , W. Roux 16 , G.M. Seabroke 31 ,
+                                                 R. Sordo 1 , F. Thévenin7 , G. Gracia-Abril32, 6 , J. Portell 13 , D. Teyssier 33 , M. Altmann 6, 34 , R. Andrae 20 ,
+                                                         M. Audard 10, 30 , I. Bellas-Velidis35 , K. Benson31 , J. Berthier 36 , R. Blomme 26 , P.W. Burgess9 ,
+                                                    D. Busonero 21 , G. Busso 9 , H. Cánovas 33 , B. Carry 7 , A. Cellino 21 , N. Cheek37 , G. Clementini 24 ,
+                                                  Y. Damerdji 38, 39 , M. Davidson40 , P. de Teodoro11 , M. Nuñez Campos12 , L. Delchambre 38 , A. Dell’Oro 19 ,
+                                                     P. Esquej 41 , J. Fernández-Hernández42 , E. Fraile41 , D. Garabato 43 , P. García-Lario 11 , E. Gosset38, 18 ,
+                                                   R. Haigron4 , J.-L. Halbwachs 44 , N.C. Hambly 40 , D.L. Harrison 9, 45 , J. Hernández 11 , D. Hestroffer 36 ,
+                                                S.T. Hodgkin 9 , B. Holl 10, 30 , K. Janßen 46 , G. Jevardat de Fombelle10 , S. Jordan 6 , A. Krone-Martins 47, 48 ,
+                                                 A.C. Lanzafame 49, 50 , W. Löffler6 , O. Marchal 44 , P.M. Marrese 51, 52 , A. Moitinho 47 , K. Muinonen 53, 54 ,
+                                                 P. Osborne9 , E. Pancino 19, 52 , T. Pauwels26 , A. Recio-Blanco 7 , C. Reylé 55 , M. Riello 9 , L. Rimoldini 30 ,
+                                                 T. Roegiers 56 , J. Rybizki 20 , L.M. Sarro 57 , C. Siopis 17 , M. Smith31 , A. Sozzetti 21 , E. Utrilla12 , M. van
+                                                Leeuwen 9 , U. Abbas 21 , P. Ábrahám 58, 59 , A. Abreu Aramburu42 , C. Aerts 60, 61, 20 , J.J. Aguado57 , M. Ajaj4 ,
+                                               F. Aldea-Montero11 , G. Altavilla 51, 52 , M.A. Álvarez 43 , J. Alves 62 , F. Anders13 , R.I. Anderson 63 , E. Anglada
+                                                 Varela 42 , T. Antoja 13 , D. Baines 33 , S.G. Baker 31 , L. Balaguer-Núñez 13 , E. Balbinot 64 , Z. Balog 6, 20 ,
+                                               C. Barache34 , D. Barbato10, 21 , M. Barros 47 , M.A. Barstow 65 , S. Bartolomé 13 , J.-L. Bassilana66 , N. Bauchet4 ,
+                                                      U. Becciani 49 , M. Bellazzini 24 , A. Berihuete 67 , M. Bernet 13 , S. Bertone 68, 69, 21 , L. Bianchi 70 ,
+                                                       A. Binnenfeld 71 , S. Blanco-Cuaresma 72 , A. Blazere73 , T. Boch 44 , A. Bombrun74 , D. Bossini 75 ,
+                                                         S. Bouquillon34, 76 , A. Bragaglia 24 , L. Bramante28 , E. Breedt 9 , A. Bressan 77 , N. Brouillet 8 ,
+                                                       E. Brugaletta 49 , B. Bucciarelli 21, 23 , A. Burlacu78 , A.G. Butkevich 21 , R. Buzzi 21 , E. Caffau 4 ,
+                                                R. Cancelliere 79 , T. Cantat-Gaudin 13, 20 , R. Carballo 80 , T. Carlucci34 , M.I. Carnerero 21 , J.M. Carrasco 13 ,
+                                                      L. Casamiquela 8, 4 , M. Castellani 51 , A. Castro-Ginard 2 , L. Chaoul16 , P. Charlot 8 , L. Chemin 81 ,
+                                                     V. Chiaramida28 , A. Chiavassa 7 , N. Chornay 9 , G. Comoretto33, 82 , G. Contursi 7 , W.J. Cooper 83, 21 ,
+                                                        T. Cornez66 , S. Cowell9 , F. Crifo4 , M. Cropper 31 , M. Crosta 21, 84 , C. Crowley74 , C. Dafonte 43 ,
+                                                A. Dapergolas35 , M. David 85 , P. David36 , P. de Laverny 7 , F. De Luise 86 , R. De March 28 , J. De Ridder 60 ,
+                                                   R. de Souza87 , A. de Torres74 , E.F. del Peloso6 , E. del Pozo12 , M. Delbo 7 , A. Delgado41 , J.-B. Delisle 10 ,
+                                               C. Demouchy88 , T.E. Dharmawardena 20 , P. Di Matteo4 , S. Diakite89 , C. Diener9 , E. Distefano 49 , C. Dolding31 ,
+                                               B. Edvardsson90 , H. Enke 46 , C. Fabre73 , M. Fabrizio 51, 52 , S. Faigler 91 , G. Fedorets 53, 92 , P. Fernique 44, 93 ,
+                                                         A. Fienga 94, 36 , F. Figueras 13 , Y. Fournier 46 , C. Fouron78 , F. Fragkoudi 95, 96, 97 , M. Gai 21 ,
+                                                A. Garcia-Gutierrez13 , M. Garcia-Reinaldos11 , M. García-Torres 98 , A. Garofalo 24 , A. Gavel 27 , P. Gavras 41 ,
+                                                     E. Gerlach 14 , R. Geyer 14 , P. Giacobbe 21 , G. Gilmore 9 , S. Girona 99 , G. Giuffrida51 , R. Gomel91 ,
+                                                A. Gomez 43 , J. González-Núñez 37, 100 , I. González-Santamaría 43 , J.J. González-Vidal13 , M. Granvik 53, 101 ,
+                                                 P. Guillout44 , J. Guiraud16 , R. Gutiérrez-Sánchez33 , L.P. Guy 30, 102 , D. Hatzidimitriou 103, 35 , M. Hauser20, 104 ,
+                                                       M. Haywood 4 , A. Helmer66 , A. Helmi 64 , M.H. Sarmiento 12 , S.L. Hidalgo 105, 106 , T. Hilger 14 ,
+                                                N. Hładczuk 11, 107 , D. Hobbs 15 , G. Holland9 , H.E. Huckle31 , K. Jardine108 , G. Jasniewicz109 , A. Jean-Antoine
+                                                      Piccolo 16 , Ó. Jiménez-Arranz 13 , A. Jorissen 17 , J. Juaristi Campillo6 , F. Julbe13 , L. Karbevska30, 110 ,
+                                                     P. Kervella 111 , S. Khanna 64, 21 , M. Kontizas 103 , G. Kordopatis 7 , A.J. Korn 27 , Á Kóspál 58, 20, 59 ,
+                                                  Z. Kostrzewa-Rutkowska2, 112 , K. Kruszyńska 113 , M. Kun 58 , P. Laizeau114 , S. Lambert 34 , A.F. Lanza 49 ,
+                                                          Y. Lasne66 , J.-F. Le Campion8 , Y. Lebreton 111, 115 , T. Lebzelter 62 , S. Leccia 116 , N. Leclerc4 ,
+                                                        I. Lecoeur-Taibi 30 , S. Liao 117, 21, 118 , E.L. Licata 21 , H.E.P. Lindstrøm21, 119, 120 , T.A. Lister 121 ,
+                                                                                                                                                 Article number, page 1 of 23
+                                                      A&A proofs: manuscript no. AA43940-22
+
+E. Livanou 103 , A. Lobel 26 , A. Lorca12 , C. Loup44 , P. Madrero Pardo13 , A. Magdaleno Romeo78 , S. Managau66 ,
+  R.G. Mann 40 , M. Manteiga 122 , J.M. Marchant 123 , M. Marconi 116 , J. Marcos33 , M.M.S. Marcos Santos37 ,
+             D. Marín Pina 13 , S. Marinoni 51, 52 , F. Marocco 124 , D.J. Marshall 125 , L. Martin Polo37 ,
+   J.M. Martín-Fleitas 12 , G. Marton 58 , N. Mary66 , A. Masip 13 , D. Massari 24 , A. Mastrobuono-Battisti 4 ,
+    T. Mazeh 91 , P.J. McMillan 15 , S. Messina 49 , D. Michalik 3 , N.R. Millar9 , A. Mints 46 , D. Molina 13 ,
+     R. Molinaro 116 , L. Molnár 58, 126, 59 , G. Monari 44 , M. Monguió 13 , P. Montegriffo 24 , A. Montero12 ,
+       R. Mor 13 , A. Mora12 , R. Morbidelli 21 , T. Morel 38 , D. Morris40 , T. Muraveva 24 , C.P. Murphy11 ,
+I. Musella 116 , Z. Nagy 58 , L. Noval66 , F. Ocaña33, 127 , A. Ogden9 , C. Ordenovic7 , J.O. Osinde41 , C. Pagani 65 ,
+   I. Pagano 49 , L. Palaversa 128, 9 , P.A. Palicio 7 , L. Pallas-Quintela 43 , A. Panahi 91 , S. Payne-Wardenaar6 ,
+  X. Peñalosa Esteller13 , A. Penttilä 53 , B. Pichon 7 , A.M. Piersimoni 86 , F.-X. Pineau 44 , E. Plachy 58, 126, 59 ,
+      G. Plum4 , E. Poggio 7, 21 , A. Prša 129 , L. Pulone 51 , E. Racero 37, 127 , S. Ragaini24 , M. Rainer 19, 130 ,
+      C.M. Raiteri 21 , N. Rambaux 36 , P. Ramos 13, 44 , M. Ramos-Lerate33 , P. Re Fiorentin 21 , S. Regibo60 ,
+     P.J. Richards131 , C. Rios Diaz41 , V. Ripepi 116 , A. Riva 21 , H.-W. Rix 20 , G. Rixon 9 , N. Robichon 4 ,
+      A.C. Robin 55 , C. Robin66 , M. Roelens 10 , H.R.O. Rogues88 , L. Rohrbasser30 , M. Romero-Gómez 13 ,
+ N. Rowell 40 , F. Royer 4 , D. Ruz Mieres 9 , K.A. Rybicki 113 , G. Sadowski 17 , A. Sáez Núñez13 , A. Sagristà
+        Sellés 6 , J. Sahlmann 41 , E. Salguero42 , N. Samaras 26, 132 , V. Sanchez Gimenez 13 , N. Sanna 19 ,
+R. Santoveña 43 , M. Sarasso 21 , M. Schultheis 7 , E. Sciacca 49 , M. Segol88 , J.C. Segovia37 , D. Ségransan 10 ,
+     D. Semeux73 , S. Shahaf 133 , H.I. Siddiqui 134 , A. Siebert 44, 93 , L. Siltala 53 , A. Silvelo 43 , E. Slezak7 ,
+        I. Slezak7 , R.L. Smart 21 , O.N. Snaith4 , E. Solano135 , F. Solitro28 , D. Souami 111, 136 , J. Souchay34 ,
+         A. Spagna 21 , L. Spina 1 , F. Spoto 72 , I.A. Steele 123 , H. Steidelmüller14 , C.A. Stephenson33, 137 ,
+        M. Süveges 138 , J. Surdej 38, 139 , L. Szabados 58 , E. Szegedi-Elek 58 , F. Taris34 , M.B. Taylor 140 ,
+R. Teixeira 87 , L. Tolomei 28 , N. Tonello 99 , F. Torra 25 , J. Torra†13 , G. Torralba Elipe 43 , M. Trabucchi 141, 10 ,
+   A.T. Tsounis142 , C. Turon 4 , A. Ulla 143 , N. Unger 10 , M.V. Vaillant66 , E. van Dillen88 , W. van Reeven144 ,
+       O. Vanel 4 , A. Vecchiato 21 , Y. Viala4 , D. Vicente 99 , S. Voutsinas40 , M. Weiler13 , T. Wevers 9, 145 ,
+      Ł. Wyrzykowski 113 , A. Yoldas9 , P. Yvard88 , H. Zhao 7 , J. Zorec146 , S. Zucker 71 , and T. Zwitter 147
+                                                    (Affiliations can be found after the references)
+
+                                                   Received May 3, 2022 ; accepted June 1st, 2022
+
+                                                                     ABSTRACT
+
+Context. We present the third data release of the European Space Agency’s Gaia mission, Gaia DR3. This release includes a large variety of new
+data products, notably a much expanded radial velocity survey and a very extensive astrophysical characterisation of Gaia sources.
+Aims. We outline the content and the properties of Gaia DR3, providing an overview of the main improvements in the data processing in compar-
+ison with previous data releases (where applicable) and a brief discussion of the limitations of the data in this release.
+Methods. The Gaia DR3 catalogue is the outcome of the processing of raw data collected with the Gaia instruments during the first 34 months of
+the mission by the Gaia Data Processing and Analysis Consortium.
+Results. The Gaia DR3 catalogue contains the same source list, celestial positions, proper motions, parallaxes, and broad band photometry in the
+G, GBP , and GRP pass-bands already present in the Early Third Data Release, Gaia EDR3. Gaia DR3 introduces an impressive wealth of new data
+products. More than 33 million objects in the ranges GRVS < 14 and 3100 < Teff < 14500, have new determinations of their mean radial velocities
+based on data collected by Gaia. We provide GRVS magnitudes for most sources with radial velocities, and a line broadening parameter is listed for
+a subset of these. Mean Gaia spectra are made available to the community. The Gaia DR3 catalogue includes about 1 million mean spectra from the
+radial velocity spectrometer, and about 220 million low-resolution blue and red prism photometer BP/RP mean spectra. The results of the analysis
+of epoch photometry are provided for some 10 million sources across 24 variability types. Gaia DR3 includes astrophysical parameters and source
+class probabilities for about 470 million and 1500 million sources, respectively, including stars, galaxies, and quasars. Orbital elements and trend
+parameters are provided for some 800 000 astrometric, spectroscopic and eclipsing binaries. More than 150 000 Solar System objects, including
+new discoveries, with preliminary orbital solutions and individual epoch observations are part of this release. Reflectance spectra derived from
+the epoch BP/RP spectral data are published for about 60 000 asteroids. Finally, an additional data set is provided, namely the Gaia Andromeda
+Photometric Survey, consisting of the photometric time series for all sources located in a 5.5 degree radius field centred on the Andromeda galaxy.
+Conclusions. This data release represents a major advance with respect to Gaia DR2 and Gaia EDR3 because of the unprecedented quantity,
+quality, and variety of source astrophysical data. To date this is the largest collection of all-sky spectrophotometry, radial velocities, variables, and
+astrophysical parameters derived from both low- and high-resolution spectra and includes a spectrophotometric and dynamical survey of SSOs
+of the highest accuracy. The non-single star content surpasses the existing data by orders of magnitude. The quasar host and galaxy light profile
+collection is the first such survey that is all sky and space based. The astrophysical information provided in Gaia DR3 will unleash the full potential
+of Gaia’s exquisite astrometric, photometric, and radial velocity surveys.
+Key words. catalogs - astrometry - parallaxes - proper motions - techniques: photometric - techniques: radial velocities - techniques: spectroscopic
+
+
+
+                                                                              1. Introduction
+                                                                              The European Space Agency’s (ESA) Gaia mission (Gaia Col-
+                                                                              laboration, Prusti et al. 2016), launched in 2013, is now at its
+Article number, page 2 of 23
+                                           Gaia Collaboration: Gaia Data Release 3: Summary
+
+third data release (Gaia DR3). The aim of this paper is to present    tools that are offered to the users to deal with Gaia DR3 data.
+the Gaia DR3 data products, providing a brief overview of the         Finally, section 14 presents some concluding remarks.
+new features introduced in the processing and discussing the              Each data product section briefly summarises the main limi-
+quality of the data. Gaia EDR3 (Gaia Collaboration, Brown et al.      tations of the data, and makes reference to the relevant Gaia Col-
+2021) was the first instalment of the full Gaia DR3 and included      laboration and Gaia Data Processing and Analysis Consortium
+astrometry and broad band photometry for a total of 1.8 billion       (DPAC) papers where more details can be found. For a number
+objects based on 34 months of satellite operations. Radial ve-        of technical details, we refer the reader to the online documenta-
+locities for 7 million sources were copied over from the second       tion.
+data release, Gaia DR2, where a small number of spurious radial           All the papers accompanying Gaia DR3 are published in
+velocities were removed (Seabroke et al. 2021).                       the Astronomy & Astrophysics special issue on Gaia DR3. Fi-
+    Gaia DR3 complements Gaia EDR3, introducing a vast ar-            nally, we recall that all the Gaia data releases are made available
+ray of new data products based on the same source catalogue           through the archive hosted by ESA2 , as described in Gaia Col-
+and raw observations at the basis of Gaia EDR3. Indeed, the as-       laboration, Brown et al. (2021) and references therein. Partner
+trometry and broad band photometry in G, GBP , and GRP from           and affiliated data centres in Europe, the United States, Japan,
+Gaia EDR3 are repeated in the new catalogue (but see sec-             Australia, and South Africa provide access to the data through
+tion 3.1 for G correction). New data products in Gaia DR3 in-         their own facilities.
+clude mean low-resolution blue and red photometer (BP/RP)
+spectra and high-resolution Radial Velocity Spectrometer (RVS)
+spectra; new estimates of mean radial velocities to a fainter         2. Data processing
+limiting magnitude; line broadening and chemical composition
+                                                                      The Gaia satellite has three main instruments on board: the as-
+information derived from RVS spectra; variable-star classifica-
+                                                                      trometric instrument collecting images in Gaia ’s white-light G-
+tion and characterisation; and photometric time series for over
+                                                                      band (330–1050 nm), the blue BP and red RP prism photometers
+20 classes of variables. Photometric time series for all sources,
+                                                                      for low-resolution spectra, and, finally, the RVS. BP/RP spec-
+variable and non-variable, are available for a field centred on
+                                                                      tral data cover the wavelength ranges 330–680 nm and 640–
+the Andromeda galaxy. A large sample of Solar System objects
+                                                                      1050 nm, respectively. The resolution is variable and ranges
+(SSOs) with orbital solutions and epoch observations is part of
+                                                                      from 30 to 100 for BP and 70 to 100 for RP in λ/∆λ, depend-
+the data release, together with reflectance spectra for a subset of
+                                                                      ing on the position in the spectrum and on the CCD (see Car-
+those. Gaia DR3 also includes results for non-single stars (NSS),
+                                                                      rasco et al. 2021). In the RVS spectra, the starlight is dispersed
+quasars, and galaxies. For a large fraction of the objects, the
+                                                                      over about 1100 pixels in the Gaia telescopes scanning direc-
+catalogue lists astrophysical parameters (APs) determined from
+                                                                      tion (along-scan, AL), sampling the wavelength range from 845
+parallaxes, broad band photometry, and the mean RVS or mean
+                                                                      to 872 nm. The resolving power is R ∼ 11 500 (with a resolu-
+BP/RP spectra.
+                                                                      tion element of about 3 pixels). As the wings of the spectra are
+    To enhance the scientific exploitation of the data, the Gaia      excluded from the processing, the effective wavelength range of
+archive includes pre-computed cross-matches with selected ex-         the processed spectra is reduced to 846–870 nm (Sartoretti et al.
+ternal optical and near-infrared photometric and spectroscopic        2022a). Similarly to Gaia EDR3, Gaia DR3 is based on data
+surveys. In addition to the catalogues described in Gaia Col-         collected over a 34-month time interval (for details see Gaia Col-
+laboration, Brown et al. (2021), Gaia DR3 includes the sixth          laboration, Brown et al. 2021). The Gaia data processing is the
+data release from the Radial Velocity Experiment (RAVE) sur-          responsibility of DPAC and is presented in Gaia Collaboration,
+vey (Steinmetz et al. 2020a). The Gaia Universe Model Snap-           Prusti et al. (2016).
+shot (GUMS, version 20, Robin et al. 2012) and the correspond-            The basic statistics on the source numbers for each of the
+ing simulated Gaia catalogue (GOG) were also already included         data products in Gaia DR3 can be found in Table 1, with further
+in Gaia EDR3. The details on these supplementary data can be          details in Table 2. The categories listed in the tables are described
+found in the online documentation1 .                                  in the text below. A visual impression of the release contents is
+    This paper is organised as follows. Section 2 summarises the      given in Fig. 1 which shows histograms of the distribution in G
+Gaia instruments and their wavelength ranges; section 3 sum-          of the main categories of data products in Gaia DR3.
+marises the properties of the astrometric and photometric data
+already included in Gaia EDR3; section 4 presents the BP/RP
+spectra; section 5 outlines the RVS data processing, listing the      3. Astrometry and broad band photometry
+improvements implemented in Gaia DR3, and presents the new
+RVS data products, the line broadening velocity (vbroad ) and the     The astrometric and broad band photometry content of
+GRVS magnitude. Section 6 deals with the variable source con-         Gaia DR3 is the same as that for Gaia EDR3, except for the
+tent of the catalogue including the Gaia Andromeda Photomet-          addition of the GRVS photometry, but for convenience we sum-
+ric Survey (GAPS); section 7 discusses the NSS content of the         marise here the properties of these data products. Gaia EDR3
+release; section 8 comments on the SSOs; section 9 provides in-       provided celestial positions and the apparent brightness in G for
+formation about the APs; section 10 presents the extended object      1.8 billion sources. For 1.5 billion of those sources, parallaxes,
+(EO) data processing and results. Section 11 describes the extra-     proper motions, and the (GBP − GRP ) colour were also published.
+galactic content of Gaia DR3, that is, information on galaxies        Gaia DR3 therefore contains some 585 million sources with
+and quasi-stellar objects (QSOs) or ‘quasars’ derived by several      five-parameter astrometry (two positions, the parallax, and two
+data processing modules. Section 12 comments on the quality           proper motion components), and about 882 million sources with
+of the release and section 13 provides references to the software     six-parameter (6-p) astrometry, including an additional pseudo-
+                                                                      colour parameter. We refer to Gaia Collaboration, Brown et al.
+                                                                      (2021) for details on Gaia EDR3, a summary of the astrometric
+1
+  Gaia DR3 online documentation: https://www.cosmos.esa.
+                                                                      2
+int/web/gaia-users/archive/gdr3-documentation                             https://archives.esac.esa.int/gaia
+
+                                                                                                               Article number, page 3 of 23
+                                                  A&A proofs: manuscript no. AA43940-22
+
+Table 1. Number of sources of a certain type, or the number of sources for which a given data product is available in Gaia DR3.
+
+           Data product or source type                           Number of sources       Comments
+           Total                                                       1 811 709 771
+           5-parameter astrometry                                       585 416 709
+           6-parameter astrometry                                       882 328 109
+           2-parameter astrometry                                       343 964 953
+           Gaia-CRF3 sources                                               1 614 173
+           ICRF3 sources used for frame orientation                             2007
+           Gaia-CRF3 sources used for frame spin                             428 034
+           G-band                                                      1 806 254 432
+           GBP -band                                                   1 542 033 472
+           GRP -band                                                   1 554 997 939
+           Photometric time series                                        11 754 237
+           Gaia Andromeda Photometric Survey                               1 257 319     Photometric time series for all sources
+                                                                                         in 5.5◦ radius field around M31
+           Radial velocity                                                33 812 183     GRVS < 14, 3100 < Teff < 14 500 K
+           GRVS -band                                                     32 232 187
+           vbroad                                                          3 524 677     spectral line broadening parameter
+           Radial velocity time series                                          1898     Sample of Cepheids and RR Lyrae
+           BP/RP mean spectra                                           219 197 643      G < 17.65 with small number of
+                                                                                         exceptions
+           RVS mean spectra                                                  999 645     AFGK spectral types with SNR > 20,
+                                                                                         and sample of lower SNR spectra
+           Variable sources                                               10 509 536     See Table 2
+           Object DSC classification                                   1 590 760 469
+           Self-organised map of poorly classified                                  1    30 × 30 map and prototype spectra
+           sources
+           APs from mean BP/RP spectra                                  470 759 263      G < 19, see Table 2
+           APs from mean RVS spectra                                       5 591 594
+           Chemical abundances from mean RVS                               2 513 593     Up to 12 elements
+           spectra
+           DIBs from mean RVS spectra                                        472 584
+           Non-single stars                                                  813 687     astrometric, spectroscopic, eclipsing,
+                                                                                         orbits, trends, see Table 2
+           QSO candidates                                                  6 649 162     High completeness, low purity
+           QSO redshifts                                                   6 375 063
+           QSO host galaxy detected                                           64 498
+           QSO host galaxy profile                                            15 867
+           Galaxy candidates                                               4 842 342     High completeness, low purity
+           Galaxy redshifts                                                1 367 153
+           Galaxy profiles                                                   914 837
+           Solar System objects                                              158 152     Epoch astrometry and photometry
+           SSO reflectance spectra                                            60 518
+           Total galactic extinction maps                                           5    HEALPix levels 6–9, and optimum
+                                                                                         HEALPix level
+           Science alerts                                                       2612     Triggered in the period 25-07-2014 to
+                                                                                         28-05-2017
+
+
+Article number, page 4 of 23
+                                            Gaia Collaboration: Gaia Data Release 3: Summary
+
+Table 2. Further details on the number of sources of a certain type, or the number of sources for which a given data product is available in
+Gaia DR3.
+
+       Data product or source type                                Number of sources       Comments
+                                                             Variable sources
+       Total                                                               10 509 536
+       Classified with supervised machine learning                          9 976 881     24 variability types or type groups
+       Active galactic nuclei                                                 872 228
+       Cepheids                                                                 15 021
+       Compact companions                                                        6 306
+       Eclipsing binaries                                                   2 184 477
+       Long-period variables                                                1 720 588
+       Microlensing events                                                         363
+       Planetary transits                                                          214
+       RR Lyrae stars                                                         271 779
+       Short-timescale variables                                              471 679
+       Solar-like rotational modulation variables                             474 026
+       Upper-main-sequence oscillators                                          54 476
+                                          Astrophysical parameters from mean BP/RP spectra
+       Total                                                              470 759 263     G < 19
+       Spectroscopic parameters                                           470 759 263
+       Interstellar extinction and distances                              470 759 263
+       MCMC samples from the BP/RP AP estimation                          449 297 716
+       APs assuming an unresolved binary                                  348 711 151
+       MCMC samples from BP/RP unresolved binary AP                       348 711 151
+       estimation
+       Evolutionary parameters                                            128 611 111     mass, age, evolutionary stage
+       Stars with emission-line classifications                                 57 511
+       Sources with spectral types                                        217 982 837
+       Hot stars with spectroscopic parameters                              2 382 015
+       Ultra-cool stars                                                         94 158
+       Cool stars with activity index                                       1 349 499
+       Sources with Hα emission measurements                              235 384 119
+                                                             Non-single stars
+       Total                                                                  813 687
+       Acceleration solutions                                                 338 215
+       Orbital astrometric solutions                                          169 227     including astroSpectroSB1 combined
+                                                                                          solutions
+       Orbital spectroscopic solutions (SB1/SB2)                              220 372     including astroSpectroSB1 combined
+                                                                                          solutions
+       Trend spectroscopic solutions                                            56 808
+       Eclipsing binaries                                                       87 073    including eclipsingSpectro combined
+                                                                                          solutions
+
+
+                                                                       and photometric data processing, and a summary of the limita-
+                                                                       tions of these data and guidance on their use. Detailed descrip-
+                                                                       tions of the astrometry in Gaia EDR3 (and thus also Gaia DR3)
+                                                                       are provided in Lindegren et al. (2021b), while the broad band
+                                                                       photometry is described in detail in Riello et al. (2021). Details
+
+                                                                                                                Article number, page 5 of 23
+                                                                        A&A proofs: manuscript no. AA43940-22
+
+
+                                    Basic data
+                                                  vbroad
+                     107   DR3
+                           XP spectra             RVS spectra
+                           Radial velocity        GAPS
+
+                     105
+                     103
+
+                     101
+                                      5                    10                   15            20
+                             Astrophysical content: stellar
+Number per 0.1 mag bin
+
+
+
+
+                     107   DR3
+                           APs from RVS
+                                                    APs from BP/RP
+                                                    Variables
+                           RVS Abundances           Non-single stars
+
+                     105
+                     103
+                                                                                                                Fig. 1. Distribution of the mean values of
+                     101                                                                                        G for the main Gaia DR3 components shown
+                                                                                                                as histograms with bins of 0.1 mag in width.
+                                                                                                                The top panel shows the histograms for the
+                                      5                    10                   15            20                basic observational data in Gaia DR3 (spec-
+                                                                                                                tra, radial velocities, vbroad , photometric time se-
+                              Astrophysical content: non-stellar                                                ries). The middle panel shows histograms for
+
+                     107   DR3                   GCRF-3                                                         the stellar astrophysical contents, and the bot-
+                           QSO cand.             Solar system object transits                                   tom panel shows the non-stellar astrophysical
+                           Galaxy cand.                                                                         contents. The sharp transitions in the top and
+                                                                                                                middle panels at G = 17.65 and G = 19 are
+                     105                                                                                        caused by the limit on the brightness of sources
+                                                                                                                for which BP/RP spectra are published and the
+                                                                                                                limit up to which astrophysical parameters were
+                     103                                                                                        estimated. The SSO histogram shows the distri-
+                                                                                                                bution of the transit-level G-band magnitudes
+                                                                                                                (see Tanga et al. 2022, for a distribution of so-
+                     101                                                                                        lar system objects in absolute magnitude H).
+                                                                                                                The QSO and galaxy candidate histograms ex-
+                                                                                                                tend to very bright magnitudes which is a con-
+                                                                                                                sequence of favouring completeness over purity
+                                      5                    10        15                       20                in these samples, and not applying any filtering
+                                                           Mean G [mag]                                         to remove them (see Gaia Collaboration, Bailer-
+                                                                                                                Jones et al. 2022).
+
+
+ on the construction of the Gaia DR3 source list can be found                              to the G-band photometry for sources with 6-p and 2-p astromet-
+ in Torra et al. (2021), while the basic inputs to the astrometric                         ric solutions. This correction was provided in the form of Python
+ and G-band photometric processing (the G-band source image                                code and Astronomical Data Query Language (ADQL) recipes.
+ positions and fluxes) are described in Rowell et al. (2021). The                          We note here that these corrections are included in Gaia DR3
+ validation of the astrometry and broad band photometry is sum-                            and therefore should not be applied when working with photom-
+ marised in Fabricius et al. (2021). The photometric pass-bands                            etry extracted from the Gaia DR3 data tables in the Gaia archive.
+ for G, GBP , and GRP are provided in Riello et al. (2021), and the
+ one for GRVS in Sartoretti et al. (2022b).
+     Finally, the Gaia Science Alerts project and content are de-
+ scribed in Hodgkin et al. (2021).
+                                                                                               As noted in Gaia Collaboration, Brown et al. (2021) the G-
+                                                                                           band photometry for a small number of sources is not listed
+ 3.1. G-band photometry for 6-p and 2-p sources                                            in Gaia EDR3. This issue has not been fixed for Gaia DR3.
+                                                                                           The magnitudes can be found in a separate table to be provided
+ Section 7.2 of Gaia Collaboration, Brown et al. (2021) and Sec-                           through the Gaia DR3 ‘known issues’ web pages (for details see
+ tion 8.3 of Riello et al. (2021) describe a correction to be applied                      section 8.2 in Riello et al. 2021).
+ Article number, page 6 of 23
+                                           Gaia Collaboration: Gaia Data Release 3: Summary
+
+3.2. Celestial reference frame                                        Nevertheless, community efforts to investigate the quality of the
+                                                                      Gaia data are highly appreciated and have in several cases led
+Given that the astrometry in Gaia DR3 is unchanged from               to an improvement in the validation procedures used during the
+Gaia EDR3, it follows that the source positions and proper mo-        Gaia data processing.
+tions are provided with respect to the Gaia-CRF3, the third re-
+alisation of the Gaia celestial reference frame. Gaia-CRF3 is
+aligned with the third realisation of the International Celestial     4. BP/RP spectra
+Reference Frame in the radio (ICRF3) to about 0.01 mas root-
+mean-square (RMS) at epoch J2016.0 (barycentric coordinate            BP/RP spectral observations are transmitted to the ground from
+time, TCB), and globally non-rotating with respect to quasars         the satellite in small windows surrounding the position of the
+to within 0.005 mas yr−1 RMS. The Gaia-CRF3 is defined by             source. The size of the BP/RP windows is 60 pixels AL by 12
+the positions and proper motions of 1 614 173 QSO-like sources        pixels in the across scan (AC) direction, corresponding to an area
+that were selected using Gaia EDR3 astrometry. For the align-         in the sky of approximately 3.500 by 2.100 . The size of the win-
+ment and spin of the Gaia-CRF3, the special sets of 2007 and          dow affects the detection of sources in crowded regions, resulting
+428 034 sources, respectively, were used based on the prelimi-        in partially overlapping windows. These windows are excluded
+nary astrometric solutions known as AGIS3.1 (Lindegren et al.         from the Gaia DR3 data processing. A special treatment will be
+2021b). The construction and properties of the Gaia-CRF3, the         implemented in future data releases.
+comparison to the ICRF3, and the procedure to fix the alignment
+and spin of the astrometric solution are described in Gaia Col-
+                                                                      4.1. Data processing
+laboration, Klioner et al. (2022).
+                                                                      The BP/RP processing is described in detail in De Angeli et al.
+3.3. Systematic errors
+                                                                      (2022) and Montegriffo et al. (2022). The spectra are first cali-
+                                                                      brated to an internal reference instrument which is homogeneous
+The systematic errors present in the astrometry and broad band        across all devices, observing configurations, and time. This is
+photometry published in Gaia EDR3 carry over to Gaia DR3.             achieved purely from BP/RP data for a sufficiently large sub-
+The conclusions from investigations during the data processing        set of sources selected to cover all calibration units (windowing
+for Gaia EDR3 astrometry were that the global parallax bias for       strategies, gates, magnitude ranges, time). The internal calibra-
+Gaia DR3, as measured from quasars, is −17 µas. The RMS an-           tion removes a number of effects such as bias, background, ge-
+gular (i.e. source to source) covariances of the parallaxes and       ometry, differential dispersion, and variations in response and
+proper motions on small scales are ∼ 26 µas and ∼ 33 µas yr−1 ,       in the line spread function (LSF) across the focal plane (Car-
+respectively (see Lindegren et al. 2021b, for details). The par-      rasco et al. 2021; De Angeli et al. 2022). The internal reference
+allax bias (and the proper motion systematic errors) varies as a      system is linked to the absolute system (both in terms of flux
+function of magnitude, colour, and celestial position. This is ex-    and wavelength) via the external calibration, which is based on
+tensively investigated in Lindegren et al. (2021a) and a recipe       a dedicated catalogue of spectro-photometric calibrators (Pan-
+for correcting the parallaxes is given. The systematic errors in      cino et al. 2021a). More details concerning the calibration of the
+the broad band photometry are described in Riello et al. (2021).      BP/RP spectral data to the absolute reference system are pre-
+    Since the release of Gaia EDR3 several investigations of the      sented in Montegriffo et al. (2022).
+systematic errors have been published. The parallax bias was              We release mean low-resolution BP/RP spectra for about 220
+investigated for specific sets of sources by Stassun & Torres         million sources. They are selected to have a reasonable num-
+(2021), and Ren et al. (2021) (eclipsing binaries); Huang et al.      ber of observations (more than 15 CCD transits) and to be suffi-
+(2021) (Red Clump stars); Zinn (2021) (red giant branch stars         ciently bright to ensure good signal-to-noise ratio (S/N), that is,
+with asteroseismic parallaxes); Wang et al. (2022) (red giant         G < 17.65. To this list, we add a few samples of specific objects
+stars), Flynn et al. (2022) (stellar clusters); Groenewegen (2021),   that could be as faint as G ∼ 21.43: about 500 sources used for
+Kovacs & Karamiqucham (2021), Riess et al. (2021), and Mol-           the calibration of the BP/RP data, a catalogue of about 100 000
+nar et al. (2022) (Cepheids and RR Lyrae stars); Maíz Apellániz       white dwarf candidates, 17 000 galaxies, about 100 000 QSOs,
+(2022), and Maíz Apellániz et al. (2021) (Magellanic Clouds and       about 19 000 ultra-cool dwarfs, 900 objects that were consid-
+globular clusters). The small-scale covariances are investigated      ered to be representative for each of the 900 neurons of the
+in Zinn (2021), Vasiliev & Baumgardt (2021), and Maíz Apel-           self-organising maps (SOMs) used by the outlier analysis (OA)
+lániz et al. (2021), while assessments of the parallax uncertain-     module (see section 9) and 19 solar analogues (De Angeli et al.
+ties can be found in El-Badry et al. (2021), Vasiliev & Baum-         2022).
+gardt (2021), and Maíz Apellániz et al. (2021).                           The S/N of the BP/RP spectra varies depending on the mag-
+    The systematic errors in the proper motions and positions         nitude and colour of the source. In the range 9 <G < 12, it can
+of stars in Gaia EDR3 were investigated by Cantat-Gaudin &            reach 1000 in the central part of the RP spectral range and it is of
+Brandt (2021) and Lunz et al. (2021). Cantat-Gaudin & Brandt          the order of 100 at G ∼ 15. These spectra have been extensively
+(2021) demonstrated that the proper motions of bright (G . 13)        used as input for further data processing inside DPAC (see e.g.
+stars show a residual spin with respect to the fainter stars by up    sections 8, 9, 12), which provides a strong validation of their
+to 80 µas yr−1 , and they provide a recipe to correct for this ef-    exceptional quality.
+fect. Lunz et al. (2021) found differences in the alignment to the
+ICRF3 between bright and faint sources of about 0.5 mas. Sys-         4.2. Data representation
+tematic errors in the broad band photometry were investigated by
+Niu et al. (2021), Yang et al. (2021), and Thanjavur et al. (2021).   The source mean spectra are provided in a continuous repre-
+    We stress here that including the above references does not       sentation: they are described by an array of coefficients to be
+imply an endorsement by the Gaia Collaboration of the results or      applied to a set of basis functions. We use a set of 55 basis
+any systematic error correction recipes provided in those papers.     functions for BP and 55 basis functions for RP (referred to as
+                                                                                                              Article number, page 7 of 23
+                                                    A&A proofs: manuscript no. AA43940-22
+
+‘bases’) defined as a linear combination of Hermite functions              tation (Sartoretti et al. 2022a). All the products of the spectro-
+(Carrasco et al. 2021; De Angeli et al. 2022). In low-S/N spec-            scopic pipeline are available in the table gaia_source5 , except
+tra, as for instance at faint magnitudes, it is possible that higher       for the mean spectra (see section 5.2). The transit radial veloc-
+order bases are over-fitting the noise in the observed data. In            ities for the Cepheids and RR Lyrae stars are published in the
+particular, low-S/N spectra when sampled in pseudo-wavelength              table vari_epoch_radial_velocity6 .
+can exhibit unrealistic features (wiggles). To mitigate this prob-              The products of the RVS pipeline, their properties, and their
+lem, Carrasco et al. (2021) suggest a statistical criterion to select      validation are described in more detail in dedicated papers: the
+the coefficients that can be dropped without losing information            radial velocity determination is described in Katz et al. (2022),
+(truncation). Non-truncated and truncated spectra are in agree-            the specific treatments to measure the hot star radial velocities
+ment within the noise. It should be noted that sharp features in           in Blomme et al. (2022), and the radial velocity processing of
+the spectra, such as emission lines, can only be reproduced us-            the double-lined spectra is presented in Damerdji et al. (2022).
+ing higher order bases and therefore imply a larger number of              The vbroad determination is discussed in Frémat et al. (2022) and
+significant coefficients. As the rejection criterion is statistical, it    the GRVS magnitudes and the RVS pass-band in Sartoretti et al.
+might happen that too few or too many coefficients are removed.            (2022b).
+This might affect faint objects with sharp spectral features, such              For each valid RVS spectrum entering the pipeline, the tran-
+as QSOs, or emission line stars. The effects of the truncation for         sit radial velocity is computed through a fit of the RVS spec-
+various object classes are described in Sect. 3.4.3 of De Angeli           trum relative to an appropriate synthetic template spectrum. In
+et al. (2022).                                                             Gaia DR3, for stars cooler than 7000 K, the template input pa-
+     To allow the users to decide how many coefficients are                rameters are mostly taken from intermediate results of Apsis
+relevant for their scientific case, all the 55 coefficients of the         (Creevey et al. 2022) based on Gaia DR2 BP/RP spectra (see
+basis functions are released. The number of coefficients re-               section 9). For hotter stars, they were derived as explained in
+turned by the truncation criterion is given in the parameters              Blomme et al. (2022).
+bp_n_relevant_bases and rp_np_relevant_bases available in the
+xp_summary3 table and in the mean continuous spectra available
+via Datalink4 .                                                            5.1. Data processing improvements
+     In addition to the continuous representation, sampled spec-
+                                                                           A number of improvements were implemented in the Gaia DR3
+tra representation (i.e. in the form of integrated flux vs. pixel)
+                                                                           RVS pipeline. Here we list the most significant. Bright stars are
+in both internal and absolute flux can be calculated using the
+                                                                           processed using the method already implemented in Gaia DR2,
+Python package GaiaXPy made available with Gaia DR3 (see
+                                                                           that is, the combined radial velocity for stars at GRVS < 12 is
+section 13). Sampling the spectra on a discrete grid in pseudo-
+                                                                           the median of the single-transit radial velocities. However, this
+wavelengths or absolute wavelengths results in a loss of infor-
+                                                                           method is not very efficient when the S/N is low. The radial ve-
+mation. In particular, the full covariance matrix is provided in
+                                                                           locities of faint stars in the range 12 < GRVS < 14 mag are
+the continuous representation, whereas it cannot be calculated in
+                                                                           obtained from the averaged single-transit cross-correlation func-
+a spectrum sampled on a grid with more points than the num-
+                                                                           tions referring to the Solar System barycentre.
+ber of basis function coefficients. Although sampled spectra are
+made available for a subset of sources in Gaia DR3, we strongly                To improve performance at the faint end, we implemented an
+encourage users of the BP/RP spectra to make use of the contin-            improved stray-light-correction procedure. The correction map
+uous representation to maximise the scientific use of these data.          is estimated every 30 hours from the faint-star spectra edges and
+                                                                           from the virtual objects7 , while in Gaia DR2 a single stray-light
+                                                                           map was computed from the Ecliptic Pole scanning law8 data.
+5. RVS data products                                                           We introduce a deblending procedure when the transit spec-
+                                                                           tra are contaminated by nearby sources falling inside the RVS
+Gaia DR2 was the first release to include RVS radial velocities            window. These deblended spectra are then used to obtain radial
+based on 22 months of data for stars at GRVS ≤ 12 and with                 velocities and mean spectra, while in Gaia DR2 they were sim-
+effective temperatures 3500 < Teff < 6900 K.                               ply removed from the pipeline. This allows us to process a larger
+    Gaia DR3 contains newly determined radial velocities for               number of epoch spectra per source, increasing the S/N. How-
+about 33.8 million stars with GRVS ≤ 14 and with 3100 ≤ Teff ≤             ever, we point out that only the clean non-blended transits are
+14500 K. Additional data products are published for the first              used to derive GRVS , and vbroad .
+time: vbroad for about 3.5 million stars, GRVS magnitudes for more             The LSF was calibrated in both the AL and AC directions.
+than 32 million stars, mean spectra for slightly less than 1 mil-          The LSF-AL calibration has reduced the systematic shifts be-
+lion stars, and epoch radial velocities for about 1000 RR Lyrae            tween the two fields of view affecting the wavelength calibration
+and roughly 800 Cepheids of different types (Ripepi et al. 2022).          zero point and the epoch radial velocities. The LSF-AC calibra-
+All these data come with quality parameters. Users are advised             tion was also used in the deblending procedure and in the es-
+to treat the Gaia DR3 radial velocity catalogue as completely
+independent of Gaia DR2.                                                    5
+                                                                              https://gea.esac.esa.int/archive/documentation/
+    The spectroscopic pipeline and the improvements since                  GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_
+Gaia DR2 are described in Chapter 6 of the online documen-                 catalogue/ssec_dm_gaia_source.html
+                                                                            6
+                                                                              https://gea.esac.esa.int/archive/documentation/GDR3/
+3                                                                          Gaia_archive/chap_datamodel/sec_dm_variability_tables/
+   https://gea.esac.esa.int/archive/documentation/
+GDR3/Gaia_archive/chap_datamodel/sec_dm_spectroscopic_                     ssec_dm_vari_epoch_radial_velocity.html
+                                                                            7
+tables/ssec_dm_xp_summary.html                                                Virtual objects are empty windows acquired on a predefined pattern
+4                                                                          for calibration purposes
+   Datalink is an IVOA protocol that specifies a service container which
+                                                                            8
+can represent or accommodate a variety of services. Tutorials on the ac-      During the early weeks of the mission, the Gaia spin axis followed
+cess to Gaia Datalink products can be found at https://www.cosmos.         the Sun on the ecliptic, scanning the North and South Ecliptic Poles
+esa.int/web/gaia-users/archive/ancillary-data                              every six hours (see Gaia Collaboration, Prusti et al. 2016, Section 5.2)
+
+Article number, page 8 of 23
+                                            Gaia Collaboration: Gaia Data Release 3: Summary
+
+timation of the flux lost outside the window for estimation of         types with lower signal to noise. In Gaia DR3 we publish a total
+GRVS .                                                                 of more than 10 million variable sources in about 24 variabil-
+    vbroad is computed for each transit, excluding deblended           ity types (and their time series), in addition to approximately
+spectra, and then averaged. In addition to the projected rota-         2.5 million galaxies. The two-dimensional structure of galaxies
+tional velocity, v sin i, vbroad can include other physical effects    is observed by Gaia over a range of position angles. This can in-
+like macro-turbulence, residual instrumental effects (LSF model        duce spurious (non-intrinsic) photometric variability. This effect
+uncertainty), and template mismatches.                                 is used to identify galaxies, but their time series are not released.
+    We consider that a spectrum can be contaminated by nearby               The Gaia DR3 variability content is a great leap in compari-
+sources with GRVS < 15 even if they are not located inside the         son with Gaia DR2 where we reached more than 550 000 stars,
+RVS window. In that case, the target spectrum is removed when          with six variability types.
+the contaminant differs from the target source by less than 3 mag.          In the variability pipeline (VARI) processing, the variabil-
+This effect was neglected in Gaia DR2.                                 ity was first tested in the time domain, and was then charac-
+    Finally, GRVS (grvs_mag in gaia_source) is calculated as the       terised in the Fourier domain and classified by multiple classi-
+median of the single-transit GRVS measurements. Values of GRVS         fiers. We refer to the documentation and to Eyer et al. (2022,
+fainter than 14.1 were regarded as spurious and removed because        and references therein) for more processing details. The in-
+they could have been caused by an inaccurate background esti-          put data are mostly the time series of field-of-view transits of
+mate.                                                                  the broad band photometry in the calibrated G, GBP , and GRP
+                                                                       bands. Additionally, for Cepheid and RR Lyrae stars we use
+5.2. RVS spectra                                                       radial velocity time series from the RVS instrument (see sec-
+                                                                       tion 5.2) (Ripepi et al. 2022; Clementini et al. 2022); the long-
+The published mean RVS spectra are identified using the col-           period variable (LPV) analysis included RP spectral time series
+umn has_rvs in the gaia_source table. Their spectra are available      (which are not part of Gaia DR3, Lebzelter et al. 2022); and
+through the Datalink interface in the table rvs_mean_spectrum9 .       short-timescale variables are based on per-CCD G-band photom-
+The mean spectra and their processing are described in detail in       etry. We refer to Distefano et al. (2022) for more information
+Seabroke et al. (2022). In summary, the transit RVS spectra are        about solar-like variables; Marton et al. (2022) for young stel-
+extracted, cleaned, deblended (if needed), wavelength calibrated       lar objects; Wyrzykowski et al. (2022) concerning microlensing
+and normalised either to their pseudo-continuum or by scaling          events; Gomel et al. (2022) for ellipsoidal variables with possi-
+with a constant (the latter for cool stars or noisy spectra). The      ble compact object secondaries; and Carnerero et al. (2022) for
+spectra are then shifted to the rest frame using the epoch radial      information on active galactic nuclei (AGN) candidates. Candi-
+velocities for the bright stars for GRVS ≤ 12 mag, or using the        date eclipsing binaries are described in Mowlavi et al. (2022).
+combined radial velocity for the faint stars; they are then inter-     A subset of those also have parameters in the NSS tables (see
+polated into a common wavelength array spanning 846–870 nm             section 7).
+with a step of 0.01 nm and averaged. S/N information is also                Variability products in Gaia DR3 can be accessed as follows.
+provided in the table gaia_source.                                     In the gaia_source table the field phot_variable_flag is set to
+    The released RVS spectra are selected from among stars of          ‘VARIABLE’ when a source appears in any of the vari_* tables,
+spectral type AFGK with S/N > 20. In addition, a sample of low-        except for the vari_summary10 table which includes non-variable
+S/N spectra spanning all spectral types is added (see Seabroke         sources that appear in GAPS (see below). The vari_summary
+et al. 2022). A known issue is that the published spectra are not      table lists statistical parameters for all variable sources and all
+uniformly distributed over the sky.                                    sources in GAPS. The time series in G, GBP , and GRP bands of
+                                                                       all sources listed in the vari_summary table are available as light
+                                                                       curve data through the Datalink interface.
+5.3. Caveats
+                                                                            The quality of this data base is impressive. For instance, con-
+The contamination of the flux of an RVS target source by the           cerning LPVs, the catalogue includes about 1.7 million sources
+flux of a nearby bright source can produce a spurious population       with G variability amplitudes greater than 0.1 mag (0.2 mag in
+of stars with high radial velocities. This issue was known from        Gaia DR2). The period is derived for about 392 000 of them. In
+Gaia DR2 (Seabroke et al. 2021). In addition bright-star contam-       Gaia DR2 we only identified about 151 000 LPV sources. Con-
+ination produces biased radial velocities which do not necessar-       cerning Gaia DR3 data, in many cases it was possible to identify
+ily stand out from the overall radial velocity distribution when       the spectral class from RP spectra, that is, cool giants of spectral
+two sources are separated by 1.800 in the direction perpendicular      types M (oxygen-rich) and C (carbon-rich). This classification
+to the scan. These stars were removed from the catalogue (Katz         was based on the presence in the RP spectra of numerous molec-
+et al. 2022).                                                          ular absorption bands, mainly those due to TiO and related ox-
+    Radial velocity uncertainties are generally very small, of the     ides for M-type and molecular bands mostly associated with CH
+order of a few km s−1 or even less than 1 km s−1 at the bright         and C2 molecules for C-type stars (Lebzelter et al. 2022).
+end. However, they are slightly underestimated for bright stars.            More than 270 000 confirmed RR Lyrae stars are released
+A correction is proposed in Babusiaux et al. (2022).                   in Gaia DR3, almost doubling the Gaia DR2 RR Lyrae cata-
+                                                                       logue. In addition, we provide a better characterisation of the
+                                                                       RR Lyrae pulsational and astrophysical parameters. This, along
+6. Variables                                                           with the improved astrometry published with Gaia EDR3, make
+The approach to the variability analysis in successive data re-        this sample the largest, most homogeneous all-sky catalogue of
+leases is iterative, including at each data release more variability   RR Lyrae stars published so far (Clementini et al. 2022).
+9                                                                      10
+  https://gea.esac.esa.int/archive/documentation/                        https://gea.esac.esa.int/archive/documentation/GDR3/
+GDR3/Gaia_archive/chap_datamodel/sec_dm_spectroscopic_                 Gaia_archive/chap_datamodel/sec_dm_variability_tables/
+tables/ssec_dm_rvs_mean_spectrum.html                                  ssec_dm_vari_summary.html
+
+                                                                                                                Article number, page 9 of 23
+                                                 A&A proofs: manuscript no. AA43940-22
+
+    A small, but significant number of micro-lensing event can-         of spectroscopic binaries; nss_vim_fl14 includes objects that ex-
+didates (363 in total, of which 90 are new) are identified              hibit photocentre displacements due to the photometric variabil-
+(Wyrzykowski et al. 2022). While testing the exoplanet detec-           ity of one component, requiring the correction of the astrometric
+tion method, two Gaia-discovered transiting extra-solar planets         parameters.
+were found from the epoch photometry (Panahi et al. 2022). This             This catalogue outnumbers existing surveys by large factors,
+demonstrates the feasibility of the detection approach and Gaia’s       spanning a large range of binary types, periods, and magnitudes.
+potential for discovering exoplanet candidates. About 214 exo-          The potential of the Gaia DR3 binary star content is outlined in
+planet candidates are released in Gaia DR3.                             Gaia Collaboration, Arenou et al. (2022).
+    A large number of ellipsoidal variable candidates were de-
+tected. Their variability is due to the tidal interaction with a com-
+panion in a close binary system. About 6 000 short-period el-           7.2. Caveats
+lipsoidal variables have relatively large-amplitude modulations         Binaries can simultaneously belong to different classes; for ex-
+in G, possibly indicating a massive, unseen secondary. Among            ample, astrometric binaries can also be spectroscopic binaries
+those, 262 systems have a higher probability of having a com-           (identified as astroSpectroSB1 in the nss_solution_type in the ta-
+pact secondary. Follow-up observations are needed to verify the         ble nss_two_body_orbit) or eclipsing binaries can also be spec-
+true nature of these variables (Gomel et al. 2022).                     troscopic binaries (identified as eclipsingSpectroSB1). In many
+                                                                        cases of multiple solutions, combined solutions have been com-
+6.1. Gaia Andromeda Photometric Survey                                  puted and included in the Gaia DR3 catalogue. However, com-
+                                                                        bined solutions are not always provided, and sources can be
+The photometric time series for all Gaia sources located within         found in several tables simultaneously. More information and
+a 5.5◦ radius centred on the Andromeda galaxy are part of               advice on how to deal with these cases can be found in Gaia
+GAPS, which contains more than 1.2 million sources. Whether             Collaboration, Arenou et al. (2022).
+or not a source appears in the GAPS survey is indicated in the              Acceleration solutions are not always in agreement with ex-
+gaia_source table by setting the field in_andromeda_survey to           pectations from known orbits in external catalogues, and a frac-
+‘true’. The time-series statistics for GAPS sources are available       tion of them could have had an orbital solution. In general the
+in the vari_summary table. Evans et al. (2022) give more details.       parallaxes and proper motions derived by the NSS processing are
+                                                                        more precise than those derived by the Gaia astrometric global
+                                                                        iterative solution (see section 3) which assumes that all stars are
+6.2. Caveats
+                                                                        single. This is not always the case for the acceleration solutions,
+As a caveat, a number of sources show more than one type of             which should be used with caution (Gaia Collaboration, Arenou
+variability. In general this overlap can be scientifically explained.   et al. 2022; Babusiaux et al. 2022).
+However, this is not always the case, for instance a few objects            Spurious solutions around the satellite precession period
+were classified as both long period and short timescale (Lebzel-        (62.97 days) or for some short periods can be found for SB1.
+ter et al. 2022). Holl et al. (2022) discuss spurious periodic vari-    Formal uncertainties are not rescaled according to the goodness
+ations in the photometric data, due to instrumental effects.            of fit for all the binary types, but only for the astrometric so-
+                                                                        lutions. The NSS sample is far from complete. This is because
+                                                                        of a number of selection effects due to data processing and ad-
+                                                                        ditional filtering. Statistical studies on the data should take this
+7. Non-single stars                                                     into account.
+About 800 000 solutions for NSS including astrometric (Halb-
+wachs et al. 2022), spectroscopic (single lined SB1; and double
+lined SB2) (Gosset et al. 2022), and eclipsing binaries (Siopis         8. Solar System objects
+et al. 2022) are published in Gaia DR3, with either orbital ele-
+ments or trend parameters, or combinations of these.                    In Gaia DR3, about 160 000 SSOs were processed and analysed.
+                                                                        As in previous data releases, known SSOs are searched for by
+                                                                        matching the observed transits to computed transits based on the
+7.1. NSS archive tables                                                 information on the satellite orbit, the scanning law, and a numer-
+                                                                        ical integration of the SSO motion. Tanga et al. (2022) gives a
+The NSS tables are organised according to the type of so-
+                                                                        description of the selection and processing. After filtering the list
+lution: nss_two_body_orbit11 contains the orbital parameters
+                                                                        for possible contaminants, the final input selection had 3 513 248
+for all the binary categories; nss_acceleration_astro12 con-
+                                                                        transits for 156 837 known asteroids. Planetary satellites were
+tains accelerations for sources with an astrometric motion
+                                                                        also added following a similar procedure. In total, 31 planetary
+better described using a quadratic or cubic proper motion;
+                                                                        satellites are included. In addition, Gaia DR3 includes the as-
+nss_non_linear_spectro13 presents trend (long period) solutions
+                                                                        trometry of unknown moving sources based on the AL motion
+                                                                        of objects observed from December 2016 to June 2017. The fi-
+11
+   https://gea.esac.esa.int/archive/documentation/GDR3/                 nal input list of unidentified SSOs for Gaia DR3 comprises 4522
+Gaia_archive/chap_datamodel/sec_dm_non--single_stars_                   transits, corresponding to 1531 groups of chained transits of ob-
+tables/ssec_dm_nss_two_body_orbit.html
+12                                                                      jects that at the time of processing were considered unmatched.
+   https://gea.esac.esa.int/archive/documentation/GDR3/
+Gaia_archive/chap_datamodel/sec_dm_non--single_stars_
+                                                                        Later, Tanga et al. (2022) identify 712 SSOs. These sources still
+tables/ssec_dm_nss_acceleration_astro.html
+13                                                                      14
+   https://gea.esac.esa.int/archive/documentation/GDR3/                   https://gea.esac.esa.int/archive/documentation/GDR3/
+Gaia_archive/chap_datamodel/sec_dm_non--single_stars_                   Gaia_archive/chap_datamodel/sec_dm_non--single_stars_
+tables/ssec_dm_nss_non_linear_spectro.html                              tables/ssec_dm_nss_vim_fl.html
+
+Article number, page 10 of 23
+                                             Gaia Collaboration: Gaia Data Release 3: Summary
+
+appear as unmatched in the table sso_source15 . It cannot be ex-         grid according to the similarity of their BP/RP spectra, as re-
+cluded that some of the still unmatched sources can be linked to         ported in oa_neuron_information17 (see Creevey et al. 2022, fig-
+known objects.                                                           ure 11, for examples). Other multi-dimensional data comprise a
+    The astrometric accuracy of the orbits is impressive and re-         total Galactic extinction map at four healpix levels as well an
+mains at sub-mas level for G < 17, reaching an exceptional value         optimal-level map derived by the total Galactic extinction mod-
+of ∼ 0.25 mas for 12 <G < 15 mag.                                        ule (TGE). The above data products are detailed in Delchambre
+    Gaia DR3 contains spectro-photometry for more than 60 000            et al. (2022).
+asteroids the majority of which have been observed with G be-                 For the stellar and interstellar medium characterisation, the
+tween ∼ 18 and 20. The internally calibrated BP/RP epoch spec-           General Stellar Parametriser for Photometry (GSP-Phot) derives
+tra are divided by the solar analogue spectrum to obtain epoch           astrophysical parameters (Teff , log g, AG , distance, . . . ) from
+reflectance spectra that are subsequently averaged and sampled           BP/RP spectra down to G = 19 assuming they are all stars (An-
+in 16 bands in wavelength. Only spectra derived using more               drae et al. 2022). The multiple source classifier (MSC) derives
+than three epochs and with an average S/N of higher than 13              similar stellar parameters under the hypothesis that all objects
+are published. No further rejection is applied. Poor spectra are         are unresolved binaries using the same input data as GSP-Phot.
+flagged on a wavelength-by-wavelength basis introducing the              The General Stellar Parametriser for Spectroscopy (GSP-Spec)
+sso_reflectance_spectrum_flag16 , an array of 16 integers, one for       derives atmospheric parameters using the mean RVS spectra. It
+each wavelength of the spectral bands (Gaia Collaboration, Gal-          additionally derives 13 chemical species and diffuse interstel-
+luccio et al. 2022). The main properties of the reflectance spectra      lar band (DIB) equivalent widths (see Recio-Blanco et al. 2022,
+are described in section 12.                                             for details). Other modules analyse only a selected class of ob-
+                                                                         jects. This is the case for the Extended Stellar Parametrisers
+                                                                         (ESPs) dealing with emission line stars (ESP-ELS), hot stars
+9. Object characterisation                                               (7000 < Teff < 50 000 K. ESP-HS), cool stars (ESP-CS), and
+                                                                         ultra-cool dwarfs (Teff < 2500 K, ESP-UCD). These modules
+Gaia DR3 includes APs for stars, galaxies, and QSOs. About               together produce Teff and log g but also v sin i, spectral type clas-
+1600 million objects have class probabilities (G < 21), about            sifications, Hα equivalent widths, and chromospheric activity in-
+470 million stars have stellar parameters (G < 19), and there are        dex (using the calcium infrared triplet in the RVS domain (Lan-
+about 6 million QSOs and about 1.3 million galaxy candidate              zafame et al. 2022).
+redshifts. More details can be found in Creevey et al. (2022) con-            The Final Luminosity Age Mass Estimator (FLAME) de-
+cerning the AP content and an overview of the methods used in            rives evolutionary parameters from data that are processed by
+the software (Apsis) to produce these data.                              GSP-Phot and GSP-Spec. These comprise the stellar radius, lu-
+                                                                         minosity, gravitational redshift, mass, age and evolutionary stage
+                                                                         for stars. All of these data products appear in the astrophys-
+9.1. Data processing                                                     ical_parameters18 and astrophysical_parameters_supp19 tables
+In total, 13 modules in the Apsis software provide 43 primary            in the Gaia archive. In addition to these data products, Markov
+APs along with auxiliary parameters in 538 fields which ap-              Chain Monte Carlo (MCMC) samples are provided for two of the
+pear in ten tables of the Gaia archive. A subset of APs is avail-        modules, GSP-Phot and MSC through the Datalink interface.
+able in gaia_source. The astrophysical characterisation makes                 To date, this is the most extensive catalogue of astrophysi-
+use of Gaia EDR3 broad band photometry and parallaxes, and               cal parameters homogeneously derived. It is based on Gaia-only
+Gaia DR3 mean RVS spectra and internally calibrated sam-                 data, and it will be superseded only by the fourth data release,
+pled mean BP/RP spectra. The stellar APs comprise atmo-                  Gaia DR4. Until then, it will remain the reference for upcoming
+spheric properties, evolutionary parameters, metallicity, individ-       ground- and space-based surveys. References to some applica-
+ual chemical element abundances, and extinction parameters,              tions and advice on the use of the APs can be found in the papers
+along with other characterisation such as equivalent widths of           listed in section 12.
+the Hα line and activity index for cool active stars.
+     The discrete source classifier (DSC) produces the object            9.2. Caveats
+classification, that is, it assigns class probabilities to all sources
+for five main classes, using different classifiers; these classes are    The AP quality, although quite reliable on average, does vary de-
+QSO, galaxy, star, white dwarf, and physical binary star. The            pending on the quality of the input data (parallaxes, magnitudes,
+result of this classification is then used by four modules to ini-       and spectra) but it can also vary based on the assumptions in
+tiate the processing of galaxies, QSOs, outliers, and extinction.        the methods. The users should be aware of several issues. Vari-
+The unresolved galaxy classifier (UGC) and the QSO classifier            ability is not taken into account in the processing, because only
+(QSOC) modules (Delchambre et al. 2022) provide redshifts for            mean spectra and mean broad band magnitudes are used as input.
+candidate galaxies and QSOs. A more detailed discussion about            Therefore, parameters of stars showing large variability might be
+the Gaia DR3 extragalactic content can be found in section 11.           inaccurate.
+     The OA module performs an unsupervised classification for           17
+                                                                            https://gea.esac.esa.int/archive/documentation/
+sources with lower probabilities from DSC, using SOMs (Koho-             GDR3/Gaia_archive/chap_datamodel/sec_dm_astrophysical_
+nen 2001). OA groups similar objects into neurons on a 30 × 30           parameter_tables/ssec_dm_oa_neuron_information.html
+                                                                         18
+                                                                            https://gea.esac.esa.int/archive/documentation/
+15
+   https://gea.esac.esa.int/archive/documentation/                       GDR3/Gaia_archive/chap_datamodel/sec_dm_astrophysical_
+GDR3/Gaia_archive/chap_datamodel/sec_dm_solar_system_                    parameter_tables/ssec_dm_astrophysical_parameters.html
+object_tables/ssec_dm_sso_source.html                                    19
+                                                                            https://gea.esac.esa.int/archive/documentation/
+16
+   https://gea.esac.esa.int/archive/documentation/                       GDR3/Gaia_archive/chap_datamodel/sec_dm_astrophysical_
+GDR3/Gaia_archive/chap_datamodel/sec_dm_solar_system_                    parameter_tables/ssec_dm_astrophysical_parameters_
+object_tables/ssec_dm_sso_reflectance_spectrum.html                      supp.html
+
+                                                                                                                Article number, page 11 of 23
+                                                 A&A proofs: manuscript no. AA43940-22
+
+   APs derived for objects in high-density regions are affected             These data can be found in the Gaia DR3 tables
+by crowding. For instance [M/H] in the core of a dense cluster          qso_candidates20 and galaxy_candidates21 . Details on the data
+can significantly differ from the value in the outskirts.               processing and input lists can be found in Ducourant et al.
+     GSP-Phot distance estimates are underestimated for sources         (2022). This impressive data base is the first all-sky catalogue of
+with large parallax errors because of an extinction prior which         two-dimensional light-profile parameters of galaxies, and QSO
+then dominates the distance inference. GSP-Phot metallicity is          host galaxies derived at a resolution of about 200 mas.
+poorly derived for metal-poor stars ([M/H] < −1), and a metal-              The use of input lists clearly favours purity over complete-
+licity calibration tool is proposed to the users to calibrate these.    ness, even if a residual contamination by stars is still present.
+The data show residual degeneracy among the parameters, for                 Gaia observations are limited to the central area of the
+instance Teff and the extinction in the G, AG , from GSP-Phot.          galaxy. For this reason, the derived brightness profile parameters
+                                                                        do not always agree with external catalogues (Babusiaux et al.
+    MSC treats all stars as unresolved binaries in BP/RP spectra;       2022; Ducourant et al. 2022).
+DSC shows poor performance on the classification of physical
+binaries and white dwarfs.
+    Additional information about the limitations of the APs are         11. Gaia DR3 extragalactic content
+detailed in Babusiaux et al. (2022), while both the quality and         Extragalactic objects are classified or analysed by several mod-
+validation of the stellar and non-stellar content are discussed         ules in the Gaia data-processing system using various input data
+more extensively in Fouesneau et al. (2022) and Delchambre              and methods. An overview of the extragalactic processing and
+et al. (2022), respectively. In general, users are advised to use       content in Gaia DR3 is given in Gaia Collaboration, Bailer-Jones
+quality flags and follow the recommendations detailed in the            et al. (2022).
+above papers.                                                                A predefined list of objects is analysed to derive the surface
+                                                                        brightness profiles by the EO module. Classification of extra-
+                                                                        galactic objects is performed independently by two modules:
+                                                                        the VARI module uses photometric light curves, whereas DSC
+                                                                        uses the BP/RP spectra and astrometry. The modules QSOC and
+10. Extended objects                                                    UGC estimate the redshifts of QSO and galaxy candidates (re-
+                                                                        spectively) identified by DSC. Finally, the OA module performs
+The Gaia on-board system is designed to detect point-like
+                                                                        a clustering of low-probability classifications from DSC.
+sources (de Bruijne et al. 2015). However, EOs such as galax-
+                                                                             The fact that different methods, input data, and training data
+ies and galaxies hosting a QSO can be detected if their central
+                                                                        are used to classify or select extragalactic objects has an impor-
+region is sufficiently compact and bright. In this case, it is possi-
+                                                                        tant consequence: there is no common definition of QSOs or
+ble to reconstruct a two-dimensional light profile of the extended
+                                                                        galaxies across the various Gaia modules. DSC and OA focus
+source. At each passage Gaia observes the nine one-dimensional
+                                                                        on completeness rather than purity. UGC processes objects with
+Astro Field (AF) windows and the two-dimensional Sky Mapper
+                                                                        a higher probability of being galaxies according to the DSC clas-
+(SM) windows. As the scan angle changes from one observation
+                                                                        sification, whereas QSOC uses a very low threshold on the DSC
+to the next, after a sufficient number of transits a large part of
+                                                                        QSO probability, in order to analyse as many sources as possi-
+the source is covered by the observations. Dedicated software
+                                                                        ble. As a result, the sample of QSO candidates with redshifts is
+can combine the observed windows on ground to infer the two-
+                                                                        complete rather than pure, whereas that of the galaxy candidates
+dimensional light profile parameters. During the first 34 months
+                                                                        with redshifts is of higher purity, although some contamination
+of operations about 116 million transits in the AF and SM focal
+                                                                        remains (see below).
+planes were collected and processed. The EO pipeline compares
+the observations with a large number of simulations of galaxy
+images deriving the best-fit surface brightness profile parame-         11.1. Extragalactic object tables
+ters.
+                                                                        Each one of the above modules provides independent results
+     The lists of objects that were processed are derived from ex-      that are available across several tables. The table astrophysi-
+ternal catalogues. The list of QSOs was set up by merging the           cal_parameters lists all the parameters produced by DSC. The
+major catalogues of QSOs or AGN candidates published be-                oa_neuron_information contains the SOMs from the OA mod-
+fore 2018. In addition, we make use of an unpublished selec-            ule. The tables vari_classifier_result22 and vari_agn23 present
+tion of candidates based on Gaia DR2 QSOs, and classified on            the parameters of the AGNs identified through the photo-
+the basis of their photometric variability (Rimoldini et al. 2019).     metric light-curve analysis. From the above tables, we pro-
+The list of galaxies was derived from a preliminary analysis of         duce two integrated tables in Gaia DR3, qso_candidates and
+Gaia DR2 sources with a match in the allWISE catalogue (Cutri           galaxy_candidates, where all good QSO and galaxy candidates
+et al. 2013). An unsupervised heuristic method (Krone-Martins
+                                                                        20
+et al. 2022) selects sources for a subsequent analysis. More than          https://gea.esac.esa.int/archive/documentation/GDR3/
+1 million previously identified QSOs are analysed, identifying a        Gaia_archive/chap_datamodel/sec_dm_extra--galactic_
+host galaxy around approximately 64 000 of them. The surface            tables/ssec_dm_qso_candidates.html
+                                                                        21
+brightness profiles of the host is published for a subset of about         https://gea.esac.esa.int/archive/documentation/GDR3/
+                                                                        Gaia_archive/chap_datamodel/sec_dm_extra--galactic_
+15 000 QSOs, with a robust solution. Their Sérsic indexes in-
+                                                                        tables/ssec_dm_galaxy_candidates.html
+dicate that they are mostly disc-like galaxies. Concerning the          22
+                                                                           https://gea.esac.esa.int/archive/documentation/GDR3/
+galaxy sample, two profiles are published (a free Sérsic pro-           Gaia_archive/chap_datamodel/sec_dm_variability_tables/
+file and a de Vaucouleurs one). About 940 000 galaxies were             ssec_dm_vari_classifier_result.html
+analysed and robust solutions were derived for about 914 000            23
+                                                                           https://gea.esac.esa.int/archive/documentation/GDR3/
+of them. The distribution of the parameters indicates that Gaia         Gaia_archive/chap_datamodel/sec_dm_variability_tables/
+mostly detects elliptical galaxies.                                     ssec_dm_vari_agn.html
+
+Article number, page 12 of 23
+                                           Gaia Collaboration: Gaia Data Release 3: Summary
+
+are listed. The selection rules are detailed in Gaia Collabo-        HR diagram, selected through severe quality cuts. These data
+ration, Bailer-Jones et al. (2022). The gaia_source table in-        have a long-term legacy value for future follow-up studies and
+cludes the DSC classification probability as well as two flags,      missions and are released together with Gaia DR3 in separate
+in_qso_candidates and in_galaxy_candidates, which indicate           tables. These samples include about 3 million OBA young disc
+the presence of the source in the integrated table(s).               stars, roughly 3 million FGKM stars, and about 21 000 ultra-
+    Already in Gaia EDR3, a list of 1.6 million compact extra-       cool dwarfs. Gaia Collaboration, Creevey et al. (2022) identify
+galactic sources was used to define the Gaia-CRF3 (Gaia Collab-      specific subsamples of particular interest to the community such
+oration, Klioner et al. 2022). These sources were identified from    as approximately 6 000 solar-analogues and 15 000 carbon stars,
+Gaia EDR3 astrometry by means of positional cross-matching           and provide homogeneous parameters for a subsample of the
+with 17 external catalogues of QSOs and AGNs, and were subse-        111 Gaia spectro-photometric standard stars defined by Pancino
+quently filtered using astrometric criteria to remove stellar con-   et al. (2021b). For the ultra-cool dwarfs Gaia and 2MASS data
+taminants. The sample spans a magnitude range 13.4 < G < 21.4        are combined to provide radius and luminosity.
+with a median positional error of 0.45 mas. By construction this          Gaia Collaboration, Recio-Blanco et al. (2022) use Gaia as-
+sample is of high purity.                                            trometry, radial velocities, chemo-dynamical analysis of disc and
+                                                                     halo populations, producing the largest all-sky chemical map to
+                                                                     date and analysing the abundances of streams from accretion
+11.2. Completeness and purity
+                                                                     events. This map includes chemical information for 597 open
+The integrated tables of extragalactic objects favour complete-      clusters, which represents the largest compilation of abundances
+ness over purity. qso_candidates contains 6.6 million candi-         homogeneously derived for clusters.
+date QSOs and galaxy_candidates contains 4.8 million candi-               Gaia Collaboration, Schultheis et al. (2022) discuss the dis-
+date galaxies, with global purities estimated to be 50% and 70%      tribution of the DIB at 862 nm in the RVS spectral range in
+respectively. Contamination is mostly due to fact that there are     connection with the interstellar extinction to within a few kilo-
+many more stars in the Gaia survey, and arises in part from the      parsecs of the Sun. The paper provides the most precise mea-
+choice of probability classification threshold for inclusion. Fur-   surement to date of the rest frame wavelength of the DIB at
+thermore, some modules chose not to filter out regions such as       8620.86 ± 0.019 Å.
+the Magellanic Clouds and the Galactic plane, which are dense             Gaia Collaboration, Drimmel et al. (2022) explore non-
+regions of stars and therefore also of contaminants. A very small    axisymmetric features in the disc of the Milky Way in both con-
+fraction of sources are too bright to be genuine QSOs or galaxies.   figuration and velocity space. These authors use Gaia DR3 APs
+The same astrometric filtering as for Gaia-CRF3 applied to the       and variability classifications to select various stellar populations
+content of the integrated QSO table qso_candidates gives a set       in the disc of the Milky Way, tracing the spiral structure up to 4–
+of ∼ 1.9 million sources, which are identified by the flag astro-    5 kpc from the Sun. About 6 million red giant branch stars allow
+metric_selection (Gaia Collaboration, Bailer-Jones et al. 2022).     the authors to map the velocity field in the disc up to 8 kpc from
+Purer subsets of the two tables, containing ∼ 1.9 million proba-     the Sun, allowing the detection of signatures of the Galactic bar.
+ble QSOs and ∼ 2.9 million probable galaxies (both with around            Gaia Collaboration, Arenou et al. (2022) present a clean cata-
+95% purity) can be selected using the queries on EO, DSC,            logue of binary stars, discussing its completeness and some sta-
+and VARI quality flag parameters listed in Gaia Collaboration,       tistical features of the orbital elements in comparison with ex-
+Bailer-Jones et al. (2022). Concerning QSOs, this new sample         ternal catalogues. In addition, a catalogue of tens of thousands
+has about 1.8 million sources in common with the astrometric         of stellar masses is provided. Several compact object candidates
+sample.                                                              are identified. The catalogue includes sources found in rare evo-
+    Finally, the DSC star class could be used to select a purer      lutionary stages such as EL CVn, underlining the potential of
+star sample, rejecting objects that are in the qso_candidates or     analysing both photometric and orbital data. New binary UCD
+galaxy_candidates, that is, those identified as candidate galax-     candidates are discovered and their masses estimated; two new
+ies, QSOs, or extended objects. However, concerning extended         exo-planets are found, and several dozen candidates are identi-
+objects, the DSC has not used morphological information in its       fied. The catalogue is made available together with Gaia DR3
+classification (see for details Delchambre et al. 2022). Indeed      tables.
+there is no general morphological classification in Gaia DR3.             Gaia Collaboration, Galluccio et al. (2022) present re-
+Only a limited number of galaxy and QSO candidates (based on         flectance spectra, derived from BP/RP spectra, for SSOs, dis-
+non-Gaia data) were analysed for evidence of a host galaxy using     cussing their statistical properties. The (z − i) colours are derived
+2D morphology built up from the 1D scans (see section 10). As a      from the spectra, where z and i represent the values of the re-
+consequence, residual contamination from extragalactic sources       flectances estimated with spline interpolation at 748 and 893 nm,
+can still be present in a star sample selected following the above   respectively. (z − i) allows the identification of asteroid families
+criteria.                                                            sharing similar properties and common origin. An interesting
+                                                                     feature is that the spectral slope24 of the mean reflectance spec-
+12. The scientific performances of the catalogue                     tra and the depth of the 1 µm absorption band seem to show an
+                                                                     increase with time for the S-type family, which is possibly due to
+The scientific quality and the potential of the Gaia DR3 data        space weathering effects on the asteroid surfaces. The catalogue
+are demonstrated in a number of accompanying papers provid-          is included in the data release.
+ing basic science applications and additional validation of the           Gaia Collaboration, Montegriffo et al. (2022) demonstrate
+catalogue. These illustrate the limitations of the data, providing   the potential of synthetic photometry obtained from flux-
+advice and guidance to the users on specific scientific problems.    calibrated BP/RP spectra for pass-bands fully enclosed in the
+The following topics are treated.
+    Gaia Collaboration, Creevey et al. (2022) present clean sam-     24
+                                                                        the spectral slope is derived by fitting the mean reflectance spectra in
+ples of very high-quality astrophysical parameters of stars de-      the wavelength range 450 and 760 nm with a straight line and taking the
+rived from low-resolution BP/RP and RVS spectra all across the       angular coefficient
+
+                                                                                                                Article number, page 13 of 23
+                                                  A&A proofs: manuscript no. AA43940-22
+
+Gaia wavelength range. This photometry has been used inter-              APs from low- and high-resolution spectra greatly surpasses ex-
+nally for validation purposes. Synthetic photometry in various           isting catalogues. This catalogue includes a spectrophotomet-
+photometric systems can be produced using the Python package             ric and dynamical survey of SSOs of the highest accuracy. The
+GaiaXPy (see section 13). High-quality external photometry in            NSS content outnumbers all existing binary star catalogues, and
+large and medium passbands is reproduced at a few percent level          Gaia DR3 also contains the first all-sky space-based survey of
+in general and up to the milli-mag level when the synthetic pho-         QSO host and galaxy two-dimensional light profiles.
+tometry is standardised using an external reference catalogue.                In this paper we briefly summarise the main additions and
+For a subset of 13 wide and medium bands, we release the Gaia            improvements to the data processing and we include comments
+Synthetic Photometry Catalogue (GSPC), an all-sky space-based            on the data quality. However, the Gaia DR3 data products are
+catalogue of standardised photometry for the majority of the             numerous and complex and not all the details could be presented
+stars with released spectra and G < 17.65. A separate catalogue          here. A more complete overview, insights into known issues with
+contains synthetic photometry in a selection of relevant bands           the data, and advice on the use of the data can be found in the
+for 100 000 white dwarfs selected from Gaia EDR3.                        papers accompanying the release and in the online documenta-
+    Lastly, Gaia Collaboration, De Ridder et al. (2022) investi-         tion.
+gate the properties of high-mass main sequence pulsators, show-               The nominal Gaia mission ended on July 2019. The mission
+ing that Gaia DR3 data are precise and accurate enough to iden-          has been extended since then to the end of 2022, with an in-
+tify nearby OBAF-type pulsators.                                         dicative approval to extend the mission to the end of 2025. In
+                                                                         2025, the propellant for the micro-propulsion system is expected
+                                                                         to be exhausted, and the precision on the attitude and spin rate
+13. Software tools                                                       of the satellite required for the astrometry can then no longer be
+A number of Python software tools25 are made available to the            maintained. At this point, the Gaia mission end of life will be
+scientific community. The following are some examples.                   reached and over 10 years of data will have been collected. In
+                                                                         this context, two further data releases are foreseen, Gaia DR4
+     – The Python package GaiaXPy which offers the possibility to        and Gaia DR5 which will include the data from the extended
+       compute synthetic photometry from BP/RP spectra in var-           mission. Gaia DR4 will be based on 66 months of data, includ-
+       ious photometric systems (see Gaia Collaboration, Monte-          ing a six-month period when the satellite was operated with a
+       griffo et al. 2022, and Sect. 12), and to simulate BP/RP mean     reversed direction of the precession of the spin axis around the
+       spectra from a custom input absolute spectral energy dis-         direction to the Sun. This will mitigate the degeneracy between
+       tribution. In addition sampled mean spectra can be derived        the across scan motion of the sources and their parallaxes, re-
+       from the continuous basis function representation. Detailed       ducing this specific source of systematic errors on the astrome-
+       information can be found in De Angeli et al. (2022).              try. A major new aspect of Gaia DR4 is that it will include all
+     – A tool to re-calibrate the GSP-Phot metallicity output (see       time series data, that is, epoch astrometry, broad band photome-
+       Creevey et al. 2022, Appendix E for detail) based on com-         try, radial velocities, and epoch BP, RP, and RVS spectra for all
+       parison with external surveys.                                    sources. In addition, we plan to release full astrometric, photo-
+     – A package to re-calibrate the GSP-Spec metallicity, [α/Fe],       metric, and radial-velocity catalogues; all the available variable-
+       and log g (Recio-Blanco et al. 2022).                             star and NSS solutions; an extended sample of source classifi-
+     – A script to derive bolometric corrections for the stars anal-     cations and multiple APs for stars, and extragalactic objects. Fi-
+       ysed by FLAME.                                                    nally, an updated extra-solar planet list will be published. The
+     – A package to extract the extinction as a function of Galactic     publication of Gaia DR4 is expected not before the end of 2025.
+       coordinates from the two-dimensional TGE Galactic maps.           Gaia DR5 will be the final release from the Gaia mission, and
+                                                                         will be based on data collected over the full nominal plus ex-
+     – A tool to visualise the neurons in the OA SOMs.
+                                                                         tended mission periods and including all the data products men-
+     – A tutorial on the programmatic download of large sets of
+                                                                         tioned above, as well as the Gaia legacy archive. Gaia DR5 is
+       Datalink items (> 5000 elements).
+                                                                         expected not before the end of 2030.
+     – Examples of cone search scripts.
+                                                                              Figure 2 summarises the astrometric uncertainties of the
+    We point out that the GSP-Phot and GSP-Spec re-calibration           Gaia data releases so far and also shows the extrapolated uncer-
+tools proposed here have their own limitations, as described in          tainties for Gaia DR4 and Gaia DR5. The latter are extrapolated
+the related documentation. They provide tentative expressions to         from the Gaia DR3 performance according to the amount of data
+be used at the discretion of the user, depending on the science          collected, 5.5 years and an expected 10 years, respectively26 .
+case.                                                                    With time the signal-to-noise ratio √for all Gaia data products,
+                                                                         including parallaxes, improves as t, and therefore the preci-
+                                                                         sions for Gaia DR4 and Gaia DR5 are expected to improve by
+14. Conclusions                                                          factors of 1.4 and 1.9, respectively. For the proper motions, the
+                                                                         improvement goes as t1.5 , which means improvements by factors
+Gaia DR3 expands Gaia EDR3 with a rich and large set of data             of 2.7 and 6.6 with respect to Gaia DR3. For a more extensive
+products containing detailed astrophysical information for the           discussion of the expected gains in future Gaia data releases, we
+same source catalogue. The quantity, quality and variety of as-          refer to Brown (2021).
+trophysical data constitute a major advance in the series of Gaia             There is therefore still much more to look forward to, but for
+data releases. This release includes the largest collection of all-      now we invite the reader to explore the veritable supermarket of
+sky spectrophotometry and radial velocities and the largest col-         astronomical and astrophysical information that is Gaia DR3.
+lection of variable sources ever produced. The availability of
+25                                                                       26
+  software tools and the related documentation are available at https:     https://www.cosmos.esa.int/web/gaia/
+//www.cosmos.esa.int/web/gaia/dr3-software-tools                         science-performance
+
+Article number, page 14 of 23
+                                                     Gaia Collaboration: Gaia Data Release 3: Summary
+
+
+
+
+             1000                             Gaia DR1
+[ as]
+
+
+
+              100
+
+               10                                                              DR2 uncertainties
+                                                                               EDR3/DR3 uncertainties
+                                                                               DR4 (extrapolated)
+                                                                               DR5 (extrapolated)
+                1
+                          6        8        10       12        14       16       18       20       22
+
+             1000
+[ as yr 1]
+
+
+
+
+              100
+     *
+
+
+
+
+               10
+
+                1
+                          6        8        10       12        14       16       18       20       22
+                                                                                                               Fig. 2. Uncertainties on the astrometric param-
+                                                                                                               eters vs. G for Gaia data releases 1–3 and for
+             1000                                                                                              the future releases Gaia DR4 and Gaia DR5.
+                                                                                                               The panels show from top to bottom the uncer-
+[ as yr 1]
+
+
+
+
+                                                                                                               tainties in parallax, proper motion in Right As-
+                                                                                                               cension, and proper motion in Declination. The
+              100                                                                                              uncertainties for Gaia DR1 refer to the Tycho-
+                                                                                                               Gaia Astrometric Solution and are shown in the
+                                                                                                               form of density maps, with lighter colours in-
+                                                                                                               dicating a higher density of sources. The two
+               10                                                                                              distinct low-uncertainty elliptical regions in the
+                                                                                                               Gaia DR1 proper motion uncertainties are due
+                                                                                                               to stars for which the Hipparcos and Gaia po-
+                1                                                                                              sitions could be combined to derive proper mo-
+                                                                                                               tions over a 24-year time baseline. The proper
+                          6        8        10       12        14       16       18       20       22          motion uncertainties for Gaia DR3, based on
+                                                       G [mag]                                                 only a 34 month time baseline are comparable
+                                                                                                               or even slightly better.
+
+
+Acknowledgements                                                                    Andrae, R., Fouesneau, M., Sordo, R., Bailer-Jones, C., & et al. 2022, A&A,
+                                                                                       submitted
+This work presents results from the European Space Agency                           Astropy Collaboration, Price-Whelan, A., Sipőcz, B. M., et al. 2018, AJ, 156,
+(ESA) space mission Gaia. Gaia data are being processed by                             123
+the Gaia Data Processing and Analysis Consortium (DPAC).                            Babusiaux, C., Fabricius, C., & et al. 2022, A&A, submitted
+                                                                                    Blomme, R., Frémat, Y., Sartoretti, P., Guerrier, A., & et al. 2022, A&A, submit-
+Funding for the DPAC is provided by national institutions, in                          ted
+particular the institutions participating in the Gaia MultiLat-                     Boch, T. & Fernique, P. 2014, in Astronomical Society of the Pacific Conference
+eral Agreement (MLA). The Gaia mission website is https:                               Series, Vol. 485, Astronomical Data Analysis Software and Systems XXIII,
+//www.cosmos.esa.int/gaia. The Gaia archive website                                    ed. N. Manset & P. Forshay, 277
+                                                                                    Bonnarel, F., Fernique, P., Bienaymé, O., et al. 2000, A&AS, 143, 33
+is https://archives.esac.esa.int/gaia. Acknowledge-                                 Breddels, M. A. & Veljanoski, J. 2018, A&A, 618, A13
+ments are given in Appendix A                                                       Brown, A. G. A. 2021, ARA&A, 59 [arXiv:2102.11712]
+                                                                                    Cantat-Gaudin, T. & Brandt, T. D. 2021, A&A, 649, A124
+                                                                                    Carnerero, M., Raiteri, C., Rimoldini, L., & Busonero, D. 2022, A&A, in prep.
+References                                                                          Carrasco, J. M., Weiler, M., Jordi, C., et al. 2021, A&A, 652, A86
+                                                                                    Chambers, K. C., Magnier, E. A., Metcalfe, N., et al. 2016, ArXiv e-prints
+Ahn, C. P., Alexandroff, R., Allende Prieto, C., et al. 2012, ApJS, 203, 21            [arXiv:1612.05560]
+Albareti, F. D., Allende Prieto, C., Almeida, A., et al. 2017, ApJS, 233, 25        Clementini, G., V. Ripepi, V., Garofalo, A., et al. 2022, A&A, in prep.
+
+                                                                                                                                  Article number, page 15 of 23
+                                                           A&A proofs: manuscript no. AA43940-22
+
+Creevey, O., Sordo, R., Pailler, F., et al. 2022, A&A, submitted                     Molnar, T. A., Sanders, J. L., Smith, L. C., et al. 2022, MNRAS, 509, 2566
+Cutri, R. M., Skrutskie, M. F., van Dyk, S., et al. 2013, VizieR Online Data         Montegriffo, P., De Angeli, F., Andrae, R., Riello, M., & et al. 2022, A&A, sub-
+   Catalogue, 2328                                                                      mitted
+Damerdji, Y., Gosset, E., & et al. 2022, A&A, in prep.                               Mowlavi, N., Holl, B., & et al. 2022, A&A, in prep.
+De Angeli, F., Weiler, M., Montegriffo, P., & et al. 2022, A&A, submitted            Niu, Z., Yuan, H., & Liu, J. 2021, ApJ, 908, L14
+de Bruijne, J. H. J., Allen, M., Azaz, S., et al. 2015, A&A, 576, A74                Ochsenbein, F., Bauer, P., & Marcout, J. 2000, A&AS, 143, 23
+Delchambre, L., Bailer-Jones, C., Bellas-Velidis, I., Drimmel, R., & et al. 2022,    Onken, C. A., Wolf, C., Bessell, M. S., et al. 2019, PASA, 36, e033
+   A&A, submitted                                                                    Panahi, A., Zucker, S., Clementini, G., Audard, M., & et al. 2022, A&A, submit-
+Distefano, E., Lanzafame, A., & et al. 2022, A&A, in prep.                              ted
+Ducourant, C., Krone-Martins, A., Galluccio, L., Teixeira, R., & et al. 2022,        Pancino, E., Sanna, N., Altavilla, G., et al. 2021a, MNRAS, 503, 3660
+   A&A, submitted                                                                    Pancino, E., Sanna, N., Altavilla, G., et al. 2021b, MNRAS, 503, 3660
+El-Badry, K., Rix, H.-W., & Heintz, T. M. 2021, MNRAS, 506, 2269                     Pérez, F. & Granger, B. E. 2007, Computing in Science and Engineering, 9, 21
+Evans, D., Eyer, L., & et al. 2022, A&A, in prep.                                    R Core Team. 2013, R: A Language and Environment for Statistical Computing,
+Eyer, L., Audard, M., Holl, B., & et al. 2022, A&A, in prep.                            R Foundation for Statistical Computing, Vienna, Austria
+Fabricius, C., Høg, E., Makarov, V. V., et al. 2002, A&A, 384, 180                   Randich, S., Gilmore, G., Magrini, L., et al. 2022, A&A in press
+Fabricius, C., Luri, X., Arenou, F., et al. 2021, A&A, 649, A5                       Recio-Blanco, A., de Laverny, P., Palicio, P., Kordopatis, G., & et al. 2022, A&A
+Flewelling, H. A., Magnier, E. A., Chambers, K. C., et al. 2020, ApJS, 251, 7           submitted
+Flynn, C., Sekhri, R., Venville, T., et al. 2022, MNRAS, 509, 4276                   Ren, F., Chen, X., Zhang, H., et al. 2021, ApJ, 911, L20
+Fouesneau, M., Frémat, Y., Andrae, R., Korn, A., & et al. 2022, A&A, in prep.        Riello, M., De Angeli, F., Evans, D. W., et al. 2021, A&A, 649, A3
+Frémat, Y., Royer, F., Marchal, O., Blomme, R., & et al. 2022, A&A, in prep.         Riess, A. G., Casertano, S., Yuan, W., et al. 2021, ApJ, 908, L6
+Gaia Collaboration, Arenou, F., Babusiaux, C., Barstow, M., & et al. 2022, A&A,      Rimoldini, L., Holl, B., Audard, M., et al. 2019, A&A, 625, A97
+   submitted                                                                         Ripepi, V., Clementini, G., & et al. 2022, A&A, in prep.
+Gaia Collaboration, Bailer-Jones, C., Teyssier, D., Delchambre, L., & et al. 2022,   Robin, A. C., Luri, X., Reylé, C., et al. 2012, A&A, 543, A100
+   A&A, accepted                                                                     Roeser, S., Demleitner, M., & Schilbach, E. 2010, AJ, 139, 2440
+Gaia Collaboration, Brown, A. G. A., Vallenari, A., Prusti, T., et al. 2021, A&A,    Rowell, N., Davidson, M., Lindegren, L., et al. 2021, A&A, 649, A11
+   649, A1                                                                           Sartoretti, P., Blomme, R., David, M., & Seabroke, G. 2022a, Gaia DR3 docu-
+Gaia Collaboration, Creevey, O., Sarro, L., Lobel, A., & et al. 2022, A&A, sub-         mentation Chapter 6: Spectroscopy, Gaia DR3 documentation
+   mitted                                                                            Sartoretti, P., Marchal, O., Babusiaux, C., Jordi, C., & et al. 2022b, A&A, sub-
+Gaia Collaboration, De Ridder, J., Ripepi, V., Aerts, C., & et al. 2022, A&A,           mitted
+   submitted                                                                         Seabroke, G., Sartoretti, P., & et al. 2022, A&A, in prep.
+Gaia Collaboration, Drimmel, R., Romero-Gomez, M., Chemin, L., & et al.              Seabroke, G. M., Fabricius, C., Teyssier, D., et al. 2021, A&A, 653, A160
+   2022, A&A, in prep.                                                               Siopis, C., Pourbaix, D., & et al. 2022, A&A in prep.
+Gaia Collaboration, Galluccio, L., Delbo, M., De Angeli, F., & et al. 2022, A&A,     Skrutskie, M. F., Cutri, R. M., Stiening, R., et al. 2006, AJ, 131, 1163
+   submitted                                                                         Stassun, K. G. & Torres, G. 2021, ApJ, 907, L33
+Gaia Collaboration, Klioner, S. A., Lindegren, L., Mignard, F., & et al. 2022,       Steinmetz, M., Guiglion, G., McMillan, P. J., et al. 2020a, AJ, 160, 83
+   arXiv e-prints, arXiv:2204.12574                                                  Steinmetz, M., Matijevič, G., Enke, H., et al. 2020b, AJ, 160, 82
+Gaia Collaboration, Montegriffo, P., Bellazzini, M., De Angeli, F., & et al. 2022,   Tanga, P., Pauwels, T., Mignard, F., Muinonen, K., & et al. 2022, A&A, submit-
+   A&A, submitted                                                                       ted
+Gaia Collaboration, Prusti, T., de Bruijne, J., Brown, A., et al. 2016, A&A, 595,    Taylor, M. B. 2005, in Astronomical Society of the Pacific Conference Se-
+   A1                                                                                   ries, Vol. 347, Astronomical Data Analysis Software and Systems XIV, ed.
+Gaia Collaboration, Recio-Blanco, A., Kordopatis, G., de Laverny, P., & et al.          P. Shopbell, M. Britton, & R. Ebert, 29
+   2022, A&A, submitted                                                              Taylor, M. B. 2006, in Astronomical Society of the Pacific Conference Se-
+Gaia Collaboration, Schultheis, M., Zhao, H., Zwitter, T., & et al. 2022, A&A,          ries, Vol. 351, Astronomical Data Analysis Software and Systems XV, ed.
+   accepted                                                                             C. Gabriel, C. Arviset, D. Ponz, & S. Enrique, 666
+Gilmore, G., Randich, S., Worley, C. C., et al. 2022, A&A in press                   Thanjavur, K., Ivezić, Ž., Allam, S. S., et al. 2021, MNRAS, 505, 5941
+Gomel, R., Mazeh, T., Faigler, S., et al. 2022, A&A, submitted                       Torra, F., Castañeda, J., Fabricius, C., et al. 2021, A&A, 649, A10
+Gosset, E., Arenou, F., & et al. 2022, A&A in prep.                                  van Leeuwen, F. 2007, A&A, 474, 653
+Groenewegen, M. A. T. 2021, A&A, 654, A20                                            Vasiliev, E. & Baumgardt, H. 2021, MNRAS, 505, 5978
+Halbwachs, J.-L., Pourbaix† , D., Arenou, F., Galluccio, L., & et al. 2022, A&A,     Wang, C., Yuan, H., & Huang, Y. 2022, AJ, 163, 149
+   in prep.                                                                          Waters, C. Z., Magnier, E. A., Price, P. A., et al. 2020, ApJS, 251, 4
+Henden, A. A., Templeton, M., Terrell, D., et al. 2016, VizieR Online Data Cat-      Wenger, M., Ochsenbein, F., Egret, D., et al. 2000, A&AS, 143, 9
+   alogue, 2336                                                                      Wyrzykowski, Ł., Kruszyńska, K., Rybicki, K., Holl, B., & et al. 2022, A&A,
+Hodgkin, S. T., Harrison, D. L., Breedt, E., et al. 2021, A&A, 652, A76                 submitted
+Høg, E., Fabricius, C., Makarov, V. V., et al. 2000, A&A, 355, L27                   Yang, L., Yuan, H., Zhang, R., et al. 2021, ApJ, 908, L24
+Holl, B., Eyer, L., & et al. 2022, A&A, in prep.                                     Zacharias, N., Finch, C., Subasavage, J., et al. 2015, AJ, 150, 101
+Huang, Y., Yuan, H., Beers, T. C., & Zhang, H. 2021, ApJ, 910, L5                    Zacharias, N., Finch, C. T., Girard, T. M., et al. 2013, AJ, 145, 44
+Huber, D., Bryson, S. T., Haas, M. R., et al. 2016, ApJS, 224, 2                     Zinn, J. C. 2021, AJ, 161, 214
+Hunter, J. D. 2007, Computing In Science & Engineering, 9, 90
+Katz, D., Sartoretti, P., & et al. 2022, A&A, in prep.
+Kohonen, T. 2001, Self-Organizing Maps, 3rd edn., Springer Series in Informa-          1
+   tion Sciences (Berlin Heidelberg: Springer-Verlag)                                    INAF - Osservatorio astronomico di Padova, Vicolo Osservatorio
+Kovacs, G. & Karamiqucham, B. 2021, A&A, 653, A61                                        5, 35122 Padova, Italy
+                                                                                       2
+Krone-Martins, A., Gavras, P., Ducourant, C., et al. 2022, A&A in prep.                  Leiden Observatory, Leiden University, Niels Bohrweg 2, 2333 CA
+Lanzafame, A., Brugaletta, E., Frémat, Y., Sordo, R., & et al. 2022, A&A, in             Leiden, The Netherlands
+   prep.                                                                               3
+                                                                                         European Space Agency (ESA), European Space Research and
+Lasker, B. M., Lattanzi, M. G., McLean, B. J., et al. 2008, AJ, 136, 735                 Technology Centre (ESTEC), Keplerlaan 1, 2201AZ, Noordwijk,
+Lebzelter, T., Mowlavi, N., & et al. 2022, A&A, in prep.
+                                                                                         The Netherlands
+Lindegren, L., Bastian, U., Biermann, M., et al. 2021a, A&A, 649, A4                   4
+Lindegren, L., Klioner, S., Hernández, J., et al. 2021b, A&A, 649, A2                    GEPI, Observatoire de Paris, Université PSL, CNRS, 5 Place Jules
+Lunz, S., Anderson, J., Xu, M. H., et al. 2021, in EGU General Assembly Confer-          Janssen, 92190 Meudon, France
+                                                                                       5
+   ence Abstracts, EGU General Assembly Conference Abstracts, EGU21–8604                 Univ. Grenoble Alpes, CNRS, IPAG, 38000 Grenoble, France
+                                                                                       6
+Luo, A. L., Zhao, Y.-H., Zhao, G., et al. 2015, Research in Astronomy and As-            Astronomisches Rechen-Institut, Zentrum für Astronomie der Uni-
+   trophysics, 15, 1095                                                                  versität Heidelberg, Mönchhofstr. 12-14, 69120 Heidelberg, Ger-
+Magnier, E. A., Chambers, K. C., Flewelling, H. A., et al. 2020a, ApJS, 251, 3           many
+Magnier, E. A., Schlafly, E. F., Finkbeiner, D. P., et al. 2020b, ApJS, 251, 6         7
+                                                                                         Université Côte d’Azur, Observatoire de la Côte d’Azur, CNRS,
+Magnier, E. A., Sweeney, W. E., Chambers, K. C., et al. 2020c, ApJS, 251, 5
+Maíz Apellániz, J. 2022, A&A, 657, A130                                                  Laboratoire Lagrange, Bd de l’Observatoire, CS 34229, 06304
+Maíz Apellániz, J., Pantaleoni González, M., & Barbá, R. H. 2021, A&A, 649,              Nice Cedex 4, France
+                                                                                       8
+   A13                                                                                   Laboratoire d’astrophysique de Bordeaux, Univ. Bordeaux, CNRS,
+Marton, G., Kun, M., Ábrahám, P., Szabados, L., & et al. 2022, A&A, in prep.             B18N, allée Geoffroy Saint-Hilaire, 33615 Pessac, France
+
+Article number, page 16 of 23
+                                             Gaia Collaboration: Gaia Data Release 3: Summary
+
+9                                                                        41
+   Institute of Astronomy, University of Cambridge, Madingley Road,         RHEA for European Space Agency (ESA), Camino bajo del
+   Cambridge CB3 0HA, United Kingdom                                        Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de
+10
+   Department of Astronomy, University of Geneva, Chemin Pegasi             la Cañada, 28692 Madrid, Spain
+                                                                         42
+   51, 1290 Versoix, Switzerland                                            ATG Europe for European Space Agency (ESA), Camino bajo del
+11
+   European Space Agency (ESA), European Space Astronomy Cen-               Castillo, s/n, Urbanizacion Villafranca del Castillo, Villanueva de
+   tre (ESAC), Camino bajo del Castillo, s/n, Urbanizacion Vil-             la Cañada, 28692 Madrid, Spain
+                                                                         43
+   lafranca del Castillo, Villanueva de la Cañada, 28692 Madrid,            CIGUS CITIC - Department of Computer Science and Information
+   Spain                                                                    Technologies, University of A Coruña, Campus de Elviña s/n, A
+12
+   Aurora Technology for European Space Agency (ESA), Camino                Coruña, 15071, Spain
+                                                                         44
+   bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Vil-      Université de Strasbourg, CNRS, Observatoire astronomique de
+   lanueva de la Cañada, 28692 Madrid, Spain                                Strasbourg, UMR 7550, 11 rue de l’Université, 67000 Strasbourg,
+13
+   Institut de Ciències del Cosmos (ICCUB), Universitat de Barcelona        France
+                                                                         45
+   (IEEC-UB), Martí i Franquès 1, 08028 Barcelona, Spain                    Kavli Institute for Cosmology Cambridge, Institute of Astronomy,
+14
+   Lohrmann Observatory, Technische Universität Dresden, Momm-              Madingley Road, Cambridge, CB3 0HA
+                                                                         46
+   senstraße 13, 01062 Dresden, Germany                                     Leibniz Institute for Astrophysics Potsdam (AIP), An der Stern-
+15
+   Lund Observatory, Department of Astronomy and Theoretical                warte 16, 14482 Potsdam, Germany
+                                                                         47
+   Physics, Lund University, Box 43, 22100 Lund, Sweden                     CENTRA, Faculdade de Ciências, Universidade de Lisboa, Edif.
+16
+   CNES Centre Spatial de Toulouse, 18 avenue Edouard Belin, 31401          C8, Campo Grande, 1749-016 Lisboa, Portugal
+                                                                         48
+   Toulouse Cedex 9, France                                                 Department of Informatics, Donald Bren School of Information and
+17
+   Institut d’Astronomie et d’Astrophysique, Université Libre de            Computer Sciences, University of California, Irvine, 5226 Donald
+   Bruxelles CP 226, Boulevard du Triomphe, 1050 Brussels, Belgium          Bren Hall, 92697-3440 CA Irvine, United States
+18                                                                       49
+   F.R.S.-FNRS, Rue d’Egmont 5, 1000 Brussels, Belgium                      INAF - Osservatorio Astrofisico di Catania, via S. Sofia 78, 95123
+19
+   INAF - Osservatorio Astrofisico di Arcetri, Largo Enrico Fermi 5,        Catania, Italy
+                                                                         50
+   50125 Firenze, Italy                                                     Dipartimento di Fisica e Astronomia ""Ettore Majorana"", Univer-
+20
+   Max Planck Institute for Astronomy, Königstuhl 17, 69117 Heidel-         sità di Catania, Via S. Sofia 64, 95123 Catania, Italy
+                                                                         51
+   berg, Germany                                                            INAF - Osservatorio Astronomico di Roma, Via Frascati 33, 00078
+21
+   INAF - Osservatorio Astrofisico di Torino, via Osservatorio 20,          Monte Porzio Catone (Roma), Italy
+                                                                         52
+   10025 Pino Torinese (TO), Italy                                          Space Science Data Center - ASI, Via del Politecnico SNC, 00133
+22
+   European Space Agency (ESA, retired)                                     Roma, Italy
+23                                                                       53
+   University of Turin, Department of Physics, Via Pietro Giuria 1,         Department of Physics, University of Helsinki, P.O. Box 64, 00014
+   10125 Torino, Italy                                                      Helsinki, Finland
+24                                                                       54
+   INAF - Osservatorio di Astrofisica e Scienza dello Spazio di             Finnish Geospatial Research Institute FGI, Geodeetinrinne 2,
+   Bologna, via Piero Gobetti 93/3, 40129 Bologna, Italy                    02430 Masala, Finland
+25                                                                       55
+   DAPCOM for Institut de Ciències del Cosmos (ICCUB), Universi-            Institut UTINAM CNRS UMR6213, Université Bourgogne
+   tat de Barcelona (IEEC-UB), Martí i Franquès 1, 08028 Barcelona,         Franche-Comté, OSU THETA Franche-Comté Bourgogne, Obser-
+   Spain                                                                    vatoire de Besançon, BP1615, 25010 Besançon Cedex, France
+26                                                                       56
+   Royal Observatory of Belgium, Ringlaan 3, 1180 Brussels, Bel-            HE Space Operations BV for European Space Agency (ESA), Ke-
+   gium                                                                     plerlaan 1, 2201AZ, Noordwijk, The Netherlands
+27                                                                       57
+   Observational Astrophysics, Division of Astronomy and Space              Dpto. de Inteligencia Artificial, UNED, c/ Juan del Rosal 16, 28040
+   Physics, Department of Physics and Astronomy, Uppsala Univer-            Madrid, Spain
+                                                                         58
+   sity, Box 516, 751 20 Uppsala, Sweden                                    Konkoly Observatory, Research Centre for Astronomy and Earth
+28
+   ALTEC S.p.a, Corso Marche, 79,10146 Torino, Italy                        Sciences, Eötvös Loránd Research Network (ELKH), MTA Centre
+29                                                                          of Excellence, Konkoly Thege Miklós út 15-17, 1121 Budapest,
+   Sàrl, Geneva, Switzerland
+30                                                                          Hungary
+   Department of Astronomy, University of Geneva, Chemin d’Ecogia
+                                                                         59
+   16, 1290 Versoix, Switzerland                                            ELTE Eötvös Loránd University, Institute of Physics, 1117,
+31                                                                          Pázmány Péter sétány 1A, Budapest, Hungary
+   Mullard Space Science Laboratory, University College London,
+                                                                         60
+   Holmbury St Mary, Dorking, Surrey RH5 6NT, United Kingdom                Instituut voor Sterrenkunde, KU Leuven, Celestijnenlaan 200D,
+32                                                                          3001 Leuven, Belgium
+   Gaia DPAC Project Office, ESAC, Camino bajo del Castillo, s/n,
+                                                                         61
+   Urbanizacion Villafranca del Castillo, Villanueva de la Cañada,          Department of Astrophysics/IMAPP, Radboud University, P.O.Box
+   28692 Madrid, Spain                                                      9010, 6500 GL Nijmegen, The Netherlands
+33                                                                       62
+   Telespazio UK S.L. for European Space Agency (ESA), Camino               University of Vienna, Department of Astrophysics, Türkenschanzs-
+   bajo del Castillo, s/n, Urbanizacion Villafranca del Castillo, Vil-      traße 17, A1180 Vienna, Austria
+                                                                         63
+   lanueva de la Cañada, 28692 Madrid, Spain                                Institute of Physics, Laboratory of Astrophysics, Ecole Polytech-
+34
+   SYRTE, Observatoire de Paris, Université PSL, CNRS, Sorbonne             nique Fédérale de Lausanne (EPFL), Observatoire de Sauverny,
+   Université, LNE, 61 avenue de l’Observatoire 75014 Paris, France         1290 Versoix, Switzerland
+35                                                                       64
+   National Observatory of Athens, I. Metaxa and Vas. Pavlou, Palaia        Kapteyn Astronomical Institute, University of Groningen,
+   Penteli, 15236 Athens, Greece                                            Landleven 12, 9747 AD Groningen, The Netherlands
+36
+   IMCCE, Observatoire de Paris, Université PSL, CNRS, Sorbonne          65
+                                                                            School of Physics and Astronomy / Space Park Leicester, Uni-
+   Université, Univ. Lille, 77 av. Denfert-Rochereau, 75014 Paris,          versity of Leicester, University Road, Leicester LE1 7RH, United
+   France                                                                   Kingdom
+37                                                                       66
+   Serco Gestión de Negocios for European Space Agency (ESA),               Thales Services for CNES Centre Spatial de Toulouse, 18 avenue
+   Camino bajo del Castillo, s/n, Urbanizacion Villafranca del              Edouard Belin, 31401 Toulouse Cedex 9, France
+                                                                         67
+   Castillo, Villanueva de la Cañada, 28692 Madrid, Spain                   Depto. Estadística e Investigación Operativa. Universidad de Cádiz,
+38
+   Institut d’Astrophysique et de Géophysique, Université de Liège,         Avda. República Saharaui s/n, 11510 Puerto Real, Cádiz, Spain
+                                                                         68
+   19c, Allée du 6 Août, B-4000 Liège, Belgium                              Center for Research and Exploration in Space Science and Technol-
+39
+   CRAAG - Centre de Recherche en Astronomie, Astrophysique et              ogy, University of Maryland Baltimore County, 1000 Hilltop Cir-
+   Géophysique, Route de l’Observatoire Bp 63 Bouzareah 16340 Al-           cle, Baltimore MD, USA
+                                                                         69
+   giers, Algeria                                                           GSFC - Goddard Space Flight Center, Code 698, 8800 Greenbelt
+40
+   Institute for Astronomy, University of Edinburgh, Royal Observa-         Rd, 20771 MD Greenbelt, United States
+                                                                         70
+   tory, Blackford Hill, Edinburgh EH9 3HJ, United Kingdom                  EURIX S.r.l., Corso Vittorio Emanuele II 61, 10128, Torino, Italy
+
+                                                                                                                Article number, page 17 of 23
+                                                 A&A proofs: manuscript no. AA43940-22
+
+ 71                                                                     103
+    Porter School of the Environment and Earth Sciences, Tel Aviv           Department of Astrophysics, Astronomy and Mechanics, National
+    University, Tel Aviv 6997801, Israel                                    and Kapodistrian University of Athens, Panepistimiopolis, Zo-
+ 72                                                                         grafos, 15783 Athens, Greece
+    Harvard-Smithsonian Center for Astrophysics, 60 Garden St., MS
+                                                                        104
+    15, Cambridge, MA 02138, USA                                            TRUMPF Photonic Components GmbH, Lise-Meitner-Straße 13,
+ 73                                                                         89081 Ulm, Germany
+    ATOS for CNES Centre Spatial de Toulouse, 18 avenue Edouard
+                                                                        105
+    Belin, 31401 Toulouse Cedex 9, France                                   IAC - Instituto de Astrofisica de Canarias, Via Láctea s/n, 38200
+ 74                                                                         La Laguna S.C., Tenerife, Spain
+    HE Space Operations BV for European Space Agency (ESA),
+                                                                        106
+    Camino bajo del Castillo, s/n, Urbanizacion Villafranca del             Department of Astrophysics, University of La Laguna, Via Láctea
+    Castillo, Villanueva de la Cañada, 28692 Madrid, Spain                  s/n, 38200 La Laguna S.C., Tenerife, Spain
+ 75                                                                     107
+    Instituto de Astrofísica e Ciências do Espaço, Universidade do          Faculty of Aerospace Engineering, Delft University of Technology,
+    Porto, CAUP, Rua das Estrelas, PT4150-762 Porto, Portugal               Kluyverweg 1, 2629 HS Delft, The Netherlands
+ 76                                                                     108
+    LFCA/DAS,Universidad de Chile,CNRS,Casilla 36-D, Santiago,              Radagast Solutions
+    Chile                                                               109
+                                                                            Laboratoire Univers et Particules de Montpellier, CNRS Univer-
+ 77
+    SISSA - Scuola Internazionale Superiore di Studi Avanzati, via          sité Montpellier, Place Eugène Bataillon, CC72, 34095 Montpellier
+    Bonomea 265, 34136 Trieste, Italy                                       Cedex 05, France
+ 78                                                                     110
+    Telespazio for CNES Centre Spatial de Toulouse, 18 avenue               Université de Caen Normandie, Côte de Nacre Boulevard Maréchal
+    Edouard Belin, 31401 Toulouse Cedex 9, France                           Juin, 14032 Caen, France
+ 79                                                                     111
+    University of Turin, Department of Computer Sciences, Corso             LESIA, Observatoire de Paris, Université PSL, CNRS, Sorbonne
+    Svizzera 185, 10149 Torino, Italy                                       Université, Université de Paris, 5 Place Jules Janssen, 92190
+ 80                                                                         Meudon, France
+    Dpto. de Matemática Aplicada y Ciencias de la Computación,
+                                                                        112
+    Univ. de Cantabria, ETS Ingenieros de Caminos, Canales y Puertos,       SRON Netherlands Institute for Space Research, Niels Bohrweg 4,
+    Avda. de los Castros s/n, 39005 Santander, Spain                        2333 CA Leiden, The Netherlands
+ 81                                                                     113
+    Centro de Astronomía - CITEVA, Universidad de Antofagasta,              Astronomical Observatory, University of Warsaw, Al. Ujazdowskie
+    Avenida Angamos 601, Antofagasta 1270300, Chile                         4, 00-478 Warszawa, Poland
+ 82                                                                     114
+    DLR Gesellschaft für Raumfahrtanwendungen (GfR) mbH Münch-              Scalian for CNES Centre Spatial de Toulouse, 18 avenue Edouard
+    ener Straße 20 , 82234 Weßling                                          Belin, 31401 Toulouse Cedex 9, France
+ 83                                                                     115
+    Centre for Astrophysics Research, University of Hertfordshire,          Université Rennes, CNRS, IPR (Institut de Physique de Rennes) -
+    College Lane, AL10 9AB, Hatfield, United Kingdom                        UMR 6251, 35000 Rennes, France
+ 84                                                                     116
+    University of Turin, Mathematical Department ""G.Peano"", Via           INAF - Osservatorio Astronomico di Capodimonte, Via Moiariello
+    Carlo Alberto 10, 10123 Torino, Italy                                   16, 80131, Napoli, Italy
+ 85                                                                     117
+    University of Antwerp, Onderzoeksgroep Toegepaste Wiskunde,             Shanghai Astronomical Observatory, Chinese Academy of Sci-
+    Middelheimlaan 1, 2020 Antwerp, Belgium                                 ences, 80 Nandan Road, Shanghai 200030, People’s Republic of
+ 86
+    INAF - Osservatorio Astronomico d’Abruzzo, Via Mentore Mag-             China
+                                                                        118
+    gini, 64100 Teramo, Italy                                               University of Chinese Academy of Sciences, No.19(A) Yuquan
+ 87
+    Instituto de Astronomia, Geofìsica e Ciências Atmosféricas, Uni-        Road, Shijingshan District, Beijing 100049, People’s Republic of
+    versidade de São Paulo, Rua do Matão, 1226, Cidade Universitaria,       China
+                                                                        119
+    05508-900 São Paulo, SP, Brazil                                         Niels Bohr Institute, University of Copenhagen, Juliane Maries Vej
+ 88
+    APAVE SUDEUROPE SAS for CNES Centre Spatial de Toulouse,                30, 2100 Copenhagen Ø, Denmark
+    18 avenue Edouard Belin, 31401 Toulouse Cedex 9, France             120
+                                                                            DXC Technology, Retortvej 8, 2500 Valby, Denmark
+ 89                                                                     121
+    Mésocentre de calcul de Franche-Comté, Université de Franche-           Las Cumbres Observatory, 6740 Cortona Drive Suite 102, Goleta,
+    Comté, 16 route de Gray, 25030 Besançon Cedex, France                   CA 93117, USA
+ 90                                                                     122
+    Theoretical Astrophysics, Division of Astronomy and Space               CIGUS CITIC, Department of Nautical Sciences and Marine En-
+    Physics, Department of Physics and Astronomy, Uppsala Univer-           gineering, University of A Coruña, Paseo de Ronda 51, 15071, A
+    sity, Box 516, 751 20 Uppsala, Sweden                                   Coruña, Spain
+ 91                                                                     123
+    School of Physics and Astronomy, Tel Aviv University, Tel Aviv          Astrophysics Research Institute, Liverpool John Moores Univer-
+    6997801, Israel                                                         sity, 146 Brownlow Hill, Liverpool L3 5RF, United Kingdom
+ 92                                                                     124
+    Astrophysics Research Centre, School of Mathematics and Physics,        IPAC, Mail Code 100-22, California Institute of Technology, 1200
+    Queen’s University Belfast, Belfast BT7 1NN, UK                         E. California Blvd., Pasadena, CA 91125, USA
+ 93                                                                     125
+    Centre de Données Astronomique de Strasbourg, Strasbourg,               IRAP, Université de Toulouse, CNRS, UPS, CNES, 9 Av. colonel
+    France                                                                  Roche, BP 44346, 31028 Toulouse Cedex 4, France
+ 94                                                                     126
+    Université Côte d’Azur, Observatoire de la Côte d’Azur, CNRS,           MTA CSFK Lendület Near-Field Cosmology Research Group,
+    Laboratoire Géoazur, Bd de l’Observatoire, CS 34229, 06304 Nice         Konkoly Observatory, MTA Research Centre for Astronomy and
+    Cedex 4, France                                                         Earth Sciences, Konkoly Thege Miklós út 15-17, 1121 Budapest,
+ 95
+    Institute for Computational Cosmology, Department of Physics,           Hungary
+    Durham University, Durham DH1 3LE, UK                               127
+                                                                            Departmento de Física de la Tierra y Astrofísica, Universidad Com-
+ 96
+    European Southern Observatory, Karl-Schwarzschild-Str. 2, 85748         plutense de Madrid, 28040 Madrid, Spain
+    Garching, Germany                                                   128
+                                                                            Rud̄er Bošković Institute, Bijenička cesta 54, 10000 Zagreb, Croa-
+ 97
+    Max-Planck-Institut für Astrophysik, Karl-Schwarzschild-Straße          tia
+    1, 85748 Garching, Germany                                          129
+                                                                            Villanova University, Department of Astrophysics and Planetary
+ 98
+    Data Science and Big Data Lab, Pablo de Olavide University,             Science, 800 E Lancaster Avenue, Villanova PA 19085, USA
+    41013, Seville, Spain                                               130
+                                                                            INAF - Osservatorio Astronomico di Brera, via E. Bianchi, 46,
+ 99
+    Barcelona Supercomputing Center (BSC), Plaça Eusebi Güell 1-3,          23807 Merate (LC), Italy
+    08034-Barcelona, Spain                                              131
+                                                                            STFC, Rutherford Appleton Laboratory, Harwell, Didcot, OX11
+100
+    ETSE Telecomunicación, Universidade de Vigo, Campus Lagoas-             0QX, United Kingdom
+    Marcosende, 36310 Vigo, Galicia, Spain                              132
+                                                                            Charles University, Faculty of Mathematics and Physics, Astro-
+101
+    Asteroid Engineering Laboratory, Space Systems, Luleå University        nomical Institute of Charles University, V Holesovickach 2, 18000
+    of Technology, Box 848, S-981 28 Kiruna, Sweden                         Prague, Czech Republic
+102                                                                     133
+    Vera C Rubin Observatory, 950 N. Cherry Avenue, Tucson, AZ              Department of Particle Physics and Astrophysics, Weizmann Insti-
+    85719, USA                                                              tute of Science, Rehovot 7610001, Israel
+
+Article number, page 18 of 23
+                                               Gaia Collaboration: Gaia Data Release 3: Summary
+
+134
+      Department of Astrophysical Sciences, 4 Ivy Lane, Princeton Uni-
+      versity, Princeton NJ 08544, USA
+
+
+
+135
+      Departamento de Astrofísica, Centro de Astrobiología (CSIC-
+      INTA), ESA-ESAC. Camino Bajo del Castillo s/n. 28692 Vil-
+      lanueva de la Cañada, Madrid, Spain
+
+
+
+136
+      naXys, University of Namur, Rempart de la Vierge, 5000 Namur,
+      Belgium
+
+
+
+137
+      CGI Deutschland B.V. & Co. KG, Mornewegstr. 30, 64293 Darm-
+      stadt, Germany
+
+
+
+138
+      Institute of Global Health, University of Geneva
+
+
+
+139
+      Astronomical Observatory Institute, Faculty of Physics, Adam
+      Mickiewicz University, Poznań, Poland
+
+
+
+140
+      H H Wills Physics Laboratory, University of Bristol, Tyndall Av-
+      enue, Bristol BS8 1TL, United Kingdom
+
+
+
+141
+      Department of Physics and Astronomy G. Galilei, University of
+      Padova, Vicolo dell’Osservatorio 3, 35122, Padova, Italy
+
+
+
+142
+      CERN, Geneva, Switzerland
+
+
+
+143
+      Applied Physics Department, Universidade de Vigo, 36310 Vigo,
+      Spain
+
+
+
+144
+      Association of Universities for Research in Astronomy, 1331 Penn-
+      sylvania Ave. NW, Washington, DC 20004, USA
+
+
+
+145
+      European Southern Observatory, Alonso de Córdova 3107, Casilla
+      19, Santiago, Chile
+
+
+
+146
+      Sorbonne Université, CNRS, UMR7095, Institut d’Astrophysique
+      de Paris, 98bis bd. Arago, 75014 Paris, France
+
+
+
+147
+      Faculty of Mathematics and Physics, University of Ljubljana, Jad-
+      ranska ulica 19, 1000 Ljubljana, Slovenia
+
+
+
+
+                                                                                                  Article number, page 19 of 23
+                                             A&A proofs: manuscript no. AA43940-22
+
+Appendix A:                                                         Union’s Horizon 2020 research and innovation and excel-
+                                                                    lent science programmes through Marie Skłodowska-Curie
+The Gaia mission and data processing have financially been sup-     grant 745617 (Our Galaxy at full HD – Gal-HD) and 895174
+ported by, in alphabetical order by country:                        (The build-up and fate of self-gravitating systems in the Uni-
+ – the Algerian Centre de Recherche en Astronomie, Astro-           verse) as well as grants 687378 (Small Bodies: Near and
+   physique et Géophysique of Bouzareah Observatory;                Far), 682115 (Using the Magellanic Clouds to Understand
+                                                                    the Interaction of Galaxies), 695099 (A sub-percent dis-
+ – the Austrian Fonds zur Förderung der wissenschaftlichen
+                                                                    tance scale from binaries and Cepheids – CepBin), 716155
+   Forschung (FWF) Hertha Firnberg Programme through
+                                                                    (Structured ACCREtion Disks – SACCRED), 951549 (Sub-
+   grants T359, P20046, and P23737;
+                                                                    percent calibration of the extragalactic distance scale in the
+ – the BELgian federal Science Policy Office (BEL-                  era of big surveys – UniverScale), and 101004214 (Innova-
+   SPO) through various PROgramme de Développement                  tive Scientific Data Exploration and Exploitation Applica-
+   d’Expériences scientifiques (PRODEX) grants and the              tions for Space Sciences – EXPLORE);
+   Polish Academy of Sciences - Fonds Wetenschappelijk
+                                                                  – the European Science Foundation (ESF), in the framework
+   Onderzoek through grant VS.091.16N, and the Fonds de la
+                                                                    of the Gaia Research for European Astronomy Training Re-
+   Recherche Scientifique (FNRS), and the Research Council
+                                                                    search Network Programme (GREAT-ESF);
+   of Katholieke Universiteit (KU) Leuven through grant
+                                                                  – the European Space Agency (ESA) in the framework of
+   C16/18/005 (Pushing AsteRoseismology to the next level
+                                                                    the Gaia project, through the Plan for European Cooper-
+   with TESS, GaiA, and the Sloan DIgital Sky SurvEy –
+                                                                    ating States (PECS) programme through contracts C98090
+   PARADISE);
+                                                                    and 4000106398/12/NL/KML for Hungary, through con-
+ – the Brazil-France exchange programmes Fundação de Am-            tract 4000115263/15/NL/IB for Germany, and through PRO-
+   paro à Pesquisa do Estado de São Paulo (FAPESP) and Co-          gramme de Développement d’Expériences scientifiques
+   ordenação de Aperfeicoamento de Pessoal de Nível Superior        (PRODEX) grant 4000127986 for Slovenia;
+   (CAPES) - Comité Français d’Evaluation de la Coopération
+                                                                  – the Academy of Finland through grants 299543, 307157,
+   Universitaire et Scientifique avec le Brésil (COFECUB);
+                                                                    325805, 328654, 336546, and 345115 and the Magnus Ehrn-
+ – the Chilean Agencia Nacional de Investigación y Desar-           rooth Foundation;
+   rollo (ANID) through Fondo Nacional de Desarrollo Cientí-      – the French Centre National d’Études Spatiales (CNES), the
+   fico y Tecnológico (FONDECYT) Regular Project 1210992            Agence Nationale de la Recherche (ANR) through grant
+   (L. Chemin);                                                     ANR-10-IDEX-0001-02 for the ‘Investissements d’avenir’
+ – the National Natural Science Foundation of China (NSFC)          programme, through grant ANR-15-CE31-0007 for project
+   through grants 11573054, 11703065, and 12173069, the             ‘Modelling the Milky Way in the Gaia era’ (MOD4Gaia),
+   China Scholarship Council through grant 201806040200,            through grant ANR-14-CE33-0014-01 for project ‘The
+   and the Natural Science Foundation of Shanghai through           Milky Way disc formation in the Gaia era’ (ARCHEOGAL),
+   grant 21ZR1474100;                                               through grant ANR-15-CE31-0012-01 for project ‘Unlock-
+ – the Tenure Track Pilot Programme of the Croatian Science         ing the potential of Cepheids as primary distance calibrators’
+   Foundation and the École Polytechnique Fédérale de Lau-          (UnlockCepheids), through grant ANR-19-CE31-0017 for
+   sanne and the project TTP-2018-07-1171 ‘Mining the Vari-         project ‘Secular evolution of galxies’ (SEGAL), and through
+   able Sky’, with the funds of the Croatian-Swiss Research         grant ANR-18-CE31-0006 for project ‘Galactic Dark Mat-
+   Programme;                                                       ter’ (GaDaMa), the Centre National de la Recherche Scien-
+ – the Czech-Republic Ministry of Education, Youth, and             tifique (CNRS) and its SNO Gaia of the Institut des Sciences
+   Sports through grant LG 15010 and INTER-EXCELLENCE               de l’Univers (INSU), its Programmes Nationaux: Cosmolo-
+   grant LTAUSA18093, and the Czech Space Office through            gie et Galaxies (PNCG), Gravitation Références Astronomie
+   ESA PECS contract 98058;                                         Métrologie (PNGRAM), Planétologie (PNP), Physique et
+ – the Danish Ministry of Science;                                  Chimie du Milieu Interstellaire (PCMI), and Physique Stel-
+ – the Estonian Ministry of Education and Research through          laire (PNPS), the ‘Action Fédératrice Gaia’ of the Obser-
+   grant IUT40-1;                                                   vatoire de Paris, the Région de Franche-Comté, the Insti-
+ – the European Commission’s Sixth Framework Programme              tut National Polytechnique (INP) and the Institut National
+   through the European Leadership in Space Astrometry              de Physique nucléaire et de Physique des Particules (IN2P3)
+   (ELSA) Marie Curie Research Training Network (MRTN-              co-funded by CNES;
+   CT-2006-033481), through Marie Curie project PIOF-             – the German Aerospace Agency (Deutsches Zentrum für
+   GA-2009-255267 (Space AsteroSeismology & RR Lyrae                Luft- und Raumfahrt e.V., DLR) through grants 50QG0501,
+   stars, SAS-RRL), and through a Marie Curie Transfer-             50QG0601,        50QG0602,        50QG0701,       50QG0901,
+   of-Knowledge (ToK) fellowship (MTKD-CT-2004-014188);             50QG1001,        50QG1101,        50QG1401,       50QG1402,
+   the European Commission’s Seventh Framework Pro-                 50QG1403,        50QG1404,        50QG1904,       50QG2101,
+   gramme through grant FP7-606740 (FP7-SPACE-2013-1)               50QG2102, and 50QG2202, and the Centre for Infor-
+   for the Gaia European Network for Improved data User Ser-        mation Services and High Performance Computing (ZIH) at
+   vices (GENIUS) and through grant 264895 for the Gaia Re-         the Technische Universität Dresden for generous allocations
+   search for European Astronomy Training (GREAT-ITN) net-          of computer time;
+   work;                                                          – the Hungarian Academy of Sciences through the Lendület
+ – the European Cooperation in Science and Technology               Programme grants LP2014-17 and LP2018-7 and the Hun-
+   (COST) through COST Action CA18104 ‘Revealing the                garian National Research, Development, and Innovation Of-
+   Milky Way with Gaia (MW-Gaia)’;                                  fice (NKFIH) through grant KKP-137523 (‘SeismoLab’);
+ – the European Research Council (ERC) through grants             – the Science Foundation Ireland (SFI) through a Royal Soci-
+   320360, 647208, and 834148 and through the European              ety - SFI University Research Fellowship (M. Fraser);
+Article number, page 20 of 23
+                                        Gaia Collaboration: Gaia Data Release 3: Summary
+
+– the Israel Ministry of Science and Technology through grant       Galicia 2014-2020 Programme), through grant ED431G-
+  3-18143 and the Tel Aviv University Center for Artificial In-     2019/01, the Red Española de Supercomputación (RES)
+  telligence and Data Science (TAD) through a grant;                computer resources at MareNostrum, the Barcelona Su-
+– the Agenzia Spaziale Italiana (ASI) through contracts             percomputing Centre - Centro Nacional de Supercom-
+  I/037/08/0, I/058/10/0, 2014-025-R.0, 2014-025-R.1.2015,          putación (BSC-CNS) through activities AECT-2017-2-0002,
+  and 2018-24-HH.0 to the Italian Istituto Nazionale di As-         AECT-2017-3-0006, AECT-2018-1-0017, AECT-2018-2-
+  trofisica (INAF), contract 2014-049-R.0/1/2 to INAF for           0013, AECT-2018-3-0011, AECT-2019-1-0010, AECT-
+  the Space Science Data Centre (SSDC, formerly known as            2019-2-0014, AECT-2019-3-0003, AECT-2020-1-0004, and
+  the ASI Science Data Center, ASDC), contracts I/008/10/0,         DATA-2020-1-0010, the Departament d’Innovació, Univer-
+  2013/030/I.0, 2013-030-I.0.1-2015, and 2016-17-I.0 to the         sitats i Empresa de la Generalitat de Catalunya through
+  Aerospace Logistics Technology Engineering Company                grant 2014-SGR-1051 for project ‘Models de Programació
+  (ALTEC S.p.A.), INAF, and the Italian Ministry of Edu-            i Entorns d’Execució Parallels’ (MPEXPAR), and Ra-
+  cation, University, and Research (Ministero dell’Istruzione,      mon y Cajal Fellowship RYC2018-025968-I funded by
+  dell’Università e della Ricerca) through the Premiale project     MICIN/AEI/10.13039/501100011033 and the European Sci-
+  ‘MIning The Cosmos Big Data and Innovative Italian Tech-          ence Foundation (‘Investing in your future’);
+  nology for Frontier Astrophysics and Cosmology’ (MITiC);        – the Swedish National Space Agency (SNSA/Rymd-
+– the Netherlands Organisation for Scientific Research (NWO)        styrelsen);
+  through grant NWO-M-614.061.414, through a VICI grant           – the Swiss State Secretariat for Education, Research, and
+  (A. Helmi), and through a Spinoza prize (A. Helmi), and the       Innovation through the Swiss Activités Nationales Com-
+  Netherlands Research School for Astronomy (NOVA);                 plémentaires and the Swiss National Science Founda-
+– the Polish National Science Centre through HAR-                   tion through an Eccellenza Professorial Fellowship (award
+  MONIA grant 2018/30/M/ST9/00311 and DAINA                         PCEFP2_194638 for R. Anderson);
+  grant 2017/27/L/ST9/03221 and the Ministry of Sci-              – the United Kingdom Particle Physics and Astronomy
+  ence and Higher Education (MNiSW) through grant                   Research Council (PPARC), the United Kingdom Sci-
+  DIR/WK/2018/12;                                                   ence and Technology Facilities Council (STFC), and
+– the Portuguese Fundação para a Ciência e a Tecnolo-               the United Kingdom Space Agency (UKSA) through
+  gia (FCT) through national funds, grants SFRH/-                   the following grants to the University of Bristol, the
+  BD/128840/2017         and      PTDC/FIS-AST/30389/2017,          University of Cambridge, the University of Edinburgh,
+  and work contract DL 57/2016/CP1364/CT0006, the                   the University of Leicester, the Mullard Space Sci-
+  Fundo Europeu de Desenvolvimento Regional (FEDER)                 ences Laboratory of University College London, and
+  through grant POCI-01-0145-FEDER-030389 and its Pro-              the United Kingdom Rutherford Appleton Laboratory
+  grama Operacional Competitividade e Internacionalização           (RAL): PP/D006511/1, PP/D006546/1, PP/D006570/1,
+  (COMPETE2020) through grants UIDB/04434/2020 and                  ST/I000852/1,        ST/J005045/1,          ST/K00056X/1,
+  UIDP/04434/2020, and the Strategic Programme UIDB/-               ST/K000209/1,        ST/K000756/1,            ST/L006561/1,
+  00099/2020 for the Centro de Astrofísica e Gravitação             ST/N000595/1,        ST/N000641/1,            ST/N000978/1,
+  (CENTRA);                                                         ST/N001117/1,         ST/S000089/1,           ST/S000976/1,
+– the Slovenian Research Agency through grant P1-0188;              ST/S000984/1, ST/S001123/1, ST/S001948/1, ST/-
+– the Spanish Ministry of Economy (MINECO/FEDER,                    S001980/1, ST/S002103/1, ST/V000969/1, ST/W002469/1,
+  UE), the Spanish Ministry of Science and Innova-                  ST/W002493/1, ST/W002671/1, ST/W002809/1, and
+  tion (MICIN), the Spanish Ministry of Education, Cul-             EP/V520342/1.
+  ture, and Sports, and the Spanish Government through               The Gaia project and data processing have made use of:
+  grants BES-2016-078499, BES-2017-083126, BES-C-2017-
+  0085, ESP2016-80079-C2-1-R, ESP2016-80079-C2-2-R,               – the Set of Identifications, Measurements, and Bibliography
+  FPU16/03827, PDC2021-121059-C22, RTI2018-095076-B-                for Astronomical Data (SIMBAD, Wenger et al. 2000), the
+  C22, and TIN2015-65316-P (‘Computación de Altas Presta-           ‘Aladin sky atlas’ (Bonnarel et al. 2000; Boch & Fernique
+  ciones VII’), the Juan de la Cierva Incorporación Programme       2014), and the VizieR catalogue access tool (Ochsenbein
+  (FJCI-2015-2671 and IJC2019-04862-I for F. Anders), the           et al. 2000), all operated at the Centre de Données as-
+  Severo Ochoa Centre of Excellence Programme (SEV2015-             tronomiques de Strasbourg (CDS);
+  0493), and MICIN/AEI/10.13039/501100011033 (and the             – the National Aeronautics and Space Administration (NASA)
+  European Union through European Regional Development              Astrophysics Data System (ADS);
+  Fund ‘A way of making Europe’) through grant RTI2018-           – the SPace ENVironment Information System (SPENVIS),
+  095076-B-C21, the Institute of Cosmos Sciences Univer-            initiated by the Space Environment and Effects Section
+  sity of Barcelona (ICCUB, Unidad de Excelencia ‘María             (TEC-EES) of ESA and developed by the Belgian Insti-
+  de Maeztu’) through grant CEX2019-000918-M, the Uni-              tute for Space Aeronomy (BIRA-IASB) under ESA contract
+  versity of Barcelona’s official doctoral programme for            through ESA’s General Support Technologies Programme
+  the development of an R+D+i project through an Ajuts              (GSTP), administered by the BELgian federal Science Pol-
+  de Personal Investigador en Formació (APIF) grant, the            icy Office (BELSPO);
+  Spanish Virtual Observatory through project AyA2017-            – the software products TOPCAT, STIL, and STILTS (Taylor
+  84089, the Galician Regional Government, Xunta de Gali-           2005, 2006);
+  cia, through grants ED431B-2021/36, ED481A-2019/155,            – Matplotlib (Hunter 2007);
+  and ED481A-2021/296, the Centro de Investigación en             – IPython (Pérez & Granger 2007);
+  Tecnologías de la Información y las Comunicaciones              – Astropy, a community-developed core Python package for
+  (CITIC), funded by the Xunta de Galicia and the Eu-               Astronomy (Astropy Collaboration et al. 2018);
+  ropean Union (European Regional Development Fund –              – R (R Core Team 2013);
+                                                                                                     Article number, page 21 of 23
+                                              A&A proofs: manuscript no. AA43940-22
+
+ – Vaex (Breddels & Veljanoski 2018);                               – data products from the Wide-field Infrared Survey Explorer
+ – the Hipparcos-2 catalogue (van Leeuwen 2007). The Hippar-          (WISE), which is a joint project of the University of Cali-
+   cos and Tycho catalogues were constructed under the respon-        fornia, Los Angeles, and the Jet Propulsion Laboratory/Cal-
+   sibility of large scientific teams collaborating with ESA. The     ifornia Institute of Technology, and NEOWISE, which is a
+   Consortia Leaders were Lennart Lindegren (Lund, Sweden:            project of the Jet Propulsion Laboratory/California Institute
+   NDAC) and Jean Kovalevsky (Grasse, France: FAST), to-              of Technology. WISE and NEOWISE are funded by the Na-
+   gether responsible for the Hipparcos Catalogue; Erik Høg           tional Aeronautics and Space Administration (NASA);
+   (Copenhagen, Denmark: TDAC) responsible for the Tycho            – the first data release of the United States Naval Observatory
+   Catalogue; and Catherine Turon (Meudon, France: INCA)              (USNO) Robotic Astrometric Telescope (URAT-1, Zacharias
+   responsible for the Hipparcos Input Catalogue (HIC);               et al. 2015);
+ – the Tycho-2 catalogue (Høg et al. 2000), the construction of     – the fourth data release of the United States Naval Ob-
+   which was supported by the Velux Foundation of 1981 and            servatory (USNO) CCD Astrograph Catalogue (UCAC-4,
+   the Danish Space Board;                                            Zacharias et al. 2013);
+ – The Tycho double star catalogue (TDSC, Fabricius et al.          – the sixth and final data release of the Radial Velocity Ex-
+   2002), based on observations made with the ESA Hippar-             periment (RAVE DR6, Steinmetz et al. 2020a,b). Funding
+   cos astrometry satellite, as supported by the Danish Space         for RAVE has been provided by the Leibniz Institute for As-
+   Board and the United States Naval Observatory through their        trophysics Potsdam (AIP), the Australian Astronomical Ob-
+   double-star programme;                                             servatory, the Australian National University, the Australian
+ – data products from the Two Micron All Sky Survey (2MASS,
+                                                                      Research Council, the French National Research Agency,
+   Skrutskie et al. 2006), which is a joint project of the Uni-
+                                                                      the German Research Foundation (SPP 1177 and SFB 881),
+   versity of Massachusetts and the Infrared Processing and
+                                                                      the European Research Council (ERC-StG 240271 Galac-
+   Analysis Center (IPAC) / California Institute of Technology,
+                                                                      tica), the Istituto Nazionale di Astrofisica at Padova, the
+   funded by the National Aeronautics and Space Administra-
+                                                                      Johns Hopkins University, the National Science Founda-
+   tion (NASA) and the National Science Foundation (NSF) of
+                                                                      tion of the USA (AST-0908326), the W.M. Keck founda-
+   the USA;
+ – the ninth data release of the AAVSO Photometric All-Sky            tion, the Macquarie University, the Netherlands Research
+   Survey (APASS, Henden et al. 2016), funded by the Robert           School for Astronomy, the Natural Sciences and Engineer-
+   Martin Ayers Sciences Fund;                                        ing Research Council of Canada, the Slovenian Research
+ – the first data release of the Pan-STARRS survey (Chambers          Agency, the Swiss National Science Foundation, the Science
+   et al. 2016; Magnier et al. 2020a; Waters et al. 2020; Magnier     & Technology Facilities Council of the UK, Opticon, Stras-
+   et al. 2020c,b; Flewelling et al. 2020). The Pan-STARRS1           bourg Observatory, and the Universities of Basel, Groningen,
+   Surveys (PS1) and the PS1 public science archive have been         Heidelberg, and Sydney. The RAVE website is at https:
+   made possible through contributions by the Institute for As-       //www.rave-survey.org/;
+   tronomy, the University of Hawaii, the Pan-STARRS Project        – the first data release of the Large sky Area Multi-Object
+   Office, the Max-Planck Society and its participating insti-        Fibre Spectroscopic Telescope (LAMOST DR1, Luo et al.
+   tutes, the Max Planck Institute for Astronomy, Heidelberg          2015);
+   and the Max Planck Institute for Extraterrestrial Physics,       – the K2 Ecliptic Plane Input Catalogue (EPIC, Huber et al.
+   Garching, The Johns Hopkins University, Durham Univer-             2016);
+   sity, the University of Edinburgh, the Queen’s University        – the ninth data release of the Sloan Digitial Sky Survey (SDSS
+   Belfast, the Harvard-Smithsonian Center for Astrophysics,          DR9, Ahn et al. 2012). Funding for SDSS-III has been pro-
+   the Las Cumbres Observatory Global Telescope Network               vided by the Alfred P. Sloan Foundation, the Participating In-
+   Incorporated, the National Central University of Taiwan,           stitutions, the National Science Foundation, and the United
+   the Space Telescope Science Institute, the National Aero-          States Department of Energy Office of Science. The SDSS-
+   nautics and Space Administration (NASA) through grant              III website is http://www.sdss3.org/. SDSS-III is man-
+   NNX08AR22G issued through the Planetary Science Divi-              aged by the Astrophysical Research Consortium for the Par-
+   sion of the NASA Science Mission Directorate, the National         ticipating Institutions of the SDSS-III Collaboration includ-
+   Science Foundation through grant AST-1238877, the Uni-             ing the University of Arizona, the Brazilian Participation
+   versity of Maryland, Eotvos Lorand University (ELTE), the          Group, Brookhaven National Laboratory, Carnegie Mellon
+   Los Alamos National Laboratory, and the Gordon and Betty           University, University of Florida, the French Participation
+   Moore Foundation;                                                  Group, the German Participation Group, Harvard Univer-
+ – the second release of the Guide Star Catalogue (GSC2.3,            sity, the Instituto de Astrofísica de Canarias, the Michigan
+   Lasker et al. 2008). The Guide Star Catalogue II is a joint        State/Notre Dame/JINA Participation Group, Johns Hopkins
+   project of the Space Telescope Science Institute (STScI)           University, Lawrence Berkeley National Laboratory, Max
+   and the Osservatorio Astrofisico di Torino (OATo). STScI           Planck Institute for Astrophysics, Max Planck Institute for
+   is operated by the Association of Universities for Research        Extraterrestrial Physics, New Mexico State University, New
+   in Astronomy (AURA), for the National Aeronautics and              York University, Ohio State University, Pennsylvania State
+   Space Administration (NASA) under contract NAS5-26555.             University, University of Portsmouth, Princeton University,
+   OATo is operated by the Italian National Institute for As-         the Spanish Participation Group, University of Tokyo, Uni-
+   trophysics (INAF). Additional support was provided by the          versity of Utah, Vanderbilt University, University of Vir-
+   European Southern Observatory (ESO), the Space Telescope           ginia, University of Washington, and Yale University;
+   European Coordinating Facility (STECF), the International        – the thirteenth release of the Sloan Digital Sky Survey (SDSS
+   GEMINI project, and the European Space Agency (ESA)                DR13, Albareti et al. 2017). Funding for SDSS-IV has been
+   Astrophysics Division (nowadays SCI-S);                            provided by the Alfred P. Sloan Foundation, the United
+ – the eXtended, Large (XL) version of the catalogue of Posi-         States Department of Energy Office of Science, and the Par-
+   tions and Proper Motions (PPM-XL, Roeser et al. 2010);             ticipating Institutions. SDSS-IV acknowledges support and
+Article number, page 22 of 23
+                                          Gaia Collaboration: Gaia Data Release 3: Summary
+
+   resources from the Center for High-Performance Comput-           ern Hemisphere (ESO) with the VLT Survey Telescope (VST),
+   ing at the University of Utah. The SDSS web site is https:       under ESO programmes 092.B-0165, 093.B-0236, 094.B-0181,
+   //www.sdss.org/. SDSS-IV is managed by the Astrophys-            095.B-0046, 096.B-0162, 097.B-0304, 098.B-0030, 099.B-
+   ical Research Consortium for the Participating Institutions of   0034, 0100.B-0131, 0101.B-0156, 0102.B-0174, and 0103.B-
+   the SDSS Collaboration including the Brazilian Participation     0165; and (ii) the Liverpool Telescope, which is operated on the
+   Group, the Carnegie Institution for Science, Carnegie Mel-       island of La Palma by Liverpool John Moores University in the
+   lon University, the Chilean Participation Group, the French      Spanish Observatorio del Roque de los Muchachos of the In-
+   Participation Group, Harvard-Smithsonian Center for Astro-       stituto de Astrofísica de Canarias with financial support from
+   physics, Instituto de Astrofísica de Canarias, The Johns Hop-    the United Kingdom Science and Technology Facilities Coun-
+   kins University, Kavli Institute for the Physics and Mathe-      cil, and (iii) telescopes of the Las Cumbres Observatory Global
+   matics of the Universe (IPMU) / University of Tokyo, the         Telescope Network.
+   Korean Participation Group, Lawrence Berkeley National
+   Laboratory, Leibniz Institut für Astrophysik Potsdam (AIP),
+   Max-Planck-Institut für Astronomie (MPIA Heidelberg),
+   Max-Planck-Institut für Astrophysik (MPA Garching), Max-
+   Planck-Institut für Extraterrestrische Physik (MPE), Na-
+   tional Astronomical Observatories of China, New Mexico
+   State University, New York University, University of Notre
+   Dame, Observatário Nacional / MCTI, The Ohio State Uni-
+   versity, Pennsylvania State University, Shanghai Astronomi-
+   cal Observatory, United Kingdom Participation Group, Uni-
+   versidad Nacional Autónoma de México, University of Ari-
+   zona, University of Colorado Boulder, University of Oxford,
+   University of Portsmouth, University of Utah, University of
+   Virginia, University of Washington, University of Wiscon-
+   sin, Vanderbilt University, and Yale University;
+ – the second release of the SkyMapper catalogue (SkyMap-
+   per DR2, Onken et al. 2019, Digital Object Identifier
+   10.25914/5ce60d31ce759). The national facility capability
+   for SkyMapper has been funded through grant LE130100104
+   from the Australian Research Council (ARC) Linkage In-
+   frastructure, Equipment, and Facilities (LIEF) programme,
+   awarded to the University of Sydney, the Australian National
+   University, Swinburne University of Technology, the Univer-
+   sity of Queensland, the University of Western Australia, the
+   University of Melbourne, Curtin University of Technology,
+   Monash University, and the Australian Astronomical Obser-
+   vatory. SkyMapper is owned and operated by The Australian
+   National University’s Research School of Astronomy and
+   Astrophysics. The survey data were processed and provided
+   by the SkyMapper Team at the the Australian National Uni-
+   versity. The SkyMapper node of the All-Sky Virtual Obser-
+   vatory (ASVO) is hosted at the National Computational In-
+   frastructure (NCI). Development and support the SkyMap-
+   per node of the ASVO has been funded in part by Astron-
+   omy Australia Limited (AAL) and the Australian Govern-
+   ment through the Commonwealth’s Education Investment
+   Fund (EIF) and National Collaborative Research Infrastruc-
+   ture Strategy (NCRIS), particularly the National eResearch
+   Collaboration Tools and Resources (NeCTAR) and the Aus-
+   tralian National Data Service Projects (ANDS);
+ – the Gaia-ESO Public Spectroscopic Survey (GES, Gilmore
+   et al. 2022; Randich et al. 2022). The Gaia-ESO Survey is
+   based on data products from observations made with ESO
+   Telescopes at the La Silla Paranal Observatory under pro-
+   gramme ID 188.B-3002. Public data releases are available
+   through the ESO Science Portal. The project has received
+   funding from the Leverhulme Trust (project RPG-2012-
+   541), the European Research Council (project ERC-2012-
+   AdG 320360-Gaia-ESO-MW), and the Istituto Nazionale di
+   Astrofisica, INAF (2012: CRA 1.05.01.09.16; 2013: CRA
+   1.05.06.02.07).
+   The GBOT programme uses observations collected at (i) the
+European Organisation for Astronomical Research in the South-
+                                                                                                        Article number, page 23 of 23
+

@@ -1,0 +1,631 @@
+# truth/entries/colour_srgb.toml -- sRGB colour space (Stokes et al. 1996, W3C proposal v1.10)
+# and the CIE 1931 2-degree colour matching function data file.
+# All equation images are GIFs in refs/data/stokes_1996_srgb_img/ ; transcriptions in
+# refs/stokes_1996_srgb_equations.txt. Equation entries are ocr="poor": a reviewer must read the GIF.
+# Thresholds are the 1996 values (0.00304, 0.03928), NOT the IEC 61966-2-1 values (0.0031308, 0.04045).
+
+# ---------------------------------------------------------------- notation
+
+[[entry]]
+id = "colour.notation-stokes-cie-xyz"
+kind = "notation"
+domain = "colour"
+name = "CIE 1931 XYZ tristimulus symbols (sRGB spec)"
+statement = "CIE 1931 XYZ tristimulus values of the scene, the input of the sRGB definition. The source does not specify XYZ normalisation."
+source = "stokes_1996_srgb"
+locator = "eq. 1.1, 1.8 (p. 'Colorimetric definitions and digital encodings')"
+anchor = "are simply linear combinations of the 1931 CIE XYZ values and"
+ocr = "good"
+status = "rejected"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:133"
+notes = "Normalisation (e.g. Y=1 for D65 white) is NOT stated by this source; do not assume it in implementing code without another cited source."
+symbols = [
+  { sym = "X", meaning = "CIE 1931 tristimulus value X", units = "source-unspecified (same scale as Y)" },
+  { sym = "Y", meaning = "CIE 1931 tristimulus value Y (luminance-like; photometric normalisation not stated in this source)", units = "source-unspecified" },
+  { sym = "Z", meaning = "CIE 1931 tristimulus value Z", units = "source-unspecified (same scale as Y)" },
+]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace the normalisation sentence with “The source does not specify XYZ normalisation.” Neither arbitrary input scaling nor “luminance-like” is established at `refs/stokes_1996_srgb.txt:786–792`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Symbols.Y still asserts unsupported 'luminance-like'; source lines 786-792 support only XYZ identification. Weaker surviving statement: CIE 1931 tristimulus value Y; normalisation unspecified." }]
+
+[[entry]]
+id = "colour.notation-srgb-linear"
+kind = "notation"
+domain = "colour"
+name = "Linear sRGB tristimulus symbols"
+statement = "Linear (tristimulus) sRGB values of the illuminated objects of the scene; nominal range 0.0 to 1.0, values outside are clipped when the encoder cannot retain the extended range."
+source = "stokes_1996_srgb"
+locator = "eq. 1.1"
+anchor = "sRGB tristimulus values for the illuminated objects of the scene"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:133"
+symbols = [
+  { sym = "R_{sRGB}", meaning = "linear sRGB red tristimulus value", units = "1" },
+  { sym = "G_{sRGB}", meaning = "linear sRGB green tristimulus value", units = "1" },
+  { sym = "B_{sRGB}", meaning = "linear sRGB blue tristimulus value", units = "1" },
+]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Symbols match GIF `srgb09`; the conditional clipping qualification matches `refs/stokes_1996_srgb.txt:786–802`." }]
+
+[[entry]]
+id = "colour.notation-srgb-nonlinear"
+kind = "notation"
+domain = "colour"
+name = "Non-linear sRGB symbols"
+statement = "Non-linear (gamma-encoded) sR'G'B' values obtained from the linear sRGB tristimulus values by eq. 1.2a/1.2b."
+source = "stokes_1996_srgb"
+locator = "eq. 1.2a, 1.2b"
+anchor = "to nonlinear sR'G'B' values as follows:"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:146"
+symbols = [
+  { sym = "R'_{sRGB}", meaning = "non-linear (encoded) sRGB red value", units = "1" },
+  { sym = "G'_{sRGB}", meaning = "non-linear (encoded) sRGB green value", units = "1" },
+  { sym = "B'_{sRGB}", meaning = "non-linear (encoded) sRGB blue value", units = "1" },
+]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Primed channel symbols match GIFs `srgb11/13` and their introduction at `refs/stokes_1996_srgb.txt:805–819`." }]
+
+[[entry]]
+id = "colour.notation-srgb-digital"
+kind = "notation"
+domain = "colour"
+name = "sRGB digital code value symbols"
+statement = "Digital code values of the encoded channels (8_bit subscript: 8 bits per channel) and the white and black digital counts WDC and KDC used to scale the non-linear values into code values."
+source = "stokes_1996_srgb"
+locator = "eq. 1.3-1.6"
+anchor = "values by using the equation below where WDC represents the white"
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:208"
+symbols = [
+  { sym = "R_{8bit}", meaning = "8-bit digital code value of the red channel", units = "1 (counts)" },
+  { sym = "G_{8bit}", meaning = "8-bit digital code value of the green channel", units = "1 (counts)" },
+  { sym = "B_{8bit}", meaning = "8-bit digital code value of the blue channel", units = "1 (counts)" },
+  { sym = "\\mathrm{WDC}", sym_source = "WDC", meaning = "white digital count", units = "1 (counts)" },
+  { sym = "\\mathrm{KDC}", sym_source = "KDC", meaning = "black digital count", units = "1 (counts)" },
+]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "WDC/KDC meanings and eight-bit channel interpretation match `refs/stokes_1996_srgb.txt:830–860` and GIFs `srgb14–17`." }]
+
+[[entry]]
+id = "colour.notation-chromaticity"
+kind = "notation"
+domain = "colour"
+name = "CIE chromaticity coordinates x, y, z"
+statement = "CIE chromaticity coordinates (x, y, z) of the primaries and the white point, tabulated in Table 0.2 of the sRGB proposal; for each column of Table 0.2 the three printed numbers sum to 1. Here x, y, z denote chromaticities, distinct from image and atmospheric coordinates."
+source = "stokes_1996_srgb"
+locator = "Table 0.2"
+anchor = "TABLE 0.2 CIE chromaticities for ITU-R BT.709 reference primaries and CIE standard illuminant"
+ocr = "good"
+status = "blessed"
+notes = "The relation z = 1 - x - y is not stated in the source; it is only a property of the printed numbers (checked: 0.3127+0.3290+0.3583 = 1.0000)."
+symbols = [
+  { sym = "x", meaning = "CIE chromaticity coordinate x", units = "1" },
+  { sym = "y", meaning = "CIE chromaticity coordinate y", units = "1" },
+  { sym = "z", meaning = "CIE chromaticity coordinate z", units = "1" },
+]
+conflicts_with = ["colour.notation-reinhard-parameters", "rt.notation-mcphac"]
+adopted = true
+adopted_syms = ["y"]
+conflict_notes = ["y: Chromaticity keeps x, y, z. Reinhard pixel position -> (x_{pix},y_{pix}); McPHAC column depth y -> m."]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Table values match `refs/stokes_1996_srgb.txt:755–779`; all four column sums equal 1.0000. Add explicit scope: “Here x,y,z denote chromaticities, distinct from image and atmospheric coordinates.”" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and labels match refs/stokes_1996_srgb.txt:750-779; all four column sums compute to 1.0000; coordinate scope explicit." }]
+
+[[entry]]
+id = "colour.notation-cie-cmf"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:22"
+kind = "notation"
+domain = "colour"
+name = "CIE 1931 colour matching function symbols and wavelength"
+statement = "Column labels of the CVRL CIE 1931 2-degree colour matching function file: wavelength in nm and the three colour matching functions xbar, ybar, zbar."
+source = "data/cie1931_2deg_cvrl_README"
+locator = "line 2 (Data: ... columns)"
+anchor = "(1 nm, columns: wavelength nm, xbar, ybar, zbar)"
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.cie1931-2deg-cmf-file"]
+symbols = [
+  { sym = "\\lambda", sym_source = "wavelength", aliases = ["wavelength"], meaning = "wavelength column of the CMF file", units = "nm" },
+  { sym = "\\bar{x}", sym_source = "xbar", meaning = "CIE 1931 2-deg colour matching function x-bar", units = "source-unspecified (tabulated values)" },
+  { sym = "\\bar{y}", sym_source = "ybar", meaning = "CIE 1931 2-deg colour matching function y-bar", units = "source-unspecified (tabulated values)" },
+  { sym = "\\bar{z}", sym_source = "zbar", meaning = "CIE 1931 2-deg colour matching function z-bar", units = "source-unspecified (tabulated values)" },
+]
+conflicts_with = ["gr.notation-geometry", "gr.notation-pechenick"]
+adopted = true
+adopted_syms = ["lambda"]
+conflict_notes = ["lambda: Wavelength keeps \\lambda. Bel02/Pech83 affine parameter -> \\lambda_{aff}."]
+
+# ---------------------------------------------------------------- definitions
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Names, column order and wavelength units match `refs/data/cie1931_2deg_cvrl_README.txt:2,6–12`." }]
+
+[[entry]]
+id = "colour.srgb-colorimetric-basis"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB is defined from the CIE XYZ two-degree observer"
+statement = "The colorimetric definitions of the proposal provide the transforms between the sRGB colour space and the CIE XYZ two-degree observer colour space; the RGB definitions of eq. 1.1 to 1.3 are tied to the reference viewing environment."
+latex = '\text{sRGB} \leftrightarrow \text{CIE XYZ (2 degree observer)}'
+source = "stokes_1996_srgb"
+locator = "Part 2, 'A Single RGB Standard Color Space'; 'Colorimetric definitions and digital encodings'"
+anchor = "space and the CIEXYZ two degree observer color space."
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.notation-stokes-cie-xyz"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Correct locator to “Part 2, ‘A Single RGB Standard Color Space’; ‘Colorimetric definitions and digital encodings’.” The anchor precedes the claimed subsection: `refs/stokes_1996_srgb.txt:588–601`; viewing dependence is at 742–747." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected locator encompasses anchor at refs/stokes_1996_srgb.txt:599; lines 742-747 tie eq. 1.1-1.3 to the viewing environment." }]
+
+[[entry]]
+id = "colour.srgb-bt709-relation"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB as a tightened derivative of ITU-R BT.709"
+statement = "sRGB is proposed as a colour space consistent with, but more tightly defined than, Rec. ITU-R BT.709; its primaries are the BT.709 reference primaries (Table 0.2)."
+latex = '\text{sRGB} \sim \text{ITU-R BT.709 primaries, gamma 2.2 viewing}'
+source = "stokes_1996_srgb"
+locator = "Part 3, 'Color Management'"
+anchor = "of Rec. ITU-R BT.709 as the standard color space for the OS's"
+ocr = "good"
+status = "rejected"
+depends_on = ["colour.srgb-red-primary", "colour.srgb-green-primary", "colour.srgb-blue-primary"]
+
+# ---------------------------------------------------------------- equations
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Historical standards relationship is unnecessary for Milestones 1–3; retain the actual primaries separately. `refs/stokes_1996_srgb.txt:964–969` supports the prose relationship but prints no supplied gamma-containing formula." }]
+
+[[entry]]
+id = "colour.srgb-stokes-xyz-to-linear-matrix"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "CIE XYZ to linear sRGB (Stokes eq. 1.1)"
+statement = "Linear sRGB tristimulus values are linear combinations of the CIE 1931 XYZ values through the 3x3 matrix printed in the proposal, to four decimal places."
+latex = '\begin{pmatrix}R_{sRGB}\\G_{sRGB}\\B_{sRGB}\end{pmatrix}=\begin{pmatrix}3.2410&-1.5374&-0.4986\\-0.9692&1.8760&0.0416\\0.0556&-0.2040&1.0570\end{pmatrix}\begin{pmatrix}X\\Y\\Z\end{pmatrix}'
+source = "stokes_1996_srgb"
+locator = "eq. 1.1"
+anchor = "sRGB tristimulus values for the illuminated objects of the scene"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-stokes-cie-xyz", "colour.notation-srgb-linear"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:135"
+notes = "Equation is an image: refs/data/stokes_1996_srgb_img/srgb09.gif (transcribed in refs/stokes_1996_srgb_equations.txt). Reviewer must read srgb09.gif; the entry 1.8760 was checked at 5x magnification of the GIF. v1 code used 3.2406255, -1.537208, ... attributed to IEC 61966-2-1 (not in refs/); those values have no local source."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All nine coefficients, signs and channel ordering match visually inspected GIF `srgb09`; anchor and equation label correspond at `refs/stokes_1996_srgb.txt:786–792`." }]
+
+[[entry]]
+id = "colour.srgb-stokes-linear-to-xyz-matrix"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Linear sRGB to CIE XYZ (Stokes eq. 1.8)"
+statement = "The reverse relationship: CIE XYZ values as linear combinations of the linear sRGB tristimulus values through the 3x3 matrix printed in the proposal, to four decimal places."
+latex = '\begin{pmatrix}X\\Y\\Z\end{pmatrix}=\begin{pmatrix}0.4124&0.3576&0.1805\\0.2126&0.7152&0.0722\\0.0193&0.1192&0.9505\end{pmatrix}\begin{pmatrix}R_{sRGB}\\G_{sRGB}\\B_{sRGB}\end{pmatrix}'
+source = "stokes_1996_srgb"
+locator = "eq. 1.8"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-stokes-xyz-to-linear-matrix"]
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb22.gif. The anchor sentence precedes eq. 1.6-1.8 as a group. The printed 4-d.p. matrices of eq. 1.1 and 1.8 are rounded, so they are not exact inverses of each other; do not assume identity round trip beyond roughly 1e-3."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All nine coefficients match visually inspected GIF `srgb22`, including `0.0193`. The anchor introduces the reverse-equation group at `refs/stokes_1996_srgb.txt:857–881`." }]
+
+[[entry]]
+id = "colour.srgb-encode-threshold"
+kind = "constant"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Linear-segment threshold for encoding, eq. 1.2 (0.00304)"
+statement = "Condition separating eq. 1.2a from eq. 1.2b: eq. 1.2a applies when the linear value is <= 0.00304, eq. 1.2b when it is > 0.00304. This is the 1996 proposal threshold."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}\le 0.00304'
+value = "0.00304"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "condition of eq. 1.2a / 1.2b"
+anchor = "The sRGB tristimulus values are next transformed"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-srgb-linear"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:147"
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb10.gif (<= 0.00304) and srgb12.gif (> 0.00304). The number appears only in the images, not in the text extraction."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "GIFs `srgb10/12` confirm `0.00304` and both inequalities, corresponding to `refs/stokes_1996_srgb.txt:805–819`. Replace the unsupported IEC comparison with “This is the 1996 proposal threshold.”" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches txt:805; srgb10.gif and srgb12.gif inspected confirm unprimed channels, <=0.00304 and >0.00304; historical-proposal qualification correct." }]
+
+[[entry]]
+id = "colour.srgb-stokes-encode-linear"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB encoding, linear segment (Stokes eq. 1.2a)"
+statement = "If the linear sRGB value is at or below 0.00304, the non-linear value is 12.92 times the linear value; the same holds for G and B."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}\le 0.00304:\quad R^\prime_{sRGB}=12.92\times R_{sRGB}\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.2a"
+anchor = "to nonlinear sR'G'B' values as follows:"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-encode-threshold", "colour.notation-srgb-nonlinear"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:148"
+notes = "Images: refs/data/stokes_1996_srgb_img/srgb10.gif (condition) and srgb11.gif (equation). v1 used threshold 0.0031308 (IEC), unsupported locally."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "GIFs `srgb10/11` confirm `≤0.00304`, factor `12.92` and corresponding channel inputs; `refs/stokes_1996_srgb.txt:805–812`." }]
+
+[[entry]]
+id = "colour.srgb-stokes-encode-power"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB encoding, power segment (Stokes eq. 1.2b)"
+statement = "If the linear sRGB value is above 0.00304, the non-linear value is 1.055 times the linear value raised to the power 1.0/2.4, minus 0.055; the same holds for G and B."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}> 0.00304:\quad R^\prime_{sRGB}=1.055\times R_{sRGB}^{(1.0/2.4)}-0.055\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.2b"
+anchor = "to nonlinear sR'G'B' values as follows:"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-encode-threshold", "colour.notation-srgb-nonlinear"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:150"
+notes = "Images: refs/data/stokes_1996_srgb_img/srgb12.gif (condition) and srgb13.gif (equation)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "GIFs `srgb12/13` confirm `>0.00304`, factor `1.055`, exponent `1.0/2.4`, subtraction `0.055` and corresponding channel inputs; `refs/stokes_1996_srgb.txt:805–819`." }]
+
+[[entry]]
+id = "colour.srgb-gamma22-fit"
+kind = "result"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Eq. 1.2 closely fits a gamma 2.2 curve"
+statement = "The source states that eq. 1.2a/1.2b closely fit a straightforward gamma 2.2 curve with a slight offset to allow invertibility in integer math, keeping consistency with gamma 2.2 legacy images and the video industry."
+latex = 'R^\prime_{sRGB}\approx R_{sRGB}^{1/2.2}\ \text{(approximate fit, with offset)}'
+source = "stokes_1996_srgb"
+locator = "text after eq. 1.2b"
+anchor = "a straightforward gamma 2.2 curve with an slight offset to allow"
+ocr = "good"
+status = "rejected"
+depends_on = ["colour.srgb-stokes-encode-linear", "colour.srgb-stokes-encode-power"]
+notes = "The exponent 1/2.2 in the latex is the reading of 'gamma 2.2' (CRT gamma 2.2 elsewhere in the source); the source gives no explicit formula for the fit."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Historical motivation adds no required transform or validation target for Milestones 1–3. `refs/stokes_1996_srgb.txt:823–827` contains the prose fit claim, without the supplied power-law formula." }]
+
+[[entry]]
+id = "colour.srgb-digital-scaling"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:208"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Conversion to digital code values (Stokes eq. 1.3)"
+statement = "Non-linear sR'G'B' values are scaled to digital code values using the white digital count WDC and black digital count KDC."
+latex = 'R_{8bit}=\left(\left(WDC-KDC\right)\times R^\prime_{sRGB}\right)+KDC\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.3"
+anchor = "values by using the equation below where WDC represents the white"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-srgb-digital", "colour.notation-srgb-nonlinear"]
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb14.gif."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "GIF `srgb14` confirms `(WDC−KDC)R′+KDC` independently for each channel; definitions and label match `refs/stokes_1996_srgb.txt:830–836`." }]
+
+[[entry]]
+id = "colour.srgb-digital-8bit"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "24-bit encoding with KDC=0, WDC=255 (Stokes eq. 1.4)"
+statement = "For 24-bit (8 bits per channel) encoding the proposal uses black digital count 0 and white digital count 255, so that the code value is (255.0 - 0.0) times the non-linear value plus 0.0."
+latex = 'R_{8bit}=\left(\left(255.0-0.0\right)\times R^\prime_{sRGB}\right)+0.0\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.4"
+anchor = "digital count of 0 and a white digital count of 255 for 24-bit"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-digital-scaling"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:208"
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb15.gif."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Counts, eight-bit qualification and all channel equations match GIF `srgb15` and `refs/stokes_1996_srgb.txt:840–846`." }]
+
+[[entry]]
+id = "colour.srgb-digital-8bit-simplified"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Simplified 8-bit encoding (Stokes eq. 1.5)"
+statement = "Simplification of eq. 1.4: the 8-bit code value is 255.0 times the non-linear sRGB value."
+latex = 'R_{8bit}=255.0\times R^\prime_{sRGB}\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.5"
+anchor = "This obviously can be simplified as shown below."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-digital-8bit"]
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb16.gif. The source does not state a rounding rule from this product to an integer."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "GIF `srgb16` prints `255.0` times each corresponding encoded channel; anchor matches `refs/stokes_1996_srgb.txt:850–853`. No rounding rule is asserted." }]
+
+[[entry]]
+id = "colour.srgb-digital-decode"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "8-bit code to non-linear sRGB (Stokes eq. 1.6)"
+statement = "The reverse relationship: the non-linear sRGB value is the 8-bit code value divided by 255.0."
+latex = 'R^\prime_{sRGB}=R_{8bit}\div 255.0\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.6"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-digital-8bit-simplified"]
+notes = "Image: refs/data/stokes_1996_srgb_img/srgb17.gif."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "GIF `srgb17` confirms division by `255.0` for each corresponding channel; `refs/stokes_1996_srgb.txt:857–860`." }]
+
+[[entry]]
+id = "colour.srgb-decode-threshold"
+kind = "constant"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Linear-segment threshold for decoding, eq. 1.7 (0.03928)"
+statement = "Condition separating eq. 1.7a from eq. 1.7b: eq. 1.7a applies when the value is <= 0.03928, eq. 1.7b when it is > 0.03928. As printed, the condition is written with the symbols R_sRGB, G_sRGB, B_sRGB (not the primed non-linear symbols)."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}\le 0.03928'
+value = "0.03928"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "condition of eq. 1.7a / 1.7b"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-srgb-nonlinear"]
+notes = "Images: refs/data/stokes_1996_srgb_img/srgb18.gif (<= 0.03928) and srgb20.gif (> 0.03928). Printed symbols are unprimed (R_sRGB) although the threshold applies to the non-linear value R'_sRGB: 12.92*0.00304 = 0.0392768 ~ 0.03928, so the threshold is a value of the non-linear quantity; srgb18.gif was viewed and shows unprimed symbols; srgb18.gif and srgb20.gif confirmed by reviewer and by re-inspection (unprimed in both). Unresolved source-symbol error retained: the printed condition is unprimed although it must apply to the non-linear value."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "GIFs `srgb18/20` confirm `0.03928` and unprimed conditions, corresponding to `refs/stokes_1996_srgb.txt:857–874`. Correct the note to `12.92×0.00304=0.0392768≈0.03928`; explicitly retain the unresolved source-symbol error." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "srgb18.gif and srgb20.gif inspected confirm unprimed conditions and 0.03928; arithmetic 12.92*0.00304=0.0392768~0.03928 corrected; source-symbol inconsistency disclosed." }]
+
+[[entry]]
+id = "colour.srgb-inverse-linear"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB decoding, linear segment (Stokes eq. 1.7a)"
+statement = "Inverse of eq. 1.2a. Printed condition (unprimed, as in the source): R_sRGB, G_sRGB, B_sRGB <= 0.03928; then the linear sRGB value is the non-linear value divided by 12.92; the same holds for G and B."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}\le 0.03928\ (\text{printed unprimed}):\quad R_{sRGB}=R^\prime_{sRGB}\div 12.92,\ G_{sRGB}=G^\prime_{sRGB}\div 12.92,\ B_{sRGB}=B^\prime_{sRGB}\div 12.92'
+source = "stokes_1996_srgb"
+locator = "eq. 1.7a"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.srgb-decode-threshold", "colour.srgb-stokes-encode-linear"]
+notes = "Images: srgb18.gif (condition), srgb19.gif (equation) in refs/data/stokes_1996_srgb_img/."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "State the printed condition explicitly: `R_{sRGB},G_{sRGB},B_{sRGB}\\le0.03928` **unprimed**, followed by the stated per-channel division. GIFs `srgb18/19`, `refs/stokes_1996_srgb.txt:864–867`; interpreting the condition as encoded input requires a labelled correction." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "srgb18.gif and srgb19.gif inspected confirm unprimed condition and primed value divided by 12.92; accepted as literal source transcription." }]
+
+[[entry]]
+id = "colour.srgb-inverse-power"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB decoding, power segment (Stokes eq. 1.7b)"
+statement = "Inverse of eq. 1.2b: for values above 0.03928 the linear sRGB value is ((R'+0.055)/1.055) raised to the power 2.4; the same holds for G and B."
+latex = 'R_{sRGB}=\left(\frac{R^\prime_{sRGB}+0.055}{1.055}\right)^{2.4}\ (\text{same for }G,B)'
+source = "stokes_1996_srgb"
+locator = "eq. 1.7b"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+status = "rejected"
+depends_on = ["colour.srgb-decode-threshold", "colour.srgb-stokes-encode-power"]
+notes = "Images: srgb20.gif (condition), srgb21.gif (equation) in refs/data/stokes_1996_srgb_img/."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "disputed in part: reviewer claims srgb21.gif prints R-prime in G and B rows, but re-inspection shows G-prime and B-prime; real defect is that the printed condition (srgb20.gif) is unprimed and the entry does not state it. Rejected per reviewer; re-propose with the unprimed condition stated. GIF `srgb21` prints `R′` in the G and B rows too; “same for G,B” silently repairs the source. GIF `srgb20` also uses unprimed conditions. `refs/stokes_1996_srgb.txt:871–874` does not support the claimed complete per-channel transcription." }]
+
+[[entry]]
+id = "colour.srgb-clipping"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:208"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Gamut clipping of sRGB tristimulus values"
+statement = "In the RGB encoding process negative sRGB tristimulus values and values greater than 1.00 are not typically retained; when the encoder cannot support the extended range, the values are limited to the range 0.0 to 1.0 by simple clipping."
+latex = '0.0\le R_{sRGB},G_{sRGB},B_{sRGB}\le 1.0\ (\text{by clipping})'
+source = "stokes_1996_srgb"
+locator = "text after eq. 1.1"
+anchor = "simple clipping. This gamut, however, is large enough to encompass"
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.notation-srgb-linear"]
+notes = "Clipping is an approximation to be logged (project principle: no silent clamping)."
+
+# ---------------------------------------------------------------- data: chromaticities, viewing environment
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "The encoder limitation and conditional clipping qualification faithfully match `refs/stokes_1996_srgb.txt:796–802`." }]
+
+[[entry]]
+id = "colour.srgb-stokes-d65-white-table02"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "D65 chromaticity of the sRGB illuminant white (Table 0.2)"
+statement = "CIE Standard Illuminant D65 chromaticities in Table 0.2 of the proposal: x = 0.3127, y = 0.3290, z = 0.3583. Table 0.1 of the same document gives y = 0.3291 for the illuminant white (see colour.srgb-d65-white-table01)."
+latex = '(x,y,z)_{D65}=(0.3127,\,0.3290,\,0.3583)'
+value = "x=0.3127, y=0.3290, z=0.3583"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2"
+anchor = "TABLE 0.2 CIE chromaticities for ITU-R BT.709 reference primaries and CIE standard illuminant"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-chromaticity"]
+notes = "In refs/stokes_1996_srgb.txt the table cells are on separate short lines (0.3127, 0.3290, 0.3583) so cannot be anchored; the values were read from the HTML table in refs/stokes_1996_srgb.html. Internal inconsistency of the source: y = 0.3290 (Table 0.2) vs 0.3291 (Table 0.1)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Triple matches `refs/stokes_1996_srgb.txt:764–779` and original HTML table cells. The differing Table 0.1 value is explicitly disclosed." }]
+
+[[entry]]
+id = "colour.srgb-d65-white-table01"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "D65 illuminant white in the viewing environment (Table 0.1)"
+statement = "The illuminant white of the sRGB reference viewing environment is given as x = 0.3127, y = 0.3291 (D65), and the text states that the chromaticities of the illuminant white are those of CIE D65."
+latex = '(x,y)_{\rm illuminant\ white}=(0.3127,\,0.3291)'
+value = "x=0.3127, y=0.3291"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.1, 'Illuminant White'"
+anchor = "x = 0.3127, y = 0.3291 (D65)"
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.notation-chromaticity"]
+notes = "Differs in the 4th decimal of y from Table 0.2 (0.3290); source-internal inconsistency, flag before using either to derive a white point."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Exact pair appears at `refs/stokes_1996_srgb.txt:620–621`; attribution to D65 is repeated at 664–665." }]
+
+[[entry]]
+id = "colour.srgb-red-primary"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB red primary chromaticity"
+statement = "CIE chromaticities of the ITU-R BT.709 red reference primary: x = 0.6400, y = 0.3300, z = 0.0300."
+latex = '(x,y,z)_R=(0.6400,\,0.3300,\,0.0300)'
+value = "x=0.6400, y=0.3300, z=0.0300"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2, Red column"
+anchor = "The CIE chromaticities for the red, green, and blueITU-R"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-chromaticity"]
+notes = "Anchored on the sentence introducing Table 0.2; cell values are on short separate lines in the .txt (0.6400 / 0.3300 / 0.0300) and were read from the HTML table in refs/stokes_1996_srgb.html (verified)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Triple matches `refs/stokes_1996_srgb.txt:758–779` and the original HTML Red column; introductory anchor is relevant at 750–752." }]
+
+[[entry]]
+id = "colour.srgb-green-primary"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB green primary chromaticity"
+statement = "CIE chromaticities of the ITU-R BT.709 green reference primary: x = 0.3000, y = 0.6000, z = 0.1000."
+latex = '(x,y,z)_G=(0.3000,\,0.6000,\,0.1000)'
+value = "x=0.3000, y=0.6000, z=0.1000"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2, Green column"
+anchor = "The CIE chromaticities for the red, green, and blueITU-R"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-chromaticity"]
+notes = "In the .txt the Green and Blue cells run together ('0.30000.1500'); values read from the HTML table in refs/stokes_1996_srgb.html (verified)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Original HTML separates the concatenated text cells and confirms `(0.3000,0.6000,0.1000)`; `refs/stokes_1996_srgb.txt:750–779`." }]
+
+[[entry]]
+id = "colour.srgb-blue-primary"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB blue primary chromaticity"
+statement = "CIE chromaticities of the ITU-R BT.709 blue reference primary: x = 0.1500, y = 0.0600, z = 0.7900."
+latex = '(x,y,z)_B=(0.1500,\,0.0600,\,0.7900)'
+value = "x=0.1500, y=0.0600, z=0.7900"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2, Blue column"
+anchor = "The CIE chromaticities for the red, green, and blueITU-R"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["colour.notation-chromaticity"]
+notes = "In the .txt the Green and Blue cells run together ('0.30000.1500'); values read from the HTML table in refs/stokes_1996_srgb.html (verified)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Original HTML separates the concatenated text cells and confirms `(0.1500,0.0600,0.7900)`; `refs/stokes_1996_srgb.txt:750–779`." }]
+
+[[entry]]
+id = "colour.srgb-viewing-environment"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB reference viewing environment (Table 0.1)"
+statement = "Table 0.1 parameters of the sRGB reference viewing environment: luminance level 80 cd/m2; illuminant white D65 (x=0.3127, y=0.3291); image surround 20% reflectance; encoding ambient illuminance 64 lux with D50 ambient white (x=0.3457, y=0.3585) and encoding viewing flare 1.0%; typical ambient illuminance 200 lux, D50 ambient white, typical viewing flare 5.0%."
+latex = 'L_{\rm display}=80\ {\rm cd\,m^{-2}},\ E_{\rm enc}=64\ {\rm lux},\ f_{\rm enc}=1.0\%,\ E_{\rm typ}=200\ {\rm lux},\ f_{\rm typ}=5.0\%'
+value = "80 cd/m2; 64 lux; 1.0%; 200 lux; 5.0%"
+units = "mixed (cd/m2, lux, percent)"
+source = "stokes_1996_srgb"
+locator = "Table 0.1"
+anchor = "sRGB viewing environment Parameters"
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.srgb-d65-white-table01"]
+notes = "Relevant to the PRD display model (absolute units): the proposal recommends the encoding environment (1% flare) even when viewing in the typical environment."
+
+# ---------------------------------------------------------------- CIE 1931 CMF data
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Every stated table value and unit matches `refs/stokes_1996_srgb.txt:608–649`; the recommendation in the notes matches 690–703." }]
+
+[[entry]]
+id = "colour.cie1931-2deg-cmf-file"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:35"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "CIE 1931 2-degree colour matching functions, CVRL file"
+statement = "The file refs/data/cie1931_2deg_cvrl.csv holds the CIE 1931 2-degree colour matching functions fetched from CVRL (ciexyz31_1.csv): 1 nm step, columns wavelength (nm), xbar, ybar, zbar. Checked by inspection of the file: 471 data rows, no header line, wavelength 360 nm to 830 nm in unit steps, values with 12 decimal places. The README states only the source URL, the 1 nm step and the column order; the wavelength range and row count are properties of the file, not stated in the README."
+value = "360-830 nm, 1 nm step, 471 rows, columns: wavelength nm, xbar, ybar, zbar"
+units = "nm (wavelength); CMF columns as tabulated"
+source = "data/cie1931_2deg_cvrl_README"
+locator = "line 2 (Data: ciexyz31_1.csv)"
+anchor = "(1 nm, columns: wavelength nm, xbar, ybar, zbar)"
+ocr = "good"
+status = "blessed"
+notes = "sha256 of refs/data/cie1931_2deg_cvrl.csv = ccbe601d7abf2227b46007ab29742f1f6bcb8621a6413283fb5ade7626a662c5 (recomputed). First row 360, 0.000129900000, 0.000003917000, 0.000606100000; last row 830, 0.000001251141, 0.000000451810, 0.000000000000. Data-file values are verification/production input data by project policy for colorimetry; confirm policy before use in src/."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "`refs/data/cie1931_2deg_cvrl_README.txt:2` supplies spacing and columns. CSV inspection confirms 471 rows, endpoints 360/830 nm, unit steps and twelve decimal places; stated SHA-256 matches `refs/CHECKSUMS:56`." }]
+
+[[entry]]
+id = "colour.cie1931-2deg-cmf-origin"
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:5"
+kind = "result"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Origin of the CIE 1931 2-degree CMFs"
+statement = "The CIE 1931 2-deg CMFs (CIE, 1932) form the basis for most practical colorimetry. They are based on the chromaticity coordinates of Guild (1931) and Wright (1928); chromaticity gives only relative ratios whereas CMFs specify absolute energy values. To reconstruct the CMFs from the Wright and Guild data it was assumed that the CIE 1924 V(lambda) photopic luminosity function is a linear combination of the three CMFs."
+latex = 'V(\lambda)=a_1\bar{x}(\lambda)+a_2\bar{y}(\lambda)+a_3\bar{z}(\lambda)'
+source = "data/cie1931_2deg_cvrl_README"
+locator = "Notes paragraph 1"
+anchor = "The CIE 1931 2-deg CMFs (CIE, 1932), which form the basis for most practical"
+ocr = "good"
+status = "rejected"
+depends_on = ["colour.notation-cie-cmf"]
+notes = "The latex only expresses the statement 'V(lambda) is a linear combination of the three CMFs'; the coefficients a_i are NOT given in the README and are placeholders. (Wyszecki & Stiles 1982 is the cited source for the tabulated values.)"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Historical reconstruction is unnecessary for Milestones 1–3. `refs/data/cie1931_2deg_cvrl_README.txt:16–24` supports the prose, but does not print the supplied barred-function equation or coefficient symbols." }]
+
+[[entry]]
+id = "colour.cie1931-2deg-cmf-short-wavelength-error"
+kind = "result"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "CIE 1931 2-deg CMFs are in error at short wavelengths"
+statement = "The README states that the CIE 1924 V(lambda) used to construct the CIE 1931 2-deg CMFs seriously underestimates sensitivity at wavelengths below 460 nm, so that these CMFs are seriously in error at short wavelengths; the Judd and Judd-Vos modifications are attempts to overcome this."
+latex = '\text{CIE 1931 2-deg CMFs: error for } \lambda<460\ {\rm nm}'
+source = "data/cie1931_2deg_cvrl_README"
+locator = "Notes paragraph 1 (last sentences)"
+anchor = "at wavelengths below 460 nm, so that these CMFs are seriously in error at short"
+ocr = "good"
+status = "blessed"
+depends_on = ["colour.notation-cie-cmf"]
+notes = "Relevant to rendering blue-dominated thermal spectra (neutron-star photosphere): a known systematic of the chosen CMFs."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Explicitly attributed warning faithfully matches `refs/data/cie1931_2deg_cvrl_README.txt:24–30`, including the 460 nm qualification and proposed modifications." }]
+

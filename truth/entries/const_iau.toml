@@ -1,0 +1,214 @@
+# truth/entries/const_iau.toml -- IAU exact length units, IAU 2015 B3 nominal solar conversion constants,
+# and the SI -> Gaussian-CGS bridge. Primary anchors: Prsa et al. 2016 (arXiv:1605.09788), NIST SP 811 (2008).
+# The iau.org resolution PDFs could not be fetched (JavaScript bot challenge page returned), so every IAU
+# statement is anchored in Prsa 2016, which reproduces and cites the resolutions.
+# Nominal values are conversion constants, not measurements.
+
+[[entry]]
+id = "const.au"
+kind = "constant"
+domain = "const"
+name = "Astronomical unit (IAU 2012 B2, exact)"
+statement = "IAU 2012 Resolution B2 defined the astronomical unit as a nominal unit of length equal to exactly 149 597 870 700 m (as reported by Prsa et al. 2016)."
+latex = '1\,\mathrm{au} = 149\,597\,870\,700\ \mathrm{m}'
+value = "149 597 870 700"
+units = "m"
+uncertainty = "exact"
+source = "prsa_2016_iau_nominal"
+locator = "Sec. 4, p. 6; Appendix A, technical remark 2, p. 13"
+anchor = 'length equal to 149 597 870 700 m.'
+anchor_tex = 'defined the astronomical unit to be a nominal unit of length equal to 149\,597\,870\,700\,m'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor moved to the .txt quote \"length equal to 149 597 870 700 m.\" (grep -F finds it, Prsa txt l.292); TeX anchor kept as anchor_tex; locator corrected to Sec. 4, p. 6 and Appendix A technical remark 2, p. 13 (exactness, txt l.614-616). Reviewer: value confirmed at Prsa txt l.291-292; needed for astronomical distances." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round-1 corrections applied. Anchor matches [Prša txt L292](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:292); exactness is explicit at [L614–616](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:614). `149597870700 m` agrees exactly. Needed for distance conversions." }]
+provenance = "convention"
+ownership = "leaf"
+notes = "Secondary report of the resolution (iau.org PDF not fetchable). Prsa tex l.155 repeats the same statement: 'Resolution B2 of the XXVIII General Assembly of the IAU in 2012'. CGS: 1 au = 1.495978707e13 cm (x100). Review r1: value at Prsa txt l.291-292, exactness at l.614-616."
+
+[[entry]]
+id = "const.parsec"
+kind = "constant"
+domain = "const"
+name = "Parsec (IAU 2015 B2, exact 648000/pi au)"
+statement = "IAU 2015 Resolution B2 (notes) defines the parsec to be exactly 648000/pi au; since pi is irrational the length is an exact number 3.085 677 581 491 ... x 10^16 m. The value is computed from const.au, not typed."
+latex = '1\,\mathrm{pc} = \frac{648000}{\pi}\,\mathrm{au}'
+value = "648000/pi au = 3.085 677 581 491 ... x 10^16 m"
+units = "m"
+uncertainty = "exact"
+source = "prsa_2016_iau_nominal"
+locator = "Sec. 5, p. 8; Appendix A, technical remark 2, p. 13"
+anchor = 'definition of the parsec to be exactly 648000/π au'
+anchor_tex = 'adopted the definition of the parsec to be exactly $648000/\pi$\,au'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor moved to the .txt quote \"definition of the parsec to be exactly 648000/π au\" (Prsa txt l.371); TeX anchor kept as anchor_tex; locator corrected to Sec. 5, p. 8 and Appendix A technical remark 2, p. 13. Reviewer: formula and printed decimal prefix agree with Prsa txt l.369-373; needed for Milestone 2 distances." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected anchor and locator match [Prša txt L369–373](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:369); [L615–616](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:615) confirms exact `648000/π au`. Recomputed `3.0856775814913673e16 m` matches the printed decimal prefix. Needed for Milestone 2." }]
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["const.au"]
+notes = '''Printed alongside: 'it still is an exact number, $3.085\,677\,581\,491\,\cdots\, \times 10^{16}$\,m' (l.172). Check: 648000/pi * 149597870700 = 3.085677581491367e16 m, agrees with the printed digits. Appendix wording: '1~pc = $648000\ \pi^{-1}$~au'. CGS: 1 pc = 3.085677581491367e18 cm.'''
+
+[[entry]]
+id = "const.gm-sun-nominal"
+kind = "constant"
+domain = "const"
+name = "Nominal solar mass parameter (GM)^N_sun"
+statement = "IAU 2015 Resolution B3 nominal solar mass parameter, exact by definition and expressed in SI. A conversion constant for expressing masses as GM, not a measurement of the Sun."
+latex = '1\,\mathcal{(GM)}^{\mathrm N}_\odot = 1.327\,124\,4\times10^{20}\ \mathrm{m^3\,s^{-2}}'
+value = "1.327 124 4 x 10^20"
+units = "m^3 s^-2"
+uncertainty = "exact (nominal)"
+source = "prsa_2016_iau_nominal"
+locator = "Table 1 (tex l.135)"
+anchor = '= 1.327 124 4 × 1020 m3 s−2'
+anchor_tex = '$1 \GMnom$ & $=$ & $1.327\,124\,4 \times 10^{20}$\,m${}^3$\,s${}^{-2}$'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor moved to the .txt quote \"= 1.327 124 4 × 1020 m3 s−2\" (Prsa txt l.222); TeX anchor kept as anchor_tex; latex now uses the calligraphic nominal symbol \\mathcal{(GM)}^{\\mathrm N}_\\odot as printed. Reviewer: value, units and exact conversion status supported by Prsa txt l.181-189 and l.222." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round-1 anchor and calligraphic-symbol fixes applied; TeX anchor independently verified. [Prša txt L222](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:222) gives `1.3271244e20 m³ s⁻²`; [L181–189](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:181) explicitly establishes exact conversion status rather than a measured solar property." }]
+provenance = "convention"
+ownership = "leaf"
+notes = "Prsa defines the macro \\GMnom as (GM)^N_sun (tex l.12). Exactness: '...be used, respectively, which are by definition exact and are expressed in SI units' (tex l.112). Table caption: 'They should be understood as conversion values only.' (not the true solar property). CGS: 1.3271244e26 cm^3 s^-2 (x 1e6). Notation (review r1): the calligraphic nominal symbol (GM) is retained from the source and is distinct from the neutron-star mass M."
+
+[[entry]]
+id = "const.r-sun-nominal"
+kind = "constant"
+domain = "const"
+name = "Nominal solar radius R^N_sun"
+statement = "IAU 2015 Resolution B3 nominal solar radius, exact by definition; a conversion constant (rounded photospheric radius at Rosseland tau = 2/3), not a measurement."
+latex = '1\,\mathcal{R}^{\mathrm N}_\odot = 6.957\times10^{8}\ \mathrm{m}'
+value = "6.957 x 10^8"
+units = "m"
+uncertainty = "exact (nominal)"
+source = "prsa_2016_iau_nominal"
+locator = "Table 1 (tex l.131)"
+anchor = '1R⊙N    = 6.957 × 108 m'
+anchor_tex = '$1 \Rnom$  & $=$ & $6.957 \times 10^8$\,m'
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: no identified Milestone 1-3 consumer requires a solar-radius conversion (a need verdict; the value and photospheric rationale are supported at Prsa txt l.213 and l.257-263). Anchor corrected to the .txt quote \"1R⊙N    = 6.957 × 108 m\" as the reviewer suggested; TeX anchor kept as anchor_tex." }]
+provenance = "convention"
+ownership = "leaf"
+notes = '''Exactness as for const.gm-sun-nominal (tex l.112). Rationale printed at l.151: 'The nominal value ($6.957 \times 10^8$\,m) is the rounded \citeauthor{haberreiter2008}~value ($695\,658 \pm 140$\,km) within the uncertainty.' CGS: 6.957e10 cm.'''
+
+[[entry]]
+id = "const.l-sun-nominal"
+kind = "constant"
+domain = "const"
+name = "Nominal solar luminosity L^N_sun"
+statement = "IAU 2015 Resolution B3 nominal solar luminosity, exact by definition; a conversion constant (rounded mean radiative luminosity), not a measurement."
+latex = '1\,\mathcal{L}^{\mathrm N}_\odot = 3.828\times10^{26}\ \mathrm{W}'
+value = "3.828 x 10^26"
+units = "W"
+uncertainty = "exact (nominal)"
+source = "prsa_2016_iau_nominal"
+locator = "Table 1 (tex l.133)"
+anchor = '1LN⊙    = 3.828 × 1026 W'
+anchor_tex = '$1 \Lnom$  & $=$ & $3.828 \times 10^{26}$\,W'
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "dropped: no identified Milestone 1-3 consumer requires solar luminosity as a unit (a need verdict; value and rounded-mean rationale are supported at Prsa txt l.217 and l.288-294). Anchor corrected to the .txt quote \"1LN⊙    = 3.828 × 1026 W\" as the reviewer suggested; TeX anchor kept as anchor_tex." }]
+provenance = "convention"
+ownership = "leaf"
+notes = "Exactness as for const.gm-sun-nominal (tex l.112). Rationale at l.155: best estimate (3.8275 +- 0.0014) x 10^26 W 'The Resolution adopts a rounded value of this current best estimate.' CGS: 3.828e33 erg s^-1 (W -> erg/s x 1e7)."
+
+[[entry]]
+id = "const.esu-from-coulomb"
+kind = "definition"
+domain = "const"
+name = "Gaussian bridge adopted by the project: q[esu] = 10 c[m/s] q[C] (exact by project convention)"
+statement = "The project adopts the Gaussian bridge q[esu] = 10 c[m s^-1] q[C] = c[cm s^-1]/10 q[C] as an exact definition of the statcoulomb (so 1 statC = 1/(10 c[m/s]) C). Printed evidence in NIST SP 811 App. B.8: 1 statC = 3.335 641 E-10 C (rounded, not boldface) and 1 abcoulomb = 1.0 E+01 C (exact)."
+latex = 'q_{\mathrm{esu}} = 10\,c_{\mathrm{m\,s^{-1}}}\,q_{\mathrm C} = \frac{c_{\mathrm{cm\,s^{-1}}}}{10}\,q_{\mathrm C}'
+units = "esu C^-1"
+source = "nist_sp811_2008_si_guide"
+locator = "App. B.8, statcoulomb row (txt l.3815); abcoulomb row (txt l.3167)"
+anchor = 'statcoulomb ......................................................... coulomb (C) ......................................... 3.335 641 E−10'
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "NIST anchor and locator match txt l.3815, but the exact relation is absent. The non-bold factor is rounded under txt l.2907-2908; the abcoulomb row does not supply the missing esu/emu relation. Surviving weaker statement: 1 statC ~ 3.335641e-10 C at NIST's printed precision. The notes' CODATA agreement was also numerically wrong (the 4.803204712413e-10 figure truncates hbar)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "The rewrite correctly distinguishes NIST’s rounded evidence from project exactness, but identifying the exact project unit with **Gaussian statC** remains unsupported. [NIST txt L3815](/home/tobias/Projects/neutronstars/refs/nist_sp811_2008_si_guide.txt:3815), read with [L2907–2908](/home/tobias/Projects/neutronstars/refs/nist_sp811_2008_si_guide.txt:2907), supplies only a rounded conversion; PDF typography confirms this. **Surviving weaker statement:** `1 statC ≈ 3.335641e-10 C`. An exact project coordinate `q_proj := 10 c[m/s] q[C]` is definable, but its identification with Gaussian charge requires reconciliation with the existing Gaussian identities." }]
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["const.elementary-charge", "const.speed-of-light"]
+notes = "NIST prints only the rounded factor 3.335 641 E-10 C/statC; it does NOT print the exact relation. Exactness of q[esu] = 10 c[m/s] q[C] is the project's convention, following from the definition of the statcoulomb, pending a printed source (Jackson appendix, manual). Printed evidence, verbatim from refs/nist_sp811_2008_si_guide.txt: 'statcoulomb ......................................................... coulomb (C) ......................................... 3.335 641 E−10' and 'abcoulomb ........................................................... coulomb (C) .................................................... 1.0 E+01' (1 abcoulomb = 10 C exact). Numeric check: 10 * 2.99792458e8 * 1.602176634e-19 = 4.803204712570263e-10 (esu per elementary charge under the bridge). Rounded-factor check (review r1): 1/(10 c) = 3.335640951981521e-10 vs printed 3.335641e-10; absolute error 4.80185e-18 < half-last-digit tolerance 5e-17: rounding-compatible, not a proof of exactness. The earlier claim that sqrt(alpha hbar c) = 4.803204712413e-10 agrees with this bridge is withdrawn: with hbar = h/(2 pi) (NIST 'Planck constant divided by 2π', txt l.1071) the Gaussian identity gives e = 4.803204713884971e-10 esu, relative difference -2.74e-10 from the bridge value, larger than u_r(e) = 7.5e-11 (reviewer, from CODATA 2018); the CODATA alpha-based route is not used as an agreement check here. Notation: use alpha_f for the fine-structure constant (alpha is the emission angle); esu and statC, Gs and G remain explicit unit aliases. Related printed factor: 1 statvolt = 2.997 925 E+02 V (txt l.3820); not entered separately. Rejected r2 (no round 3): the identification of the exact project unit with the Gaussian statC is unsupported by the local sources. Surviving weaker statement: `1 statC ≈ 3.335641e-10 C`. Work order: fetch a source that prints the exact relation (Jackson, Classical Electrodynamics, Appendix on units; manual download) and re-propose."
+
+[[entry]]
+id = "const.erg-joule"
+kind = "constant"
+domain = "const"
+name = "Erg in joules (CGS energy unit)"
+statement = "NIST SP 811 Table 10 prints 1 erg = 10^-7 J (exact decimal factor); this is the CGS energy bridge used in the J -> erg conversion of the constant set."
+latex = '1\ \mathrm{erg} = 10^{-7}\ \mathrm{J}'
+value = "1e-7"
+units = "J erg^-1"
+uncertainty = "exact"
+source = "nist_sp811_2008_si_guide"
+locator = "Table 10 (txt l.1147); App. B.8 erg row (l.3434)"
+anchor = 'erg                                    erg                1 erg = 10−7 J'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor, locator, exponent and units match NIST txt l.1147; the Appendix factor at txt l.3434 is boldface in the PDF, confirming exactness. Needed for radiance and microphysics conversions." }]
+provenance = "convention"
+ownership = "leaf"
+notes = "B.8 prints the factor 1.0 E−07 for erg -> joule; 1 keV = 1.602176634e-16 J = 1.602176634e-9 erg uses const.elementary-charge."
+
+[[entry]]
+id = "const.gauss-tesla"
+kind = "constant"
+domain = "const"
+name = "Gauss in tesla (CGS magnetic flux density)"
+statement = "NIST SP 811 Table 10: 1 Gs corresponds to 10^-4 T. NIST says 'corresponds', since the CGS Gaussian and SI electromagnetic systems differ in dimension; the numeric correspondence B[G] = 1e4 B[T] is the one used for field strengths."
+latex = '1\ \mathrm{Gs}\ \widehat{=}\ 10^{-4}\ \mathrm{T}'
+value = "1e-4"
+units = "T G^-1"
+uncertainty = "exact"
+source = "nist_sp811_2008_si_guide"
+locator = "Table 10 (txt l.1154)"
+anchor = 'gauss                                  Gs, G              1 Gs corresponds to 10−4 T'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and correspondence match NIST txt l.1154; the dimensional qualification is retained from l.1164-1165. The factor at l.3498 is visually boldface. Accepted as the cited NIST convention; needed for magnetic surface models." }]
+provenance = "convention"
+ownership = "leaf"
+notes = "B.8 prints gauss -> tesla 1.0 E-04 (l.3498). The project quotes B_Q ~ 4.414e13 G in CGS; the SI value 4.414e9 T converts by this factor. J T^-1 -> erg G^-1 factor x1e3 in NOTATION_DECISIONS = (1e7 erg/J)(1e-4 T/G). Notation (review r1): Gs/G and esu/statC remain explicit unit aliases."
+
+[[entry]]
+id = "const.gm-sun-nominal-cgs"
+kind = "equation"
+domain = "const"
+name = "(GM)^N_sun in CGS"
+statement = "Unit conversion of const.gm-sun-nominal: 1 m^3 = 10^6 cm^3, so (GM)^N_sun = 1.327 124 4 x 10^26 cm^3 s^-2 exactly (a pure decimal rescale of the nominal value)."
+latex = '\mathcal{(GM)}^{\mathrm N}_\odot = 1.327\,124\,4\times10^{26}\ \mathrm{cm^3\,s^{-2}}'
+value = "1.327 124 4 x 10^26"
+units = "cm^3 s^-2"
+uncertainty = "exact (nominal)"
+source = "prsa_2016_iau_nominal"
+locator = "Table 1 (txt l.222); decimal rescale"
+anchor = '= 1.327 124 4 × 1020 m3 s−2'
+anchor_tex = '$1 \GMnom$ & $=$ & $1.327\,124\,4 \times 10^{20}$\,m${}^3$\,s${}^{-2}$'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor moved to the .txt quote \"= 1.327 124 4 × 1020 m3 s−2\" (Prsa txt l.222); TeX anchor kept as anchor_tex; latex uses \\mathcal{(GM)}^{\\mathrm N}_\\odot; notes now cite the NIST SP 811 centi-prefix row (txt l.912) for the rescaling. Reviewer: decimal rescaling correct, 1.3271244e20 x 1e6 = 1.3271244e26, error 0." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Round-1 fixes complete. [Prša txt L222](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:222) supplies the SI value; [NIST txt L912](/home/tobias/Projects/neutronstars/refs/nist_sp811_2008_si_guide.txt:912) supplies `centi = 10⁻²`. Computed `1.3271244e20 × 10⁶ = 1.3271244e26 cm³ s⁻²`; error `0`, tolerance `0`." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["const.gm-sun-nominal"]
+notes = "Steps: 1 m = 100 cm so 1 m^3 s^-2 = 1e6 cm^3 s^-2; 1.3271244e20 x 1e6 = 1.3271244e26. Prefix source (review r1): NIST SP 811 prefix table row \"10−2                          centi                  c\" (refs/nist_sp811_2008_si_guide.txt l.912): 1 cm = 10^-2 m, hence 1 m^3 = 10^6 cm^3. Notation: calligraphic nominal (GM) retained from the source."
+
+[[entry]]
+id = "const.m-sun-nominal-cgs"
+kind = "equation"
+domain = "const"
+name = "Solar mass from (GM)^N_sun / G in grams"
+statement = "Prsa/IAU 2015 B3: if SI masses are needed they are (GM)_object / G with the G estimate specified; mass in nominal solar masses is the ratio (GM)_object/(GM)^N_sun. With CODATA 2018 G = 6.674 30e-11 m^3 kg^-1 s^-2 (const.newtonian-gravitation), (GM)^N_sun/G = 1.98841e30 kg = 1.98841e33 g. This mass inherits u_r(G) = 2.2e-5 and is NOT an IAU nominal quantity; prefer (GM) products in code."
+latex = 'M_{\odot,\mathrm{conv}}(G_{2018})=\mathcal{(GM)}^{\mathrm N}_\odot/G_{2018}\simeq1.98840987069805\times10^{33}\,\mathrm g'
+value = "1.988410e33 (computed)"
+units = "g"
+uncertainty = "2.2e-5 relative (from G)"
+source = "prsa_2016_iau_nominal"
+locator = "Sec. 3, resolution item 5 (txt l.238); Appendix A, p. 12"
+anchor = 'if SI masses are explicitly needed, they should be expressed in terms of (GM)object /G'
+anchor_tex = '\item that if SI masses are explicitly needed, they should be expressed in terms of $(GM)_\mathrm{object}/G$'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor moved to the .txt quote \"if SI masses are explicitly needed, they should be expressed in terms of (GM)object /G\" (Prsa txt l.238); TeX anchor kept as anchor_tex; second locator corrected to Appendix A, p. 12; latex now M_{\\odot,conv}(G_{2018}) = calligraphic (GM)^N_sun / G_2018 ~ 1.98840987069805e33 g. Reviewer: CODATA G value and uncertainty at tiesinga_2021_codata2018 txt l.3449 support the computation; rounded value consistent." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected anchor, locator and conversion-mass symbol verified. [Prša txt L238–239](/home/tobias/Projects/neutronstars/refs/prsa_2016_iau_nominal.txt:238) requires specifying G; [CODATA txt L3449](/home/tobias/Projects/neutronstars/refs/tiesinga_2021_codata2018.txt:3449) supplies the adopted value and uncertainty. Recomputed `1.9884098706980507e33 g`; LaTeX rounding error `7.32e17 g < 5e18 g` tolerance." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["const.gm-sun-nominal", "const.newtonian-gravitation"]
+notes = "Computation: 1.3271244e20 / 6.67430e-11 = 1.988409870698e30 kg; x1e3 -> 1.988409870698e33 g. Verification target printed by Prsa (tex l.235-241): with CODATA 2006 G = 6.67428e-11, M^N_sun = 1.988416e30 kg (our recompute with G2006: 1.9884158291e30, agrees). The two differ by 3.0e-6 relative because G changed between CODATA 2006 and 2018, as expected (dG/G = 3.0e-6). Doubt: the tex l.120 prints the CODATA 2014 G exponent as 10^{11} (missing minus sign), a typo in the source; we do not use it. Notation (review r1): M_{sun,conv}(G_2018) denotes this solar conversion mass, distinct from the neutron-star M; it depends on the chosen G (here CODATA 2018)."

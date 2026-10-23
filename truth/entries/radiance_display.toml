@@ -1,0 +1,128 @@
+# truth/entries/radiance_display.toml -- radiance lane (harvest of GAPS rows 1.8, 1.10, 1.12).
+# 1.8 Planck function (Marr & Wilkin 2011, fetched), 1.12 inverse sRGB power segment and K_cd,
+# 1.10 R^inf rescaled from 140 pc to 123 pc.
+
+# ---------------------------------------------------------------- 1.8 Planck function
+
+[[entry]]
+id = "rt.planck-function-bnu"
+kind = "equation"
+domain = "rt"
+name = "Planck function B_nu(T) (per unit frequency)"
+statement = "Power emitted per unit area per steradian per unit frequency interval by a blackbody at temperature T, as a function of frequency nu: B_nu = (2 h nu^3 / c^2) / (exp[h nu / (k T)] - 1), with h the Planck constant, k the Boltzmann constant, c the speed of light. In Gaussian CGS B_nu has units erg s^-1 cm^-2 Hz^-1 sr^-1."
+latex = 'B_\nu =\frac{2h\nu^3}{c^2}\frac{1}{\exp[h\nu/(kT)]-1}'
+source = "marr_2011_planck_law"
+locator = "eq. 2"
+anchor = "emitted power per unit area per steradian per frequency interval."
+anchor_tex = 'B_\nu =\frac{2h\nu^3}{c^2}\frac{1}{\exp[h\nu/(kT)]-1}.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote at Marr:56 (grep -F count 1), TeX equation kept in anchor_tex, TeX prose anchor recorded in notes; deleted the unsupported photon-density-of-states derivation from notes; added bridge k -> k_B." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches [refs/marr_2011_planck_law.txt:56](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:56); eq. 2 at lines 58–61 matches every factor and exponent, independently confirmed against TeX:49. Unsupported derivation removed; \\(k\\to k_B\\) bridge applied." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["const.planck", "const.boltzmann", "const.speed-of-light"]
+notes = "The source prints the formula only, with no derivation (the earlier photon-density-of-states derivation was removed per review r1: unsupported by this source). TeX prose anchor (refs/marr_2011_planck_law.tex): 'This function is denoted $B_\\nu$, and is given as a function of frequency $\\nu$ by'. Stub: no code in this repo yet evaluates and tests it. Verification is the integral identity rt.planck-integral-stefan-boltzmann. In code evaluate with expm1 and assert h nu / kT > 0 and finite (fail loud on overflow, no clamp). sym_source: paper B_nu = project B_\\nu; h = Planck constant, k = Boltzmann constant. NOTATION BRIDGE (review r1): source k -> project k_B."
+
+[[entry]]
+id = "rt.planck-function-blambda"
+kind = "equation"
+domain = "rt"
+name = "Planck function B_lambda(T) (per unit wavelength)"
+statement = "Power emitted per unit area per steradian per unit wavelength interval by a blackbody: B_lambda = (2 h c^2 / lambda^5) / (exp[h c / (lambda k T)] - 1). B_lambda and B_nu are different functions of different variables related by B_lambda |d lambda| = B_nu |d nu| (equal power in corresponding spectral ranges; eqs. 5-6 reverse the integration limits and use absolute differentials), not by substituting lambda = c/nu."
+latex = 'B_\lambda =\frac{2hc^2}{\lambda^5}\frac{1}{\exp[hc/(\lambda kT)]-1}'
+source = "marr_2011_planck_law"
+locator = "eq. 1 and eq. 5"
+anchor = "where h and k are the Planck and Boltzmann constants and c is the speed of light."
+anchor_tex = 'B_\lambda =\frac{2hc^2}{\lambda^5}\frac{1}{\exp[hc/(\lambda kT)]-1},'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: Jacobian stated with absolute differentials, B_lambda |d lambda| = B_nu |d nu|; anchor now the .txt quote at Marr:53 (grep -F count 1), TeX equation kept in anchor_tex, TeX prose anchor in notes; bridge k -> k_B." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: notes sentence now reads |dnu| = c |dlambda|/lambda^2 (absolute differential), consistent with eq. 6. Eq. 1 matches [Marr:47–53](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:47) and TeX:42; the main statement’s absolute differentials are corrected. **Notes still omit one absolute value:** replace `|dnu| = c dlambda/lambda^2` with `|dnu| = c |dlambda|/lambda^2`, consistent with [eq. 6, lines 204–207](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:204)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "Round-2 correction fully applied: notes now give \\(\\lvert d\\nu\\rvert=c\\lvert d\\lambda\\rvert/\\lambda^2\\), consistent with [Marr eqs. 5–6, lines 192–207](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:192). Anchor matches line 53 byte-for-byte; formula matches [eq. 1, lines 47–53](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:47) and [TeX line 42](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.tex:42). Supports Milestone 1 blackbody radiance." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.planck-function-bnu"]
+notes = "TeX prose anchor (refs/marr_2011_planck_law.tex): 'where $h$ and $k$ are the Planck and Boltzmann constants and $c$ is the speed of light.' NOTATION BRIDGE (review r1): source k -> project k_B. Derivation from eq. 2 (reviewer can redo in 3 lines): nu = c/lambda, |dnu| = c |dlambda|/lambda^2, so B_lambda = B_nu |dnu/dlambda| = [2 h (c/lambda)^3 / c^2] [c/lambda^2] / (exp[hc/(lambda kT)] - 1) = 2 h c^2/lambda^5 / (...), which is the printed eq. 1. Power-conservation statement printed as eq. 5: \\int_{\\nu_1}^{\\nu_2}{B_\\nu \\,d\\nu}=\\int_{\\lambda_2}^{\\lambda_1}{B_\\lambda \\,d\\lambda}, with nu_1 = c/lambda_1, nu_2 = c/lambda_2 (anchor for that sentence: '\\int_{\\nu_1}^{\\nu_2}{B_\\nu \\,d\\nu}=\\int_{\\lambda_2}^{\\lambda_1}{B_\\lambda \\,d\\lambda},' in the .tex). Pipeline use: the pixel radiance is I_nu per Hz; I_lambda = I_nu c/lambda^2 (NOTATION_DECISIONS, Conventions) is the same Jacobian."
+
+[[entry]]
+id = "rt.planck-integral-stefan-boltzmann"
+kind = "equation"
+domain = "rt"
+name = "Integral of B_nu over frequency equals sigma T^4 / pi"
+statement = "A blackbody radiates, per unit area per steradian across the whole spectrum, sigma T^4 / pi, with sigma the Stefan-Boltzmann constant; the formula is obtained by integrating B_nu over all frequencies from zero to infinity. The 1/pi appears because the Stefan-Boltzmann law is the integral of intensity over solid angle."
+latex = '\int_{0}^{\infty}{B_\nu \,d\nu} = {\sigma T^4 \over \pi}'
+source = "marr_2011_planck_law"
+locator = "eq. 9"
+anchor = "frequencies, from zero to infinity, that is,"
+anchor_tex = '\int_{0}^{\infty}{B_\nu \,d\nu} = {\sigma T^4 \over \pi}.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor now the .txt quote at Marr:240 (grep -F count 1), TeX equation kept in anchor_tex, TeX prose anchor in notes; flux explanation cites the printed F = sigma T^4 = pi int B_nu dnu (Marr:426); bridges sigma -> sigma_SB, k -> k_B recorded." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and eq. 9 match [Marr:236–244](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:236), independently confirmed against TeX:138. Added flux relation is printed at [line 426](/home/tobias/Projects/neutronstars/refs/marr_2011_planck_law.txt:426); notation bridges applied." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["rt.planck-function-bnu", "const.stefan-boltzmann", "const.planck", "const.boltzmann", "const.speed-of-light"]
+notes = "TeX prose anchor (refs/marr_2011_planck_law.tex): 'This formula is obtained by integrating $B_\\nu$ over all frequencies, from zero to infinity, that is,'. Flux relation explicitly printed at Marr:426 (txt): F = sigma T^4 = pi int_0^inf B_nu dnu. NOTATION BRIDGE (review r1): source sigma -> project sigma_SB, source k -> k_B. Derivation: substitute x = h nu/(kT) in eq. 2: \\int B_nu dnu = (2 k^4 T^4 / (h^3 c^2)) \\int_0^inf x^3/(e^x - 1) dx = (2 k^4 T^4/(h^3 c^2)) pi^4/15; multiply by pi (Lambertian flux = pi B): sigma = 2 pi^5 k^4/(15 h^3 c^2). The Bose integral pi^4/15 is a mathematical identity, not printed in Marr & Wilkin. This equals the printed CODATA form sigma = (pi^2/60) k^4/(hbar^3 c^2) of const.stefan-boltzmann because hbar = h/(2 pi): (pi^2/60)(2 pi)^3 = 2 pi^5/15. NUMERIC CHECK (python decimal, 30 digits, SI, CODATA 2018 as in const.* entries: h = 6.626 070 15e-34 J s, k = 1.380 649e-23 J/K, c = 299 792 458 m/s): expected (const.stefan-boltzmann, CODATA 2018 Table XXXI as printed) sigma = 5.670 374 419e-8 W m^-2 K^-4 (digits truncated at the ellipsis); computed 2 pi^5 k^4/(15 h^3 c^2) = 5.670 374 419 184 43e-8; relative error +3.3e-11, tolerance 1e-10 (the printed value is truncated at 9 decimals so the unprinted digits 18... explain the residual exactly). Independent quadrature check: Simpson on [1e-9, 80] gives \\int x^3/(e^x-1) dx = 6.493939402266830, expected pi^4/15 = 6.493939402266828, error 1.8e-15, tolerance 1e-12; sigma recomputed from the quadrature = 5.6703744191844294e-8, identical to the closed form to all printed digits. Conversion to Gaussian CGS: 5.670374419e-8 W m^-2 K^-4 = 5.670374419e-5 erg cm^-2 s^-1 K^-4."
+
+# ---------------------------------------------------------------- 1.12 display colour
+
+[[entry]]
+id = "colour.srgb-stokes-decode-power"
+kind = "equation"
+domain = "colour"
+name = "sRGB decoding, power segment (Stokes eq. 1.7b), as printed"
+statement = "Equation 1.7b of the proposal for the non-linear to linear sRGB inversion, transcribed as printed in srgb20.gif (condition) and srgb21.gif (equation). The condition is printed with the unprimed symbols R_sRGB, G_sRGB, B_sRGB > 0.03928. The equation is printed as three rows: R_sRGB = [(R'_sRGB + 0.055)/1.055]^2.4, G_sRGB = [(R'_sRGB + 0.055)/1.055]^2.4, B_sRGB = [(R'_sRGB + 0.055)/1.055]^2.4; that is, the G and B rows as printed contain R'_sRGB on the right-hand side, a typographical error of the source."
+latex = 'R_{sRGB},G_{sRGB},B_{sRGB}>0.03928\ (\text{printed unprimed}):\quad R_{sRGB}=\left[\frac{R^\prime_{sRGB}+0.055}{1.055}\right]^{2.4},\ G_{sRGB}=\left[\frac{R^\prime_{sRGB}+0.055}{1.055}\right]^{2.4},\ B_{sRGB}=\left[\frac{R^\prime_{sRGB}+0.055}{1.055}\right]^{2.4}\ (\text{G and B rows printed with }R^\prime_{sRGB})'
+source = "stokes_1996_srgb"
+locator = "eq. 1.7b (srgb20.gif, srgb21.gif)"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor at Stokes:857 immediately precedes the reverse equations, 1.7b at 871-874; srgb20.gif and srgb21.gif show unprimed channels > 0.03928, R' in all three numerators, +0.055, 1.055, exponent 2.4. Correct as literal historical transcription with the editorial reading separated." }]
+provenance = "convention"
+ownership = "leaf"
+depends_on = ["colour.srgb-decode-threshold", "colour.srgb-inverse-linear", "colour.srgb-stokes-encode-power", "colour.notation-srgb-nonlinear"]
+notes = "Read off refs/data/stokes_1996_srgb_img/srgb21.gif at 5x magnification (217x141 px): all three rows read [(R'_sRGB + 0.055) / 1.055]^2.4, with the subscript sRGB and the prime on an R in every row (the G and B rows start with G_sRGB = and B_sRGB = but the numerator is R'). srgb20.gif (188x22 px) reads 'R_sRGB, G_sRGB, B_sRGB > 0.03928', all unprimed. The earlier colour.srgb-inverse-power was rejected for silently repairing this ('same for G,B'); colour.srgb-inverse-transfer-power for the same reason plus the primed condition. This entry repairs nothing. EDITORIAL READING (not printed, not in latex): the intended relation is per channel, C_sRGB = [(C'_sRGB + 0.055)/1.055]^2.4 for C in R, G, B, applied when the encoded value C'_sRGB > 0.03928. Numeric consistency of that reading with eq. 1.2 and 1.7a: encode threshold 12.92 x 0.00304 = 0.0392768 (expected 0.03928 as printed, error 3.2e-6, tolerance 5e-6 = half unit of the 5th decimal); decode at the threshold: 0.03928/12.92 = 0.0030402 (linear branch) vs [(0.03928+0.055)/1.055]^2.4 = 0.0030395 (power branch), expected equal to the encode threshold 0.00304, differences 2.5e-7 and 5.1e-7 respectively, i.e. continuous to about 1.7e-4 relative, which is the rounding of 0.03928. Decoding must apply the typographical correction explicitly and visibly (log it), and the unprimed printed condition must be read as a condition on the encoded value; both are interpretations. The linear segment (eq. 1.7a) is already blessed as colour.srgb-inverse-linear (srgb19.gif checked again here: G row G'/12.92 and B row B'/12.92, no typo). Thresholds are 1996 proposal values, not IEC 61966-2-1. REVIEW r1 CORRECTION (truth/reviews/radiance_display-r1.md, sRGB bullet): the 'srgb21.gif re-inspection' note on the two rejected entries colour.srgb-inverse-power (in colour_srgb.toml) and colour.srgb-inverse-transfer-power (in colour.toml), which claims srgb21.gif shows per-channel inputs, is wrong: the image shows R' in all three numerators, as this entry transcribes. Those entries were rejected for silently repairing the print; this entry preserves the printed error and does not make it an executable decoder. The source labels this proposal obsolete (Stokes:22)."
+
+[[entry]]
+id = "colour.k-cd-luminous-efficacy"
+kind = "constant"
+domain = "colour"
+name = "Luminous efficacy K_cd = 683 lm/W at 540e12 Hz (SI definition)"
+statement = "The SI defining constant K_cd, the luminous efficacy of monochromatic radiation of frequency 540 x 10^12 Hz, is 683 lm/W (exact). It defines the candela: 1 lm/W = 1 cd sr/W. Converts radiant power to luminous flux at that single frequency; the brochure gives no photopic efficiency function, so it does not by itself convert broadband spectral radiance to luminance."
+latex = 'K_{cd}=683\ \mathrm{lm\,W^{-1}}\quad(\nu=540\times10^{12}\,\mathrm{Hz})'
+value = "683"
+units = "lm W^-1"
+uncertainty = "exact (defining constant)"
+source = "bipm_2019_si_brochure"
+locator = "Sec. 2.2 (Table 1, defining constants) and Sec. 2.3.1 (the candela)"
+anchor = "radiation of frequency 540 × 1012 Hz, Kcd, to be 683 when expressed in the unit lm W−1,"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Exact anchor at BIPM:840; lines 839-845 confirm 683 lm/W, 540e12 Hz, exactness and lm/W = cd sr/W. Single-frequency limitation agrees with 581-585." }]
+provenance = "convention"
+ownership = "leaf"
+depends_on = []
+notes = "Also printed in the Sec. 2.2 defining-constants list (lines 502-503: 'the luminous efficacy of monochromatic radiation of frequency' / '540 × 1012 Hz, Kcd, is 683 lm/W,') and the table row 'luminous efficacy Kcd 683 lm W−1' (line 528) of refs/bipm_2019_si_brochure.txt. The text file shows V4.01, June 2026 of the 9th edition (2019) brochure, downloaded 2026-10-23 from bipm.org. The mapping of K_cd to a luminance scale for XYZ (Y = K_cd times the V(lambda)-weighted radiance integral, with V(lambda) = ybar(lambda)) is NOT printed here; see 'Not harvested' in the lane report. Project unit use: Gaussian CGS code uses SI W; 1 erg s^-1 = 1e-7 W."
+
+# ---------------------------------------------------------------- 1.10 M1 parameter labelling
+
+[[entry]]
+id = "surface.rxj1856-rinf-ho2007-rescaled-123pc"
+kind = "result"
+domain = "surface"
+name = "Ho+2007 R^inf rescaled from 140 pc to 123 pc (M1 input label)"
+statement = "Ho et al. 2007 give R^infty for the B = 4e12 G atmosphere fit as 17 km (d_140 = 1) and state that the radius is given assuming d = 140 pc; the fit is linear in distance (the apparent radius fixes the normalisation (R^infty/d)^2 at fixed T^infty, z_g, N_H). At the Walter+2010 distance d = 123 pc: R^infty(123 pc) = R^infty(140 pc) x 123/140 = 17 km x 123/140 = 14.94 km (14.935714... km). This is a fixed-model rescaling (fixed atmospheric gravity, T^infty, N_H; Ho Sec. 6 prints R^infty ~ 17 (d/140 pc) km), not a self-consistent refit at 123 pc. NOTATION: Ho's R^infty is written R_{em}^\\infty here to avoid colliding with the whole-star R^infty; d is written D. The T^infty = 4.34e5 K, z_g = 0.22 and N_H labels are not rescaled."
+latex = 'R^\infty(123\,\mathrm{pc})=R^\infty(140\,\mathrm{pc})\,\frac{123}{140}=17\,\mathrm{km}\times\frac{123}{140}=14.94\,\mathrm{km}'
+value = 14.94
+units = "km (d = 123 pc)"
+uncertainty = "distance-only +1.336/-1.821 km; conditional formal fit uncertainty <10%, separate"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Sec. 6 (R^infty approx 17 (d/140 pc) km); Sec. 4 text before Table 1; Table 1, R^infty row, footnote b"
+anchor = "R∞ ≈ 17 (d/140 pc) km"
+anchor_tex = '$\rinfty\approx 17\,(d/140\mbox{ pc})$~km'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: anchor R∞ ≈ 17 (d/140 pc) km from the .txt (grep -F count 1), TeX line 1012 in anchor_tex; locator includes Sec. 6; value reported as 14.94 km; uncertainty replaced with distance-only +1.336/-1.821 km and separate conditional fit uncertainty; labelled a fixed-model rescaling; Ho old 30% not added (double-count); bridges R^inf -> R_{em}^inf, d -> D." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and linear scaling match [refs/ho_2007_rxj1856_thin_atm.txt:643–648](/home/tobias/Projects/neutronstars/refs/ho_2007_rxj1856_thin_atm.txt:643) and TeX:1012. Table 1 confirms the selected parameters; fixed-gravity qualification matches lines 149–156. Walter’s [123 \\(^{+11}_{-15}\\) pc, lines 617–620](/home/tobias/Projects/neutronstars/refs/walter_2010_rxj1856_distance.txt:617) gives \\(14.935714\\) km and distance-only \\(+1.335714/-1.821429\\) km, correctly rounded. Old distance uncertainty is no longer double-counted." }]
+provenance = "derivable"
+ownership = "stub"
+depends_on = ["obs.rxj1856-ho2007-rinf", "obs.rxj1856-distance", "obs.approx-ho2007-assumptions"]
+notes = "REVIEW r1 APPLIED: anchor is Ho Sec. 6 .txt (grep -F count 1; the TeX line 1012 is in anchor_tex). Walter+2010 distance 123 +11/-15 pc (walter_2010_rxj1856_distance.txt:617-620) gives 17 x 11/140 = +1.336 and 17 x 15/140 = -1.821 km. Ho's earlier 30% radius allowance was itself distance uncertainty (Ho:354-357), so it is not added again (double-counting). Earlier TeX prose anchor: 'the radius is given assuming a distance $d_{140}=d/(140\\mbox{ pc})=1$'. NOTATION BRIDGES: Ho R^infty -> R_{em}^\\infty (not whole-star R^\\infty), d -> D. ARITHMETIC: 123/140 = 0.878571; 17 x 0.878571 = 14.9357 km (computed in python: 17*123/140 = 14.935714285714285). Distance 123 pc is obs.rxj1856-distance (Walter+2010). Same scaling of the blackbody column of Ho Table 1 (R^infty = 5.0 km at 140 pc): 5.0 x 123/140 = 4.39 km. ALTERNATIVE M1 INPUT (labelled by provenance, see pipeline.surface-parameters): the Chandra LETGS single-blackbody apparent temperature kT^infty = 63.5 +/- 0.2 eV (obs.rxj1856-xray-kt-chandra) and apparent radius R^infty = 4.4 +/- 0.1 km (d/120 pc) (obs.rxj1856-xray-rinf-chandra), equivalently R^infty/d = 36.7 +/- 0.8 km/kpc (obs.rxj1856-xray-bb-r-over-d); at 123 pc these give R^infty = 4.4 x 123/120 = 4.51 km, and 36.7 km/kpc x 0.123 kpc = 4.51 km (computed; 4.4*123/120 = 4.510, 36.7*0.123 = 4.514; consistent to 0.1%, within the rounding of both printed numbers). The Ho+2007 values are code output (provenance code, stub) and the Chandra blackbody values are measurements; they are different physical models (atmosphere vs blackbody, kT^infty = 37 eV is quoted by Ho Sec. 6 for the atmosphere versus 63.5 eV for the blackbody), not two measurements of one number. T^infty = 4.34e5 K is not rescaled: the atmosphere shape fit is distance independent in the Ho assumption set, but this is not independently verified here."

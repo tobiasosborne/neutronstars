@@ -1,0 +1,1328 @@
+                                                    Astronomy & Astrophysics manuscript no. eosmag˙v3                                                                                  c ESO 2018
+                                                    September 22, 2018
+
+
+
+
+                                                                   Equation of state for magnetized Coulomb plasmas
+                                                                                                  A. Y. Potekhin1,2,3 ⋆ and G. Chabrier1,4 ⋆⋆
+
+                                                         1
+                                                           CRAL (UMR CNRS No. 5574), Ecole Normale Supérieure de Lyon, 69364 Lyon Cedex 07, France
+                                                         2
+                                                           Ioffe Physical-Technical Institute, Politekhnicheskaya 26, 194021 St. Petersburg, Russia
+                                                         3
+                                                           Isaac Newton Institute of Chile, St. Petersburg Branch, Russia
+                                                         4
+                                                           School of Physics, University of Exeter, Exeter, UK EX4 4QL
+arXiv:1212.3405v3 [physics.plasm-ph] 25 Mar 2018
+
+
+
+
+                                                         Received 23 July 2012 / Accepted 5 December 2012
+
+                                                                                                                     ABSTRACT
+
+                                                         We have developed an analytical equation of state (EOS) for magnetized fully-ionized plasmas that cover a wide range of temperatures
+                                                         and densities, from low-density classical plasmas to relativistic, quantum plasma conditions. This EOS directly applies to calculations
+                                                         of structure and evolution of strongly magnetized white dwarfs and neutron stars. We review available analytical and numerical results
+                                                         for thermodynamic functions of the nonmagnetized and magnetized Coulomb gases, liquids, and solids. We propose a new analytical
+                                                         expression for the free energy of solid Coulomb mixtures. Based on recent numerical results, we have constructed analytical approx-
+                                                         imations for the thermodynamic functions of harmonic Coulomb crystals in quantizing magnetic fields. The analytical description
+                                                         ensures a consistent evaluation of all astrophysically important thermodynamic functions based on the first, second, and mixed deriva-
+                                                         tives of the free energy. Our numerical code for calculation of thermodynamic functions based on these approximations has been
+                                                         made publicly available.⋆⋆⋆ Using this code, we calculate and discuss the effects of electron screening and magnetic quantization on
+                                                         the position of the melting point in a range of densities and magnetic fields relevant to white dwarfs and outer envelopes of neutron
+                                                         stars. We consider also the thermal and mechanical structure of a magnetar envelope and argue that it can have a frozen surface which
+                                                         covers the liquid ocean above the solid crust.
+                                                         Key words. dense matter – equations of state – magnetic fields – stars: neutron – white dwarfs
+
+
+
+                                                   1. Introduction                                                            ployed in astrophysical modeling and adapted for the use in
+                                                                                                                              the Modules for Experiments in Stellar Astrophysics (MESA)
+                                                   Coulomb plasmas, i.e., the fully-ionized plasmas whose thermo-             (Paxton et al. 2011).
+                                                   dynamics is strongly affected by electrostatic interactions, are
+                                                   encountered in many physical and astrophysical situations (e.g.,               The Bohr – van Leeuwen theorem states that an EOS of
+                                                   Fortov 2009). Full ionization is reached either at high tempera-           charged pointlike classical particles is not affected by a magnetic
+                                                   tures T and low densities ρ (thermal ionization) or at high densi-         field (van Leeuwen 1921). However, a magnetic field can affect
+                                                   ties ρ (pressure ionization). The latter case is typical of the inte-      thermodynamic functions through intrinsic magnetic moments
+                                                   rior conditions of low-mass stars, brown dwarfs, or giant planets          of particles and by the quantization of the motion of charged
+                                                   (Chabrier & Baraffe 2000) as well as the interior and envelope             particles in Landau orbitals (Landau 1930; Landau & Lifshitz
+                                                   conditions of white dwarfs and neutron stars. Coulomb interac-             1977). These effects can be important, for example, in mag-
+                                                   tions are crucial for the equation of state (EOS) under such con-          netic white dwarfs whose magnetic fields B can reach 107 −
+                                                   ditions. In the interior or the envelope of compact objects such           109 G (e.g., Wickramasinghe & Ferrario 2000, and references
+                                                   as white dwarfs and neutron stars, the electrons can be weakly             therein) and neutron stars with typical B ∼ 108 − 1014 G (e.g.,
+                                                   or strongly degenerate, the plasma can be in the liquid or solid           Haensel et al. 2007, and references therein).
+                                                   state, the electrons can have various degrees of degeneracy and                In this paper, we systematically consider analytical expres-
+                                                   relativism, and the quantum effects on ion motion can be sub-              sions for thermodynamic functions of magnetized Coulomb
+                                                   stantial. Therefore, a wide-range EOS is needed for calculations           plasmas, discuss their validity range, and introduce some prac-
+                                                   of the structure and evolution of such stars.                              tical modifications. We take account of analytical and numeri-
+                                                       In a previous work (Potekhin & Chabrier 2000, 2010, here-              cal results, currently available for various contributions to the
+                                                   after Paper I and Paper II, respectively) we proposed a set of             Helmholtz free energy in quantizing magnetic fields. Taking ad-
+                                                   analytical expressions for the calculations of the EOSs of the             vantage of recently published numerical results (Baiko 2009),
+                                                   Coulomb plasmas without magnetic fields and presented a code               we construct an analytical description of the thermodynamic
+                                                   for thermodynamic functions based on the first, second, and                functions of harmonic Coulomb crystals in quantizing magnetic
+                                                   mixed derivatives of the analytical Helmholtz free energy F with           fields.
+                                                   respect to density ρ and temperature T . This code has been em-                In Sect. 2 we give definitions and simple estimates for
+                                                                                                                              the plasma parameters that determine different thermodynamic
+                                                    ⋆
+                                                        e-mail: palex@astro.ioffe.ru                                          regimes. In Sect. 3 we outline the EOS of a nonmagnetized
+                                                   ⋆⋆
+                                                        e-mail: chabrier@ens-lyon.fr                                          Coulomb plasma as the reference case. In Sect. 4 we consider
+                                                   ⋆⋆⋆
+                                                        The Fortran subroutines are available at the CDS via                  the Boltzmann and Fermi gases in quantizing magnetic fields,
+                                                    anonymous ftp to cdsarc.u-strasbg.fr (130.79.128.5) or via                present a general analytical description of their EOS, and sim-
+                                                    http://cdsweb.u-strasbg.fr/cgi-bin/qcat?J/A+A/.                           plify them for several limiting cases. In Sect. 5 we review non-
+
+                                                                                                                                                                                                   1
+                                   A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+                                                                                                                                  1/2
+ideal contributions to the EOS of a Coulomb liquid in a strong              the ion plasma temperature and ωp = 4πe2 ni Z 2 /mi         is the
+magnetic field. In Sect. 6 we derive an analytical approxima-                                                             √
+                                                                            ion plasma frequency. Since λi /ai = (T p /T ) 2π/3Γ, the impor-
+tion for the EOS of a strongly magnetized Coulomb crystal. In
+                                                                            tance of the quantum effects in strongly coupled plasmas (i.e., at
+Sect. 7 we present and discuss examples of thermodynamic func-
+                                                                            Γ ≫ 1) is determined by parameter
+tions for conditions typical of white dwarfs and neutron-star en-
+velopes. The summary is given in Sect. 8. In the Appendices we                             p                     √
+                                                                            η ≡ T p /T = Γ 3/RS ≈ 7.832 (Z/A) ρ6 /T 6 .                    (6)
+give the explicit expressions for the thermodynamic functions
+used in Sect. 3.
+                                                                            2.2. Magnetic-field parameters
+2. Basic definitions                                                        In the nonrelativistic theory (Landau & Lifshitz 1977), the en-
+                                                                            ergy of an electron in magnetic field B equals n~ωc + me p2z /2,
+2.1. General parameters
+                                                                            where pz is the momentum component along B, ωc = eB/me c
+Let ne and ni be the electron and ion number densities, A and               is the electron cyclotron frequency, n = nL + 12 − 21 σ charac-
+Z the ion mass and charge numbers, respectively. In this paper              terizes a Landau level, σ = ±1 determines the spin projection
+we consider the neutral plasmas (therefore ne = Zni ) that con-             on the field, and nL is the non-negative integer Landau number
+tain a single type of ion and include neither positrons (they can           related to the quantization of the kinetic motion transverse to
+be described using the same analytical functions as for the elec-           the field. In the relativistic theory (Johnson & Lippmann 1949;
+trons; see, e.g., Blinnikov et al. 1996; Timmes & Arnett 1999),             Berestetskiı̆ et al. 1982), the kinetic energy ǫ of an electron at
+nor free neutrons (see Haensel et al. 2007 for a review).                   the Landau level n and its longitudinal momentum pz are inter-
+    The state of a free-electron gas is determined by the elec-             related as
+tron number density ne and temperature T . Instead of ne it is                                                          1/2
+convenient to introduce the dimensionless density parameter                    ǫ = ǫn (pz ) = c m2e c2 + 2~ωc me n + p2z      − me c 2 ,      (7)
+rs = ae /a0 , where a0 is the Bohr radius and ae = ( 43 πne )−1/3 .                            h                                       i1/2
+The parameter rs can be quickly evaluated from the relations                   |pz | = pn (ǫ) = (me c + ǫ/c)2 − (me c)2 − 2me ~ωc n         . (8)
+rs = 1.1723 n−1/3
+               24    = (ρ0 /ρ)1/3 , where n24 ≡ ne /1024 cm−3 and           The levels n ⩾ 1 are double-degenerate with respect to σ. Their
+ρ0 = 2.6752 (A/Z) g cm−3 . The analogous density parameter for              splitting due to the anomalous magnetic moment of the electron
+the ions is RS = ai mi (Ze)2 /~2 = 1822.89AZ 7/3 rs , where mi is           is ≈ (me c2 αf /2π) b at b ≪ 1 and ∼ (me c2 αf /2π) [ln b − 1.584]2
+the ion mass and ai ≡ ( 34 πni )−1/3 is the ion sphere radius.              at b ≫ 1 (see Schwinger 1988; Suh & Mathews 2001), which is
+    At stellar densities it is convenient to use, instead of rs , the       always much smaller than ~ωc and is negligible in the compact
+nonmagnetic relativity parameter                                            stars.
+xr = pF /me c = 1.00884 (ρ6 Z/A)1/3= 0.014005 rs−1,                   (1)       Convenient dimensionless parameters that characterize the
+                                                                            magnetic field in a plasma are the ratios of the electron cyclotron
+                       2     1/3
+where pF = ~ (3π ne ) is the electron Fermi momentum in                     energy ~ωc to the Hartree unit of energy, to the electron rest
+the absence of a magnetic field, and ρ6 ≡ ρ/106 g cm−3 . The                energy, and to kB T :
+Fermi energy
+           p (without the rest energy) for the electron gas is
+ǫF = c (me c)2 + (pF )2 − me c2 , and the Fermi temperature                 γm = ~3 B/m2e ce3 = B/B0,                                        (9)
+TF ≡ p ǫF /kB = T r (γr − 1), where T r ≡ me c2 /kB = 5.93 × 109 K,         where B0 = 2.3505 × 109 G,
+γr ≡ 1 + x2r , and kB is the Boltzmann constant. A useful mea-
+sure of electron degeneracy is θ = T/T F . In the nonrelativistic                ~ωc                     B
+                                                                            b=          = α2f γm =                ,                         (10)
+limit (xr ≪ 1), T F ≈ 1.163 × 106 rs−2 K, and                                    me c 2            4.414 × 1013 G
+θ = 0.543 rs/Γe ,                                                     (2)   where αf = e2 /~c is the fine-structure constant, and
+where                                                                       ζ = ~ωc /kB T ≈ 134.34B12/T 6 ,                                 (11)
+        e2      22.747  Z 1/3                                                                12                                       1/2
+Γe ≡          ≈         ρ6      .                                     (3)       √ B12 ≡ B/10 G. The magnetic length am = (~c/eB) =
+                                                                            where
+     a e kB T     T6       A                                                a0 / γm gives a characteristic transverse scale of the electron
+In the opposite ultrarelativistic limit (xr ≫ 1), θ ≈ (263 Γe)−1 .          wave function.
+The strength of the Coulomb interaction of nonrelativistic ions                 For the ions, the cyclotron energy is ~ωci = Z (me /mi ) ~ωc ,
+is characterized by the Coulomb coupling parameter                          and the parameter analogous to ζ is
+     (Ze)2                                                                  ζi = ~ωci /kB T ≈ 0.0737 (Z/A)B12/T 6 .                         (12)
+Γ=            = Γe Z 5/3 ,                                            (4)
+     a i kB T
+                                                                            Another important parameter is the ratio of the ion cyclotron
+where T 6 ≡ T/106 K.                                                        frequency to the plasma frequency,
+    Thermal de Broglie wavelengths of free ions and electrons                                                √
+are usually defined as                                                      β = ωci /ωp = ζi /η ≈ 0.0094 B12/ ρ6 .                   (13)
+               !1/2                 !1/2
+       2π~2                 2π~2                                            2.3. Free energy and thermodynamic functions
+λi =                , λe =               ,                (5)
+      mi k B T             me k B T
+                                                                            The Helmholtz free energy F of a plasma can be conveniently
+although in some publications these definitions differ by a nu-             written as
+merical factor. The quantum effects on ion motion are impor-
+                                                                                 (i)    (e)
+tant either at λi & ai or at T ≪ T p , where T p ≡ ~ωp /kB is               F = Fid  + Fid  + Fee + Fii + Fie ,                             (14)
+
+2
+                             A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+         (i)        (e)
+where Fid    and Fid    denote the ideal free energy of the ions and    is the Fermi-Dirac integral. The internal energy is
+the electrons, and the last three terms represent an excess free en-
+ergy arising from the electron-electron, ion-ion, and ion-electron               4 kB T V 
+                                                                        Uid(e) = √
+                                                                                                                           
+                                                                                            I3/2 (χe , τ) + τ I5/2 (χe , τ) .               (21)
+interactions, respectively. In the nonideal plasmas, correlations                 π λe3
+between any plasma particles depend on all interactions, there-
+fore the separation in Eq. 14 is just a question of convenience.        Since we use V and T as independent variables, we need to
+    An important reference case is the model of one-component           find µe (V, T ). This can be done either by inverting Eq. 19
+plasma (OCP). In this model, the electrons are replaced by a            numerically, or from the analytical approximation given in
+rigid (nonpolarizable) background of the uniform charge distri-         Chabrier & Potekhin (1998). Then the second-order thermody-
+bution. It is convenient to define Fii as the difference between        namic functions are obtained using relations of the type
+         (i)
+F and Fid    in the OCP model. Still stronger simplification is the                       !        !          !
+ion-sphere model, in which the interaction energy in the OCP                ∂ f (χe , T )       ∂f        ∂f      (∂ne/∂T )χe
+                                                                                             =        −                         ,   (22)
+is evaluated as the electrostatic energy of a positive ion in the                ∂T        V    ∂T  χe    ∂χe  T  (∂n e /∂χe )T
+negatively charged sphere of radius ai (Salpeter 1961). The elec-                         !             !
+                                                               (e)          ∂ f (χe , T )       ne ∂ f          ne (∂ f /∂χe )T
+tron exchange-correlation term is defined as Fee = F − Fid         in                        =−            =−                     . (23)
+the model of an electron gas without consideration of the ions,                  ∂V        T    V ∂ne T         V (∂ne/∂χe )T
+which are replaced by an uniform positive background to ensure               We use analytical approximations for Iν (χe , τ) based on
+the global charge neutrality. The ion-electron (electron polariza-
+                                                                        the fits of Blinnikov et al. (1996) and accurate typically to a
+tion) contribution Fie , then, is the difference between F and the
+                                                                        few parts in 104 , with maximum error < 0.2% at τ ≤ 100
+other terms, when interactions between all types of particles are       (Chabrier & Potekhin 1998). These approximations are given by
+taken into account.
+                                                                        different expressions in three ranges of χe : below, within, and
+    The pressure P, the internal energy U, and the entropy S of
+                                                                        above the interval 0.6 ≤ χe < 14. In particular, at large χe
+an ensemble of particles in volume V can be found from the ther-        the Sommerfeld expansion (e.g., Chandrasekhar 1957; Girifalco
+modynamic relations P = −(∂F/∂V)T , S = −(∂F/∂T )V , and
+                                                                        1973) yields1
+U = F + T S . The second-order thermodynamic functions are
+derived by differentiating these first-order functions. The decom-                      1                  π2 2 (2)
+                                                                                                                                 !
+position (Eq. 14) induces analogous decompositions of P, U, S ,         Iν (χe , τ) = √       I(0)
+                                                                                               ν   ( µ̃) +   τ I ν  ( µ̃) + . . .  , (24)
+the heat capacity CV = (∂S /∂ ln T )V , and the logarithmic deriva-                    2 τν+1              6
+tives χT = (∂ ln P/∂ ln T )V and χρ = −(∂ ln P/∂ ln V)T . Other
+second-order functions can be expressed through these functions         where µ̃ ≡ χe τ = µe /me c2 is the electron chemical potential
+by Maxwell relations (e.g., Landau & Lifshitz 1980).                    (without the rest energy) in the relativistic units,
+
+                                                                              I(0)
+                                                                               1/2 (µ̃) = [ x̃γ̃ − ln( x̃ + γ̃)]/2,                         (25)
+3. EOS of nonmagnetized Coulomb plasmas
+                                                                              I(0)          3       (0)
+                                                                               3/2 (µ̃) = x̃ /3 − I1/2 (µ̃),                                (26)
+3.1. Ideal part of the free energy
+                                                                              I(0)          3           3           (0)
+                                                                               5/2 (µ̃) = x̃ γ̃/4 − 2 x̃ /3 + 1.25 I1/2 (µ̃),               (27)
+The free energy of a gas of Ni = ni V nonrelativistic classical
+ions is                                                                       I(n+1)
+                                                                               ν     (µ̃) = dI(n)
+                                                                                                ν /dµ̃.                                     (28)
+  (i)
+               h                      i
+Fid   = Ni kB T ln(ni λ3i /Mspin ) − 1 ,                  (15)
+                                                                                                                                p
+                                                                        Here, we have introduced notations x̃ ≡ µ̃(2 + µ̃) and γ̃ ≡
+                                                                        √
+where Mspin is the spin multiplicity. Accordingly, Uid(i) =               1 + x̃2 = 1 + µ̃. At strong degeneracy, µ̃ ≈ ǫF /me c2 − 1, x̃ ≈ xr ,
+3            (i)             (i)    3              (i)     (i)          and γ̃ ≈ γr . In Paper II we also described an alternative expan-
+2 Ni kB T , Pid = ni kB T , CV,id = 2 Ni kB , and χT,id = χρ,id = 1.    sion in powers of τ, which allows one to avoid numerical can-
+In the OCP, Eq. 15 can be written in terms of the dimensionless         cellations of close terms at small µ̃ (we switch to this alternative
+plasma parameters (Sect. 2) as                                          expansion at µ̃ < 0.1).
+    (i)                                                                     The discontinuities of the Blinnikov et al. (1996) approxi-
+ Fid              3      1 6
+        = 3 ln η − ln Γ − ln − ln Mspin − 1.                    (16)    mations for Iν (χe , τ) at χe = 0.6 and χe = 14 are typically a
+Ni kB T           2      2 π                                            few parts in 104 at τ . 102 , but they may reach ≈ 1% for the
+    The free energy of the electron gas is given by                     second derivatives. This accuracy is sufficient for many appli-
+                                                                        cations. Nevertheless, the jumps may produce problems, e.g.,
+ (e)
+Fid  = µe Ne − P(e)
+                id V,                                           (17)    when higher derivatives are evaluated numerically in a stellar
+                                                                        evolution code. In our calculations of white-dwarf evolution (to
+where Ne = ne V is the number of electrons and µe is the electron       be published elsewhere), we smoothly interpolate between the
+chemical potential without the rest energy me c2 . The pressure         two analytical approximations for the adjacent intervals near the
+and the number density are functions of µe and T :                      boundary at the cost of a slight violation of the thermodynamic
+         8 kB T                   τ                                   consistency in the interpolation regions (this version of the EOS
+P(e)
+ id  =   √          I    (χ
+                      3/2 e , τ) +   I    (χ
+                                       5/2 e  , τ)   ,       (18)       code is now also available at our web site).
+        3 π λ3e                    2
+                                                                            If a higher accuracy is needed, one can numerically calcu-
+          4                                                           late tables of Iν (χe , τ) (e.g., Timmes & Arnett 1999) and inter-
+ ne = √ 3 I1/2 (χe , τ) + τI3/2 (χe , τ) ,                   (19)
+          π λe                                                          polate in them with an algorithm that preserves thermodynamic
+where χe ≡ µe /kB T , τ ≡ T/T r , and                                   consistency (Timmes & Swesty 2000) and is available at MESA
+              Z ∞ ν                                                     (Paxton et al. 2011).
+                 x (1 + τx/2)1/2                                                                √
+Iν (χe , τ) ≡                      dx                           (20)      1
+                                                                               The multiplier 1/ 2 τν+1 was accidentally omitted in Paper II.
+               0 exp(x − χe ) + 1
+
+                                                                                                                                                3
+                               A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+3.2. Nonideal contributions                                              values (see Paper II for references and discussion). In Paper II
+                                                                         we constructed an analytical interpolation between these lim-
+3.2.1. Electron and ion liquids                                          its, which is applicable at arbitrary η and is consistent with the
+The contribution to the free energy due to the electron-electron         available numerical results within accuracy of the latter ones
+interactions has been studied by many authors. For the rea-              (Appendix B.2). It should be replaced by a more accurate func-
+sons explained in Paper II, we adopt the fit to Fee derived by           tion in the future when accurate finite-temperature anharmonic
+Ichimaru et al. (1987) (see Appendix A).                                 quantum corrections become available.
+    The ion-ion interactions are described using the OCP model.
+In the liquid regime, the numerical results obtained for the OCP         3.2.3. Electron polarization
+of nonrelativistic pointlike charged particles in different intervals
+of the Coulomb coupling parameter from Γ = 0 to Γ ∼ 200 by               Electron polarization in Coulomb liquids was studied by per-
+different numerical and analytical methods are reproduced by a           turbation (Galam & Hansen 1976; Yakovlev & Shalybkov 1989)
+simple expression given in Appendix B.1. The accurate fit for            and hypernetted-chain (HNC) techniques (Chabrier & Ashcroft
+classical OCP is supplemented by the Wigner-Kirkwood cor-                1990; Chabrier & Potekhin 1998; Paper I). The results have been
+rection, which extends the applicability range of our approxi-           reproduced by an analytical expression (Appendix C.1), which
+mations to lower temperatures T ∼ T p . In spite of the signif-          exactly recovers the Debye-Hückel limit for the weakly coupled
+icant progress in numerical ab initio modeling of quantum ion            (Γ ≪ 1) electron-ion plasmas and the Thomas-Fermi limit for
+liquids, available results do not currently allow us to establish        the strongly coupled (Γ ≫ 1) Coulomb liquids at Z ≫ 1.
+an analytical extension to still lower temperatures T ≪ T p (see             For classical ions, the simplest screening model consists
+Chabrier et al. 2002, for references and discussion).                    in replacing the Coulomb potential by the Yukawa potential.
+                                                                         Molecular-dynamics and path-integral Monte Carlo simulations
+                                                                         of classical liquid and solid Yukawa systems were performed in
+3.2.2. Coulomb crystal                                                   several works (e.g., Hamaguchi et al. 1997; Militzer & Graham
+At T < T m , where T m is the melting temperature, the ions in ther-     2006). However, the Yukawa interaction reflects only the
+modynamic equilibrium are arranged in the body-centered cu-              small-wavenumber asymptote of the electron dielectric function
+bic (bcc) Coulomb lattice. In the harmonic approximation (e.g.,          (Jancovici 1962; Galam & Hansen 1976). The first-order per-
+Kittel 1963), the free energy of the lattice is                          turbation approximation for the dynamical matrix of a classical
+                                                                         Coulomb solid with the polarization corrections was developed
+Flat = U0 + Uq + Fth ,                                           (29)    by Pollock & Hansen (1973). The phonon spectrum in such a
+                                                                         quantum crystal has been calculated only in the harmonic ap-
+where U0 = Ni C0 (Ze)2 /ai is the classical static-lattice energy,       proximation (Baiko 2002), which has a restricted applicability
+C0 ≈ −0.9 is the Madelung constant,                                      to this problem (for example, it is obviously incapable of repro-
+       3                                                                 ducing the polarization contribution to the heat capacity in the
+Uq =     Ni ~ωp u1                                               (30)    classical limit η → 0, where it gives CV = 3Ni kB independent of
+       2
+                                                                         the polarization).
+accounts for zero-point quantum vibrations, u1 = hω kα iph /ωp ≈             In Paper I we calculated Fie using the semiclassical pertur-
+0.5 is the reduced first moment of phonon frequencies,                   bation theory of Galam & Hansen (1976) with a model structure
+                                                                         factor, and fit the results by an analytical function of xr and η. In
+Fth = 3Ni kB T ln[1 − exp(−~ω kα /kB T )] ph                     (31)    Paper II we improved the η-dependence of this function to com-
+is the thermal contribution, ω kα are phonon frequencies, and            pletely eliminate the screening contribution in the strong quan-
+h. . .iph denotes the averaging over phonon polarizations α and          tum limit η ≪ 1, because the employed model of the structure
+wave vectors k in the first Brillouin zone. Here we do not sepa-         factor failed at η . 1. The latter approximation is reproduced in
+                                                             (i)
+rate the classical-gas free energy, therefore Flat replaces Fid  + Fii   Appendix C.2. It can be improved in the future, when the po-
+in Eq. 14.                                                               larization corrections for the quantum Coulomb crystal at η . 1
+      Beyond the harmonic-lattice approximation, the total re-           have been accurately evaluated.
+duced free energy flat ≡ Flat /Ni kB T can be written as
+                                                                         3.2.4. Ion mixtures
+flat = C0 Γ + 1.5u1 η + fth + fah .                              (32)
+                                                                         In Sects. 3.2.1 – 3.2.3 we have considered plasmas containing
+Here, the first three terms correspond to the three terms in Eq. 29,     identical ions. In the case where several ion types are present in
+and fah is the anharmonic correction. The most accurate values           a strongly coupled Coulomb plasma, a common approximation
+of the constants C0 and u1 were calculated by Baiko (2000) (see          is the linear mixing rule (LMR),
+Appendix B.2). For fth = Fth /Ni kB T , we use the highly precise                 X
+fit of Baiko et al. (2001) (Appendix B.2). In the classical limit          LM
+                                                                          fex  ≈     x j fex (Γ j , x j = 1) ,                        (33)
+η ≪ 1, it reduces to fth ≃ 3 ln η − 2.49389 − 1.5u1 η + η2 /24,                   j
+where the term with u1 cancels that in Eq. 32 and the last
+term represents the Wigner-Kirkwood quantum correction fii(2)            where x j are the number fractions of ions with charge num-
+[Eq. B.3], which is the same in the liquid and solid phases              bers Z j and Γ j = Γe Z 5/3j . In Eq. 33, fex ≡ F ex /Ni kB T is
+(Pollock & Hansen 1973). In the opposite limit T ≪ T p , we have         the reduced nonideal part of the free energy, Fex is the ex-
+ fth ≃ −209.3323 η−3 (here the constant is given for the bcc crys-       cess free energy, which is equal to Fii in the case of the rigid
+tal; for other lattice types, see Baiko et al. 2001).                    charge-neutralizing electron background and to Fii + Fie + Fee
+     Anharmonic corrections for Coulomb lattices were studied            in the case of the polarizable background. The high accuracy of
+by many authors in the limits η → 0 and η → ∞, but only a                Eq. 33 for binary ionic mixtures in the rigid background was
+few numerical results of low precision are available at finite η         first demonstrated by calculations in the HNC approximation
+
+4
+                                A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+(Hansen et al. 1977; Brami et al. 1979) and confirmed later by               x2 < 0.5. A much simpler fit, which does not exhibit unphysi-
+Monte Carlo simulations (DeWitt et al. 1996; Rosenfeld 1996;                 cal behavior, was suggested by DeWitt & Slattery (2003). It can
+DeWitt & Slattery 2003). The validity of the LMR in the case                 be written as ∆ fsol = 0.00326 x1 x2 R3/2
+                                                                                                                     Z hΓi. However, the latter
+of an ionic mixture immersed in a polarizable finite-temperature             fit is valid only for relatively small charge ratios RZ . 3/2. We
+electron background has been examined by Hansen et al. (1977)                replace it by the expression
+in the first-order thermodynamic perturbation approximation
+and by Chabrier & Ashcroft (1990) by solving the HNC equa-                   ∆ fsol = x1 x2 Γ1 ∆g(x2 , RZ ),                                     (39)
+tions with effective screened potentials. These authors found that           where
+the LMR remains accurate when the electron response is taken                                          x (1 − x)                           5/3
+into account in the inter-ionic potential, as long as the Coulomb            ∆g(x2 , RZ ) = 0.012                 (1 − R−2
+                                                                                                                        Z ) (1 − x2 + x2 RZ )    (40)
+                                                                                                     x2 (1 − x2 )
+coupling is strong (Γ j > 1, ∀ j).
+                                                                                                            RZ
+    However, the LMR is not exact, and Eq. 33 should                         and x = x2 /RZ +(1−R−1    Z ) x2 . The approximation in Eq. 40 repro-
+be replaced by the Debye – Hückel formula in the limit of                   duces reasonably well the results of both Ogata et al. (1993) and
+weak coupling (Γ j ≪ 1, ∀ j). Even in the strong-coupling                    DeWitt & Slattery (2003) for random two-component ionic bcc
+regime, the small deviations from the LMR are impor-                         lattices. For a multicomponent ion crystal, Medin & Cumming
+tant for establishing phase equilibria (see Medin & Cumming                  (2010) proposed the extrapolation from the two-component
+2010). The deviations from the LMR were studied by                           plasma case
+Brami et al. (1979); Chabrier & Ashcroft (1990); DeWitt et al.                        XX                        xj     Zj
+                                                                                                                          !
+(1996); DeWitt & Slattery (2003); Potekhin et al. (2009a,b) for              ∆ fsol =         xi x j Γi ∆g           ,      ,                 (41)
+strongly coupled Coulomb liquids and by Ogata et al. (1993) and                         i j>i
+                                                                                                             xi + x j Zi
+DeWitt & Slattery (2003) for Coulomb solids.
+                                                                             where the indices are arranged so that Z j < Z j+1 .
+    The analytical expression that describes deviations from the
+LMR, ∆ f ≡ f − fLM , in Coulomb liquids for arbitrary coupling
+parameters Γ j reads (Potekhin et al. 2009b)                                 4. EOS of a fully ionized magnetized gas
+                                                                             4.1. Ions
+       Γ3/2
+         e hZ
+               5/2
+                   i               δ
+∆ fliq =     √                                       ,                (34)
+              3      (1 + a hΓiα ) (1 + b hΓiα )β                            We consider only nondegenerate and nonrelativistic ions (for a
+                                                                             discussion of the EOS of degenerate nuclear matter in strong
+where hZ k i ≡ j x j Z kj , hΓi = Γe hZ 5/3 i, δ is defined either as
+               P
+                                                                             magnetic fields see, e.g., Broderick et al. 2000; Suh & Mathews
+                                                                             2001). In this case (cf. Potekhin et al. 1999)
+             hZ 2 i3/2                                                           (i)
+                                                                               Fid            ni λi a2m
+                                                                                                        !
+δ=1−                                                                 (35)                                                  ζi   Fspin
+           hZi1/2 hZ 5/2 i                                                           = ln 2π              + ln 1 − e−ζi − 1 + +         . (42)
+                                                                             Ni kB T             Z                           2 Ni kB T
+for rigid electron background model, or as                                   The last term arises from the energy of the magnetic moments of
+   hZ (Z + 1)3/2 i (hZ 2 i + hZi)3/2                                         the ions in the magnetic field,
+δ=                −                                                  (36)                                                   
+       hZ 5/2 i     hZi1/2 hZ 5/2 i                                                                sinh(gi ζi Mspin /4) 
+                                                                             Fspin = −Ni kB T ln                          ,       (43)
+for polarizable background, and parameters a, b, α, and β depend                                         sinh(gi ζi /4) 
+on the plasma composition as follows:                                        where Mspin is the ion spin multiplicity, and gi is the g-factor
+                       3            2/5                                      (gi = 5.5857 for protons). For ions with spin one-half (Mspin =
+      2.6 δ + 14 δ            hZi
+  a=                 , α = 2 1/5 ,                                   (37)    2), the expression in the square brackets in Eq. 43 simplifies to
+          1−α                hZ i                                            [2 cosh(gi ζi /4)]. For zero-spin ions, such as 4 He, 56 Fe, and other
+                      !2                                                     even-even nuclei in the ground state, Fspin = 0.
+               hZ 2 i             3
+  b = 0.0117       2
+                         a, β =     − 1.                             (38)         The ion pressure obeys the nonmagnetic ideal-gas relation
+               hZi               2α
+                                                                             P(i)
+                                                                               id = ni kB T , but expressions for the internal energy and heat
+     For Coulomb solids, one should distinguish regular crys-                capacity are different:
+tals containing different ion types and disordered solid mix-
+tures, where different ions are randomly distributed in regular               Uid(i)     1       ζi    ζi
+                                                                                     = + ζ           + + uspin ,                                 (44)
+lattice sites (Ogata et al. 1993). Each regular lattice type corre-          Ni kB T     2 e −1 2
+                                                                                               i
+
+sponds to a fixed composition, whereas random lattices allow                     (i)
+                                                                              CV,id      1  ζi 2
+variable fractions of different ion types. The free energy correc-                   = + ζ              + cspin .                                (45)
+tion ∆ f mainly arises from the difference in the Madelung en-                Ni kB      2    e i −1
+ergies. It is generally larger for regular crystals than for “ran-           Here, the terms uspin and cspin arise from Fspin ,
+dom” crystals with the same composition. Ogata et al. (1993)
+                                                                                        gi ζi /4          gi ζi Mspin /4
+performed Monte Carlo simulations of solid ionic mixtures and                uspin =                 −                      ,                    (46)
+fitted the calculated deviation, ∆ fsol , from linear-mixing predic-                 tanh(gi ζi /4) tanh(gi ζi Mspin /4)
+tion for the reduced free energy in a random binary ion crystal.                         gi ζi /4
+                                                                                                     !2
+                                                                                                              gi ζi Mspin /4
+                                                                                                                               !2
+Medin & Cumming (2010) and Hughto et al. (2012) used this fit                cspin =                    −                         .              (47)
+to study the phase separation and solidification of ion mixtures                      sinh(gi ζi /4)      sinh(gi ζi Mspin /4)
+in the interiors of white dwarfs. We note, however, that the fit of          They simplify at Mspin = 2:
+Ogata et al. (1993) exhibits nonphysical features: for example, it                                                                      !2
+is nonmonotonic as a function of RZ = Z2 /Z1 at a fixed number                         g i ζi        gi ζi              gi ζi /4
+                                                                             uspin = −        tanh           , cspin =
+                                                                                                                                            .   (48)
+fraction x2 = 1 − x1 for a binary ion mixture with Z2 /Z1 > 2 and                        4               4                cosh(gi ζi /4)
+
+                                                                                                                                                   5
+                                  A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+4.2. Electrons                                                             where p(0)
+                                                                                    F is the zero-field Fermi momentum at the given den-
+                                                                           sity. Equation 53 can be written as pF = me cxB , where
+4.2.1. General case
+Thermodynamic functions of the electron gas in a magnetic                         2x3r        Z ρ6
+                                                                           xB =        ≈ 30.2                                                  (54)
+field are easily derived from first principles (Landau & Lifshitz                 3b          A B12
+1980). The number of quantum states per longitudinal momen-
+tum interval ∆pz for an electron with given B-projections of the           is the relativity parameter modified by the field and xr = p(0)
+                                                                                                                                       F /me c
+spin and the orbital moment and with a fixed Landau number n               (Sect. 2.1). With increasing ne at constant B and zero temper-
+in a volume V equals V∆pz /(4π2 a2m ~) (Landau & Lifshitz 1977).           ature, the electrons start to populate   the first excited Landau
+                                                                                                              √
+Thus one can express the electron number density ne and the                level when ne reaches nB = (π2 2 a3m )−1 . Therefore, the field
+grand thermodynamic potential Ω(e)          (e)
+                                    id = −Pid V as                         is strongly quantizing at T ≪ T cycl and ρ < ρB , where T cycl =
+                  ∞ XZ ∞
+                                                                           ~ωc /kB ≈ 1.3434 × 108 B12 K and
+           1     X                     dpz
+    ne =                                                   , (49)
+             2
+       4π am ~ n=0 σ −∞ exp[(ǫn (pz ) − µe )/kB T )] + 1
+          2                                                                ρB = mi nB /Z ≈ 7045 (A/Z) B3/2    −3
+                                                                                                       12 g cm .                               (55)
+                    ∞                                                                                                                 √
+          VkB T X X ∞
+                        Z             "               #!
+                                        µe − ǫn (pz )                      The condition ne < nB can be written as am /ae < 2 (3π)−1/3 .
+Ω(e)
+ id  = −                   ln 1 + exp                    dpz , (50)
+         2π2 a2m ~ n=0 σ 0                 kB T                            Then Eq. 53 shows that in a strongly quantizing field pF <
+                                     P                                     p(0)
+                                                                             F , except for densities ne close to the threshold n B . Thus T F
+where ǫn (pz ) is given by Eq. 7 and σ denotes the sum over spin           is reduced, compared to its nonmagnetic value T F(0) , by factor
+projections, which amounts to the factor 2 for n ≥ 1 since we ne-
+glect the anomalous magnetic moment of electrons. This deriva-             T F /T F(0) = [(1 + x2B )1/2 − 1]/(γr − 1). In the nonrelativistic limit,
+tion equally holds in the relativistic and nonrelativistic theories.       T F /T F(0) = (pF /p(0)  2
+                                                                                               F ) , and the parameter θ = T/T F becomes
+Equations 49 and 50 can be rewritten, using integration by parts,
+                                                                                  2 5
+as                                                                         θB = 8γm rs /(9π2Γe ) ≈ 0.166 θ0 γm
+                                                                                                             2 4
+                                                                                                               rs ,                            (56)
+                   ∞ X
+           1       X                  ∂I1/2 (χn , τn )                     where θ0 is the nonmagnetic value given by Eq. 2.
+ne =                     (1 + 2bn)1/4                  ,            (51)
+       π3/2 a2m λe n=0 σ                  ∂χn                                   The opposite case of a nonquantizing magnetic field occurs
+                        ∞                                                  at T ≫ T B , where T B is the temperature at which the thermal ki-
+             kB T X X                                                      netic energy of the electrons becomes sufficient to smear their
+P(e)
+ id =                        (1 + 2bn)1/4 I1/2 (χn , τn ),          (52)
+           π3/2 a2m λe n=0 σ                                               distribution over many Landau levels. It can be estimated as
+                                                                           T B = T cycl , if ρ ≤ ρB and T B = T cycl /γr , if ρ > ρB (a more
+                 √                                                         sophisticated but qualitatively similar definition of T B was intro-
+where τn = τ/ 1 + 2bn and χn = χe + τ−1 − τ−1      n . The free energy
+  (e)                                                                      duced by Lai 2001). Then we can approximately replace the sum
+Fid   is given by Eqs. 17, 51, and 52.
+                                                                           over Landau level numbers n by the integral over a continuous
+      The calculation of ne , P(e)
+                                id , and their derivatives at given χe     variable n. Integrating over n by parts, we can reduce Eq. 52 to
+and τ can be performed using Eqs. 51, 52 and the same analytical           Eq. 18 and Eq. 51 to Eq. 19, i.e., to recover the zero-field ther-
+approximations to the Fermi-Dirac integrals as for the nonmag-             modynamics. At ρ ≫ ρB , the electrons also fill many Landau
+netized electron gas. The reduced electron chemical potential χe           levels and the magnetic field can be approximately treated as
+at constant ne and T is found by numerical inversion of Eq. 51.            nonquantizing.
+Then the derivatives over T at constant V and over V at constant                In the intermediate region, where the magnetic field is nei-
+T are given by Eqs. 22 and 23. We use this approach in the cur-            ther strongly quantizing nor nonquantizing, the summation over
+rent research, but we should note that for quantizing magnetic             n manifests itself in quantum oscillations of the thermody-
+fields it is less precise than at B = 0. As mentioned in Sect. 3.1,        namic functions with changing B and/or ρ, similar to the de
+the inaccuracy of the employed approximations for Iν (χe , τ) is           Haas – van Alphen oscillations of magnetic susceptibility (e.g.,
+within a fraction of percent, but it grows for the derivatives.            Landau & Lifshitz 1980). The oscillations are smoothed by the
+Since the first derivatives are already employed in Eq. 51, eval-          thermal broadening of the Fermi distribution function and by the
+uation of the second-order thermodynamic functions such as χT              quantum broadening of the Landau levels (particularly, owing
+or CV involves third derivatives. Therefore, the error in the eval-        to electron collisions; see Yakovlev & Kaminker 1994, for ref-
+uation of these functions may rise to several percent. This level          erences). Some examples of such oscillations will be given in
+of accuracy may be sufficient for astrophysical applications, but          Sect. 7.
+otherwise one should resort to a thermodynamically consistent                   Figure 1 presents the ρ – T diagram of outer neutron-star en-
+interpolation in numerical tables of the Fermi-Dirac integrals             velopes at two magnetic field strengths, B = 1012 G and 1015 G,
+(Timmes & Arnett 1999; Timmes & Swesty 2000). Equations                    assuming fully-ionized iron (this assumption may be crude in
+51 and 52 can be simplified in several limiting cases considered           the lower left part of the diagram). In the strongly-quantizing
+below.                                                                     magnetic-field domain, bounded by ρB and T cycl , the dependence
+                                                                           T F (ρ) is steeper than at B = 0, in agreement with Eq. 56. The line
+4.2.2. Strongly quantizing and nonquantizing magnetic fields               T m (ρ) separates Coulomb liquid from Coulomb crystal. Near the
+                                                                           lower right corner of the figure, where T ≪ T p , the quantum
+The field is called strongly quantizing if most of the electrons re-       effects on the ions become important (i.e., the ions cannot be
+side on the ground Landau level. The electron Fermi momentum,              treated as classical pointlike particles). In the lower left corner,
+then, equals                                                               at ρ < ρs , the plasma is unstable to the phase separation into
+                                                                           the gaseous and condensed phases (this phase transition will be
+pF = 2π2 a2m ~ne = (3π2 /2)1/3 (am /ae )2 p(0)
+                                           F ,                      (53)   discussed in Sect. 7.3).
+
+6
+                                  A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+                                                                             and the thermal correction to the free energy and internal energy
+                                                                             ∆F = −∆U = Ne ∆ǫ − V∆P.                                        (62)
+                                                                             The leading contribution to the heat capacity is CV(e) = 2∆U/T .
+                                                                             As in the nonmagnetic case, CV(e) is proportional to T at T → 0,
+                                                                             but with a different proportionality coefficient.
+
+                                                                             4.2.4. Strongly degenerate electrons in a strongly quantizing
+                                                                                    magnetic field
+                                                                             If the magnetic field is strongly quantizing and the electrons
+                                                                             are strongly degenerate (which corresponds to the triangular do-
+                                                                             mains in Fig. 1 defined by conditions ρ < ρB and T < T F ), then
+                                                                                     h                i
+                                                                             F0(e) = (1 + x2B )1/2 − 1 Ne me c2 − P(e)
+                                                                                                                     0 V,                 (63)
+                                                                                       Pr b h                                        i
+                                                                             P(e)
+                                                                               0 =         2
+                                                                                              xB (1 + x2B )1/2 − ln xB + (1 + x2B )1/2 .  (64)
+                                                                                      (2π)
+Fig. 1. Characteristic density-temperature domains at B =                    In the nonrelativistic (xB ≪ 1) and ultrarelativistic (xB ≫ 1) lim-
+1012 G (blue online) and 1015 G (red online) for fully-ionized               its, we have P(e)         3      2    3       (e)         2   2   2
+                                                                                           0 ≃ Pr b x B /6π ∝ ne and P0 ≃ Pr b x B /4π ∝ ne ,
+iron. Solid lines indicate the Fermi temperature as function of              respectively. Compared with the nonmagnetic case (Papers I and
+density, the dotted line shows the plasma temperature, the dot-
+                                                                             II), the dependence P(e)
+                                                                                                    0 (ne ) is steeper, but P is lower everywhere
+dashed line shows the melting temperature as function of den-
+                                                                             except for ne ≈ nB. Thus, a strongly quantizing magnetic field
+sity, short and long dashes delimit the domains of strongly quan-
+                                                                             softens the EOS of degenerate electrons.
+tizing magnetic field and of magnetic condensation, respectively,
+                                                                                  The thermal corrections (Eqs. 60 – 62) simplify to
+and the heavy dots mark the critical point for the condensation
+(Sect. 7.3).                                                                                  π2 τ2
+                                                                               ∆ǫ̃ ≈ −                      ,                               (65)
+                                                                                         6(1 + x2B )1/2 x2B
+4.2.3. Strongly degenerate electrons
+                                                                                           bτ2    2 + x2B
+If the electrons are strongly degenerate, then one can apply the               ∆P = Pr                         ,                            (66)
+                                                                                           12 (1 + x2B )1/2 xB
+                                                 (e)
+Sommerfeld expansion (Sect. 3.1) and obtain Fid      ≈ F0(e) + ∆F,
+                                                                               ∆U       ∆F        bτ2 (1 + x2B )1/2
+where F0(e) = ǫF Ne − P(e)
+                        0 V is the zero-temperature value and ∆F                     =−      = Pr                   ,                       (67)
+is a thermal correction. According to Eqs. 24 and 52, the zero-                 V        V         12        xB
+temperature pressure P0 is                                                     CV(e)    π2 τ (1 + x2B )1/2
+                                                                                      =                    .                                (68)
+            nmax X
+       Pr b X                                                                  Ne kB     3       x2B
+P(e)
+ 0   =            (1 + 2bn) I(0)
+                             1/2 (ǫ̃n ),                             (57)
+       2π2 n=0 σ                                                             The last equation differs from the nonmagnetic case (Paper II) in
+                                                                             that xB replaces xr and π2 /3 replaces π2 .
+where Pr ≡ m4e c5 /~3 = 1.4218 × 1025 dyn cm−2 is the relativis-
+tic unit of pressure, nmax is the maximum
+                                        √ integer n for which                4.2.5. Nonrelativistic limit
+p2n (ǫ) > 0, and ǫ̃n ≡ ǫF /me c2 + 1 − 1 + 2bn. According to
+Eqs. 24 and 51, the Fermi energy ǫF is determined by the condi-              In the nonrelativistic limit (pF ≪ me c and T ≪ T r ), Eqs. 51 and
+tion                                                                         52 simplify to
+        m c 3 b Xnmax X
+          e
+                          (1 + 2bn)1/2I(1)                                             1      X                       kB T X
+ne =                                   1/2 (ǫ̃n ).         (58)              ne = 3/2 2           I−1/2 (χn ), Pe = 3/2 2        I1/2 (χn ). (69)
+          ~    2π2 n=0 σ                                                           2π am λe n,σ                    π am λe n,σ
+In order to obtain the chemical potential µe = ǫF + ∆ǫ with frac-            In the nondegenerate regime (T ≫ T F ), one has Iν (χ) ≈ eχ Γ(ν +
+tional accuracy ∼ χ−2e , we retain two terms in Eq. 24, insert it            1), where Γ(ν + 1) is the gamma-function. Then Eq. 69 yields
+into Eq. 51, approximate I(n)
+                           ν (µ̃n ) in the vicinity of µ̃n = ǫn by           Peid = ne kB T and
+I(n)         (n)         (n+1)
+ ν (µ̃n ) ≈ Iν (ǫ̃n ) + Iν     (ǫ̃n ) ∆ǫ̃,                           (59)
+                                                                             χe = ln(ne λ3e /2) − ln(ζ/4) + ln[tanh(ζ/4)]                   (70)
+                                             2
+where µ̃n ≡ χn τ and ∆ǫ̃ ≡ ∆ǫ/me c , and drop the higher-order                                                  (e)
+terms containing (τ2 ∆ǫ̃). Then                                              which provides the free energy Fid     = (χe − 1) Ne kB T .
+                                                                                  As follows from Eq. 70, the reduced internal energy
+             Pnmax P            −1/2 (3)
+        π2 τ2 n=0 σ (1 + 2bn) I1/2 (ǫ̃n )                                    Uide /Ni kB T and heat capacity CV,id
+                                                                                                              e
+                                                                                                                   /Ni kB of the Boltzmann gas
+∆ǫ̃ ≈ −                                      .            (60)               decrease with increasing ζ. In a strongly quantizing magnetic
+         6     nmax             1/2 (2)
+             P      P
+               n=0   σ (1 + 2bn) I1/2 (ǫ̃n )
+                                                                             field (ζ ≫ 1), they tend to 1/2 instead of 3/2 because the gas
+The thermal correction to the pressure equals                                becomes effectively one-dimensional. The only kinetic degree is
+             nmax X
+                                                                             along the magnetic field.
+                                   τ2 (2)
+                                                                  !
+             X                                     ∆ǫ̃                            In the nonquantizing field (ζ ≪ 1), the two last terms
+∆P = Pr b             (1 + 2bn)       I1/2 (ǫ̃n ) + 2 I(1) (ǫ̃n )   , (61)                                                               (e)
+             n=0 σ
+                                   12              2π 1/2                    in Eq. 70 cancel out, so that the standard expression Fid       =
+
+                                                                                                                                               7
+                              A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+Ne kB T [ln(ne λ3e /2) − 1] is recovered. In the strongly quantizing,   5. Magnetic effects on the EOS of a Coulomb liquid
+nondegenerate regime (ρ < ρB and T F ≪ T ≪ T cycl ), the last
+term of Eq. 70 vanishes, which yields                                   5.1. Electron exchange and correlation
+
+              h                    i                                    The effects of a magnetic field on the contribution to the free
+ (e)
+Fid  = Ne kB T ln(2πa2m λe ne ) − 1 .                           (71)    energy due to electron exchange and correlation were studied
+                                                                        either in the regime of strong degeneracy and strongly quantiz-
+                                                                        ing magnetic fields (Danz & Glasser 1971; Banerjee et al. 1974;
+4.3. Thermodynamic and kinetic pressures                                Fushiki et al. 1989; see also Morbec & Capelle 2008 for an in-
+                                                                        structive discussion of the previous results and the inclusion
+The above expressions for pressure of a magnetized gas of               of the second Landau level contribution), or at low densities
+charged particles are based on the principles of thermody-              (Alastuey & Jancovici 1980; Cornu 1998; Steinberg et al. 1998,
+namics (Landau & Lifshitz 1980), according to which P =                 2000). In a previous work (Potekhin et al. 1999) we suggested a
+−(∂F/∂V)T,B. Alternatively, the pressure can be calculated from         modification of the field-free expression for Fee , which matches
+the microscopic dynamics as the sum of the changes of ki-               available exact limiting expressions, including the cases of non-
+netic momenta of all particles reflected off a unit surface per         quantizing, strongly quantizing degenerate, and strongly quan-
+unit time. The result of the latter calculation, the kinetic pres-      tizing nondegenerate plasmas. The modification consists in re-
+sure Pkin , depends on the orientation of the surface relative to       placing Fee (θ, Γe ) by Fee (θ∗ , Γe ), where
+B (Canuto & Chiu 1968). If the surface is perpendicular to B,
+then one gets the kinetic pressure Pkink = P, which acts along the
+                                                                                                   θ0 + θB
+                                                                        θ∗ =                                                    , (74)
+field lines, the longitudinal pressure. If the surface is parallel to             θB       −1   cosh(ζ/2)   tanh(ζ/4) arctanh ξ
+the field, one gets a different (transverse) kinetic pressure, which           1+    exp(−θB )
+                                                                                  θ0           [cosh(ζ/4)]2    ζ/4        ξ
+can be expressed (Blandford & Hernquist 1982) as
+                                                                        ξ = [1 − (4/ζ) tanh(ζ/4)]1/2, and θ0 and θB are given by Eqs. 2
+Pkin
+ ⊥ = −Ω/V + B (∂Ω/∂B)V,T = P − MB,                              (72)    and 56, respectively, at fixed ne and T .
+
+where M = −∂Ω/∂B is the magnetization.                                  5.2. Wigner-Kirkwood term
+     In order to resolve the apparent paradox, one should take
+the magnetization current density jm = c ∇ × M into account;            For the same reason as in Sect. 3.2.1, the treatment of the
+when boundaries are present, this volume current should be sup-         quantum effects in the ion liquid is restricted by the Wigner-
+plemented by the surface current cM × B/B (see, e.g., Griffith          Kirkwood term. Its expression in an arbitrary magnetic field was
+1999). As argued by Blandford & Hernquist (1982), if we com-            obtained by Alastuey & Jancovici (1980):
+press the electron gas perpendicular to B then we must do work
+                                                                               η2 
+                                                                                                            
+against the Lorentz force density jm × B/c, which gives an ad-            (2)            4         8     1 
+                                                                        fii =                 −     +  .                        (75)
+ditional contribution to the total transverse pressure and makes               24 ζi tanh(ζi /2) ζi2 3
+it equal to P. Because this point still causes confusion in some
+publications, let us illustrate it with a simple example.               The function in the square brackets monotonously varies from 1
+     If the pressure were anisotropic, then one might expect an         at ζi → 0 to 1/3 at ζi → ∞, reflecting the effective reduction of
+anisotropic density gradient in a strongly magnetized star. Let         the degrees of freedom of the classical ion motion from d = 3
+us consider a small volume element in the star, assuming that           at B = 0 to d = 1 for a strongly quantizing field. At small ζi ,
+we can treat B, T , and gravitational acceleration g as constants        fii(2) ≈ (η2 /24) (1 − ζi2 /90).
+within this volume, and z axis is directed along g. Hydrostatic
+equilibrium implies that the density of gravitational force, ρg,        5.3. Electron-ion correlations
+is balanced by the density of forces created by plasma particles.
+The crucial point is that the magnetization contributes to this         Using the linear response theory in the Thomas-Fermi limit,
+balance.                                                                Fushiki et al. (1989) evaluated the electron polarization energy
+     Let us compare the cases where B is parallel and perpendicu-       for a dense plasma in a strongly quantizing magnetic field at zero
+lar to g. In the first case, the z-component of the Lorentz force is    temperature, assuming that the ions remain classical (unaffected
+absent, and we get the standard equation of hydrostatic equilib-        by the field). A comparison with the analogous zero-field result
+rium: ρg = dPkin                                                        shows that the strongly quantizing magnetic field (γm rs2 > 2.23)
+                 k /dz = dP/dz. In the second case, the gradients
+                                                                        increases the polarization energy at high densities (rs ≪ 1) by a
+of the kinetic pressure dPkin ⊥ /dz and of the Lorentz force density                       2 4
+                                                                        factor of 0.8846 γm  rs (Potekhin et al. 1999).
+B dM/dz act in parallel. In the constant and uniform magnetic
+                                                                            Recently, Sharma & Reddy (2011) calculated the screening
+field, dM/dz is not zero, but is related to the density gradient:
+                                                                        of the ion-ion potential due to electrons in a large magnetic field
+                                                                        B at T = 0, using the one-loop representation of the polarization
+dM ∂M(ρ, T, B) dρ    ∂2 Ω(ρ, T, B) dρ                                   function. Their results for the strongly quantizing magnetic field
+   =              =−                  .                         (73)
+dz    ∂ρ       dz       V∂ρ ∂B dz                                       show that the screening is anisotropic, and the screened ion po-
+                                                                        tential exhibits Friedel oscillations with period π~/pF in a cylin-
+Then the equilibrium condition takes the form ρg = dPkin   ⊥ /dz +      der of a radius ∼ π~/pF along the magnetic field line that passes
+B dM/dz = dP/dz, which is the same as in the first case.                through the Coulomb center. Sharma & Reddy suggest that this
+Furthermore, one can express P through ρ using some EOS. In             long-range oscillatory behavior can affect the ion lattice struc-
+the considered example, dP/dz = [∂P(ρ, T, B)/∂ρ] dρ/dz, so that         ture. However, finite temperature should damp these oscillations,
+dρ/dz is also the same in both cases. Thus, the stellar hydrostatic     so that they are pronounced only at T ≪ T F , i.e., deep within the
+profile is determined by the isotropic thermodynamic pressure P,        triangular domains formed by the lines T F and ρB in Fig. 1. At
+which automatically includes magnetization.                             the typical pulsar magnetic fields B ∼ 1012 G, this requires an
+
+8
+                             A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+unusually low temperature of the neutron-star crust. On the other
+hand, the conditions T ≪ T F and ρ < ρB can be easily fulfilled
+in the outer crust of magnetars at B ∼ 1015 G (cf. Fig. 1 and the
+top panel of Fig. 8), but in this case the Friedel oscillations are
+strongly suppressed because the electrons are ultrarelativistic.
+    To the best of our knowledge, the magnetic effects on the
+electron polarization energy have not been calculated at finite
+temperatures or in the case where the field is not strongly quan-
+tizing. In view of the limited scope and limited applicability of
+the available results on the magnetic effects, we use the nonmag-
+netic expression for Fie in our code (Appendix C).
+
+
+6. Harmonic Coulomb crystals in the magnetic field
+The magnetic effects on Coulomb crystals have been studied
+only in the harmonic approximation. Nagai & Fukuyama (1982,
+1983) calculated phonon spectra of body-centered cubic (bcc),
+face-centered cubic (fcc), and hexagonal closely-packed (hcp)
+OCP lattices. They compared the energies of zero-point vibra-
+tions at different values of parameters β and RS and found con-
+ditions of stability of every lattice type. However, Baiko (2000,
+2009) noticed that their choice of the magnetic-field direction
+did not provide the minimum of the total energy.
+    Usov et al. (1980) obtained the equations for oscillation           Fig. 2. Thermal phonon contribution to the reduced internal en-
+modes of a harmonic OCP crystal and studied its phonon spec-            ergy uth = Uth /Ni kB T as a function of log(T/T p ) = − log η at
+trum in a quantizing magnetic field in several limiting cases.          β = ~ωci /kB T p = 0, 1, 10, 100, and 103 (numbers near the
+These authors discovered a “soft” phonon mode with dispersion           lines). The analytical approximation in Eq. 76 (dotted lines) and
+relation ω kα ∝ k2 near the center of the Brillouin zone, which         in Eq. 78 (short-dashed lines) are compared with the numerical
+leads to the unusual dependence of the heat capacity of the lat-        results of Baiko (2009) (solid lines for β = 1, 10, and 100).
+tice CV,lat ∝ T 3/2 at T → 0 instead of the Debye law CV,lat ∝ T 3 .
+Usov et al. (1980) argued that a strong magnetic field should in-
+crease stability of the crystal.
+    Baiko (2000, 2009) studied the magnetic effects on the
+phonon spectrum of the harmonic Coulomb crystals and calcu-
+lated its energy, entropy, and heat capacity. We have found that
+his results can be approximately reproduced by the analytical
+expressions presented below.
+
+6.1. Thermal phonon contributions
+Without a magnetic field, the thermal phonon contribution fth to
+the reduced free energy of a Coulomb crystal F/Ni kB T is a func-
+tion of a single argument η, described by a simple analytical ex-
+pression (Baiko et al. 2001). The magnetic field introduces the
+second independent dimensionless argument β. The functional
+dependence of thermodynamic functions on η and β is not sim-
+ple. Baiko (2009) identified five characteristic sectors of the η – β
+plane:
+   1. η < 1 and β < η−1 – weakly magnetized classical crystal,
+   2. η > 1 and β < η−1 – weakly magnetized quantum crystal,
+   3. η < 1 and β > η−1 – strongly magnetized classical crystal,
+   4. η > β > η−1 – strongly magnetized quantum crystal,
+   5. β > η > 1 – very strongly magnetized quantum crystal.
+Note that the condition β > η−1 is equivalent to ζi > 1. Thus, the
+magnetic field strongly affects the thermodynamic functions of          Fig. 3. Thermal phonon contribution to the reduced entropy
+a Coulomb crystal when ~ωci > kB T , that is the same condition         sth = S th /Ni kB T as a function of log(T/T p ) at β = ~ωci /kB T p =
+as for the gas and liquid phases.                                       0, 0.1, 1, 10, 100, and 104 (numbers near the lines). The analyti-
+     For astrophysical applications, we have constructed an an-         cal approximations in Eq. 77 (dotted lines) and in Eq. 79 (dashed
+alytical representation of the EOS of the magnetized Coulomb            lines) are compared with the numerical results of Baiko (2009)
+crystal, which is asymptotically exact in each of the five sectors      (solid lines for β ⩽ 100). The inset shows the same approxima-
+far from their boundaries, exactly recovers the nonmagnetic fit of      tions in the linear scale for sth ; here, the solid line corresponds
+Baiko et al. (2001) in the limit β → 0, and reaches a reasonable        to the numerical data at β = 100.
+compromise between simplicity and accuracy.
+
+                                                                                                                                            9
+                                    A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+                                                                                                 !           !
+                                                                                CV,th      ∂ s̃         ∂∆u
+                                                                                      =−             −          ,                            (80)
+                                                                                Ni kB    ∂ ln η β      ∂ ln η β
+                                                                                                     !           !
+                                                                                                ∂ s̃        ∂ũ
+                                                                                where ∆u =             −           − ũ.                     (81)
+                                                                                             ∂ ln η β     ∂ ln η β
+
+                                                                             Note that the relation between the phonon contributions to pres-
+                                                                             sure and internal energy, 2Pth V = Uth , which is standard for a
+                                                                             nonmagnetized harmonic crystal, is invalid in the strongly mag-
+                                                                             netized crystal because both dimensionless arguments η and β
+                                                                             depend on density.
+                                                                                 Approximations in Eqs. 78) – 80 are shown in Figs. 2 – 4.
+                                                                             Their reasonable behavior beyond the range of available numer-
+                                                                             ical data is demonstrated by plotting them also at larger β = 103
+                                                                             and 104 .
+
+                                                                             6.2. Zero-point vibrations
+                                                                             Because motions of the ions are confined by the magnetic field
+                                                                             in the transverse direction, they exhibit quantum oscillations in
+                                                                             the ground state (Landau 1930; Landau & Lifshitz 1977). The
+                                                                             energy of these oscillations is ~ωci /2 for every ion, which gives
+                                                                             the term ζi /2 in Eq. 42. In a Coulomb crystal, the motion of an
+Fig. 4. Thermal phonon contribution to the reduced heat capac-               ion is confined in an effective potential well, centered at its equi-
+                                                                             librium lattice site. The total energy of the zero-point quantum
+ity CV,lat /Ni kB T as a function of log(T/T p ) at β = ~ωci /kB T p = 0,
+                                                                             lattice oscillations Uq is given by Eq. 30.
+1, 10, 100, and 103 (numbers near the lines). The analytical ap-
+                                                                                  In the case where the crystal is placed in a magnetic field,
+proximation in Eq. 80) (short-dashed lines) is compared with the
+                                                                             Uq includes contributions due to both magnetic and lattice con-
+numerical results of Baiko (2009) (solid lines for β = 0, 1, 10,
+                                                                             finements of the ion motion. However, since the magnetic con-
+and 100). The dotted lines correspond to the first term on the
+                                                                             tribution Ni ~ωci /2 is common in all phase states, we take it as
+r.h.s. of Eq. 80.
+                                                                             the zero energy point in our code and separate it from the lat-
+                                                                             tice contribution that is specific to the solid phase. Then Eq. 30
+     The term fth in Eq. 32 can be rewritten as fth = uth − sth ,            becomes
+where uth = Uth /Ni kB T and sth = S th /Ni kB are the thermal con-
+tributions to the reduced internal energy and entropy. We approx-                   3             1
+                                                                             Uq =     Ni ~ωp u′1 + Ni ~ωci ,                                 (82)
+imately represent uth by the function                                               2             2
+                 u(0)                                                        and in Eq. 32 we have 1.5u1 η = 1.5u′1 η + ζi /2, where we have
+                                        p
+                   th                ψ / 1 + 24/η2
+ũ =                         −2/5 + 1 + 15 β/η + ψ ,          (76)          defined
+      1 + 0.5 1 + (3/ζi )5/2
+             
+
+where ψ = 12.5 (β/η)3/2 + 119 (β/η)2 and ζi = βη, and we repre-              u′1 = u1 − β/3.                                                 (83)
+sent sth by the function
+                                                                             The reduced frequency moment u′1 still depends on β, because
+                        20.8 (β/η)3/2 + 122.5 (β/η)2
+                                                        
+      (0)      
+s̃ = sth + ln 1 +
+                                                         
+                                                           . (77)           the character of ion vibrations is affected by the magnetic field
+                                           2        −1 4                    (they become essentially one-dimensional if B is extremely
+                    (1 + 7.9 β/η) (1 + 42/η ) (1 + ζi )
+                                                                             large), but the latter dependence is relatively weak. Having ex-
+In these equations, u(0)         (0)
+                         th and sth are the values of uth and sth at         tracted u′1 from the available numerical results for u1 (Baiko
+β = 0. Equations (76) and (77) exactly reproduce the known                   2009; Baiko & Yakovlev 2012), we can represent it by the sim-
+asymptotic limits: uth = 3 in the classical nonmagnetic limit                ple interpolation
+(η ≪ β ≪ 1), uth = 2 in the classical magnetic limit (η ≪
+β−1 ≪ 1), uth = 1 in the case where β ≫ η ≫ 1, and                                       u01 + 1.27β9/8 u∞
+                                                                                                         1
+uth = 0.6sth ∝ η−3/2 , if η → ∞ at β = constant.                             u′1 (β) =                     ,                                 (84)
+      The functions ũ(η, β) and s̃(η, β) are displayed in Figs. 2 and                      1 + 1.27β9/8
+3. Their accuracy is seen from a comparison with the numeri-
+cal results (Baiko 2009), also shown in the figures. However, if             where u01 is the zero-field value and u∞                     ′
+                                                                                                                       1 is the limit of u1 (β) at
+the complete consistency of different thermodynamic functions                β → ∞. Only one of the three phonon branches contributes to u′1
+is required, Eqs. (76) and (77) should not be used directly, but             in the latter limit, therefore u∞     0                          0
+                                                                                                             1 ∼ u1 /3. For the bcc crystal, u1 =
+should be first combined into fth = ũ − s̃. Then one can cal-               0.5113875, whereas u∞    1 varies between  0.18 and 0.19 depending
+culate thermodynamic functions by differentiating the function               on the orientation of the lattice in the magnetic field. In Fig. 5
+ fth (η, β). In this way we obtain, for example,                             we show u′1 and the logarithm (base 10) of u1 versus β.
+                                                                                 Usov et al. (1980) noticed that the energy of a crystal de-
+              Uth                                                            pends on its orientation in a strong magnetic field. However, nu-
+     uth =           = ũ + ∆u,                                       (78)
+           Ni kB T                                                           merical calculations (Baiko 2000, 2009) show that this depen-
+     sth = S th /Ni kB = s̃ + ∆u,                                     (79)   dence is very weak. For example, the difference ∆u1 between
+
+10
+                              A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+                                                                        (Z = 26, A = 56) at T = 107 K and B = 1012 G (for illus-
+                                                                        tration, the density range is extended to ρ . 105 neglecting the
+                                                                        bound states that can be important in this ρ – T domain). We plot
+                                                                        the normalized pressure p = P/ni kB T , entropy S /Ni kB , heat ca-
+                                                                        pacity cV = CV /Ni kB , and logarithmic derivatives of pressure χρ
+                                                                        and χT as functions of density. Dashed lines show these func-
+                                                                        tions in the absence of quantizing magnetic field. The vertical
+                                                                        dotted lines marked by numbers separate different characteristic
+                                                                        domains, consecutively entered with increasing density: onset
+                                                                        of electron degeneracy at B = 0 (T F(0) = T ) and at B = 1012 G
+                                                                        (T F = T ), population of excited Landau levels (ρ = ρB ), melting
+                                                                        point with formation of a classical Coulomb crystal (T m = T ),
+                                                                        and quantum effects in the crystal (T p = T ).
+                                                                             At low densities, the ideal-gas values are approached: p =
+                                                                        1 + Z, χρ = χT = 1, cV = (3 + 3Z)/2 at B = 0, and cV =
+                                                                        (3 + Z)/2 at B = 1012 G. The latter difference is because at
+                                                                        ρ < ρB the electron gas is effectively one-dimensional due to the
+                                                                        strong magnetic quantization.
+                                                                             With increasing density, the reduced pressure p first de-
+                                                                        creases below its ideal-gas value due to the Coulomb nonide-
+                                                                        ality and then increases due to the electron degeneracy. The in-
+                                                                        crease occurs earlier at zero field than in the strong magnetic
+Fig. 5. Reduced first moment of phonon frequencies u′1 (solid
+                                                                        field, because of the delayed onset of the degeneracy (Sec. 4).
+line) and log u1 (dashed line) as functions of β = ~ωci /T p . The
+                                                                        When ρ > ρB ≈ 1.5 × 104 g cm−3 , the thermodynamic functions
+dotted line shows the asymptote log(β/3).
+                                                                        approach their zero-field values. The gradually decreasing oscil-
+                                                                        lations correspond to consecutive filling of the electron Landau
+the values of u1 for two orientations, where the field lines con-       levels. The magnetic field B = 1012 G does not affect the ion
+nect an ion with its nearest neighbor in the first case and with a      contributions in Fig. 6, because it is nonquantizing for the iron
+next-order nearest neighbor in the second case, is approximately        nuclei at T = 107 K (ζi = 0.00342).
+                                                                             The liquid-solid phase transition occurs in Fig. 6 at ρ ≈
+            β15/4                                                       8.25 × 104 g cm−3 , where we adopt the classical OCP melting
+∆u1 =                  (∆u1 )max                                (85)
+        (1 + β3/2 )5/2                                                  condition Γ = 175.2 (Paper I). With further increase in density
+                                                                        (ρ & 106 ) the degeneracy becomes so strong that the energy and
+with saturation level (∆u1 )max = 0.0064 for the bcc lattice.           pressure are nearly independent of T and χT strongly decreases.
+                                                                        The normalized heat capacity gradually tends to its value cV = 3
+6.3. Comparison with the Baiko-Yakovlev fit                             characteristic of the classical simple crystal. At still higher den-
+                                                                        sity the ion motions become quantized (T p ≫ T ) which leads to
+After the present work was completed, we became aware of an             the further decrease in the heat capacity and the entropy.
+independent study by Baiko & Yakovlev (2012), who developed
+another set of approximations for the free energy of the harmonic
+Coulomb crystal in a magnetic field. They presented the free en-        7.2. Melting
+ergy as a sum of three terms corresponding to the contributions
+from each of the three phonon modes in the bcc crystal. Thus            The electron polarization, ion quantum effects, and quantizing
+each of these terms has a clear physics meaning, while our fit-         magnetic field can shift the melting temperature. The lower
+ting expressions give only the total contribution, which cannot         panel of Fig. 7 shows the Coulomb coupling parameter Γ at the
+be easily decomposed to three parts corresponding to the sepa-          melting (that is, the value Γm at which the free energies of the
+rate phonon modes.                                                      two phases are equal to each other); the upper panel displays the
+    Unlike our fit, the fit of Baiko & Yakovlev (2012) does not         difference between the internal energies in the liquid and solid
+exactly reproduce the very accurate results of Baiko et al. (2001)      phases at the melting point (the latent heat Qm = Uliq − Usol ), di-
+in the limit β → 0. At finite β, both sets of fitting expressions ac-   vided by Ni kB T . We plot the data for fully ionized 12 C and 56 Fe
+curately reproduce the asymptotes at T ≪ T p and T ≫ T p and            at B = 0 and 1013 G for carbon, B = 0, 1014 G, and 1015 G
+have similar accuracies within several percent points in the in-        for iron. The density range shown in the figure is typical for the
+termediate range 0.1T p/β . T . 10T p. Meanwhile, our approx-           outer envelopes of a neutron star and is also relevant for white
+imation is simpler: the Baiko-Yakovlev approximation contains           dwarfs.
+27 independent numerical fitting parameters, whereas our fits 76            The position of the melting point is very sensitive to the ac-
+and 77 contain together only 9 such parameters.                         curacy of the free energies of the Coulomb liquid and crystal
+                                                                        (see, e.g., Paper I). The polarization and quantum corrections to
+                                                                        the classical OCP free energy are not known sufficiently well for
+7. Examples and discussion                                              finding the position of the melting point in the whole interval
+7.1. Thermodynamic functions                                            of densities shown in Fig. 7. The dot-dashed curves in this fig-
+                                                                        ure correspond to the domain where T < 0.5 T p . Here, the per-
+Characteristic features of the EOS can be seen in Fig. 6. Here, we      turbation theory for the quantum effects in the liquid phase be-
+have chosen the plasma parameters that are typical for outer en-        comes progressively inaccurate. The dashed curves correspond
+velopes of isolated neutron stars: we consider fully-ionized iron       to the domain where the binding energy of the hydrogen-like
+
+                                                                                                                                         11
+                                A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+                                                                             ion exceeds 10% of the Fermi energy, Z 2 Ry > 0.1 ǫF , which
+                                                                             corresponds to ae & 0.6a0/Z. Here, the perturbation treatment
+                                                                             of the electron polarization in the crystal starts to be inaccu-
+                                                                             rate. In addition, the position of the melting point cannot be
+                                                                             traced to Γ . 100 – 120, because the available results for the
+                                                                             anharmonic corrections to the free energy of a Coulomb crystal
+                                                                             (Appendix B.2) are accurate only at larger Γ. Nevertheless, we
+                                                                             can evaluate Γm in a certain interval of densities for each type of
+                                                                             ions (the solid segments of the curves in the figure).
+                                                                                  The values of Qm in Fig. 7 roughly (within a factor of two)
+                                                                             agree with the OCP value QOCP  m   = 0.746NikB T at Γm = 175.2
+                                                                             and with the values used in theoretical models of white dwarf
+                                                                             cooling (e.g., Hansen 2004 and references therein). Most of the
+                                                                             neutron star cooling models currently ignore the release of the
+                                                                             latent heat at the crystallization of the neutron star envelopes
+                                                                             (e.g., Yakovlev & Pethick 2004, and references therein).
+                                                                                  Figure 7 shows that the strong magnetic fields tend to de-
+                                                                             crease Γm and thus stabilize the Coulomb crystal, in quali-
+                                                                             tative agreement with previous conjectures (Ruderman 1971;
+                                                                             Kaplan & Glasser 1972; Usov et al. 1980; Lai 2001). At densi-
+                                                                             ties ρ ∼ 107 – 108 g cm−3 corresponding to the “sensitivity strip”
+                                                                             in the neutron-star cooling theory (Yakovlev & Pethick 2004),
+                                                                             the stabilization proves to be significant at the magnetar field
+Fig. 6. Reduced thermodynamic functions P/ni kB T , S /Ni kB ,               strengths B = 1014 – 1015 G. The results for 56 Fe in this B inter-
+CV /Ni kB , χρ , and χT for a fully-ionized nonmagnetic (dashed              val, shown in the lower panel of Fig. 7, can be roughly (within
+lines) and magnetized (B = 1012 G, solid lines) iron plasma at               10%) described by the formula Γm (B) ≈ Γm (0)/(1+0.2 β). At the
+T = 107 K. The vertical dotted lines mark the densities at which             typical pulsar field strengths, B = 1012 – 1013 G, the effect is no-
+(1) T F(0) = T , (2) T F = T , (3) ρ = ρB , (4) Γ = Γm , and (5) T p = T .   ticeable at lower densities. However, these conclusions remain
+                                                                             preliminary in the absence of an evaluation of the magnetic-field
+                                                                             effects on the anharmonic corrections. In view of the limited ap-
+                                                                             plicability and incompleteness of the evaluation of Γm with ac-
+                                                                             count of the quantum, polarization, and magnetic effects, in ap-
+                                                                             plications we use the classical OCP value Γm = 175.2 as the
+                                                                             fiducial melting criterion.
+
+                                                                             7.3. Magnetic condensation
+                                                                             Ruderman (1971) suggested that the strong magnetic field may
+                                                                             stabilize molecular chains (polymers) aligned with the magnetic
+                                                                             field and eventually turn the surface of a neutron star into the
+                                                                             metallic solid state. Later studies have provided support for this
+                                                                             conjecture, although the critical temperature T crit , below which
+                                                                             this condensation occurs, remains very uncertain. Condensed
+                                                                             surface density ρs is usually estimated as
+                                                                             ρs,ξ = 561 ξ AZ −0.6 B1.2    −3
+                                                                                                   12 g cm ,                                  (86)
+                                                                             where ξ ∼ 1 is an unknown numerical factor, which absorbs
+                                                                             the theoretical uncertainty (Lai 2001; Medin & Lai 2006). The
+                                                                             value ξ = 1 corresponds to the EOS provided by the ion-
+                                                                             sphere model (Salpeter 1961), which is close to the uniform
+                                                                             model of Fushiki et al. (1989). For comparison, the results of
+                                                                             the zero-temperature Thomas-Fermi model for 56 Fe at 1010 G ⩽
+Fig. 7. Characteristics of the melting transition of nonideal car-           B ⩽ 1013 G (Rögnvaldsson et al. 1993) can be approximated
+bon and iron plasmas at different field strengths B (marked near             (within 4%) by ρs,ξ with ξ ≈ 0.2 + 0.01/B0.56        12 , whereas the
+the curves). Lower panel: the value Γm of the Coulomb coupling               finite-temperature Thomas-Fermi model of Thorolfsson et al.
+parameter Γ at the melting point as function of mass density                 (1998) does not predict magnetic condensation at all. Our
+ρ. Upper panel: normalized latent heat per ion at the melting                EOS for partially ionized hydrogen plasmas in strong magnetic
+transition. The dot-dashed and dashed segments of the curves                 fields (Potekhin et al. 1999; Potekhin & Chabrier 2004) exhibits
+correspond to the domains of nonperturbative quantum effects                 a phase transition with T crit ≈ 3 × 105 B0.39
+                                                                                                                          12 K and critical density
+(T < 0.5 T p) and electron response (Z 2 Ry > 0.1 ǫF ), respec-              ρcrit ≈ 143 B1.18 g cm −3
+                                                                                                       ∼  ρ s,0.25 at 1 .  B12 . 103 . According to
+                                                                                          12
+tively. The dotted horizontal lines mark the OCP values. The                 another study (Lai & Salpeter 1997; Lai 2001), T crit for hydro-
+filled and open circles mark the positions of the real and virtual           gen is several times smaller.
+condensed surfaces (see text in Sect. 7.3).                                       Medin & Lai (2006) performed density-functional calcula-
+                                                                             tions of the cohesive energy Qs of the condensed phases of H,
+
+12
+                              A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+He, C, and Fe in strong magnetic fields. A comparison with pre-
+vious density-functional calculations of other authors prompts
+that Qs may vary within a factor of two at B12 & 1, depending on
+the approximations (see Medin & Lai 2006 for references and
+discussion). In a subsequent study, Medin & Lai (2007) calcu-
+lated the equilibrium densities of saturated vapors of He, C, and
+Fe atoms and polymers above the condensed surfaces, and ob-
+tained T crit at several values of B by equating the vapor density
+to ρs . Unlike the previous authors, Medin & Lai (2006, 2007)
+have taken the electronic band structure of the condensed mat-
+ter into account self-consistently, but they did not allow for the
+atomic motion across the magnetic field and mostly neglected
+the contributions of the excited atomic and molecular states in
+the gaseous phase. Medin & Lai obtained ρs assuming that the
+linear molecular chains form a rectangular array with sides 2R
+in the plane perpendicular to B, and that the distance a be-
+tween the nuclei along B in the condensed matter remains the
+same as in the gaseous phase, so that ρs = mi /4aR2 (Medin
+2012). Using Tables III – V of Medin & Lai (2006) for a and R,
+we can describe their results for the surface density of 12 C at
+1 ⩽ B12 ⩽ 1000 and 56 Fe at 5 ⩽ B12 ⩽ 1000 by Eq. 86 with
+ξ = 0.517 + 0.24/B1/5  12 ± 0.011 and ξ = 0.55 ± 0.11, respectively.
+      Medin & Lai (2007) found that the critical temperature is
+T crit ≈ 0.08Qs /kB . Their numerical results for He, C, and Fe
+can be roughly (within a factor of 1.5) described as T crit ∼
+5 × 104 Z 1/4 B3/412 K at 1 . B12 . 1000. For comparison, the            Fig. 8. Structure of a magnetar envelope having the ground-state
+results of Lai & Salpeter (1997) for H at 10 . B12 . 500 sug-            nuclear composition, the effective temperature 106.5 K, and mag-
+gest T crit ∼ 1.6 × 104 B0.7
+                          12 K. The discrepancies between different      netic field B = 1015 G, inclined at 45◦ to the surface. Top
+estimates of ρs and T crit reflect the current theoretical uncertain-    panel: thermal profiles calculated using the present EOS (solid
+ties.                                                                    red line) and the EOSs where the Coulomb nonideality is ei-
+      The filled dots on the curves for magnetized carbon in both        ther neglected (dotted green line) or treated without account of
+panels of Fig. 7 correspond to the condensed surface posi-               magnetic quantization (dashed blue line, which is superposed
+tion in the fully-ionized plasma model. In this model T crit ≈           on the solid red line). The melting temperature is drawn by the
+2.5 × 105 Z 0.9 B0.412 K and ρcrit ≈ ρs,0.47 . With decreasing tem-      oblique dot-dashed line. Thin vertical dot-dashed lines mark the
+perature T below T crit , the surface density increases and tends to     points of phase transitions from solid to liquid and back to solid
+the limit ρs,1 given using Eq. 86 as ρs ≈ ρs,1 /[1 + 1.1 (T/T crit)5 ]   state. Asterisks mark the ends of the convective segment, which
+(cf. Fig. 1). At smaller densities, there is a thermodynamically         is indicated by the arrow. Middle panel: ion charge (Rüster et al.
+unstable region in this model, therefore the curves in Fig. 7 are        2006). Bottom panel: reduced pressure, heat capacity, and loga-
+not continued to the left beyond this point. For the magnetized          rithmic derivatives of pressure.
+iron model, the melting curve does not cross the surface because
+T m > T crit . In this case, the open circles mark the density that
+the condensed surface would have at much smaller temperatures                 The temperature quickly grows at the solid surface and
+T ∼ 106 K ≪ T crit . The parts of the curves to the left of the open     reaches the melting point at the depth z ≈ 7 cm. Thus, at the
+circles cannot be reached in a stationary stellar envelope.              given conditions, the liquid ocean of a magnetar turns out to be
+                                                                         covered by a thin layer of “ice” (solid substance). We treat the
+7.4. Thermal structure of a magnetar envelope                            solid crust as immobile, but the liquid layer below the “ice” is
+                                                                         convective up to the depth z ∼ 1 m. We treat the convective
+The results presented above have a direct application to the cal-        heat transport through this layer in the adiabatic approximation
+culations of the thermal and mechanical structure of neutron-star        (Schwarzschild 1958). The change of the heat-transport mech-
+envelopes with strong magnetic fields. Figure 8 illustrates the          anism from conduction to convection causes the break of the
+structure of a typical magnetar envelope with the ground-state           temperature profile at the melting point. We underline that this
+nuclear composition. For illustration we have assumed that the           treatment is only an approximation. In reality, the superadiabatic
+magnetar has mass 1.4 M⊙ and radius 12 km, and the considered            growth of temperature can lead to a hydrostatic instability of the
+patch of the stellar surface has effective temperature 106.5 K and       shell of “ice” and eventually to its cracking and fragmentation
+magnetic field B = 1015 G inclined at 45◦ . The top panel shows          into turning-up “ice floes”. This can result in transient enhance-
+the thermal structure of the envelope, which has been calculated         ments of the thermal luminosity of magnetars.
+by numerical solution of the system of heat balance equations,                The temperature profile flattens with density increase, and
+taking the general relativity effects and neutrino emission into         the Coulomb plasma freezes again at the interface between the
+account (Potekhin et al. 2007). The middle panel presents the            layers of 66 Ni and 86 Kr at ρ = 1.5 × 109 g cm−3 (z = 73.8 m).
+ion charge Z as function of ρ (Rüster et al. 2006). In the bottom       These phase transitions do not cause any substantial breaks in
+panel (analogous to Fig. 6) we plot several reduced thermody-            χρ , χT , or CV /Ni kB , because the Coulomb plasmas have similar
+namic functions of ρ and T along the thermal profile (i.e., taking       structure factors in the liquid and crystalline phases in the melt-
+T from the top panel), starting at the condensed solid surface.          ing region (cf. Baiko et al. 1998).
+
+                                                                                                                                         13
+                                   A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+     At the boundaries between layers composed of different                         Appendix A: Nonideal part of the free energy of
+chemical elements, the reduced thermodynamic functions do                             electrons
+not exhibit substantial discontinuities, except for the abrupt in-
+creases in P/ni kB T at the interfaces 66 Ni/86 Kr (ρ = 1.5 × 109                   Tanaka et al. (1985) calculated the interaction energy of the elec-
+g cm−3 ) and 78 Ni/124 Mo (ρ = 1.32 × 1011 g cm−3 ), which are                      tron fluid at finite T and presented a fitting formula that repro-
+caused by the decreases in ni with the large jumps in A (of                         duced their numerical results as well as the results of other au-
+course, the non-normalized pressure P is continuous). The spe-                      thors in various limits. Subsequently the behavior of the fit at
+cific heat per ion CV /Ni kB is almost continuous at these inter-                   T ≪ T F was improved by Ichimaru et al. (1987). The result
+faces, which means that heat capacity of unit volume abruptly                       reads
+decreases. The drop in χT at the 78 Ni/128 Mo interface is due to                     Fee                2A p
+the same decrease in ni , which leads to the decrease in the ionic                           = −gΓe −          Γe
+                                                                                    kB T Ne               f
+contribution that mostly determines ∂P/∂T at the strong degen-                                         "           √       !            !#
+eracy.                                                                                   2(dB + CA)            2 f Γe + d             d
+                                                                                       +                arctan               − arctan
+     The oscillations of the reduced thermodynamic functions                                  fD                     D                D
+(most noticeable for χρ and χT ) correspond to consecutive pop-
+                                                                                                    !
+                                                                                          B dA                   p
+ulation of excited Landau levels by degenerate electrons with                          −     − 2 ln( f Γe + d Γe + 1),                           (A.1)
+                                                                                           f     f
+density increase, analogous to the oscillations in Fig. 6.
+                                                                                                                                            p
+     The magnetic effects on the nonideal part of the plasma ther-                  where A = b − gd, B = a − g, C = 2 − d2 / f , D = 4 f − d2 ,
+modynamic functions have almost no influence on the temper-                         and a, b, d, f , and g are the following functions of θ = T/T F (at
+ature profile in the magnetar envelope, as illustrated in the up-                   B = 0):
+per panel of Fig. 8 where the corresponding solid and dashed                                    !1/3
+lines virtually coincide. For comparison, the dotted line in the                             9            1
+upper panel shows the result of a calculation totally neglecting                    a =              tanh
+                                                                                            4π2           θ
+the Coulomb nonideality. In this case, the profile is quite dif-
+ferent at low densities, where there is no longer a solid surface.                         0.75 + 3.04363θ2 − 0.09227θ3 + 1.7035θ4
+                                                                                         ×                                           ,
+However, even in this case the thermal profile is almost the same                                  1 + 8.31051θ2 + 5.1105θ4
+at large ρ. This means that the Coulomb nonideality has a minor                          0.341308 + 12.0708 θ2 + 1.148889 θ4 √           1
+                                                                                    b =                                         θ tanh √ ,
+impact on the relation between the internal and effective temper-                           1 + 10.495346 θ2 + 1.326623 θ4                θ
+atures and therefore on the cooling curves (Yakovlev & Pethick                                                 2             4 √
+2004), but it can be important for the shape of the thermal spec-                       0.614925 + 16.996055θ + 1.489056θ                 1
+                                                                                    d =                                          θ tanh √ ,
+trum (cf., e.g., Potekhin et al. 2012).                                                      1 + 10.10935 θ2 + 1.22184 θ4                  θ
+                                                                                         0.539409 + 2.522206 θ2 + 0.178484 θ4          1
+                                                                                    f =                                        θ tanh ,
+                                                                                             1 + 2.555501 θ2 + 0.146319 θ4             θ
+8. Conclusions                                                                      g = 0.872496 + 0.025248 exp(−1/θ).
+We have systematically reviewed analytical approximations for                       The accuracy of Eq. A.1 is 1%.
+the EOS of fully-ionized electron-ion plasmas in magnetic fields                        In a quantizing magnetic field, we replace the argument θ
+and described several improvements to the previously pub-                           in these expressions by the quantity θ∗ defined by Eq. 74, as
+lished approximations, taking nonideality attributable to ion-                      explained in Sect. 5.1.
+ion, electron-electron, and electron-ion interactions into ac-
+count. The presented formulae are applicable in a wide range
+of plasma parameters, including the domains of nondegenerate                        Appendix B: Nonideal part of the free energy of
+and degenerate, nonrelativistic and relativistic electrons, weakly                    ions in the rigid background
+and strongly coupled Coulomb liquids, classical and quantum
+Coulomb crystals. As an application, we have calculated and dis-                    B.1. Coulomb liquid
+cussed the behavior of thermodynamic functions, melting, and                        For the reduced free energy fii ≡ Fii /Ni kB T of the classic OCP,
+latent heat at crystallization of strongly coupled Coulomb plas-                    we have the following analytical formula (Paper I):
+mas with the parameters appropriate for cooling white dwarfs                                   p                  p                      
+                                                                                    fii(0) = A1 Γ(A2 + Γ) − A2 ln Γ/A2 + 1 + Γ/A2
+                                                                                                                                p
+and envelopes of nonmagnetized and strongly magnetized neu-
+tron stars. We have also shown that a typical outer envelope of a                                 h√            √ i
+magnetar can have a liquid layer beneath the solid surface.                                  +2A3 Γ − arctan Γ
+    The Fortran code that realizes the analytical ap-
+                                                                                                                                  Γ2
+                                                                                              "                 !#                   !
+proximations described in this paper is available at                                                         Γ       B3
+                                                                                           +B1 Γ − B2 ln 1 +       +     ln 1 +        ,          (B.1)
+http://www.ioffe.ru/astro/EIP/ and at the CDS via                                                            B2      2            B4
+anonymous ftp to cdsarc.u-strasbg.fr (130.79.128.5) or via                          where A1 = −0.907347, A2 = 0.62849, B1 = 0.0045, B2 = √170,
+http://cdsweb.u-strasbg.fr/cgi-bin/qcat?J/A+A/.                                                                               √
+                                                                                    B3 = −8.4 × 10−5 , B4 = 0.0037, and A3 = − 3/2 − A1 / A2 .
+                                                                                    The derivative
+Acknowledgements. We are grateful to José Pons for pointing out a bug in a
+                                                                                    ∂ fii(0)                           B1 Γ2   B3 Γ2
+                                                                                                   "              #
+previous version of one of our subroutines, to D. A. Baiko and D. G. Yakovlev                         A1      A3
+for making their results available to us prior to publication and for useful dis-            = Γ3/2 √      +        +        + 2     , (B.2)
+cussions, and to D. G. Yakovlev for valuable remarks on a preliminary version       ∂ ln Γ           Γ + A2 Γ + 1     Γ + B2 Γ + B4
+of this paper. The work of A.Y.P. was partially supported by the Ministry of
+Education and Science of the Russian Federation (Agreement No. 8409, 2012),         reproduces Monte Carlo calculations of the reduced internal en-
+the Russian Foundation for Basic Research (RFBR grant 11-02-00253-a), and           ergy Uii /Ni kB T at 1 ≤ Γ ≤ 190 (Caillol 1999) within the accu-
+the Russian Leading Scientific Schools program (grant NSh-4035.2012.2).             racy of these calculations, . 10−3 . For any values of the coupling
+
+14
+                                A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+parameter in a liquid OCP, 0 ⩽ Γ . 200, the fractional error of               where a1 = 10.9, a2 = 247, and a3 = 1.765×105. A continuation
+the approximation (B.1) does not exceed 2 × 10−4 .                            to arbitrary η, which is consistent with available analytical and
+    The classical treatment of ion motion is justified at T ≫ T p .           numerical results for quantum crystals, reads (Paper II)
+One can extend the applicability range of the analytical EOS to                                          2
+                                                                                     (0)
+T ∼ T p by the Wigner-Kirkwood quantum corrections (Wigner                    fah = fah  (Γ) e−0.0112η − 0.12 η2 /Γ .                          (B.7)
+1932; Landau & Lifshitz 1980). The lowest-order correction to
+the reduced free energy is                                                        Superstrong magnetic fields can significantly change these
+                                                                              expressions under the conditions ζi & 1 and η & 1. Analytical ap-
+fii(2) = η2 /24.                                                    (B.3)     proximations for the free energy of a harmonic Coulomb crystal
+The next-order correction ∝                   4
+                                      ~ was obtained                   by     in quantizing magnetic fields are derived in Sect. 6. Analogous
+Hansen & Vieillefosse (1975). It can be written as                            results for the anharmonic corrections are currently unavailable.
+
+                                    2.411 × 10−4 0.001288
+fii(4) ≈ − 2.085 × 10−4 −                          −                          Appendix C: Electron polarization corrections
+                                         Γ1/2              Γ
+                              −4                                              C.1. Coulomb liquid
+                                                           !
+              1.353 × 10           0.002476 0.00276 4
+            +                    −             −             η.       (B.4)
+                      Γ3/2            Γ2           Γ5/2                       The screening contribution to the reduced free energy of the
+This expression, unlike Eq. B.3, is not exact. Both corrections               Coulomb liquid at 0 < Γ . 300 has been calculated by the HNC
+have limited applicability, because as soon as η becomes large,               technique and fitted by the expression (Paper I)
+the Wigner expansion diverges and the plasma forms a quantum                                              √
+liquid, whose free energy is not known in an analytical form.                         Fie             cDH Γe + cTF aΓνe g1 h1
+                                                                               fie ≡         = −Γe      h √               i     ,         (C.1)
+Therefore we use only the lowest-order correction (B.3), i.e.,                       Ni kB T        1 + b Γe + ag2 Γνe /rs γr−1
+ fii ≈ fii(0) + fii(2) . In a magnetic field, Eq. B.3 is replaced by Eq. 75
+                                                                                                      √ h                       i
+(Sect. 5.2).                                                                  where cDH = (Z/ 3) (1 + Z)3/2 − 1 − Z 3/2 ensures exact
+                                                                              transition to the Debye-Hückel
+                                                                                                                  limit at Γ → 0, cTF =
+B.2. Coulomb crystal                                                          (18/175) (12/π)2/3Z 7/3 1 − Z −1/3 + 0.2 Z −1/2 fits the numerical
+The reduced free energy of an OCP in the crystalline phase is                 data at large Γ and reproduces the Thomas-Fermi limit (Salpeter
+given by Eq. 32, where the first three terms describe the har-                1961) at Z → ∞, the parameters a = 1.11 Z 0.475, b = 0.2 +
+monic lattice model (Baiko et al. 2001). For the bcc crystal, we              0.078 (ln Z)2 , and ν = 1.16 + 0.08 ln Z provide a low-order ap-
+have C0 = −0.895 929 255 68 and u1 = 0.511 3875, and for fth                  proximation to Fie for intermediate rs and Γ. The functions
+the following fitting formula can be used:                                                     h               i−1
+                                                                              g1 = 1 + 0.78 21 + Γe (Z/rs )3 (Γe /Z)1/2 ,
+        3
+        X                 A(η)
+            ln 1 − e−αk η −                                                                                              rs3
+                                                                                                                     !
+fth =                            ,                                  (B.5)                  Z−1              1
+                            B(η)                                              g2 = 1 +           1+                             ,
+        k=1                                                                                  9        0.001 Z 2 + 2Γe 1 + 6 rs2
+where α1 = 0.932446, α2 = 0.334547, α3 = 0.265764,
+                                                                              improve the fit at relatively large rs . Finally, the function
+A(η) = 1 + 0.1839 η + 0.593 586 η2 + 0.005 4814 η3
+       +5.018 13 × 10−4 η4 + 3.9247 × 10−7 η6                                                        1 + x2r /5
+                                                                              h1 =                              −1/2 x2 + x2 /5
+       +5.8356 × 10−11 η8 ,                                                          1 + 0.18 Z −1/4 x
+                                                                                                     r + 0.37 Z       r    r
+
+B(η) = 261.66 + 7.079 97 η2 + 0.0409 484 η4                                   is the relativistic correction, as is γr−1 in the denominator.
+       +3.973 55 × 10−4 η5 + 5.111 48 × 10−5 η6
+       +2.197 49 × 10−6 η7 + 1.866 985 × 10−9 η9                              C.2. Coulomb crystal
+       +2.787 72 × 10−13 η11 .
+                                                                              The screening contribution to the reduced free energy of the
+The Taylor expansion of Eq. B.5 at small η is consistent with the             Coulomb crystals was evaluated using the semiclassical pertur-
+Wigner correction B.3. However, the next Taylor term ∼ η3 is ab-              bation approach with an effective structure factor (Paper I) and
+sent in the Wigner expansion, and therefore Eq. B.5 does not re-              fitted by the expression (Paper II)
+produce higher-order Wigner corrections. Nevertheless, approx-                                   n          h      is o
+imation B.5 is very accurate: it reproduces the numerical results              fie = − f∞ (xr ) Γ 1 + A(xr ) Q(η)/Γ ,                    (C.2)
+in Baiko et al. (2001) with fractional deviations within 5 × 10−6 ,
+and its first and second derivatives reproduce the calculated con-            where
+tributions to the internal energy and heat capacity with devia-                                     p
+tions up to several parts in 105 . Other types of simple lattices are         f∞ (x) = aTF Z 2/3 b1 1 + b2 /x2 ,
+described by the same expressions with slightly different param-                       b3 + 17.9x2
+eters (see Baiko et al. 2001).                                                 A(x) =                ,
+                                                                                         1 + b 4 x2
+    Anharmonic corrections for Coulomb lattices were studied                           h              2
+                                                                                                         i1/2 h                       2
+                                                                                                                                          i−1/2
+in a number of works (see Papers I and II for references). In                  Q(η) = ln 1 + e(0.205η)          ln e − (e − 2)e−(0.205η)         ,
+the classical regime η → 0, we have chosen one of the 11
+parametrizations proposed by Farouki & Hamaguchi (1993):                      the parameter aTF = 0.00352 is related to cTF in Eq. C.1, and
+               3                                                              parameters s and b1 – b4 depend on Z:
+ (0)
+               X    ak
+fah  (Γ) = −            ,                                           (B.6)           h                             i−1
+               k=1
+                   kΓ k                                                        s = 1 + 0.01 (ln Z)3/2 + 0.097 Z −2 ,
+
+                                                                                                                                                     15
+                                   A. Y. Potekhin and G. Chabrier: Equation of state for magnetized Coulomb plasmas
+
+b1 = 1 − 1.1866 Z −0.267 + 0.27 Z −1,                                                Nagai, T., & Fukuyama, H. 1982, J. Phys. Soc. Japan, 51, 3431
+                                                                                     Nagai, T., & Fukuyama, H. 1983, J. Phys. Soc. Japan, 52, 44
+         2.25 1 + 0.684 Z 5 + 0.222 Z 6                                              Ogata, S., Iyetomi, H., Ichimaru, S., & Van Horn, H. M. 1993, Phys. Rev. E, 48,
+b2 = 1 + 1/3                            ,
+         Z           1 + 0.222 Z 6                                                      1344
+b3 = 41.5/(1 + ln Z),                                                                Paxton, B., Bildsten, L., Dotter, A., et al. 2011, ApJS, 192, 3
+                                                                                     Pollock, E. L., & Hansen, J. P. 1973, Phys. Rev. A, 8, 3110
+b4 = 0.395 ln Z + 0.347 Z −3/2.                                                      Potekhin, A. Y., & Chabrier, G. 2000, Phys. Rev. E, 62, 8554 (Paper I)
+                                                                                     Potekhin, A. Y., & Chabrier, G. 2004, ApJ, 600, 317
+Here, the numerical parameters are given for the bcc crystal;                        Potekhin, A. Y., & Chabrier, G. 2010, Contrib. Plasma Phys., 50, 82 (Paper II)
+their values for the fcc lattice are slightly different (Paper I).                   Potekhin, A. Y., Chabrier, G., & Shibanov, Yu. A. 1999, Phys. Rev. E, 60, 2193
+                                                                                     Potekhin, A. Y., Chabrier, G., & Yakovlev, D. G. 2007, Ap&SS, 308, 353 (elec-
+                                                                                        tronic version with corrected misprints: arXiv:astro-ph/0611014v3)
+                                                                                     Potekhin, A. Y., Chabrier, G., & Rogers, F. J. 2009a, Phys. Rev. E, 79, 016411
+References                                                                           Potekhin, A. Y., Chabrier, G., Chugunov, A. I., DeWitt, H. E., & Rogers, F. J.
+Alastuey, A., & Jancovici, B. 1980, Physica A, 102, 327                                 2009b, Phys. Rev. E, 80, 047401
+Baiko, D. A. 2000, PhD thesis (St. Petersburg: Ioffe Phys.-Tech. Inst.) [in          Potekhin, A. Y., Suleimanov, V. F., van Adelsberg, M., & Werner, K. 2012, A&A,
+   Russian]                                                                             546, A121
+Baiko, D. A. 2002, Phys. Rev. E, 66, 056405                                          Rögnvaldsson, Ö. E., Fushiki, I., Gudmundsson, E. H., Pethick, C. J., &
+Baiko, D. A. 2009, Phys. Rev. E, 80, 046405                                             Yngvason, J. 1993, ApJ, 416, 276
+Baiko, D. A., & Yakovlev, D. G. 2012, private communication                          Rosenfeld, Y. 1996, Phys. Rev. E, 54, 2827
+Baiko, D. A., Kaminker, A. D., Potekhin, A. Y., & Yakovlev, D. G. 1998,              Ruderman, M. A. 1971, Phys. Rev. Lett., 27, 1306
+   Phys. Rev. Lett., 81, 5556                                                        Rüster, S. B., Hempel, M., & Schaffner-Bielich, J. 2006, Phys. Rev. C, 73,
+Baiko, D. A., Potekhin, A. Y., & Yakovlev, D. G. 2001, Phys. Rev. E, 64, 057402         035804
+Banerjee, B., Constantinescu, D. H., & Rehak, P. 1974, Phys. Rev. D, 10, 2384        Salpeter, E. E. 1961 ApJ, 134, 669
+Berestetskiı̆, V. B., Lifshitz, E. M., & Pitaevskiı̆, L. P., 1982, Quantum           Schwarzschild, M. 1958, Structure and Evolution of the Stars (Princeton:
+   Electrodynamics (Oxford: Butterworth-Heinemann)                                      Princeton Univ. Press)
+Blandford, R. D., & Hernquist, L. 1982, J. Phys. C: Solid State Phys., 15, 6233      Schwinger, J. 1988, Particles, Sources, and Fields (Redwood: Addison-Wesley)
+Blinnikov, S. I., Dunina-Barkovskaya, N. V. Nadyozhin, D. K. 1996, ApJS, 106         Sharma, R., & Reddy, S. 2011, Phys. Rev. C, 83, 025803
+   171; erratum: 1998, ApJS, 118, 603                                                Steinberg, M., Ortner, J., & Ebeling, W. 1998, Phys. Rev. E, 58, 3806
+Brami, B., Hansen, J. P., & Joly, F. 1979, Physica, 95A, 505                         Steinberg, M., Ebeling, W., & Ortner, J. 2000, Phys. Rev. E, 61, 2290
+Broderick, A., Prakash, M. & Lattimer, J. M. 2000, ApJ, 537, 351                     Suh, I.-S., & Mathews, G. J. 2001, ApJ, 546, 1126
+Caillol, J. M. 1999, J. Chem. Phys., 111, 6538                                       Tanaka, S., Mitake, S., & Ichimaru, S. Phys. Rev. A, 32, 1896
+Canuto, V., & Chiu, H.-Y. 1968, Phys. Rev., 173, 1220                                Thorolfsson, A., Rögnvaldsson, Ö. E., Yngvason, J., & Gudmundsson, E. H.
+Chabrier G., & Ashcroft, N. W. 1990, Phys. Rev. A, 42, 2284                             1998, ApJ, 502, 847
+Chabrier G., & Baraffe, I. 2000, ARA&A, 38, 337                                      Timmes, F. X., & Arnett, D. 1999, ApJS, 125, 277
+Chabrier, G., & Potekhin, A. Y. 1998, Phys. Rev. E, 58, 4941                         Timmes, F. X., & Swesty, F. D. 2000, ApJS, 126, 501
+Chabrier, G., Douchin, F., & Potekhin, A. Y. 2002, J. Phys.: Condensed Matter,       Usov, N. A., Grebenshchikov, Yu. B., & Ulinich, F. R. 1980, Sov. Phys.–JETP,
+   14, 9133                                                                             51, 148
+Chandrasekhar, S. 1957, An Introduction to the Study of Stellar Structure (New       van Leeuwen, J. H. 1921, J. de Physique et le Radium, Ser. VI, 2, 361
+   York: Dover, 1957), Chap. X.                                                      Wickramasinghe, D. T., & Ferrario, L. 2000, PASP, 112, 873
+Cornu, F. 1998, Phys. Rev. E, 58, 5293                                               Wigner, E. P. 1932, Phys. Rev. 40, 749
+Danz, R. W., & Glasser, M. L. 1971, Phys. Rev. B, 4, 94                              Yakovlev, D. G., & Kaminker, A. D. 1994, in The Equation of State in
+DeWitt, H. E., Slattery, W., & Chabrier, G. 1996, Physica A, 228, 21                    Astrophysics, Proceedings of IAU Colloquium No. 147, ed. G. Chabrier &
+DeWitt, H. E., & Slattery, W. 2003, Contrib. Plasma Phys., 43, 279                      E. Schatzman (Cambridge: Cambridge University Press), 214
+Farouki, R. T., & Hamaguchi, S. 1993, Phys. Rev. E, 47, 4330                         Yakovlev, D. G., & Pethick, C. J. 2004, ARA&A, 42, 169
+Fortov, V. E. 2009, Phys. Usp., 52, 615                                              Yakovlev, D. G. & Shalybkov, D. A. 1989, Astrophys. Space Phys. Rev. 7, 311
+Fushiki, I., Gudmundsson, E. H., & Pethick, C. J. 1989, ApJ, 342, 958
+Galam S., & Hansen, J. P. 1976, Phys. Rev. A, 14, 816
+Girifalco, L. A. 1973, Statistical Physics of Materials (New York: Wiley-
+   Interscience, 1973), App. V.
+Griffith, D. J. 1999, Introduction to Electrodynamics, 3rd ed. (London: Prentice-
+   Hall), Chap. 6.
+Haensel, P., Potekhin, A. Y., & Yakovlev, D. G. 2007, Neutron Stars 1: Equation
+   of State and Structure (New York: Springer)
+Hamaguchi, S., Farouki, R. T., & Dubin, D. H. E. 1997, Phys. Rev. E, 56, 4671
+Hansen, B. M. S. 2004, Phys. Rep., 399, 1
+Hansen, J. P., Torrie, G. M., & Vieillefosse, P. 1977, Phys. Rev. A, 16, 2153
+Hansen, J. P., & Vieillefosse, P. 1975, Phys. Lett. A, 53, 187
+Hughto, J., Horowitz, C. J., Schneider, A. S., et al. 2012, Phys. Rev. E, accepted
+   (arXiv:1211.0891)
+Ichimaru, S., Iyetomi, H., & Tanaka, S. 1987, Phys. Rep., 149, 91
+Jancovici, B. 1962, Nuovo Cimento, 25, 428
+Johnson, M. H., & Lippmann, B. A. 1949, Phys. Rev., 76, 828
+Kaplan, J. L., & Glasser, M. L. 1972, Phys. Rev. Lett., 28, 1077
+Kittel, C., 1963, Quantum Theory of Solids (New York: Wiley).
+Lai, D. 2001, Rev. Mod. Phys., 73, 629
+Lai, D., & Salpeter, E. E. 1997, ApJ, 491, 270
+Landau, L. D. 1930, Z. f. Physik, 64, 629
+Landau, L. D., & Lifshitz, E. M. 1977, Quantum Mechanics. Non-Relativistic
+   Theory, 3rd ed. (Oxford: Pergamon)
+Landau, L. D., & Lifshitz, E. M. 1980, Statistical Physics, Part 1, 3rd ed.
+   (Oxford: Butterworth-Heinemann)
+Medin, Z. 2012, private communication
+Medin, Z., & Cumming, A. 2010, Phys. Rev. E, 81, 036107
+Medin, Z., & Lai, D. 2006, Phys. Rev. A, 74, 062508
+Medin, Z., & Lai, D. 2007, MNRAS, 382, 1833
+Militzer, B., & Graham, R. L. 2006, J. Phys. Chem. Sol. 67, 2136
+Morbec, J. M., & Capelle, K. 2008, Phys. Rev. B, 78, 085107
+
+
+16
+

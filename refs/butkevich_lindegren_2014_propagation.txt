@@ -1,0 +1,1518 @@
+                                              Astronomy & Astrophysics manuscript no. bl                                                                                            c ESO 2018
+                                              August 19, 2018
+
+
+
+
+                                                                 Rigorous treatment of barycentric stellar motion
+                                                        Perspective and light-time effects in astrometric and radial velocity data
+                                                                                                A. G. Butkevich1, 2 and L. Lindegren3
+
+                                                    1
+                                                      Lohrmann Observatory, Technische Universität Dresden, 01062 Dresden, Germany
+                                                    2
+                                                      Pulkovo Observatory, Pulkovskoye shosse 65, 196140 Saint-Petersburg, Russia
+                                                      e-mail: alexey.butkevich@tu-dresden.de
+                                                    3
+                                                      Lund Observatory, Box 43, 22100 Lund, Sweden
+arXiv:1407.4664v2 [astro-ph.IM] 13 Aug 2014
+
+
+
+
+                                                      e-mail: lennart@astro.lu.se
+                                                   Received; accepted
+
+                                                                                                                 ABSTRACT
+
+                                                   Context. High-precision astrometric and radial-velocity observations require accurate modelling of stellar motions in order to extrapo-
+                                                   late measurements over long time intervals, and to detect deviations from uniform motion caused, for example, by unseen companions.
+                                                   Aims. We aim to explore the simplest possible kinematic model of stellar motions, namely that of uniform rectilinear motion relative
+                                                   to the solar system barycentre, in terms of observable quantities including error propagation.
+                                                   Methods. The apparent path equation for uniform rectilinear motion is solved analytically in a classical (special-relativistic) frame-
+                                                   work, leading to rigorous expressions that relate the (apparent) astrometric parameters and radial velocity to the (true) kinematic
+                                                   parameters of the star in the barycentric reference system.
+                                                   Results. We present rigorous and explicit formulae for the transformation of stellar positions, parallaxes, proper motions, and radial
+                                                   velocities from one epoch to another, assuming uniform rectilinear motion and taking light-time effects into account. The Jacobian
+                                                   matrix of the transformation is also given, allowing accurate and reversible propagation of errors over arbitrary time intervals. The
+                                                   light-time effects are generally very small, but exceed 0.1 mas or 0.1 m s−1 over 100 yr for at least 33 stars in the Hipparcos catalogue.
+                                                   For high-velocity stars within a few tens of pc from the Sun, light-time effects are generally more important than the effects of the
+                                                   curvature of their orbits in the Galactic potential.
+                                                   Key words. methods: data analysis – technique: radial velocity – astrometry – parallaxes – proper motions – reference systems
+
+
+
+                                              1. Introduction                                                            son points for observations at arbitrary epochs. Thirdly, it pro-
+                                                                                                                         vides a reference model, or null hypothesis, for the detection of
+                                              The pioneering Hipparcos mission necessitated many refine-                 non-linear motions caused for example by planetary compan-
+                                              ments in the analysis of astrometric observations. Effects that            ions. Indeed, the uniform rectilinear model is used as a reference
+                                              were previously ignored when constructing stellar catalogues,              in all modern observational analysis of stellar motions, includ-
+                                              such as gravitational light deflection by bodies in the solar sys-         ing non-astrometric techniques such as high-precision Doppler
+                                              tem and relativistic stellar aberration, had to be systematically          monitoring (e.g. Choi et al. 2013). In the analysis of pulsar tim-
+                                              taken into account in order to reach the milli-arcsecond (mas) ac-         ings, the curvature of Galactic stellar orbits is taken into account
+                                              curacy made possible by observations from space. The Gaia mis-             (Edwards et al. 2006), but then only as a known correction to the
+                                              sion, aiming at positional accuracies at the 10 micro-arcsecond            uniform motion.
+                                              (µas) level (de Bruijne 2012), requires further sophistication of
+                                              data modelling to account for the subtle physical effects that                  In this paper, we consider the application of the uniform rec-
+                                              come into play at this accuracy. A practical model for the rel-            tilinear model to the problem of propagating the astrometric pa-
+                                              ativistic reduction of astrometric observations, accurate to 1 µas,        rameters from one epoch to another, which is a very common
+                                              was formulated by Klioner (2003) and is the basis for the astro-           task in the practical use of such data. Various aspects of this
+                                              metric processing of the Gaia data (Lindegren et al. 2012).                problem have been extensively discussed by several authors (see
+                                                                                                                         Sect. 2), but we provide for the first time a rigorous analytical so-
+                                                  A basic assumption in these models is that stars move with
+                                                                                                                         lution including the propagation of uncertainties, as given by the
+                                              constant velocity (speed and direction) relative to the solar sys-
+                                                                                                                         covariance matrix of the astrometric parameters. Physical lim-
+                                              tem barycentre (SSB). For binaries and other non-single sys-
+                                                                                                                         itations of the uniform rectilinear model are discussed in Ap-
+                                              tems, including exoplanetary systems, their centres of mass are
+                                                                                                                         pendix E.
+                                              instead assumed to move with uniform velocity. The assump-
+                                              tion, referred to here as the uniform rectilinear model, is funda-             It has long been recognized that the accurate propagation
+                                              mental in several respects. First of all, it allows us to describe         of stellar positions needs to take radial motions as well as the
+                                              the motion of any star, or the centre of mass of a multi-body              tangential (proper) motions into account. Thus radial velocity is
+                                              system, compactly in terms of a handful of easily catalogued               inextricably connected with astrometric data and is sometimes
+                                              parameters. Secondly, it allows us to extrapolate their motions            regarded as the “sixth astrometric parameter”, complementing
+                                              forwards and backwards in time in order to serve as compari-               the standard five (for position, parallax, and proper motion) in
+                                                                                                                                                                     Article number, page 1 of 18
+                                                      A&A proofs: manuscript no. bl
+
+defining stellar coordinates in six-dimensional phase space. In        a considerable simplification of the mathematical formulation of
+the present paper we adopt this view even though the radial mo-        the problem. To our knowledge, this approach was pioneered by
+tion is usually determined by the spectroscopic method.                Eichhorn & Rust (1970), who derived expressions for the varia-
+    The astrometric parameters of a star are derived from ob-          tions in proper motion valid for any, not necessarily small, time
+servations using established formulae, as detailed by Klioner          interval. The procedure yields a straightforward propagation for-
+(2003), to correct for local effects such as gravitational deflec-     mula, which came into common use in the Hipparcos data re-
+tion and the position and motion of the observer. Similarly, spec-     duction (Lindegren et al. 1992) and formed a theoretical basis
+troscopic Doppler measurements need to be corrected for local          for the semi-rigorous treatment of the epoch transformation de-
+and astrophysical effects as described by Lindegren & Dravins          veloped by Lindegren (1995) and subsequently published in the
+(2003). Effectively, the result is a set of parameters describing      Hipparcos catalogue (ESA 1997, Vol. 1, Sect. 1.5.5). With re-
+the observed phenomena as they would appear for a fictitious           spect to the uniform rectilinear model it is semi-rigorous in the
+observer located at the SSB in the absence of the gravitational        sense that light-time effects are ignored, as they could be shown
+fields of all solar system bodies. The subsequent analysis of the      to be negligible at the Hipparcos level of accuracy.
+observations can then entirely be made in a classical (or special          Possibly the first treatment of astrometric light-time effects
+relativistic) framework.                                               was by Schwarzschild (1894), who in a discussion of “secular
+    The exact relation between the uniform rectilinear model and       aberration” (stellar aberration due to the motion of the solar sys-
+the astrometric parameters (including radial velocity) is simple       tem) derived a relation between the apparent and true proper mo-
+in principle but rather more complicated in practice, primar-          tions correct to first order in v/c. In a largely overlooked paper
+ily owing to the vastly different uncertainties in the radial and      by Eisner (1967) the rigorous propagation was derived as a se-
+tangential components of stellar coordinates. While stellar dis-       ries expansion in t and v/c, though in a form not very useful for
+tances are seldom known to a relative precision better than 10−2 ,     practical application. The author concluded that the light-time
+their angular coordinates may be determined at least six orders        effect “can be neglected in astrometry of present-day precision,
+of magnitude more accurately. This has two important conse-            though not necessarily if measurement outside the atmosphere
+quences. First, that astrometric observations cannot easily be         becomes practical.” The most complete analysis of the problem
+modelled directly in terms of the rectangular coordinates of stel-     so far was carried out by Stumpff (1985), who derived the rigor-
+lar positions and velocities. The astrometric parameters, using        ous relations between the apparent and true quantities, based on
+spherical coordinates and parallax, were introduced to overcome        the uniform rectilinear model including light-time effects. The
+this difficulty. Secondly, because the light-travel time from the      present work extends the treatment by Stumpff (1985) in several
+star to the observer is generally not very well known, it is cus-      respects, as discussed in Sect. 6.5.
+tomary, and in practice necessary, to define the astrometric pa-           Since knowledge of uncertainties is essential for the exploita-
+rameters as apparent quantities by effectively ignoring the light-     tion of astrometric data, the epoch transformation must be ac-
+time effects. The resulting relation between the physical model        companied by the associated error propagation. Strictly speak-
+and observed quantities therefore includes both the classical ge-      ing, because of correlation between data items, uncertainties as
+ometric effects and those due to the finite speed of light.            such are not meaningful in this context and covariances should
+    After a brief historical review we discuss the general effects     be used instead. The procedure for transforming astrometric data
+of the light-travel time in Section 3. Section 4 presents some pre-    developed consistently by Lindegren (1995) includes the propa-
+requisite material. Section 5 contains an analytical treatment of      gation of the associated covariance matrix, but without light-time
+the epoch transformation. Results and conclusions are summa-           effects. In the present work, we generalize this technique by in-
+rized in Sects. 6 and 7.                                               corporating the effects of the finite light-travel time.
+
+2. Previous work                                                       3. Light-time effects for the uniform motion
+As described by Schlesinger (1917), a star’s movement through          3.1. The uniform rectilinear model
+space causes secular changes not only in the position, but also
+in its proper motion, parallax, and radial velocity as observed        According to the uniform rectilinear model, the barycentric vec-
+from the Sun (or the SSB). These are purely geometric effects          tor of the star at the arbitrary epoch T is given by
+due to the changing distance and angle between the line of sight       b(T ) = b0 + (T − T 0 ) u ,                                     (1)
+and the direction of motion. Schlesinger proposed that the result-
+ing quadratic term in angular position, known as the secular (or       where b0 is the barycentric position at the initial epoch T 0 and
+perspective) acceleration, could be used to determine the radial       u the constant space velocity. The model has six kinematic pa-
+velocities of some stars “independently of the spectroscope and        rameters, namely the components of vectors b0 and u in the
+with an excellent degree of precision.” This has so far only been      barycentric reference frame. The conditions of applicability of
+possible for very few stars (van de Kamp 1977; Dravins et al.          this model are considered in Appendix E.
+1999). Nevertheless, the work pioneered the use of the uniform             An equivalent form of Eq. (1) is obtained by considering two
+rectilinear model for propagating astrometric data over longer         distinct moments of time, distinguished by subscript 1 and 2:
+intervals of time. Traditionally, the propagated quantities are rep-   b(T 2 ) = b(T 1 ) + (T 2 − T 1 ) u .                            (2)
+resented by series expansions in time, leading to well-known for-
+mulae for the secular acceleration and time derivative of proper           As emphasized in the introduction, we work here in a
+motion (Scott & Hughes 1964; Mueller 1969; Taff 1981; Murray           special-relativistic framework since all the effects of general rel-
+1983). The drawback of this approach is that its applicability is      ativity can be assumed to have been taken into account in the
+limited to a certain timespan, depending on the required accuracy      reduction from measurable (proper) directions to coordinate di-
+and the sizes of neglected terms. This can be avoided by using         rections, as comprehensively discussed by Klioner (2003). From
+transformations that directly link the spherical coordinates at the    here on, by observation we mean the information about the in-
+different epochs by means of Cartesian vectors. This also leads to     stantaneous position and velocity of a star as seen by an observer
+Article number, page 2 of 18
+                                        A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+                                                                                       This fact suggests that we need to recognize the difference
+                                                                                   between observable quantities, such as b(T em ) at time T obs , and
+                                                          A’                       those that cannot be directly observed, such as b(T obs ). We shall
+                                                                                   refer to the observable quantities as apparent, while the unob-
+                                                                                   servable quantities are referred to as true. Thus we may write
+
+                             b(T obs)                                              bapp (T obs ) ≡ btrue (T em )            = b(T em ) .
+                                                                                                                                     
+                                                                 vτ                                                                                           (6)
+                                                                                   The bracketed equality emphasizes that the quantities considered
+                                                                                   up until now have all been true in the above sense.
+                                                                                       The uniform rectilinear model in Eq. (1) or (2) is of course
+                                                                                   expressed entirely in terms of true quantities. We shall now re-
+                                                                                   write it in terms of apparent quantities at the times of observa-
+B                                                                        A         tions. Since τ = bapp (T obs )/c we consider the light-time τ to be
+                                        b(T em)
+                                                                                   an observable (apparent) quantity.
+                                                                                       If T 1 and T 2 in Eq. (2) are taken to be the times of emission
+                                                                                   we can write
+Fig. 1. Light-time effects for the observation of a uniformly moving               btrue (T 2em ) = btrue (T 1em ) + (T 2em − T 1em ) utrue .                 (7)
+star by an observer at the solar system barycentre B. The plot explicitly
+demonstrates the distinction between the apparent and true position of             Using Eq. (6) to re-write the left-hand side, and Eq. (5) to express
+the star described by Eq. (4). The apparent position A, observed at time           T 2em − T 1em in terms of observable quantities, we find
+T obs , is given by the vector b(T em ). During the time it takes for the light                                     h                               i
+to travel from A to B the star has moved from A to A’.                             bapp (T 2obs ) = bapp (T 1obs ) + (T 2obs − T 1obs ) − (τ2 − τ1 ) utrue . (8)
+                                                                                   This almost achieves our goal, except that the formula still con-
+at the SSB, referring to a specific moment read by observer’s                      tains one quantity, utrue , that cannot be directly observed.
+clock. Thus, we ignore all practical aspects of observation and                        The (true) velocity is by definition the time derivative of the
+reduction of astrometric data. Indeed, since the observer is as-                   position vector, as is also evident from Eq. (1). It does not matter
+sumed to be at rest at the origin (SSB) we do not even need to                     whether we use the time of emission or observation when calcu-
+consider the special-relativistic transformation between different                 lating the derivative, as long as the same time is used as argument
+observers: all derivations can be made in an entirely classical                    of the position vector being differentiated; that is
+way using the constant coordinate speed of light to take into ac-
+count light-time effects.                                                                  dbtrue (T em ) dbtrue (T obs )
+                                                                                   utrue =               =                .                        (9)
+                                                                                              dT em           dT obs
+3.2. The light-time equation                                                       Actually, none of these derivatives can be directly measured. The
+                                                                                   only velocity that can, in principle, be obtained directly from ob-
+The finite speed of light makes it necessary to distinguish be-                    servations is the derivative of the apparent position with respect
+tween the time T em when a light signal was emitted by a star,                     to the time of observation, or
+and the time T obs when the same signal was detected by the ob-
+server. The two moments in time are connected by the light-time                          dbapp (T obs ) dbtrue (T em )
+                                                                                   uapp =              =               .                    (10)
+equation                                                                                   dT obs         dT obs
+                                                                                   Comparison with Eq. (9) shows that the velocities are related
+T obs = T em + b(T em )/c ,                                                  (3)   through
+where b is the barycentric distance of the star.                                                  dT em
+                                                                                   uapp = utrue                                                              (11)
+     Using the uniform rectilinear model in Eq. (1) and taking the                                dT obs
+difference between the barycentric vectors at the two moments                      and
+of time yields
+                                                                                               dT obs
+      em             obs                                                           utrue = uapp       .                                            (12)
+b(T        ) = b(T         ) − τu ,                                          (4)                dT em
+                                                                                   To proceed, we need expressions for these derivatives such that
+where we have introduced the light-travel time, or light-time,
+                                                                                   dT em /dT obs is written as a function of the true velocity, while
+τ = T obs − T em .                                                           (5)   dT obs /dT em is written as a function of the apparent velocity.
+                                                                                       These expressions are obtained from the light-time equation
+Equation (4), illustrated in Fig. 1, corresponds to the well-                      (3). Differentiating with respect to T em gives
+known “planetary aberration” effect in classical astronomy (e.g.                   dT obs
+Woolard & Clemence 1966).                                                                 = 1 + vtrue
+                                                                                                 r /c ,                                                      (13)
+                                                                                   dT em
+                                                                                   where we have defined the true radial velocity1 as the derivative
+3.3. True and apparent quantities                                                  of the (true) barycentric distance with respect to the time of light
+The important point of Eq. (4) is that the direction to the star at                emission,
+the time of observation, T obs , is given by the barycentric vector                          dbtrue (T )
+b(T em ) at the earlier time T em . The position at the time of ob-                vtrue
+                                                                                    r    =                       .                                           (14)
+                                                                                                dT       T =T em
+servation, b(T obs ), is not directly observable (at least not at time
+T obs , although it might be inferred by means of Eq. 4).                          1
+                                                                                       Called “kinematic radial velocity” in Lindegren & Dravins (2003).
+
+                                                                                                                                      Article number, page 3 of 18
+                                                                    A&A proofs: manuscript no. bl
+
+By writing b = ub, where u is a unit vector, we have db/dT =                        4. Astrometric parameters
+u′ (db/dT ), from which it follows that vtrue r    is the projection of
+utrue along the line-of-sight utrue (T em ) = uapp (T obs ).2                       In this section, we define the astrometric parameters complying
+     The expression for dT obs /dT em is obtained in a similar way.                 with the kinematic model described above and introduce the cor-
+Differentiating Eq. (3) with respect to T obs , while using Eq. (6),                responding notations.
+gives                                                                                    The instantaneous kinematic state of the star in the barycen-
+                                                                                    tric frame is conventionally specified by means of six param-
+dT em         app
+                                                                                    eters. All six parameters can, at least in principle, be derived
+       = 1 − vr /c ,                                                         (15)   from observations made from a platform in orbit around the solar
+dT obs
+                                                                                    system barycentre, such as the Earth or a satellite. The parame-
+where we have defined the apparent radial velocity3 as the                          ters are therefore observable or apparent in the sense discussed
+derivative of the (apparent) barycentric distance with respect to                   above, and they refer to the time of observation T obs .
+the time of observation,                                                                 From here on, nearly all quantities discussed in this paper
+                                                                                    are in fact apparent, and the time used is that of the observation.
+ app       dbapp (T )                                                               For brevity, we can therefore omit the subscripts “true”, “app”,
+vr     =                       .                                             (16)
+             dT       T =T obs                                                      “em”, and “obs” in most equations, and only use them where
+                                                                                    they are needed to avoid ambiguity. Their absence thus implies
+It is readily verified that vapp
+                               r is the projection of uapp along the                an apparent or observed quantity.
+                app
+line-of-sight u at the time of observation.                                              Five of the six astrometric parameters are the classical pa-
+     Substituting Eqs. (13) and (15) into Eqs. (11) and (12), re-                   rameters: right ascension α, declination δ, trigonometric paral-
+spectively, we obtain the transformations between the apparent                      lax ̟, proper motion in right ascension µα∗ , and proper motion
+and true velocities                                                                 in declination µδ . The sixth parameter could be the “astromet-
+                        −1                                                        ric radial velocity” vr (Lindegren & Dravins 2003), equivalent to
+uapp = utrue 1 + vtrue
+                    r /c      ,                                 (17)                the “apparent radial velocity” of Klioner (2003), but for reasons
+                  app
+                         −1                                                        that will become clear later we prefer to use the “radial proper
+utrue = uapp 1 − vr /c       .                                  (18)                motion”
+
+Thus, the velocities are related through the Doppler factor (or its                 µr = vr ̟/A                                                    (20)
+inverse); the directions of the apparent and true velocities are the
+same, while their absolute values are different.                                    (Lindegren et al. 2012). Here A is the astronomical unit (IAU
+    While the true velocity is constant, according to the uniform                   2012). All six parameters are barycentric in the sense that they
+rectilinear model, its radial component vtrue  = u(T )′ utrue in gen-               are derived from observations, which by necessity are non-
+                                           r
+eral changes gradually as the star moves along a straight line                      barycentric, through the application of various corrections, so
+because of the changing line-of-sight direction u(T ). As shown                     that they effectively refer to a fictitious observer at the barycen-
+by Eq. (17) this means that the apparent velocity, in general, is                   tre. Similarly T is the (fictitious) time of light reception at the
+also a function of time. The exception is for a star without proper                 barycentre. For the precise definition of the parameters in a
+motion, i.e. moving along a straight line passing through the ob-                   general-relativistic framework and an exposition of the relevant
+server, in which case the true radial velocity is constant.                         corrections, we refer to Klioner (2003). For stellar observations,
+    We are now in position to write down the kinematic model                        the end result of this process is a set of astrometric parameters
+entirely in terms of apparent quantities. Inserting Eq. (18) in (8)                 that, to sufficient accuracy, can be interpreted in a completely
+we obtain:                                                                          classical way, as we do in this paper (cf. Appendix E). The
+                                                                                    timescale for T is barycentric coordinate time, TCB.
+bapp (T 2obs ) = bapp (T 1obs )+                                                         The six astrometric parameters α, δ, ̟, µα∗ , µδ , µr change
+                                                                                    continuously with T due to the space motion of the star. There-
+                          h                                i      uapp              fore, a “reference epoch” T 0 must be chosen, purely as a matter
+                           (T 2obs − T 1obs ) − (τ2 − τ1 )          app  .   (19)
+                                                               1 − vr /c            of convention, and we shall subsequently use t = T − T 0 as the
+                                                                             app
+                                                                                    time argument in all expressions instead of T . Furthermore, to
+As already mentioned, the apparent velocities uapp and vr ,                         simplify the expressions we often omit the time argument but
+which appear in the final factor of Eq. (19), are in general func-                  use subscript 0 to denote quantities at t = 0 and the correspond-
+tions of time. However, since this factor equals the true velocity,                 ing unsubscripted variables when they refer to an arbitrary t.
+which is independent of time, it can be evaluated for any time                           We shall now give a precise definition of the six astrometric
+including T 1obs and T 2obs .                                                       parameters in terms of the quantities introduced in Sect. 3. The
+    Equation (19), governing the apparent path of the star, is fun-                 barycentric vector b is not directly observable but barycentric
+damental for calculating the apparent quantities at an arbitrary                    coordinate direction, given by the unit vector
+moment of time. We discuss its solution in Sect. 5. The classical
+path equation (2) is recovered in the limit as c → ∞.                                     b
+                                                                                    u=       ,                                                     (21)
+2
+                                                                                         |b|
+   The expression on the right-hand side of Eq. (13) is sometimes re-
+ferred to as the “Doppler factor” (e.g. Stumpff 1985). The name derives             is observable, and so is its time derivative, the proper motion
+from the circumstance that in the classical approximation it equals the             vector
+ratio of observed to rest-frame wavelengths, λobs /λlab , for a non-moving
+observer. In special relativity the wavelength ratio obtains an additional               du
+(Lorentz) factor due to the different rates of T em and the proper time             µ=      .                                                      (22)
+                                                                                         dt
+at the star; this factor depends on the total velocity utrue , and therefore
+involves its tangential component as well as the radial.                            Both are normally expressed in the ICRS. Although these vectors
+ 3
+   Called “astrometric radial velocity” in Lindegren & Dravins (2003).              together have six coordinate components, they must at any time
+Article number, page 4 of 18
+                               A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+satisfy two scalar constraints, namely u′ u = 1 and u′ µ = 0, and            which to second order is equivalent to all the alternative expres-
+so have four degrees of freedom. They correspond to the four                 sions. It may seem strange to define parallax, which obviously is
+astrometric parameters α, δ, µα∗ , and µδ . To obtain the first two          an observable quantity, in terms of b, which according to previ-
+parameters, let r be a fixed unit vector coinciding with u at the            ous discussion is not (directly) observable. However, ̟ should
+given time t. Its coordinates in ICRS are                                    rather be regarded as a model parameter allowing us to inter-
+                                                                             pret non-barycentric observations in a consistent manner, and
+      cos δ cos α
+                      
+                                                                             Eq. (28) is then the relation to be used in the model for calcu-
+r =  cos δ sin α  ,
+                                                              (23)          lating its effect on the data.
+            sin δ                                                                From Eq. (20) it is seen that the radial proper motion equals
+from which α and δ are obtained.4 However, while r is uniquely               µr = vr /b. This is analogous to the expression for the total (tan-
+given by α and δ, the reverse is not true: any given r can be rep-           gential) proper motion
+resented by an infinite set of (α, δ) pairs. Restricting their ranges                      1/2
+(e.g. 0 ≤ α < 2π and −π/2 ≤ δ ≤ π/2) removes most of the am-                 µ ≡ µ2α∗ + µ2δ      = vt /b or µ ≡ ut /b ,                     (29)
+biguity, but in the special cases of δ = ±π/2 (exactly) the choice           where ut is the apparent (or astrometric) tangential velocity
+of α is still arbitrary. Nevertheless, a choice must be made, as it          (Sect. 3). The three components of proper motion µα∗ , µδ , and
+determines the subsequent calculation of the proper motion com-              µr are conveniently expressed in the same unit, for example
+ponents µα∗ and µδ from µ. Given α and δ we can calculate the                mas yr−1 . The unit of time in this case would be the Julian year
+unit vectors in the directions of increasing right ascension and             of exactly 365.25 × 86400 s (TCB).
+declination, which are                                                           It is also useful to note the expression for the (apparent)
+       − sin α
+                  
+                             − sin δ cos α
+                                                                           space velocity in terms of the astrometric parameters:
+p =  cos α  , q =  − sin δ sin α  ,              (24)             AV
+             0                      cos δ                                    u=      (rµr + µ) ,                                             (30)
+                                                                                  ̟
+respectively. Equations (23)–(24) define three orthogonal unit               where AV = 4.740 470 446 equals the astronomical unit ex-
+vectors forming the so-called normal triad [ p q r] at r relative            pressed in km yr s−1 . This relation implies that the parallax and
+to the celestial reference frame (Murray 1983). We now define                proper motions are expressed in compatible units, for instance,
+the proper motion components as the coordinates of µ along the               mas and mas yr−1 , respectively.
+p and q axes, or
+µα∗ = p′ µ ,   µδ = q′ µ .                                           (25)    5. Epoch transformation including light-time effects
+                      ′
+Conversely, since r µ = 0, the proper motion vector can be re-               In this section, we develop and summarize the transformation of
+constructed as                                                               the astrometric parameters and their covariances with rigorous
+µ = pµα∗ + qµδ .                                                     (26)    treatment of the light-travel time effects.
+
+We note that the procedure above allows us to calculate the
+                                                                             5.1. Solution of the apparent path equation
+proper motion components even when δ = ±π/2, using the arbi-
+trarily chosen value of α: the latter defines the directions of the          Equations (8) and (19) implicitly determine the apparent posi-
+p and q vectors according to Eq. (24) and therefore the resulting            tion in terms of the true and apparent velocity, respectively. In
+values of µα∗ and µδ from Eq. (25).                                          subsequent Eqs. (31)–(37) let ū denote the true velocity. Using
+    An alternative interpretation of the proper motion compo-                notations introduced in Sect. 4 we can write Eq. (8) as
+nents is                                                                                            !
+                                                                                             b
+        dα               dδ                                                  b = b0 + ū t − + τ0 ,                                      (31)
+µα∗ =      cos δ , µδ =     .                                  (27)                          c
+        dt               dt
+It is readily verified that this is equivalent to Eq. (25) when |δ| <        where τ0 = b0 /c is the initial light-time. Squaring both sides we
+π/2, but at the celestial poles it obviously fails. We therefore             obtain a quadratic equation for the apparent distance:
+regard Eq. (25) as the more general interpretation.                               v2 2 2 ′
+                                                                                     !
+     Stellar parallax is sometimes defined as the angle subtended             1 − 2 b + ū [b0 + ū (t + τ0 )] b − [b0 + ū (t + τ0 )]2 = 0 . (32)
+by 1 au at the star’s distance from the Sun (e.g. Murdin 2001).                   c       c
+Interpreting “distance” to mean the coordinate distance b = |b|              It is seen from the Vièta’s formulae that the roots of this equation
+from the solar system barycentre, this definition is still ambigu-           are of opposite signs. Choosing the positive root, we find
+ous as to the precise relation to parallax ̟: it could be sin ̟ =
+                                                                                    v2
+                                                                                       !
+A/b (Murray 1983), tan ̟ = A/b (Binney & Merrifield 1998),                                    1
+                                                                               1 − 2 b = − ū′ [b0 + ū (t + τ0 )]
+or even 2 sin(̟/2) = A/b (if the astronomical unit is the chord                     c          c
+of the angle); the differences, of the order of ̟3 < 10−10 arcsec,                             r                                             (33)
+are truly negligible for all stars. Following Klioner (2003) we                                                  2   1           2
+                                                                                            + [b0 + ū (t + τ0 )] − 2 (ū × b0 ) .
+adopt the mathematically simplest relation                                                                           c
+      A                                                                      The fact that the right-hand side is positive for any position and
+̟=      ,                                                            (28)    velocity is easily demonstrated by writing the radicand as the
+      b
+                                                                             sum of two essentially positive values,
+4
+   The distinction between r and u may at first seem pointless or at least
+                                                                                  v2
+                                                                                     !
+over-pedantic. In fact, as explained in Sect. 5.4, it is relevant for the                                  1 
+interpretation of the proper motion components and their uncertainties.       1 − 2 [b0 + ū (t + τ0 )]2 + 2 ū′ [b0 + ū (t + τ0 )] 2 ,   (34)
+                                                                                  c                       c
+                                                                                                                      Article number, page 5 of 18
+                                                           A&A proofs: manuscript no. bl
+
+one of them is exactly equal to the square of the first term in the            5.2. Propagation of the astrometric parameters
+right-hand side.
+                                                                               The solution (38) gives the time dependence of the apparent po-
+    Having determined the propagated apparent distance, we can
+                                                                               sition, which, in turn, determines propagation of the barycentric
+calculate the expression in parenthesis in equation (31), which is
+                                                                               direction and parallax, defined by Eqs. (21) and (28), respec-
+the difference in the emission time corresponding to the time
+                                                                               tively. Squaring both sides of Eq. (38) we find
+interval t, according to formula (8):
+                                                                                                                        
+                   b                                                           b2 = b20 1 + 2µr0 t fT + µ20 + µ2r0 (t fT )2 .                 (42)
+∆T em = t −          + τ0 .                                             (35)
+                   c                                                                                                                      
+                                                                               Here, we used that b′0 u0 = b20 µr0 and v20 = b20 µ2r0 + µ20 , as is
+Making use of b from Eq. (33), we get                                          easily seen from Eqs. (21), (28) and (30).
+                                                                                    Introducing the distance factor
+    v2                   ū′ b0
+       !
+ 1 − 2 ∆T em = t + τ0 + 2                                                                    h                          
+                                                                                fD = b0 /b = 1 + 2µr0 t fT + µ20 + µ2r0 (t fT )2
+                                                                                                                                 i−1/2
+                                                                                                                                       ,      (43)
+    c                      c
+                   r                                                    (36)
+                 1                          1                                  the propagation of the barycentric direction is
+              −      [b0 + ū (t + τ0 )]2 − 2 (ū × b0 )2 .
+                 c                         c                                                                  
+                                                                               u = u0 (1 + µr0 t fT ) + µ0 t fT fD                             (44)
+It is convenient for the following development to represent ∆T em
+as a fraction using the identity x − y = (x2 − y2 )/(x + y):                   and the propagation of the parallax becomes
+                                                                               ̟ = ̟0 fD .                                                     (45)
+∆T em = t (t + 2τ0 ) ×
+                        r                                        −1          The celestial coordinates (α, δ) at epoch t are obtained from u in
+                 ′
+   t + τ0 + ū b0 + 1 [b0 + ū (t + τ0 )]2 − 1 (ū × b0 )2  .          the usual manner, using Eq. (23).
+                                                               
+                 c2    c                        c2                                 We now consider the propagation of the proper motions µ
+                                                                               and µr . It is clear from the above discussion that the proper mo-
+                                                                        (37)
+                                                                               tions can be found by two equivalent methods. They can be ei-
+                                                                               ther expressed as the time derivatives or obtained from relevant
+Substituting ū = u0 / (1 − vr0 /c) according to Eq. (18) and insert-
+                                                                               velocity components. The direct differentiation with respect to
+ing the resulting expression for ∆T em into Eq. (19) we finally
+                                                                               time, however, offers great difficulties since u and b involve the
+obtain, after elementary, though rather lengthy calculations,
+                                                                               factor fT , which is a complicated function of time. On the con-
+                                                                               trary, the calculation of the proper motion using the apparent
+b = b0 + u0 t fT ,                                                      (38)
+                                                                               velocity is relatively simple in the present case.
+where we have introduced the time factor                                           To find the propagated apparent velocity, it is convenient to
+                                                                               employ the following artifice taking advantage of the postulated
+                            t + 2τ0                                            constancy of the true velocity. We first obtain the true velocity
+fT =                       r                             . (39)                from the initial apparent velocity using Eq. (18) and then substi-
+               vr0     1              2  2t          2
+       τ0 + 1 −       t+     (b0 + u0 t) + 2 (u0 × b0 )                        tute the true velocity in Eq. (17) to get the apparent velocity at
+                 c       c                c τ0                                 the time t. However, it should be emphasized that the radial com-
+                                                                               ponent of the true velocity vtrue
+                                                                                                              r  in (17) must be computed along
+These formulae give the complete solution to the problem: they                 the propagated barycentric direction: vtrue = u′ utrue . Carrying out
+                                                                                                                        r
+determine the apparent position at any instant in terms of the                 the calculation, we find the propagated apparent velocity
+given initial apparent position and velocity.
+    It is instructive to consider briefly the special case of purely           u = u0 fV ,                                                     (46)
+radial motion when vr0 = v0 and vt = 0. Then, u0 ′ b0 = v0 b0 and
+u0 × b0 = 0, so that fT = 1 and Eq. (38) simplifies to                         where we have introduced the velocity factor
+                                                                                                   #−1 "                   #−1
+                                                                                        u′ u0 vr0            (u − u0 )′ u0
+                                                                                   "
+b = b0 + u0 t .                                                         (40)   fV = 1 +      −        = 1+                     .               (47)
+                                                                                          c      c                 c
+Thus, we conclude that the finite light-travel time has no effect
+on the apparent stellar motion in the case of purely radial mo-                Decomposition of u into the components normal and along the
+tion. Of course, this result can be obtained much more simply                  propagated direction yields propagation of the transverse and ra-
+without using the general solution of the apparent path equation:              dial components of the apparent velocity, which are
+noting that both utrue and vtrue are constant in this case, it follows
+                            r                                                  ut = u0 − u u′ u0 fV ,
+                                                                                               
+                                                                                                                                           (48)
+from Eq. (17) that the apparent velocity is also constant. Thus,                      ′ 
+we can replace the differentials in Eqs. (11) and (12) with finite             vr = u u0 fV ,                                              (49)
+differences to find
+                                                                               respectively. Substitution of these relations in Eqs. (20) and (29)
+     em true          obs app                                                  gives the propagation of the proper motions:
+∆T     u       = ∆T      u      .                                       (41)
+                                                                                    h                               i
+                                                                                µ = µ0 (1 + µr0 t fT ) − u0 µ20 t fT fD3 fV ,                 (50)
+Substituting this in Eq. (7) and using the relation (6) between the                 h                 i
+true and apparent positions, we again arrive at Eq. (40). Since                               2     2          2
+                                                                               µr = µr0 + µ0 + µr0 t fT fD fV .                               (51)
+light-time effects thus vanish in the absence of transverse mo-
+tion, they can be expected to be small for stars with small proper             To obtain the proper motion components (µα∗ , µδ ) from vector µ
+motions. We address this question further in Appendix D.                       it is necessary to resolve the latter along the tangential vectors p
+Article number, page 6 of 18
+                                 A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+and q, using Eq. (25). The tangential vectors are defined in terms               The meaning of Eq. (57) becomes clearer if it is re-written in the
+of the propagated u or (α, δ) at epoch t according to Eq. (24).                  following way. Substituting Eq. (52) for the time factor, using
+     The above formulae describe the complete transformation of                  that ∆T obs = t, and making use of Eqs. (46), (35), and (16), we
+(α0 , δ0 , ̟0 , µα∗0 , µδ0 , µr0 ) at epoch T 0 into (α, δ, ̟, µα∗ , µδ , µr )   obtain the following equivalent form of Eq. (57):
+at the arbitrary epoch T = T 0 + t, including the light-time effects.
+The transformation is rigorously reversible: a second transfor-                  v   1 − vr /c
+                                                                                   =           .                                                  (58)
+mation from T to T 0 recovers the original six parameters.                       v0 1 − vr0 /c
+                                                                                 This equation has a simple interpretation: it gives the explicit
+5.3. The scaling factors fD , fT , and fV                                        relation between the absolute value of the propagated apparent
+                                                                                 velocity and the propagated apparent radial velocity. In particu-
+The propagation formulae derived in the preceding sections in-
+                                                                                 lar, it shows that these quantities vary in opposite directions: an
+volve three quantities fD , fT , and fV , which appear as scaling
+                                                                                 increasing vr results in a decreasing v and vice versa. A qualita-
+factors for the changes in (apparent) distance, time, and velocity
+                                                                                 tively similar behaviour is found in cases when the motion does
+over the propagated interval. In this section, we further examine
+                                                                                 not obey the uniform rectilinear model; however, the simple lin-
+their physical meaning and give their expressions in terms of the
+                                                                                 ear relation above does not hold in general.
+astrometric parameters.
+    All three factors are in practice very close to unity, linearly
+approaching 1 as t → 0. (Approximate formula for small t are                     5.4. Propagation of errors (covariances)
+derived in Appendix D.) While fT = fV = 1 in the limit as c →
+∞, the distance factor fD in general deviates from 1 when light-                 In this section we consider how uncertainties in the astrometric
+time effects are ignored (cf. Sect. 5.5), as it gives the relative               parameters α0 , δ0 , ̟0 , µα∗0 , µδ0 , µr0 at epoch T 0 propagate into
+change in distance according to Eq. (43).                                        uncertainties in the transformed parameters α, δ, ̟, µα∗ , µδ , µr
+    The meaning of the time factor fT is not immediately evident                 at epoch T = T 0 + t. The uncertainties are quantified by means
+from its derivation in Sect. 5.1. However, noting that it can also               of the 6 × 6 covariance matrices C0 and C in which the rows and
+be written                                                                       columns correspond to the astrometric parameters taken in the
+                                                                                 order given above.
+           1      ∆T em                                                              The general principle of (linearized) error propagation is
+fT =                     ,                                              (52)
+       1 − vr0 /c ∆T obs                                                         well known and we refer to Appendix A for a brief introduc-
+                                                                                 tion including an illustrative example. Essentially, it requires the
+we see that it represents the combination of two physical effects                calculation of all 36 partial derivatives constituting the elements
+originating from the finiteness of the speed of light: the differ-
+                                                                                 of the Jacobian matrix J in Eq. (A.5), such that
+ence between time of observation and time of emission, and the
+difference in the absolute value between the true and apparent                   C = JC0 J ′ .                                                    (59)
+velocities (the Doppler factor). Writing the initial light-time as
+       τA                                                                        The required partial derivatives are readily found once the re-
+τ0 =      ,                                                             (53)     lations between the corresponding differentials have been es-
+       ̟0
+                                                                                 tablished, i.e. the first-order propagation of small perturbations
+with τA = A/c = 499.004 784 s being the light-travel time for                    of the parameters. We give below the complete derivation of
+the astronomical unit, we can express the time factor in terms of                these differentials since it may be of some methodological in-
+the astrometric parameters:                                                      terest. The subsequent determination of the partial derivatives
+                                                                                 is straightforward, if somewhat tedious, and the full results are
+              ̟0 t + 2τA                                                         given in Appendix B.
+fT =                             ,                                      (54)
+       ̟0 t + τA (1 + Z − µr0 t)                                                     At this point we need to make one further remark concern-
+                                                                                 ing the propagation of perturbations. The components of proper
+where
+                                                                                 motion are obtained by resolving the proper motion vector µ ac-
+                                                                                 cording to Eq. (25), that is µα∗ = p′ µ and µδ = q′ µ. Here, the
+    q
+Z = 1 + (t + 2τA /̟0 ) µ20 t + (2 + µr0 t) µr0 t .                      (55)
+                                                                                 tangential vectors p and q are defined by Eq. (24) in terms of
+                                                                                 the barycentric position (α, δ) of the star at the relevant epoch.
+    As shown by Eq. (46), the velocity factor fV yields the rel-
+                                                                                 Consider now what happens when both the position and proper
+ative change in apparent velocity over the time interval of prop-
+                                                                                 motion vectors receive small perturbations ∆u, ∆µ. The pertur-
+agation. From the second equality in Eq. (47), this effect can be
+                                                                                 bation in position clearly affect α and δ, and the question arises
+understood as a secular change of the Doppler factor. In terms of
+                                                                                 if this also changes p and q. If that is the case, then the total
+the astrometric parameters, the velocity factor can be written as
+                                                                                 perturbations on the proper motion components become
+      n            h                             io−1
+ fV = 1 + (τA /̟0 ) µr0 ( fD − 1) + fD µ20 + µ2r0 t fT  .    (56)                ∆µα∗ = p′ ∆µ + ∆p′ µ ,       ∆µδ = q′ ∆µ + ∆q′ µ ,               (60)
+    Finally, we note that the factors fV and fT are connected by                 where ∆p and ∆q are the perturbations on the tangential vectors
+the following remarkably simple relation:                                        induced by ∆u. The problem here is that the expressions for ∆p
+       d                                                                         and ∆q contain the factors sec δ and tan δ and therefore may be-
+fV =      (t fT ) .                                                     (57)     come arbitrarily large sufficiently close to the celestial poles. In
+       dt                                                                        terms of the uncertainties in µα∗ and µδ it means that they con-
+While a direct check of this relation involves cumbersome calcu-                 tain contributions that are unrelated to the actual uncertainty of
+lations, it can be verified more easily by comparing the expres-                 the proper motion vector, and which in principle are unbounded.
+sion for the proper motion vector in Eq. (50) with the equivalent                    Alternatively, it is possible to regard p and q as a fixed, error-
+vector obtained by differentiating u in Eq. (44) with respect to t.              free reference frame for perturbations in the tangential plane.
+                                                                                                                          Article number, page 7 of 18
+                                                        A&A proofs: manuscript no. bl
+
+In this case, we must put ∆p = ∆p = 0 in Eq. (60) and all                   Direct differentiation of Eq. (51) gives
+similar expressions. This leads to simpler propagation formulae             dµr = 2t fT fD2 fV (µα∗0 dµα∗0 + µδ0 dµδ0 )
+and an intuitively more reasonable interpretation of the proper
+motion uncertainties (Lindegren 1995). This option was adopted                   + (1 + 2µr0 t fT ) fD2 fV dµr0                                 (68)
+for the construction of the Hipparcos and Tycho catalogues (cf.                  + µr (2d ln fD + d ln fV + d ln fT ) − µr0 fD2 fV d ln fT .
+Sect. 1.5.5 in Vol. 1 of ESA 1997) and is also used in the follow-
+ing. The practical consequence is that the normal triad [ p q r]                 The determination of the differentials of the coordinates and
+must be regarded as fixed in the context of perturbations and un-           proper motion components from Eqs. (65) and (67), respectively,
+certainties. The triad is conventionally defined by the adopted             requires du and dµ to be written in terms of the initial parame-
+values of (α, δ). This also motivates the formal distinction be-            ters. From Eq. (44) we have
+                                                                                                                             
+tween r and u referred to in footnote 4.                                     du = (1 + µr0 t fT ) du0 + t fT (dµ0 + r0 dµr0 ) fD
+     Summarizing in terms of the local coordinate triads, we may                                                                          (69)
+                                                                                   − r0 fD d ln fT + u (d ln fD + d ln fT ) .
+say that the calculations
+                          below are based on the following pos-
+tulates: (i) p0 , q0 , r0 is fixed in space and time and does not           It is useful to note that the last term disappears when taking the
+depend                                                                      dot products with p and q, since p′ u = q′ u = 0; hence it does not
+         on the uncertainties of the astrometric parameters; (ii)         contribute to the differentials dα∗ and dδ. Direct differentiation
+  p, q, r depends on time through the propagated   position u as
+                                           
+r = u; and (iii) at any moment of time, p, q, r is fixed in space           of Eq. (50) yields
+and does not depend on the uncertainties of the initial astromet-           dµ = − µ20 t fT fD3 fV du0 + (1 + µr0 t fT ) fD3 fV dµ0
+ric parameters.
+                                                                                  − 2r0 t fT fD3 fV (µα∗0 dµα∗0 + µδ0 dµδ0 )
+     Accordingly, if the coordinates receive small perturbations                                                                                (70)
+∆α∗0 and ∆δ0 , then the perturbed barycentric direction becomes                   + µ0 t fT fD3 fV dµr0 + µ (3d ln fD + d ln fV + d ln fT )
+                                     h                   i1/2                      − µ0 fD3 fV d ln fT .
+u0 + ∆u0 = p0 ∆α∗0 + q0 ∆δ0 + r0 1 − (∆α∗0 )2 − (∆δ0 )2       (61)
+                                                                            Here we leave the differentials du0 (analogous to Eq. 64) and dµ0
+where ∆α∗0 = ∆δ0 = 0 corresponds to the nominal position. The               (from Eq. 63) unexpanded to avoid too lengthy expressions. We
+quadratic terms follow from the constraint |u0 +∆u0 | = 1. Taking           use these expressions in the calculation of the partial derivatives
+the time derivative and using the definitions (22) and (25), we             listed in Appendix B.
+have                                                                             Finally, we consider the three scaling factors and start with
+                                                                            the distance factor. From the definition (43) we find
+µ0 + ∆µ0 = p0 µα∗0 + q0 µδ0                                                 d fD = − (t fT )2 fD3 (µα∗0 dµα∗0 + µδ0 dµδ0 )
+                                                          i1/2
+                                                                                    − t fT fD3 (1 + µr0 t fT ) dµr0
+                                  h
+     − r0 (µα∗0 ∆α∗0 + µδ0 ∆δ0 ) 1 − (∆α∗0 )2 − (∆δ0 )2          .   (62)                                                                       (71)
+                                                                                          h                       i
+                                                                                    − fD3 µr0 t + µ20 + µ2r0 t2 fT d fT .
+This equation suggests that the full differential of the proper mo-
+tion vector as a function of the initial coordinates and proper             Making use of the propagated radial proper motion given by Eq.
+motion components is                                                        (51), we can write the last term as − fD (µr t fT / fV ) d ln fT . Divid-
+                                                                            ing by fD , we obtain the logarithmic differential
+dµ0 = −r0 µα∗0 dα∗0 − r0 µδ0 dδ0 + p0 dµα∗0 + q0 dµδ0 .              (63)
+                                                                            d ln fD = − (t fT )2 fD2 (µα∗0 dµα∗0 + µδ0 dµδ0 )
+The terms in dα∗0 and dδ0 , which are normal to µ0 , lend them-                        − t fT fD2 (1 + µr0 t fT ) dµr0                           (72)
+selves to a straightforward geometrical interpretation.                                − (µr t fT / fV ) d ln fT .
+    The propagated astrometric parameters depend on the scal-
+ing factors fD , fT and fV , which in turn are functions of the initial     The logarithmic differential of the velocity factor is obtained
+parameters. Thus, the dependence of the propagated parameters               from Eq. (57) by a straightforward calculation:
+on the initial parameters becomes quite involved. To keep the                          τA h                                      i
+                                                                            d ln fV = 2 fV µr0 ( fD − 1) + fD µ20 + µ2r0 t fT d̟0
+expressions compact, we do not expand the differentials of the                         ̟0
+scaling factors in what follows and give the complete expres-                            τA
+sions for them later in this section. Moreover, it is convenient to                 − 2 t fT fD fV (µα∗0 dµα∗0 + µδ0 dµδ0 )
+                                                                                        ̟0
+employ the logarithmic differentials rather than ordinary differ-                      τA
+entials: d ln fD = d fD / fD , etc.                                                 +       fV (1 − fD (1 + 2µr0 t fT )) dµr0                    (73)
+                                                                                       ̟0
+    We begin with the differentials of the propagated astrometric                      τA
+parameters. Direct differentiation of Eq. (23) yields                               −       (µr / fD ) d ln fD
+                                                                                       ̟0
+du = pdα∗ + qdδ .                                                    (64)              τA                     
+                                                                                    −       fD fV µ20 + µ2r0 t fT d ln fT .
+                                                                                       ̟0
+Taking the dot products of this equation with p and q, we get               Substituting d ln fD from Eq. (72), we find
+dα∗ = p′ du ,    dδ = q′ du .                                        (65)               1
+                                                                            d ln fV =       (1 − fV ) d̟0
+                                                                                       ̟0
+From Eq. (45) we have                                                               τA
+                                                                                 +     t fT fD (µr t fT − 2 fV ) (µα∗0 dµα∗0 + µδ0 dµδ0 )
+d̟ = fD d̟0 + ̟ d ln fD ,                                            (66)           ̟0
+                                                                                    τA                                                         (74)
+                                                                                 +        fV + fD ( fV + (1 + µr0 t fT ) (µr t fT − 2 fV )) dµr0
+while (25) yields                                                                   ̟0
+                                                                                    τA 2
+dµα∗ = p′ dµ ,    dµδ = q′ dµ .                                      (67)        −     µ t fT fD3 fV d ln fT .
+                                                                                    ̟0 0
+Article number, page 8 of 18
+                                  A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+The time factor is conveniently represented as the fraction                                                  0.8                                                    0.24
+
+fT = X/Y                                                               (75)                                  0.7                ∆θ                                  0.21
+                                                                                                                                ∆v
+
+
+
+
+                                                                                                                                                                           Effect on velocity ∆v [m s ]
+                                                                               Effect on position ∆θ [mas]
+with X and Y defined by Eq. (54). Then
+
+
+
+
+                                                                                                                                                                           -1
+                                                                                                             0.6                                                    0.18
+
+            dX dY                                                                                            0.5                                                    0.15
+d ln fT =      −   ,                                                   (76)
+             X   Y
+                                                                                                             0.4                                                    0.12
+where
+                                                                                                             0.3                                                    0.09
+dX = td̟0                                                              (77)
+                                                                                                             0.2                                                    0.06
+and
+                                                                                                             0.1                                                    0.03
+              µ20 τ2A 
+                       
+      
+dY =t 1 −
+                        d̟0                                                                                 0                                                    0
+              Z̟20                                                                                                 0      20         40        60       80       100
+                                                                                                                                Epoch difference [yr]
+                              !
+          tτA              τA
+     +          t+2             (µα∗0 dµα∗0 + µδ0 dµδ0 )               (78)
+           Z               ̟0                                                  Fig. 2. The effect of light-time on the propagation of the astrometric
+               1 + µr0 t
+                                  !                                            parameters of Barnard’s star (HIP 87937). The solid line and left axis
+     + tτA                    − 1 dµr0 .                                       show the difference in angular position, while the dash-dotted line and
+                     Z                                                         right axis show the difference in the the apparent space velocity.
+    All the required partial derivatives can be derived from the
+differentials in the formulae above. As an example, consider the               the proper motion vector
+partial derivative of the propagated right ascension with respect
+to the initial parallax. From Eq. (65) we have                                                               du h                          i
+                                                                               µ=                               = µ0 (1 + µr0 t) − r0 µ20 t fD3 ,                                     (86)
+∂α∗       ∂u                                                                                                 dt
+    = p′     .                                                         (79)
+∂̟0      ∂̟0                                                                   and the radial proper motion
+As seen from Eq. (69), the propagated direction u depends on                                                 db ̟ h                 i
+̟0 only through the time factor, and we can therefore write                    µr =                               = µr0 + µ20 + µ2r0 t fD2 .                                          (87)
+                                                                                                             dt A
+∂α∗             ∂ ln fT
+    = −p′ r0 fD         .                                              (80)    The celestial coordinates (α, δ) and proper motion components
+∂̟0              ∂̟0                                                           (µα∗ , µδ ) at epoch t are obtained from u and µ in the usual manner
+The terms in Eqs. (77)–(78) containing d̟0 give                                using Eqs. (23) and (25), respectively.
+                                                                                   These formulae were employed in the reduction procedures
+                    µ2 τ2  t
+                          
+∂ ln fT   t                                                                  used to construct the Hipparcos and Tycho catalogues, since
+        = − 1 − 0 A2  .                                          (81)    light-time effects were known to be negligible at milli-arcsecond
+ ∂̟0     X          Z̟0 Y
+                                                                               accuracy (ESA 1997, Vol. 1, Sect. 1.5.5). The transformation de-
+Writing X and Y in terms of the astrometric parameters, we fi-                 scribed by the above expressions is also rigorously reversible.
+nally obtain                                                                   The corresponding elements of the Jacobian matrix needed to
+                                                                            propagate the covariances are given in Appendix C.
+                                         1 − µ20 τ2A / Z̟20
+                       
+∂α∗                          1                               
+      = −p′ r0 fD t              −                             . (82)
+∂̟0                        ̟0 t + 2τA ̟0 t + τA (1 + Z − µr0 t)               6. Discussion
+                                                                               In the following, we discuss the conditions under which the
+5.5. Epoch transformation neglecting light-time effects                        light-time effects may be significant when propagating the as-
+Having developed the rigorous formulae including light-time ef-                trometric parameters of a star from one epoch to another. We
+fects, we now consider the case when light-time effects are not                consider first the absolute size of the effect itself, and then its
+important. This formally corresponds to the limit as c → ∞,                    size in relation to deviations from the assumed uniform rectilin-
+or zero light-travel time. Since all light-time effects have been              ear motion. The applicability of the developed technique to real
+parametrized with τA = A/c, we can formally exclude them by                    data is discussed, and a simple criterion established for when the
+putting τA = 0. This substitution gives fT = fV = 1 and the                    light-time effects should be ignored. Finally, we briefly review
+distance factor                                                                this work in relation to the earlier treatment by Stumpff (1985).
+      h                      i−1/2
+ fD = 1 + 2µr0 t + µ20 + µ2r0 t2     .                       (83)              6.1. When is it possible to ignore light-time effects?
+The propagated quantities are readily obtained: the barycentric                In practice, the finite light-time may be ignored if its observ-
+direction                                                                      able effects are small compared to the required astrometric accu-
+                                                                             racy. In in Appendix D, we derive approximate formulae for the
+u = r0 (1 + µr0 t) + µ0 t fD ,                            (84)                 effects of the light-time on the parameters propagated over the
+the parallax                                                                   time interval t. Here, we only consider the effects on the angular
+                                                                               position, ∆θ, and on the proper motion, ∆µ. Let σθ and σµ be
+̟ = ̟0 fD ,                                                            (85)    the required accuracies in position and proper motion. The two
+                                                                                                                                                    Article number, page 9 of 18
+                                                       A&A proofs: manuscript no. bl
+
+conditions for negligible light-time effects are then ∆θ ≪ σθ and       this ratio is not precisely known in an actual case, it may be ap-
+∆µ ≪ σµ , which by means of Eq. (D.9) can be written                    proximated by the relative error of the measured parallax, σ̟ /̟.
+                                                                        Since it can be argued that the application of minute light-time
+       2̟σθ           ̟σµ                                               effects is meaningless if the result is in any case biased by the
+t2 ≪         ,   t≪         .                                   (88)
+       µ3 τA          µ3 τA                                             observational errors, we conclude that light-time effects should
+                                                                        be ignored at least if ̟ < 10σ̟ .
+If the positions and proper motions are derived from observa-
+                                                                            It is worth noting that the propagation formulae obtained by
+tions around the original epoch we find, in the limit of large t,
+                                                                        neglecting light-time effects (i.e. by formally putting τA = 0, as
+that σθ = tσµ from Eq. (A.9). In this case the two conditions
+                                                                        in Sect. 5.5 and Appendix C) work for any value of the parallax.
+become essentially the same (within a factor of 2).
+                                                                        The parallax only appears in one propagation formula, Eq. (85),
+    The strong (cubic) dependence on µ in Eq. (88) suggests
+                                                                        and in the partial derivatives J34 , J35 , and J36 . All these equa-
+that light-time effects could mainly be important for high-proper
+                                                                        tions involve the parallax as a multiplicative factor, creating no
+motion stars. As an example, let us consider Barnard’s star
+                                                                        formal or numerical problem if the value happens to be zero or
+(HIP 87937) which, with µ = 10357.70 mas yr−1 and ̟ =
+                                                                        negative. Physically, such a parallax is of course meaningless,
+549.01 mas, has the largest proper motion in the Hipparcos cat-
+                                                                        but can nevertheless be regarded as a formal parameter of the
+alogue (ESA 1997). At σθ = 1 mas position accuracy, light-time
+                                                                        model. Brown (in van Altena 2013, Ch. 16) gives more general
+effects are negligible for t ≪ 114 yr. At σθ = 1 µas accuracy,
+                                                                        considerations of the use of small, zero, or negative parallaxes in
+they are only negligible for t ≪ 3.6 yr. Figure 2 shows the ef-
+                                                                        astrophysical applications of astrometric data.
+fects in position and velocity (∆v) as functions of time for this
+star.
+                                                                        6.3. Light-time effects for Hipparcos stars
+6.2. When is it necessary to ignore light-time effects?
+                                                                        For a star with known parallax, proper motion, and radial veloc-
+Up until now it has been tacitly assumed that the astrometric pa-       ity the effects of the finite light-time on the propagated astromet-
+rameters exactly describe the state of motion of the star. If this      ric parameters are readily computed from a direct comparison
+condition is not fulfilled, for example, because of uncertainties       between the rigorous propagation (Sect. 5.2) and when light-
+in the parameters, a direct application of the simple kinematic         time effects are ignored (Sect. 5.5). We have made this com-
+model may produce erroneous and even physically absurd re-              putation for Hipparcos stars with radial velocities taken from
+sults. Clearly, this will happen for negative parallaxes, light-time    the XHIP catalogue (Anderson & Francis 2012). The last two
+effects must in fact be ignored under more restrictive conditions.      columns in Table 1 list the computed effects over a century in
+     A simple example illustrates the effect of observational er-       position (∆θ) and in the absolute value of the space velocity
+rors. Consider the case when the measured parallax is smaller           (∆v). For the listed 33 entries, these quantities exceed 0.1 mas or
+than the true parallax, while other astrometric parameters have         0.1 m s−1 , respectively. Since ∆θ increases very nearly quadrati-
+negligible errors. The distance inferred from the measured paral-       cally with time, and ∆v increases linearly (cf. Fig. 2), the values
+lax is then too large, and the transverse velocity calculated from      listed in the table for t = 100 yr are easily scaled to other epoch
+the distance and proper motion is also overestimated. If the true       differences.
+parallax is small, the measured value, while still positive, can be          To find the objects listed in Table 1 we computed the ef-
+many times smaller than the true parallax, leading to distances         fects for all 15 517 objects with a radial velocity in XHIP and
+and transverse velocities overestimated by a large factor. As the       ̟ > 10σ̟ in the Hipparcos catalogue (ESA 1997). It should be
+observed parallax goes to zero, the calculated velocity goes to in-     noted that the Hipparcos catalogue may contain additional en-
+finity. On the other hand, true velocity must not exceed the speed      tries where the effects exceed 0.1 mas or 0.1 m s−1 , but which
+of light, vtrue < c. Using Eq. (18), we find the condition              were excluded because of one of the above criteria.
+   v                                                                         It is interesting to compare the light-time effect in position
+          < c,   or v + vr < c ,                                (89)    with the more well-known perspective acceleration (Schlesinger
+1 − vr /c
+                                                                        1917; van de Kamp 1977; Murray 1983), which is a purely geo-
+where v and vr are apparent velocities. In terms of the astrometric     metrical effect due to the changing distance and angle between
+parameters, this gives a constraint on the parallax,                    the velocity vector and line of sight (it is equivalent to the Corio-
+              q                                                       lis acceleration in the coordinate system rotating with the line of
+̟ > τA µr + µ2 + µ2r .                                        (90)      sight). The apparent acceleration due to this effect is µ̇ = −2µµr ,
+                                                                        which after time t results in the positional offset
+For a given proper motion, any parallax below this limit is phys-
+ically meaningless because it would correspond to true superlu-         ∆θpersp = µµr t2                                                (91)
+minal motion.5 However, Eq. (90) is a very weak condition: for
+example, it gives ̟ >  ∼ 30 µas for proper motions of the order
+of 1 arcsec yr−1 . Observational errors put much more stringent         (dropping the negative sign). As can be seen from the table, the
+constraints on acceptable parallaxes.                                   perspective effect is typically some three orders of magnitude
+    Brown et al. (1997) discussed the estimation of physical            greater than the light-time effect (roughly the ratio of the speed
+quantities such as stellar distances and absolute magnitudes from       of light to the stellar velocity). However, the actual ratio depends
+measured trigonometric parallaxes. For individual stars such es-        on the angle between the stellar motion and the line of sight, so
+timates are in general significantly biased, unless the ratio of the    that for example the star with the largest light-time effect in po-
+parallax uncertainty to the true parallax is less than 0.1. Although    sition (HIP 57939) has only the sixth largest perspective effect.
+                                                                        The perspective acceleration is fully taken into account in all
+5
+  As opposed to an apparent superluminal velocity, vapp > c, which is   the propagation formulae presented in this paper, both with and
+physically possible and allowed by Eq. (18).                            without the light-time effects.
+Article number, page 10 of 18
+                                A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+Table 1. Hipparcos stars with significant light-time effect. Columns 1–2 list the Hipparcos identifier and parallax, 3–6 the proper motion compo-
+nents, including the total (tangential) proper motion µ = (µ2α∗ + µ2δ )1/2 and the radial proper motion µr , 7–9 the tangential, radial, and total velocity,
+10 the effect of perspective acceleration over 100 yr, and 11–12 the light-time effects over 100 yr in position and apparent space velocity.
+
+     HIP           ̟          µα∗            µδ              µ             µr             vt           vr          v         ∆θpersp     ∆θ        ∆v
+                 (mas)     (mas yr−1 )    (mas yr−1 )    (mas yr−1 )    (mas yr−1 )    (km s−1 )    (km s−1 )   (km s−1 )    (mas)      (mas)    (m s−1 )
+      439       229.33       5634.07       −2337.94        6099.89        1227.81       126.09        25.38      128.62        363      0.38       0.16
+     5336       132.40       3421.44       −1599.27        3776.76       −2739.91       135.22       −98.10      167.06        502      0.16       0.14
+    10449        16.17        994.65         −80.42         997.90          95.82       292.55        28.09      293.89          5      0.02       0.14
+    15234        30.63        739.73       −1063.79        1295.70       −1080.99       200.53      −167.30      261.15         68      0.03       0.11
+    16209        39.19       1120.24       −1065.81        1546.25       −1430.21       187.04      −173.00      254.78        107      0.04       0.12
+    16404        17.58       1190.86       −1066.16        1598.39        −600.40       431.01      −161.90      460.41         47      0.09       0.51
+    18915        54.14       1732.49       −1365.50        2205.93        −294.09       193.15       −25.75      194.86         31      0.08       0.13
+    19849a      198.24      −2239.33       −3419.86        4087.79       −1769.76        97.75       −42.32      106.52        351      0.13       0.07
+    21609        17.00        732.93        1249.38       1448.49          211.58       403.91        59.00      408.20         15      0.07       0.39
+    24186b      255.26       6506.05       −5731.39        8670.50       13202.74       161.02       245.19      293.34       5550      0.96       0.66
+    24316        14.55        935.43         515.36        1068.00         721.29       347.96       235.00      419.88         37      0.03       0.25
+    34285        10.68        −93.65         691.23         697.55         587.27       309.62       260.67      404.74         20      0.01       0.14
+    38541        35.29        705.00       −1834.55        1965.35       −1745.34       264.00      −234.45      353.08        166      0.08       0.30
+    46120        16.46        202.13        1237.24       1253.64         −329.51       361.05       −94.90      373.31         20      0.05       0.27
+    48152        12.44        373.81        −774.75         860.22         −39.36       327.80       −15.00      328.14          2      0.02       0.15
+    49616         8.93       −563.56         393.83         687.53        −102.29       364.98       −54.30      368.99          3      0.01       0.15
+    54035       392.40       −580.20       −4767.09        4802.27       −7010.35        58.01       −84.69      102.66       1632      0.11       0.05
+    54211       206.94      −4410.79         943.32        4510.53        3007.32       103.32        68.89      124.18        658      0.17       0.09
+    55042        79.71      −2465.03        1179.06       2732.50         −588.52       162.51       −35.00      166.23         78      0.10       0.12
+    56936        44.28        262.62       −3157.21        3168.11       −1102.22       339.17      −118.00      359.11        169      0.28       0.62
+    57939c      109.21       4003.69       −5813.00        7058.36       −2265.77       306.38       −98.35      321.78        775      1.24       1.13
+    74234d       33.68      −1001.47       −3542.66        3681.49        2207.95       518.17       310.77      604.22        394      0.57       1.86
+    74235d       34.14       −998.86       −3542.91        3681.02        2233.43       511.12       310.12      597.85        399      0.56       1.82
+    76976        17.44      −1115.54        −302.77        1155.90        −629.54       314.19      −171.12      357.77         35      0.03       0.21
+    80837        24.34       −432.73       −1392.34        1458.03        −244.56       283.97       −47.63      287.93         17      0.05       0.19
+    87937e      549.01       −797.84       10326.93       10357.70      −12798.54        89.43      −110.51      142.17       6427      0.79       0.21
+   100568        22.88        539.73       −1055.93        1185.87        −827.36       245.70      −171.42      299.59         48      0.03       0.14
+   104059        52.26       −914.54       −2035.65       2231.65          −15.43       202.43        −1.40      202.44          2      0.08       0.15
+   104214f      287.13       4155.10        3258.90        5280.65       −3981.87        87.18       −65.74      109.19       1019      0.20       0.08
+   104217f      285.42       4107.40        3143.72        5172.40       −3857.60        85.91       −64.07      107.17        967      0.19       0.08
+   108870       275.76       3959.97       −2538.84        4703.94       −2326.86        80.86       −40.00       90.22        531      0.15       0.06
+   114046       303.90       6767.26        1326.66        6896.07         564.79       107.57         8.81      107.93        189      0.41       0.13
+   117254        12.91        255.64        −856.78         894.11         −29.68       328.31       −10.90      328.49          1      0.02       0.16
+
+Notes. (a) 40 Eri. (b) Kapteyn’s star. (c) Groombridge 1830 (Argelander’s star). (d) Component of the quadruple star system CCDM J15102-1624.
+(e)
+    Barnard’s star. (f) Component of the double star 61 Cyg.
+
+
+6.4. Light-time effects and the Galactic acceleration                          area around the Sun delimited by four hyperbolas, one in each
+                                                                               quadrant, as shown in Fig. 3. Since very few Galactic stars have
+The propagation formulae are based on the uniform rectilinear                  velocities exceeding 300 km s−1 , we conclude that the effect of
+model of stellar motions, which at some point breaks down due                  the Galactic acceleration generally dominates beyond a distance
+to the (differential) Galactic acceleration. This effect is estimated          of about 100 pc from the Sun.
+in Appendix E, where Eq. (E.4) is derived for the positional off-
+set caused by the acceleration in the Galactic plane. This offset
+is proportional to sin 2L, where L is Galactic longitude, and in-              6.5. Relation to the work by Stumpff (1985)
+creases quadratically with time. Since the light-time effect in po-
+sition also increases quadratically, as given by Eq. (D.11), the               The most complete analysis of the astrometric light-time ef-
+relative size of the two effects do not change with time and de-               fects prior to the present treatment was the pioneering study by
+pend only on the position and velocity of the star in question.                Stumpff (1985). As in the present work, Stumpff carried out his
+Comparing the two formulae it is seen that the light-time effect               analysis within the framework of the uniform rectilinear model,
+dominates over the Galactic acceleration if                                    made an explicit distinction between true and apparent quanti-
+                      !3          !2                                           ties, solved the quadratic light-time equation, and expressed the
+               vt              b                                               propagated quantities as functions of the time of observation.
+0.36 ×                   >           × sin 2L .                  (92)          However, there are a number of important differences between
+         103 km s−1         1 kpc
+                                                                               the two studies, summarized hereafter.
+In a rectangular, heliocentric Galactic coordinate system with x                   Stumpff (1985) expressed the propagated quantities in terms
+and y axes directed towards L = 0◦ and 90◦ , respectively, we                  of the true, not apparent, velocity. Although he derived the
+find sin 2L = 2xy/(x2 + y2 ) = 2xy/b2 . For a given transverse                 transformation from true to apparent velocity equivalent to our
+velocity vt , the light-time effect therefore dominates inside an              Eq. (17), he did not give the inverse relation in Eq. (18). Instead,
+                                                                                                                            Article number, page 11 of 18
+                                                             A&A proofs: manuscript no. bl
+
+                     1                                                             The analytical solution of the apparent path equation for uni-
+                                                                               form rectilinear motion gives the propagated barycentric posi-
+                                                                               tion at any instance of time. The postulated constancy of the
+                   0.5
+                                                                               true velocity enables us to find the propagated apparent ve-
+
+
+
+                                 00
+                                                                               locity. Remarkably, all the light-time effects are conveniently
+
+                               10
+                                                                               parametrized by two factors, which are equal to 1 when light-
+
+
+                                        0
+                                      70
+                                                                               time is ignored. We obtain explicit formulae for the propagated
+
+
+                                              0
+         Y [kpc]
+
+
+
+
+                                            30
+                     0                                                         astrometric parameters both in the case when light-time effects
+                                                                               are included and when they are neglected. We also provide the
+                                                                               corresponding elements of the Jacobian matrix to be used in the
+                   -0.5                                                        propagation of covariances. Thus, we have derived a complete
+                                                                               set of formulae for the rigorous and fully reversible propagation
+                                                                               of astrometric data, and their covariances, over arbitrary time in-
+                                                                               tervals.
+                    -1
+                          -1   -0.5               0    0.5    1                    The effect of the light-time on the astrometric parameters is
+                                             X [kpc]                           roughly proportional to µ3 . Although the light-time effects are
+                                                                               generally very small, they are significant for high-velocity stars
+Fig. 3. Comparison of the effects of the light-time and Galactic accel-        within a few tens of pc from the Sun, where they exceed the
+eration on the position in the Galactic plane. The Sun is situated at          effects of the curvature of their orbits in the Galactic potential.
+x = y = 0, with the Galactic centre on the x axis. The curves show where
+                                                                                   Distance should be well known to allow meaningful calcu-
+the two effects are equal for the tangential velocity indicated (in km s−1 )
+next to the curve. The light-time effect exceeds that of the Galactic ac-      lation of the light-time effects. Therefore, the epoch propaga-
+celeration for stars closer to the Sun than the curves. Beyond the curves,     tion including light-time should only be used for stars with reli-
+the effect of the Galactic acceleration is more significant.                   able parallax distances: we recommend the criterion ̟ > 10σ̟ .
+                                                                               Astrometric parameters of stars with smaller parallaxes should
+                                                                               be propagated neglecting light-time. Thus, the presented tech-
+an approximate equation for the inverse transformation was de-                 nique is applicable both to high- and low-accuracy astrometric
+rived via the relativistic formula for the Doppler effect. In our              data provided that the proper mode of epoch transformation is
+opinion, this obscures the treatment by mixing in a quite differ-              selected.
+ent problem, namely the relation between the (astrometric) radial
+                                                                               Acknowledgements. LL gratefully acknowledges support from the Swedish Na-
+velocity vr and the spectroscopically observable Doppler effect                tional Space Board. AGB is grateful to Lund Observatory for their warm hospi-
+(Lindegren & Dravins 2003).                                                    tality during his short-term visits. AGB also acknowledges the support from the
+     Concerning the transformation of the astrometric parameters               Deutsche Zentrum für Luft- und Raumfahrt e.V. (DLR). We warmly thank our
+from one epoch to another, Stumpff (1985) proposed an iterative                referee, Anthony G. A. Brown (Leiden Observatory), for his valuable comments
+                                                                               and suggestions.
+method to find the true parameters, then propagate them, and fi-
+nally recover the apparent parameters at the new epoch. By con-
+trast, we give the propagated apparent parameters in closed form
+as functions of the initial apparent parameters.                               References
+     Furthermore, Stumpff developed the propagation formulae in                Anderson, E. & Francis, C. 2012, Astron. Lett., 38, 331
+terms of the arc length along the apparent stellar path, i.e. essen-           Bastian, U. 1995, in ESA Special Publication, Vol. 379, Future Possibilities for
+tially in scalar form, while we use vectors throughout. The vec-                  astrometry in Space, ed. M. A. C. Perryman & F. van Leeuwen, 99
+tor formalism yields clear and concise formulae for the explicit               Bevington, P. R. & Robinson, D. K. 2003, Data reduction and error analysis for
+transformations, which are readily translated to computer code.                   the physical sciences, 3rd edn. (NY: McGraw-Hill)
+                                                                               Binney, J. & Merrifield, M. 1998, Galactic Astronomy (Princeton, NJ : Princeton
+This is obviously important for any practical application of the                  University Press)
+model, where also the error propagation needs to be considered.                Binney, J. & Tremaine, S. 2008, Galactic Dynamics: Second Edition (Princeton
+Clearly, Stumpff did not provide the Jacobian of the transforma-                  University Press)
+tion, nor did he consider the limitations of the uniform rectilinear           Brandt, S. 1999, Data analysis, 3rd edn. (Berlin: Springer)
+                                                                               Brown, A. G. A., Arenou, F., van Leeuwen, F., Lindegren, L., & Luri, X. 1997,
+model in the Galactic potential.                                                  in ESA Special Publication, Vol. 402, Hipparcos - Venice ’97, ed. R. M. Bon-
+                                                                                  net, E. Høg, P. L. Bernacca, L. Emiliani, A. Blaauw, C. Turon, J. Kovalevsky,
+                                                                                  L. Lindegren, H. Hassan, M. Bouffard, B. Strim, D. Heger, M. A. C. Perry-
+7. Conclusions                                                                    man, & L. Woltjer, 63–68
+                                                                               Choi, J., McCarthy, C., Marcy, G. W., et al. 2013, ApJ, 764, 131
+We have presented a technique for transforming astrometric data                de Bruijne, J. H. J. 2012, Ap&SS, 341, 31
+from one epoch to another based on the uniform rectilinear                     Dravins, D., Lindegren, L., & Madsen, S. 1999, A&A, 348, 1040
+model of barycentric stellar motion, including a rigorous treat-               Edwards, R. T., Hobbs, G. B., & Manchester, R. N. 2006, MNRAS, 372, 1549
+                                                                               Eichhorn, E. & Rust, A. 1970, AN, 292, 37
+ment of the effects of light travel time.                                      Eisner, E. 1967, AJ, 72, 214
+     A consistent treatment of light-time necessitates distinguish-            ESA. 1997, The Hipparcos and Tycho catalogues (ESA SP-1200)
+ing between true and apparent (observed) position and veloc-                   Holmberg, J. & Flynn, C. 2000, MNRAS, 313, 209
+ity. While the former are in principle unknown, they may nev-                  IAU. 2012, Resolution B2 on the re-definition of the astronomical unit of length
+                                                                               Klioner, S. 2003, AJ, 125, 1580
+ertheless be inferred from an assumed model of stellar motion.                 Kovalevsky, J. 2003, A&A, 404, 743
+The six astrometric parameters (two components of the position,                Lindegren, L. 1995, Semi-rigorous propagation of astrometric parameters and
+the trigonometric parallax, and three components of the proper                    their covariances, Tech. rep., Lund Observatory
+motion) are defined with respect to the apparent quantities. Ap-               Lindegren, L. & Dravins, D. 2003, A&A, 401, 1185
+                                                                               Lindegren, L., Høg, E., van Leeuwen, F., et al. 1992, A&A, 258, 18
+plying the light-time equation to the uniform motion model, we                 Lindegren, L., Lammers, U., Hobbs, D., et al. 2012, A&A, 538, A78
+derived the path equation in terms of the apparent position and                Liu, J.-C., Xie, Y., & Zhu, Z. 2013, MNRAS, 433, 3597
+velocity.                                                                      Michalik, D., Lindegren, L., Hobbs, D., & Lammers, U. 2014, (preprint)
+
+Article number, page 12 of 18
+                                   A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+Mueller, I. I. 1969, Spherical and Practical Astronomy (New York: Frederick       A simple example: To illustrate the general error propagation
+   Ungar Publishing)                                                              technique using the Jacobian, we give below some very simpli-
+Murdin, P. 2001, Encyclopedia of Astronomy and Astrophysics (Bristol: Institute   fied formulae. We emphasize that they should not be used for
+   of Physics Publishing)
+Murray, C. A. 1983, Vectorial astrometry (Bristol: Adam Hilger)
+                                                                                  actual calculations, but are only given for illustration. The sim-
+Reid, M. J., Menten, K. M., Zheng, X. W., et al. 2009, ApJ, 700, 137              plistic formulae for transforming a celestial position (α, δ) over
+Schlesinger, F. 1917, AJ, 30, 137                                                 the epoch difference t are
+Schwarzschild, K. 1894, Astronomische Nachrichten, 136, 81
+Scott, F. P. & Hughes, J. A. 1964, AJ, 69, 368                                    α = α0 + tµα0 ,
+Stumpff, P. 1985, A&A, 144, 232                                                                                                                                (A.6)
+Taff, L. G. 1981, Computational spherical astronomy (New York: Wiley-             δ = δ0 + tµδ0 .
+   Interscience)
+van Altena, W. F. 2013, Astrometry for Astrophysics (Cambridge University         It is useful to point out that in this equation the proper motion
+   Press)                                                                         in right ascension does not contain the factor cos δ. This is not
+van de Kamp, P. 1977, Vistas in Astronomy, 21, 289                                a good physical model of how the stars move on the sky: in
+Woolard, E. W. & Clemence, G. M. 1966, Spherical astronomy
+                                                                                  general it describes a curved, spiralling motion towards one of
+                                                                                  the poles, whereas real (unperturbed) stars are expected to move
+                                                                                  along great-circle arcs. Although the difference with respect to
+Appendix A: General error propagation
+                                                                                  the rigorous model (Sect. 5) is often very small, it becomes sig-
+Although the propagation of errors is discussed in many text-                     nificant over long time intervals or for stars near the celestial
+books (see, for example, Brandt 1999; Bevington & Robinson                        poles. In this model, the changes in the proper motion compo-
+2003), we find it instructive for the subsequent discussion to give               nents and in the parallax are neglected and the Jacobian matrix
+a brief exposition of this technique.                                             for the epoch transformation is then:
+    In the context of the error propagation, it is convenient to
+                                                                                          1           0   0   t   0   0 
+                                                                                                                              
+represent the astrometric parameters by a vector a of length 6.
+All information on the standard errors, σ, of the parameters and                            0         1   0   0   t   0 
+                                                                                             
+correlations between them is contained in the 6 × 6 variance-                                   0       0   1   0   0   0 
+                                                                                                                               .
+                                                                                  J =                                                                      (A.7)
+covariance matrix C with the elements of the latter being                                       0     0   0   1   0   0 
+                                                                                                  0   0   0   0   1   0 
+                                                                                                                               
+cii = σ2i
+                                                                                                   
+               cik = ρik σi σk ,                                        (A.1)                        0   0   0   0   0   1
+
+where ρik is the correlation coefficient of i-th and k-th parameter.              The inverse transformation is obtained by reversing the sign of t.
+    If vector of the parameters a0 undergoes a transformation                     It is easily verified that the resulting matrix is indeed the inverse
+giving new vector, a = f (a0 ), small variations in the parameters                of Eq. (A.7).
+are related as                                                                         The covariance matrix for the six astrometric parameters at
+       X ∂ fi                                                                     epoch t are obtained from (A.5); this yields in particular for the
+∆ai =          ∆a0k .                                         (A.2)               variances in position:
+        k
+           ∂ak
+                                                                                          h                            i
+                                                                                  σ2α = σ2α + 2tρµαα σα σµα + t2 σ2µα ,
+In matrix form this can be written:                                                       h                          i0                           (A.8)
+                                                                                     2       2      µδ           2 2
+                                                                                   σδ = σδ + 2tρδ σδ σµδ + t σµδ
+                                                                                                                                    0
+∆a = J∆a0 ,                                                             (A.3)
+                                                                                  (with all quantities in the right members referring to the initial
+where J is the Jacobian matrix of the transformation:                                                          y
+                                                                                  epoch). Here the notation ρ x means the coefficient of correlation
+        ∂ fi                                                                      between the astrometric parameters x and y.
+Jik =                                                                   (A.4)         Finally, let us consider an extreme case of very large epoch
+        ∂ak
+                                                                                  difference. Putting formally t → ∞, we find that
+evaluated at the point a0 . Now let ∆a be the difference between
+the estimated and true parameter vectors. If the estimate is unbi-                σα → tσµα ,                σδ → tσµδ ,                                       (A.9)
+ased, then E (∆a0 ) = 0, where E is the expectation    operator,
+                                                                 and
+the covariance matrix of a0 is given by C0 = E ∆a0 ∆a0 , with ′                   while σ̟ , σµα , σµδ , and σµr are unchanged. Similarly, after di-
+the prime denoting matrix transposition. It follows from (A.3)                    rect calculations, we obtain the limiting forms of all nine corre-
+that a is also unbiased, to the first order in the errors, and that its           lation coefficients affected by the transformation:
+covariance is given by
+                                                                                  ρδα → ρµµδα , ρ̟    µα   µα       µδ   µδ    µr   µr
+                                                                                                 α → ρ̟ , ρα → 1 , ρα → ρµα , ρα → ρµα ,
+               ′
+C = JC0 J .                                                             (A.5)                     ρ̟    µδ   µα∗  µδ     µδ       µr   µr
+                                                                                                   δ → ρ̟ , ρδ → ρµα∗ , ρδ → 1 , ρδ → ρµδ .                  (A.10)
+This equation is the basis for the error propagation discussed
+                                                                                  Although the terms in the right-hand sides of Eqs. (A.9) and
+below.
+                                                                                  (A.10) refer to the initial epoch, we do not show it explicitly
+    If the inverse function f −1 exists, then it is possible to trans-            because these quantities remain unchanged.
+form the data set [a, C] back to the original form [a0 , C0 ], and the
+                                                                                      Thus all information about initial covariances of the posi-
+two representations can be regarded as equivalent from the point
+                                                                                  tions becomes less significant as the epoch difference increases
+of view of information content. A necessary condition for this is
+                                       −1                                       and vanishes in the long run. Similar arguments hold for the rig-
+that J f , 0, in which case J f −1 = J f . The transformations                    orous propagation, except that they cannot be demonstrated so
+discussed here satisfy this condition.                                            easily.
+                                                                                                                                        Article number, page 13 of 18
+                                                            A&A proofs: manuscript no. bl
+
+Initialization of C0 : The initial covariance matrix C0 must be            The quantities X, Y, and Z are defined by the Eqs. (75), (54) and
+specified in order to calculate the covariance matrix of the prop-         (55). We give below, for reference, these quantities explicitly:
+agated astrometric parameters C. Available astrometric cata-
+logues seldom give the correlations between the parameters, nor             X = ̟0 t + 2τA ,
+do they usually contain radial velocities. Absence of the corre-            Y = ̟0 t + τA (1 + Z − µr0 t) ,
+lations does not create any problems for the error propagation                  q
+since all the off-diagonal elements of C0 are just set to zero, but         Z = 1 + (t + 2τA /̟0 ) µ20 t + (2 + µr0 t) µr0 t .
+the radial velocity is crucial for the rigorous propagation. While
+the Hipparcos and Tycho catalogues provide the complete first              It is convenient to eliminate d ln fD and d ln fV from the expres-
+five rows and columns of C0 , this matrix must therefore be aug-           sions for the differentials of the proper motions (68) and (70),
+mented with a sixth row and column related to the initial radial           replacing them by d ln fT and the differentials of the astrometric
+proper motion µr0 . If the initial radial velocity vr0 has the stan-       parameters. To simplify following formulae, we introduce spe-
+dard error σvr0 and is assumed to be statistically independent of          cial designations for the coefficients of d ln fT in dµ and dµr ,
+the astrometric parameters in the catalogue, then the required             respectively:
+additional elements in C0 are                                                      "                           !#
+                                                                                             µr    τA 2 3
+ [C0 ]i6 = [C0 ]6i = [C0 ]i3 (vr0 /A) , i = 1 . . . 5 ,                    ν = µ 1 − t fT 3 +          µ f fV − µ0 fD3 fV ,
+                                                                                              fV ̟0 0 D
+                                                                (A.11)
+[C0 ]66 = [C0 ]33 v2r0 + σ2vr0 /A2 + ̟0 σvr0 /A 2
+                                                                                   "                           !#
+                                                                                               µr   τA 2 3
+                                                                            ξ = µr 1 − t fT 2 +         µ f fV − µr0 fD2 fV .
+(ESA 1997; Michalik et al. 2014). If the radial velocity is not                                fV ̟0 0 D
+known, it is recommended that vr0 = 0 is used, together with                   We, moreover, show how the partial derivatives of the prop-
+an appropriately large value of σvr0 (set to, for example, the             agated positions with respect to the initial radial proper motion
+expected velocity dispersion of the stellar type in question), in          may be expressed in terms of the propagated proper motions.
+which case [C0 ]66 in general is still positive. This means that the       As it has been noted, the term proportional to the propagated
+unknown perspective acceleration is accounted for in the uncer-            barycentric position u in Eq. (69) is not significant because it is
+tainty of the propagated astrometric parameters.                           normal to both p and q. However, keeping the first item in this
+    It should be noted that strict reversal of the transformation          term, u d ln fD , and using the Eq. (72) for d ln fD , we can write
+(from T to T 0 ), according to the standard model of stellar motion,       the derivative as
+is only possible if the full six-dimensional parameter vector and
+covariance is considered.                                                   ∂u     h                            i
+                                                                                 = r0 fD − u (1 + µr0 t fT ) fD2 t fT − r0 fD ψr .
+                                                                           ∂µr0
+Appendix B: Elements of the Jacobian matrix                                Substituting Eq. (44) for u and making use of the propagation of
+                                                                           the proper motion given by Eq. (86), we find that
+This appendix gives explicit formulae for the 36 partial deriva-
+tives constituting the Jacobian matrix needed to calculate the               ∂u
+covariance matrix of the propagated parameters according to                      = −µ (t fT )2 / fV − r0 fD ψr .
+                                                                            ∂µr0
+Eq. (A.5). In what follows, we introduce symbols χ to designate
+the partial derivatives of the logarithm of the velocity factor:           Taking the dot products with p and q, we finally get the formulae
+                                                                           for J16 and J26 given below, respectively.
+d ln fV = χ̟ d̟0 + χµ (µα∗0 dµα∗0 + µδ0 dµδ0 ) + χr dµr0 + χT d ln fT .
+                                                                               The elements of the Jacobian matrix are given hereafter.
+It can be seen from Eq. (74) that
+                                                                                    ∂α∗
+       1                                                                    J11 =        = p′ p0 (1 + µr0 t fT ) fD − p′ r0 µα∗0 t fT fD
+χ̟ =      (1 − fV ) ,                                                               ∂α∗0
+      ̟0
+      τA                                                                            ∂α∗
+χµ =     t fT fD (µr t fT − 2 fV ) ,                                        J12 =       = p′ q0 (1 + µr0 t fT ) fD − p′ r0 µδ0 t fT fD
+      ̟0                                                                            ∂δ0
+      τA                                                                          ∂α∗
+ χr =       fV + fD ( fV + (1 + µr0 t fT ) (µr t fT − 2 fV )) ,             J13 =       = −p′ r0 fD ψ̟
+      ̟0                                                                            ∂̟0
+        τA 3 2
+χT = −      f µ t fT .                                                               ∂α∗
+        ̟0 D 0                                                              J14 =         = p′ p0 t fT fD − p′ r0 µα∗0 fD ψµ
+                                                                                    ∂µα∗0
+Similarly, the logarithmic differential of the time factor can be
+written as                                                                          ∂α∗
+                                                                            J15 =        = p′ q0 t fT fD − p′ r0 µδ0 fD ψµ
+                                                                                    ∂µδ0
+d ln fT = ψ̟ d̟0 + ψµ (µα∗0 dµα∗0 + µδ0 dµδ0 ) + ψr dµr0 ,
+                                                                                    ∂α∗
+where, as it follows from Eqs. (76), (77) and (78),                         J16 =        = −µα∗ (t fT )2 / fv − p′ r0 fD ψr
+                                                                                    ∂µr0
+                     µ2 τ2 
+                           
+       t     t                                                                     ∂δ
+ψ̟ = − 1 − 0 A2  ,                                                    J21 =        = q′ p0 (1 + µr0 t fT ) fD − q′ r0 µα∗0 t fT fD
+      X Y            Z̟0                                                            ∂α∗0
+                        !
+         tτA        τA                                                              ∂δ
+ ψµ = −       t+2         ,                                                 J22 =       = q′ q0 (1 + µr0 t fT ) fD − q′ r0 µδ0 t fT fD
+         YZ         ̟0                                                              ∂δ0
+                              !
+         tτA 1 + µr0 t                                                               ∂δ
+ ψr = −                  −1 .                                               J23 =       = −q′ r0 fD ψ̟
+          Y       Z                                                                 ∂̟0
+Article number, page 14 of 18
+                                 A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+         ∂δ                                                                          ∂µr
+J24 =         = q′ p0 t fT fD − q′ r0 µα∗0 fD ψµ                            J61 =        =0
+        ∂µα∗0                                                                       ∂α∗0
+         ∂δ                                                                         ∂µr
+J25 =        = q′ q0 t fT fD − q′ r0 µδ0 fD ψµ                              J62 =       =0
+        ∂µδ0                                                                        ∂δ0
+         ∂δ                                                                         ∂µr
+J26 =        = −µδ (t fT )2 / fV − q′ r0 fD ψr                              J63 =       = ξψ̟
+        ∂µr0                                                                        ∂̟0
+         ∂̟                                                                          ∂µr
+J31 =        =0                                                             J64 =         = 2µα∗0 (1 + µr0 t fT ) t fT fD4 fV + µα∗0 µr χµ + µα∗0 ξψµ
+        ∂α∗0                                                                        ∂µα∗0
+        ∂̟                                                                        ∂µr
+J32 =       =0                                                              J65 =      = 2µδ0 (1 + µr0 t fT ) t fT fD4 fV + µδ0 µr χµ + µδ0 ξψµ
+        ∂δ0                                                                       ∂µδ0
+        ∂̟                                                                        ∂µr    h                               i
+J33 =       = fD − ̟ (µr t fT / fV ) ψ̟                                     J66 =      = (1 + µr0 t fT )2 − µ20 (t fT )2 fD4 fV + µr χr + ξψr
+        ∂̟0                                                                       ∂µr0
+         ∂̟
+J34 =         = −̟µα∗0 (t fT )2 fD2 − ̟µα∗0 (µr t fT / fV ) ψµ
+        ∂µα∗0                                                               Appendix C: Elements of the Jacobian matrix
+        ∂̟                                                                    neglecting light-time effects
+J35 =        = −̟µδ0 (t fT )2 fD2 − ̟µδ0 (µr t fT / fV ) ψµ
+        ∂µδ0                                                                This appendix gives explicit formulae for the 36 partial deriva-
+      ∂̟                                                                    tives constituting the Jacobian matrix of the propagated astro-
+J36 =      = −̟ (1 + µr0 t fT ) t fT fD2 − ̟ (µr t fT / fV ) ψr             metric parameters for the case when light-time effects are not
+      ∂µr0
+                                                                            taken into account. The following formulae can be obtained ei-
+        ∂µα∗                                                                ther by a direct differentiation of the corresponding equations in
+J41 =        = −p′ p0 µ20 t fT fD3 fV − p′ r0 µα∗0 (1 + µr0 t fT ) fD3 fV   Sect. 5.5, or more easily by putting fT = fV = 1 and τA = 0
+        ∂α∗0
+                                                                            in the derivatives in Appendix B. The elements given below are
+        ∂µα∗                                                                equivalent to the elements given in Vol. 1, Sect. 1.5.5 of the Hip-
+J42 =        = −p′ q0 µ20 t fT fD3 fV − p′ r0 µδ0 (1 + µr0 t fT ) fD3 fV
+        ∂δ0                                                                 parcos and Tycho catalogues (ESA 1997). In that publication,
+        ∂µα∗                                                                the radial proper motion µr is denoted ζ, and the distance factor
+J43 =        = p′ νψ̟                                                        fD is denoted f .
+        ∂̟0
+        ∂µα∗                                                                        ∂α∗
+J44 =         = p′ p0 (1 + µr0 t fT ) fD3 fV − 2 p′ r0 µα∗0 t fT fD3 fV     J11 =        = p′ p0 (1 + µr0 t) fD − p′ r0 µα∗0 t fD
+        ∂µα∗0                                                                       ∂α∗0
+              − 3µα∗ µα∗0 (t fT )2 fD2 fV + µα∗ µα∗0 χµ + p′ νµα∗0 ψµ               ∂α∗
+                                                                            J12 =       = p′ q0 (1 + µr0 t) fD − p′ r0 µδ0 t fD
+        ∂µα∗                                                                        ∂δ0
+J45 =        = p′ q0 (1 + µr0 t fT ) fD3 fV − 2 p′ r0 µδ0 t fT fD3 fV
+        ∂µδ0                                                                        ∂α∗
+                                                                            J13 =       =0
+             − 3µα∗ µδ0 (t fT )2 fD2 fV + µα∗ µδ0 χµ + p′ νµδ0 ψµ                   ∂̟0
+        ∂µα∗                                                                         ∂α∗
+J46 =        = p′ µ0 fD − 3µ (1 + µr0 t fT ) t fT fD2 fV
+                                                                          J14 =         = p′ p0 t fD
+        ∂µr0                                                                        ∂µα∗0
+             + µα∗ χr + p′ νψr                                                      ∂α∗
+                                                                            J15 =        = p′ q0 t fD
+         ∂µδ                                                                        ∂µδ0
+J51 =        = −q′ p0 µ20 t fT fD3 fV − q′ r0 µα∗0 (1 + µr0 t fT ) fD3 fV
+        ∂α∗0                                                                        ∂α∗
+                                                                            J16 =        = −µα∗ t2
+        ∂µδ                                                                         ∂µr0
+J52 =       = −q′ q0 µ20 t fT fD3 fV − q′ r0 µδ0 (1 + µr0 t fT ) fD3 fV
+        ∂δ0                                                                          ∂δ
+                                                                            J21 =        = q′ p0 (1 + µr0 t) fD − q′ r0 µα∗0 t fD
+      ∂µδ                                                                           ∂α∗0
+J53 =     = q′ νψ̟
+      ∂̟0                                                                           ∂δ
+                                                                            J22 =       = q′ q0 (1 + µr0 t) fD − q′ r0 µδ0 t fD
+         ∂µδ                                                                        ∂δ0
+J54 =         = q′ p0 (1 + µr0 t fT ) fD3 fV − 2q′ r0 µα∗0 t fT fD3 fV
+        ∂µα∗0                                                                        ∂δ
+                                                                            J23 =       =0
+              − 3µδ µα∗0 (t fT )2 fD2 fV + µδ µα∗0 χµ + q′ νµα∗0 ψµ                 ∂̟0
+        ∂µδ                                                                          ∂δ
+J55 =        = q′ q0 (1 + µr0 t fT ) fD3 fV − 2q′ r0 µδ0 t fT fD3 fV        J24 =         = q′ p0 t fD
+        ∂µδ0                                                                        ∂µα∗0
+             − 3µδ µδ0 (t fT )2 fD2 fV + µδ µδ0 χµ + q′ νµδ0 ψµ                      ∂δ
+                                                                            J25 =        = q′ q0 t fD
+        ∂µδ                                                                         ∂µδ0
+             = q′ µ0 fD − 3µ (1 + µr0 t fT ) t fT fD2 fV
+                                           
+J56 =
+        ∂µr0                                                                         ∂δ
+                                                                            J26 =        = −µδ t2
+             + µδ χr + q′ νψr                                                       ∂µr0
+                                                                                                                       Article number, page 15 of 18
+                                                               A&A proofs: manuscript no. bl
+
+         ∂̟                                                                     Appendix D: Approximate formulae for the
+J31 =        =0
+        ∂α∗0                                                                      light-time effects
+        ∂̟                                                                      In this appendix we derive approximate formulae for the ef-
+J32 =       =0
+        ∂δ0                                                                     fects of the light-time on the propagated astrometric parameters.
+        ∂̟                                                                      These formulae should not be used for the actual propagation,
+J33 =       = fD                                                                but only to estimate the significance of the effects.
+        ∂̟0
+                                                                                    It is clear from Sect. 5.3 that the light-time effects are de-
+         ∂̟                                                                     termined by the scaling factors in time and velocity, fT and fV .
+J34 =         = −̟µα∗0 t2 fD2                                                   Since these factors are very close to unity, it is useful to intro-
+        ∂µα∗0
+                                                                                duce two small quantities, εT and εV , which can be regarded as
+        ∂̟                                                                      small parameters of the employed formalism:
+J35 =        = −̟µδ0 t2 fD2
+        ∂µδ0
+                                                                                fT = 1 + εT       and       fV = 1 + εV .                           (D.1)
+      ∂̟
+J36 =      = −̟ (1 + µr0 t) t fD2
+      ∂µr0                                                                      Since εT and εV are zero at t = 0, it is convenient to represent
+                                                                                them as an explicit functions of time. Expanding Eqs. (54) and
+        ∂µα∗
+J41 =        = −p′ p0 µ20 t fD3 − p′ r0 µα∗0 (1 + µr0 t) fD3                    (57) in a Taylor series in time and keeping the first-order terms,
+        ∂α∗0                                                                    we find that
+        ∂µα∗                                                                          µ2 τA                     µ2 τA
+J42 =        = −p′ q0 µ20 t fD3 − p′ r0 µδ0 (1 + µr0 t) fD3
+        ∂δ0                                                                     εT = − 0 t            and εV = − 0 t ,                              (D.2)
+                                                                                      2̟0                        ̟0
+        ∂µα∗
+J43 =        =0                                                                 i. e. εV = 2εT .
+        ∂̟0
+                                                                                     As the next step, we express the propagated astrometric pa-
+        ∂µα∗                                                                    rameters as linear functions of εT and εV by a series expansion
+J44 =         = p′ p0 (1 + µr0 t) fD3 − 2 p′ r0 µα∗0 t fD3 − 3µα∗ µα∗0 t2 fD2
+        ∂µα∗0                                                                   to the first order. We denote the approximate quantities calcu-
+                                                                                lated neglecting the light-time effects, that is for εT = εV = 0,
+        ∂µα∗                                                                    with a tilde. Substituting fT from Eq. (D.1) to the definition of
+J45 =        = p′ q0 (1 + µr0 t) fD3 − 2 p′ r0 µδ0 t fD3 − 3µα∗ µδ0 t2 fD2
+        ∂µδ0                                                                    the distance factor (43), we get
+        ∂µα∗                                                                    fD = f˜D − f˜D µ̃r εT t .                                           (D.3)
+             = p′ µ0 fD − 3µ (1 + µr0 t) t fD2
+                                       
+J46 =
+        ∂µr0
+                                                                                It follows from Eq. (44) that the propagated barycentric position
+         ∂µδ
+J51 =        = −q′ p0 µ20 t fD3 − q′ r0 µα∗0 (1 + µr0 t) fD3                    can be written as
+        ∂α∗0
+      ∂µδ                                                                       u = ũ + µ̃ f˜D−2 εT t                                              (D.4)
+J52 =     = −q′ q0 µ20 t fD3 − q′ r0 µδ0 (1 + µr0 t) fD3
+      ∂δ0                                                                       and formula (45) gives the propagated parallax
+        ∂µδ
+J53 =       =0                                                                  ̟=̟
+                                                                                  ˜ −̟
+                                                                                     ˜ µ̃r εT t .                                                   (D.5)
+        ∂̟0
+       ∂µδ                                                                      Expansion of the product fD3 fV , which appears in the formula of
+J54 =       = q′ p0 (1 + µr0 t) fD3 − 2q′ r0 µα∗0 t fD3 − 3µδ µα∗0 t2 fD2       the propagated proper motion (50), to the first order in εT and
+      ∂µα∗0                                                                     εV gives f˜D3 − 3 f˜D3 µ̃r εT t + f˜D3 εV . Since εT and εV are of the same
+        ∂µδ                                                                     order-of-magnitude, f˜D ≈ 1 and µ̃r t ≪ 1, we can omit the second
+J55 =        = q′ q0 (1 + µr0 t) fD3 − 2q′ r0 µδ0 t fD3 − 3µδ µδ0 t2 fD2
+        ∂µδ0                                                                    term to get
+
+J56 =
+        ∂µδ
+             = q′ µ0 fD − 3µ (1 + µr0 t) t fD2
+                                                                              fD3 fV = f˜D3 + f˜D3 εV     and    fD2 fV = f˜D2 + f˜D2 εV .        (D.6)
+        ∂µr0
+                                                                                The propagated proper motions then become
+       ∂µr
+J61 =      =0                                                                    µ = µ̃ + µ0 f˜D3 εV ,                                              (D.7)
+      ∂α∗0
+        ∂µr                                                                     µr = µ̃r + µr0 f˜2 εV .
+                                                                                                  D                                                 (D.8)
+J62 =       =0
+        ∂δ0
+                                                                                Putting f˜D = 1 in Eqs. (D.4), (D.5), (D.7), and (D.8), we readily
+      ∂µr                                                                       obtain the effects of the light-time on the astrometric parameters
+J63 =     =0
+      ∂̟0
+                                                                                     µ3 τA 2                   µr µ2 τA 2
+       ∂µr                                                                      ∆θ =       t ,           ∆̟ =           t ,
+J64 =       = 2µα∗0 (1 + µr0 t) t fD4                                                 2̟                           2                                (D.9)
+      ∂µα∗0                                                                          µ3 τA                     µr µ2 τA
+                                                                                ∆µ =       t,            ∆µr =          t.
+      ∂µr                                                                              ̟                          ̟
+J65 =      = 2µδ0 (1 + µr0 t) t fD4
+      ∂µδ0                                                                      We note the following relations between the effects
+      ∂µr    h                      i
+J66 =      = (1 + µr0 t)2 − µ20 t2 fD4                                                 1                           1
+      ∂µr0                                                                      ∆θ =     t∆µ      and ∆̟ =           t∆µr .                        (D.10)
+                                                                                       2                           2
+Article number, page 16 of 18
+                              A. G. Butkevich and L. Lindegren: Rigorous treatment of barycentric stellar motion
+
+It is instructive to express the effects in terms of the physical          in the introduction, one of the objectives of the uniform rectilin-
+parameters, including the effects in velocity:                             ear hypothesis is precisely to enable the detection of such cases.
+                                                                           Rather, we need to consider accelerations that affect all, or most
+     1 vt  vt 2 2          1 A vr  vt 2 2                              of, the stars and which could therefore potentially render the
+∆θ =               t , ∆̟ =                t ,
+     2c b                    2b c b                                        model invalid as a general basis for high-precision astrometric
+     vt vt
+            2              vr vt
+                                   2                                     analyses. The most important such acceleration is caused by the
+∆µ =            t,     ∆µr =           t,                         (D.11)   large-scale gravitational field of the Galaxy, i.e. the curvature of
+     c b                     c b
+                                                                           Galactic stellar orbits.
+     vv2                     v3               vr v2t
+∆v = t t ,             ∆vt = t t , ∆vr =             t.                         At the arbitrary point b in the Galaxy (relative to the
+     cb                      cb                cb                          SSB) the acceleration vector can be estimated as a = −∇ψ,
+These relations lead to important conclusions about the be-                where ψ is some suitable model of the Galactic potential
+haviour of the effects. The effects on the position and parallax           (Binney & Tremaine 2008). It should be recalled that the uni-
+are quadratic functions of time, while the effects on the proper           form rectilinear model refers to the motion of stars relative to
+motion and velocity increases linearly with time. This confirms            the SSB, and that the SSB itself is subject to some acceleration
+the conclusion drawn from the numerical calculations shown in              a(0). The observable effects must therefore be evaluated for the
+Fig. 2. All the effects are roughly proportional to the third power        differential acceleration ∆a = a(b) − a(0), and the quantities
+of the space velocity, while the dependence on distance is dif-            ak and a⊥ discussed above are therefore the components of ∆a
+ferent for the velocities (b−1 ), position and proper motions (b−2 ),      along and perpendicular to the line of sight.6 In a smooth poten-
+and parallax (b−3 ).                                                       tial both components vanish as b → 0.
+    For the practical estimation of the effects we give the follow-             Rather than using a (rather uncertain) global potential model,
+ing formulae for the position,                                             however, it is more illuminating to analyse the differential effects
+                                                                           based on a few relatively well-determined structural Galactic pa-
+                          vt
+                                  !3
+                                           b
+                                                 !−2
+                                                           t
+                                                                  !2       rameters. We assume an axisymmetric potential in galactocentric
+∆θ = (0.36 µas) ×                      ×               ×               ,   cylindrical coordinates (R, z) and consider separately the accel-
+                      10 km s−1
+                        3                1 kpc           100 yr            eration components in the Galactic plane (along R) and perpen-
+                                                                           dicular to it (along z). To avoid confusion with the b denoting a
+and velocity,
+                                                                           star’s distance from the SSB, we subsequently use B to denote
+                                                    2                     Galactic latitude, and L for the longitude.
+                          v             vt
+∆v = 0.34 m s−1 ×                   ×
+                        103 km s−1      103 km s−1
+                                                !−1           !            Acceleration in the Galactic plane In the axisymmetric ap-
+                                            b            t                 proximation the acceleration in the Galactic plane is directed
+                                      ×             ×           .
+                                         1 kpc         100 yr              towards the Galactic centre and of magnitude a = V(R)/R2 ,
+                                                                           where V(R) denotes the circular velocity as radial distance R.
+                                                                           The Sun is currently located close to the Galactic plane at a ra-
+Appendix E: Applicability of the uniform rectilinear                       dius R0 ≃ 8.4 kpc from the Galactic centre, where the circu-
+  model                                                                    lar velocity is V0 ≡ V(R0 ) ≃ 254 km s−1 (Reid et al. 2009).
+In this appendix we briefly consider the conditions under which            The expected acceleration at the location of the Sun is therefore
+stellar motion may be regarded as uniform. A uniform motion                a0 = V02 /R0 ≃ 2.5 × 10−10 m s−2 .
+implies absence of acceleration. In practice, however, acceler-                The effects in position and proper motion are proportional to
+ated motion may be treated as uniform if observable effects of             a⊥ /b, which in a smooth potential become distance-independent
+the acceleration are negligible compared to the required astro-            for sufficiently small b, that is in the solar neighbourhood. It
+metric accuracy. The effect of a constant acceleration a on the            is interesting to derive the corresponding local approximations
+barycentric position of a star during a timespan t is ∆b ≃ at2 /2.         for the acceleration components. This can be done in complete
+The corresponding change in the angular position θ of the star             analogy with the well-known derivation of the Oort formulae for
+is ∆θ ≃ a⊥ t2 /(2b), where a⊥ is the tangential component of               the radial and tangential velocities of circular motions in terms
+the acceleration. The motion may be regarded as uniform if                 of the Oort constants A and B (e.g. Binney & Merrifield 1998).
+|∆θ| ≪ σθ , the required astrometric accuracy in angular position          With a(R) denoting the acceleration towards the Galactic centre
+after time t. For the proper motion, we similarly have the con-            at radius R, we find
+dition |∆µ| ≪ σµ , where ∆µ ≃ a⊥ t/b. The former (positional)
+criterion is usually stricter since t is typically much greater than       a⊥ /b = −E sin 2L ,      ak /b = F + E cos 2L ,                     (E.1)
+2σθ /σµ .
+    The acceleration along the line of sight, ak (taken to be posi-        where L is the Galactic longitude of the star, as seen from the
+tive when directed away from the SSB), causes a change in par-             Sun, and
+allax by ∆̟ ≃ −Aak t2 /(2b2), where A is the astronomical unit,                 1 a0     da
+                                                                                                !
+                                                                                                            1 a0      da
+                                                                                                                              !
+and in radial velocity by ∆vr ≃ ak t. If a⊥ and ak are of similar          E=         −           , F=−           −                  (E.2)
+magnitudes, we find that |∆̟| is smaller than |∆θ| by a factor                  2 R0 dR R=R0                2 R0 dR R=R0
+A/b ≪ 1, so the effect in parallax is never a limitation. On the           6
+                                                                              The acceleration of the SSB causes some observable effects on the
+other hand, under fairly realistic assumptions it may happen that
+                                                                           proper motions of all objects due to the slowly changing secular aberra-
+the acceleration effect is more important in radial velocity than          tion (Bastian 1995; Kovalevsky 2003; Liu et al. 2013). Studies of Galac-
+in position.                                                               tic motions should in principle be made in a galactocentric reference
+    We do not consider here the acceleration caused by stellar             system, and the transformation from barycentric quantities needs to take
+or planetary companions, which affects specific objects in a very          this effect into account as well as the secular aberration itself (for the
+specific way and may be very important. Indeed, as emphasized              positions). This is not further discussed here.
+
+                                                                                                                     Article number, page 17 of 18
+                                                                A&A proofs: manuscript no. bl
+
+are constants analogous to A and B in the Oort formulae. Using                 z direction, 2πK −1/2 ≃ 84 Myr, compared to the circular pe-
+a(R) = V(R)/R2 we can in fact express E and F in terms of the                  riod 2π/Ω0 ≃ 200 Myr. However, the general conclusion is that
+Oort constants as                                                              Galactic accelerations are negligible at micro-arcsecond accu-
+                                                                               racy over time periods of at least 50 yr.
+E = 2A(A − B) ,       F = (A + B)(A − B) .                             (E.3)
+In Eq. (E.1) we take a⊥ to be positive in the direction of increas-
+ing L. Since the Galactic rotation curve is nearly flat (A + B = 0),
+we have F ≃ 0 and E ≃ Ω20 , where Ω0 = V0 /R0 ≃ 9.8 × 10−16 s−1
+is the circular angular velocity at the Sun. In the solar neighbour-
+hood, the effect of the curvature of Galactic orbits on the position
+after time t can therefore be estimated as
+                                                  !2
+         1        2                           t
+∆θ ≃ −     (Ω 0 t) sin 2L ≃ (−1.0 µas) ×             × sin 2L , (E.4)
+         2                                100 yr
+thus negligible at the 1 µas precision for time intervals up to
+100 yr. The corresponding effect on the radial velocity is
+
+∆vr ≃ Ω20 tb cos 2L
+                                          !         !
+                                     t          b
+          ≃ (0.09 m s−1 ) ×                 ×         × cos 2L , (E.5)
+                                   100 yr     1 kpc
+where we have again assumed a flat rotation curve.
+    Beyond the solar neighbourhood, e.g. at distances of the or-
+der of R0 from the Sun, the differential acceleration is of the
+order of the solar acceleration, or a0 = Ω20 R0 . The astrometric
+effects, being proportional to a⊥ /b ∼ a0 /R0 = Ω20 , are therefore
+of the same order of magnitude as computed above for the solar
+neighbourhood.
+
+Acceleration perpendicular to the Galactic plane In the solar
+neighbourhood, the component of the acceleration perpendicular
+to the Galactic plane, at distance z above the plane,
+                                                    R z is approxi-
+mately given by a(z) = −2πGΣ(z), where Σ(z) = −z ρ(z′ ) dz′ is
+the surface density within ±z of the Galactic plane. Within a few
+hundred pc from the Sun we can assume an approximately con-
+stant mass density ρ0 , yielding a(z) ≃ −Kz where K = 4πGρ0 is
+the square of the angular frequency of the oscillations in z. The
+acceleration relative to the SSB follows the same formula if z is
+interpreted as the vertical coordinate of the star relative to the
+Sun, that is, z = b sin B. For the components of a(z) perpendicu-
+lar to and along the line of sight we readily find
+a⊥ /b = − 21 K sin 2B ,        ak /b = − 21 K + 12 K cos 2B ,          (E.6)
+where a⊥ is positive in the direction of increasing B. Using
+ρ0 ≃ 0.1 M⊙ pc−3 (Holmberg & Flynn 2000), we have K ≃
+5.7×10−30 s−2 , and the accumulated effects in position and radial
+velocity after time t can then be estimated as
+                                              !2
+        1                                t
+∆θ ≃ − Kt2 sin 2B ≃ (−2.9 µas) ×                 × sin 2B , (E.7)
+        4                              100 yr
+and
+
+∆vr ≃ −Ktb sin2 B
+                                !         !
+                           t          b
+        ≃ (−0.28 m s ) ×  −1
+                                  ×         × sin2 B .                 (E.8)
+                         100 yr     1 kpc
+These approximations are valid for distances b up to a few hun-
+dred pc, beyond which the effects may be considerably smaller.
+    The effects of the acceleration perpendicular to the Galac-
+tic plane are therefore more important than the radial accelera-
+tion, which simply reflects the shorter oscillation period in the
+Article number, page 18 of 18
+

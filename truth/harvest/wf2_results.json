@@ -1,0 +1,215 @@
+{
+ "harvest:const": {
+  "file": "/home/tobias/Projects/neutronstars/truth/entries/const.toml",
+  "n_entries": 33,
+  "n_notation": 3,
+  "check_errors": 0,
+  "skipped": [
+   "Astronomical constants (M_sun, pc, AU): need an IAU source not yet in refs/",
+   "Radiation constant a = 4 sigma/c: not listed in the CODATA tables (only sigma, c1, c1L, c2), so not harvested",
+   "c1L (first radiation constant for spectral radiance): unit cell garbled in the text layer, not needed",
+   "Notation symbols c and G: already declared in eos.notation-structure with different units, not redeclared (see notes)",
+   "CGS conversions: the source states no CGS factors, so all values are SI as printed and CGS is left to the code",
+   "Compton wavelength, molar gas constant, Wien constants, magnetic moments and the other Table XXXI rows: not needed by the PRD"
+  ],
+  "notes": "I wrote truth/entries/const.toml with 30 constant entries and 3 notation entries, all status = \"proposed\" and ocr = \"good\". Every value is SI as printed, from Table XXXI (25 entries) or Table XXXIV (eV and u). Locators carry the Rev. Mod. Phys. page, 025010-45 to 025010-51. I generated the file with a script in the scratchpad (gen_const.py). It checked each value, uncertainty and exponent against the printed row, and the anchors were verified by check.py.\n\nValue format: value and uncertainty are strings. For example G is value \"6.674 30 \u00d7 10^-11\" with uncertainty \"(15)\", which means the standard uncertainty in the last two digits. Exact quantities have uncertainty \"exact\". Exact quantities printed with an ellipsis, such as hbar, sigma, c1 and c2, keep the \"\u2026\" in value. The printed relative uncertainty u_r is in each entry's notes.\n\nConstants covered: c, G, h, hbar, e, k_B, N_A, m_e, the electron mass energy equivalent in MeV, m_p, m_n, m_p/m_e, m_u, the unified atomic mass unit u, eV in J, sigma_SB, c1, c2, mu_0, eps_0, alpha, r_e, sigma_e, a_0, R_inf, c R_inf, Rydberg energy in J and in eV, Hartree energy and mu_B.\n\ncheck.py: `python3 -I truth/check.py` reports no error mentioning const.toml. Its last run still exits non-zero (161 entries, 6 errors) because of duplicate ids in the colour domain (colour.srgb-*, colour.notation-cie-xyz). colour.toml and the new colour_srgb.toml both define them. That is another harvester's file, so I left it alone.\n\nProblems to know about:\n- **Symbol conflicts:** eos.toml already uses the symbols c, G, h and m_u with other meanings, and I cannot add conflicts_with there. My notation entries therefore omit c and G (the CGS definitions live in eos.notation-structure) and use \"h_P\" for the Planck constant. m_u is covered through the \"u\" symbol. A later pass could add conflicts_with and an adopted flag so the source's own symbols can be used.\n- **c1 units:** the unit cell in the text layer is garbled (\"\u00bdW m2 h\"), so units \"W m^2\" is my reading from the definition 2 pi h c^2. The notes ask for a page-image check.\n- **Anchors:** the c1 and R_inf anchors stop before the garbled unit cell (they contain control characters), so they end at \"\u00bdW m2\" and \"\u00bdm\u22121\"."
+ },
+ "harvest:colour_srgb": {
+  "file": "/home/tobias/Projects/neutronstars/truth/entries/colour_srgb.toml",
+  "n_entries": 31,
+  "n_notation": 6,
+  "check_errors": 0,
+  "skipped": [
+   "Tristimulus integrals X = k * integral(S(lambda) xbar(lambda) dlambda): not stated in the README or the sRGB text.",
+   "CIE D65 spectral power distribution and CIE standard illuminant tables: not in local sources.",
+   "XYZ normalisation (Y=1 for white, k constant): not stated by Stokes 1996.",
+   "Rounding rule from 255.0*R' to an integer code value: not stated.",
+   "IEC 61966-2-1 thresholds 0.0031308 / 0.04045 and the 7-digit matrix: not in refs/.",
+   "D50 ambient white, digital-TV counts 16/235, BT.709 transfer-function details: kept out of scope."
+  ],
+  "notes": "ID collisions: truth/entries/colour.toml gained sRGB entries from another process while I worked, including ids like colour.srgb-xyz-to-linear-matrix and colour.notation-cie-xyz. I did not touch colour.toml. I renamed six of my ids to avoid the collisions (colour.notation-stokes-cie-xyz, colour.srgb-stokes-xyz-to-linear-matrix, colour.srgb-stokes-linear-to-xyz-matrix, colour.srgb-stokes-encode-linear, colour.srgb-stokes-encode-power, colour.srgb-stokes-d65-white-table02). The content of those entries now overlaps colour.toml, so the orchestrator may want to dedupe. I matched the Y symbol meaning to colour.notation-cie-xyz to clear a symbol conflict. The final check reports 161 entries, 0 errors, 0 warnings.\n\nI looked at the equation GIFs (srgb09, 10, 13, 14-18, 21, 22, plus an enlarged srgb09 and composites of 11, 12, 19, 20). They match refs/stokes_1996_srgb_equations.txt. Eqs 1.3 to 1.5 (srgb14, 15, 16) were not transcribed there. I read them off the GIFs, and their entries are ocr=poor. The equation entries and the two threshold constants are ocr=poor, anchored on nearby prose, and their notes name the GIF files. Table 0.2 cells are interleaved or too short to anchor in the .txt, so those entries anchor on the caption or the intro sentence, with values taken from the HTML table, and ocr=poor.\n\nSource quirks recorded in notes:\n- D65 y is 0.3290 in Table 0.2 but 0.3291 in Table 0.1.\n- The 0.03928 threshold in eq. 1.7 is printed with unprimed R_sRGB symbols.\n- The printed 4-d.p. matrices are not exact inverses of each other.\n- The thresholds are the 1996 values (0.00304, 0.03928). The v1 values (IEC 0.0031308, 3.2406255) have no local source.\n\nCMF datum: refs/data/cie1931_2deg_cvrl.csv has 471 rows, no header, 360 to 830 nm in 1 nm steps. I recomputed the sha256, which matches ccbe601d.... The README states only the 1 nm step and the column order. The range and row count are properties of the file, and the entry says so. The two CIE entries (file and notation) use source key \"data/cie1931_2deg_cvrl_README\", which check.py accepts."
+ },
+ "harvest:obs": {
+  "file": "/home/tobias/Projects/neutronstars/truth/entries/obs.toml",
+  "n_entries": 39,
+  "n_notation": 3,
+  "check_errors": 0,
+  "skipped": [
+   "Walter 2010 position angle 100.3+/-0.3 deg (in the statement of the proper-motion entry only, no separate entry)",
+   "Walter 2010 combined WFPC2+HRC parallax 8.33+/-0.6 mas (120 +8/-10 pc)",
+   "Walter 2010 pre-allowance distance 123 +11/-13 pc (recorded in the distance entry's statement only)",
+   "Kaplan 2011 excess at 1500 A (7.1+/-0.4) and extrapolated STMAG for F606W and F140LP (statement text only, no separate entry)",
+   "Kaplan 2011 measured HST/STIS/WFPC2 magnitudes of RX J1856.5-3754: the paper does not tabulate them (Table 1 covers only five other sources; RX J1856 uses van Kerkwijk & Kulkarni 2001 data), so there are no measured per-band magnitudes except Walter 2010 F475W",
+   "Kaplan 2011 ACS zero points (26.67, 25.75, 20.316): Table 1 footnote, not needed for RX J1856 entries",
+   "Burwitz 2003 other-instrument rows of Table 2 (ROSAT, XMM pn/MOS2/RGS), Lbol 4.1e31 erg/s as separate entry, optical-component limits kT_opt<33.6 eV and R_opt>16.3 km (superscript text garbled), one-component R~12.3 km and 13.3 km",
+   "Ho 2007 Table 1 B=3e12 G column (NH 1.18(2), T_inf 4.34(3), zg 0.27(2)) and blackbody column (NH 0.91(1), T_inf 7.36(1), R_inf 5.0): in notes only",
+   "Ho 2007 Table 2 per-latitude B/Teff/Theta_B values: summarised in the assumptions entry's notes only",
+   "van Kerkwijk & Kaplan 2008 nu, nu-dot (-5.98(14)e-16 Hz/s), Edot 3.3e30 erg/s, t0, TOA rms as separate entries",
+   "Spin-down-derived pulsed fraction from Tiengo & Mereghetti 2007 (~1%): only quoted second-hand by Kaplan 2011",
+   "Not stated in any of the five sources: surface temperature map, numerical optical magnitudes in V/B/R bands for RX J1856, any measured B field independent of timing/atmosphere models"
+  ],
+  "notes": "39 entries written to truth/entries/obs.toml, all status=proposed. Anchors were extracted programmatically from refs/*.txt (regex on a single line), so they are byte-identical. `python3 -I truth/check.py` reports no errors for any obs.* id. The only remaining errors, 11 symbol-conflict errors, involve other domains' files (gr, eos, const, surface) that other agents are writing, so I could not and did not touch them. I renamed my notation syms (P_{1856}, z_g^{fit}, N_H^{fit}) to avoid clashing with eos/surface symbols, so check_errors=0 is for obs.toml only. Flags for the reviewer: (1) Walter 2010 has two parallax numbers, 8.18 mas in the text and 8.16 mas in Table 3, with uncertainties 0.8 and 0.27 mas; both are recorded. The abstract and best-estimate distance is 123 +11/-15 pc, versus +11/-13 before the 0.1 mas allowance. (2) Ho 2007 Table 1: the zg row has only two numbers. I assigned them by alignment (B=3 gives 0.27, B=4 gives 0.22), so that entry is ocr=poor and needs a page-image check; the B=4 column is used as the primary value, consistent with the abstract (zg~0.22) and the Fig. 7 caption. (3) The vKK2008 dipole-spindown approximation is ocr=poor because the B_dip formula lost its sqrt sign; image_verified is not set. (4) Walter 2010 F475W = 25.36+/-0.15 does not state the magnitude system, so it is not directly comparable with Kaplan's STMAG tables (flagged in notes). (5) Distance assumptions differ across sources: Ho 2007 R_inf=17 km assumes 140 pc, Burwitz R_inf scales to 120 pc, Walter gives 123 pc. Nothing was rescaled. v1_ref pointers go to archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl lines 31, 33, 34, 35 and 47 (z_gr, T_inf, T_eff derived, R_inf, B); the v1 script uses B=1e12 G rather than the paper's 3-4e12 G."
+ },
+ "harvest:condensed": {
+  "file": "/home/tobias/Projects/neutronstars/truth/entries/condensed.toml",
+  "n_entries": 39,
+  "n_notation": 3,
+  "check_errors": 0,
+  "skipped": [
+   "Potekhin (1999) eqs. 28/39 for the collision times tau_par, tau_perp: formulas not in refs/",
+   "Medin & Lai (2006, 2007) cohesive-energy tables and vapour-density method: only the cited T_crit fit is in Potekhin 2012",
+   "H-surface T_crit values (8e4, 5e5, 1e6 K at 1e13, 1e14, 5e14 G) and Fe upper limit Q_s <~ Z^(9/5) B12^(2/5) eV, T_crit <~ 10^5.5 B12^(2/5) K: kept only in the notes of rt.cond-tcrit-fit-fe, no separate entries (file size cap)",
+   "Coulomb-coupling melting criterion (van Adelsberg 2005 sect. 2.1: Gamma = 0.227 Z^2 (rho1/A)^(1/3)/T6 < Gamma_m = 175; solid for T < 7e4 eta^(1/3) B14^(2/5) K for H, 4e6 eta^(1/3) B12^(2/5) K for Fe): not entered",
+   "van Adelsberg 2005 eq. 13 (dielectric tensor rotated to the surface frame), eqs. 16, 18, 20 (normal-incidence R and index approximations near E_Bi, E_pe), and Appendix A/B: not entered as separate entries; eq. 16 is noted under rt.cond-free-ion-analytic-reflectivity",
+   "Potekhin 2012 appendix A quartic mode polynomial (A.6-A.21), root selection Im(n)<=0 (A.23) and Fresnel boundary conditions (A.27-A.29), plus B.8-B.12 scalar products: only referenced in the reimplement field and notes",
+   "Potekhin 2012 temperature-correction scheme for the last atmosphere point (Unsoeld-Lucy, eqs. 31-34): referenced in notes of rt.cond-inner-bc, not entered",
+   "Collisional damping numerical values (Fig. 1 of van Adelsberg 2005) and all figure data: not in extracted text",
+   "Kerr/Doppler or flux integration beyond F_nu = int J B_nu cos theta dOmega: only in notes of rt.cond-kirchhoff-law",
+   "Universal constants hbar, e, c, m_e, k_B, m_u omitted from notation to avoid cross-file symbol conflicts"
+  ],
+  "notes": "Wrote 39 entries (36 content, 3 notation), status proposed, domain rt, ids rt.cond-*, and python3 -I truth/check.py reports 0 errors. Every anchor is an exact single-line substring of the .txt, built programmatically. The equations are heavily garbled in the layout text, so most latex was read from page images; those entries are ocr = poor and need a reviewer to confirm against the page images before blessing. Each non-notation entry has a provenance class, since the SCHEMA and check.py now require one (fit entries carry a reimplement route). Coverage:\n- Scales: E_ce, E_ci, E_pe, E_C.\n- Condensation: the rho_s scaling (with the eta fits in its notes), the Medin and Lai T_crit fit as cited in Potekhin 2012, and the condensation-condition approximation.\n- Emissivity: emissivity, Kirchhoff, R_j from amplitudes, and P_lin.\n- Dielectric and ions: the dielectric tensor, damping rates, free-ion and fixed-ion approximations, planar patch, and no vacuum polarisation.\n- Fits: the full J fit (structure, J_A, J_B, J_C, line L, fixed-ion variant, validity), the mode-1 fit, and one datum entry listing every numeric fit coefficient.\n- Thin-atmosphere boundary: inner boundary condition (eqs. 29-30), mode-reflection construction, |r_mj|^2 and phase approximations, truncation, and vacuum-interface approximation.\nTwo items to watch. First, the index order of r_mj is reversed between Potekhin 2012 (footnote 1) and van Adelsberg 2005 (eq. 6); this is flagged in rt.cond-reflectivity-from-amplitudes. Second, symbols were renamed to avoid conflicts with the eos, gr and colour files (for example R to R_mean, L to L_line, Z to Z_nuc, theta_B to theta_B^(n)). Another harvester adding generic symbols later could still collide. One caveat on completeness: the Medin and Lai T_crit fit is only as cited in Potekhin 2012, because their paper is not in refs/."
+ },
+ "review-r1:colour_srgb": {
+  "review_file": "truth/reviews/colour_srgb-r1.md",
+  "accepted": 21,
+  "fixed": 6,
+  "rejected": 1,
+  "dropped": 3,
+  "remaining_proposed": 6,
+  "ids_fixed": [
+   "colour.notation-stokes-cie-xyz",
+   "colour.notation-chromaticity",
+   "colour.srgb-colorimetric-basis",
+   "colour.srgb-encode-threshold",
+   "colour.srgb-decode-threshold",
+   "colour.srgb-inverse-linear"
+  ],
+  "check_errors": 0,
+  "cross_entry_issues": "- Mechanical check, run first: `161 entries: {'proposed': 161}; 0 errors, 0 warnings` (exit 0).\n- `refs/stokes_1996_srgb.txt:22` explicitly identifies an obsolete proposal with a subsequently corrected numerical error. These verdicts establish historical transcription, not equivalence to the IEC standard.\n- GIFs `srgb09\u201322` were visually inspected, with magnification where needed. Record `image_verified = true` for accepted poor-OCR equations before blessing. Table 0.2 was checked against clean original HTML; its entries can use `ocr = \"good\"`.\n- `colour.toml` duplicates the XYZ notation, matrices, transfer functions, white point and primaries. Its primed inverse conditions conflict with this file's literal unprimed conditions. Consolidate entries and distinguish source transcription from derived corrections.\n- Namespace chromaticity `x,y,z` against pixel coordinates and atmospheric formulas. Explicitly map `wavelength \u2194 \u03bb` and `xbar,ybar,zbar \u2194 \\bar{x},\\bar{y},\\bar{z}`.\n- Preserve the unresolved D65 discrepancy: `y=0.3291` at `refs/stokes_1996_srgb.txt:621`, versus `0.3290` at 773. Remove the short-wavelength warning's dependency on the dropped historical-origin entry.\n\nWorker notes: (1) colour.srgb-inverse-power was rejected per the reviewer, but its stated reason is factually wrong. srgb21.gif prints G' and B' in the G and B rows, as I confirmed by viewing it. The real defect is that the printed condition (srgb20.gif) is unprimed and the entry doesn't state it. I recorded this dispute in the review note, and the entry can be re-proposed with the unprimed condition stated. (2) I did not apply the reviewer's fix to the Y meaning in colour.notation-stokes-cie-xyz, which would drop \"luminance-like\". colour.toml's colour.notation-cie-xyz has the identical Y symbol text, and changing only one makes check.py report a symbol-conflict error. Resolve both together. (3) The short-wavelength-error entry's depends_on was changed from cmf-origin (now rejected) to colour.notation-cie-cmf. (4) Accepted ocr=poor entries got image_verified=true. The reviewer said it inspected the GIFs, and the HTML for the primaries and D65 table."
+ },
+ "review-r1:const": {
+  "review_file": "truth/reviews/const-r1.md",
+  "accepted": 25,
+  "fixed": 5,
+  "rejected": 1,
+  "dropped": 2,
+  "remaining_proposed": 5,
+  "ids_fixed": [
+   "const.hbar",
+   "const.atomic-mass-constant",
+   "const.stefan-boltzmann",
+   "const.notation-particles",
+   "const.notation-atomic"
+  ],
+  "check_errors": 0,
+  "cross_entry_issues": "- The schema and database changed during review. A later run reported `357 entries: {'proposed': 357}; 0 errors, 215 warnings`. All 30 constant entries lack the now-required `provenance` field; this blocks blessing independently of the scientific verdicts above.\n- Symbol spelling hides collisions: fine-structure `\u03b1` also appears as geometrical `alpha` and photometric `\\alpha` (`gr.toml:17,88`; `obs.toml:618`). Preserve explicit source-qualified meanings.\n- Complete the alias map for `\u210f`/`hbar`, `\u03b1`/`alpha_f`, and `\u03c3`/`\u03c3_SB`/`\u03c3_sb` (`opacity.toml:39,48`; `surface.toml:119`; `rt.toml:100`).\n- Constants here use SI; EOS and opacity notation uses CGS. In particular, `e` is in coulombs here and esu at `opacity.toml:37`. No sourced conversion entry currently bridges those conventions.\n\n(Applier note: the 'fix' entries were each checked against refs/tiesinga_2021_codata2018.txt and applied as given. The reject entry is const.notation-fundamental; the drops are const.avogadro and const.neutron-mass. None of the const entries has ocr = \"poor\". check.py reports 0 errors; the warnings are the missing provenance/ownership fields.)"
+ },
+ "review-r1:obs": {
+  "review_file": "truth/reviews/obs-r1.md",
+  "accepted": 27,
+  "fixed": 9,
+  "rejected": 1,
+  "dropped": 2,
+  "remaining_proposed": 9,
+  "ids_fixed": [
+   "obs.stmag-definition",
+   "obs.approx-kaplan2011-extinction",
+   "obs.rxj1856-spin-period",
+   "obs.rxj1856-ho2007-b-field",
+   "obs.rxj1856-ho2007-redshift",
+   "obs.approx-ho2007-assumptions",
+   "obs.notation-rxj1856-spectral",
+   "obs.notation-rxj1856-photometry",
+   "obs.notation-rxj1856-timing"
+  ],
+  "check_errors": 0,
+  "cross_entry_issues": "- **Mechanical check, first run:** exit 1; `318 entries: {'proposed': 318}; 10 errors, 250 warnings`. Errors were the short `opacity.coulomb-log-classical` anchor and undeclared conflicts for `Z`, `e`, `u`, `rho`, `xi`, `b`, `B_12`, `a_m`, `nu`. A subsequent live-tree run returned exit 0: `357 entries: {'proposed': 357}; 0 errors, 215 warnings`. `obs.toml` remained unchanged during this audit.\n- **Blessing remains blocked:** all 36 non-notation entries lack required `provenance`. Scientific accepts above do not waive that schema requirement. Distinguish observations, conventions, inferred quantities and external model outputs; supply `reimplement` or `drop_reason` wherever required.\n- **Notation escapes the checker:** `alpha`/`\u03b1`/`\\alpha` and `nu`/`\u03bd`/`\\nu` conceal collisions. Explicitly map the radius/temperature spelling variants, `N_H^{fit}`/`N_H`, and `P_{1856}`/`P_spin`, preserving units and model context.\n- **Dependencies and independence:** measured spin period does not depend on dipole braking. Split the rejected composite inference entry. Walter's two means reuse the same observations; Kaplan's quoted X-ray parameters reuse Burwitz. Ho's fitted parameters must retain their shared atmosphere assumptions.\n- **R5 remains under-specified:** the Walter magnitude lacks a confirmed system; Kaplan's 27.13 is a prediction and Table 5 contains fitted summaries. Add measured optical/UV band targets and checksummed calibration inputs. Preserve Ho's 0.12-mag extinction separately from Kaplan's 0.05-mag choice."
+ },
+ "review-r2:colour_srgb": {
+  "review_file": "truth/reviews/colour_srgb-r2.md",
+  "accepted": 5,
+  "fixed": 0,
+  "rejected": 1,
+  "dropped": 0,
+  "remaining_proposed": 0,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "- First mechanical check, exit 0: `357 entries: {'blessed': 32, 'rejected': 11, 'proposed': 314}; 0 errors, 532 warnings`.\n- `truth/entries/colour.toml:291` duplicates the unsupported \"luminance-like\" description. Consolidate XYZ notation; the accepted colorimetric-basis entry still depends on the rejected notation entry.\n- Record `image_verified = true` for the three reviewed poor-OCR entries. This review inspected the local HTML-linked GIFs under `refs/data/stokes_1996_srgb_img/`; no corresponding local PDF exists.\n- The four reviewed non-notation entries lack `provenance` and `ownership`. Scientific acceptance does not resolve those schema omissions.\n- `refs/stokes_1996_srgb.txt:22` identifies an obsolete proposal with a subsequently corrected numerical error. These acceptances establish historical transcription, not IEC equivalence; preserve the printed-versus-interpreted decode distinction."
+ },
+ "salvage:colour_srgb": "Added 4 v1_ref fields to `truth/entries/colour_srgb.toml`; `truth/check.py` reports 0 errors (524 warnings, all pre-existing).",
+ "review-r2:const": {
+  "review_file": "truth/reviews/const-r2.md",
+  "accepted": 5,
+  "fixed": 0,
+  "rejected": 0,
+  "dropped": 0,
+  "remaining_proposed": 0,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "- The three reviewed constants still lack `provenance` and `ownership`; scientific acceptance does not resolve these schema warnings.\n- Alias mapping remains incomplete for `\u210f`/`hbar`, `\u03b1`/`alpha_f`, and `\u03c3`/`\u03c3_SB`/`\u03c3_sb`. Mass and radiative-constant notation also spans SI and CGS; conversions need explicit provenance.\n- Fine-structure `\u03b1` visually collides with geometrical `alpha` (`gr.toml:17,88`) and photometric `\\alpha` (`obs.toml:618`). Declare source-qualified meanings and the adopted project symbols."
+ },
+ "salvage:const": "Added 15 v1_ref fields to truth/entries/const.toml (pointing at archive/v1/src/constants.jl); check.py reports 0 errors.",
+ "review-r2:obs": {
+  "review_file": "truth/reviews/obs-r2.md",
+  "accepted": 9,
+  "fixed": 0,
+  "rejected": 0,
+  "dropped": 0,
+  "remaining_proposed": 0,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "- **Mechanical check, first run:** exit 0; `357 entries: {'blessed': 126, 'rejected': 23, 'proposed': 208}; 0 errors, 532 warnings`. Warning categories: 212 missing provenance, 317 missing ownership, three GR symbol conflicts (`alpha`, `lambda`, `phi`).\n- **Metadata remains incomplete:** all six reviewed non-notation entries lack `provenance` and `ownership`. Scientific acceptance does not waive those schema requirements.\n- **Remaining synonyms:** explicitly reconcile `N_H^{fit}`/`N_H`, `P_{spin}`/`P_spin`, and apparent-radius/temperature spellings across domains. Preserve km/cm conversions and emission-region versus whole-star distinctions.\n- **Dependency error:** the measured spin period still depends on the rejected dipole-braking entry. Remove that dependency; the timing measurement does not require the braking inference.\n- All nine entries serve Milestones 1-3."
+ },
+ "salvage:obs": "0 v1_ref fields added. No remaining obs entry has a clear match in archive/v1/src or archive/v1/scripts; the v1 code only uses the Ho et al. 2007 values, which already carry v1_ref. `truth/check.py` reports 0 errors (524 warnings, pre-existing).",
+ "review-r1:condensed": {
+  "review_file": "truth/reviews/condensed-r1.md",
+  "accepted": 8,
+  "fixed": 28,
+  "rejected": 2,
+  "dropped": 0,
+  "remaining_proposed": 28,
+  "ids_fixed": [
+   "rt.cond-electron-plasma-energy",
+   "rt.cond-ec-characteristic-energy",
+   "rt.cond-surface-density",
+   "rt.cond-tcrit-fit-fe",
+   "rt.cond-kirchhoff-law",
+   "rt.cond-reflectivity-from-amplitudes",
+   "rt.cond-linear-polarisation-degree",
+   "rt.cond-dielectric-tensor-condensed",
+   "rt.cond-damping-rates",
+   "rt.cond-approx-free-ions",
+   "rt.cond-approx-fixed-ions",
+   "rt.cond-reflectivity-regimes",
+   "rt.cond-free-ion-analytic-reflectivity",
+   "rt.cond-fit-structure",
+   "rt.cond-fit-low-energy",
+   "rt.cond-fit-mid-energy",
+   "rt.cond-fit-high-energy",
+   "rt.cond-fit-line",
+   "rt.cond-fit-fixed-ions",
+   "rt.cond-fit-mode1",
+   "rt.cond-fit-mode1-mid",
+   "rt.cond-fit-coefficient-data",
+   "rt.cond-inner-bc",
+   "rt.cond-bc-mode-reflection",
+   "rt.cond-bc-r-moduli",
+   "rt.cond-bc-r-phases",
+   "rt.notation-cond-energies-geometry",
+   "rt.notation-cond-matter-dielectric"
+  ],
+  "check_errors": 0,
+  "cross_entry_issues": "- Mechanical check, run first: exit 0; `357 entries: {'proposed': 357}; 0 errors, 215 warnings`. Warnings comprise 212 missing-provenance notices elsewhere and the `alpha`, `lambda`, `phi` conflicts between the two GR notation entries.\n- Image verification: all 22 `ocr = \"poor\"` entries were re-extracted and checked against PDF page images. All 22 lack `image_verified`; no equation remained unreadable.\n- Polarization conventions: resolve the 2012 prose/Appendix-B contradiction before mapping linear polarization to Stokes or X/O quantities. The opacity entries use j=1,2 for X/O modes, unlike these linear basis indices. Distinguish reflected-component row sums from incident-component column sums.\n- Notation and units: explicitly map `E_ph`/`E`, `B_{14}`/`B_14`, and the several field-normal angle names. Keep that angle separate from opacity's `theta_B` (k-B angle) and surface's magnetic colatitude. Specify Gaussian-CGS constants and the intensity energy-unit conversion; do not silently reuse SI CODATA numbers or the rounded EOS `m_u`.\n- Reimplementation: specify the quartic variable as n_{z,j} and apply the decay condition to its normal component. The source distinguishes this from scalar refractive index. [2012:725-753,819-830]\n- Need: no clearly out-of-scope entry warrants `drop`; these support Milestone 3. Fits and their truncation repairs remain verification targets under rule 7.\n- Session records: the read-only filesystem prevented HANDOFF/worklog updates."
+ },
+ "review-r2:condensed": {
+  "review_file": "truth/reviews/condensed-r2.md",
+  "accepted": 25,
+  "fixed": 0,
+  "rejected": 3,
+  "dropped": 0,
+  "remaining_proposed": 63,
+  "ids_fixed": [],
+  "check_errors": 0,
+  "cross_entry_issues": "- **Mechanical check, run first:** exit 0; `357 entries: {'blessed': 220, 'rejected': 46, 'proposed': 91}; 0 errors, 524 warnings`. Warnings: 208 missing provenance, 313 missing ownership, three GR symbol conflicts (`alpha`, `lambda`, `phi`).\n- **Image verification:** all 21 reviewed `ocr = \"poor\"` entries were independently checked against page images; fresh page extractions matched the local text. All were readable.\n- **Polarization:** resolve the \u00a72.2.2/Appendix-B basis contradiction before Stokes or X/O mapping. [2012:215\u2013216](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:215), [2012:841\u2013858](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:841).\n- **Notation/units:** explicitly connect the remaining photon-energy, field-scaling and field-normal-angle aliases. Specify Gaussian-CGS constants and per-energy intensity conversions; the CODATA entries supply SI values.\n- **Reimplementation:** specify the quartic variable as \\(n_{z,j}\\) and apply decay selection to the normal component; `Im n<=0` remains ambiguous. [2012:725\u2013753,819\u2013830](/home/tobias/Projects/neutronstars/refs/potekhin_2012_condensed_surface.txt:725).\n- **Need:** all reviewed claims support Milestone 3; published fits remain verification targets.\n- **Session records:** the read-only filesystem prevented HANDOFF/worklog updates."
+ }
+}

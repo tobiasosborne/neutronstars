@@ -1,0 +1,828 @@
+# Domain gr: harvested from pechenick_1983, beloborodov_2002, potekhin_pons_page_2015. All entries proposed.
+
+[[entry]]
+id = "gr.notation-geometry"
+kind = "notation"
+domain = "gr"
+name = "Geometry and orbit symbols (Beloborodov 2002)"
+statement = "Symbols for the Schwarzschild exterior, photon orbit, emission angle and visible-surface geometry as used in Beloborodov (2002)."
+symbols = [
+  { sym = "r_g", aliases = ["R_S"], meaning = "Schwarzschild radius 2GM/c^2 of the star", units = "cm" },
+  { sym = "M", meaning = "total gravitational stellar mass, M = M_R", units = "g" },
+  { sym = "R", meaning = "stellar (circumferential) radius", units = "cm" },
+  { sym = "r", meaning = "radial coordinate measured from the stellar centre (areal radius)", units = "cm" },
+  { sym = "t", meaning = "Schwarzschild coordinate time", units = "s" },
+  { sym = "\\theta_{Sch}", sym_source = "theta", aliases = ["theta"], meaning = "Schwarzschild polar coordinate (orbit plane taken as theta = 90 deg)", units = "rad", units_source = "1" },
+  { sym = "\\psi", sym_source = "psi", meaning = "polar angle of the photon position in its orbit plane, measured from the escape direction (psi = 0 at infinity); for a surface point, the polar angle of the emission point measured from the direction to the observer", units = "rad", units_source = "1" },
+  { sym = "\\alpha", sym_source = "alpha", aliases = ["alpha", "delta"], meaning = "emission angle: angle between the photon direction and the local radial direction (surface normal), measured by the local static observer at the emission point", meaning_source = "emission angle: angle between the photon velocity and the local radial direction, measured by the local observer at the emission point", units = "rad", units_source = "1" },
+  { sym = "\\beta", sym_source = "beta", meaning = "bending angle beta = psi - alpha", units = "rad", units_source = "1" },
+  { sym = "b", sym_source = "b (impact)", aliases = ["b (impact)"], meaning = "impact parameter of the photon orbit", units = "cm" },
+  { sym = "\\cos\\psi", sym_source = "mu (cos psi)", aliases = ["mu (cos psi)"], meaning = "mu = cos psi", units = "1" },
+  { sym = "\\cos\\psi_{vis}", sym_source = "mu_v", aliases = ["mu_v"], meaning = "critical value of mu = cos psi at which the emission is tangential (alpha = 90 deg); surface points with mu < mu_v are invisible (single-image regime R > 2 r_g only; compact stars with R < 2 r_g or R < 3 GM/c^2 show multiple images)", units = "1" },
+  { sym = "x_g", sym_source = "u (r_g/R)", aliases = ["u", "u (r_g/R)"], meaning = "compactness r_g/R = 2GM/(c^2 R) at the stellar surface", meaning_source = "compactness u = r_g/R at the stellar surface", units = "1" },
+  { sym = "\\lambda_{aff}", sym_source = "lambda", aliases = ["lambda"], meaning = "affine parameter along the photon orbit (normalisation source-specific: Bel02 lambda -> r as r -> infinity; Pech83 eq. 2.2)", meaning_source = "affine parameter along the photon orbit (lambda = r as r -> infinity)", units = "cm" },
+  { sym = "k^\\mu", sym_source = "u^k", aliases = ["u^k", "v^mu"], meaning = "photon tangent four-vector dx^mu/dlambda_aff (normalisation source-specific: Bel02 u_t = 1; Pech83 eq. 2.2)", meaning_source = "photon four-velocity u^k = dx^k/dlambda, x^k = (t, r, theta, psi)", units = "s cm^-1 for u^t; 1 for u^r; cm^-1 for u^psi (t in s, lambda in cm; source normalisation u_t = 1 is source-specific, conversion to the adopted metric convention unspecified)" },
+  { sym = "D", aliases = ["d"], meaning = "distance from the observer to the star (D >> R)", meaning_source = "distance of the observer from the star (D >> R)", units = "cm" },
+  { sym = "\\phi", sym_source = "phi", aliases = ["phi"], meaning = "azimuthal angle of a surface element about the observer direction D", units = "rad", units_source = "1" },
+  { sym = "S_{vis}", sym_source = "S_v", aliases = ["S_v"], meaning = "visible area of the stellar surface", units = "cm^2" },
+]
+conflicts_with = ["colour.notation-cie-cmf", "const.notation-atomic", "const.notation-particles", "eos.notation-electron-gas", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "opacity.notation-fields", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "opacity.notation-photon-cyclotron", "rt.notation-cond-emissivity-fit", "rt.notation-cond-energies-geometry", "rt.notation-mcphac", "rt.notation-spw09", "rt.notation-vacuum", "surface.notation-geometry"]
+adopted = true
+adopted_syms = ["alpha", "phi", "b", "M", "beta"]
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "lambda: Wavelength keeps \\lambda. Bel02/Pech83 affine parameter -> \\lambda_{aff}.", "phi: Bel02 surface-element azimuth about the line of sight keeps \\phi. Pech83 orbit-plane azimuth -> \\phi_{orb}; SPW09/Pot12 photon azimuth about the normal -> \\varphi_k; GH83 rotation phase -> \\phi_{rot}.", "theta: RT ray angle to the surface normal keeps \\theta (mu = cos theta). Schwarzschild polar coordinate (Bel02, Pech83) -> \\theta_{Sch}; GH83 line-of-sight colatitude -> \\theta_{los}; Pot12 theta_k merged into \\theta.", "mu: RT direction cosine keeps \\mu. Bel02 mu = cos psi -> \\cos\\psi; PY01 chemical potential -> \\mu_e; PC03 reduced mass -> \\mu_{red}.", "b: Impact parameter keeps b. Relativistic field parameter B/B_Q -> b_{rel}.", "u: Bare u retired. CODATA atomic mass unit -> m_u; Bel02 compactness -> x_g; Pech83 M/r -> u_{geo}; PC03 hbar omega/kT -> u_{kT}.", "M: M is the gravitational mass in g. Pech83 geometric-unit M -> GM/c^2; Pot12 mode label M -> j.", "S: S_nu is the source function. Bel02 visible area S_v -> S_{vis}; VAL06 stimulated-emission factor S -> S_{stim}.", "beta: Bel02 bending angle keeps \\beta. PC03 beta_e, beta_p -> \\zeta_e, \\zeta_p (PHC16 spelling); PLCH04 mode parameter -> \\beta_{pol}; GH83 beta (magnetic colatitude) -> \\theta_B."]
+source = "beloborodov_2002_ray_tracing"
+locator = "Sect. 1-3 and Appendix"
+anchor = "Here rg = 2GM/c2 is the Schwarzschild radius of"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:228–233](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:228): with declared \\(t[\\mathrm{s}]\\), \\(\\lambda[\\mathrm{cm}]\\), correct \\(u^t\\) units to `\"s cm^-1\"`; document conversion of the source's component normalization." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Definitions match [Beloborodov:38–49](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:38), [228–265](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:228). Corrected component units are dimensionally consistent; source normalization is explicitly left unconverted." }]
+notes = "Project convention adopted: Beloborodov/Potekhin CGS-style symbols (r_g = 2GM/c^2 explicit, M in grams, u = r_g/R). Pechenick uses geometric units G=c=1 (M means GM/c^2, u = M/r); convert on use. Symbol strings b, mu, u, xi, M are qualified in parentheses where the bare symbol collides with other domains (opacity b, eos mu, opacity/const u, eos xi) or with Pechenick geometric units; the bare paper symbol is the unqualified part. Same-concept symbols (r, R, M, M_r, r_g) reuse the meaning strings of eos.notation-structure verbatim so that no spurious conflict is raised; if that entry is reworded, reword these in step. Units are assigned by this database. In this paper b = u_psi with u_t = 1. Index positions of u_t, u_psi were read off the PDF image since the text layer drops sub/superscripts. [2026-10-23 notation pass: sym strings are now the project spellings of truth/NOTATION_DECISIONS.md; the parenthesis qualifiers and u = r_g/R described above survive only in sym_source (compactness is x_g, impact parameter b, cos psi is no longer written mu).]"
+
+[[entry]]
+id = "gr.notation-radiation"
+kind = "notation"
+domain = "gr"
+name = "Intensity and flux symbols (Beloborodov 2002)"
+statement = "Symbols for surface intensity, observed intensity, frequencies, surface element and solid angle in Beloborodov (2002) Sect. 3 and Appendix."
+symbols = [
+  { sym = "I_0", meaning = "surface radiation intensity at the emission point as a function of emission angle alpha (emitter frame); the paper relates it to the observed I through I/nu^4 = I_0/nu_0^4", units = "erg s^-1 cm^-2 sr^-1 (inferred frequency-integrated, from the I/nu^4 scaling)" },
+  { sym = "I^\\infty", sym_source = "I", aliases = ["I"], meaning = "observed intensity at the observer (at infinity) corresponding to I_0", units = "erg s^-1 cm^-2 sr^-1 (inferred, as I_0)" },
+  { sym = "\\nu^\\infty", sym_source = "nu (observer)", aliases = ["nu (observer)"], meaning = "photon frequency measured at the observer (at infinity)", units = "Hz" },
+  { sym = "\\nu", sym_source = "nu_0", aliases = ["nu", "nu (I_nu)", "nu_0", "nu_loc"], meaning = "photon frequency in the local rest frame of the emitting plasma (static frame at the surface for a non-rotating star)", meaning_source = "photon frequency measured at the emission point by the local observer", units = "Hz" },
+  { sym = "dS", aliases = ["dΣ"], meaning = "proper surface element of the stellar surface, dS = R^2 d(cos psi) d phi", meaning_source = "surface element of the star, dS = R^2 dmu dphi", units = "cm^2" },
+  { sym = "d\\Omega", sym_source = "dOmega", meaning = "solid angle subtended by dS on the observer sky, dOmega = b db dphi / D^2", units = "sr" },
+  { sym = "dF", meaning = "observed flux from the surface element dS, dF = I dOmega", units = "erg s^-1 cm^-2 (frequency-integrated)" },
+]
+conflicts_with = ["obs.notation-rxj1856-timing"]
+adopted = true
+adopted_syms = ["nu"]
+conflict_notes = ["nu: nu is a photon frequency. Spin frequency -> \\nu_{spin}."]
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, eq. 11 and text above it"
+anchor = "I = (1 − rg /R)2 I0 [I and I0 are related through I/ν 4 = I0 /ν04"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:260–270](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:260) supports the definitions; inferred bolometric interpretation is explicitly identified." }]
+notes = "Project convention adopted: Beloborodov/Potekhin CGS-style symbols (r_g = 2GM/c^2 explicit, M in grams, u = r_g/R). Pechenick uses geometric units G=c=1 (M means GM/c^2, u = M/r); convert on use. The assignment of nu to the observer and nu_0 to the emitter, and the frequency-integrated nature of I, are inferred from context (I observed = (1-r_g/R)^2 I_0 and nu/nu_0 = (1-r_g/R)^(1/2) < 1); the paper states neither explicitly."
+
+[[entry]]
+id = "gr.notation-pechenick"
+kind = "notation"
+domain = "gr"
+name = "Symbols of Pechenick, Ftaclas and Cohen (1983)"
+statement = "Symbols used in Pechenick et al. (1983) Sections II-III and Appendix. The paper works in geometric units G = c = 1."
+symbols = [
+  { sym = "GM/c^2", sym_source = "M (G=c=1)", aliases = ["M (G=c=1)"], meaning = "gravitating mass M of the star in geometric units G = c = 1, i.e. the length GM/c^2", units = "cm" },
+  { sym = "R", meaning = "stellar (circumferential) radius", units = "cm" },
+  { sym = "r", meaning = "radial coordinate measured from the stellar centre (areal radius)", units = "cm" },
+  { sym = "r_0", meaning = "radius of the stationary observer, r_0 -> infinity", units = "cm" },
+  { sym = "b", sym_source = "b (impact)", aliases = ["b (impact)"], meaning = "impact parameter of the photon orbit", units = "cm" },
+  { sym = "b_{max}", sym_source = "b_max", meaning = "largest impact parameter of a photon that can leave the surface r = R, b_max = R (1 - r_g/R)^(-1/2) (project units; Pech83 writes R(1-2M/R)^(-1/2) with geometric M); valid for R > 3GM/c^2", units = "cm" },
+  { sym = "\\lambda_{aff}", sym_source = "lambda", aliases = ["lambda"], meaning = "affine parameter along the photon orbit (normalisation source-specific: Bel02 lambda -> r as r -> infinity; Pech83 eq. 2.2)", meaning_source = "affine parameter along the photon orbit (normalised as in eq. 2.2)", units = "cm" },
+  { sym = "\\theta_{Sch}", sym_source = "theta", aliases = ["theta"], meaning = "Schwarzschild polar coordinate (orbit plane taken as theta = 90 deg)", units = "rad", units_source = "1" },
+  { sym = "\\phi_{orb}", sym_source = "phi", meaning = "azimuthal angle of the photon in its orbit plane (eq. 2.2)", units = "rad" },
+  { sym = "u_{geo}", sym_source = "u (M/r)", aliases = ["u (M/r)"], meaning = "dimensionless inverse radius u_geo = GM/(c^2 r) (Pech83 u = M/r with geometric M; running variable of the orbit equation)", units = "1" },
+  { sym = "u_{b,geo}", sym_source = "u_b", meaning = "u_b,geo = GM/(c^2 b) (Pech83 u_b = M/b with geometric M)", units = "1" },
+  { sym = "\\alpha", sym_source = "delta", aliases = ["alpha", "delta"], meaning = "emission angle: angle between the photon direction and the local radial direction (surface normal), measured by the local static observer at the emission point", meaning_source = "angle between the photon direction and the surface normal at emission (emission angle)", units = "rad", units_source = "1" },
+  { sym = "\\xi_{sky}", sym_source = "xi (sky)", aliases = ["theta'", "theta_prime"], meaning = "angle in the observer sky between a photon and the radial photon direction (the static observer sees the radial photon along the line to the star centre)", units = "rad" },
+  { sym = "\\psi", sym_source = "Delta phi", aliases = ["Delta phi", "Δφ"], meaning = "polar angle of the photon position in its orbit plane, measured from the escape direction (psi = 0 at infinity); for a surface point, the polar angle of the emission point measured from the direction to the observer", units = "rad" },
+  { sym = "\\psi_{max}", sym_source = "(Delta phi)_max", aliases = ["(Delta phi)_max"], meaning = "value of psi at emission for b = b_max (Pech83 (Delta phi)_max)", units = "rad" },
+  { sym = "k^\\mu", sym_source = "v^mu", aliases = ["u^k", "v^mu"], meaning = "photon tangent four-vector dx^mu/dlambda_aff (normalisation source-specific: Bel02 u_t = 1; Pech83 eq. 2.2)", meaning_source = "photon four-velocity v^mu = dx^mu/dlambda in the equatorial plane", units = "1 for v^0 and v^1; cm^-1 for v^3" },
+  { sym = "u^\\mu_{obs}", sym_source = "u^mu", aliases = ["u^mu"], meaning = "four-velocity of the stationary (static) observer", units = "u^t dimensionless (t in s), u^r cm s^-1, u^theta and u^phi s^-1 (coordinate components; static observer: u^r = u^theta = u^phi = 0)" },
+  { sym = "\\mathcal{B}^{-2}(r)", sym_source = "B^-2(r)", aliases = ["B^-2(r)"], meaning = "B^(-2)(r) = (1 - r_g/r)/r^2 (Pech83 (1-2M/r)/r^2 with geometric M), effective potential of the photon orbit", units = "cm^-2" },
+  { sym = "\\theta_{cap}", sym_source = "alpha", aliases = ["alpha"], meaning = "polar-cap angular radius in Sections II-III (Pech83 alpha for the cap; distinct from the Appendix photon-cone half-angle alpha)", units = "rad" },
+  { sym = "I_\\nu", sym_source = "I_nu", meaning = "intensity per unit frequency interval", units = "erg s^-1 cm^-2 Hz^-1 sr^-1" },
+  { sym = "\\nu", sym_source = "nu (I_nu)", aliases = ["nu", "nu (I_nu)", "nu_0", "nu_loc"], meaning = "photon frequency in the local rest frame of the emitting plasma (static frame at the surface for a non-rotating star)", meaning_source = "photon frequency (as measured by the observer who measures I_nu)", units = "Hz" },
+]
+conflicts_with = ["colour.notation-cie-cmf", "const.notation-atomic", "const.notation-particles", "eos.notation-bsk-fit", "gr.notation-geometry", "obs.notation-rxj1856-photometry", "opacity.notation-fields", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "opacity.notation-photon-cyclotron", "opacity.notation-vacuum", "rt.notation-cond-emissivity-fit", "rt.notation-cond-energies-geometry", "rt.notation-spw09", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "lambda: Wavelength keeps \\lambda. Bel02/Pech83 affine parameter -> \\lambda_{aff}.", "phi: Bel02 surface-element azimuth about the line of sight keeps \\phi. Pech83 orbit-plane azimuth -> \\phi_{orb}; SPW09/Pot12 photon azimuth about the normal -> \\varphi_k; GH83 rotation phase -> \\phi_{rot}.", "theta: RT ray angle to the surface normal keeps \\theta (mu = cos theta). Schwarzschild polar coordinate (Bel02, Pech83) -> \\theta_{Sch}; GH83 line-of-sight colatitude -> \\theta_{los}; Pot12 theta_k merged into \\theta.", "u: Bare u retired. CODATA atomic mass unit -> m_u; Bel02 compactness -> x_g; Pech83 M/r -> u_{geo}; PC03 hbar omega/kT -> u_{kT}.", "B: Magnetic field keeps B. Pech83 effective potential B^-2(r) -> \\mathcal{B}^{-2}(r).", "M: M is the gravitational mass in g. Pech83 geometric-unit M -> GM/c^2; Pot12 mode label M -> j.", "xi: Bare xi retired. BSk log10 rho -> \\xi_\\rho; Pech83 sky angle -> \\xi_{sky}; PLCH04 1/b -> \\xi_{vac}."]
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II-III, Appendix"
+anchor = "G = c = l throughout. The luminous emission of the star"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:35](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:35), [520–526](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:520): change alpha's meaning to `\"polar-cap angular radius in Sections II–III\"`; Appendix alpha is a photon-cone half-angle." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Appendix PDF p. 854 shows Greek `α`, not Latin `a`; OCR is misleading at [Pechenick:520–526](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:520). **Surviving:** `α` denotes polar-cap angular radius in Sections II–III and is reused for photon-cone half-angle in the Appendix." }]
+notes = "Project convention adopted: Beloborodov/Potekhin CGS-style symbols (r_g = 2GM/c^2 explicit, M in grams, u = r_g/R). Pechenick uses geometric units G=c=1 (M means GM/c^2, u = M/r); convert on use. Pechenick symbols conflicting with the adopted ones: M (geometric units; sym qualified as M (G=c=1)), u (= M/r = r_g/(2r), not r_g/R; sym qualified as u (M/r)), alpha (polar cap radius, not emission angle), phi, lambda. nu is qualified as nu (I_nu) vs nu (observer). The emission angle is delta here and alpha in Beloborodov. Text layer is a poor OCR scan; symbol readings were checked against PDF pages 2-4 and 9-11 by the harvester, but the entry stays ocr=poor until a reviewer repeats it."
+
+[[entry]]
+id = "gr.notation-potekhin"
+kind = "notation"
+domain = "gr"
+name = "Spacetime and apparent-quantity symbols (Potekhin, Pons, Page 2015)"
+statement = "Symbols for the static spherical metric, mass function, Schwarzschild radius and redshifted stellar quantities in Potekhin, Pons and Page (2015) Sect. 2 and Eq. 39-40."
+symbols = [
+  { sym = "r_g", aliases = ["R_S"], meaning = "Schwarzschild radius 2GM/c^2 of the star", units = "cm" },
+  { sym = "M", meaning = "total gravitational stellar mass, M = M_R", units = "g" },
+  { sym = "R", meaning = "stellar (circumferential) radius", units = "cm" },
+  { sym = "r", meaning = "radial coordinate measured from the stellar centre (areal radius)", units = "cm" },
+  { sym = "M_r", meaning = "gravitational mass inside a sphere of radius r, M_r = 4 pi int_0^r rho r'^2 dr'", units = "g" },
+  { sym = "\\Phi", sym_source = "Phi", aliases = ["Phi", "Phi(r)"], meaning = "metric function Phi(r): g_tt = -e^(2 Phi) c^2", meaning_source = "metric function Phi(r) in g_tt = -e^(2 Phi) c^2", units = "1" },
+  { sym = "\\Lambda", sym_source = "Lambda", aliases = ["Lambda", "Lambda(r)"], meaning = "metric function Lambda(r): g_rr = e^(2 Lambda)", units = "1" },
+  { sym = "R^\\infty", sym_source = "R_inf", aliases = ["R^inf", "R^∞", "R_inf", "R_infty"], meaning = "apparent radius of the star for a distant observer, R^inf = R/sqrt(1 - r_g/R) = R(1 + z_g)", meaning_source = "apparent (redshifted) stellar radius R_infty", units = "cm" },
+  { sym = "T_{eff}^\\infty", sym_source = "T_eff^inf", aliases = ["T^\\infty", "T_eff^inf", "T_eff^∞"], meaning = "redshifted (apparent) effective temperature seen by a distant observer, T_eff^inf = T_eff sqrt(1 - r_g/R) = T_eff/(1 + z_g)", meaning_source = "effective temperature T_eff^infty as detected by a distant observer", units = "K" },
+  { sym = "L_{ph}^\\infty", sym_source = "L_ph^inf", aliases = ["L^inf", "L_ph^inf", "L_ph^∞"], meaning = "apparent photon luminosity for a distant observer, L_ph^inf = (1 - r_g/R) L_ph", meaning_source = "photon luminosity L_ph^infty as detected by a distant observer", units = "erg s^-1" },
+]
+conflicts_with = ["const.notation-atomic", "eos.notation-structure", "obs.notation-rxj1856-spectral", "surface.notation-observer-frame"]
+adopted = false
+conflict_notes = ["R_inf: Apparent stellar radius is R^\\infty (one spelling). CODATA Rydberg R_inf -> R_{Ry}; Ho07 emission-region apparent radius -> R_{em}^\\infty."]
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 2.1 (eqs. 1-3) and Sect. 5 (eqs. 39-40)"
+anchor = "is the Schwarzschild radius, M ≡ MR is the stellar mass,"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Potekhin:201–215](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:201), [2106–2111](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:2106) support the symbols and meanings." }]
+notes = "Project convention adopted: Beloborodov/Potekhin CGS-style symbols (r_g = 2GM/c^2 explicit, M in grams, u = r_g/R). Pechenick uses geometric units G=c=1 (M means GM/c^2, u = M/r); convert on use. Potekhin writes M = M_R for the total gravitating mass; r_g = 2GM/c^2 is identical to Beloborodov r_g."
+
+[[entry]]
+id = "gr.schwarzschild-radius"
+kind = "definition"
+domain = "gr"
+name = "Schwarzschild radius r_g"
+statement = "The Schwarzschild radius of a star of gravitating mass M is r_g = 2GM/c^2; numerically 2.95 km (M/M_sun). Beloborodov (2002) states the same definition."
+latex = "r_g = \\frac{2GM}{c^2}"
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 2.1, text after eq. 2, p. 5"
+anchor = "is the Schwarzschild radius, M ≡ MR is the stellar mass,"
+anchor_tex = '$r_g=2GM/c^2=2.95(M/M_\odot)$ km is the Schwarzschild'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Potekhin:211–215](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:211) gives \\(2GM/c^2\\) and the rounded \\(2.95(M/M_\\odot)\\,\\mathrm{km}\\)." }]
+notes = "Source text layer shows \"= R 2.95(M/M_sun) km\" with a stray R; the coefficient 2.95 km is as printed. Beloborodov: \"Here rg = 2GM/c2 is the Schwarzschild radius\". Pechenick G=c=1: r_g = 2M."
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:137"
+provenance = "convention"
+ownership = "leaf"
+
+[[entry]]
+id = "gr.metric-static-spherical"
+kind = "equation"
+domain = "gr"
+name = "Static spherical metric and surface lapse boundary condition"
+statement = "Line element of a static spherically symmetric star in Schwarzschild-type coordinates, with e^{2Lambda(r)} = 1 - 2GM_r/(c^2 r); Phi(r) follows from the TOV-related eq. 2 with boundary condition e^{2Phi(R)} = 1 - r_g/R at the stellar radius R. Sphericity is assumed."
+latex = "ds^2 = -e^{2\\Phi(r)}c^2dt^2 + e^{2\\Lambda(r)}dr^2 + r^2(d\\theta^2+\\sin^2\\theta\\,d\\varphi^2),\\quad e^{2\\Lambda(r)} = 1-\\frac{2GM_r}{c^2 r},\\quad e^{2\\Phi(R)} = 1-\\frac{r_g}{R}"
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 2.1, eq. 1 and the sentence following it"
+anchor = "where (r, θ , ϕ ) are the standard spherical coordinates, e2Λ (r) = 1 − 2GMr /c2 r, and"
+anchor_tex = '\dd s^2 = - \mathrm{e}^{2\Phi(r)} c^2 \dd t^2 +'
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "[Potekhin:201–212](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:201): PDF confirms the printed \\(e^{2\\Lambda}=1-2GM_r/(c^2r)\\), but this source error contradicts the local null-geodesic equations. A supported correction is required." }]
+depends_on = ["gr.schwarzschild-radius"]
+validity = "Spherically symmetric star: Potekhin et al. state the deviations from sphericity are appreciable only for B >~ 1e17 G or rotation periods below a few ms."
+notes = "The vacuum exterior (M_r = M, e^{2Phi} = 1 - r_g/r for r > R) is not written explicitly in this source; Pechenick Sect. II states that the exterior is Schwarzschild with mass M. Do not use this entry for the exterior lapse beyond the surface value without that second statement."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.null-geodesic-constants"
+kind = "equation"
+domain = "gr"
+name = "Photon conserved quantities in Schwarzschild"
+statement = "For a photon with affine parameter lambda (lambda = r at infinity), orbit in the plane theta = 90 deg, the trajectory has integrals u_t = 1 and u_psi = b, where b is the impact parameter."
+latex = "u_t = 1,\\qquad u_\\psi = b"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, first paragraph"
+anchor = "has integrals ut = 1 and uψ = b. From ui ui = 0 one finds"
+anchor_tex = 'integrals $u_t=1$ and $u_\psi=b$.'
+ocr = "poor"
+image_verified = true
+validity = "source-specific affine/component normalization; conversion to the adopted metric convention unspecified"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:228–233](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:228), PDF checked: retain \\(u_t=1,u_\\psi=b\\) as `\"source-specific affine/component normalization; conversion to the adopted metric convention unspecified\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF confirms lower indices in \\(u_t=1,\\ u_\\psi=b\\); the source-specific normalization restriction is retained. [Beloborodov:228–233](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:228)." }]
+notes = "Text layer drops index positions; lower indices read from PDF image (p. 4). Sign conventions of the metric signature are not stated in the paper."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.null-geodesic-radial"
+kind = "equation"
+domain = "gr"
+name = "Radial photon equation (Beloborodov)"
+statement = "From u^i u_i = 0 with the integrals u_t = 1, u_psi = b: the radial component of the photon four-velocity obeys (u^r)^2 = 1 - (b^2/r^2)(1 - r_g/r)."
+latex = "(u^r)^2 = 1-\\frac{b^2}{r^2}\\left(1-\\frac{r_g}{r}\\right)"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, text before eq. 9"
+anchor = "(ur )2 = 1 − (b2 /r2 )(1 − rg /r)."
+anchor_tex = 'From $u^iu_i=0$ one finds $(u^r)^2=1-(b^2/r^2)(1-r_g/r)$.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:232–233](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:232) reproduces the squared radial equation, including signs and factors." }]
+depends_on = ["gr.null-geodesic-constants"]
+notes = "Equivalent to Pechenick eq. 2.2 (dr/dlambda) with r_g = 2M."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.null-geodesic-components"
+kind = "equation"
+domain = "gr"
+name = "Null geodesic components in the equatorial plane (Pechenick)"
+statement = "Photon in the equatorial plane theta = pi/2 of Schwarzschild, with affine parameter lambda chosen as stated by the source: dt/dlambda = (1-2M/r)^(-1), dr/dlambda = [1 - b^2(1-2M/r)/r^2]^(1/2), dtheta/dlambda = 0, dphi/dlambda = b r^(-2). Geometric units G = c = 1."
+latex = "v^0=\\frac{dt}{d\\lambda}=(1-2M/r)^{-1},\\; v^1=\\frac{dr}{d\\lambda}=\\left[1-b^2(1-2M/r)/r^2\\right]^{1/2},\\; v^2=\\frac{d\\theta}{d\\lambda}=0,\\; v^3=\\frac{d\\phi}{d\\lambda}=br^{-2}"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.2, p. 847"
+anchor = "A particular case of equation (2.2) is a radially moving"
+ocr = "poor"
+image_verified = true
+validity = "outgoing branch, dr/dlambda >= 0"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:97–122](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:97), PDF checked: add validity `\"outgoing branch, dr/dlambda >= 0\"`; the positive square root is not the general radial branch." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF equation 2.2 confirms all four components, powers and signs. The positive radial root is now restricted to outgoing rays. [Pechenick:97–122](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:97)." }]
+depends_on = ["gr.schwarzschild-radius"]
+notes = "Read from PDF image p. 847; consistent with Beloborodov (u^r)^2 under r_g = 2M (checked by the harvester by substitution)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.orbit-equation-u"
+kind = "equation"
+domain = "gr"
+name = "Photon orbit equation in u = M/r"
+statement = "With u = M/r and u_b = M/b, the equatorial photon orbit obeys (du/dphi)^2 + (1-2u)u^2 = u_b^2. Geometric units G = c = 1."
+latex = "\\left(\\frac{du}{d\\phi}\\right)^2 + (1-2u)u^2 = u_b^2"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.11, p. 847"
+anchor = "Substituting u = M/r, and"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:109–114](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:109), PDF checked: equation, \\(u=M/r\\), and \\(u_b=M/b\\) match." }]
+depends_on = ["gr.null-geodesic-components"]
+notes = "Equivalent to the orbit equation (2.7) with B^-2(r) = (1-2M/r)/r^2 and 1/b^2."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.photon-sphere"
+kind = "result"
+domain = "gr"
+name = "Photon sphere and the b <= b_max condition"
+statement = "The photon-orbit potential B^-2(r) = (1-2M/r)/r^2 has its maximum at r = 3M (i.e. r = 1.5 r_g) and decreases outside. A photon at r must satisfy b^-2 - B^-2(r) >= 0. For a star with R > 3M a photon emitted from the surface and reaching the observer therefore has b <= b_max (see gr.impact-parameter-max)."
+latex = "B^{-2}(r)=\\frac{1-2M/r}{r^2},\\qquad b^{-2}-B^{-2}(r)\\ge 0,\\qquad B^{-2}\\ \\text{maximal at}\\ r=3M"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eqs. 2.8-2.10, p. 847"
+anchor = "has a maximum at r = 3M and"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:94–107](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:94), PDF checked: potential, nonnegative inequality, maximum, and \\(R>3M\\) condition match." }]
+depends_on = ["gr.orbit-equation-u"]
+notes = "Source states R/2M > 1.5 for the stars considered (star larger than its photon sphere); eq. 2.10 is the case R > 3M."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.bending-integral"
+kind = "equation"
+domain = "gr"
+name = "Exact bending integral psi(b), Schwarzschild"
+statement = "Polar angle psi (measured from the escape direction) of a photon at radius R with impact parameter b, in terms of its escape trajectory: psi = int_R^infty (-u^psi/u^r) dr = int_R^infty (dr/r^2) [1/b^2 - (1/r^2)(1 - r_g/r)]^(-1/2)."
+latex = "\\psi=\\int_R^\\infty\\frac{-u^\\psi}{u^r}\\,dr=\\int_R^\\infty\\frac{dr}{r^2}\\left[\\frac{1}{b^2}-\\frac{1}{r^2}\\left(1-\\frac{r_g}{r}\\right)\\right]^{-1/2}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, eq. 9"
+anchor = "escape direction. Then at radius R the photon has"
+anchor_tex = '\psi=\int_R^\infty\frac{-u^\psi}{u^r}\;\dd r'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:234–241](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:234), PDF checked: minus sign, limits, powers, and factors match equation 9." }]
+depends_on = ["gr.null-geodesic-radial", "gr.null-geodesic-constants"]
+notes = "Equation text is spread over several lines of the text layer; read from PDF image p. 4. Under u = M/r = r_g/(2r) and u_b = M/b it is identical to gr.bending-integral-pechenick (substitution checked by the harvester). Together with gr.emission-angle-impact-parameter it defines the exact alpha(psi)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.bending-integral-pechenick"
+kind = "equation"
+domain = "gr"
+name = "Exact bending integral Delta phi(b) (Pechenick)"
+statement = "Angle swept by a photon in the equatorial plane going from r = R to r = r0 -> infinity: Delta phi = int_0^{M/R} [u_b^2 - (1-2u)u^2]^(-1/2) du, with u = M/r and u_b = M/b. Geometric units G = c = 1."
+latex = "\\Delta\\phi=\\int_0^{M/R}\\left[u_b^2-(1-2u)u^2\\right]^{-1/2}du"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.12, p. 847"
+anchor = "If the photon travels from r = R to r = r0"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:116–121](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:116), PDF checked: limits and integrand match equation 2.12." }]
+depends_on = ["gr.orbit-equation-u"]
+notes = "Pechenick (3.5) and (3.9) give the same integral with b = r0 theta_prime and x = b/M. The harvester integrated it numerically for R/2M = 1.6 at b = b_max and obtained 227.18 deg, matching the 227 deg quoted in the text."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.max-deflection-integral"
+kind = "equation"
+domain = "gr"
+name = "Maximum swept angle (Delta phi)_max"
+statement = "The largest angle (Delta phi)_max swept by a photon that reaches the observer occurs at b = b_max: (Delta phi)_max = int_0^{M/R} [(1-2M/R)(M/R)^2 - (1-2u)u^2]^(-1/2) du. Geometric units G = c = 1."
+latex = "(\\Delta\\phi)_{\\max}=\\int_0^{M/R}\\left[(1-2M/R)(M/R)^2-(1-2u)u^2\\right]^{-1/2}du"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.13, p. 847"
+anchor = "From equations (2.10) and (2.12),"
+ocr = "poor"
+image_verified = true
+validity = "R > 3M; observer at infinity"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:102–131](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:102), PDF checked: add validity `\"R > 3M; observer at infinity\"`. The stated integrable endpoint singularity requires that restriction." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF equation 2.13 confirms limits, squared factors and exponent; \\(R>3M\\) and observer-at-infinity conditions are present. [Pechenick:102–131](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:102)." }]
+depends_on = ["gr.bending-integral-pechenick", "gr.impact-parameter-max"]
+notes = "The integrand has an integrable inverse-square-root singularity at u = M/R."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.impact-parameter-max"
+kind = "equation"
+domain = "gr"
+name = "Maximum impact parameter b_max"
+statement = "For a star with R > 3M, a photon emitted from the surface and reaching the observer has b <= b_max, with b_max = R(1-2M/R)^(-1/2). Geometric units G = c = 1."
+latex = "b_{\\max}=R\\,(1-2M/R)^{-1/2}"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.10, p. 847"
+anchor = "observer must have an impact parameter b < bmax, where"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:102–107](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:102), PDF checked: exponent \\(-1/2\\) and \\(R>3M\\) restriction match." }]
+depends_on = ["gr.photon-sphere"]
+validity = "R > 3M (R > 1.5 r_g)"
+notes = "In r_g notation (r_g = 2M) this is b_max = R(1-r_g/R)^(-1/2), which is eq. 10 of Beloborodov at alpha = 90 deg (checked by substitution). Pechenick (3.12) gives x_max = b_max/M = (R/M)(1-2M/R)^(-1/2)."
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:146"
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.observer-sky-angle"
+kind = "equation"
+domain = "gr"
+name = "Angle in the observer sky of a photon with impact parameter b"
+statement = "A static observer at r0 sees a photon with impact parameter b at angle xi from the radial direction with sin xi = (b/r0)(1-2M/r0)^(1/2); for r0 -> infinity xi = b/r0."
+latex = "\\sin\\xi=(b/r_0)(1-2M/r_0)^{1/2},\\qquad \\xi=b/r_0\\ (r_0\\to\\infty)"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eqs. 2.5 and 2.6, p. 847"
+anchor = "which in the limit r0 -> oo can be written"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:78–82](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:78), PDF checked: finite-radius relation and asymptotic expression match equations 2.5–2.6." }]
+depends_on = ["gr.null-geodesic-components", "gr.static-observer-four-velocity"]
+notes = "Geometric units G = c = 1. Eq. 2.5 is derived in the source from eq. 2.1 with the radial photon of eq. 2.3 and observer of eq. 2.4. The cos xi form printed below 2.4 is [1-(1-2M/r0)b^2/r0^2]^(1/2)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.disk-angular-radius"
+kind = "result"
+domain = "gr"
+name = "Angular radius of the observed stellar disk"
+statement = "The angular radius of the observed disk is given by xi = b/r0 (eq. 2.6) with b = b_max, i.e. (R/r0)(1-2M/R)^(-1/2) for r0 -> infinity."
+latex = "\\theta^{\\prime}_{\\rm disk}=\\frac{b_{\\max}}{r_0}=\\frac{R}{r_0}\\,(1-2M/R)^{-1/2}"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 848"
+anchor = "angular radius of the observed disk is given by equation"
+ocr = "poor"
+image_verified = true
+validity = "R > 3M; stationary observer at infinity"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:148–162](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:148), PDF checked: substitution is correct; add validity `\"R > 3M; stationary observer at infinity\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF confirms the disk-edge prescription; substituting equation 2.10 into 2.6 gives the recorded expression under the stated restrictions. [Pechenick:148–171](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:148)." }]
+depends_on = ["gr.observer-sky-angle", "gr.impact-parameter-max"]
+notes = "Source gives only the recipe (eq. 2.6 with b = b_max); the closed form is the harvester substitution of eq. 2.10. Source numerical values: 1.52 R/r0 at R/2M ~ 1.76 and 1.633 R/r0 at R/2M = 1.6 (the latter equals (1-1/1.6)^(-1/2) = 1.6330)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.emission-angle-definition"
+kind = "definition"
+domain = "gr"
+name = "Emission angle alpha in terms of the photon four-velocity"
+statement = "The emission angle alpha, between the emitted photon and the local radial direction, is defined by tan alpha = sqrt(u^psi u_psi) / sqrt(u^r u_r)."
+latex = "\\tan\\alpha=\\sqrt{u^\\psi u_\\psi}\\,/\\sqrt{u^r u_r}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, text before eq. 10"
+anchor = "radial direction) is tan α = uψ uψ / ur ur which yields"
+anchor_tex = '$\tan\alpha=\sqrt{u^\psi u_\psi}/\sqrt{u^ru_r}$ which'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:243–246](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:243), PDF checked: both square roots and index positions match." }]
+depends_on = ["gr.null-geodesic-constants"]
+notes = "Index positions (u^psi u_psi, u^r u_r) read from PDF image p. 4. Pechenick uses delta for the same angle (angle between photon direction and surface normal, Appendix)."
+provenance = "convention"
+ownership = "leaf"
+
+[[entry]]
+id = "gr.emission-angle-impact-parameter"
+kind = "equation"
+domain = "gr"
+name = "Emission angle vs impact parameter"
+statement = "For a photon emitted at radius R with emission angle alpha, the impact parameter obeys sin alpha = (b/R) sqrt(1 - r_g/R)."
+latex = "\\sin\\alpha=\\frac{b}{R}\\sqrt{1-\\frac{r_g}{R}}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, eq. 10"
+anchor = "Combining equations (9) and (10) one can compute numeri-"
+anchor_tex = '\sin\alpha=\frac{b}{R}\sqrt{1-\frac{r_g}{R}}.'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:248–254](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:248), PDF checked: \\(b/R\\), square root, and compactness factor match equation 10." }]
+depends_on = ["gr.emission-angle-definition", "gr.null-geodesic-radial"]
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:84"
+notes = "Equation text is split over several lines in the text layer; read from PDF image p. 4. Pechenick (3.11): sin delta = (b/R)(1-2M/R)^(1/2), and (3.13) delta = arcsin(b/b_max), same relation with r_g = 2M."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.beloborodov-cosine-relation"
+kind = "approximation"
+domain = "gr"
+name = "Beloborodov light-bending cosine relation"
+statement = "Approximate relation between the emission angle alpha at radius R and the polar angle psi of the emission point seen from infinity for a Schwarzschild star: 1 - cos alpha = (1 - cos psi)(1 - r_g/R). It replaces the exact elliptic-integral relation (gr.bending-integral with gr.emission-angle-impact-parameter)."
+latex = "1-\\cos\\alpha=(1-\\cos\\psi)\\left(1-\\frac{r_g}{R}\\right)"
+source = "beloborodov_2002_ray_tracing"
+locator = "eq. 1 (abstract and Sect. 2)"
+anchor = "1 − cos α = (1 − cos ψ)(1 − rg /R) where R/rg is the emission"
+anchor_tex = '1-\cos\alpha=(1-\cos\psi)\left(1-\frac{r_g}{R}\right).'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:15–21](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:15) supports the approximation and domain. Replace runtime “fast path” permission with `\"verification target only\"` to match the PRD's exact-geodesic requirement." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Equation and \\(R\\ge2r_g\\) restriction match; approximation status and verification-only role are explicit. [Beloborodov:15–21](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:15)." }]
+depends_on = ["gr.bending-integral", "gr.emission-angle-impact-parameter"]
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:65"
+validity = "R >= 2 r_g only. For R < 2 r_g the relation fails (cos alpha = 0 would require cos psi < -1). Accuracy in the bending angle beta = psi - alpha: see gr.beloborodov-cosine-error-bound."
+notes = "APPROXIMATION of the exact integral. Reboot role: verification target only; the exact geodesic is the runtime relation (PRD R1), never a silently substituted approximation. v1 also inverts it (schwarzschild.jl:74)."
+provenance = "fit"
+drop_reason = "Verification target only; the pipeline uses the exact geodesic (DEPENDENCY_AUDIT A31, L0), so the cosine approximation is never consumed."
+ownership = "stub"
+
+[[entry]]
+id = "gr.beloborodov-cosine-error-bound"
+kind = "datum"
+domain = "gr"
+name = "Accuracy of the cosine relation"
+statement = "Maximum fractional error e = delta(beta)/beta of the bending angle beta = psi - alpha from the cosine relation for R = 3 r_g is 3 percent (at alpha = 90 deg), and e < 1 percent for alpha < 75 deg. High accuracy is maintained for R > 2 r_g (error map in the source Fig. 2)."
+value = 0.03
+units = "1 (fractional error in beta at alpha = 90 deg, R = 3 r_g)"
+source = "beloborodov_2002_ray_tracing"
+locator = "Sect. 2, text below eq. 1; Fig. 2"
+anchor = "ror is emax = 3% (at α = 90o ) and e < 1% for α < 75o"
+anchor_tex = '$e_{\rm max}=3$\% (at $\alpha=90^\dg$) and $e<1$\% for'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:54–61](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:54) supports the numerical claims. Delete the unsupported assertion that the abstract's 1% uses `\"a different error measure\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Source explicitly gives the bending-angle error definition, 3% maximum and below-1% angular restriction at \\(R=3r_g\\). [Beloborodov:54–61](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:54)." }]
+depends_on = ["gr.beloborodov-cosine-relation"]
+notes = "Use as a tolerance for verifying the cosine relation against the exact integral, not as a bound for other R."
+provenance = "fit"
+drop_reason = "Verification target only: tolerance for checking the cosine relation against the exact integral; the pipeline uses the exact geodesic (A31)."
+ownership = "stub"
+
+[[entry]]
+id = "gr.bending-linear-in-u"
+kind = "result"
+domain = "gr"
+name = "Small-u expansion of the exact bending"
+statement = "Expanding eq. 9 to linear order in u = r_g/R gives psi = alpha + u(1 - cos alpha)/sin alpha + O(u^2); equivalently 1 - cos psi = (1 - cos alpha)(1 + u) + O(u^2)."
+latex = "\\psi=\\alpha+u\\,\\frac{1-\\cos\\alpha}{\\sin\\alpha}+O(u^2),\\qquad u=\\frac{r_g}{R}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, below eq. 10; also Sect. 2 text after eq. 2"
+anchor = "2(1 − cos α) one gets ψ = α + u(1 − cos α)/ sin α + O(u2 )."
+anchor_tex = '$\psi=\alpha+u(1-\cos\alpha)/\sin\alpha+O(u^2)$.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:255–259](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:255), [84–93](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:84) support both equivalent expansions." }]
+depends_on = ["gr.bending-integral", "gr.emission-angle-impact-parameter"]
+notes = "Analytic-limit check for any bending-integral implementation. The y = x(1+u) form in the main text agrees to this order (checked by the harvester). At u -> 0 psi = alpha: flat-space straight rays."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.visible-fraction-cosine"
+kind = "approximation"
+domain = "gr"
+name = "Visible surface from the cosine relation"
+statement = "Setting alpha = 90 deg in the cosine relation gives the critical mu_v = -r_g/(R - r_g) and the visible fraction of the stellar surface S_v/(4 pi R^2) = (1 - mu_v)/2 = [2(1 - r_g/R)]^(-1); 0.75 for R = 3 r_g. Flat space gives 1/2."
+latex = "\\mu_v=-\\frac{r_g}{R-r_g},\\qquad \\frac{S_v}{4\\pi R^2}=\\frac{1-\\mu_v}{2}=\\left[2\\left(1-\\frac{r_g}{R}\\right)\\right]^{-1}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Sect. 3"
+anchor = "the surface is Sv /4πR2 = (1 − µv )/2 = [2(1 − rg /R)]−1"
+anchor_tex = 'is $S_v/4\pi R^2=(1-\mu_v)/2=[2(1-r_g/R)]^{-1}$, e.g. we get $0.75$ for'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:124–126](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:124): retain the approximate formula; delete `\"where the exact value is 0.742\"`. Qualify whole-surface visibility at \\(R=2r_g\\) as `\"cosine-model prediction\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Approximate critical cosine and visible fraction match [Beloborodov:124–126](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:124); whole-surface visibility is correctly identified as the model’s prediction at \\(R=2r_g\\), [196–198](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:196)." }]
+depends_on = ["gr.beloborodov-cosine-relation"]
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:111"
+validity = "R >= 2 r_g (inherits the validity of the cosine relation); cosine-model prediction: at R = 2 r_g the whole surface is visible"
+notes = "APPROXIMATION. The v1 docstring near schwarzschild.jl:98 claims u = 2/3 for R = 3 r_g; the correct value is u = r_g/R = 1/3 (the v1 formula itself is correct)."
+provenance = "fit"
+drop_reason = "Verification target only; the visible fraction comes from the exact geodesic (DEPENDENCY_AUDIT A31, L0), not the cosine model."
+ownership = "stub"
+
+[[entry]]
+id = "gr.visible-mu-exact-values"
+kind = "datum"
+domain = "gr"
+name = "Exact critical mu_v from the elliptic integral"
+statement = "Exact calculations of alpha(psi) via the elliptic integral give the critical mu_v = cos psi of the limb (alpha = 90 deg) as -0.886, -0.633, -0.484 for R/r_g = 2, 2.5, 3 respectively."
+value = [-0.886, -0.633, -0.484]
+units = "1 (for R/r_g = 2, 2.5, 3)"
+source = "beloborodov_2002_ray_tracing"
+locator = "Sect. 3"
+anchor = "integral yield tabulated µv , e.g. µv = −0.886, −0.633, −0.484"
+anchor_tex = 'integral yield tabulated $\mu_v$, e.g. $\mu_v=-0.886$, $-0.633$, $-0.484$'
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "[Beloborodov:121–123](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:121) prints these numbers, but independent integration gives \\(-0.887573189,-0.635279431,-0.485939428\\). They fail their displayed rounding precision; attribution of this tabulation to Pechenick is also unsubstantiated." }]
+notes = "Verification targets for the exact ray tracer. mu_v = -0.484 corresponds to the exact visible fraction 0.742 quoted for R = 3 r_g ((1+0.484)/2). Source says \"tabulated\"; the tabulation itself is Pechenick et al. 1983."
+provenance = "code"
+drop_reason = "Published benchmark number from the 1983/2002 tabulations; verification target only, the pipeline computes the exact geodesic itself (DEPENDENCY_AUDIT A31)."
+ownership = "stub"
+
+[[entry]]
+id = "gr.flat-space-half-visible"
+kind = "result"
+domain = "gr"
+name = "Flat-space limit: half the surface is visible"
+statement = "For M = 0 (flat spacetime) (Delta phi)_max = 90 deg and exactly half of the surface of the star is visible."
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 848"
+anchor = "actly half of the surface of the star is visible"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:148–149](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:148), PDF checked: \\(90^\\circ\\) and half visibility are stated explicitly." }]
+depends_on = ["gr.max-deflection-integral"]
+notes = "Required analytic-limit check of CLAUDE.md Module 5 (M -> 0)."
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:113"
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.full-visibility-radius"
+kind = "datum"
+domain = "gr"
+name = "Radius at which the whole surface becomes visible"
+statement = "For R/2M ~ 1.76, (Delta phi)_max = 180 deg and the entire surface of the star is visible; the point at 180 deg appears as the circular boundary of the disk, of angular radius 1.52 R/r0. As R/2M approaches 1.5 from above, (Delta phi)_max approaches infinity."
+value = 1.76
+units = "1 (value of R/2M = R/r_g)"
+uncertainty = "approximate (source writes R/2M ~ 1.76)"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 848"
+anchor = "(A<i>)max = 180° and the entire surface of"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:150–154](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:150), PDF checked: approximate radius, \\(180^\\circ\\), angular size, and limiting divergence match." }]
+depends_on = ["gr.max-deflection-integral"]
+notes = "Harvester quadrature of eq. 2.13 at R/2M = 1.76 gives 180.05 deg, and b_max/R = 1.5218, consistent with the quoted 1.52."
+provenance = "code"
+drop_reason = "Published benchmark number from the 1983/2002 tabulations; verification target only, the pipeline computes the exact geodesic itself (DEPENDENCY_AUDIT A31)."
+ownership = "stub"
+
+[[entry]]
+id = "gr.dphi-max-r16"
+kind = "datum"
+domain = "gr"
+name = "(Delta phi)_max at R/2M = 1.6"
+statement = "For R/2M = 1.6, (Delta phi)_max = 227 deg, so that all points can be seen at least once and those between 133 and 180 deg to the observer line of sight can be seen twice."
+value = 227.0
+units = "degrees (R/2M = 1.6)"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 848"
+anchor = "so that all points can be seen at"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:154–157](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:154), PDF checked: \\(227^\\circ\\), visibility multiplicity, and angular interval match." }]
+depends_on = ["gr.max-deflection-integral"]
+notes = "Harvester quadrature of eq. 2.13 gives 227.18 deg. Same value is repeated in the Sect. V text."
+provenance = "code"
+drop_reason = "Published benchmark number from the 1983/2002 tabulations; verification target only, the pipeline computes the exact geodesic itself (DEPENDENCY_AUDIT A31)."
+ownership = "stub"
+
+[[entry]]
+id = "gr.circle180-radius-r16"
+kind = "datum"
+domain = "gr"
+name = "Angular radius of the 180-degree circle at R/2M = 1.6"
+statement = "For R/2M = 1.6 the point at 180 deg from the observer line of sight appears as a circle of angular radius 1.621 R/r0, while the boundary of the whole disk has angular radius 1.633 R/r0."
+value = 1.621
+units = "1 (angular radius in units of R/r0, rad)"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 848"
+anchor = "1.621i?/r0, while the boundary of the entire disk is a"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:157–160](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:157), PDF checked: coefficients \\(1.621\\) and \\(1.633\\) match." }]
+depends_on = ["gr.bending-integral-pechenick"]
+notes = "Harvester root-find of Delta phi(b) = pi at R/2M = 1.6 gives b/R = 1.6206; whole-disk radius 1.6330 = (1-1/1.6)^(-1/2). Text layer shows \"1.621i?/r0\" (the \"i?\" is OCR debris for R)."
+provenance = "code"
+drop_reason = "Published benchmark number from the 1983/2002 tabulations; verification target only, the pipeline computes the exact geodesic itself (DEPENDENCY_AUDIT A31)."
+ownership = "stub"
+
+[[entry]]
+id = "gr.static-observer-four-velocity"
+kind = "equation"
+domain = "gr"
+name = "Four-velocity of a static observer"
+statement = "The four-velocity of a stationary observer in the Schwarzschild metric is u^mu = [(1-2M/r)^(-1/2), 0, 0, 0] in coordinates (t, r, theta, phi). Geometric units G = c = 1."
+latex = "u^\\mu=\\left[(1-2M/r)^{-1/2},0,0,0\\right]"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "eq. 2.4, p. 847"
+anchor = "The four-velocity of a stationary observer in the"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:124–129](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:124), PDF checked: component order and exponent \\(-1/2\\) match." }]
+depends_on = ["gr.schwarzschild-radius"]
+notes = "Only the timelike leg of the static tetrad is given; the full orthonormal tetrad is not stated in any of the four harvested sources."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.image-plane-solid-angle"
+kind = "equation"
+domain = "gr"
+name = "Observer-sky solid angle in terms of impact parameter"
+statement = "A surface element observed at impact parameters (b, b+db) and azimuth phi subtends on the observer sky (D >> R) the solid angle dOmega = b db dphi / D^2."
+latex = "d\\Omega=\\frac{b\\,db\\,d\\phi}{D^2}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, text before eq. 11"
+anchor = "ters (b, b + db) and subtends a solid angle"
+anchor_tex = 'subtends a solid angle $\dd\Omega=b\,\dd b\,\dd\phi/D^2$ on the observer sky.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Beloborodov:260–266](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:260) explicitly supplies the formula and \\(D\\gg R\\) assumption." }]
+depends_on = ["gr.observer-sky-angle"]
+notes = "The omega glyph in the text layer is U+2126; the anchor avoids it. Consistent with Pechenick (3.2),(3.6): dOmega_prime = theta_prime dtheta_prime dphi_prime with b = r0 theta_prime, and Pechenick (A16) dOmega_0 = (2 pi/r0^2) b db after azimuth integration."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.observed-flux-element"
+kind = "equation"
+domain = "gr"
+name = "Observed flux from a surface element"
+statement = "Observed flux from the surface element dS = R^2 dmu dphi (mu = cos psi) of a star with surface intensity I_0(alpha): dF = I dOmega = (I b/R^2)|db/dmu| dS/D^2 = (1 - r_g/R) I_0(alpha) cos alpha (d cos alpha/dmu) dS/D^2, using I = (1 - r_g/R)^2 I_0 and eq. 10."
+latex = "dF=\\frac{I\\,b}{R^2}\\left|\\frac{db}{d\\mu}\\right|\\frac{dS}{D^2}=\\left(1-\\frac{r_g}{R}\\right)I_0(\\alpha)\\cos\\alpha\\,\\frac{d\\cos\\alpha}{d\\mu}\\frac{dS}{D^2}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, eq. 11"
+anchor = "dS = R2 dµ dφ is observed at impact parame"
+anchor_tex = '\dd F=\frac{Ib}{R^2}|\frac{\dd b}{\dd\mu}|\frac{\dd S}{D^2}'
+ocr = "poor"
+image_verified = true
+validity = "bolometric intensities; static surface and distant static observer, D >> R; per image branch"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:260–276](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:260), PDF checked: formula matches; add `\"bolometric intensities; static surface and distant static observer, D >> R; per image branch\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "“Per image branch” overclaims the signed derivative expression: secondary branches can reverse its sign. [Beloborodov:272–276](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:272); multiple images occur at [Pechenick:150–162](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:150). **Surviving:** printed equality on the primary monotonic branch; general branches require \\(\\lvert d\\cos\\alpha/d\\mu\\rvert\\)." }]
+depends_on = ["gr.image-plane-solid-angle", "gr.intensity-transformation", "gr.emission-angle-impact-parameter"]
+notes = "Exact (not cosine-approximate) relation; the cosine relation enters only via the later eq. 4. Text layer splits the equation across lines; read from PDF image p. 4. Pechenick (3.10) and (3.14) give the equivalent factor (1-2M/R)^2 I(R) dOmega_prime."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.frequency-redshift"
+kind = "equation"
+domain = "gr"
+name = "Gravitational frequency redshift"
+statement = "For a static emitter at radius R and a static observer at infinity in Schwarzschild, photon frequency measured at infinity relative to that at emission: nu/nu_0 = (1 - r_g/R)^(1/2) (the source cites Misner, Thorne and Wheeler 1973)."
+latex = "\\nu/\\nu_0=(1-r_g/R)^{1/2}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, text before eq. 11"
+anchor = "and the frequency redshift ν/ν0 = (1 − rg /R)1/2 , see Misner"
+anchor_tex = '$\nu/\nu_0=(1-r_g/R)^{1/2}$'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:269–275](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:269): qualify the statement `\"static emitter at R and static observer at infinity\"`; moving-emitter frequency includes an additional transformation." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Square-root factor matches; static emitter and static observer at infinity are now explicit, and MTW attribution is acknowledged. [Beloborodov:267–275](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:267)." }]
+depends_on = ["gr.schwarzschild-line-element"]
+notes = "The paper does not define a symbol z; 1+z = nu_0/nu = (1-r_g/R)^(-1/2) is a convention not stated in any of these sources and is left out of the notation entries. Potekhin eq. 40 gives the same factor for T and R. Assignment of nu to observer and nu_0 to emitter follows from I/nu^4 = I_0/nu_0^4 with I = (1-r_g/R)^2 I_0."
+v1_ref = "archive/v1/src/geodesics/schwarzschild.jl:141"
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.intensity-transformation"
+kind = "equation"
+domain = "gr"
+name = "Intensity transformation from surface to infinity"
+statement = "For frequency-integrated (bolometric) intensities, local static surface to static observer at infinity: the surface intensity I_0 and the observed intensity I are related by I = (1 - r_g/R)^2 I_0, because I/nu^4 = I_0/nu_0^4 and nu/nu_0 = (1 - r_g/R)^(1/2)."
+latex = "I=\\left(1-\\frac{r_g}{R}\\right)^2I_0,\\qquad \\frac{I}{\\nu^4}=\\frac{I_0}{\\nu_0^4}"
+source = "beloborodov_2002_ray_tracing"
+locator = "Appendix, text before eq. 11"
+anchor = "I = (1 − rg /R)2 I0 [I and I0 are related through I/ν 4 = I0 /ν04"
+anchor_tex = '$I=(1-r_g/R)^2I_0$ [$I$ and $I_0$ are related through $I/\nu^4=I_0/\nu_0^4$'
+ocr = "good"
+validity = "bolometric (frequency-integrated) intensity only; the fourth-power law is not the spectral intensity scaling"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Beloborodov:267–270](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:267): insert `\"frequency-integrated (bolometric), local static surface to static observer at infinity\"` into the statement. The fourth-power law is not spectral intensity scaling." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Squared compactness factor and fourth-power frequency relation match; bolometric interpretation is explicitly identified as inferred. [Beloborodov:267–270](/home/tobias/Projects/neutronstars/refs/beloborodov_2002_ray_tracing.txt:267)." }]
+depends_on = ["gr.frequency-redshift", "gr.invariant-inu-over-nu3"]
+notes = "I here is the frequency-integrated intensity (the nu^4 scaling follows from I_nu/nu^3 invariance integrated over d nu); the paper does not say so. The spectral version I_nu(nu) = (1-r_g/R)^(3/2) I_nu0(nu_0) follows from gr.invariant-inu-over-nu3 plus gr.frequency-redshift but is NOT stated in these sources and is deliberately not recorded as an entry. Pechenick (3.10) has the same factor (1-2M/R)^2."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.invariant-inu-over-nu3"
+kind = "result"
+domain = "gr"
+name = "Invariance of I_nu/nu^3 along a photon path"
+statement = "I_nu/nu^3 is a general-relativistic scalar and is constant along a photon path, i.e. along freely propagating collisionless rays in the assumed transparent exterior (Bardeen 1973), where I_nu is the intensity per unit frequency interval."
+latex = "I_\\nu/\\nu^3=\\text{const along a photon path}"
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Appendix, first paragraph, p. 854"
+anchor = "photon path (Bardeen 1973). Here Iv is the intensity per unit frequency interval."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:504–506](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:504), PDF checked: add `\"along freely propagating collisionless rays in the assumed transparent exterior\"`; retain the explicit Bardeen attribution." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF confirms \\(I_\\nu/\\nu^3\\), frequency-specific intensity and Bardeen attribution. Collisionless scope appropriately limits the claim. [Pechenick:504–506](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:504)." }]
+notes = "Source cites Bardeen 1973 (not in refs/). Text layer renders I_nu/nu^3 as \"Iv/v3\"; the PDF image p. 854 shows I_nu/nu^3."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.apparent-quantities"
+kind = "equation"
+domain = "gr"
+name = "Redshifted (apparent) stellar quantities"
+statement = "Apparent quantities detected by a distant observer, from local-frame quantities: R_infty = R/sqrt(1 - r_g/R), T_eff^infty = T_eff sqrt(1 - r_g/R), L_ph^infty = (1 - r_g/R) L_ph (the source cites Thorne 1977)."
+latex = "R_\\infty=\\frac{R}{\\sqrt{1-r_g/R}},\\qquad T^\\infty_{\\rm eff}=T_{\\rm eff}\\sqrt{1-r_g/R},\\qquad L^\\infty_{\\rm ph}=\\left(1-\\frac{r_g}{R}\\right)L_{\\rm ph}"
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 5, eq. 40"
+anchor = "(“apparent”) quantities as detected by a distant observer are (Thorne 1977):"
+anchor_tex = 'R^\infty = R / \sqrt{1-r_g/R},'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Potekhin:2106–2111](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:2106), PDF checked: all square roots, factors, and local/distant assignments match equation 40." }]
+depends_on = ["gr.schwarzschild-radius"]
+notes = "Check of flux conservation L_obs = (1-r_g/R) L_emit follows from this entry. Square-root signs are lost in the text layer; read with the sqrt from the equation context (p. 41)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.disk-uniform-brightness"
+kind = "result"
+domain = "gr"
+name = "Uniform surface brightness of an isotropic stationary sphere"
+statement = "A homogeneously and isotropically (Lambert) radiating stationary Schwarzschild sphere seen by a stationary observer at infinity has constant surface brightness over its disk, as follows from the invariance of I_nu/nu^3 and from the proportionality of observed brightness to the observer-sky solid angle."
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Appendix I, p. 856"
+anchor = "by an observer at infinity appears uniformly bright"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "[Pechenick:639–644](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:639), PDF checked: source explicitly concludes uniform brightness under the stated isotropic, stationary assumptions." }]
+depends_on = ["gr.invariant-inu-over-nu3", "gr.emission-angle-impact-parameter"]
+notes = "Source proves it via (A1) b = R(1-2M/R)^(-1/2) sin delta and the brightness expression (A17) (Delta Omega_s/A_d)(dS/dOmega_0) cos delta being constant. A surface with limb darkening is not covered. Check target for the Milestone 1 blackbody disc."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.approx-schwarzschild-exterior"
+kind = "approximation"
+domain = "gr"
+name = "Static Schwarzschild exterior for a slowly rotating star"
+statement = "The brightness of the rotating star is taken to be its instantaneous value if the star were stationary; the Kerr metric and frame dragging are not used and the exterior is Schwarzschild with mass M."
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 846"
+anchor = "not use the Kerr metric and we neglect the"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:45–59](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:45), PDF checked: physical statement matches. Replace stale notes with `\"Kerr is outside PRD scope; camera Doppler is required in Milestone 1\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Stationary snapshot and omitted frame dragging match [Pechenick:45–59](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:45); secondary sphericity qualifications match [Potekhin:196–199](/home/tobias/Projects/neutronstars/refs/potekhin_pons_page_2015_thermal.txt:196)." }]
+depends_on = ["gr.schwarzschild-line-element"]
+validity = "Neutron stars \"slowly rotating from the point of view of general relativity\" (no quantitative bound given). Potekhin et al. 2015 Sect. 2: deviations from sphericity become appreciable only for B >~ 1e17 G or rotation periods below a few ms."
+notes = "Kerr is outside PRD scope; camera Doppler is required in Milestone 1 (PRD R2)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.approx-opaque-surface"
+kind = "approximation"
+domain = "gr"
+name = "Opaque star with transparent exterior"
+statement = "The region r < R is totally opaque and, apart from beaming conditions at the emitting surface, the region r > R is totally transparent: effects on photon propagation other than gravity are ignored. Null geodesics do not depend on photon frequency."
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, pp. 846-847"
+anchor = "We also assume that the region r<R is totally"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:52–57](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:52), [79–82](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:79), PDFs checked: correct locator to `\"Sect. II, pp. 846–847\"` to cover frequency independence." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "PDF confirms opacity/transparency assumptions at [Pechenick:52–57](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:52) and frequency independence at [79–82](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:79). Corrected locator covers both pages." }]
+validity = "No absorption, scattering, refraction or dispersion outside r = R (no magnetosphere, atmosphere above the emitting layer treated as part of I(delta), or interstellar medium)."
+notes = "Interstellar absorption and magnetospheric effects are not covered; they are separate approximations to be recorded in their own domains."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.approx-observer-at-infinity"
+kind = "approximation"
+domain = "gr"
+name = "Observer at infinity (parallel rays)"
+statement = "The observer is stationary at r = r0 with r0 -> infinity; the observer-sky angle is xi = b/r0 and the observed flux uses D >> R."
+source = "pechenick_1983_gr_ray_tracing"
+locator = "Sect. II, p. 846"
+anchor = "The observer is taken to be stationary at r = r0 where"
+ocr = "poor"
+image_verified = true
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "[Pechenick:45–46](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:45), PDF checked: use validity `\"stationary observer, r0 -> infinity; Earth-distance/verification use\"`. Finite moving-camera treatment belongs to Milestone 1, not Milestone 4." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Locator p. 846 omits equation 2.6 on p. 847. The proposed finite-radius replacement is derived for a **static** observer, not the moving camera. [Pechenick:78–82](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:78), [124–136](/home/tobias/Projects/neutronstars/refs/pechenick_1983_gr_ray_tracing.txt:124). **Surviving:** stationary-infinity approximation; equation 2.5 gives the finite-radius angle only in the static frame." }]
+depends_on = ["gr.observer-sky-angle"]
+validity = "stationary observer, r0 -> infinity, D >> R; Earth-distance/verification use. Not valid for a finite-distance moving camera (PRD Milestone 1 camera); there the exact finite-r0 form sin xi = (b/r0)(1-2M/r0)^(1/2) of gr.observer-sky-angle must be used instead."
+notes = "Beloborodov Sect. 3 uses the same D >> R assumption."
+provenance = "derivable"
+ownership = "stub"
+

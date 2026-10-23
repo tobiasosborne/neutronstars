@@ -1,0 +1,619 @@
+                                         Draft version January 2, 2018
+                                         Preprint typeset using LATEX style emulateapj v. 6/22/04
+
+
+
+
+                                        ELECTROMAGNETIC POLARIZATION IN PARTIALLY IONIZED PLASMAS WITH STRONG MAGNETIC
+                                                         FIELDS AND NEUTRON STAR ATMOSPHERE MODELS
+                                                          Alexander Y. Potekhin,1,2 Dong Lai,3 Gilles Chabrier,4 and Wynn C. G. Ho5,6
+                                                                                              Draft version January 2, 2018
+
+                                                                                              ABSTRACT
+                                                   Polarizability tensor of a strongly magnetized plasma and the polarization vectors and opacities
+                                                of normal electromagnetic waves are studied for the conditions typical of neutron star atmospheres,
+                                                taking account of partial ionization effects. Vacuum polarization is also included using a new set of
+arXiv:astro-ph/0405383v1 20 May 2004
+
+
+
+
+                                                fitting formulae that are accurate for wide range of field strengths. The full account of the coupling
+                                                of the quantum mechanical structure of the atoms to their center-of-mass motion across the magnetic
+                                                field is shown to be crucial for the correct evaluation of the polarization properties and opacities of
+                                                the plasma. The self-consistent treatment of the polarizability and absorption coefficients proves to
+                                                be necessary if the ionization degree of the plasma is low, which can occur in the atmospheres of
+                                                cool or ultramagnetized neutron stars. Atmosphere models and spectra are presented to illustrate the
+                                                importance of such self-consistent treatment.
+                                                Subject headings: magnetic fields—plasmas—stars: atmospheres—stars: neutron—X-rays: stars
+
+                                                             1. INTRODUCTION                                   (B & 1014 G) vacuum polarization significantly affects
+                                          In recent years, thermal or thermal-like radiation                   the emergent spectrum from the atmosphere; for weaker
+                                       has been detected from several classes of isolated neu-                 fields, vacuum polarization can still leave an unique im-
+                                       tron stars (NSs): radio pulsars with typical magnetic                   print on the X-ray polarization signals (Lai & Ho 2003b).
+                                       fields B ∼ 1012 –1013 G, “dim” NSs whose magnetic                          Because the strong magnetic field significantly in-
+                                       fields are mostly unknown, anomalous X-ray pulsars and                  creases the binding energies of atoms, molecules, and
+                                       soft gamma-ray repeaters with B possibly ∼ 1014 –1015                   other bound states (see Lai 2001, for a review), these
+                                       G (see, e.g., Becker & Aschenbach 2002; Haberl 2004;                    bound states may have abundances appreciable enough
+                                       Israel, Mereghetti, & Stella 2002; Pavlov & Zavlin 2003,                to contribute to the opacity in the atmosphere. For
+                                       for reviews). The spectrum of thermal radiation is                      calculation of this contribution, the non-trivial cou-
+                                       formed in a thin atmospheric layer (with scale height                   pling of the center-of-mass (CM) motion of the atom
+                                       ∼ 0.1–10 cm and density ρ ∼ 10−2 –103 g cm−3 ) that cov-                to its internal structure (e.g., Potekhin 1994, and ref-
+                                       ers the stellar surface. Therefore, a proper interpretation             erences therein) can be important. Also, because of
+                                       of the observations of NS surface emission requires un-                 the relatively high atmosphere density, a proper treat-
+                                       derstanding of radiative properties of these magnetized                 ment should take account of the plasma nonideality
+                                       atmospheres.                                                            that leads to Stark broadening and pressure ioniza-
+                                          Shibanov et al. (1992) (see also Shibanov & Zavlin                   tion. Recently, thermodynamically consistent equation
+                                       1995; Pavlov et al. 1995) presented the first model of the              of state (EOS) and opacities have been obtained for a
+                                       NS atmospheres with strong magnetic fields, assuming                    magnetized, partially ionized H plasma for 8 × 1011 G
+                                       full ionization. Variants of this model were constructed                . B ≤ 1015 G (Potekhin, Chabrier, & Shibanov 1999;
+                                       by Zane, Turolla, & Treves (2000); Zane et al. (2001);                  Potekhin & Chabrier 2003, 2004). These EOS and opac-
+                                                                                                               ities have been implemented by Ho et al. (2003, 2004) for
+                                       Ho & Lai (2001, 2003); Özel (2001); Lloyd (2003). An                   modeling NS atmospheres. For the typical field strengths
+                                       inaccurate treatment of the absorption due to free-                     B = 1012 –1013 G this modeling showed that, although
+                                       free transitions in strong magnetic fields in the ear-                  the spectral features due to neutral atoms lie at extreme
+                                       lier models (Pavlov et al. 1995) has been corrected by                  UV and very soft X-ray energy bands and therefore are
+                                       Potekhin & Chabrier (2003); this correction has been                    difficult to observe, the continuum flux is also different
+                                       taken into account in later models (Ho et al. 2003, 2004;               from the fully ionized case, especially at lower energies,
+                                       Lloyd 2003). Recent work (Ho & Lai 2003; Lai & Ho                       which can affect fitting of the observed spectra. For the
+                                       2002, 2003a) has shown that in the magnetar field regime                superstrong field B & 1014 G, Ho et al. (2003) showed
+                                          1 Ioffe Physico-Technical Institute, Politekhnicheskaya 26,          that the vacuum polarization effect not only suppresses
+                                       194021 St. Petersburg, Russia; palex@astro.ioffe.ru                     the proton cyclotron line, but also suppresses spectral
+                                         2 Isaac Newton Institute of Chile, St. Petersburg Branch, Russia
+                                                                                                               features due to bound species.
+                                         3 Center for Radiophysics and Space Research, Depart-
+                                                                                                                  It is well known (e.g., Ginzburg 1970; Mészáros 1992)
+                                       ment of Astronomy, Cornell University, Ithaca, NY 14853;
+                                       dong@astro.cornell.edu                                                  that under typical conditions (e.g., far from the reso-
+                                         4 Ecole Normale Supérieure de Lyon (CRAL, UMR CNRS                   nances) radiation propagates in a magnetized plasma in
+                                       No. 5574), 46 allée d’Italie, 69364 Lyon Cedex 07, France;             the form of two so-called extraordinary and ordinary nor-
+                                       chabrier@ens-lyon.fr                                                    mal modes. The polarization vectors of these modes, eX
+                                         5 Kavli Institute for Particle Astrophysics and Cosmology, Stan-
+                                       ford University, PO Box 20450, Mail Stop 29, Stanford, CA 94309;        and eO are determined by the Hermitian part (χH ) of
+                                       wynnho@slac.stanford.edu                                                the complex polarizability tensor (χ) of the plasma. Our
+                                         6 Hubble Fellow
+                                                                                                               previous treatment of these modes in partially ionized
+2
+
+atmospheres (Potekhin & Chabrier 2003, 2004; Ho et al.                              µ−1 = I + diag(â, â, â + m),           (4)
+2003, 2004) was not quite self-consistent, because the            where â, q, and m are vacuum polarization coefficients
+effect of the presence of the bound states on the polar-          which vanish at B = 0. The formulae for calculation of
+ization of normal modes was neglected: we adopted the             these coefficients are given in the Appendix. Quantities
+same polarization vectors as in the fully ionized plasma,         ε, η, and g are well known for fully ionized ideal plasmas
+assuming (Potekhin & Chabrier 2003) that the effect of            (e.g., Ginzburg 1970). In this paper we shall calculate
+bound states on these vectors should be small provided            χ for partially ionized hydrogen plasmas at typical NS
+the ionization degree of the plasma is high. However, this        atmosphere conditions.
+hypothesis (related to χH ) may be called into question,             The complex polarizability tensor of a plasma becomes
+based on the observation that the absorption coefficients         diagonal, χ = diag(χ+1 , χ−1 , χ0 ) in the cyclic or rotat-
+(corresponding to the anti-Hermitian part of the complex          ing coordinates, where the cyclic   √ unit vectors are defined
+polarizability tensor, iχA ) are strikingly affected by the       as ê0 = ẑ′ , ê±1 = (x̂′ ± iŷ′ )/ 2. The real parts of the
+presence of even a few percent of the atoms.                      components χα (α = ±1, 0) determine the Hermitian
+   In this paper, we study the polarizability tensor, the         tensor χH , which describes the refraction and polariza-
+polarization vectors of the normal waves, and the opac-           tion of waves, and their imaginary parts determine the
+ities of the partially ionized nonideal hydrogen plasma           anti-Hermitian tensor iχA , responsible for the absorp-
+in strong magnetic fields in a self-consistent manner, us-        tion. According to equation (2),
+ing the technique applied previously by Bulik & Pavlov
+(1996) to the case of a monatomic ideal hydrogen gas.                         4πχ±1 = ε − 1 ± g, 4πχ0 = η − 1.                (5)
+In §2 we introduce basic definitions and formulae to be           Note that in the cyclic representation, the general sym-
+used for calculation of the plasma polarizability (new fit-       metry relations for the polarizability tensor take the form
+ting formulae for the vacuum polarizability are given in                  χA               A
+                                                                                                      χH            H
+                                                                           α (−ω) = −χ−α (ω),          α (−ω) = χ−α (ω).      (6)
+the Appendix). An approximate model based on a per-
+turbation theory, which explains the importance of the              2.2. Relation Between the Plasma Polarizability and
+CM coupling for plasma polarizability, is described in §3.                                         Absorption
+The results of numerical calculations of the plasma polar-           General expressions in the dipole approximation for χA         α
+izability are presented in §4, and the consequences for the       and χH   α through frequencies and oscillator strengths of
+polarization and opacities of the normal modes are dis-           quantum transitions in a magnetized medium are given,
+cussed in §5. In §6 we present examples of NS thermal             e.g., by Bulik & Pavlov (1996). For transitions between
+spectra, calculated using the new opacities, compared             two stationary quantum states i and f with energies
+with the earlier results. In §7 we summarize our results,         Ei and Ef = Ei + ~ωf i > Ei and number densities
+outline the range of their applicability, and discuss un-         of the occupied states ni and nf , the absorption co-
+solved problems.                                                  efficient for the basic polarization α equals (see, e.g.,
+    2. GENERAL FORMULAE FOR POLARIZATION IN A                     Armstrong & Nicholls 1972)
+                    MAGNETIZED PLASMA                                                      2π 2 e2
+                                                                      µif
+                                                                        α ≡ ρκ̂α (ω) =              (ni − nf ) fαif δ(ω − ωf i ), (7)
+           2.1. Complex Polarizability Tensor                                               me c
+   The propagation of electromagnetic waves in a medium           where fαif = (2me ωf i /~) |hf |r|ii · êα |2 is the oscilla-
+is described by the wave equation that is obtained from           tor strength for the transition i → f . These par-
+the Maxwell equations involving the tensors of electric           tial
+                                                                  P absorptionif coefficients      P sum up into the total µα =
+permittivity ǫ, magnetic permeability µ, and electrical              i,f (Ef >Ei ) µα , where         i,f includes integration over
+conductivity σ. It is convenient (e.g., Ginzburg 1970) to         continuum states. Then the equation
+introduce the complex dielectric tensor ǫ′ = ǫ + 4πiσ/ω.                                                c
+In the strong magnetic field, it should include the vacuum                               χA
+                                                                                          α (ω) =           µα (ω),               (8)
+                                                                                                     4πω
+polarization. When the vacuum polarization is small, it
+                                                                  together with the first symmetry relation (6) yield
+can be linearly added to the plasma polarization. Then
+we can write                                                                         πe2          X
+                                                                          χAα (ω) =                        (ni − nf )
+                  ǫ′ = I + 4πχ + 4πχvac ,                  (1)                      2me ω
+                                                                                             i,f (Ef >Ei )
+
+where I is the unit tensor, χ = χH + iχA is the com-
+                                                                                       h                                       i
+                                                                                                                if
+                                                                                    × fαif δ(ω − ωf i ) + f−α      δ(ω + ωf i ) . (9)
+plex polarizability tensor of the plasma, and χvac is the
+polarizability tensor of the vacuum.                                Once χA is known, χH can be calculated from
+  In the Cartesian coordinate system x′ y ′ z ′ with unit         the Kramers-Kronig relation (Landau & Lifshitz 1989,
+vectors x̂′ , ŷ′ , ẑ′ , where ẑ′ is along magnetic field B,    §123) or its modification (Bulik & Pavlov 1996),
+the electric permittivity tensor of a plasma in the dipole                              1
+                                                                                             Z ∞ ′ A ′
+                                                                                                  ω χα (ω )
+approximation, the dielectric vacuum correction, and the                     χHα (ω) =    P           ′
+                                                                                                               dω ′ ,     (10)
+inverse magnetic permeability of the vacuum can be writ-                               πω     −∞ ω − ω
+ten, respectively, as (e.g., Ho & Lai 2003, and references
+                                                                          R
+                                                                  where P means the principal value of the integral. From
+therein)                                                          equations (9) and (10),
+                                                                                                     "                      #
+                                   ε ig 0                                                                              if
+                                                                                 e2                       fαif
+                               "          #
+                                                                    H
+                                                                                      X                               f−α
+                   I + 4πχ = −ig ε 0 ,                      (2)   χα (ω) = −              (ni − nf )             +            .
+                                                                              2 me ω                    ω − ωf i ω + ωf i
+                                   0 0η                                             i,f (Ef >Ei )
+                   4πχvac = diag(â, â, â + q),           (3)                                                                 (11)
+                                      Polarization in Magnetic Neutron Star Atmospheres                                        3
+
+Taking into account equations (8) and (6), we can present            where P⊥ is the transverse pseudo-momentum,
+relation (10) in the form convenient for calculation at              p1 (P⊥ ) d2 P⊥ is the probability to find an atom in
+ω > 0:                                                               the initial state “1” in an element d2 P⊥ near P⊥
+                  Z ω
+                                                         dω ′       (see Potekhin et al. 1999), and we have used the fact
+    H        c
+                          µα (ω + ω ′ ) − µα (ω − ω ′ )              that the oscillator strength is nonzero only when
+                        
+  χα (ω) = 2
+           4π ω       0                                    ω′        P = P ′ (in the dipole approximation). The CM
+             Z ∞                  Z ∞
+                        ′                      ′                     coupling effect will significantly smooth out the di-
+                                                      
+                   µα (ω )              µ−α (ω )
+           +         ′−ω
+                           dω ′ −                dω ′ . (12)         vergent behavior at ω = ω21 in equation (14) (for
+               2ω  ω               0     ω′ + ω
+                                                                     ν → 0). This effect can be taken into account using
+   If we replace delta-function in equation (7) by the               the perturbation result of Pavlov & Mészáros (1993),
+Lorentz profile (ναif /π) [ (ω − ωα )2 + (ναif )2 ]−1 , where ναif   as was done by Bulik & Pavlov (1996), or numerically,
+is a damping rate for a given transition, then equations             using the techniques of Pavlov & Potekhin (1995) and
+(9) and (11) can be combined to give                                 Potekhin & Pavlov (1997).
+                                              "                        In the perturbation theory, valid for small P⊥ , the
+               e2          X                          fαif           coupling reveals itself as an effective “transverse” mass
+  χα (ω) = −                        (ni − nf )                       M⊥ > mH acquired by the atom, which is different for
+             2 me ω
+                      i,f (Ef >Ei )
+                                                ω − ωf i + iναif     different quantum levels. For the two-level atom, the
+                      if
+                                 #                                   perturbation theory gives Ej (P⊥ ) = Ej (0) + P⊥2 /(2M⊥j )
+                    f−α                                              (j = 1, 2), and we find
+           +                  if
+                                    .                        (13)
+             ω + ωf i + iν−α                                                       e 2 n1
+                                                                                          Z ∞ 
+                                                                                                           fα12 e−y
+                                                                           χα ≃ −             dy
+ 3. ANALYTIC MODEL OF POLARIZATION OF ATOMIC                                       2me ω 0        ω − ω21 (0) + iν + a(T ) y
+        GAS: EFFECT OF CENTER-OF-MASS MOTION                                                 12 −y
+                                                                                            f−α e
+                                                                                                              
+                                                                                 +                             ,             (16)
+   As mentioned in §1, in strong magnetic fields the in-                           ω + ω21 (0) + iν + a(T ) y
+ternal structure of an atom is strongly coupled to its
+CM motion perpendicular to the field. This coupling                  where a(T ) = (kB T /~)(1−M⊥1 /M⊥2 ), and we have used
+(referred to as “CM coupling”) has a significant effect              p1 (P⊥ ) ∝ exp[−P⊥2 /(2M⊥1 kB T )]. At ν → 0, only weak
+on the radiative opacities and dielectric property of the            logarithmic divergence is present near ω = ω21 , com-
+medium. Before presenting numerical results for the po-              pared to the much stronger (ω − ω21 )−1 divergence in
+larizability tensor of a partially ionized plasma in §4, it          equation (14). Additional line broadening due to col-
+is useful to consider an analytic model to illustrate this           lisions (which implies ν 6= 0), thermal effect and pres-
+CM coupling effect.                                                  sure effect, not treated in this simple model, will further
+   Consider an atomic gas in which the atom possesses                smooth out the “divergent” feature in the polarizability
+only two energy levels, with the upper level having the              tensor.
+radiative (Lorentz) width ν, assumed to be constant for                 This simple model shows that a proper treatment of
+simplicity. The energies of the (moving) atom in the                 the CM coupling is important in calculating the polariz-
+ground state and the excited state are denoted by E1 (P )            ability tensor of a partially ionized plasma. In practice,
+and E2 (P ′ ) respectively, where P and P ′ are the CM               since the absorption coefficient µα has already been cal-
+pseudo-momenta, and the subscripts 1 and 2 specify the               culated by Potekhin & Chabrier (2003, 2004), we find it
+internal degree of freedom of the atom. [In strong mag-              is more convenient to apply the Kramers-Kronig trans-
+netic fields, the internal quantum numbers are (s, νz ),             formation (eq. [12]) to obtain χH α (see §4).
+where s = 0, 1, 2, · · · measures the relative angular mo-                  4. EFFECT OF PARTIAL IONIZATION ON
+mentum between the proton and electron, and νz is re-                     POLARIZABILITY OF A STRONGLY MAGNETIZED
+lated to the number of nodes in the z direction.] If                                  HYDROGEN PLASMA
+there were no CM coupling, we would have E1,2 (P ) =                   Some approximations for calculation of the complex
+E1,2 (0) + P 2 /(2mH ) and ω21 ≡ (E2 − E1 )/~ =constant.             dielectric tensor of a plasma have been discussed, for
+Therefore, in this case equation (13) would yield                    example, by Ginzburg (1970). In particular, the “el-
+                                                    12
+                                                                     ementary theory” gives the expression widely used in
+                  e 2 n1         fα12             f−α
+                                                          
+                                                                     the past to describe polarization properties of the fully
+    χα (ω) ≃ −                             +                  .
+                2me ω ω − ω21 + iν            ω + ω21 + iν           ionized electron-ion plasma (e.g., Shibanov et al. 1992;
+                                                             (14)    Zane et al. 2000; Ho & Lai 2001, 2003):
+This would imply that even for very small neutral atom                                              2
+                                                                                                  ωpl
+fraction, the bound-bound transition can severely affect                  4πχα = −                                   ,      (17)
+the dielectric property of the gas in the neighborhood of                            (ω + αωce )(ω − αωci ) + iωνeff
+ω = ω21 (for ν ≪ ω21 ).                                              where ωce = eB/me c and ωci = ZeB/mi c are
+   However, in strong magnetic fields, the energy associ-            the electron and ion cyclotron frequencies, ωpl =
+ated with the transverse CM motion of the atom cannot                (4πne e2 /me )1/2 is the electron plasma frequency, νeff is
+be separated from the internal energy. We therefore have             the effective damping frequency, mi is the ion mass, Ze
+               e 2 n1
+                        Z
+                           p1 (P⊥ ) d2 P⊥
+                                          
+                                                fα12 (P⊥ )           is the ion charge, and ne is the electron number density.
+   χα (ω) = −                         2
+                                                                     For the hydrogen plasma, the corresponding energies are
+               2me ω           (2π~)        ω − ω21 (P⊥ ) + iν       ~ωce = 11.577 B12 keV, ~ωci = 6.3049
+                       12                                                                                    √ B12 eV, where
+                      f−α (P⊥ )                                      B12 = B/1012 G, and ~ωpl = 0.0287 ρ keV, where ρ
+                                      
+            +                           ,                    (15)
+               ω + ω21 (P⊥ ) + iν                                    is in g cm−3 . In general, the damping frequency νeff
+4
+
+
+
+
+  Fig. 1.— Absorption coefficient (upper panel) and polarizability    Fig. 2.— Same as in Figure 1, but for α = +1.
+(lower panel) of a hydrogen plasma for longitudinal polarization
+(α = 0) at B = 2.35 × 1012 G, ρ = 0.1 g cm−3 , and T = 3.16 ×
+105 K, according to four different models: fully ionized plasma
+(dot-dashed lines), partially ionized plasma without the effect of
+coupling between CM motion and internal structure of the atom
+(short dashes), with the magnetic broadening taken into account      we include in consideration the bound-bound transition
+by perturbation theory (long dashes) and numerical calculation       with the largest oscillator strength (for every polariza-
+beyond the perturbation approximation (solid lines).                 tion) and the bound-free transitions. In this case the
+                                                                     absorption by the atom can be described by analytic for-
+                                                                     mulae. The bound-bound absorption cross section is de-
+                                                                     scribed by the Lorentz profile, where the effective damp-
+depends on polarization and photon frequency. Deriva-                ing width is mainly contributed by the electron impact
+tion of equation (17) is based on the assumption that                broadening (Pavlov & Potekhin 1995) and can be evalu-
+the electrons and ions lose their ordered velocities (im-            ated using a fitting formula (Potekhin 1998). The bound-
+parted by the electric field of the electromagnetic wave)            free cross sections are well described in the adiabatic
+at the rate νeff which does not depend on the velocity.              approximation (however this is not true with the CM
+A more rigorous kinetic theory gives χA            H
+                                           α and χα which            coupling, see Potekhin & Pavlov 1997); they are repro-
+cannot be in general described by equation (17) using                duced by fitting formulae in Potekhin & Pavlov (1993).
+the same νeff (e.g., Ginzburg 1970, §6). For instance, if            For B = 2.35 × 1012 G, ρ = 0.1 g cm−3 , T = 105.5 K (the
+we describe χA α using equation (17) with some frequency-            neutral fraction xH ≈ 0.12), the resulting absorption co-
+dependent νeff (ω), then the Kramers-Kronig transforma-              efficients are shown by the short-dashed lines in Figures
+tion will give χH  α which, in general, does not coincide            1 and 2 for α = 0 and +1, respectively. For α = 0 this
+with the real part of equation (17) with the same νeff (ω),          absorption profile is similar to the idealized model con-
+although, for realistic νeff (ω), the difference should be           sidered above. The corresponding χH    α (ω) are shown by
+small at ω ≫ ωpl .                                                   the short-dashed lines on the lower panels of Figures 1
+   Realistic models of the absorption coefficients of a par-         and 2. In each figure, dot-dashed lines correspond to the
+tially ionized plasma do not allow us to perform the                 model of a fully ionized hydrogen plasma at the same B,
+Kramers-Kronig transformation analytically. We evalu-                ρ, and T . As in the above analytic model, we see that the
+ated the integrals in equation (12) numerically. Since               presence of the atoms results in strong deviation from the
+the integrand can be sharply peaked near resonance                   fully ionized plasma model in the vicinity of the principal
+frequencies, we employed the adaptive-stepsize Runge-                atomic resonances (the bound-free resonance for α = +1
+Kutta integration (Press et al. 1996, §16.2). The accu-              is almost invisible on the lower panel of Fig. 2 because
+racy of the numerical transformation was tested with the             of its small oscillator strength).
+models that allow one to perform the Kramers-Kronig                     The absorption coefficients obtained using the pertur-
+transformation analytically – those given by equations               bation theory of magnetic broadening (§3) are shown by
+(14) and (17) above, and by equations (49)–(53) of                   the long-dashed lines on the upper panels of Figures 1
+Bulik & Pavlov (1996) – and proved to be within 0.1%.                and 2. The long-dashed lines on the lower panels show
+   Let us first consider a model that neglects the CM                the corresponding polarizabilities. We see that the reso-
+coupling and the plasma nonideality. The absorption co-              nant features are smoothed down by the magnetic broad-
+efficient of the fully ionized component of the plasma in-           ening, and the resulting curves of χH  α (ω) do not much
+cludes contributions due to the free-free absorption and             differ from the fully ionized plasma model.
+scattering on free electrons an protons. For the atoms,                 Still greater smoothing occurs for the accurate (non-
+                                      Polarization in Magnetic Neutron Star Atmospheres                                                    5
+
+
+
+
+  Fig. 3.— Polarizabilities χH
+                             α (α = ±1, 0) of the partially ionized (solid lines) and fully ionized (dot-dashed lines) plasma with the same
+parameters as in Figures 1, 2. The right part of the figure has an enlarged vertical scale. The dotted lines correspond to ωpl (vertical) and
+(q + m)/(2π) (horizontal), where q and m are the vacuum polarization parameters.
+
+
+
+perturbative) functions µα (ω) and χH  α (ω) (solid lines in             bound and bound-free features. The most prominent are
+the figures). The absorption coefficients shown on the                   the bound-bound absorption at ~ω ≈ 0.2–0.3 keV for
+upper panels correspond to the opacities in Figure 9                     µ+1 and the photoionization edge at ~ω = 0.408 keV for
+of Potekhin & Chabrier (2003). The significant differ-                   µ0 . These features are clearly reflected in the behavior
+ence of these absorption coefficients from the perturba-                 of χH         H
+                                                                              +1 and χ0 , shown in the lower panels. Thus, with
+tional ones arises partly from the dependence of the os-                 increasing B, the abundance of neutral states increases
+cillator strengths on the atomic velocity across the field,              along with their influence on the polarizability.
+partly from transitions which were dipole-forbidden for                    A similar trend occurs with lowering T . If, for exam-
+the atom at rest and were not taken into account in the                  ple, in the previous case (B = 2.35 × 1012 G, ρ = 0.1
+perturbation approximation described above, and partly                   g cm−3 ) we take a lower T = 1.58 × 105 K, then we
+from the nonideal plasma effect of continuum lowering.                   will have 94.1% of H atoms in the ground state, 1.3% in
+Nevertheless, despite these differences in µα , the differ-              the excited states, and 1.1% of H2 molecules. At ρ = 1
+ence in χH α is much less significant.                                   g cm−3 , the abundance of the atoms will be 96.9% (with
+   Figure 3 shows all three components χH     α in a wider               roughly equal fractions of excited states and molecules),
+energy range. In this figure, as well as in the previ-                   and we nearly recover the case studied by Bulik & Pavlov
+ous two, the polarizabilities in the fully ionized plasma                (1996), who assumed 100% of atoms for these plasma pa-
+model, shown by the dot-dashed lines, are obtained from                  rameters.
+equation (12), where the free-free contribution to µα (ω)                5. EFFECT OF PARTIAL IONIZATION ON POLARIZATION
+includes the frequency-dependent Coulomb logarithm Λffα                                AND OPACITIES OF NORMAL MODES
+(Potekhin & Chabrier 2003). Because of this frequency
+                                                                           In the coordinate system xyz with z along the wave
+dependence, these polarizabilities are not identical to the
+                                                                         vector of the photon and B in the x–z plane, the polar-
+ones given by equation (17), the difference being small
+                                                                         ization vectors ej of the normal modes in a magnetized
+at ω ≫ ωpl and appreciable at ω . ωpl , where both
+                                                                         plasma can be written as (Ho & Lai 2003)
+the elementary theory and the description of absorption
+by binary collisions (i.e., neglecting the collective mo-                  (ejx , ejy , ejz ) = (1 + Kj2 + Kz,j
+                                                                                                            2 −1/2
+                                                                                                                )  (iKj , 1, iKz,j ), (18)
+tion effects) are rather inaccurate. The solid lines, which
+are obtained for the partially ionized plasma, are fairly                where j = 1, 2 correspond to the extraordinary mode (X-
+close to the dot-dashed lines. The only prominent fea-                   mode) and ordinary mode (O-mode). The parameters
+tures are the proton and electron cyclotron resonances                   Kj and Kz,j are expressed in terms of the components
+at ~ωci = 0.0148 keV and ~ωce = 27.21 keV.                               of the dielectric and magnetic tensors as
+   However, such smoothing does not always occur. Let                                                                1/2 )
+                                                                                  (
+                                                                                                           m sin2 θB
+                                                                                               
+                                                                                             j      1
+us consider a higher magnetic field B = 3 × 1013 G                        Kj = β 1 + (−1) 1 + 2 +                           , (19)
+and density ρ = 1 g cm−3 , retaining the same temper-                                              β     1 + â β 2
+ature. Then xH = 0.89. Figure 4 demonstrates the ab-                                    (ε′ − η ′ )Kj cos θB + g
+sorption coefficients and polarizabilities for the fully ion-                Kz,j = − ′ 2                         sin θB ,              (20)
+ized (dot-dashed lines) and partially ionized (solid lines)                             ε sin θB + η ′ cos2 θB
+plasma. In addition to the proton cyclotron resonance                    where
+at ~ω = 0.19 keV, absorption coefficients in the partially                     η ′ − ε′ + g 2 /ε′ + η ′ m/(1 + â) ε′ sin2 θB
+ionized plasma exhibit magnetically broadened bound-                       β=                                                 ,         (21)
+                                                                                                2g                 η ′ cos θB
+6
+
+
+
+
+                                                                             Fig. 5.— Squared moduli of the cyclic components ejα of po-
+                                                                          larization vectors eX and eO for the normal waves propagating at
+                                                                          angles θB = 60◦ (two upper panels) and 10◦ (two lower panels)
+                                                                          in a hydrogen plasma with B = 3 × 1013 G, T = 3.16 × 105 K,
+  Fig. 4.— Absorption coefficients (top panel; the lines marked           ρ = 1 g cm−3 . Solid lines: partially ionized plasma; dot-dashed
+“+”, “−”, and “0” correspond to the polarization index α = +1,            lines: full ionization.
+−1, and 0, respectively) and polarizabilities χH ±1 (middle) and χ0
+                                                                      H
+
+(bottom panel) of the partially ionized (solid lines) and fully ionized
+(dot-dashed lines) plasma for B = 3 × 1013 G, ρ = 1 g cm−3 , and
+T = 3.16 × 105 K.                                                         cyclotron resonance at ~ω ≈ 27 keV. If we neglected the
+                                                                          CM coupling effect, we would observe additional resonant
+                                                                          features near ~ω = 0.07 and 0.2 keV, associated with the
+θB is the angle between B and the z axis, and (see                        bound-bound transitions for α = +1 (Fig. 2) and α = 0
+Eqs. [1]–[3]) ε′ = ε + â, η ′ = η + â + q. In the usual                 (Fig. 1). Actually these features are smoothed away by
+case where the plasma and vacuum polarizabilities are                     the CM coupling.
+small (|χH          −1                                                      For the second set of plasma parameters considered in
+         α | ≪ (4π)    and |â|, q, |m| ≪ 1), the polariza-
+tion parameter β is given by                                              §4, the ionization degree is relatively low (1−xH = 0.11).
+                                                                          Figure 5 shows squared moduli of two components of the
+                                           2
+         2χH    H      H
+           0 − χ+1 − χ−1 + (q + m)/(2π) sin θB                            polarization vectors, ej0 and ej+1 (the third component
+    β≈                H     H
+                                               .                 (22)
+                  2 (χ+1 − χ−1 )        cos θB                            can be found as |e−1 |2 = 1 − |e+1 |2 − |e0 |2 ) for two prop-
+                                                                          agation angles θB = 60◦ and θB = 10◦ . Dot-dashed and
+    The opacity in the mode j can be written as                           solid curves correspond to the fully and partially ionized
+                             1
+                             X                                            plasma models, respectively. At θB = 60◦ (two upper
+            κj (ω, θB ) =         |ejα (ω, θB )|2 κ̂α (ω),       (23)     panels), there are two sharp resonances for the partially
+                            α=−1                                          ionized case at ~ω = 0.158 and 0.425 keV, associated
+                                                                          with the zero level crossings by χH 0 (ω) (the bottom panel
+where κ̂α (α = −1, 0, 1) do not depend on θB . For a                      of Fig. 4), which are absent in the case of full ioniza-
+partially ionized, strongly magnetized hydrogen plasma                    tion. The feature at 3.3 keV is the vacuum resonance.
+κ̂α (ω) have been obtained by Potekhin & Chabrier                         At smaller angle (two lower panels of Fig. 5), these res-
+(2003, 2004).                                                             onances become broader, and there appear additionally
+   The polarization vectors eX and eO for the polarizabil-                other features associated with the behavior of χH      +1 (see
+ities presented in Figure 3 prove to be indistinguishable                 the middle panel of Fig. 4). For the fully ionized plasma,
+from the results for the fully ionized plasma at general θB               an additional feature is just the proton cyclotron reso-
+values. They exhibit vacuum polarization resonances at                    nance, whereas for the partially ionized case the behavior
+~ω ∼ 10 keV related to intersections of χH   −1 with the com-             of the polarization vectors is more complicated because
+bination of vacuum polarization coefficients (q + m)/2π                   of the influence of the atomic resonances.
+that enters equation (22) (the horizontal dotted line in                    Figure 6 shows the opacities calculated according to
+Fig. 3; in this case |χH      H        H
+                       0 |, |χ+1 | ≪ |χ−1 |) and the electron             equation (23), using |ejα |2 shown in Figure 5 and κ̂α (ω)
+                                      Polarization in Magnetic Neutron Star Atmospheres                                                    7
+
+
+
+
+  Fig. 6.— Opacities in two modes κj (Eq. [23]) for the same plasma parameters as in Fig. 5 and two angles, θB = 10◦ (left panel) and
+θB = 60◦ (right panel). Solid lines: a self-consistent calculation for a partially ionized hydrogen plasma; dashed lines: partially ionized
+hydrogen plasma within a “hybrid” treatment (a model that uses the basic opacities κ̂α from the model of partially ionized plasma and
+polarization vectors ej from the model of full ionization); light dot-dashed lines: model of full ionization. The lower curve of each type is
+related to extraordinary and the upper one to ordinary mode (the dashed curve often coincides with the solid one).
+
+
+
+
+ Fig. 7.— Same as in Fig. 6 but for higher temperature, T = 106 K.
+
+
+
+
+calculated as in Potekhin & Chabrier (2003, 2004). The                   free atomic transitions (Potekhin & Chabrier 2003). Al-
+opacities that take into account partial ionization are                  though this approach is closer to reality than the model
+plotted by solid lines, and those assuming full ionization               of full ionization, there are significant differences from
+by dot-dashed lines. The dashed lines correspond to a hy-                the more accurate result drawn by the solid lines. In
+brid approach, where the polarization of normal modes                    particular, the feature near ~ω = 0.5 keV is missed in
+is described by the formulae for a fully ionized plasma,                 the hybrid approximation.
+and κ̂α (ω) take into account bound-bound and bound-                       With increasing temperature, the differences between
+8
+
+
+
+
+   Fig. 8.— Spectrum of hydrogen atmosphere with B = 1012 G              Fig. 9.— Same as in Fig. 8 but for lower effective temperature,
+(field normal to the surface) and effective temperature Teff =          Teff = 5 × 105 K.
+106 K. The solid line is for the self-consistent model of a partially
+ionized atmosphere, the long-dashed line is for the hybrid model,
+the short-dashed line is for a fully ionized atmosphere, and the
+dotted line is for a blackbody with T = Teff .                          case shown in Figure 10 the temperature profile is lower
+                                                                        by . 10%, and photons come from deeper (higher atomic
+                                                                        fraction) layers, resulting in stronger atomic features.
+the self-consistent and hybrid approximations go away.                    For superstrong fields (B & 1014 G), the current atmo-
+Figure 7 shows the case where the plasma parameters                     sphere models are less reliable because of the unsolved
+are the same as in Figure 6, except for T = 106 K. At                   problems of mode conversion and dense plasma effect
+this temperature, xH = 1.4%. Such small amount of                       (e.g., Ho et al. 2003), whose importance increases with
+neutral atoms is still very important for the opacities,                increasing B.
+but the hybrid approximation yields the result close to
+self-consistent one.                                                                 7. CONCLUSIONS AND OUTLOOK
+  Summarizing, we conclude that the hybrid approach                        We have studied the polarizability and electromagnetic
+to calculation of the mode opacities can be applicable if               polarization modes in a partially ionized, strongly mag-
+the fraction of bound states in the plasma, xH is small.                netized hydrogen plasma. The full account of the cou-
+                                                                        pling of the quantum mechanical structure of the atoms
+                          6. SPECTRA                                    to their center-of-mass motion across the magnetic field
+   Examples of application of the self-consistent opac-                 is shown to be crucial for the correct evaluation of the
+ity calculation for partially ionized hydrogen NS atmo-                 polarization properties and opacities of the plasma. The
+spheres are given in Figures 8–10. Here, the atmosphere                 self-consistent treatment of the polarizability and absorp-
+parameters are the same as for the low-field models in                  tion coefficients is ensured by use of the Kramers-Kronig
+Ho et al. (2003). The solid lines are obtained using the                relation. Such treatment proves to be important if the
+self-consistent calculation of the opacities, while the long-           ionization fraction of the plasma is low (. 50%). For
+dashed lines reproduce the hybrid treatment described                   high degree of ionization (& 80%), the polarizability of
+above. The fully ionized plasma model (short dashes)                    a fully ionized plasma remains a good approximation,
+and blackbody (dots) are shown for comparison. The dif-                 just as previously assumed (Potekhin & Chabrier 2003).
+ference in the spectra obtained using the self-consistent               This approximation was adopted in the NS atmosphere
+and hybrid approaches is partly due to the difference in                models built in Ho et al. (2003, 2004). A comparison
+the temperature profiles within the atmosphere. As ex-                  with updated spectra based on the self-consistent treat-
+pected, this difference is small at relatively low magnetic             ment (§6) shows that this approximation is satisfactory if
+field B = 1012 G and effective temperature Teff = 106 K                 B . 1013 G and Teff & 106 K. The self-consistent treat-
+(Fig. 8), where the fraction of atoms is small at every op-             ment is needed in the atmospheres of cool or ultramag-
+tical depth in the atmosphere, but it becomes larger for                netized NSs, with relatively low degrees of ionization.
+lower temperature (Teff = 5 × 105 K, Fig. 9) or stronger                   There are several limitations of the present model,
+field (B = 1013 G, Fig. 10). In the case shown in Fig-                  which may become important for the magnetar fields
+ure 9, the temperature profile T (ρ) calculated with the                and/or for low Teff . While H atoms are treated ac-
+new (self-consistent) opacities is higher by ∼ 10%, so that             curately in our calculations of the EOS and opac-
+photons come from shallower (lower atomic fraction) lay-                ities, H2 molecules are included in the EOS using
+ers of the atmosphere, which results in weaker spectral                 the static approximation (i.e., without their CM cou-
+features due to the atomic transitions. A modification of               pling) and neglected in the opacities. Other bound
+the temperature profile is also responsible for the weaker              species, such as H2 + (e.g., Turbiner & López Vieyra
+proton cyclotron feature in this case. At contrast, in the              2003), H3 2+ (López Vieyra & Turbiner 2000), and Hn
+                                    Polarization in Magnetic Neutron Star Atmospheres                                        9
+
+                                                                   slightly higher Teff is needed to ensure negligible abun-
+                                                                   dance of molecules.
+                                                                      Another uncertainty in ultramagnetized NS atmo-
+                                                                   spheres is the dense plasma effect: the decoupling layer
+                                                                   for photons in the atmosphere (where optical depth ≈ 1)
+                                                                   may occur at high density where the electron plasma
+                                                                   frequency exceeds the photon frequency (e.g., Ho et al.
+                                                                   2003; Lloyd 2003). The present treatment is not appli-
+                                                                   cable for such cases. In addition, construction of reliable
+                                                                   atmosphere models at B & 1014 G requires solution of
+                                                                   the problem of mode conversion (Lai & Ho 2003a).
+                                                                      Furthermore, for fitting observed spectra one should
+                                                                   construct a grid of models with different field orientations
+                                                                   and a range of field strengths, and produce angle- and
+                                                                   field-integrated synthetic spectra for an assumed field ge-
+                                                                   ometry. Since all the discussed spectral resonances are
+                                                                   B-dependent, and some of them are θB -dependent, we
+                                                                   expect that such integration will somewhat smooth the
+                                                                   spectral features (Ho & Lai 2004).
+  Fig. 10.— Same as in Fig. 8 but for higher field strength, B =
+1013 G.
+                                                                     A.P. acknowledges the hospitality of the Astronomy
+                                                                   Department of Cornell University and the theoretical
+                                                                   astrophysics group at the Ecole Normale Supérieure de
+chains (Lai, Salpeter, & Shapiro 1992) are not included.           Lyon. The work of A.P. is supported in part by RFBR
+Moreover, the NS may have a condensed surface, with                grants 02-02-17668 and 03-07-90200, and “Russian Lead-
+negligible vapor above it (Lai & Salpeter 1997; Lai 2001).         ing Scientific Schools” grant 1115.2003.2. D.L. is sup-
+For a NS with mass M = 1.4 M⊙ and radius R =                       ported in part by NSF grant AST 0307252, NASA grant
+10 km, estimates at log B (G)= 13.5–15 (based on                   NAG 5-12034, and SAO grant TM4-5002X. W.H. is sup-
+Potekhin & Chabrier 2004) indicate that a thick H at-              ported by NASA through Hubble Fellowship grant HF-
+mosphere will be present, and a condensed surface will             01161.01-A awarded by STScI, which is operated by
+not occur, provided Teff & 3.8 × 105 (B/1014 G)1/4 K;              AURA, Inc., for NASA, under contract NAS 5-26555.
+                                                            APPENDIX
+               FITTING FORMULAE FOR THE VACUUM POLARIZATION COEFFICIENTS
+  The studies of the vacuum polarization by strong fields have long history; an extensive bibliography is given by
+Schubert (2000). In the low-energy limit, ~ω ≪ me c2 , the Euler-Heisenberg effective Lagrangian can be applied. The
+relevant dimensionless magnetic-field parameter is b ≡ B/BQ , where BQ = m2e c3 /e~ = 4.414 × 1013 G. In the limit
+b ≪ 1, the vacuum polarization coefficients are given by (Adler 1971)
+                                            2αf 2           7αf 2               4αf 2
+                                         â = −  b , q=           b , m=−           b ,                           (A1)
+                                            45π             45π                45π
+where αf = e2 /~c = 1/137.036 is the fine-structure constant. For arbitrary B, the tensors of vacuum polarization χvac
+and µ have been obtained by Heyl & Hernquist (1997) in terms of special functions and by Kohri & Yamada (2002)
+numerically. The result of Heyl & Hernquist (1997) can be reduced to the following more convenient form:
+                                                       Z ξ                            
+                                         αf
+                                   â =      ξX(ξ) − 2       X(ξ ′ ) dξ ′ − 0.0329199 ,                           (A2)
+                                         2π               1
+                                                                   
+                                              αf    2    2 ′
+                                   â + q =           −     X   (ξ)   ,                                           (A3)
+                                             2π 9ξ 2     3
+                                          αf h                     i
+                                   m=          ξX(ξ) − ξ 2 X ′ (ξ) ,                                              (A4)
+                                          2π
+where X(ξ) is expressed through the Gamma function Γ(x):
+                                                              1       4π           2
+                                         X(ξ) = 2 ln Γ(ξ/2) −    − ln    + ξ + ξ ln ,                                    (A5)
+                                                              3ξ       ξ           ξ
+                                                   ′                         −1
+                                                  X (ξ) = dX(ξ)/dξ,      ξ=b .                                           (A6)
+Results of calculation according to Eqs. (A2)–(A6) agree with Fig. 2 of Kohri & Yamada (2002) and can be approxi-
+mately represented by
+                                                         b2 1 + 0.25487 b3/4
+                                                                            
+                                              2αf
+                                       â ≈ −     ln 1 +                      ,                             (A7)
+                                              9π         5 1 + 0.75 b5/4
+10
+                                                7αf 2      1 + 1.2 b
+                                              q≈    b                       ,                                                       (A8)
+                                                45π 1 + 1.33 b + 0.56 b2
+                                                  αf          b2
+                                              m≈−                         .                                                         (A9)
+                                                  3π 3.75 + 2.7 b5/4 + b2
+Equations (A7)–(A9) exactly recover the weak-field limits (A1) and the leading terms in the high-field (b ≫ 1)
+expansions (Eqs. [2.15]–[2.17] of Ho & Lai 2003); in the latter regime, Eqs. (A7) and (A8) ensure also the terms next
+to leading. The maximum errors are 1.1% at b = 0.07 for equation (A7), 2.3% at b = 0.4 for equation (A8), and 4.2%
+at b = 0.3 for equation (A9).
+
+                                                              REFERENCES
+Adler, S. L. 1971, Ann. Phys. (N.Y.), 67, 599                         Mészáros, P. 1992, High-Energy Radiation from Magnetized
+Armstrong, B. M., & Nicholls, R. W. 1972, Emission, Absorption          Neutron Stars (Chicago: University of Chicago Press)
+   and Transfer of Radiation in Heated Atmospheres (Oxford:           Özel, F. 2001, ApJ, 563, 276
+   Pergamon)                                                          Pavlov, G. G., & Mészáros, P. 1993, ApJ, 416, 752
+Becker, W. & Aschenbach, B. 2002, in 270. WE-Heraeus Seminar          Pavlov, G. G., & Potekhin, A. Y. 1995, ApJ, 450, 883
+   on Neutron Stars, Pulsars, and Supernova Remnants, MPE             Pavlov, G. G., & Zavlin, V. E. 2003, in XXI Texas Symposium
+   Report 278, ed. W. Becker, H. Lesch, & J. Trümper (Garching:        on Relativistic Astrophysics, ed. R. Bandiera, R. Maiolino, & F.
+   MPE), 64                                                             Mannucci (Singapore: World Scientific), 319
+Bulik, T., & Pavlov, G. G. 1996, ApJ, 469, 373                        Pavlov, G. G., Shibanov, Yu. A., Zavlin, V. E., & Meyer, R. D.
+Ginzburg, V. L. 1970, The Propagation of Electromagnetic Waves          1995, in NATO ASI Ser. C 450, The Lives of the Neutron Stars,
+   in Plasmas, 2nd ed. (London: Pergamon)                               ed. M. A. Alpar, Ü. Kiziloğlu, & J. van Paradijs (Dordrecht:
+Haberl, F. 2004, Adv. Sp. Res., 33, 638                                 Kluwer), 71
+Heyl, J. S., & Hernquist, L. 1997, J. Phys. A, 30, 6485               Potekhin, A. Y. 1994, J. Phys. B, 27, 1073
+Ho, W. C. G., & Lai, D. 2001, MNRAS, 327, 1081                        Potekhin, A. Y. 1998, J. Phys. B, 31, 49
+Ho, W. C. G., & Lai, D. 2003, MNRAS, 338, 233                         Potekhin, A. Y., Chabrier G., & Shibanov, Yu. A. 1999, Phys. Rev.
+Ho, W. C. G., & Lai, D. 2004, ApJ, 607, 420                             E, 60, 2193
+Ho, W. C. G., Lai, D., Potekhin, A. Y., & Chabrier, G. 2003, ApJ,     Potekhin, A. Y., & Chabrier, G. 2003, ApJ, 585, 955
+   599, 1293                                                          Potekhin, A. Y., & Chabrier, G. 2004, ApJ, 600, 317
+Ho, W. C. G., Lai, D., Potekhin, A. Y., & Chabrier, G. 2004, Adv.     Potekhin, A. Y., & Pavlov, G. G. 1993, ApJ, 407, 330
+   Sp. Res., 33, 537                                                  Potekhin, A. Y., & Pavlov, G. G. 1997, ApJ, 483, 414
+Israel, G., Mereghetti, S., & Stella, L. 2002, Mem. Soc. Astron.      Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery, B. P.
+   Ital., 73, 465                                                       1996, Numerical Recipes in Fortran 77: The Art of Scientific
+Kohri, K., & Yamada, S. 2002, Phys. Rev. D, 65, 043006                  Computing (Cambridge: Cambridge University Press)
+Lai, D. 2001, Rev. Mod. Phys., 73, 629                                Schubert, C. 2000, Nucl. Phys. B, 585, 407
+Lai, D., & Ho, W. C. G. 2002, ApJ, 566, 373                           Shibanov, Yu. A., & Zavlin, V. E. 1995, Astron. Lett., 21, 3
+Lai, D., & Ho, W. C. G. 2003a, ApJ, 588, 962                          Shibanov, Yu. A., Pavlov, G. G., Zavlin, V. E., & Ventura, J. 1992,
+Lai, D., & Ho, W. C. G. 2003b, Phys. Rev. Lett. 91, 071101              A&A, 266, 313
+Lai, D., & Salpeter, E. E. 1997, ApJ, 491, 270                        Turbiner, A. V., & López Vieyra, J. C. 2003, Phys. Rev. A, 68,
+Lai, D., Salpeter, E. E., & Shapiro, S. L. 1992, Phys. Rev. A, 45,      012504
+   4832
+Landau, L. D., & Lifshitz, E. M. 1989, Statistical Physics, Part 1,   Zane, S., Turolla, R., & Treves, A. 2000, ApJ, 537, 387
+   3rd Edition (Oxford: Pergamon)                                     Zane, S., Turolla, R., Stella, L., & Treves, A. 2001, ApJ, 560, 384
+Lloyd, D. A. 2003, MNRAS, submitted [astro-ph/0303561]
+López Vieyra, J. C., & Turbiner, A. V. 2000, Phys. Rev. A, 62,
+   022510
+

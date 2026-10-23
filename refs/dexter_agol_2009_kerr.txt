@@ -1,0 +1,1156 @@
+                                               ApJ, accepted
+                                               Preprint typeset using LATEX style emulateapj v. 12/14/05
+
+
+
+
+                                                      A FAST NEW PUBLIC CODE FOR COMPUTING PHOTON ORBITS IN A KERR SPACETIME
+                                                                                                           Jason Dexter
+                                                                          Department of Physics, University of Washington, Seattle, WA 98195-1560, USA
+
+
+                                                                                                            Eric Agol
+                                                                     Department of Astronomy, University of Washington, Box 351580, Seattle, WA 98195, USA
+                                                                                                         ApJ, accepted
+arXiv:0903.0620v1 [astro-ph.HE] 3 Mar 2009
+
+
+
+
+                                                                                                    ABSTRACT
+                                                        Relativistic radiative transfer problems require the calculation of photon trajectories in curved
+                                                      spacetime. We present a novel technique for rapid and accurate calculation of null geodesics in the
+                                                      Kerr metric. The equations of motion from the Hamilton-Jacobi equation are reduced directly to
+                                                      Carlson’s elliptic integrals, simplifying algebraic manipulations and allowing all coordinates to be
+                                                      computed semi-analytically for the first time. We discuss the method, its implementation in a freely
+                                                      available FORTRAN code, and its application to toy problems from the literature.
+                                                      Subject headings: accretion — black hole physics — radiative transfer — relativity
+
+                                                                1. INTRODUCTION                                    Noble et al. (2007) created images of galactic center black
+                                                Efficient and accurate computation of null geodesics               hole candidate Sagittarius A* (Sgr A*) using axisymmet-
+                                             in the vicinity of spinning black holes is important for              ric general relativistic MHD (GRMHD) simulations, and
+                                             studies of active galaxies, X-ray binaries, and other ac-             Bromley et al. (2001) studied its polarization from a sim-
+                                             creting black hole systems. The radiated flux from ac-                plified accretion model. Broderick & Loeb (2006) mod-
+                                             cretion disks mostly originates in the innermost radii,               eled the frequency dependence of its centroid position,
+                                             where relativistic effects are important for understand-              and Reid et al. (2008) used ray tracing to compare hot
+                                             ing observations. Proper calculation of the bending of                spot accretion models with the observed astrometric mo-
+                                             light requires integration along rays (Broderick 2006). In            tion of its mean position as a function of wavelength. Fi-
+                                             general, propagation through the plasma will influence                nally, although the spacetime surrounding neutron stars
+                                             the photon trajectories, leading to non-geodesic paths                only asymptotically approaches the Kerr metric, using
+                                             (Broderick & Blandford 2003, 2004). However, these ef-                its null geodesics for ray tracing has still found applica-
+                                             fects are mostly important at low frequencies, compa-                 tion in modeling spectra of neutron stars (Braje et al.
+                                             rable to the expected plasma and cyclotron frequency.                 2000).
+                                             When plasma effects can be neglected, the rays corre-                    Despite all of this work, numerical integration of Kerr
+                                             spond to null geodesics, and these circumstances are as-              null geodesics is computationally expensive in certain ap-
+                                             sumed throughout this paper.                                          plications. Rauch & Blandford (1994) (hereafter RB94)
+                                                The first applications of general relativistic radiative           described a method for calculating null geodesics in the
+                                             transfer to accreting systems were of two main types.                 Kerr metric semi-analytically using the Hamilton-Jacobi
+                                             Cunningham (1975) packaged all radiative effects for op-              formulation of the equations of motion and used it to
+                                             tically thick, geometrically thin disks as a transfer func-           study the primary caustic. Bozza (2008) used a simi-
+                                             tion to go from local emissivity to that observed at in-              lar method to investigate caustics of all orders, build-
+                                             finity. Luminet (1979) used the simple relationships be-              ing on earlier analytic work (Bozza 2002). Fanton et al.
+                                             tween impact parameters at infinity and constants of the              (1997) used a fast analytic version for creating line pro-
+                                             motion to shoot rays backwards in time from an ob-                    files and accretion disk images, and Agol (1997) applied
+                                             server’s photographic plate to the object under study.                this method to the case of polarization from thin disk
+                                             More recently, Viergutz (1993) and Beckwith & Done                    accretion. Falcke et al. (2000) went on to use this code
+                                             (2005) considered the so-called emitter-observer prob-                along with a simple model for the Galactic center black
+                                             lem. That is, given locations of the emitter and the                  hole to create images of its accretion flow.
+                                             observer, determine the constants of the motion for null                 All of this work used Legendre’s formulation of elliptic
+                                             geodesics connecting the two. This approach is much                   integrals (e.g., Abramowitz & Stegun 1965), and treated
+                                             more efficient when the source is highly localized, such as           the φ and t coordinates numerically, if at all. The ta-
+                                             an orbiting star or hotspot. Here, backwards ray shoot-               bles given in Carlson (1988, 1989, 1991, 1992) greatly
+                                             ing is impractical since most of the rays miss the target.            simplify the reductions of the equations of motion to el-
+                                                Such techniques have been applied to the study of emis-            liptic integrals. The primary aim of this paper is to use
+                                             sion lines and spectra from active galactic nuclei (AGN)              Carlson’s integrals to calculate all geodesic coordinates
+                                             accretion disks and tori (Cadez et al. 1998; Wu & Wang                semi-analytically for the first time.
+                                             2007) as well as their quasi-periodic oscillations (QPOs)                Section 2 gives the geodesic equations in Kerr space-
+                                             (Schnittman et al. 2006). Li et al. (2005) used a ray                 time. Sections 3 and 4 present the reductions to elliptic
+                                             tracing approach to study the spectra of X-ray binaries.              integrals and the specifics of our implementation. Sec-
+                                                                                                                   tion 5 outlines a variety of checks performed to ensure its
+                                             Electronic address: jdexter@u.washington.edu                          validity and accuracy, and discusses the speed improve-
+2                                                        Dexter and Agol
+
+ment that should be expected from using an analytic                The signs of the integrals in r and θ are independent
+code. Section 6 provides an overview of our code for             and arbitrary, but are fixed for a given geodesic. It may
+readers who are not interested in all of its detail, and the     seem odd that these equations lend themselves to the
+code is applied to toy problems and test cases in Sec-           choice of r or θ as independent variable to determine the
+tion 7. Finally, Section 8 discusses future work both in         cyclic coordinates t and φ. However, this is the natural
+extending the code and in applying it to more realistic          outcome of the separation of the Hamilton-Jacobi equa-
+astrophysical situations.                                        tion.
+
+        2. GEODESIC EQUATIONS OF MOTION                              3. REDUCTION TO CARLSON INTEGRALS
+  In Boyer-Lindquist coordinates (t,r,θ,φ), the Kerr line           In reducing the equations of motion from the previ-
+element can be written,                                          ous section, we follow closely the treatment given in Ap-
+                                                                 pendix A of RB94. First change variables to (t, u, µ,
+                                         2                      φ) with µ = cos θ, u = 1/r. This set is more useful
+                   ∆ 2 Σ2
+                               
+                                    2ar
+       ds2 = −ρ2      dt + 2    dφ − 2 dt sin2 θ +               computationally, since the location of an observer at in-
+                   Σ2     ρ         Σ                            finity is mapped to u = 0. The domain of u is then
+          ρ2 2                                                   0 ≤ u ≤ u+ ≤ 1, where u+ is the location of the event
+             dr + ρ2 dθ2 ,                                (1)    horizon. Similarly, −1 ≤ µ ≤ 1. Then the definitions
+          ∆
+                                                                 q 2 ≡ Q/E 2 , l ≡ Lz /E, and γ ≡ E/m put the equations
+with the definitions                                             of motion in dimensionless form. The integral equation
+                                                                 relating u and µ is
+           ∆ = r2 − 2r + a2 , ρ2 = r2 + a2 cos2 θ,        (2)
+                                                                                       dµ               du
+                                                                                  Z                Z
+          Σ2 = (r2 + a2 )2 − a2 ∆ sin2 θ,                 (3)                  sµ    p        = su    p       ;        (11)
+                                                                                       M (µ)            U (u)
+where a is the angular momentum of the black hole and
+we use units with G = c = M = 1.                                 where
+ Carter (1968) demonstrated the separability of the
+Hamilton-Jacobi equation for geodesics,                              M = q 2 + (ã2 − q 2 − l2 )µ2 − ã2 µ4                      (12)
+                                                                                    −2            −2         2     2     2   2
+                         ∂S       ∂S ∂S                               U = (1 − γ         ) + 2γ        u + (ã − q − l )u +
+                    −2      = g µν µ ν ,                  (4)
+                         ∂λ       ∂x ∂x                                                     2[(a − l)2 + q 2 ]u3 − a2 q 2 u4 ,   (13)
+where S is Hamilton’s principal function (the classical          and ã2 = (1 − γ −2 )a2 . This paper only considers null
+action) and λ is an affine parameter. The separation             geodesics, so that γ −2 = 0 throughout. The arbitrary
+reduces the equations of motion to quadratures (Chan-            signs have been written explicitly, and are chosen to be
+drasekhar 1983) relating the coordinates r and θ:                sx = sign(ẋ), where a dot refers to a derivative with
+                  Z r        Z θ                                 respect to affine parameter. This is done so that both
+                       dr        dθ                              sides of (11) are always positive. The equations for the
+                      √ =        √ ,                (5)
+                        R          Θ                             other coordinates become
+where
+                                                                                                dµ
+                                                                                        Z
+                                                                         t − t0 = s µ   a 2 µ2 √     +
+         R = [(r2 + a2 )E − aLz ]2 −                      (6)                                    M
+                                                                                          2a(a − l)u3 + a2 u2 + 1 du
+                                                                                      Z
+                                       2        2
+                    ∆ [Q + (Lz − aE) + δ1 r ]                                      su                              √ (14)
+                                                                                        u2 (u/u+ − 1)(u/u− − 1) U
+         Θ = Q− [ a2 (δ1 − E 2 ) + L2z csc2 θ] cos2 θ;    (7)
+                                                                                           lµ2 dµ
+                                                                                      Z
+and the constants of the motion are the angular momen-                φ − φ0 = sµ                √     +
+                                                                                        1 − µ2 M
+tum about the black hole spin axis, Lz , the energy, E,
+                                                                                               2(a − l)u + l     du
+                                                                                      Z
+and Carter’s constant Q. δ1 = 0 (1) for null (timelike)                            su                           √ , (15)
+geodesics.                                                                              (u/u+ − 1)(u/u− − 1) U
+  The equations of motion for the cyclic coordinates are                            √
+                                                                 where u± = [1 ± 1 − a2 ]−1 . The limits of integration
+                         Z r                                     have been omitted due to complications in accounting for
+                                                dr               turning points. This is discussed in more detail below.
+       t = λE + 2       r[r2 E − a(Lz − aE)] √            (8)
+                                              ∆ R                  Given initial and final values of u and µ, we can com-
+             Z r
+                                        dr                       pute t and φ. Since the µ integral is easier to invert
+       φ = a     [(r2 + a2 )E − aLz ] √      +                   and this method is of more general utility, u is taken
+                                      ∆ R                        as the independent variable and the goal is to solve for
+                           Z θ
+                                                dθ               µf given µ0 , u0 and uf . In certain applications it is
+                               (Lz csc2 θ − aE) √ ,       (9)    more convenient to choose µ as the independent vari-
+                                                  Θ
+                                                                 able. For example, in the case of thin disk accretion we
+with               Z r               Z θ                         know the inclination angle as well as the value of µ where
+                         r2                cos2 θ                the geodesic intersects the disk. Section 4 gives solutions
+             λ=          √ dr + a2          √     dθ.    (10)
+                          R                   Θ                  for uf given µ0 , µf and u0 to handle these cases.
+                                                                    Analytic Kerr Photon Orbits                                                                                  3
+
+                                                                                  TABLE 1
+                                                                                Reduction of Iu
+
+                Case                               Parameter Range                                 Arguments (ai , bi );(fj , gj , hj )                           u ǫ [, ]            RB94
+                                                                                                                                                                         b
+ 1       Cubic (3 real)             a = 0, q 2 + l2 ≥ 27 or u ≤ u2                                  (−u1 , 1), (u2 , −1), (u3 , −1)                           [0, u2 ]               1,3,8,10
+                                    a 6= 0, q 2 = 0, |l| 6= |a,
+                                                                                                                                                                             c
+ 2       Cubic (3 real)             a = 0, q 2 + l2 ≥ 27 or u ≥ u3                                  (−u1 , 1), (−u2 , 1), (−u3 , 1)                           [u3 , u+ )             2,4,9,11
+                                    a 6= 0, q 2 = 0, |l| 6= |a,
+                                    a = 0, q 2 + l2 < 27 or a 6= 0, q 2 = 0, l 6= a           (−u1 , 1);(2u1 [(a − l)2 + q 2 ]
+                                                                                                                                 −1
+ 3       Cubic (1 real)                                                                                                               , f /u1 , 1)            [0, u+ )                5,7,12
+ 4       No roots                   q 2 = 0, l = a                                                                ...                                         [0, u+ )                     6
+                                                                                                              d
+ 5       Quartic (2 real)           a 6= 0, q 2 > 0                                   (−u1 , 1),q                  2 2             −1       −1
+                                                                                             “ s (u4 , −1) ;([−a aq”u1 u4 ] , [u1 + u4 ]f, 1)
+                                                                                                                             −1                               [0, u+ )                 13,19
+                                                                                                            d
+ 6       Quartic (0 real)           a 6= 0, q 2 < 0                                            e −1/2 , e(h −h ) , h1 , (e −1/2          −1
+                                                                                                                                , −g1 , h1 )                  [0, u+ )                    14
+                                                                                                          2       1
+                                                                                                                                                                         b
+ 7       Quartic (4 real)           a 6= 0, q 2 6= 0, u ≤ u2                                   (−u1 , 1), (u2 , −1), (u3 , −1),(u4 , −1)                      [0, u2 ]                 15,17
+                                                                                                                                                                        c
+ 8       Quartic (4 real)           a 6= 0, q 2 6= 0, u ≥ u3                                   (−u1 , 1), (−u2 , 1), (−u3 , 1),(u4 , −1)                      [u3 , u+ )               16,18
+
+ ah
+      1 is found from solving Eq.        (21) and selecting one of the two real roots. d, e are defined in Eq. (22).
+b When u = u , the domain of u is [0, u ).
+        2   3                          2
+c When u = u , the domain of u is (u , u ).
+            2         3                            3   +
+dq                2
+     s = sign(q       ).
+
+
+                  3.1. Reduction of Iu
+                                                                                                   Z x
+  Call the left-hand side (LHS) and right-hand side                                        [p] =         (f + gt + ht2 )p2 /2
+                                                                                                                                       Y
+                                                                                                                                              (ai + bi t)pi /2 dt (18)
+(RHS) of (11) Iµ and Iu respectively, and start with the                                            y                             i=1,4,5
+reduction of Iu :
+                                                                                        for one pair of complex roots or
+                                                   du
+                                             Z
+                               Iu = su           p      .                   (16)                      2
+                                                                                                   Z xY
+                                                  U (u)
+                                                                                           [p] =               (fi + gi t + hi t2 )pi /2 (a5 + b5 t)p5 /2 dt             (19)
+                                                                                                    y    i=1
+                                                               2
+Except in the special case with a = l, q = 0, U (u) is
+either a quartic or cubic and its roots are denoted ui with                             for two. In using this form, it is assumed that each power
+i = 1 − 3, 4, and ordered increasingly. If real, u1 < 0 and                             pi of an irreducible quadratic is written twice in the vec-
+in the quartic case, u4 > 1 or u4 < 0. They are of no                                   tor [p]. In other words, when one pair of roots is com-
+physical significance. When all roots are real, the allowed                             plex, p2 = p3 . When all roots are complex, p2 = p3 and
+regions for the integrand are u > u3 and u < u2 so that U                               p1 = p4 .
+is positive. Thus the roots are the turning points for null                               To ensure that x > y in cases where a turning point
+geodesics starting outside u2 and inside u3 respectively                                may be present, integrals are written in pieces involving
+in both the cubic and quartic cases. There can be no                                    the relevant turning point, u∗ , and the number of turning
+more than one turning point, since the allowed region                                   points along the portion of the geodesic being followed,
+is bounded on one side either by infinity or the event                                  Nu (either 0 or 1):
+horizon. When one or both pairs of roots are complex,                                                                                                     !
+there is no turning point in u.                                                                                   Z u∗                        Z u∗
+                                                                                                                         du                          du
+   Upon encountering a turning point, the sign of u is                                         Iu = su                   √ − (−1)Nu                  √        .          (20)
+reversed, so that the total integral is the sum of the inte-                                                       u0     U                     uf    U
+gral from u0 to the turning point and that from uf to the                                 The Carlson papers reduce all elliptic forms to a set
+turning point. The idea is to ensure that the integrals                                 of four fundamental integrals, known as the R-functions
+in u and µ monotonically increase along a geodesic. In                                  (Press et al. 1992), which replace Legendre’s integrals of
+a sense this allows the independent variable to take the                                the first, second and third kind. They are all integrals
+place of the affine parameter, which cannot be used since                               from 0 to ∞ and hence don’t require a limit of integration
+it is a function of u and µ.                                                            to be a turning point, greatly simplifying complex root
+   Carlson (1988, 1989) contain formulas for evaluation                                 cases where no physical turning point is present. This is
+of integrals of the form                                                                one of many advantages of Carlson’s approach. As is the
+                                                                                        case for Legendre’s formulation, any elliptic integral can
+                                      5
+                                   Z xY                                                 be reduced to a sum of Carlson’s R-functions. Where
+                           [p] =             (ai + bi t)pi /2 dt;           (17)        Legendre integrals are used in this paper, they are cal-
+                                   y   i=1                                              culated in terms of the R-functions using the formulas
+                                                                                        in Press et al. (1992). The integrals encountered in this
+with all quantities real, x > y, and ai + bi t > 0 for                                  paper are always of the form p = [−1, −1, −1, −1, p5] for
+y < t < x. The form of a given integral is described                                    quartic cases and p = [−1, −1, −1, p5] for cubic cases.
+by the vector [p], which contains the powers, pi , of the                               Thus the form of coordinate integrals in the following
+factored roots. Cases with one or two pairs of complex                                  will be specified by p5 alone.
+roots are handled in Carlson (1991, 1992), where they                                     To maintain as much generality as possible, all inte-
+are written in terms of real quantities as                                              grals are written as above in terms of their roots. In cubic
+4                                                        Dexter and Agol
+                                                                               p                        p
+cases the roots are found from solving the cubic equation,                    ξ= f + gx + hx2 , η = f + gy + hy 2 ,                      (24)
+while for quartic cases they are found numerically using                       q
+the routine zroots.f from Press et al. (1992). Finally,                  cij = 2f bi bj − g(ai bj + aj bi ) + 2hai aj ,                  (25)
+instead of writing out the explicit formulas from Carl-                        (X1 Y4 + Y1 X4 ) p
+son’s papers and going through the algebra separately in                 M=                         (ξ + η)2 − h(x − y)2 ,               (26)
+each case, we have written routines for each case. This is                          x−y
+much simpler and of more general utility, since numerous                 L2± = M 2 + c214 ± c11 c44 .                                    (27)
+integrals must be done to calculate the coordinates of a
+                                                                    Then,
+point along a geodesic.
+   The integral Iu has p5 = 0 and is given by Carlson                                     4
+(1989) Eq. (2.12) for real roots for cubic cases. Quar-                             Iu = p RF (M 2 , L2− , L2+ ).                        (28)
+tic cases are found in Carlson (1988) Eq. (2.13) for real                                 |e|
+roots and Carlson (1992) Eq. (2.36) for all complex roots.        RF is computed using the routine from Press et al.
+The quartic and cubic cases with a single pair of complex         (1992). Equations for Carlson elliptic integrals with
+roots are given by Carlson (1989) Eq. (3.8). The nec-             p5 6= 0 can similarly be found in the Carlson papers
+essary arguments to the Carlson routines are listed by            listed above.
+case in Table 1, along with case definitions, appropriate
+domains of u, and the corresponding cases in Appendix                                3.2. Inversion of Iµ
+A of RB94.                                                          Next, the Iµ integral needs to be inverted to solve for
+   As can be seen from Table 1, writing formulas in terms         µf . As with U (u), the roots of the biquadratic M (µ),
+of the roots of U has the advantage of unifying many              M± , determine the physical turning points in µ. When
+disparate cases from previous work. Equal roots cases,            M− > 0, there are four real roots and the orbit cannot
+which describe orbits approaching the unstable circular           cross the equatorial plane. The physical turning points
+photon orbits, cannot strictly speaking be treated iden-          correspond to the two roots with
+tically to other real roots cases as shown in the table.                                           p the same sign as µ0
+                                                                  and are denoted µ± = sign(µ0 ) M± . When M− < 0,
+Here, integration to the turning point diverges. The code                                                    p
+flags for these cases and integrates them directly from           the physical turning points are µ± = ± M+ and are
+u0 to uf , and the arguments listed in the table are still        symmetric about the equatorial plane. We can calculate
+valid. In practice, however, except for the well known            the number of times the geodesic has crossed a µ turning
+Schwarzschild unstable circular orbits with q 2 + l2 = 27,        point from the magnitude of the Iu integral.
+                                                                                                         Rµ     This
+                                                                                                                R µ is done
+equal roots cases are almost impossible to trigger. This          by noting that the maximum value of µf+ is µ−+ and its
+is because the Carlson routines as written maintain ac-           minimum
+                                                                      √     value is zero. In this derivation the integrand
+curacy until |u2 − u3 | . 10−12 , which is usually more           dµ/ M , common to all integrals, is omitted. Then, for
+precise than the determination of the imaginary parts of          sµ = 1,
+the roots.
+   For one pair of complex roots, the arguments f , g                   Z µ+               Z µ+             Z µ+         Z µ+
+and h are found by setting U (u) = qs (u4 − u)(u −                             +(N − 1)           ≤ Iu ≤           +N           ,        (29)
+u1 )(f + gu + hu2 ), where qs = sign(q 2 ), and match-                   µ0                 µ−               µ0           µ−
+ing powers of u. When all roots are complex, setting              where N is the number of turning points reached in µ,
+U (u) = (f1 +g1 u+h1 u2 )(f2 +g2 u+h2 u2 ) yields five non-       and µ± are the upper and lower turning points in µ.
+linear equations for our six unknown coefficients. The            The integrals are written in these pieces so that they
+degree of freedom is used to simplify the equations, and          are always positive, as required for use with Carlson’s
+a sixth degree polynomial is solved numerically for h1 :          integrals. This condition can be written more concisely
+                           "                                      as
+                                 2 #
+       c                 √   c   d                 c                                              Rµ '
+h61 − √     h51 −h41 +                 h31 −h21 − √ h1 +1 = 0,
+                                                                                          &
+                          e 2 −                                                             Iu − µ0+
+        e                    e   e                  e                                N=        R µ+    ,             (30)
+                                                          (21)                                        µ−
+where                                                             where ⌈ ⌉ is the ceiling function. If sµ = −1, then the
+                                                                  first turning point reached is µ− . The condition can then
+ c = a2 − l2 − q 2 , d = 2[(a − l)2 + q 2 ], e = −a2 q 2 . (22)   be written
+The only pair of real solutions to this equation corre-                "Z
+spond to the values of h1 , h2 .                                          µ−               Z µ− #                 "Z
+                                                                                                                     µ−         Z µ− #
+  As a full example of one of these reductions, consider           −           +(N − 1)             ≤ Iu ≤ −              +N               .
+case 5 from Table 1 with u0 < uf (su = 1). This is                       µ0                 µ+                      µ0              µ+
+the Kerr case with no physical turning points. From 18,                 Rµ     Rµ     Rµ                             (31)
+we see that b1 = 1, b4 = −qs , a1 = −u1 , a4 = qs u4 ,            Using µ0− = µ0+ − µ−+ , we can rewrite this in terms of
+x = uf , y = u0 . The sign qs is used to keep each factor         the same integrals used above:
+positive. Matching the powers of U (u) as described above
+gives f = −qs /(u1 u4 e), g = (u4 + u1 )/(u1 u4 )f , h = 1.             Z µ+        Z µ+              Z µ+                Z µ−
+Following Carlson (1991), we define                                 −          +N          ≤ Iu ≤ −          +(N + 1)               . (32)
+                                                                         µ0          µ−                µ0                  µ+
+            p               p
+        Xi = ai + bi x, Yi = ai + bi y,                   (23)    Finally,
+                                                        Analytic Kerr Photon Orbits                                                5
+
+                           $         Rµ %                                                       3.2.2. M− < 0
+                               Iu + µ0+
+                    N=            R µ+    ,                      (33)     When M− < 0, y < 0 in (38) so that (39) is no longer
+                                  µ−
+                                                                        valid. Since the integrand is an even function of µ, we
+                                                                        can write
+and ⌊ ⌋ is the floor function. To write out the general so-                              Z µ+
+lution for Iu = Iµ for arbitrary number of turning points                              1                 dµ
+and sµ , we include coefficients for the various pieces of                        I=           q                     ,     (41)
+                                                                                      |a| −µf (µ2 − µ2 )(µ2 − M )
+the Iµ integral:                                                                                   +              −
+
+                      Z µ+     Z µf      Z µ+                           which is in the correct form, except that −µf can be
+             Iu = α1       +α2      +α3       .       (34)              negative. This causes no problems. In this case,
+                      µ0            µ−            µ−
+
+  The coefficients are functions of sµ and N determined
+                                                                                                    q                          µ2+
+                                                                        µf = µ− cn(J, k), J =        µ2+ − M− |a|I, k 2 =    2       ,
+by writing down specific cases. For example, α1 reflects                                                                    µ+ − M −
+whether the integration is positive or negative from µ0                                                                        (42)
+to µf and is easily seen to be α1 = sµ . Similarly, α2                  and we’ve used µ− = −µ+ for M− < 0. The µ terms in I
+reflects whether the last turning point reached is µ− or                are computed   the same as in (40), with k defined in (39),
+µ+ . Thus the coefficient is α2 = sµ (−1)N . The third
+                                                                              r
+                                                                                   µ20                p
+coefficient is slightly more complicated and turns out to               x = 1 − µ2 and A = |a| M+ − M− . The integral
+                                                                                      +
+be                                                                      between the turning points here is twice the complete
+                        
+                          2N + 3 − sµ
+                                                                       elliptic integral K(k).
+                 α3 = 2                 − 1.         (35)
+                               4                                                                3.2.3. q 2 = 0
+   Armed with the number of turning points and the co-                    A special case is encountered when q 2 = 0. M (µ) has
+efficients, we solve for µf by inverting the second integral            a double root at µ = 0, causing Iµ to diverge there,
+on the RHS of (34):                                                     and preventing these orbits from reaching the equatorial
+                                                                        plane. Hence, they have at most one physical turning
+    Z µf                           Z µ+           Z µ+ !                point. In this case Iµ is elementary, and the solution for
+        dµ  1                                                           µf is
+        √ =            Iu − α1              −α3            .     (36)
+     µ−  M  α2                         µ0          µ−
+                                                                          µf = µ+ sech |aµ+ |Iu − sµ s1 sech−1 (µ0 /µ+ ) ,
+                                                                                                                       
+                                                                                                                                (43)
+Calling the RHS I and writing out the square root on
+the LHS for the general case (a 6= 0, q 2 6= 0) gives                   where s1 = sign(µ0 ).
+
+              1
+                Z µf
+                                 dµ                                                              3.2.4. a = 0
+         I=                                      .    (37)                Finally, when a = 0 (the Schwarzschild case) the µf
+             |a| µ−
+                     p
+                        (M+ − µ2 )(µ2 − M− )
+                                                                        integral is again elementary. The solution for µf is then,
+  Carlson (2005) contains a table for inverting integrals
+of the form
+                                                                                      "      r                              !#
+                                                                                         1     d             −1   µ0
+               Z x                                                       µf = µ− cos             Iu − α1 cos           − α3 π .
+                               dt                                                       α2     2                  µ+
+            I=                                  ,    (38)
+                                                                                                                              (44)
+                   p
+                y    (a1 + b1 t2 )(a2 + b2 t2 )
+where all quantities are real, x > y, 0 ≤ y < x and either                            3.3. t and φ coordinate integrals
+y = 0, x = ∞ or one limit is a root of the integrand. The                 Given the solution for µf , equations for the coordinates
+latter case applies here.                                               t and φ can be reduced to elliptic integrals as well. Each
+                                                                        coordinate is expressed as a sum of integrals over u and
+                      3.2.1. M− > 0                                     µ. As is done above, the u terms are reduced to Carlson’s
+  When M− > 0, all requirements are met as written,                     formulation, and the µ terms to Legendre’s.
+and                                                                       The µ integral term in (14), which we’ll denote Tµ , can
+                                                                        be written as a single Legendre integral of the 2nd kind.
+                                                         µ2−            For example, the µ0 term in the M− < 0 case is reduced
+  µf = µ− nd (J, k), J = µ+ |a|I, k 2 = 1 −                  ,   (39)   as follows: Z
+                                                         µ2+                            µ+
+                                                                                                     µ2 dµ
+                                                                            Tµ = |a|
+where nd (J, k) = 1/dn(J, k) and dn is a Jacobi-Elliptic
+                                                                                            q
+                                                                                       µ0     (µ2+ − µ2 )(µ2 − M− )
+function. The µ integral terms in I are calculated as
+                                                                                         Z x
+               Z µf                                                                                       1 − t2
+                      dµ        1                                               = |a|µ+      dt q
+                    p        = F (x, k)             (40)                                  0       (1 − t2 )(1 − t2 − M−
+                                                                                                                        )
+                µ0    M  (µ)    A                                                                                    µ2
+                                                                                                                      +
+
+where F (x, k) is Legendre’s integral
+                                 q of the first kind
+                                                                                    Z x           1−t  2
+                                                                                                           −M −
+                                                                                                            µ2+
+                                             M+ −µ20                           =A         dt q                      + a2 M− Iu
+(Abramowitz & Stegun 1965), x =              M+ −M− , A = |a|µ+                       0             2       2  M−
+                                                                                              (1 − t )(1 − t − µ2 )
+and k is the same as above. The integral between turning                                                          +
+                                                                                                2
+points is the complete elliptic integral K(k).                                 = AE(x, k) + a M− Iu ,                           (45)
+6                                                        Dexter and Agol
+
+where E(x, k) is the Legendre integral of the second kind              The first term is from Tu and the second term is Tµ .
+with arguments x andpk defined in the previous section.                  Component integrals are calculated the same way as
+The substitution t = 1 − µ0 /µ+ is made between lines                  Iu or Iµ respectively. That is, µ component integrals are
+one and two, and M− /µ2+ is added and subtracted from                  calculated in pieces using the appropriate coefficients as
+the numerator between lines two and three. In the M− >                 described above while u component integrals are calcu-
+0 case, Tµ is given by the first term of the above formula,            lated with reference to the physical turning point, if one
+with the arguments A, k, x for that case given with the                exists. These are all the integrals required to compute
+solution for µf in Subsection 3.2.1.                                   null geodesics in Kerr spacetime. These equations for the
+  The µ term in the φ component formula (15) can be re-                φ, t coordinates are written in Boyer-Lindquist coordi-
+duced to a Legendre integral of the 3rd kind in analogous              nates. For certain applications, Kerr-Schild coordinates
+fashion. For the M− < 0 case we proceed as follows:                    are used instead. We note here for completeness the ana-
+                                                                       lytic transformations between our Boyer-Lindquist coor-
+                           Z µ+                                        dinates and these Kerr-Schild coordinates (t̃,ũ,µ̃,φ̃) (Font
+                      l            1            dµ
+Φµ = −lIu +                                                            et al. 1999),
+                                      2
+                                        p
+                     |a|    µ0    1−µ    (µ+ − µ2 )(µ2 − M− )
+                                            2
+
+      = −lIu +                                                                                                 √         !
+              Z x                                                                                     1 − u[1 + 1 − a2 ]
+           l            1                    dt                              t̃ = t + log ∆ − ur log           √          , (50)
+                                                                                                      1 − u[1 − 1 − a2 ]
+        |a|µ+ 0 1 − µ2+ + µ+ 2 t2 (1 − t2 )((1 − M2− ) − t2 )
+                                 q
+                                                         µ+                                               √        !
+                                                                                                1 − u[1 + 1 − a2 ]
+                          l                                                 φ̃ = φ − a ur log             √          ,      (51)
+      = −lIu +                  Π(n; x, k)                      (46)                            1 − u[1 − 1 − a2 ]
+                     A(1 − M+ )
+                                                                            ũ = u,                                              (52)
+where Π(n; x, k) is the Legendre integral of the 3rd kind                   µ̃ = µ.                                              (53)
+          +µ2
+and n = 1−µ2 . The formula for the M− > 0 case is the
+                +                                                      The transformations are valid outside the event horizon,
+same, with n = M1−M+ −M−
+                        +
+                          and the other arguments defined              where ∆ and the numerator of the other log terms are
+in Subsection 3.2.1 above. Note that we are using the                  positive.
+sign convention for n from Press et al. (1992), which is
+opposite that in Abramowitz & Stegun (1965).                                            4. SOLUTION FOR UF
+  Tu , the u integral term in (14), is expanded with partial              For some applications, it is preferable to use µ as the
+fractions, and after a little algebra is written                       independent variable and solve for uf given u0 . In par-
+                                                                       ticular, consider geodesics connecting an observer at in-
+                                                                       finity with a thin, equatorial accretion disk. The initial
+                               a2
+                                       Z
+                                      1            1       du
+Tu = su ur 2a(a − l) +             + 3                    √            polar angle is the inclination of the observer. The final
+                               u+    u+      (u/u+ − 1) U              polar angle is π/2 (µf = 0), and we solve for the ra-
+                            2                                          dial coordinate where the ray intersects the disk. This
+                                   Z
+                          a       1           1        du
+         − 2a(a − l) +         + 3                     √               method, however, is of less general utility than that de-
+                          u−     u−       (u/u− − 1) U
+                       Z                                            scribed above. Even in simple geometries, the number
+              1      1         du      1      du
+                                         Z
+                               √              √                        of turning points in µ along a geodesic is not known in
+         +       −                  +                ,    (47)
+             u2−    u2+       u U     ur    u2 U                       advance as it must be to use µ as the independent vari-
+                             √                                         able. One way around this is to calculate all geodesics
+where ur ≡ uu++−uu−
+                   −
+                      = −(2 1 − a2 )−1 is negative. Three              connecting the observer with the disk for a fixed num-
+of the terms have p5 = −2 and one has p5 = −4. When                    ber of µ turning points (Cunningham & Bardeen 1973;
+a limit of integration is at infinity (u = 0), this integral           Viergutz 1993).
+blows up, as it should. In practice, the code picks a non-                The approach in solving for uf is the same as in solv-
+infinite starting radius large enough that the geodesic                ing for µf . The integral Iµ is computed as a Legendre
+trajectories from infinity to the starting radius differ neg-          integral of the first kind. Given the number of turning
+ligibly from their flat space counterparts.                            points, Iµ is computed in pieces as shown above using
+   Then,                                                               the coefficients α1,2,3 .
+                                                                          After finding Iµ , we invert Iu .       This inversion
+                                Z                                   ranges from relatively straightforward to algebraically
+                     l                      1     du                   formidable. As examples, we discuss cubic and quar-
+ Φu    = su u r         + 2(a − l)                √ −
+                    u+                 (u/u+ − 1) U                    tic real roots cases in detail. Table 2 gives the solution
+                
+                   l
+                                 Z
+                                          1      du
+                                                                      for uf in all cases. This problem was first addressed by
+                       + 2(a − l)               √ ,(48)                Agol (1997) and the solutions here are from its Table 5.2
+                  u−                 (u/u− − 1) U
+                                                                       with some modification.
+where both integrals are already calculated as part of Tu .               For our first example, consider the first two cases of
+  Finally, the dimensionless affine parameter can also be              Table 1 where there are three real roots. The integral to
+calculated along the path from (10) without any addi-                  invert is
+tional integrals:
+                                                                                       Z u+              Z u+            !
+                    Z
+                        du
+                                     Z 2
+                                        µ dµ                                                   du                du
+            λ′ = su      √ + a2 sµ      √ .           (49)                  Iµ = su           p      ±          p            ,   (54)
+                      u2 U                M                                             u0     U (u)      uf     U (u)
+                                                                  Analytic Kerr Photon Orbits                                                                                     7
+
+                                                                                TABLE 2
+                                                                             Solution for uf
+
+                              a                                          c
+                            uf                                       J                           m1                                  c1               c2              c3
+                                                                                                                                 √
+                                                                                               u32                                u31 d
+  1                   u1 + u21    cd2 J                  c1 [Iµ − Iu (u0 , u2 )]               u31
+                                                                                                                                                      ...             ...
+                                                                                                                                 √ 2
+                                                                                               u32                                u31 d
+  2                   u1 + u31 dc2 J                     c1 [Iµ + Iu (u3 , u0 )]               u31                                 2
+                                                                                                                                                      ...             ...
+                  c2 +u1 −(c2 −u1 )cnJ                                                                                           √
+                                                                                            1
+                                                                                              + 6u8c
+                                                                                                  1 +c3                                                               a+l
+                                                                                                                                              p
+  3                      1+cnJ
+                                                         c1 [Iµ + Iu (u1 , u0 )]            2
+                                                                                                                                     2dc2         u1 (3u1 + c3 )      a−l
+                                                                                                     2
+  4                         ...                                   ...                             ...                                ...               ...            ...
+                                                   b
+          u4 c5 +qs u1 c4 −(qs u4 c5 −u1 c4 )cnJ                                                   )2 −(u4 −u1 )2            √
+  5             (c4 −qs c5 )cnJ +qs c4 +c5
+                                                         c1 [Iµ + Iu (ub , u0 )]     qs (c4 +qs c54c                        ec4 c5                    ...             ...
+                                                                                                     4 c5                                    r
+                                                                                                        ”2              √
+                         n(1+c2 )scJ                                                                                                             4n2 −(c4 −c5 )2              d
+                                                                                             “
+                                                                                               c4 −c5                    e
+  6                  c3 + 1−c 2scJ                      su c1 [Iµ + Iu (c3 , u0 )]             c4 +c5                   2
+                                                                                                                           (c4 + c5 )            (c4 +c5)2 −4n2
+                                                                                                                                                                   m + c2 n
+                             2
+                                                                                                                            √
+                      u2 −c2 u3 sn2 J                                                          u41 u32                        ec3                    u21
+  7                     1−c2 sn2 J
+                                                         c1 [Iµ − Iu (u0 , u2 )]               u42 u31
+                                                                                                                                                                    u42 u31
+                                                                                                                            √2                       u31
+                      u3 −c2 u2 sn2 J                                                          u41 u32                        ec3                    u43
+  8                     1−c2 sn2 J
+                                                         c1 [Iµ + Iu (u3 , u0 )]               u42 u31                        2                      u42
+                                                                                                                                                                    u42 u31
+
+  a snJ = sn(J, m ), cnJ = cn(J, m ), scJ = sn(J, m )/cn(J, m ) and m                               2
+                     1                    1                      1            1          1 = 1−k        is used instead of k. uxy ≡ ux − uy .
+  b q = sign(q 2 ). If q = 1 then u = u , u = u . Otherwise, u = u , u = u .
+     s                  s          a   4   b   1              a   1   b   4
+  c I (y, x) = s R x √du .
+      u          u   y    U (u)
+  d Complex roots are written as m ± in, p ± ir and are ordered so that m > p and n > 0.
+
+
+
+
+                                                                             TABLE 3
+                                                                 Auxillary Constants used in table 2
+
+
+                                                                      c4                           c5
+                                                               p                            p
+                                                         5               2     2                      2     2
+                                                              p (m − u4 ) + n              p (m − u1 ) + n
+                                                         6     (m − p)2 + (n + r)2          (m − p)2 + (n − r)2
+
+
+
+where u+ is the relevant turning point: u2 or u3 . Denote
+the first term Iu+ , and write the second term in terms of                                                        √                u2 − u1
+the roots of the integrand:                                                                                    J ≡ u3 − u1 I,              ,      k2 =
+                                                                                                                                                 (60)
+                                                                                                                                   u3 − u1
+                                                                                                             dn(J, k)                 cn(J, k)
+               su
+                            Z u+
+                                          du                                                      dc(J, k) ≡          ,   cd(J, k) ≡           ,
+  Iµ − Iu+ = ± √            p                              ,                                                 cn(J, k)                 dn(J, k)
+                 d    uf      (u − u 1 )(u − u2 )(u − u3 )                                 where cn, dn are Jacobi-Elliptic functions. Note that the
+                                                         (55)                              result does not depend on whether or not a turning point
+where d = 2[(a − l)2 + q 2 ]. This
+                                 √ can   be  put in the form                               has been reached, since both cn and dn are even in J.
+(38) with the substitution z = u − u1 :                                                      When U (u) has four real roots and u ≤ u2 ,
+           Z √u+ −u1                                                                                    su
+                                                                                                                       Z u2
+                                                                                                                                                     du
+                                                   dz                                      Iµ − Iu+ = ± √                                                                 ,
+   ±I = √                                                       ,                                        e
+                                                                                                                                     p
+                                                                                                                                      (u − u1 )(u − u2 )(u − u3 )(u4 − u)
+                          p
+                uf −u1     [z 2 + (u1 − u2 )][z 2 + (u1 − u3 )]                                                             uf
+
+                                                              (56)                                                                                         q        (61)
+                                                                                                                                                                   u2 −u
+where                                                                                      where e = |aq|. With the substitution z =                               u3 −u , this
+                            √                                                              becomes
+                              d         
+                         I≡     Iµ − Iu+ ,                                    (57)
+                             2                                                                                 r
+                                                                                                                   u2 −uf
+                                                                                                                                          dz
+                                                                                                         Z         u3 −uf
+and Iu+ is determined from the same Carlson formulas                                           ±I =                          p                                   ,
+as for Iu above.                                                                                           0                  [z + (u1 − u2 )][z 2 + (u1 − u3 )]
+                                                                                                                                2
+
+  Comparing (56) with (38), we see that a1 = u1 − u2 ,                                                                                                         (62)
+a2 = u1 − u3 and b1 = b2 = 1. If u+ = u3 , then the                                        where
+limits of integration must be switched, since by definition                                                   √
+x > y. These integrals correspond to the third row, third                                                       e          
+                                                                                                          I≡       Iµ − Iu+ .              (63)
+and fourth columns of Table 1 from Carlson (2005), and                                                         2
+the solutions for uf are                                                                    Again comparing with (38) and using Carlson (2005),
+                                                                                           we find
+          uf = u1 + (u2 − u1 ) cd2 (J, k),                   u0 ≤ u2          (58)                                    u3 (u2 − u1 )sn2 − u2 (u3 − u1 )
+              = u1 + (u3 − u1 ) dc (J, k),2
+                                                             u0 ≥ u3 ,        (59)                         uf =                                        ,                    (64)
+                                                                                                                         (u2 − u1 )sn2 − (u3 − u1 )
+with                                                                                       where
+8                                                    Dexter and Agol
+
+                                                              than that one by a factor of about 5, due to the fact that
+                                                              our code computes the minimum number of R-functions
+                               p
+      sn = sn(J, k),       J = (u4 − u2 )(u3 − u1 )I (65)
+                                                              possible, and shares them between routines when neces-
+            (u4 − u3 )(u2 − u1 )                              sary. The code from Agol (1997) was found to be ∼ 100
+       k2 =                      .                    (66)
+            (u4 − u2 )(u3 − u1 )                              times faster than numerical integration in the case of
+  Again the result is independent of whether or not a         tracing geodesics from infinity to a thin disk. This is an
+turning point is present. In (54) above, the sign of the      optimal problem for an analytic code, since we can solve
+second term on the RHS depends on whether a turning           for the point where µ = 0, whereas a numerical code
+point is present. This allows us to determine the number      must integrate the geodesic from infinity until it reaches
+of turning points in u.                                       that point, and then zoom in on the intersection to find
+  When complex roots are present, the reduction to            an approximate solution to the desired accuracy. In addi-
+standard form (38) is much more difficult. It is dis-         tion, this example didn’t include the t and φ coordinates,
+cussed in Erdélyi et al. (1981), and relevant formulas for   which are sped up by a much smaller factor than u and
+the inversion can be found there and in Byrd & Fried-         µ.
+man (1971). In particular, our cases 3,5 are from Byrd           As a lower bound for the speed improvement of our
+& Friedman (1971) equations 239.00 (p86) and 259.00,          code over numerical integration, a routine was written
+260.00 (p133,135). Our formula for case 6 is based on         to integrate the photon four momentum for all coor-
+Erdélyi et al. (1981) Table 2, p310-311. The intricacy of    dinates with respect to affine parameter using the im-
+these reductions demonstrates the advantage of Carlson’s      plementation of the Bulirsch-Stoer method from Press
+method. The computation of integrals is equally efficient     et al. (1992). We then compared the integration of many
+with complex or real roots. Unfortunately, when inver-        points along a single geodesic starting from infinity with
+sion is required, Carlson (2005) is only a somewhat more      this numerical code and our analytic one. This is the
+compact version of Legendre’s original notation and of-       ideal case for numerical integration, since the intermedi-
+fers no real advantage over previous work.                    ate points calculated along the ray are no longer wasted
+                                                              as in the first example. For the case considered with no
+         5. CODE CHECKS AND SPEED TESTS                       turning points in u or µ, the analytic code was found to
+   Using the solution for µf , the equality of Iµ and Iu      be faster by a factor of ∼ 3.
+has been checked to machine accuracy (at least 14 sig-           However, our numerical code for integrating geodesics
+nificant digits in all cases). Once found, µf can be used     is much simpler than a complete code would have to be.
+as an input to recover uf . In this way, the two routines     It cannot handle turning points, and requires knowledge
+have been shown to agree in all cases. Precision in the       of the affine parameter on the ray in order to know where
+calculation is limited by error in the determination of       the region of interest in the integration is. In practice,
+the roots of U (u). An advantage of using Carlson’s for-      turning points would have to be detected and a scheme
+mulation is that all component integrals are computed         for determining the region of interest in affine parameter
+without reference to the complex roots, which often have      implemented. Alternatively, a somewhat more compli-
+less numerical precision than real ones. Formulas for uf ,    cated scheme such as the Hamiltonian method described
+discussed in Section 4, are also written in terms of real     in Schnittman & Bertschinger (2004a) could be adopted.
+quantities leading to higher accuracy.                        In any case, these additions would slow down geodesic
+   Certain special cases can be integrated analytically for   computation. We conservatively estimate, then, that the
+all components, providing independent checks on com-          lower bound for the speed advantage of our analytic code
+ponent integral formulas. These include µ cases with          over numerical integration is a factor of ∼ 5. A similar
+q 2 = 0, u cases with q 2 = 0, l = a and u cases with         test for the case of integrating down to the thin disk
+equal physical real roots, corresponding to unstable cir-     yielded a speed difference of a factor of ∼ 300, leading to
+cular photon orbits. In all of these cases, the component     an upper bound on the speed advantage of ∼ 500, which
+integral formulas above agree with the analytic results       is in good agreement with the naive estimate of multi-
+to machine accuracy. The component integral formu-            plying the speedup found by Agol (1997) by the speedup
+las above also reduce to those derived separately for the     factor between our code and the one presented there.
+Schwarzschild case, a = 0. All of the formulas given          Then the range of speedup that can be expected by us-
+here for µf agree with those in tables 1-2 of RB94. The       ing the analytic code described here is a factor between
+Schwarzschild formulas were also tested against the ap-       5 − 500 depending mostly on the application, but also on
+proximate formulas given by Beloborodov (2002).               the specific implementation of the numerical integration
+   Further, the implementations of Carlson’s integral ta-     code.
+bles have been checked extensively using the Mathemat-           In addition to being faster, the analytic formulation is
+ica NIntegrate function. The same is true of the t and        much more flexible. It can calculate an arbitrary num-
+φ formulas, as well as the individual integral components     ber of points beginning and ending anywhere on any
+Iu , Tu , and Iµ , Tµ , Φµ .                                  geodesic, provided that the constants of the motion can
+   The R-function routines maintain accuracy until a .        be calculated. This is exploited in the thin disk toy mod-
+10−5 or q 2 . 10−10 . If such parameters are encountered,     els below, where we solve for the point µf = 0. It could
+the code will give a warning and set the offending value      also allow, for example, a calculation of Compton scat-
+to zero.                                                      tering by tracing rays out from every point on a geodesic,
+   The geodesic computations have been checked against        and computing the scattered intensity into that point as
+calculations done by the code used in Falcke et al. (2000)    a separate ray tracing computation. In any event, the
+and are found to be in excellent agreement. The FOR-          flexibility inherent to an analytic method could allow
+TRAN implementation of our code is found to be faster         for more sophisticated calculations in the future, which
+                                                      Analytic Kerr Photon Orbits                                                      9
+
+                                                                         Constants of the motion are required and may be speci-
+                                                                         fied either as the impact parameters at infinity (α, β), as
+                                                                         is most convenient in ray tracing applications, or as the
+                                                                         dimensionless angular momentum, l, and Carter’s con-
+                                                                         stant, q 2 . When any other information is not provided,
+                                                                         the program assumes geodesics which trace out the entire
+                                                                         domain of u, from the starting point and back or until
+                                                                         the event horizon is reached.
+                                                                            The program calls the main subroutine, geokerr,
+                                                                         which calls geomu to fill in missing inputs and calcu-
+                                                                         late µf . Alternatively, geokerr can solve for uf using
+                                                                         geor. Subsequently, geophitime calculates the φ and t
+                                                                         integrals using the Carlson routines. The program loops
+                                                                         over constants of the motion for a chosen initial polar an-
+                                                                         gle and black hole spin. Results are written to standard
+                                                                         output by default, and should be redirected from the ter-
+                                                                         minal to a text file in most cases. It is also possible to
+   Fig. 1.— Change in time vs. radial coordinate in the                  input the name of the desired output file. The subroutine
+Schwarzschild metric for geodesics near the circular photon orbit        geokerr encapsulates most of the code functionality, and
+(dashed line), as described in Section 6.                                can fairly easily be adapted to another front end other
+                                                                         than the program used here. See the README file ac-
+                                                                         companying the code or online for more detail.
+                                                                            As an example use of the code, consider tracing rays
+                                                                         over a rectangular grid in −4 ≤ α ≤ 8, −6 ≤ β ≤ 6 for
+                                                                         a near extreme black hole, a = .998. The observer is at
+                                                                         infinity in the equatorial plane (µ0 = 0), and 20 rays will
+                                                                         be traced over each dimension. The input file for this
+                                                                         situation can be found online.1
+                                                                            Output is arranged as follows. The constants of the
+                                                                         motion are listed for each geodesic in the top line, fol-
+                                                                         lowed by columns giving uf , µf , ∆t, ∆φ, λ. The format
+                                                                         used for output can be changed with a tiny modification
+                                                                         to the source code. See the README file for more de-
+                                                                         tails. Plotting the affine parameter evaluated at either
+                                                                         the event horizon, or once the geodesic returns to its ini-
+                                                                         tial radius, as a function of impact parameters for this
+                                                                         data with 160, 000 geodesics produces Fig. 2 as explained
+                                                                         below.
+  Fig. 2.— Image of a near extreme (a = .998) Kerr black hole               For less standard batch runs, it may be necessary to
+viewed from the equatorial plane. Images intensities are taken to        generate the input file from a simple program. Consider
+be the affine parameter evaluated upon termination at the black          a set of geodesics in the Schwarzschild metric (a = 0)
+hole or after returning to the starting radius. Intensities are scaled
+linearly from the minimum value outside the shadow to the maxi-          to study the unstable circular photon orbits. The given
+mum.                                                                     parameters are chosen to be u0 = 1/30, uf = u+     √ = .5,
+                                                                         µ0 = .9, β = 0 and an array of values for α near 27.
+wouldn’t be possible with a numerical code. The main                        The piece of code to write an appropriate input file
+disadvantage of using an analytic code is that the affine                is available online.2 Plotting the change in time as a
+parameter cannot be used as an independent variable,                     function of final radial coordinate produces Fig. 1.
+which may be desirable for adaptive integration tech-
+niques in radiative transfer applications, for example.                             7. APPLICATIONS/VALIDATION
+                   6. IMPLEMENTATION                                       We next describe a couple of relatively simple appli-
+                                                                         cations of the code to ray tracing problems as further
+   This section provides an overview of the various rou-                 validation and as examples of its utility. The first is the
+tines used by the code described above, and examples of                  simplest illustration of the black hole shadow, which tests
+their use. The README file online covers everything in                   the determination of the roots of U (u) and qualitatively
+this section in greater detail. The FORTRAN 77 source                    parts of the time integral. Next are examples from the
+file geokerr.f contains the main program as well as the                  standard model of thin disk accretion. The disk image
+key routines, geokerr, geomu, geor and geophitime,                       and simple spectrum from line emission test the routine
+and supporting functions. Inputs are given through com-                  that solves for uf . The projection of a uniform grid at
+mand line prompt or a text file. Inputs from previ-                      infinity onto the equatorial plane of the black hole also
+ous command line runs may be saved for future use.                       tests the calculation of φ, and hot spot emission pro-
+These inputs include constants of motion for the desired                 vides a time-dependent test. Finally, spectra and images
+geodesics, initial and final u and initial µ, the number
+of turning points in u (ignored if the constants do not                    1 http://www.astro.washington.edu/agol/geokerr/exfiles/abgrid.in
+
+admit physical turning points), and the sign of u̇ and µ̇.                 2 http://www.astro.washington.edu/agol/geokerr/exfiles/inputex.f
+10                                                            Dexter and Agol
+
+
+
+
+                                                                         Fig. 4.— Image of an optically thick standard relativistic accre-
+                                                                       tion disk around a near extremal black hole (a=.998). The disk
+                                                                       has outer radius rout = 18, and the observer’s inclination is 85◦ .
+
+
+
+
+  Fig. 3.— Projection of a uniform Cartesian grid in the image
+plane to the equatorial plane of the black hole for µ0 = 1 (top)
+and µ0 = .5 (bottom). Black hole spin is a = 0 (left) and a = .95
+(right), and the area inside the horizon is removed from each image.
+Compare to Fig. 2 of Schnittman & Bertschinger (2004b).
+
+of synchrotron radiation from spherical accretion quan-
+titatively test our radiative transfer routines.
+   Ray tracing utilizes the simple relationship between
+points on an observer’s instrument and the constants
+of motion of null geodesics. Consider the photographic
+plate at infinity as a function of the impact parameters
+α, β, perpendicular and parallel to the black hole spin
+axis respectively. Images can be created by tracing rays
+backwards from points on the plate to the black hole.                    Fig. 5.— Normalized spectra of line emission from a thin ac-
+                                                                       cretion disk at an inclination of 30◦ for various black hole spins.
+The parameters α, β are easily expressed in terms of q 2 , l           The emissivity is taken to be proportional to u2f between the
+using (Cunningham & Bardeen 1973)                                      marginally stable orbit and Rout = 15. Compare to Schnittman &
+                                                                       Bertschinger (2004b) Fig. 3.
+                      l = −α(1 − µ20 )1/2                      (67)    rial plane of the black hole (e.g., Page & Thorne 1974,
+                     2
+                    q =β   2
+                               + µ20 (α2 − ã2 ),              (68)    Shakura & Sunyaev 1973).
+so that each point on the observer’s photographic plate                                    7.2.1. Grid Projection
+corresponds to a unique geodesic.                                        The first check of the code for this case is in visualiz-
+                                                                       ing the projection of a uniform grid at infinity onto the
+             7.1. Image in Affine Parameter
+                                                                       equatorial plane of the black hole. This is done by solving
+   As a first application of ray tracing, we can deter-                for the final radius, uf , and azimuth where the geodesic
+mine the appearance of the simplest possible black hole                intersects µf = 0. Then, the new grid points are calcu-
+shadow. The image “intensities” are taken to be the                    lated using pseudo-Cartesian coordinates (Schnittman &
+affine parameter evaluated at the termination of the                   Bertschinger 2004b):
+geodesic–either when it terminates at the black hole or
+reaches a turning point and re-emerges to the starting                             p                  p
+radius. Affine parameter is a good proxy for the emis-                       x=     r2 + a2 cos φ, y = r2 + a2 sin φ.                (69)
+sion in this case, since it is related to the proper length              The result of this projection for two different initial
+along a geodesic, which would be the observed inten-                   observer inclinations and black hole spins is shown in Fig.
+sity for constant emissivity and neglecting absorption.                3, and agrees with Fig. 2 of Schnittman & Bertschinger
+The dimensionless affine parameter, λ′ , is given by (49).             (2004b). The gravitational lensing effect can be seen in
+The equatorial plane result for a Kerr black hole with                 the pictures with µ0 = .5 as the bunching of grid points
+a = .998, to be compared to Bardeen (1973) Fig. 6, is                  behind the black hole, while frame dragging is evident in
+shown in Fig. 2. The image shown here is 400 × 400.                    those with a = .95
+              7.2. Thin Disk Accretion                                                  7.2.2. Thermal Disk Images
+  The next set of applications imagine the emitting                      As a next step, we can use the standard thin disk re-
+source as an infinitesimally thin disk in the equato-                  sults for the radial temperature profile (e.g., Krolik 1998)
+                                              Analytic Kerr Photon Orbits                                                       11
+
+to produce images of the disk at various inclinations as-
+suming it is optically thick everywhere, so that the inten-
+sity is that of a blackbody. Finding the radii of emission
+from a grid in impact parameters and calculating the in-
+tensity at each of these points produces an image of the
+disk as seen by a distant observer. The result for an in-
+clination of 85◦ and black hole spin a = .998 is shown in
+Fig. 4. The image shows the effects of relativistic beam-
+ing of the emission from gas moving towards the observer
+versus the redshift of that moving away, as well as the
+bending of the light from gas behind the black hole.
+
+                   7.2.3. Line Emission
+  Next, following Schnittman & Bertschinger (2004b)
+and Bromley et al. (1997) we consider monochromatic
+emission from the disk, and give it an inner (outer) ra-
+dius, Rin = Rms (Rout = 15), where Rms is the loca-
+tion of the marginally stable circular orbit (e.g., Page &
+Thorne 1974). The emissivity is weighted by u2f , physi-
+cally motivated by the fact that we expect the tempera-
+ture of gas in the disk to increase with decreasing radius.
+The observed intensity is computed by exploiting the in-
+variance of Iν /ν 3 (Misner et al. 1973),
+                                                                Fig. 6.— Spectrogram of a circular hot spot of radius Rspot = .5
+                        Iν0 = g 3 Iν                   (70)    at the marginally stable orbit of a Schwarzschild black hole. The
+                                                               observer is inclined at θ0 = 60◦ . Compare to Fig. 4 of Schnittman
+where g ≡ ν0 /ν is the redshift, and ν0 (ν) is the ob-         & Bertschinger (2004b).
+served (emitted) frequency. To see the effect of black
+hole spin on the emission in this case, we calculate Iν0 as
+a function of g for several values of a by calculating the
+intensity of rays at a location with redshift in a certain
+range of g, and integrating them over the photographic
+plate. The result is plotted in Fig. 5, and is in excel-
+lent agreement with Fig. 3 of Schnittman & Bertschinger
+(2004b). At higher black hole spin, the marginally stable
+orbit is much closer to the black hole where the redshift
+is much stronger, leading to a higher relative magnitude
+and broadening of the low frequency peak (“red wing”).
+
+                 7.2.4. Rotating Hot Spot
+   Finally, to test the time-dependence of the code, con-
+sider a circular hot spot of finite radius Rspot = .5 orbit-
+ing in the equatorial plane of a Schwarzschild black hole
+at its marginally stable radius (Rms = 6). The emis-
+sivity of the spot is taken to be Gaussian in the locally
+flat space near the hot spot (for details, see Schnittman        Fig. 7.— Light curves of the hot spot described in Fig. 6 for var-
+2006),                                                         ious inclination angles. Intensities are normalized individually to
+                                                               the integrated intensity over each orbit and scaled to the maximum
+                                                               intensity from all inclinations. Compare to Fig. 6 of Schnittman
+                             |x − xspot (t)|2
+                                             
+              j(x) ∝ exp −                      ,      (71)    & Bertschinger (2004b).
+                                     2
+                                  2Rspot
+where j is the monochromatic emissivity. For some ob-          shows the light curves of the hotspot for several inclina-
+server coordinate time, t, the time delay and azimuthal        tion angles. As the observer approaches edge-on viewing,
+position from the observer to points on the disk are used      the light curve becomes sharply peaked by a combination
+to determine where on the photographic plate the sepa-         of the Doppler beaming of the spot as it moves toward
+ration between geodesic and hotspot are less than 4Rspot .     the observer and the large gravitational lensing of the
+For these points, the Gaussian emissivity and observed         spot as it goes behind the black hole. The plot here is
+frequency (redshift) are tabulated. Repeating this proce-      in excellent agreement with Schnittman & Bertschinger
+dure over a period of the motion gives a time-dependent        (2004b).
+spectrum, which is shown in Fig. 6 for an observer incli-
+nation of 60◦ (µ0 = .5). This figure is in good agreement                        7.3. Radiative Transfer
+with Fig. 4 of Schnittman & Bertschinger (2004b).                 In more realistic astrophysical applications, the source
+  Integrating over frequency (redshift), or equivalently       is not a delta function at a given inclination, and the
+over the impact parameters, gives the light curve. Fig. 7      intensity along a ray can be written more generally as
+12                                                                       Dexter and Agol
+
+
+
+
+  Fig. 8.— The spectrum of synchrotron radiation from optically                    Fig. 9.— Spectrum of synchrotron radiation from spherical accre-
+thin spherical accretion onto a stellar mass black hole. The solid                tion onto a stellar mass black hole. The solid line is the ray tracing
+line is the ray tracing result, and the plotted points are the analytic           result including absorption. The spectrum is heavily attenuated at
+results. The two curves agree to within 5% at low frequencies,                    ν0 . 1011 Hz, and in this region follows the optically thick approx-
+where the radiation originates at larger radii and the bending of                 imation of thermal emission from the τ = 1 surface. The spectrum
+light should be unimportant.                                                      agrees well with the emission only model for ν0 & 1012 Hz
+
+                              Z          ν 3
+                                          0
+                     Iν0 =                        dIν .                  (72)
+                                ray      ν
+  If absorption can be neglected, dIν = jν dl where
+dl = −pα uα dλ is the proper length differential measured
+along the ray, pα is the photon four-momentum, uα is the
+four-velocity of the emitting particle and λ is an affine
+parameter.
+  The observed intensity is then
+                            Z λ
+                      Iν0 =     jν g 2 dλ            (73)
+                                    λ0
+
+where jν is the emission coefficient in the rest frame of
+the gas, and λ is now the dimensionless affine parameter
+used above. It is calculated from (49) and used as the
+independent variable along the ray. When absorption is
+included, the solution to the radiative transfer equation
+between affine parameters λ0 and λ reads (Fuerst & Wu
+2004)
+                                        Z λ
+                                                       ′
+             3          −τν (λ0 )
+Iν0 (λ) = g Iν (λ0 )e               +         e−(τν (λ )−τν (λ0 )) g 2 jν dλ′ ,
+                                         λ0
+                 R                                   (74)
+where τν ≡ αν dl is the optical depth. Throughout this
+paper we neglect scattering contributions to the emission
+and absorption coefficients.
+  7.4. Synchrotron Radiation from Spherical Accretion
+  The code described above in conjunction with a routine
+to perform radiative transfer along rays is now applied to
+the particularly simple case of a stellar mass black hole                          Fig. 10.— Image of a spherically accreting Schwarzschild black
+at rest with respect to the interstellar medium with a                            hole at ν = 1012 Hz as a contour plot and a 1-d profile.
+temperature at infinity of 104 K and a density at infinity
+of 1cm−3 . Ionized hydrogen accretes onto the black hole,
+and the magnetic field threading the gas effectively cre-
+ates collisions, so that the accreting gas can be considered                                           B2    GM ρ
+a perfect fluid. In the model, magnetic turbulence es-                                                     =       ,                  (75)
+tablishes an equipartition of magnetic and gravitational                                               8π      r
+energy (Zeldovich & Novikov 1971). Then                                           and cgs units are most convenient in the analytic calcu-
+                                                          Analytic Kerr Photon Orbits                                                          13
+
+lation. We assume an adiabatic equation of state with a
+piecewise adiabatic index (Shapiro & Teukolsky 1983),                          x
+                                                                                                                                 !
+                                                                                  M
+                                                                                              4.0505        0.40       0.5316                   1/3
+                                                                           I               ≃     1/6
+                                                                                                        1+    1/4
+                                                                                                                    +     1/2
+                                                                                                                                     exp(−1.8899xM ).
+                      5       3 mp                                             sin θ            xM           xM          xM
+                  γ= ,             T ≤1
+                      3       2 me                                                                                                  (83)
+                      13      3 mp                                         Note that this function is denoted I ′ (x) by Mahadevan
+                    = ,            T > 1,              (76)                et al. (1996), and has a maximum error of ≈ 2.7%. The
+                       9      2 me
+                                                                           spectrum is calculated by integrating (77) numerically.
+where mp , me are the proton and electron mass and T                          To compare with these results, the ray tracing code
+is the temperature in units of proton rest energy. Then                    is used to create an image of the synchrotron radiation
+the fluid equations are non-linear, and can be solved nu-                  from the infalling gas in the same way as done previously
+merically (Michel 1972) to find the temperature and fluid                  with affine parameter. To create an image, one specifies
+velocity as functions of coordinate radius.                                a grid of points in α, β and calculates q 2 and l. This fully
+   The dominant form of radiation produced is syn-                         specifies the geodesic, and we can calculate the spacetime
+chrotron radiation from the inner part of the accreting                    coordinates at which it intersects the accreting gas. The
+sphere, where the electrons are ultrarelativistic (Shapiro                 intensity along each geodesic represents a point in the
+1973b). In this case, the emissivity can be well approxi-                  image, which is why it is so important to be able to
+mated analytically. Shapiro (1973a) performed the rela-                    calculate geodesics rapidly.
+tivistic radiative transfer by approximating the photons                      The redshift is calculated using Viergutz (1993). Here,
+as traveling on null geodesics in Minkowski spacetime,                     the flow is spherically symmetric and,
+and calculating gravitational redshifts as well as the pho-
+ton Doppler shifts along these paths.
+                                                                                                                    √ −1
+                                                                                    g = γe−η [1 − eµ1 +η v r ρ−2 rsgn R]      ,     (84)
+   Shapiro’s formula for the radiated spectrum is
+                         Z r∗                                              with
+      Lν0 = 8π 2                 dr r2 ×
+                   Z cos Θc
+                            2m
+                                                                             e2η ≡ ∆ρ2 Σ−1 , e2µ1 = ρ2 ∆−1 , γ = (1 − v r 2 )−1/2 ,
+                                                           2
+                                                     1−v                                                                          (85)
+                                 d(cos Θ′ ) jν    (77)
+                    −1                           (1 − v cos Θ′ )2          and v r is the radial component of the four-velocity. Writ-
+                 p                                                         ten in terms of u in the Schwarzschild metric, this sim-
+                   (1 − v 2 )(1 − 2m/r)                                    plifies to
+       ν0 = ν                           ,
+                      1 − v cos Θ′                                                                     √
+where v(r) is the proper velocity seen by a stationary                                                    1 − 2u
+                                                                                           g=                      √ .            (86)
+observer and                                                                                    γ[1 + su (−1)Nu v u U ]
+                   "                                      #1/2             When the u-component of the four-velocity, v u , vanishes,
+                                     2 
+                                                                           this reproduces the standard gravitational redshift (Har-
+                                                  
+                       27       2m          2m
+    | cos Θc | =                               −1 +1                (78)   tle 2003).
+                       4         r           r
+                                                                              We first ignore absorption and compare radiated spec-
+is the critical angle at which the light is recaptured by                  tra with the analytic calculation. The result is in Fig. 8.
+the black hole.                                                            Shapiro (1973b) points out that the synchrotron radia-
+   The synchrotron emissivity for thermal, ultrarelativis-                 tion is dominated by a thin spherical shell of gas with
+tic electrons averaged over polarization and solid angle                   ν ≃ νc . Then the first part of the spectrum, where
+assuming isotropic emission in the rest frame is given by                  Lν0 ∼ ν 1/3 , originates from the outer part of the sphere.
+(Pacholczyk 1970),                                                         The bending of light should be negligible in that region
+                                                                           and the ray tracing should agree with the analytic result,
+                              2                                          which it does to within ≃ 5%. At higher frequencies, the
+                 ne2    me c2
+                      
+                                      xM                                  radiation is originating in the innermost radii, and the
+    jν (T ) = ν √               I           ,         (79)
+                2 3c      kT         sin θ                                 bending of light becomes significant. The difference is
+               1         1 ∞                    x                        ≃ 15% at high frequencies.
+                  Z        Z
+      I(x) ≡         dΩ        dz z 2 exp(−z)F      , (80)                    Next, absorption is included. Fig. 9 compares the spec-
+              4π         x 0                     z2
+                                                                           tra calculated with and without absorption. The radia-
+with xM = ννc ,                                                            tion is heavily attenuated at frequencies . 1011 Hz. At
+                                       2                               these frequencies, the luminosity is dominated by the in-
+                         3eB         kT                                    nermost optically thin radius, which we take to be the
+                νc =                          ,       (81)
+                        4πme c     me c2                                   radius where τ = 1. Blackbody emission at the tem-
+                                                                           perature of gas at this radius, converted to a luminosity
+and where
+                                                                           by integrating over impact parameter, is labeled ‘Ther-
+                                     Z ∞                                   mal’ in Fig. 9 and is a decent approximation to the full
+                   F (x) ≡ x               K5/3 (y)dy               (82)   spectrum when the fluid is optically thick.
+                                      x                                       From ν0 ≃ 108 Hz to ν0 ≃ 1010 Hz, the gas is op-
+is the synchrotron function. Mahadevan et al. (1996)                       tically thick everywhere. Then only thermal emission
+have approximated I(x) above analytically by matching                      from the outermost radius is seen, and the spectrum
+the asymptotic forms for large and small x. They find                      follows a Rayleigh-Jeans curve with Lν0 ∼ ν02 . From
+14                                                           Dexter and Agol
+
+ν0 ≃ 1010 Hz to ν0 ≃ 1012 , the innermost optically thin             transfer parts are about equally expensive in creating
+radius is changing, and the luminosity begins to turn                Figs. 10 and geodesic speed is relatively unimportant in
+over. Starting at ν0 ≃ 1012 Hz, the gas is optically thin to         the calculations leading to Figs. 5-9. In the latter cases,
+the synchrotron radiation, and the spectrum reduces to               this is because the same geodesics can be re-used at many
+that of emission only (labeled ‘Emission’ in Fig. 9). This           time steps, frequencies or both.
+result agrees reasonably well with the assertion made                   The trend from these toy problems is that the sim-
+by Shapiro (1973b) that absorption is negligible when                pler cases benefit most from rapid geodesic calculation.
+ν & 1011 Hz.                                                         However, there is reason to expect that for more realistic
+   Also of interest is the black hole shadow produced                calculations rapid geodesic construction will again be im-
+by various accretion models (Falcke et al. 2000). Fig.               portant. Most accretion flows transition from optically
+10 shows the shadow of the spherically accreting                     thin to thick. To accurately compute radiative transfer
+Schwarzschild black hole as a 2-d contour plot and a 1-d             from such flows, it is often necessary to take small steps
+profile. The shadow is produced at α2 + β 2 = 27, and                in the vicinity where the optical depth is about unity.
+is caused by the difference in proper length of geodesics            This requires calculating extra geodesic trajectories in
+which intersect the horizon and return to infinity, as well          this region. Since the region where the optical depth
+as the blueshift of radiation from infalling gas behind the          changes rapidly depends on frequency, and for a time-
+black hole relative to the red shift of that nearest the ob-         dependent accretion model on time as well, new geodesics
+server. The asymmetry in Fig. 2 is not seen here due to              must be computed at each time step and frequency, and
+the spherical symmetry of the Schwarzschild metric.                  hence they cannot be re-used as is the case for the time-
+                                                                     independent, optically thin models considered in almost
+                    8. FUTURE WORK                                   all our examples.
+   The code presented here is the first to calculate all co-            The precision of our code is also extremely high over
+ordinates of Kerr null geodesics semi-analytically. This             a broad range of geodesic parameters. This is currently
+work’s natural extension is to timelike geodesics, which             less important in radiative transfer applications where
+involves many more cases, but only straightforward gen-              the dynamical models are uncertain, but it is important
+eralizations of the formulas given here (RB94, Appendix              in caustic calculations such as those in RB94 and Bozza
+A). The main challenge is that for bound orbits it is dif-           (2008). Finally, our code can compute arbitrary sections
+ficult to specify the number of radial turning points in             of geodesics in any direction. This flexibility allows extra
+advance. Ideally the affine parameter could be used as               points to be calculated in regions where the optical depth
+an independent variable to indicate how far along the                is changing rapidly or to check convergence on the fly. It
+geodesic to trace. However, it is a function of u and µ              may also be useful in a future method for computing
+which cannot be inverted.                                            Compton scattering, in which rays are traced outwards
+                                                                     from each point on the geodesic to calculate the scattered
+              8.1. Advantages of Analyticity                         intensity into that point.
+                                                                        Unlike previous analytic work, our code makes no as-
+  The main advantages of using a semi-analytic code                  sumption of time-independence or axisymmetry in the
+such as that presented here for tracing geodesics are                accretion flow and is therefore well suited to the geome-
+speed, accuracy and flexibility. The speed increase from             tries used in 3D GRMHD simulations. Computationally
+our code depends greatly on the application considered.              expensive observables such as polarization and variability
+For ray tracing applications, a lower bound is a factor of           will be much more tractable given the speed and flexibil-
+5 in the case where all coordinates are being calculated,            ity of this code.
+and the entire ray is being traced. The maximum speed
+increase is probably a factor between 100-500 in the case
+where the code is solving for geodesic coordinates at a                 J.D. thanks Jeremy Schnittman for help with the
+specific point.                                                      geodesic hot spot model, and the referee, Avery Brod-
+  The importance of speed in tracing geodesics depends               erick, whose comments improved this paper and led
+on the computational expense of their construction rela-             to substantial rewriting of the code. This work was
+tive to that of the rest of the desired calculation. For the         partially supported by NASA grants 05-ATP05-96 and
+simple radiative transfer applications considered here,              NNX08AX59H, and a graduate fellowship from the Kavli
+time spent computing geodesics dominates in creating                 Institute of Theoretical Physics at the University of Cal-
+Figs. 2,3,4. The construction of geodesics and radiative             ifornia, Santa Barbara under NSF grant PHY05-51164.
+                                                             REFERENCES
+Abramowitz, M., & Stegun, I. A. 1965, Handbook of mathematical       Bromley, B. C., Melia, F., & Liu, S. 2001, ApJ, 555, L83
+  functions with formulas, graphs, and mathematical tables (Dover    Byrd, P. F., & Friedman, M. D. 1971, Handbook of elliptic integrals
+  Books on Advanced Mathematics, New York: Dover)                      for engineers and scientists (Second edition, Springer, New York)
+Agol, E. 1997, PhD thesis, University of California, Santa Barbara   Cadez, A., Fanton, C., & Calvani, M. 1998, New Astronomy, 3, 647
+Bardeen, J. M. 1973, in Black holes (Les astres occlus), 215–239     Carlson, B. C. 1988, Mathematics of Computation, 51, 267
+Beckwith, K., & Done, C. 2005, MNRAS, 359, 1217                      —. 1989, Math. Comp., 53, 327
+Beloborodov, A. M. 2002, ApJ, 566, L85                               —. 1991, Math. Comp., 56, 267
+Bozza, V. 2002, Phys. Rev. D, 66, 103001                             —. 1992, Mathematics of Computation, 59, 165
+—. 2008, ArXiv e-prints, astro-ph/0806.4102                          —. 2005, J. Comput. Appl. Math., 174, 355
+Braje, T. M., Romani, R. W., & Rauch, K. P. 2000, ApJ, 531, 447      Carter, B. 1968, Physical Review, 174, 1559
+Broderick, A., & Blandford, R. 2003, MNRAS, 342, 1280                Chandrasekhar, S. 1983, The mathematical theory of black holes
+—. 2004, MNRAS, 349, 994                                               (Oxford/New York, Clarendon Press/Oxford University Press)
+Broderick, A. E. 2006, MNRAS, 366, L10                               Cunningham, C. T. 1975, ApJ, 202, 788
+Broderick, A. E., & Loeb, A. 2006, ApJ, 636, L109                    Cunningham, J. M., & Bardeen, C. T. 1973, ApJ, 183, 237
+Bromley, B. C., Chen, K., & Miller, W. A. 1997, ApJ, 475, 57
+                                                   Analytic Kerr Photon Orbits                                                         15
+
+Erdélyi, A., Magnus, W., Oberhettinger, F., & Tricomi, F., eds.      Press, W. H., Teukolsky, S. A., Vetterling, W. T., & Flannery,
+  1981, Higher Transcendental Functions, Vol. II (Malabar, U.S.A.:      B. P. 1992, Numerical recipes in FORTRAN. The art of scientific
+  Robert E. Krieger Publishing Company)                                 computing (Cambridge: University Press, —c1992, 2nd ed.)
+Falcke, H., Melia, F., & Agol, E. 2000, ApJ, 528, L13                 Rauch, K. P., & Blandford, R. D. 1994, ApJ, 421, 46
+Fanton, C., Calvani, M., de Felice, F., & Cadez, A. 1997, PASJ,       Reid, M. J., Broderick, A. E., Loeb, A., Honma, M., & Brunthaler,
+  49, 159                                                               A. 2008, ArXiv e-prints, astro-ph/0801.4505
+Font, J. A., Ibáñez, J. M., & Papadopoulos, P. 1999, MNRAS, 305,    Schnittman, J. D. 2006, ArXiv Astrophysics e-prints, astro-
+  920                                                                   ph/0601406
+Fuerst, S. V., & Wu, K. 2004, A&A, 424, 733                           Schnittman, J. D., & Bertschinger, E. 2004a, ApJ, 606, 1098
+Hartle, J. B. 2003, Gravity : an introduction to Einstein’s general   —. 2004b, ApJ, 606, 1098
+  relativity (San Francisco, CA, USA: Addison Wesley)                 Schnittman, J. D., Krolik, J. H., & Hawley, J. F. 2006, ApJ, 651,
+Jaroszynski, M., & Kurpiewski, A. 1997, A&A, 326, 419                   1031
+Krolik, J. H. 1998, Active Galactic Nuclei: From the Central          Shakura, N. I., & Sunyaev, R. A. 1973, in IAU Symposium, Vol. 55,
+  Black Hole to the Galactic Environment (Princeton: Princeton          X- and Gamma-Ray Astronomy, ed. H. Bradt & R. Giacconi,
+  University Press)                                                     155–+
+Li, L.-X., Zimmerman, E. R., Narayan, R., & McClintock, J. E.         Shapiro, S. L. 1973a, ApJ, 180, 531
+  2005, ApJS, 157, 335                                                —. 1973b, ApJ, 185, 69
+Luminet, J.-P. 1979, A&A, 75, 228                                     Shapiro, S. L., & Teukolsky, S. A. 1983, Black holes, white dwarfs,
+Mahadevan, R., Narayan, R., & Yi, I. 1996, ApJ, 465, 327                and neutron stars: The physics of compact objects (New York,
+Michel, F. C. 1972, Ap&SS, 15, 153                                      Wiley-Interscience, 663 p.)
+Misner, C. W., Thorne, K. S., & Wheeler, J. A. 1973, Gravitation      Viergutz, S. U. 1993, A&A, 272, 355
+  (San Francisco: W.H. Freeman and Co.)                               Wu, S.-M., & Wang, T.-G. 2007, MNRAS, 378, 841
+Noble, S. C., Leung, P. K., Gammie, C. F., & Book, L. G. 2007,        Zeldovich, Y. B., & Novikov, I. D. 1971, Relativistic astrophysics.
+  Class. and Quant. Gravity, 24, 259                                    Vol.1: Stars and relativity (Chicago: University of Chicago Press)
+Pacholczyk, A. G. 1970, Radio astrophysics. Nonthermal processes
+  in galactic and extragalactic sources (San Francisco: Freeman)
+Page, D. N., & Thorne, K. S. 1974, ApJ, 191, 499
+

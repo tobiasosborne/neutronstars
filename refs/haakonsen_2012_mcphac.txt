@@ -1,0 +1,1346 @@
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                           doi:10.1088/0004-637X/749/1/52
+
+C 2012. The American Astronomical Society. All rights reserved. Printed in the U.S.A.
+
+
+
+
+                                        THE McGill PLANAR HYDROGEN ATMOSPHERE CODE (McPHAC)
+                           Christian Bernt Haakonsen, Monica L. Turner, Nick A. Tacik, and Robert E. Rutledge
+                     Physics Department, McGill University, 3600 rue University, Montreal, QC H3A 2T8, Canada; christian.haakonsen@mail.mcgill.ca,
+                                           turnerm@physics.mcgill.ca, tacikn@physics.mcgill.ca, rutledge@physics.mcgill.ca
+                                           Received 2009 September 14; accepted 2012 January 25; published 2012 March 22
+
+                                                                       ABSTRACT
+              The McGill Planar Hydrogen Atmosphere Code (McPHAC) v1.1 calculates the hydrostatic equilibrium structure
+              and emergent spectrum of an unmagnetized hydrogen atmosphere in the plane-parallel approximation, at surface
+              gravities appropriate for neutron stars. McPHAC incorporates several improvements over previous codes for which
+              tabulated model spectra are available: (1) Thomson scattering is treated anisotropically, which is shown to result
+              in a 0.2%–3% correction in the emergent spectral flux across the 0.1–5 keV passband; (2) the McPHAC source
+              code is made available to the community, allowing it to be scrutinized and modified by other researchers wishing
+              to study or extend its capabilities; and (3) the numerical uncertainty resulting from the discrete and iterative
+              solution is studied as a function of photon energy, indicating that McPHAC is capable of producing spectra with
+              numerical uncertainties <0.01%. The accuracy of the spectra may at present be limited to ∼1%, but McPHAC
+              enables researchers to study the impact of uncertain inputs and additional physical effects, thereby supporting future
+              efforts to reduce those inaccuracies. Comparison of McPHAC results with spectra from one of the previous model
+              atmosphere codes (NSA) shows agreement to 1% near the peaks of the emergent spectra. However, in the Wien
+              tail a significant deficit of flux in the spectra of the previous model is revealed, determined to be due to the previous
+              work not considering large enough optical depths at the highest photon frequencies. The deficit is most significant
+              for spectra with Teff < 105.6 K, though even there it may not be of much practical importance for most observations.
+              Key words: stars: atmospheres – stars: neutron – X-rays: binaries – X-rays: general – X-rays: stars
+
+
+                                 1. INTRODUCTION                                               Unmagnetized hydrogen atmosphere models have been ap-
+                                                                                            plied to study pulsars as well (Zavlin & Pavlov 1998; Zavlin
+   In recent years, there has been a large and growing interest                             et al. 1998, 2002; Zavlin 2006; Bogdanov et al. 2007), usually
+in the application of calculated neutron star emergent spectral                             to derive limitations on the physical sizes of their emission areas.
+models to spectral observations in the optical and X-ray pass-                                 Hydrogen atmosphere models have been used to derive
+bands. Reviews exist in two proceedings (Pavlov et al. 1995;                                neutron star mass–radius constraints from X-ray observations of
+Zavlin 2009), and various motivating examples are given below.                              qLMXBs in globular clusters, where the distance uncertainties
+   Following the suggestion that the emergent spectrum from                                 are more typically ∼10% and lower, including in NGC 6440
+a quiescent transient low-mass X-ray binary (qLMXB) should                                  (in’t Zand et al. 2001), in Omega Cen (Rutledge et al. 2002a;
+be expected to be an unmagnetized hydrogen (H) atmosphere                                   Gendre et al. 2003b), in 47 Tuc (Heinke et al. 2003b, 2006), in
+spectrum (Brown et al. 1998), H atmosphere spectra have been                                NGC 6397 (Grindlay et al. 2001), in Terzan 1 (Wijnands et al.
+used to measure the radiation radii from a large number of                                  2002), in M13 (Gendre et al. 2003a), in M28 (Becker et al. 2003),
+such systems. This includes ∼10 field qLMXBs, to which                                      A-1 in M30 (Lugger et al. 2007), in M80 (Heinke et al. 2003a),
+the distances are typically uncertain at the 25%–50% level                                  in M55 and NGC 3201 (Webb et al. 2006), in NGC 2808 (Webb
+(Rutledge et al. 1999, 2000, 2001a, 2001b, 2002b; Wijnands                                  & Barret 2007), and in NGC 6304 (Guillot et al. 2009a, 2009b).
+et al. 2003; Tomsick et al. 2004, 2005, 2007; Campana et al.                                These mass–radius constraints are interpreted to constrain the
+2004; Jonker et al. 2004, 2007a, 2007b; in’t Zand 2005; Cackett                             dense matter equation of state (EOS)—the relationship between
+et al. 2006, 2008; Cornelisse et al. 2007; Heinke et al. 2007;                              pressure and density in nonrelativistic matter at and above
+Degenaar et al. 2009). These modeling efforts place constraints                             nuclear density. As such, neutron star mass–radius constraints
+on the measured radii1 and have lent support to the interpretation                          are used by nuclear physicists as guidance for examining the
+of deep crustal heating in neutron stars (Haensel & Zdunik                                  credibility of proposed EOSs (Lattimer & Prakash 2001, 2007).
+1990, 2008; Brown et al. 1998) proposed to explain their                                    These constraints are therefore of strong observational interest
+luminosities. Also, H atmosphere spectral results from post-                                in the nuclear physics community.
+outburst transients (e.g., Cackett et al. 2008), as they cool                                  Thus, there are a large number of observational results,
+(Ushomirsky & Rutledge 2001; Rutledge et al. 2002c), have had                               with important physics implications, that rest on the accuracy
+significant physical implications for the reactions that take place                         of the calculated hydrogen atmosphere models available for
+in the neutron star crust, including neutron star core cooling                              interpretation of observed spectra. Unmagnetized hydrogen
+rates (Yakovlev et al. 2003; Shternin et al. 2007) and neutron                              atmosphere models are valid for B  1010 (T /106 K) G (Zavlin
+superfluidity in the inner crust, combined with a very low                                  et al. 1996) and are thus relevant to most of the examples given
+impurity parameter (i.e., a very pure crust; Brown & Cumming                                above.
+2009).                                                                                         Most applications of unmagnetized hydrogen atmosphere
+                                                                                            models in X-ray spectral fitting are through tabulated models
+1  What is typically measured is the radiation radius R∞ , which is related to              that have been made available through XSPEC (Arnaud 1996).
+the physical
+           radius R through the neutron star mass M as                                     The main such models are NSA and NSAGRAV (Zavlin et al. 1996,
+R∞ = R/ 1 − (2GM)/(Rc2 ). This measurement produces a joint
+mass–radius constraint.
+                                                                                            hereafter Z96), HYD_SPECTRA (Gänsicke et al. 2002, hereafter
+
+                                                                                        1
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                       Haakonsen et al.
+
+G02), and NSATMOS (Heinke et al. 2006, hereafter H06). In                   ligible compared to the statistical uncertainty on the observed
+addition, other unmagnetized hydrogen atmosphere models                     spectrum. Further, the calibration of the X-ray spectrometers
+have previously been presented (e.g., Rajagopal & Romani                    will have to be improved accordingly, which is a tremendously
+1996), as well as magnetic hydrogen atmosphere models that                  difficult task for which there is no predictable timeline.
+can be run in the zero field limit (e.g., Lloyd 2003), but these               There are a number of factors that affect the uncertainty on
+will not be considered in depth in the present work. NSA also               computed emergent spectra, ranging from plain calculational
+allows for a nonzero magnetic field (Pavlov et al. 1995), as does           uncertainty to the validity of the radiative transfer equations
+NSMAX (Ho et al. 2008), which is another model implemented in               being solved and the accuracy of the input physics (e.g., opaci-
+XSPEC.                                                                      ties). All of these sources of uncertainty must be constrained to
+   The three main unmagnetized hydrogen atmosphere mod-                     produce model spectra accurate to better than 0.1%.
+els (Z96; G02; H06) have many similarities in the assumptions                  The present work addresses the issue of spectral uncertainties
+made and in the method of solution. Common to all three models              in two ways. First, the numerical convergence of the current
+are the assumptions of a plane-parallel atmosphere, isotropic and           method is discussed at length in Section 4.3. Second, the
+coherent unpolarized scattering, local thermodynamic equilib-               source code is made available to the community, so that
+rium (LTE), radiative equilibrium, and hydrostatic equilibrium.             the uncertainties for specific parameter ranges, or due to
+Additional assumptions common to one or more models are                     the various inputs, can be probed by researches who wish
+complete ionization (H06), ideal EOS (H06), neglecting radia-               to apply these models. The authors expect that numerical
+tion pressure (Z96; G02), neglecting self-irradiation (Z96; G02),           and model uncertainties will receive more attention in future
+and neglecting electron conduction (Z96). The form of the ra-               code-presentation papers, and that other source codes will be
+diative transfer equation solved in each of the three models is             made open source, such that more meaningful and extensive
+the same, including both a true absorption opacity and a scatter-           comparisons can be made between models/codes.
+ing opacity. The calculation of the opacities, however, differs in             Open source code addresses an important issue in modern
+the three models. In the first model (Z96), occupation probabil-            science, as has recently been discussed in the context of coming
+ity formalism (Zavlin et al. 1994) is used to calculate the true            large projects (Weiner et al. 2009). Large private source codes
+absorption opacity, while the uncorrected Thomson scattering                cannot be scrutinized by the community, and the large complex-
+opacity is used. In the second model (G02), OPAL data (Iglesias             ity often deters other groups from independently reproducing
+& Rogers 1996) are used for the total (true absorption plus scat-           the results. Thus, though the theoretical development is scruti-
+tering) opacity, and the Thomson scattering opacity is corrected            nized in the peer-review process, the implementation is not, and
+for collective effects (Boercker 1987). In the third model (H06),           coding bugs that significantly affect the results can go unno-
+uncorrected thermal free–free true absorption opacity and un-               ticed for extended periods of time. One example of such a bug
+corrected Thomson scattering opacity are used. All other differ-            is the incorrect implementation of Fe opacity tables in a previ-
+ences between the three models relate to the way the coupled                ous atmosphere model, uncovered after other codes produced
+atmosphere structure and radiative transfer equations are solved,           discrepant results (see Pons et al. 2002).
+but these differences are not expected to lead to quantitative dif-            The authors envisage the following as a possible path toward
+ferences in the resulting spectra as long as adequate levels of             calculating more accurate unmagnetized hydrogen atmosphere
+discretization and iteration are used in each model.                        emergent spectra. The present work releases the McGill Planar
+   The descriptions of the existing hydrogen atmosphere mod-                Hydrogen Atmosphere Code (McPHAC) to the community and
+els (NSATMOS, NSA, NSAGRAV, and HYD_SPECTRA) that are                       demonstrates its capability to reach low computational uncer-
+present in the literature provide little guidance on the uncer-             tainty. Armed with this new tool, which allows the calculational
+tainties in their resulting spectra. For example, NSA (Z96) states          uncertainties to be constrained, ourselves and others can then,
+that the calculation was permitted to proceed until the fractional          for instance, study the sensitivity of the emergent spectra to
+temperature correction at each depth was 1%. Because of their              uncertainties in the input opacities, identifying the parameter
+temperature correction procedure, this also constrains the vari-            ranges for which it is the most important to better constrain
+ation of the total flux through the atmosphere, which is another            those opacities. Further, physical effects presently ignored can
+common convergence criterion. However, constraining the vari-               be added to McPHAC to investigate their impact on the emer-
+ation of the total flux does not offer a reproducible constraint            gent spectra, or other codes can be developed including such
+on the uncertainty in the emergent spectral intensity at a given            effects and the results of these compared in detail to those of
+photon energy; it may well be that the code implementation                  McPHAC. This all hinges on constraining the calculational un-
+produces an underestimate of the intensity near the peak of the             certainties to be much smaller than the differences that arise
+spectrum far in excess of 1% and a compensating overestimate                from modifications to the physics and opacities, so illustrating
+of the intensity in the wings, or vice versa.                               how to do this is a main focus of the present work.
+   Thus, despite their wide use in astrophysics, the uncertain-                The calculational uncertainties will depend on the particular
+ties on the available tabulated spectra are poorly quantified               parameters run and on which physics is included (which may
+but are typically assumed to be 1% in spectral intensity as                or may not presently be implemented in McPHAC). Thus, it
+a function of photon energy. To produce reliable mass–radius                is not possible to constrain the calculational uncertainties in
+constraints from existing high-quality X-ray spectra, and even              general, but the overall capabilities of the code can be presented,
+higher quality spectra that will be available from future                   along with examples to show how one can constrain the various
+X-ray missions, model H atmosphere spectra with quantified                  calculational uncertainties as required in a particular case. This
+uncertainties in each spectral bin are required. In particular, si-         is done in the present work, enabling investigation of the impact
+multaneous constraints on the mass and radius of a neutron star             of the common assumption of isotropic Thomson scattering.
+at the 5% level will require statistical uncertainties in each bin of          This paper and the associated open source code (McPHAC)
+the observed spectrum of better than 0.1%, so the model spectra             present the analytic equations of radiative transfer and
+should have uncertainties well below 0.1% for these to be neg-              atmospheric structure, their discretization, and the complete
+
+                                                                        2
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                  Haakonsen et al.
+
+details of the calculation of an emergent intensity spectrum,              additional expression is needed: the temperature as a function
+dependent on the neutron star mass and radius, and the effective           of column depth T = T (y), which is referred to as the
+temperature. The organization of this paper is as follows. In Sec-         temperature profile. The temperature profile depends on the
+tion 2, the basic atmospheric model is described. The method of            radiative transfer through the atmosphere. Thus, the temperature
+solution of the equations of radiative transfer and stellar struc-         profile, atmospheric structure, and radiative transfer must be
+ture is described in Section 3. In Section 4, there is discussion of       solved for jointly and iteratively.
+some of the results of the calculation, including its convergence             Setting up the standard Feautrier problem (Feautrier 1964),
+as a function of the depth and angular discretization, the effect          the second-order form of the radiative transfer equation is
+of treating Thomson scattering anisotropically, and a compari-
+son of the resulting spectra with one of the widely used existing                            d 2 Pν (y, μ)
+                                                                                        μ2                 = Pν (y, μ) − Sν (y, μ),                       (2)
+spectral models (Z96). In Section 5, a number of possible im-                                     dτν
+provements to the code are discussed, which may be necessary
+to improve the accuracy of the emergent spectra beyond the                 where τν is the effective normal optical depth, μ is the (positive)
+present approximate value of order percent in spectral intensity           cosine of the angle to the outward normal,
+as a function of photon energy. In Section 6, the improvements                                          1
+offered by the present work and main results are summarized.                            Pν (y, μ) ≡       [Iν (y, μ) + Iν (y, −μ)] ,                      (3)
+Appendix A describes the temperature correction procedure,                                              2
+and Appendix B gives some description of the implementation                for outgoing (Iν (y, μ)) and ingoing (Iν (y, −μ)) specific inten-
+of McPHAC and the external routines used.                                  sity in directions given by μ, and Sν (y, Pν ) is the source function
+                                                                           in those directions. The boundary conditions used are zero in-
+                   2. ATMOSPHERE MODEL                                     cident specific intensity at the surface (Pν is half the outgoing
+                                                                           specific intensity at the surface) and Pν equal to the blackbody
+  This section presents a brief review of the atmosphere model             (BB) intensity Bν at the deepest point considered. In terms of
+used in the McPHAC code.                                                   the true absorption opacity κν and the reduced scattering opacity
+  Many of the assumptions adopted in previous hydrogen                     σT, r , the source function can be expressed as
+atmosphere models are also made in the present work:
+                                                                                                 κν
+ 1. magnetic fields are neglected, limiting the valid-                        Sν (y, μ) =               Bν (T (y))
+    ity of the computed spectra to atmospheres where                                         κν + σT, r
+                                                                                                            1
+    B  1010 (T /106 K) G (Z96);                                                                    2                      dσT, r
+ 2. coherent scattering is assumed, which could lead to inac-                                +                 Pν (y, μ )        (μ, μ )dμ , (4)
+                                                                                                κν + σT, r 0                dμ
+    curacies in the spectra at energies greater than 5 keV (1%
+    of the electron rest mass);                                            where dσT, r /dμ (μ, μ ) is the differential amount of scattering
+ 3. hydrostatic and radiative equilibrium;                                 from directions μ into directions μ. Note that the present
+ 4. no electron conduction;                                                form of the source function differs from that used in previous
+ 5. self-irradiation is ignored, limiting accuracy for neutron             works (Z96; G02; H06) since the scattering is not assumed to
+    stars with R < (3/2)RS (H06; RS is the Schwarzschild                   be isotropic. The source function depends on the temperature
+    radius);                                                               profile of the atmosphere, so the coupled radiative transfer and
+ 6. the plane-parallel assumption is used, since the scale height          structure equations must be solved to calculate the emergent
+    of the atmosphere is much smaller than the radius of the               spectrum.
+    neutron star;                                                             To solve Equation (2), the angle integral in the source function
+ 7. radiation pressure is neglected, which is appropriate for              is discretized using a Gauss–Legendre quadrature sum with
+    atmospheres with Teff  107 K (Z96).                                   weights aj  :
+   Following these assumptions, a standard plane-parallel at-                              1
+                                                                                                            dσT, r
+mosphere model is used in conjunction with a radiative trans-                                   Pν (y, μ )          (μ, μ )dμ
+fer calculation. The atmospheric modeling and radiative trans-                              0                dμ
+fer follow the descriptions elsewhere (Mihalas 1970, 1978;                                     M
+                                                                                                                   dσT, r
+Rybicki & Lightman 1979) and benefited greatly from the dis-                               ≈         Pν (y, μj  )        (μ, μj  )aj  . (5)
+                                                                                              j  =1
+                                                                                                                    dμ
+cussions of previous calculations (Z96; G02; H06).
+   Neglecting radiation pressure, the pressure at any depth is
+equal to the weight of the integrated column y of material                 Defining the dimensionless scattering albedo
+above it:                                                                                                 σT, r      σT, r
+                         P (y) = gs y,                     (1)                                   ρν =              =       ,                              (6)
+                                                                                                        κν + σT, r    kν
+where gs is the surface gravity, taken to be uniformly constant            where kν = κν + σT, r is the total absorption opacity, allows
+as per the plane-parallel atmosphere assumption. The surface               Equation (2) to be rewritten as
+gravity is assumed not to vary throughout the atmosphere since
+a negligible fraction of the neutron star mass is contained in                                  
+                                                                           μ2 d 1 dPν (y, μ)
+the atmosphere, and its thickness is negligible compared to the                                    = Pν (y, μ) − (1 − ρν )Bν (T (y))
+                                                                           kν dy kν       dy
+neutron star radius.
+   The pressure is related to the temperature T and density                                                    
+                                                                                                               M
+                                                                                                                                        dσT, r
+ρ through the EOS, P = P (ρ, T ), which can be used to                                                 − 2ρν            Pν (y, μj  )          (μ, μj  )aj  ,
+                                                                                                               j  =1
+                                                                                                                                         dμ
+find the density at a given pressure (i.e., column depth) and
+temperature. To solve for the structure of the atmosphere, one                                                                                             (7)
+
+                                                                       3
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                    Haakonsen et al.
+
+where use has also been made of the relation dτν = kν dy. This                                3.2. Opacities and Ionization Fraction
+form of the radiative transfer equation can then be discretized to
+generate a system of equations that can be solved numerically.                  For an ionization fraction fion at a given depth, the reduced
+   For a neutron star with a homogeneous temperature distri-                  Thomson scattering opacity is
+bution across the surface, the observed flux at a distance D is                                                    fion σT
+related to the emergent flux F (R, ν), where R is the neutron star                           σT, r =                                   ,                  (11)
+radius, through the relation (McClintock et al. 2004)                                                  fion (mp + me ) + (1 − fion )mH
+
+                                    R2                                        where mp , me , and mH are the proton, electron, and hydrogen
+         F (D, νobs ) = (1 + z)−1      F (R, (1 + z)νobs ) ,       (8)        masses, respectively, and σT is the Thomson cross section.
+                                    D2                                          If the hydrogen is completely ionized, the true absorption
+where νobs is the observed frequency. The redshift z is defined               opacity is the free–free opacity (Rybicki & Lightman 1979),
+through                                                                                               
+                                  1                                                              4e6      2π −1/2        ρ
+                     1+z=               ,                   (9)                         κν =                 T                 ν −3
+                               1 − 2GM
+                                    Rc 2
+                                                                                                3me hc 3kme         (mp + me )2
+
+where G is Newton’s constant and M is the mass of the neutron                                      × (1 − e−hν/kT ) ḡff cm2 g−1 ,                        (12)
+star.
+                                                                              where ḡff is the temperature-averaged free–free Gaunt factor,
+                  3. METHOD OF SOLUTION                                       and all units are in cgs.
+                                                                                 The temperature-averaged free–free Gaunt factor is com-
+   To solve the coupled radiative transfer and structure equa-                monly expressed in terms of the scaled frequency u = hν/kB T
+tions, an iterative scheme is adopted, similar to that used in a              and scaled temperature γ 2 = Z 2 Ry/(kB T ) and is available
+previous model (Z96). An initial guess at the temperature profile             in tabulated form (Sutherland 1998).2 At present, a two-
+is required to calculate the initial radiative transfer, the solution         dimensional linear interpolation of this data is performed to
+to which is then used to calculate a correction to the temperature            find the needed Gaunt factors, but this could be upgraded to a
+profile. The radiative transfer is then recalculated based on the             more accurate spline procedure. The tabulated data are avail-
+corrected temperature profile, which allows a further correction              able for u and γ 2 values in the range 10−4 to 104 . In principle,
+to the temperature profile to be calculated. Iteration proceeds               it is possible to specify parameters that lead to u values out-
+until the maximum fractional temperature correction computed                  side this range in certain regions of the atmosphere. However,
+for any depth falls below a chosen threshold (10−4 throughout                 those regions are likely to be very deep in the atmosphere for
+the present work).                                                            the lowest frequencies, or near the surface at the highest fre-
+                                                                              quencies. Low frequencies carry practically no flux deep in the
+                        3.1. Initial Structure                                atmosphere, while the upper layers of the atmosphere are trans-
+   The main inputs to the model are the target effective tempera-             parent to high-frequency photons, so the Gaunt factor will not
+ture, Teff , and the surface gravity gs . The variable ν is discretized       be significant in these regions. Thus, an adequate solution is to
+into K frequencies, logarithmically spaced between some min-                  return the closest value on the boundary of the grid if a Gaunt
+imum and maximum multiple of kB Teff (0.05 and 120, respec-                   factor is requested for parameters outside the grid.
+tively, throughout the present work). The variable y is discretized              For Teff ⩾ 105.3 K the atmosphere is highly ionized (fion >
+into N column depths, logarithmically spaced between a mini-                  0.95; Z96), but neutral hydrogen could nevertheless dominate
+mum and maximum column depth. If the largest column depth                     the opacity at some frequencies (especially near spectral lines,
+corresponds to an effective normal optical depth smaller than                 and for Teff in the lower part of that range). To capture this
+a specified minimum at the highest photon frequency consid-                   effect, partial ionization can be enabled in McPHAC, which then
+ered, the maximum column depth is doubled until the optical                   obtains the ionization fraction and monochromatic opacities
+depth is greater than the specified minimum (τν max > 80 is re-               using tabulated data from the Opacity Project3 (OP; Seaton
+quired throughout the present work, except where specified in                 et al. 1994). The opacities are valid for ρ < 0.01 g cm−2 , so a
+Section 4.4). The variable μ is discretized into M angles, based              smooth transition from the OP opacities to the free–free opacity
+on a Gauss–Legendre quadrature scheme.                                        is used for 0.001 g cm−2 < ρ < 0.01 g cm−2 . Further, a similar
+   The pressure at each column depth can be computed using                    issue with the Gaunt factor tables arises, where u values outside
+Equation (1). In the Eddington approximation, the temperature                 the grid are requested for high frequencies at low temperatures.
+profile satisfies the equation (Z96)                                          The opacities at these values are unlikely to be important in
+                                                                              the radiative transfer but should fall off smoothly to avoid the
+                                               
+                       d T        3         T 3
+                              =     kR            ,                (10)       2  The table was downloaded from
+                      dy Teff    16        Teff                               http://www.mso.anu.edu.au/∼ralph/data/freefree/gffgu.dat (last updated 2000
+                                                                              March 6). However, it appears that the column labels u and γ 2 are reversed,
+where kR is the Rosseland mean total absorption opacity. This                 both in the online table and in the corresponding table in the paper, compared
+equation can be integrated from the surface to get the initial                to what they should be. The data in the table only match the corresponding
+temperature profile, using the boundary condition T (0) =                     figure in the same paper if the labels are reversed. That figure appears to be in
+                                                                              agreement with previous work (Karzas & Latter 1961), so it is most likely the
+0.265Teff . This boundary condition is found to be closer to                  tables that are mislabeled, rather than the figure. Further, two separate
+the final converged value for hydrogen atmospheres than that                  mentions of this issue appear elsewhere (Ogley et al. 2002, and
+used for this and other compositions in previous work (Z96). At               http://hea-www.harvard.edu/PINTofALE/pro/external/sutherland_ch.pro), so
+                                                                              the columns are assumed to have been mislabeled when reading the tabulated
+each step in the integration, ρ is computed using OPAL EOS                    data.
+data (Rogers et al. 1996), and the Rosseland mean opacity kR is               3 Data from OPCD_3.3 (Seaton 2005) are used, downloaded from
+computed from κν and σT, r .                                                  http://cdsweb.u-strasbg.fr/topbase/op.html
+
+                                                                          4
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                               Haakonsen et al.
+
+possibility of interfering with convergence. Thus, the opacity at             where aj  is the Gauss–Legendre quadrature weight for the angle
+the largest tabulated value of u is extrapolated assuming the same            μj  . Using the phase function for dipole scattering (Hummer
+frequency dependence as the free–free opacity. Finally, because               1962), the differential amount of scattering from directions μ
+the total opacity is tabulated, the derived true absorption opacity           into directions μ can be expressed as
+may not be accurate when this is smaller than the scattering
+opacity, so this is smoothly transitioned to the free–free value                 dσT, r                       3
+                                                                                    
+                                                                                        (μj , μj  ) = σT, r    3 + 3μ2j μ2j  − μ2j − μ2j  .       (16)
+for absorption opacities smaller than the scattering opacity.                     dμ                         16
+   For full self-consistency the ionization fraction used in the
+opacities should be identical to that used in the OPAL EOS,                   The boundary condition at the surface is simply I− = 0, i.e., no
+but this is unlikely to be exactly satisfied for the OP opacities             incident specific intensity. For the bottom boundary condition,
+(or if enforcing complete ionization in the opacities). However,              the second-order accurate expression Pν = Bν is used, which is
+the effect of small amounts of neutral hydrogen on the EOS is                 an approximation to the third-order accurate diffusion approx-
+expected to be much smaller than its effect on the opacities,                 imation boundary condition suggested in previous work (Auer
+so any such inconsistency is unlikely to be important for the                 1976). The reason for choosing this specific bottom boundary
+effective temperatures considered in the present work.                        condition is that it ensures that the specific intensity is isotropic
+                                                                              at the bottom depth considered at each frequency, which will be
+                        3.3. Radiative Transfer                               useful when computing the Eddington factors in the temperature
+   Having obtained an initial (or later, a corrected) atmospheric             correction scheme.
+structure, the radiative transfer through the atmosphere must                    Having specified Rj,j  , Tj , and the boundary conditions, the
+now be solved. The assumption of coherent scattering leads to                 radiative transfer problem can be solved using the method
+an important computational simplification, in that the radiative              described in previous work (Auer 1976), giving Pν (y, μ) on
+transfer equation for a fixed atmospheric structure can be solved             the grid of depth and angle points used for each specific
+for one frequency at a time, since there is no direct frequency               frequency. The emergent specific intensity at the surface is then
+coupling in Equations (2) and (4). The only frequency coupling                Iν (0, μ) = 2Pν (0, μ).
+in the radiative transfer is through the effect of radiative transfer            Under the isotropic scattering assumption the phase function
+on the structure of the atmosphere, which will enter into the                 is g = 1/2 (Hummer 1962), and the expression for the
+temperature correction procedure.                                             differential amount of scattering becomes
+   At a given frequency, there will be some maximum optical                                        dσT, r                     1
+depth from beyond which there is not a significant fractional                                         
+                                                                                                          (μj , μj  ) = σT, r .                     (17)
+contribution to the flux at the surface. Thus, to calculate the flux                                dμ                        2
+at the surface, it is sufficient to consider column depths down to            The anisotropic expression is used throughout the present
+some maximum optical depth at that frequency. The maximum                     work, except in Section 4.2, where the spectra computed
+optical depth needed for a specific fractional flux contribution              with the anisotropic scattering expression are compared to
+at the surface will vary with the frequency considered and the                those computed with the isotropic scattering expression, and
+structure of the atmosphere, but in the present work a single                 in Section 4.4, where the isotropic expression is used in order
+prespecified maximum effective normal optical depth (= 80) is                 to match the assumptions of the previous work (Z96).
+used for each frequency.
+   For each frequency, the column depth is discretized into                                      3.4. Temperature Correction
+Nrad depth points between the minimum column depth and the
+first column depth corresponding to an effective normal optical                  The temperature correction scheme used is the same as
+depth greater than the specified maximum. The temperature                     that employed in a previous work (Z96), though a different
+profile is then interpolated to these depth points, and the density           discretization method is used. Both the temperature correction
+and opacities computed there, allowing the radiative transfer                 procedure and discretization method are described in full in
+problem to be solved on this frequency-specific grid of column                Appendix A. The temperature correction procedure requires the
+depths and angles.                                                            solution of the equation
+   For the fixed atmospheric structure, the radiative transfer                                           
+                                                                                   1 d      1 d
+equation (Equation (2), with the specific source function given                                  (fν Jν )
+in Equation (4)) is solved using a Hermitian method described                      kν dy kν dy
+completely in previous work (Auer 1976). The general form of                                                          ∞
+                                                                                                     dBν             0 (Jν − Bν (T0 ))κν dν   1
+the transfer equation solved in that work is                                       = Jν − Bν (T0 ) −                      ∞ dBν                  ,
+                                                                                                     dT                  0 dT κν dν
+                                                                                                                                              kν
+                       d 2 Pj
+                 μ2j          = ΣN
+                                 j  =1 Rj,j  Pj  − Tj ,         (13)                                                                              (18)
+                        dτj2
+                                                                              where                          1
+where j and j  are discrete frequency–angle points. To apply that
+method of solution to the present problem, the specific forms                                   fν = Jν−1            μ2 Pν (y, μ)dμ                  (19)
+of Rj,j  and Tj must be given, as well as the explicit boundary                                                 0
+conditions. In the present application (see Equation (7)),                    is one of the Eddington factors and
+                                  2     dσT, r                                                            1
+            Rj,j  = 1 −                       (μj , μj  ) aj    (14)
+                              κν + σT, r dΩ                                                        Jν =      Pν (y, μ)dμ                             (20)
+                                                                                                             0
+and
+                                 κν                                           is the mean specific intensity. Note, however, that this is the
+                       Tj =              Bν (T (y)) ,              (15)
+                              κν + σT, r                                      mean specific intensity subject to the constraint of constant
+
+                                                                          5
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                   Haakonsen et al.
+
+                                                      1
+
+
+
+
+                                                     0.1
+                                F*nu/sigma/Teff4
+
+
+
+
+                                                    0.01
+                                                                                   BB
+                                                                                 6.5
+                                                                         Teff=10   K
+                                                                                 6.2
+                                                                         Teff=10 K
+                                                                                5.9
+                                                                         Teff=10 K
+                                                                                5.6
+                                                                         Teff=10 K
+                                                                         Teff=105.3K
+                                                   0.001
+                                                           0.1       1                         10                        100
+                                                                             h*nu/kB /Teff
+Figure 1. Normalized spectra computed (assuming complete ionization) for various effective temperatures, along with a blackbody (BB) spectrum for comparison.
+The hottest of the computed spectra is the closest to the blackbody spectrum, and the spectra get harder with decreasing effective temperature.
+
+
+energy flux through the atmosphere, which will only equal the                                                  4. RESULTS
+mean specific intensity from the radiative transfer calculation in
+the limit of zero temperature correction. The boundary condition                      This section presents results obtained with McPHAC v1.1.
+at the surface is                                                                  The aim is to present the capabilities and limitations of the
+                                                                                   present version of the code, to inspire future improvements and
+                        1 d                                                        applications. Thus, previous works (Z96; G02; H06) are referred
+                              (fν Jν ) = hν Jν ,                     (21)
+                        kν dy                                                      to for a more complete discussion of the hydrogen atmosphere
+                                                                                   structure and emergent spectrum.
+where                              1                                                 The code has been compiled and run on an AMD platform
+                    hν = Jν−1                       μPν (y, μ)dμ     (22)          running the Linux operating system. For details on the code
+                                         0                                         implementation and numerical packages used, see Appendix B.
+is another Eddington factor, and the boundary condition at the                        Unless otherwise stated, the following “default” level of
+largest column depth is Jν = Bν .                                                  discretization is used: the number of frequency points used is
+   Note that allowing for anisotropic scattering in the present                    K = 100, the number of angle points used is M = 40, the
+work does not change the form of Equation (18), since the                          number of depth points used in the radiative transfer calculation
+angular integral over the source function must come out to the                     is Nrad = 3200, and the number of depth points used in the
+same whether or not it has an angular dependence (all radiation                    temperature correction procedure is Ntemp = 3200. Further,
+“absorbed” due to scattering opacity must be “re-emitted”).                        the minimum column depth considered at Teff = 106.5 K is
+   The temperature correction ΔT (y) is equal to the ratio                         ymin = 10−5 g cm−2 , while it is ymin = 10−9 g cm−2 at all
+of the two integrals in the last term of Equation (18) (see                        lower effective temperatures. For all effective temperatures the
+Equation (A5)). To find Jν , and thus ΔT , Equation (18) is solved                 maximum column depth is set to ymax = 102 g cm−2 , though
+using the fν computed in the radiative transfer problem. For the                   this may be increased by the code as described in Section 3.1.
+depth points beyond the maximum column depth considered at                            For Sections 4.1–4.3 and 4.5, complete ionization is assumed
+each frequency in the radiative transfer problem, the isotropic                    when computing the opacities, while the effect of partial
+limit fν = 1/3 is used. A continuous fν is ensured by the use                      ionization is included in Section 4.4 for a better comparison
+of the boundary condition Pν = Bν in the radiative transfer                        with the previous work. As previously noted, there is a slight
+problem.                                                                           inconsistency in assuming complete ionization for the opacities
+   Using a fixed fν (y), Equation (18) can be solved using a                       but not for the EOS, but this is of minor importance in
+Rybicki-type solution (Rybicki 1971), the details of which are                     characterizing the computational capabilities of the code, which
+given in Appendix A. The resulting temperature correction is                       is the aim of this section.
+applied to the temperature profile, and the radiative transfer                                            4.1. Emergent Spectra
+repeated to give an updated fν (y), which in turn is used to
+correct the temperature profile. Iteration is continued until the                     Normalized and rescaled spectra computed (assuming com-
+maximum computed fractional temperature change is less than                        plete ionization) for various effective temperatures are shown
+a specified threshold (10−4 throughout the present work).                          in Figure 1, along with a BB spectrum for comparison. The
+
+                                                                             6
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                              Haakonsen et al.
+
+                                                              1.035
+                                                                            Teff=106.5K M=160
+                                                                             Teff=106.2K M=40
+                                                               1.03                5.9
+                                                                             Teff=10 K M=40
+                                                                                    5.6
+                                                                             Teff=10 K M=40
+                                                                                    5.3
+                                                                             Teff=10 K M=40
+                                                              1.025
+
+
+                                  FAnisotropic / FIsotropic    1.02
+
+
+                                                              1.015
+
+
+                                                               1.01
+
+
+                                                              1.005
+
+
+                                                                 1
+
+
+                                                              0.995
+                                                                      0.1                           1                                  10
+                                                                                                h*nu [keV]
+Figure 2. Ratio of the spectrum calculated considering anisotropic Thomson scattering to that computed assuming isotropic scattering, for various effective temperatures.
+The curves terminate at hν =120kB Teff , which corresponds to the highest frequency considered. Considering anisotropic scattering appears to increase the flux above
+1 keV, with the largest increase happening around 5 keV (apparently insensitive to effective temperature). The effective temperatures of each pair of spectra differ by
+less than 2 × 10−5 . Thus, increasing the flux above 1 keV reduces the flux below 1 keV to keep the effective temperature the same.
+
+
+default discretization level described previously is used, with the                                    Figure 2 shows the ratio of the spectrum calculated con-
+exception of the Teff = 106.5 K spectrum, for which M = 160                                         sidering anisotropic Thomson scattering to that computed as-
+angle points were used. The hottest of the computed spectra                                         suming isotropic scattering, for various effective temperatures
+lies the closest to the BB spectrum, and the spectra get harder                                     (assuming complete ionization). Considering anisotropic scat-
+with decreasing effective temperature. Thomson scattering is                                        tering appears to increase the flux above 1 keV, with the largest
+expected to be more important in the hotter atmospheres, and                                        increase happening around 5 keV (apparently insensitive to ef-
+the relative magnitudes of the free–free and reduced Thomson                                        fective temperature). The effective temperatures of each pair of
+opacities as a function of frequency appear to be important in                                      spectra differ by less than 2 × 10−5 . Thus, increasing the flux
+determining the shape of the spectrum. The spectra are signif-                                      above 1 keV reduces the flux below 1 keV to keep the effective
+icantly harder than a BB spectrum because of the frequency                                          temperature the same. Corrections to anisotropic Thomson scat-
+dependence of the free–free opacity (the free–free cross sec-                                       tering due to collective effects (Boercker 1987) may change the
+tion decreases with increasing frequency), which means that the                                     importance of considering anisotropic scattering, but it appears
+flux at a higher frequency originates deeper in the atmosphere,                                     that isotropic scattering is an adequate assumption as long as
+where the temperature is greater. For higher effective tempera-                                     one is not seeking accuracy better than 1% in flux as a function
+tures, Thomson scattering is more important since the spectrum                                      of photon energy.
+is shifted to higher energies, thus reducing the free–free opacity.
+Since the reduced Thomson opacity is frequency independent,                                                   4.3. Convergence of Computational Method
+it softens the spectrum by limiting the depth in the atmosphere
+from which the high-energy side of the spectrum originates. The                                        There are multiple sources of uncertainty in the spectra com-
+behavior described here is similar to that seen in previous work                                    puted under the assumptions described in Section 2: uncertainty
+(H06), where the high-energy side of the rescaled spectrum                                          in the input parameters (e.g., opacities or EOS), truncation (dis-
+steepened with increasing effective temperature.                                                    cretization) uncertainty in the numerical method (for both the
+                                                                                                    temperature correction and radiative transfer), and the conver-
+                                                                                                    gence uncertainty between iterations. Investigation of the effect
+                4.2. Anisotropic Thomson Scattering                                                 of uncertainty in the input parameters is left for future work, as
+                                                                                                    the aim of the present work is limited to presenting the compu-
+   The present work allows for Thomson scattering to be                                             tational capabilities of the McPHAC code, while the latter two
+treated anisotropically, in contrast to previous work (Z96;                                         forms of uncertainty are investigated here.
+G02; H06). The effect of relaxing the isotropy assumption is                                           The truncation error is the error introduced by truncating
+investigated here, by comparing the spectra computed with the                                       the power series describing a function to a finite order. The
+McPHAC code using the anisotropic scattering expression to                                          local truncation error from one point to another can usually
+those computed using the isotropic scattering expression (see                                       be constrained but the additive effects of truncation errors
+Section 3.3).                                                                                       are more difficult to quantify. One way to estimate the size
+
+                                                                                                7
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                             Haakonsen et al.
+
+                                                   0.1
+                                                                                                              Nrad=100
+                                                                                                              Nrad=200
+                                                                                                              Nrad=400
+                                                                                                              Nrad=800
+                                                                                                             Nrad=1600
+                                                  0.01
+
+
+                                  / I3200 )
+                                         rad
+
+
+
+
+                                                 0.001
+                                  abs( 1 - IN
+
+
+
+
+                                                0.0001
+
+
+
+
+                                                1e-05
+                                                         0      0.2              0.4              0.6              0.8               1
+                                                                                         mu
+Figure 3. Convergence of the specific intensity resulting from repeating the radiative transfer calculation for an increasing number of depth points. The effective
+temperature of the spectrum is Teff = 106.5 K, and the specific intensity shown is for a frequency close to the spectrum peak (frequency number k = 3K/5). Note
+                                                 2 , and that doubling N
+that the convergence scales approximately as 1/Nrad                       rad thus decreases by a factor of four the fractional difference between the specific intensity
+computed for Nrad depth points and that computed using 3200 depth points.
+
+
+of the truncation error is to perform the calculation for an                            discretization levels. Further, this indicates that a single com-
+increasingly fine discretization and to analyze the convergence                         ponent may limit the convergence at every angle. Identifying
+of the resulting value of interest. In general, the truncation error                    this component and finding some way to reduce it could im-
+in each equation due to the discretization of each variable should                      prove convergence. However, even limited by this hypothetical
+be investigated, so a multidimensional grid of discretization                           component, second-order convergence is observed. The worst
+levels should be used for each of the input parameters for                              convergence is seen for the highest frequency considered, but
+which spectra are computed. However, at present a more limited                          even at that frequency second-order convergence to better than
+approach is taken, intended mainly to give a sense of the                               10−4 is achieved using 3200 depth points.
+capabilities and limitations of the code. A more thorough                                  Another truncation error that may be important in the radiative
+treatment should be performed in specific applications where                            transfer calculation is that introduced through the discretization
+it is important to constrain the uncertainty in the computed                            of the angle variable μ. To constrain just the truncation error, the
+spectra.                                                                                radiative transfer calculation could be repeated for an increas-
+   The discretization of column/optical depth in the radiative                          ing number M of angle points at fixed atmospheric structure.
+transfer calculation is perhaps the most obvious example of                             However, instead the entire iterative solution has been repeated,
+how a truncation error can be introduced in the computed spec-                          which captures all the effects of the discretization of μ on the
+trum. To constrain this, the radiative transfer calculation was                         emergent spectrum. This includes the effect of uncertainty in the
+repeated for a fixed atmospheric structure, varying Nrad while                          computed Eddington factor on the computed temperature cor-
+keeping all other discretizations at their default values. Figure 3                     rection, though being simply a Gauss–Legendre approximation
+shows the convergence of the computed specific intensity at the                         to an integral, the Eddington factor should converge quickly with
+surface with increasing Nrad , for a frequency close to the peak of                     increasing M. The convergence of the computed spectrum with
+the Teff = 106.5 K spectrum. The specific intensities shown are                         number of angle points is shown in Figure 4, for Teff = 106.5 K.
+those computed after six iterations, where the maximum frac-                            The spectra shown are those computed after six iterations, where
+tional temperature change in the atmosphere in the last iteration                       the maximum fractional temperature change in the atmosphere
+is less than 10−4 . As the number of depth points in the radiative                      in the last iteration is less than 10−4 . From the rate of conver-
+transfer calculation is increased from 100 to 1600, the fractional                      gence seen, it is expected that the uncertainty in the spectrum
+difference in the computed spectra falls below 10−4 , indicating                        due to discretizing the μ variable is less than 10−4 when using
+that the truncation (discretization) error in the radiative transfer                    160 angle points (for this effective temperature).
+calculation due to discretizing the depth variable is smaller than                         As is seen in Figure 4, there is a sign change of 1 − FM /F160
+10−4 when using 3200 depth points. Hardly any dependence                                near hν/kB /Teff ∼ 3.5 for all values of M, indicating that the
+on μ is seen in the convergence, indicating that convergence                            discretization of μ leads to a consistent underprediction of the
+can be demonstrated separately for the discretizations in μ and                         flux below that frequency and a consistent overprediction of
+in depth, rather than resorting to a multidimensional grid of                           the flux above that frequency. The location of the sign change
+
+                                                                                   8
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                            Haakonsen et al.
+
+                                                             0.01
+                                                                                                                             M=10
+                                                                                                                             M=20
+                                                                                                                             M=40
+                                                            0.001                                                            M=80
+
+
+
+
+                                    abs( 1 - FM / F160 )
+                                                           0.0001
+
+
+
+
+                                                            1e-05
+
+
+
+
+                                                            1e-06
+
+
+
+
+                                                            1e-07
+                                                                      0.1                  1                       10                 100
+                                                                                               h*nu/kB /Teff
+
+Figure 4. Convergence of the emergent spectrum resulting from re-running the full McPHAC code for an increasing number of angle points. The effective temperature
+of the spectrum is Teff = 106.5 K. There is a sign change of 1 − FM /F160 near hν/kB /Teff ∼ 3.5 for all values of M, indicating that the discretization of μ leads to a
+consistent underprediction of the flux below that frequency and a consistent overprediction of the flux above that frequency.
+
+                                                             0.01
+
+
+
+
+                                                            0.001
+
+
+
+
+                                                           0.0001
+                                    / T3200 )
+                                                 temp
+
+
+
+
+                                                           1e-05
+                                    abs( 1 - TN
+
+
+
+
+                                                           1e-06
+
+                                                                    Ntemp=100
+                                                                    Ntemp=200
+                                                           1e-07
+                                                                    Ntemp=400
+                                                                    Ntemp=800
+                                                                   Ntemp=1600
+                                                           1e-08
+                                                               1e-05 0.0001     0.001   0.01       0.1         1        10      100   1000
+                                                                                                         2
+                                                                                               y [g/cm ]
+Figure 5. Convergence of the temperature profile resulting from repeating the temperature correction procedure with an increasing number of depth points. The
+flux through the atmosphere corresponds to Teff = 106.5 K. The first iteration is shown, since this is where the largest temperature correction is computed, but the
+                                                                                                                       2 , and that doubling N
+corresponding figures for later iterations look almost identical. Note that the convergence scales approximately as 1/Ntemp                    temp thus decreases by
+a factor of four the difference between the temperature profile computed with Ntemp depth points and that computed with 3200 depth points. The sharp drop-off around
+y = 300 g cm−2 is due to the bottom boundary condition, which results in zero computed temperature correction there.
+
+is close to the peak of the BB spectrum, suggesting that the                                       anisotropic. Nonetheless, using a sufficiently large M ensures
+different character of the radiation in the Rayleigh–Jean and                                      an acceptably small fractional error in the computed emergent
+Wien tails is a possible cause. The low-frequency parts of the                                     spectrum.
+emergent spectrum originate near the surface of the atmosphere                                        In calculating the temperature correction at each iteration,
+and are reasonably isotropic, while the high-frequency parts of                                    the truncation error due to discretizing the depth variable may
+the spectrum originate deeper in the atmosphere and are more                                       be important. To investigate this, the temperature correction at
+
+                                                                                               9
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                             Haakonsen et al.
+
+                   1                                                                              Interestingly, Jν is calculated in the temperature correction pro-
+                                                                                                  cedure, and in the limit of zero computed temperature correction,
+                  0.1                                                                             that Jν is the same as that computed in the radiative transfer cal-
+                                                                                                  culation. Thus, if the Eddington factors can be computed to suf-
+                 0.01                                                                             ficient accuracy in a computationally efficient way, it is possible
+                                                                                                  that it is computationally advantageous to use the spectrum cal-
+                0.001                                                                             culated from the temperature correction procedure, rather than
+                                                                                                  to require sufficient accuracy of the calculated spectrum in the
+ abs( dT/T )
+
+
+
+
+               0.0001                                                                             radiative transfer calculation. Figure 7 compares the normalized
+                                                                                                  spectrum computed from the temperature correction procedure
+               1e-05
+                                                                                                  to that computed using the radiative transfer calculation. The
+                                                                                                  spectra shown are those computed after six iterations, where the
+               1e-06
+                                                                                                  maximum fractional temperature change in the atmosphere in
+                                                                                                  the last iteration is less than 10−4 . The number of angle points
+                             iter. 1
+               1e-07         iter. 2
+                             iter. 3                                                              M used for each curve is indicated in the legend. The two curves
+                             iter. 4                                                              (40 and 160 angle points) for Teff = 106.5 K are almost identi-
+               1e-08
+                             iter. 5                                                              cal and show that the spectra computed using the two different
+                             iter. 6                                                              methods differ by less than 10−4 for h ν/(kB Teff ) < 50. This
+               1e-09
+                        -5       -4      -3      -2          -1           0   1   2     3         indicates that the difference between the spectra computed with
+                                                                   2
+                                                      log ( y [g/cm ] )                           the radiative transfer calculation and with the temperature cor-
+Figure 6. Computed fractional temperature change (ΔT , see Equation (A5))                         rection procedure is not sensitive to the number of angle points
+with depth, for each iteration. The flux through the atmosphere corresponds to                    used. Further, the spectrum computed with the temperature cor-
+Teff = 106.5 K. The sharp decrements (e.g., near log(y) = −3.5 for iteration 1)                   rection procedure can be made accurate enough to be used in
+are due to changes in sign of ΔT .                                                                place of that computed in the radiative transfer calculation. The
+                                                                                                  difference between the two spectra at the highest frequencies
+each iteration is repeated for a varying number of depth points.                                  may be due to there being a significant contribution to the flux
+The convergence of the temperature profile (after temperature                                     at the surface from beyond an effective normal optical depth
+correction) computed with Ntemp depth points is shown in                                          of 80 at these frequencies, since this flux would be ignored in
+Figure 5, for a Teff = 106.5 K atmosphere. The first iteration is                                 the radiative transfer calculation. The curve for Teff = 105.6 K
+shown, since this is where the largest temperature correction is                                  shows a larger difference between the spectra computed with the
+computed, but the corresponding figures for later iterations look                                 two different methods, which may be due to the larger logarith-
+almost identical. For anything more than 800 depth points, the                                    mic range of column depths used at this effective temperature
+truncation uncertainty in the temperature correction procedure                                    leading to a larger truncation error on the spectrum computed
+introduced by discretizing y is less than 10−4 (at this effective                                 in the temperature correction procedure (since the number of
+temperature).                                                                                     depth points is fixed).
+    Separate from the truncation uncertainty, there is convergence
+uncertainty. The convergence uncertainty is the uncertainty
+                                                                                                               4.4. Comparison with Previous Work
+introduced by solving coupled equations iteratively, since the
+solution at a given iteration is different from that which would                                     For the purposes of comparison with previous work (Z96),
+be obtained in the limit of an infinite number of iterations. The                                 spectra were produced with McPHAC including the effects
+convergence uncertainty can be constrained by analyzing the                                       of partial ionization on the opacities (see Section 3.2). The
+convergence of the resulting values for successive iterations.                                    discretization level used was K = 200, M = 10, Nrad = 200,
+    The temperature profile is corrected at each iteration, and                                   and Ntemp = 200, intended to give computational uncertainty
+these corrections affect the structure of the atmosphere and the                                  well below a percent. The range of column depths was in
+emergent spectrum. Thus, it is important that enough iterations                                   each case chosen to match that in previous work, though the
+are used to bring the largest fractional temperature change be-                                   maximum column depth was increased by the code as described
+low some threshold. The convergence of the computed fractional                                    in Section 3.1, except where specified in Figure 10.
+temperature change with iteration is shown in Figure 6, for a                                        Figure 8 shows a comparison of the normalized spectra
+Teff = 106.5 K atmosphere. At five iterations, the maximum                                        computed using the McPHAC code with those of previous
+computed fractional temperature change is below 10−4 . How-                                       work (Z96), for various effective temperatures. There appears
+ever, it is not obvious how the temperature corrections affect the                                to be generally good agreement between the spectra, though
+emergent spectrum, so it is also verified that the emergent spec-                                 the spectra computed in previous work predict significantly less
+trum is sufficiently converged. At five iterations, the fractional                                flux at high energies than those of the present work for the three
+convergence uncertainty in the specific intensity at the surface                                  lowest effective temperatures.
+is less than 10−4 (for this effective temperature).                                                  Figure 9 shows the ratio of the pairs of spectra shown in
+    The most intuitive way to calculate the outward flux at                                       Figure 8. The spectra are interpolated to allow for comparison.
+the surface (the emergent spectrum) is the integral Fν =                                          All the curves show a sharp drop-off at the high-frequency
+   1
+  0 μ Iν (μ) dμ. However, it can also be computed from the                                        end, as well as an enhancement of several percent just before
+Eddington factor fν and mean specific intensity Jν through the                                    this drop-off. Near their peaks, the spectra computed using the
+expression (Z96)                                                                                  McPHAC code agree with the spectra of previous work (Z96) to
+                                                                                                  1%. Little flux is expected at the energies above the drop-off,
+                                                4π d                                              so this difference is unlikely to have practical consequences for
+                                       Fν =              (fν Jν ) .                   (23)
+                                              αν + σν dy                                          most applications.
+
+                                                                                             10
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                                                    Haakonsen et al.
+
+                                                                               1
+                                                                                                 6.5
+                                                                                         Teff=10 K, M=160
+                                                                                                 6.5
+                                                                                          Teff=10 K, M=40
+                                                                                                  5.6
+                                                                              0.1         Teff=10      K, M=40
+
+
+
+                                                                             0.01
+
+                                  abs( 1 - Ftemp. corr. / Frad. trans. )
+                                                                            0.001
+
+
+
+                                                                           0.0001
+
+
+
+                                                                           1e-05
+
+
+
+                                                                           1e-06
+
+
+
+                                                                           1e-07
+                                                                                           0.1                       1                    10                 100
+                                                                                                                         h*nu/kB/Teff
+Figure 7. Comparison of the emergent spectrum resulting from the radiative transfer calculation to that resulting from the temperature correction procedure. The
+number of angle points used for each curve is indicated in the legend. The two curves (40 and 160 angle points) for Teff = 106.5 K are almost identical.
+
+
+
+
+                                                                             0.1
+                                  4
+                                             F*nu/sigma/Teff
+
+
+
+
+                                                                            0.01
+                                                                                                           6.5
+                                                                                             Z96 Teff=10   K
+                                                                                                        6.5
+                                                                                         McPHAC Teff=10 K
+                                                                                                        6.2
+                                                                                             Z96 Teff=10 K
+                                                                                         McPHAC Teff=106.2K
+                                                                                                           5.9
+                                                                                             Z96 Teff=10         K
+                                                                           0.001                           5.9
+                                                                                         McPHAC Teff=10 K
+                                                                                                        5.6
+                                                                                             Z96 Teff=10 K
+                                                                                                           5.6
+                                                                                         McPHAC Teff=10 K
+                                                                                             Z96 Teff=105.3K
+                                                                                                           5.3
+                                                                                         McPHAC Teff=10          K
+                                                                    0.0001
+                                                                                   0.1                                    1                           10
+                                                                                                                          h*nu [keV]
+Figure 8. Comparison of the normalized spectra computed (considering partial ionization) using McPHAC with those of previous work (Z96), for various effective
+temperatures. The vertical high-frequency cutoffs seen for the three lowest effective temperature spectra of the previous work are present because the tabulated spectra
+are not specified at frequencies above the cutoff value. There generally is good agreement between the McPHAC spectra and those of the previous work, though the
+McPHAC spectra predict significantly more flux at high energies than those of the previous work for the three lowest effective temperatures.
+
+
+   One possible cause for the lower flux seen at the high-                                                                    the McPHAC code was run for the column depth ranges used
+est energies in the spectra of previous work (Z96) is that                                                                    in the previous work for three of the effective temperatures
+the previous work considered a smaller maximum column                                                                         (read from a figure in the previous work). Figure 10 shows
+depth than the present work. To investigate this hypothesis,                                                                  the normalized spectrum of the previous work, the McPHAC
+
+                                                                                                                         11
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                               Haakonsen et al.
+
+                                                         1.05
+
+
+
+
+                                                            1
+
+
+
+                                   FZ96 / FMcPHAC
+
+
+                                                         0.95
+
+
+
+
+                                                          0.9
+                                                                      Teff=106.5K
+                                                                             6.2
+                                                                      Teff=10 K
+                                                                      Teff=105.9K
+                                                                             5.6
+                                                                      Teff=10 K
+                                                                             5.3
+                                                                      Teff=10 K
+                                                         0.85
+                                                                0.1                              1                               10
+                                                                                                 h*nu [keV]
+Figure 9. Ratio of the pairs of spectra shown in Figure 8. All the curves show a sharp drop-off at the high-frequency end, as well as an enhancement of several percent
+just before this drop-off. Near their peaks, the spectra computed using the McPHAC code agree with the spectra of previous work (Z96) to 1%.
+
+
+
+
+                                                           0.1
+                                   4
+                                       F*nu/sigma/Teff
+
+
+
+
+                                                          0.01
+
+                                                                                                  5.9
+                                                                                      Z96 Teff=10 K
+                                                                                                  5.9
+                                                                           McPHAC Z96 tau Teff=10 K
+                                                                          McPHAC large tau Teff=105.9K
+                                                                                                  5.6
+                                                                                       Z96 Teff=10      K
+                                                         0.001                                    5.6
+                                                                           McPHAC Z96 tau Teff=10 K
+                                                                                                  5.6
+                                                                          McPHAC large tau Teff=10 K
+                                                                                                  5.3
+                                                                                     Z96 Teff=10 K
+                                                                           McPHAC Z96 tau Teff=105.3K
+                                                                                                  5.3
+                                                                          McPHAC large tau Teff=10      K
+                                               0.0001
+                                                                 0.1                                           1
+                                                                                                  h*nu [keV]
+Figure 10. Comparison of the normalized spectra computed using McPHAC to those of previous work (Z96), for various effective temperatures. The column depth
+range used for the McPHAC spectra labeled “Z96 tau” at each effective temperature is taken to be the same as that used in the previous work. The column depth
+range for the McPHAC spectra labeled “large tau” ensures that the largest effective normal optical depth is at least 80 at all frequencies. The “Z96 tau” McPHAC
+spectra agree well with those of the previous work, indicating that the difference between these and the “large tau” McPHAC spectra is due to the previous work not
+considering large enough optical depths at the highest frequencies.
+
+
+computed spectrum using the code-adjusted column depth                                                  tau”), for the three effective temperatures where a clear dif-
+range (“large tau”), and the McPHAC computed spectrum                                                   ference in the spectra was seen in Figure 8. The “Z96 tau”
+using the column depth range of the previous work (“Z96                                                 McPHAC spectra agree well with those of the previous work,
+
+                                                                                                12
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                     Haakonsen et al.
+
+                                     0.44
+                                                                                                              k=1
+                                                                                                         k=1*K/5
+                                     0.42                                                                k=2*K/5
+                                                                                                         k=3*K/5
+                                                                                                         k=4*K/5
+                                      0.4
+                                                                                                            k=K
+
+
+                                     0.38
+
+
+                                     0.36
+                                fk
+
+
+
+
+                                     0.34
+
+
+                                     0.32
+
+
+                                      0.3
+
+
+                                     0.28
+                                         0.01                 0.1                   1                  10                  100
+                                                                                   tau
+Figure 11. Eddington factor f, computed (assuming complete ionization) for a Teff = 106.5 K atmosphere, where k is the frequency number. The largest deviation
+from f = 1/3 occurs near the surface, for the peak frequency of the spectrum. For frequencies above the peak f  1/3, while for frequencies below the peak there
+are optical depths at which f < 1/3.
+
+
+indicating that the difference between these and the “large tau”                   while for frequencies below the peak there are optical depths
+McPHAC spectra is due to the previous work not considering                         at which f < 1/3. A possible explanation for this behavior
+a large enough effective normal optical depth at the highest                       is as follows. The specific intensity for small μ is set mainly
+frequencies.                                                                       by the BB function for the temperature at that depth. Since the
+   A fractional comparison between the “Z96 tau” spectra and                       temperature increases monotonically with increasing τν , so does
+those of previous work would not be illuminating since any                         the specific intensity for small μ. The ingoing specific intensity
+differences in the high-frequency part of the spectrum could be                    for large μ depends on the amount of emitting material above
+attributed to not using the exact same column depth ranges,                        the depth considered and on the temperature and opacity of
+and any differences in the low-energy part of the spectrum                         that material. Thus, the ingoing specific intensity for large μ
+are already shown in Figure 9. However, the discovery that                         should increase more slowly with optical depth than the specific
+the previous work did not consider a large enough maximum                          intensity for small μ. The outgoing specific intensity for large μ
+column depth does offer a possible explanation for the excess                      should not change by much in the top fraction of an optical depth
+flux at energies just below the sharp drop-off seen in Figure 9.                   of the atmosphere, so the Eddington factor should thus initially
+The temperature correction scheme used in the previous work                        decrease with increasing optical depth from the surface. The
+attempts to enforce constant total radiative flux through the                      magnitude of the outgoing specific intensity at large μ compared
+atmosphere, so it may be that the missing flux near the deepest                    to the specific intensity at small μ determines whether there is
+column depths led to modifications to the temperature profile                      a region where f < 1/3 for a given frequency. For frequencies
+there that gave rise to the additional flux seen at frequencies just               above the spectrum peak, the outgoing specific intensity for
+below the drop-off. This has not been investigated, however, and                   large μ appears to be large enough to keep f  1/3, while this
+remains pure speculation.                                                          is not the case for frequencies below the peak. The graph for the
+                                                                                   Eddington factor h looks similar, except h is 1/2 for isotropic
+                        4.5. Eddington Factors                                     specific intensity, not 1/3. Only the value of h at the surface is
+                                                                                   used, however, so the depth dependence is not really of interest.
+   The Eddington factor fν (τν ), computed (assuming complete
+ionization) for a Teff = 106.5 K atmosphere using M = 160                                             5. FUTURE IMPROVEMENTS
+angle points, is shown in Figure 11. For isotropic specific
+intensity, the Eddington factor takes the value f = 1/3. If                           In this section, brief discussion of prospective modifications
+the specific intensity is larger for small μ than for large μ,                     to the code is given. These modifications could be made in the
+then f < 1/3. Conversely, if the specific intensity is larger for                  future to improve McPHAC functionality, its applicability to a
+large μ than for small μ, then f > 1/3. As expected, f goes                        particular analysis, or its efficiency.
+to one-third at the largest optical depth, where the radiation                        Collective effects. Corrections to the Thomson scattering
+is expected to be practically isotropic. The largest deviation                     opacity due to collective effects (Boercker 1987) should be
+from f = 1/3 occurs near the surface, for the peak frequency                       included. This has been partially implemented based on code
+of the spectrum. For frequencies above the peak f  1/3,                           from the OPCD_3.3 but should be completed and tested.
+
+                                                                              13
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                        Haakonsen et al.
+
+   Electron heat transport. Zero electron heat transport is an                  An improvement of the present work over previous codes is
+assumption in the present version of the code. The code could               that in McPHAC, the discretization of the column depth variable
+be generalized to allow for electron heat transport, which may              in the radiative transfer problem is set independently for each
+affect the atmospheric structure enough to significantly affect             discrete frequency, rather than using the same discretization
+the emergent spectra. This may also produce a surface-gravity-              as in the temperature correction procedure. Using separate
+dependent effect.                                                           discretizations for the two main components of the calculation
+   Updating the EOS and examining the effect of uncertainties in            allows the numerical uncertainty introduced in each component
+the EOS. The OPAL EOS functions are used to get the EOS of the              to be studied separately and allows independent optimization of
+atmosphere. The code should be updated to use the most recent               the two components of the calculation.
+version of these functions, and the effect of any uncertainties in              A discussion of the numerical convergence of the McPHAC
+the EOS should be investigated, as should the range of validity             code is given in Section 4.3, and the results indicate that the code
+in temperature and pressure of the functions.                               is capable of producing spectra with numerical uncertainties
+   Improved opacities for partially ionized hydrogen. The                   less than 0.01%. To constrain other uncertainties in the spectra,
+OPCD_3.3 monochromatic opacities and ionization fractions                   however, future work is needed. To this end, a number of
+are tabulated for a limited range of densities at each temperature          possible improvements to the physical assumptions made by
+and could be upgraded to include more complete tables.                      the code are suggested in Section 5. Several computational
+   Include Comptonization. Scattering is at present assumed                 improvements are also suggested there, intended to reduce the
+to be coherent, but the effects of Comptonization should                    computational cost of producing high-accuracy spectra on large
+ultimately be included in McPHAC. Comptonization is likely                  grids of parameters.
+to be important for H atmospheres with very high effective                      Unlike previous unmagnetized hydrogen atmosphere models
+temperature.                                                                (Z96; G02; H06), the McPHAC code treats Thomson scattering
+   Determine validity of radiative transfer. The equations of               anisotropically. Spectra computed assuming dipolar Thomson
+radiative transfer may not be applicable in deep layers of                  scattering are compared to those computed assuming isotropic
+the atmosphere because the plasma frequency may approach                    scattering, and it is found that there are differences at the level
+the radiation frequency. The validity of the radiative transfer             of 10−3 below 1 keV, while the spectra vary by as much as 3%
+equations in these regions should therefore be assessed.                    above 1 keV. For the effective temperatures for which a large
+   Set initial atmosphere structure based on previously computed            fraction of the flux is expected above 1 keV (Teff = 106.2 K and
+atmosphere for similar parameters. For computing emergent                   Teff = 106.5 K), the differences are at the level of half a percent.
+spectra on a grid of effective temperatures and surface gravities,          It is concluded that treating Thomson scattering anisotropically
+it is likely that great computational gains could be made by                is required if spectra with uncertainties less than 0.1% are to be
+setting the initial atmospheric structure based on an atmosphere            produced, though it should be re-emphasized that there are other
+with similar parameters. Doing so could reduce the number of                sources of uncertainty that also need to be reduced to produce
+iterations needed for satisfactory convergence.                             spectra accurate to that level (see Section 1).
+   Use a Rybicki-type solution for the case of isotropic Thomson                McPHAC-computed spectra are compared in detail to those
+scattering. A Rybicki-type modification (Rybicki 1971) to the               produced in one of the previous unmagnetized hydrogen at-
+Feautrier solution cannot be used in McPHAC for the case                    mosphere models (Z96) in Section 4.4. It is found that the
+of anisotropic Thomson scattering but is possible under the                 Teff = 105.3 K and Teff = 105.6 K spectra of the previous work
+isotropic scattering approximation. A Rybicki-type solution                 predict significantly less flux above ∼0.7 keV and ∼1.4 keV,
+would likely be less computationally demanding and may                      respectively, than do the spectra of the present work. At those
+therefore be preferable in cases where it is not necessary to               frequencies, the spectral flux is down by a factor of ∼1/30 from
+treat Thomson scattering anisotropically. The code to use a                 the peak of the spectrum, so the deficit is unlikely to be impor-
+Rybicki-type solution in the case of isotropic scattering is largely        tant unless only observing the tail of the spectrum. The cause
+implemented but remains untested. It should also be noted that              of the flux deficit is determined to be that the previous work
+the Rybicki solution allows coupling between frequencies in                 did not consider large enough column depths at those effective
+the radiative transfer calculation and thus allows incoherent               temperatures.
+scattering.
+   Solve full Feautrier problem using sparse matrix methods.
+Modern iterative techniques allow for the solution of very                    The authors gratefully acknowledge useful discussion with
+large sparse matrix equations, so if it were desired to modify              Andrew Cumming on numerical convergence, as well as the
+McPHAC in a way that would require the solution of the                      anonymous referee for leading us to include the effects of partial
+full Feautrier problem (arbitrary angle and frequency coupling              ionization in McPHAC. This work was supported by the NSERC
+allowed), such methods could be used to allow useful frequency,             Discovery Grants program.
+depth, and angle resolution.
+
+             6. DISCUSSION AND CONCLUSIONS
+                                                                                                     APPENDIX A
+  The McPHAC v1.1 code is presented, marking the beginning
+of an effort to produce model hydrogen atmosphere spectra                          TEMPERATURE CORRECTION PROCEDURE
+with uncertainties less than 0.1% in each spectral bin. The
+source code is made available4 for public scrutiny and for further                            A.1. Temperature Correction
+development by members of the scientific community.
+                                                                               The temperature correction scheme used in the present work
+                                                                            is based on that used in previous work (Z96) and is described in
+4   http://dualcore.physics.mcgill.ca/McPHAC/                               detail in this section.
+
+                                                                       14
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                                        Haakonsen et al.
+
+   First, the second-order transfer equation is integrated over μ                                               A.2. Discretization
+to give
+                     1                                                       The discretization of Equation (A6) used in McPHAC is
+     1 d       1 d                                                           detailed here. An alternative approach would be to use a
+                         μ Pν (y, μ)dμ = Jν − (1 − ρν )Bν
+                          2
+                                                                             discretization based on the Hermitian method discussed in
+     kν dy kν dy 0
+                     1      1                                              previous work (Auer 1976), but that is not what is done in
+                2ρν                             dσT, r
+            −            dμ     dμ Pν (y, μ )        (μ, μ ). (A1)        the present work.
+               σT, r 0       0                   dμ                            To discretize the left-hand side of Equation (A6), i ± 1/2 is
+The last term in the above equation must reduce to ρν Jν since               used to denote evaluation at the midpoints between yi and its
+the total angle-integrated specific intensity “emitted” through              nearest neighbors, such that
+scattering must equal that “absorbed.” Using this fact and the
+                                                                                       (Δ(fν Jν ))i±1/2 = ±((fν Jν )(yi±1 ) − (fν Jν )(yi )),                               (A7)
+definition of the Eddington factor fν = Jν−1 0 μ2 Pν (y, μ)dμ,
+                                                1
+
+Equation (A1) reduces to                                                     which, along with the approximations
+                          
+     1 d     1 d
+                   (fν Jν ) = (Jν − Bν (T (y)))(1 − ρν ). (A2)                                      (Δτν )i±1/2 ≈ kν (yi±1/2 )(Δy)i±1/2                                     (A8)
+    kν dy kν dy
+   To proceed, it is noted that the energy flux at a given frequency         and
+can be written as Fν = (4π /kν )(d/dy)(fν Jν ). Inserting this                                              1
+                                                                                                             ki±1/2 ≈
+                                                                                                              (ki + ki±1 ),                                                 (A9)
+result into Equation (A2), multiplying by kν , and integrating                                              2
+over all frequencies gives                                                   gives the full discrete expression
+              ∞              ∞
+       1 d
+                   Fν dν =        (Jν − Bν (T (y)))κν dν,       (A3)               d2
+      4π dy 0                 0                                               μ2        (fν Jν ) ≈
+                                                                                   dτν2
+since (1 − ρν )kν = κν . In radiative equilibrium, the energy flux                                                                                                    
+through every depth of the atmosphere will be the same. Thus,
+                                                                                                (fν Jν )(yi+1 )−(fν Jν )(yi )
+                                                                                              1 [k (y                           − 1 [k(fν(yJν )+k
+                                                                                                                                              )(yi )−(fν Jν )(yi−1 )
+                                                                                              2 ν i+1 )+kν (yi )](yi+1 −yi )                        (y )](y −y )
+                                                                                  1                                                                           .
+                                                                                                                           2            ν   i   ν   i−1    i    i−1
+
+the left-hand side of the above equation vanishes, so the right-              1
+                                                                              2    2
+                                                                                     (kν (yi+1 ) + kν (yi ))(yi+1 − yi ) + 1
+                                                                                                                             (k (y ) + kν (yi−1 ))(yi − yi−1 )
+                                                                                                                           2 ν i
+hand side must also equal zero. Taking the radiative equilibrium                                                                                          (A10)
+temperature profile to be T (y) = T0 (y) + ΔT (y), where T0 (y)
+is the present best-guess temperature profile and ΔT (y) is a                Also approximating the integrals in Equation (A6) as discrete
+correction to this profile, the BB function can be expanded                  sums, that equation thus becomes
+to first order in a Taylor series: B(T ) = B(T0 ) + dB/dT ΔT .
+                                                                                                                                          
+Together with Equation (A3), this gives the expression                              8                              1 − ρk      8       8
+                  ∞                                                            −      (fk Jk )(yi−1 ) +                    +      +         (fk Jk )(yi )
+                                       dBν                                        π Δ1                              fk (yi ) π Δ1 π Δ2
+            0=        (Jν − Bν (T0 ) −      ΔT )κν dν,       (A4)
+                   0                    dT                                         dBk ΣK  k  =1 Jk  κk  bk                  8
+                                                                                −                                  (1 − ρk ) −      (fk Jk )(yi+1 )
+which can be solved for the temperature correction:                                 dT ΣK k  =1
+                                                                                                 dBk
+                                                                                                        κ   
+                                                                                                          k k b               π Δ2
+                                                                                                        dT
+                           ∞
+                          0 (Jν − Bν (T0 ))κν dν                                                               dBk ΣK
+                                                                                                                    k  =1 Bk  (T0 )κk  bk 
+                 ΔT =          ∞ dBν             .               (A5)              = Bk (T (yi )) −                            dBk
+                                                                                                                                                           (1 − ρk ), (A11)
+                              0 dT κν dν                                                                       dT ΣK    k  =1      κk bk
+                                                                                                                                      dT
+It is important to stress that the temperature correction computed
+in this way will satisfy constant energy flux through the                    where the subscript k is used to indicate a discrete frequency
+atmosphere, since this was assumed in equating the right-hand                point (not to be confused with the total absorption opacity kν ),
+side of Equation (A3) to zero.                                               and the following definitions have been made to simplify the
+    To find Jν and thus ΔT , the equation to solve comes from                notation:
+combining Equations (A5) and (A2) with the Taylor expansion
+                                                                                                 Δ1 = [kν (yi ) + kν (yi−1 )] (yi − yi−1 ),                                (A12)
+for B(T ) above to give
+                          
+    1 d     1 d
+                   (fν Jν ) =                                                                     Δ2 = [kν (yi+1 ) + kν (yi )] (yi+1 − yi ),                               (A13)
+    kν dy kν dy
+                                ∞
+                         dBν   0 (Jν − Bν (T0 ))κν dν
+       Jν − Bν (T0 ) −              ∞ dBν                 (1 − ρν ).                                                π = Δ1 + Δ2 .                                          (A14)
+                         dT        0 dT κν dν
+                                                                 (A6)                                          A.3. Rybicki Method
+   To solve this equation, the fν computed by solving the full                 Proceeding as in the Feautrier method (Feautrier 1964), the
+angular radiative transfer problem is used. By using a fixed                 above equation can be written in the form
+fν , this equation can be solved using a modified (by removing
+dependence on an angular variable) Rybicki approach (Rybicki                                          Ai Ji−1 + Bi Ji + Ci Ji+1 = Qi ,                                     (A15)
+1971), which will give a corrected temperature profile. The
+full angular radiative transfer problem can then be solved for               where Ai , Bi , and Ci are K ×K matrices, Ji and Qi are–vectors of
+the corrected temperature profile, which will give a new fν ,                dimension K (the number of frequency points), and N = Ntemp
+which will allow a new temperature correction to be calculated;              (the number of depth points). If the boundary conditions are
+iteration can be continued until satisfactory convergence.                   specified, the matrix equation can then be solved using the
+
+                                                                        15
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                            Haakonsen et al.
+
+Feautrier method (Feautrier 1964). However, a less computa-                                                      A.4. Boundary Conditions
+tionally intensive method of solution is possible: the Rybicki
+method (Rybicki 1971), which is described below.                                             The boundary conditions used for the temperature correction
+   The Rybicki method (Rybicki 1971) involves restructuring                                procedure in the present work are the same as those used in a
+the matrix problem so that most of the matrices that have to be                            previous work (Z96), where the same temperature correction
+inverted are tridiagonal matrices, which are less computationally                          scheme was used, but with a different discretization method.
+demanding to invert than full matrices. This section describes the                           At the top of the atmosphere, the boundary condition
+specific application of the previously described method (Rybicki                                                     1 d
+1971) to the temperature correction problem.                                                                               (fν Jν ) = hν Jν                  (A26)
+   Rather than being grouped into Ntemp vectors of dimension K,                                                      kν dy
+the values of the mean specific intensity are now written as the                           is used, while at the bottom, the condition
+K column vectors
+                                                                                                                            Jν = Bν                          (A27)
+                 Jk = (Jk,1 , Jk,2 , Jk,3 , . . . , Jk,N )T .                 (A16)
+                                                                                           is used.
+In addition, one defined the vector J, which has elements                                     The boundary condition at the top of the atmosphere can be
+                                    ΣK                                                     discretized as
+                                     k  =1 Jk  κk  bk 
+                       (J )i =                                .               (A17)
+                                   ΣK     dBk                                                         (fk Jk )(y2 ) − (fk Jk )(y1 )
+                                    k  =1 dT κk  bk                                                                               = (hk Jk )(y1 ) .       (A28)
+                                                                                                     1
+                                                                                                       [k
+                                                                                                     2 k 2
+                                                                                                          (y ) + kk (y1 )](y2 − y1 )
+Equation (A15) can then be rewritten in the form
+                                                                                           Thus, for first-order accurate boundary conditions, the previ-
+                          Tk Jk + Uk J = Kk ,                                 (A18)        ously unspecified i = 1 elements of the matrices Tk are speci-
+                                                                                           fied as follows:
+where the matrix elements are given by
+                                                                                                                               −fk (y2 )
+                                    8fk (yi−1 ))                                                          (Tk )1,2 = 1                               ,       (A29)
+                     (Tk )i,i−1 = −              ,                            (A19)                                    (k (y ) + kν (y1 ))(y2 − y1 )
+                                                                                                                      2 ν 2
+                                       π Δ1
+                                     8fk (yi+1 )                                                                                     fk (y1 )
+                      (Tk )i,i+1 = −             ,                            (A20)                    (Tk )1,1 = hk + 1                                 .   (A30)
+                                       π Δ2                                                                                (k (y ) + kν (y1 ))(y2 − y1 )
+                                                                                                                          2 ν 2
+                                                 
+                          1 − ρk    8        8
+             (Tk )i,i =           +     +           fk (yi ),                 (A21)           At the bottom of the atmosphere, the boundary condition is
+                          fk (yi ) π Δ1 π Δ2                                               trivially discretized, with the previously unspecified i = Ntemp
+                                                                                           elements of the TK matrices specified as follows:
+                                         dBk
+                     (Uk )i,i = −            (1 − ρk ),                       (A22)
+                                         dT                                                                              (Tk )N,N−1 = 0,                     (A31)
+
+                                  dBk ΣK
+                                       k  =1 Bk  (T0 )κk  bk 
+  (Kk )i =     Bk (T (yi )) −                     dBk
+                                                                        (1 − ρk ),                                       (Tk )N,N = 1 .                      (A32)
+                                  dT ΣK    k  =1      κk bk
+                                                     dT
+                                                                              (A23)        Finally, the i = Ntemp elements of the Kk vectors are given by
+
+for 1 < i < Ntemp . All other elements of Tk and Uk are zero,                                                       (Kk )N = Bk (T (yN )) .                  (A33)
+except those that are specified in the boundary conditions (see
+Section A.4).                                                                                                            APPENDIX B
+   The corresponding grand matrix equation is                                                                             THE CODE
+    ⎛                             ⎞⎛         ⎞ ⎛           ⎞
+       T1 0 . . . 0           U1         J1            K1                                     This section gives a brief overview of the implementation of
+    ⎜             ..     ..       ⎟ ⎜ J2 ⎟ ⎜ K2 ⎟                                          the McPHAC code and the numerical packages and routines
+    ⎜ 0 T2           .    .   U2 ⎟ ⎜
+    ⎜ .                        .. ⎟       .. ⎟     ⎜       ⎟                               that are used. The source code itself is made available online5
+    ⎜ . .. ..                     ⎟⎜ ⎜     .
+                                             ⎟ = ⎜ .. ⎟ ,
+                                             ⎟     ⎜    .  ⎟
+    ⎜ .       .      . 0        . ⎟                                                        and serves as its own documentation. Thus, any questions not
+    ⎝                             ⎠ ⎝ JK ⎠ ⎝ KK ⎠                                          answered in the present work should be resolvable by consulting
+        0 . . . 0 TK UK
+       V1 V2 . . . VK E                  J             Y                                   the code.
+                                                            (A24)
+where E is the negative identity matrix, Y is the null matrix, and                                              B.1. Platform and Language
+                                                                                              The McPHAC code is written in the C language but makes
+                                          κk bk
+                   (Vk )i,i  =          dBk
+                                                             δi,i  .         (A25)        calls to several Fortran functions written by other groups.
+                                  ΣK
+                                   k  =1 dT κk  bk                                      The code has been developed and tested on an AMD plat-
+                                                                                           form running the Linux operating system, using the GNU
+  With the addition of the boundary conditions described below,                            gcc/gfortran compiler to compile and link both the C and
+Equation (A24) can now be solved as in the standard Rybicki                                Fortran code.
+method (Rybicki 1971), giving Jk , which can then be used to
+                                                                                           5
+calculate the temperature correction.                                                          http://dualcore.physics.mcgill.ca/McPHAC/
+
+                                                                                      16
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                            Haakonsen et al.
+
+                        B.2. External Routines                                      Campana, S., Israel, G. L., Stella, L., Gastaldello, F., & Mereghetti, S. 2004, ApJ,
+                                                                                        601, 474
+  Several external routines are used for standard numerical                         Cornelisse, R., Wijnands, R., & Homan, J. 2007, MNRAS, 380, 1637
+problems, and these are described here.                                             Degenaar, N., Wijnands, R., Wolff, M. T., et al. 2009, MNRAS, 396, L26
+                                                                                    Feautrier, P. 1964, C. R. Acad. Sci. (serie non specifiee), 258, 3189
+                              B.2.1. LAPACK                                         Gänsicke, B. T., Braje, T. M., & Romani, R. W. 2002, A&A, 386, 1001
+                                                                                    Gendre, B., Barret, D., & Webb, N. 2003a, A&A, 403, L11
+   The Linear Algebra PACKage (LAPACK) v3.2.16 routine                              Gendre, B., Barret, D., & Webb, N. A. 2003b, A&A, 400, 521
+                                                                                    Grindlay, J. E., Heinke, C. O., Edmonds, P. D., Murray, S. S., & Cool, A. M.
+dgesv() is used to invert full matrices, while the routine                              2001, ApJ, 563, L53
+dgtsv() is used to invert tridiagonal matrices. These routines                      Guillot, S., Rutledge, R. E., Bildsten, L., et al. 2009a, MNRAS, 392,
+are Fortran routines and make use of several BLAS routines                              665
+(see below). The source code for these routines is included with                    Guillot, S., Rutledge, R. E., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+the McPHAC code, but for optimal performance precompiled                                2009b, ApJ, 699, 1418
+                                                                                    Haensel, P., & Zdunik, J. L. 1990, A&A, 227, 431
+optimized libraries for the appropriate platform should be                          Haensel, P., & Zdunik, J. L. 2008, A&A, 480, 459
+obtained.                                                                           Heinke, C. O., Grindlay, J. E., Edmonds, P. D., et al. 2003a, ApJ, 598, 516
+                                                                                    Heinke, C. O., Grindlay, J. E., Lloyd, D. A., & Edmonds, P. D. 2003b, ApJ, 588,
+                               B.2.2. BLAS                                              452
+                                                                                    Heinke, C. O., Jonker, P. G., Wijnands, R., & Taam, R. E. 2007, ApJ, 660,
+   The Basic Linear Algebra Subroutines (BLAS)7 are highly                              1424
+optimized linear algebra routines written in Fortran. In addition                   Heinke, C. O., Rybicki, G. B., Narayan, R., & Grindlay, J. E. 2006, ApJ, 644,
+to any routines called by the above-mentioned LAPACK rou-                               1090
+                                                                                    Ho, W. C. G., Potekhin, A. Y., & Chabrier, G. 2008, ApJS, 178, 102
+tines, the BLAS routine dgemm() is used for matrix multiplica-                      Hummer, D. G. 1962, MNRAS, 125, 21
+tion. The source codes for all the BLAS routines are included                       Iglesias, C. A., & Rogers, F. J. 1996, ApJ, 464, 943
+with the McPHAC code, but it is highly recommended to use                           in’t Zand, J. J. M. 2005, A&A, 441, L1
+precompiled optimized libraries for the appropriate platform.                       in’t Zand, J. J. M., van Kerkwijk, M. H., Pooley, D., et al. 2001, ApJ, 563,
+                                                                                        L41
+                    B.2.3. Cubic Spline Interpolation                               Jonker, P. G., Bassa, C. G., & Wachter, S. 2007a, MNRAS, 377, 1295
+                                                                                    Jonker, P. G., Galloway, D. K., McClintock, J. E., et al. 2004, MNRAS, 354,
+  Cubic spline interpolation is performed using the Fortran                             666
+routines spline_cubic_set() and spline_cubic_val(),                                 Jonker, P. G., Steeghs, D., Chakrabarty, D., & Juett, A. M. 2007b, ApJ, 665,
+                                                                                        L147
+which are part of the SPLINE library.8 The codes for those                          Karzas, W. J., & Latter, R. 1961, ApJS, 6, 167
+two routines and any routines required by them are included                         Lattimer, J. M., & Prakash, M. 2001, ApJ, 550, 426
+with the McPHAC code (the library is licensed under the GNU                         Lattimer, J. M., & Prakash, M. 2007, Phys. Rep., 442, 109
+LGPL license).                                                                      Lloyd, D. A. 2003, PhD thesis, Harvard Univ.
+                                                                                    Lugger, P. M., Cohn, H. N., Heinke, C. O., Grindlay, J. E., & Edmonds, P. D.
+                   B.2.4. Gauss–Legendre Quadrature                                     2007, ApJ, 657, 286
+                                                                                    McClintock, J. E., Narayan, R., & Rybicki, G. B. 2004, ApJ, 615, 402
+  To compute the abscissas and weights for the Gauss–Legendre                       Mihalas, D. 1970, Stellar Atmospheres (San Francisco, CA: Freeman)
+quadrature, the Fortran routine legendre_com() in the                               Mihalas, D. 1978, Stellar Atmospheres (2nd ed.; San Francisco, CA: Freeman),
+                                                                                        650
+QUADRULE library9 is used. That code is licensed under the                          Ogley, R. N., Chaty, S., Crocker, M., et al. 2002, MNRAS, 330, 772
+GNU LGPL license and is included with the McPHAC code.                              Pavlov, G. G., Shibanov, Y. A., Zavlin, V. E., & Meyer, R. D. 1995, in The
+                                                                                        Lives of the Neutron Stars, ed. M. A. Alpar, U. Kiziloglu, & J. van Paradijs
+                         B.2.5. Equation of State                                       (Dordrecht: Kluwer), 71
+                                                                                    Pons, J. A., Walter, F. M., Lattimer, J. M., et al. 2002, ApJ, 564, 981
+  The EOS is obtained using OPAL EOS 200110 (Rogers et al.                          Rajagopal, M., & Romani, R. W. 1996, ApJ, 461, 327
+1996) routines, which are written in Fortran. The source code                       Rogers, F. J., Swenson, F. J., & Iglesias, C. A. 1996, ApJ, 456, 902
+and associated tables are included with the McPHAC code.                            Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+                                                                                        1999, ApJ, 514, 945
+                                                                                    Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+                             REFERENCES                                                 2000, ApJ, 529, 985
+                                                                                    Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+Arnaud, K. A. 1996, in ASP Conf. Ser. 101, Astronomical Data Analysis                   2001a, ApJ, 559, 1054
+   Software and Systems V., ed. G. Jacoby & J. Barnes (San Francisco, CA:           Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+   ASP), 17                                                                             2001b, ApJ, 551, 921
+Auer, L. 1976, J. Quant. Spectrosc. Radiat. Transfer, 16, 931                       Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+Becker, W., Swartz, D. A., Pavlov, G. G, et al. 2003, ApJ, 594, 798                     2002a, ApJ, 578, 405
+Boercker, D. B. 1987, ApJ, 316, L95                                                 Rutledge, R. E., Bildsten, L., Brown, E. F., Pavlov, G. G., & Zavlin, V. E.
+Bogdanov, S., Rybicki, G. B., & Grindlay, J. E. 2007, ApJ, 670, 668                     2002b, ApJ, 577, 346
+Brown, E. F., Bildsten, L., & Rutledge, R. E. 1998, ApJ, 504, L95                   Rutledge, R. E., Bildsten, L., Brown, E. F., et al. 2002c, ApJ, 580, 413
+Brown, E. F., & Cumming, A. 2009, ApJ, 698, 1020                                    Rybicki, G. B. 1971, J. Quant. Spectrosc. Radiat. Transfer, 11, 589
+Cackett, E. M., Wijnands, R., Linares, M., et al. 2006, MNRAS, 372, 479             Rybicki, G. B., & Lightman, A. P. 1979, Radiative Processes in Astrophysics
+Cackett, E. M., Wijnands, R., Miller, J. M., Brown, E. F., & Degenaar, N.               (New York: Wiley)
+   2008, ApJ, 687, L87                                                              Seaton, M. J. 2005, MNRAS, 362, L1
+                                                                                    Seaton, M. J., Yan, Y., Mihalas, D., & Pradhan, A. K. 1994, MNRAS, 266,
+6  http://www.netlib.org/lapack/, accessed 2009 June 18.                                805
+7  http://www.netlib.org/blas/, accessed 2009 June 20.                              Shternin, P. S., Yakovlev, D. G., Haensel, P., & Potekhin, A. Y. 2007, MNRAS,
+8 http://people.sc.fsu.edu/∼burkardt/f_src/spline/spline.html, accessed 2009            382, L43
+June 21.                                                                            Sutherland, R. S. 1998, MNRAS, 300, 321
+9 http://people.sc.fsu.edu/∼burkardt/f_src/quadrule/quadrule.html, accessed
+                                                                                    Tomsick, J. A., Gelino, D. M., Halpern, J. P., & Kaaret, P. 2004, ApJ, 610,
+2009 June 22.                                                                           933
+10 http://www-phys.llnl.gov/Research/OPAL/opal.html, accessed 2005
+                                                                                    Tomsick, J. A., Gelino, D. M., & Kaaret, P. 2005, ApJ, 635, 1233
+June 29.                                                                            Tomsick, J. A., Gelino, D. M., & Kaaret, P. 2007, ApJ, 663, 461
+
+                                                                               17
+The Astrophysical Journal, 749:52 (18pp), 2012 April 10                                                                                      Haakonsen et al.
+
+Ushomirsky, G., & Rutledge, R. E. 2001, MNRAS, 325, 1157                         Zavlin, V. E. 2009, in Neutron Stars and Pulsars, Astrophysics and Space Science
+Webb, N. A., & Barret, D. 2007, ApJ, 671, 727                                      Library, Vol. 357, ed. W. Becker (Berlin: Springer), 181
+Webb, N. A., Wheatley, P. J., & Barret, D. 2006, A&A, 445, 155                   Zavlin, V. E., & Pavlov, G. G. 1998, A&A, 329, 583
+Weiner, B., Blanton, M. R., Coil, A. L., et al. 2009, Astronomy 2010, 61P        Zavlin, V. E., Pavlov, G. G., Sanwal, D., et al. 2002, ApJ, 569, 894
+Wijnands, R., Heinke, C. O., & Grindlay, J. E. 2002, ApJ, 572, 1002              Zavlin, V. E., Pavlov, G. G., & Shibanov, Y. A. 1994, Astron. Astrophys. Trans.,
+Wijnands, R., Nowak, M., Miller, J. M., et al. 2003, ApJ, 594, 952                 4, 307
+Yakovlev, D. G., Levenfish, K. P., & Haensel, P. 2003, A&A, 407, 265             Zavlin, V. E., Pavlov, G. G., & Shibanov, Y. A. 1996, A&A, 315, 141
+Zavlin, V. E. 2006, ApJ, 638, 951                                                Zavlin, V. E., Pavlov, G. G., & Trumper, J. 1998, A&A, 331, 821
+
+
+
+
+                                                                            18
+

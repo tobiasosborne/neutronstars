@@ -1,0 +1,121 @@
+# truth/entries/surface_field.toml -- lane field_sky: dipole field geometry (GR dipole, field-normal angle,
+# magnetic colatitude of a surface point) and RX J1856 sky position. All proposed.
+
+[[entry]]
+id = "surface.py01-gr-dipole-magnitude"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "GR dipole field magnitude versus magnetic colatitude (PY01 eq. dipole)"
+statement = "For a dipole field in the Schwarzschild metric (Ginzburg and Ozernoy), the field strength at the stellar surface at magnetic polar angle chi is B(chi) = B_p sqrt(cos^2 chi + a^2 sin^2 chi), where B_p is the field strength at the magnetic pole, chi is the polar angle, and a = a(x) with x = r_g/R is given by surface.py01-gr-dipole-a-of-x. In the flat-space limit a -> 1/2 this is B_p (1/2) sqrt(1 + 3 cos^2 chi)."
+latex = 'B(\chi) = B_\mathrm{p}\,\sqrt{\cos^2\chi+a^2\sin^2\chi}'
+source = "potekhin_yakovlev_2001_cooling"
+locator = "eq. (10), p. 3; TeX 484-487"
+anchor = "where Bp is the field strength at the magnetic pole, χ is"
+anchor_tex = 'B(\chi) = B_\mathrm{p}\,\sqrt{\cos^2\chi+a^2\sin^2\chi}'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator corrected to eq. (10), p. 3; TeX 484-487. anchor is now the .txt quote \"where Bp is the field strength at the magnetic pole, χ is\" (PY01.txt L223, grep -F count 1); the TeX equation stays in anchor_tex (valid per SCHEMA). WS83 static axisymmetric vacuum assumptions carried into validity." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "R1 corrections verified. Anchor at [PY01.txt:223–224](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:223); TeX:484 matches every factor in eq. (10). Flat limit is algebraically correct; added vacuum assumptions agree with WS83:179–201." }]
+validity = "Static, axisymmetric vacuum dipole exterior in Schwarzschild (Ginzburg-Ozernoy solution, as carried by WS83: static, pure magnetic field, no magnetospheric plasma, azimuthal symmetry), at the stellar surface r = R > r_g."
+depends_on = ["surface.py01-gr-dipole-a-of-x", "surface.notation-geometry"]
+notes = "Prose anchor in TeX (old anchor, TeX l.493): \"where $B_\\mathrm{p}$ is the field strength at the magnetic pole,\". Notation: PY01 chi (polar angle, i.e. magnetic colatitude) is the project theta_B; PY01 x = r_g/R is the project x_g. The source only calls chi 'the polar angle'; identification with the magnetic colatitude at the surface is ours, supported by the WS83 cross-check in surface.py01-gr-dipole-a-of-x (WS83 theta is the Schwarzschild polar angle from the dipole axis). Check against WS83 eqs. 12a-b, at the surface the local-frame components are B_r^ = B_p cos chi and B_theta^ = B_p a sin chi (B_r^ at chi = 0 is B_p, since the field is purely radial at the pole, WS83 text before eq. 14), so B = B_p sqrt(cos^2 chi + a^2 sin^2 chi). The source states the result for 'the dipole field' and cites Ginzburg and Ozernoy; it does not restate the derivation. ownership stub: not yet recomputed from the Maxwell equation in Schwarzschild (WS83 eq. 3, 10); the recompute route is to integrate/evaluate WS83 eqs. 10-12 (surface.ws83-gr-dipole-components)."
+
+[[entry]]
+id = "surface.py01-gr-dipole-field-angle"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Field-normal angle versus magnetic colatitude, GR dipole (PY01)"
+statement = "In the same GR dipole solution, tan theta = a tan chi, with the same a(x), x = r_g/R, and chi the polar angle. With the project notation this reads tan theta_Bn = a tan theta_B, theta_Bn being the angle between the field direction and the local surface normal. In the flat-space limit a -> 1/2 it gives tan theta_Bn = (1/2) tan theta_B (the v1 formula)."
+latex = '\tan\theta = a\,\tan\chi'
+source = "potekhin_yakovlev_2001_cooling"
+locator = "eq. (10), p. 3; TeX 487"
+anchor = "Assuming the dipole field, we"
+anchor_tex = '\mathrm{tan}\,\theta = a\,\mathrm{tan}\,\chi'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: DOUBT note replaced by direct attribution (PY01.txt L199-200 defines theta as the angle between field lines and the surface normal, quoted in notes); locator corrected to eq. (10), p. 3; TeX 487; WS83 static axisymmetric vacuum assumptions carried into validity. anchor unchanged (PY01.txt L216, count 1); TeX equation in anchor_tex." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor at [PY01.txt:216–219](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:216), equation at TeX:487. Direct field-normal definition at txt:199–200 replaces the former doubt correctly. Component signs support the stated quadrant continuation." }]
+validity = "Static, axisymmetric vacuum dipole exterior in Schwarzschild (Ginzburg-Ozernoy solution, as carried by WS83); theta is the angle between the field line and the surface normal."
+depends_on = ["surface.py01-gr-dipole-a-of-x", "surface.notation-geometry"]
+notes = "Attribution (direct): PY01 defines theta at eq. (8), PY01.txt L199-200: \"where θ is the angle between the field lines and the normal\" / \"to the surface.\" (the second half is on L200; the first half is a byte-identical single-line substring of the .txt), so theta in eq. (10) is the field-normal angle theta_Bn, no inference needed. Independent confirmation, WS83 numerical cross-check eqs. 12a-b: with B_theta^ = (mu sin chi / r^3) A(x_WS) and B_r^ = (2 mu cos chi / r^3) B(x_WS), the ratio B_theta^/B_r^ = [A/(2B)] tan chi, and A/(2B) equals PY01 a(x) to 5e-15 at x_g = 0.1, 0.3, 0.5, 0.7 (see surface.py01-gr-dipole-a-of-x). So tan(angle between B and radial) = a tan chi; theta is therefore theta_Bn. Quadrant: for chi in (pi/2, pi] take theta = atan2(a sin chi, cos chi), do not use the principal arctan (fail loud on tan chi at chi = pi/2: use atan2). v1 used the flat formula tan Theta = 1/2 tan theta_B (per GAPS row 1.5 and audit A30, where v1 passed theta_B as the field-normal angle; it is NOT listed in truth/harvest/v1_approximations.md, which only has the cos^2 temperature interpolation at lines 40-42); this entry is its GR generalisation. Flat-space check of the sibling relation: surface.gh83-dipole-field-inclination, tan Phi = 2 cot beta, Phi being measured from the horizontal, so Phi = pi/2 - theta_Bn and tan theta_Bn = (1/2) tan beta, same flat limit (derivation: tan(pi/2 - theta_Bn) = cot theta_Bn = 2 cot theta_B)."
+
+[[entry]]
+id = "surface.py01-gr-dipole-a-of-x"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "GR dipole parameter a(x), x = r_g/R (PY01)"
+statement = "The parameter a in the GR dipole relations is a = -[(1-x) ln(1-x) + x - 0.5 x^2] / ([ln(1-x) + x + 0.5 x^2] sqrt(1-x)), with x = r_g/R. a -> 1/2 as x -> 0 (flat-space dipole)."
+latex = 'a = - {(1-x) \ln(1-x) + x - 0.5 x^2 \over [ \ln(1-x)+x + 0.5 x^2] \sqrt{1-x}}'
+source = "potekhin_yakovlev_2001_cooling"
+locator = "eq. (11), p. 3; TeX 489-490"
+anchor = "where Bp is the field strength at the magnetic pole, χ is"
+anchor_tex = '        \over [ \ln(1-x)+x + 0.5 x^2] \sqrt{1-x}},'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: locator is numbered eq. (11), p. 3; TeX 489-490; anchor now the .txt quote \"where Bp is the field strength at the magnetic pole, χ is\"; wrong double-precision notes replaced by the 60-digit table; expansion a = 1/2 + x/8 + 11x^2/160 + O(x^3) added; WS83 vacuum assumptions carried into validity; dependency edge from the WS83 entry removed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor at [PY01.txt:223](/home/tobias/Projects/neutronstars/refs/potekhin_yakovlev_2001_cooling.txt:223); eq. (11), txt:220–224 and TeX:489–490, matches numerator, denominator, signs and square root. Corrected numerical table and coefficients `1/2, 1/8, 11/160` independently verified." }]
+validity = "Same as the dipole solution it parametrises: static, axisymmetric vacuum exterior in Schwarzschild, 0 < x < 1 (x = r_g/R)."
+depends_on = ["surface.notation-geometry"]
+notes = "Notation: PY01 x = r_g/R is the project x_g (compactness), PY01 a is new, written a_{dip} in the notation additions. Flat limit and first terms: a = 1/2 + x/8 + 11x^2/160 + O(x^3) (reviewer, confirmed numerically below). Numerical check of PY01 eq. (11) (Python decimal, 60 digits, this session; expected = codex r1 85-digit values; tolerance 1e-15): x = 0.1: expected 0.513240103203431706, computed 0.51324010320343170573, abs error 2.65e-19, PASS. x = 0.01: expected 0.501256923822306734, computed 0.50125692382230673414, abs error 1.43e-19, PASS. x = 1e-4: expected 0.500012500687548441, computed 0.50001250068754844131, abs error 3.16e-19, PASS. (Expected values are printed to 18 digits, so ~3e-19 is their rounding.) Float64 evaluation of the same formula: x = 0.1 gives 0.5132401032035105 (abs error 7.9e-14), x = 0.01 gives 0.5012569237805033 (4.2e-11), x = 1e-4 gives 0.5000620576750889 (abs error 4.96e-5, WRONG: the earlier harvester value 0.500062057675 was this cancellation artefact). Double precision fails (relative error > 1e-9) below x ~ 3e-3 (first float64 crossing scanned downward at x = 7.6e-3, noisy; rel. errors 1.5e-13 at 0.1, 8.3e-11 at 0.01, 8.1e-10 at 3e-3, 7.7e-9 at 1e-3, 1.1e-5 at 3e-4, 9.9e-5 at 1e-4, 0.47 at 1e-5). Below x ~ 1e-2 use the series a = 1/2 + x/8 + 11 x^2/160 + O(x^3) (leading coefficient 0.125; at x = 1e-4 the series gives 0.5000125006875, matching to the shown digits) or extended precision; raise at x <= 0 or x >= 1 (fail loud). Cross-check against Wasserman and Shapiro 1983 (refs/wasserman_shapiro_1983_gr_dipole.pdf p. 1040, eqs. 12a-b, page image read): with x_WS = r/2M = 1/x, B_theta^ = (mu sin theta/r^3)[6 x_WS^3 (1-1/x_WS)^(1/2) ln(1-1/x_WS) + 6 x_WS^2 (1-1/(2 x_WS))/(1-1/x_WS)^(1/2)] and B_r^ = (2 mu cos theta/r^3)[-3 x_WS^3 ln(1-1/x_WS) - 3 x_WS^2 (1 + 1/(2 x_WS))]; the ratio of the two brackets divided by 2 reproduces PY01 a(x) to 5e-15 (x = 0.1, 0.3, 0.5, 0.7), at small x both forms are binary64-cancellation limited and their agreement there is not evidence (shared cancellation, codex r1); the 60-digit table is the evidence. Both sources agree; no disagreement. Note WS83 x = r/2M is the inverse of PY01 x = r_g/R."
+
+[[entry]]
+id = "surface.ws83-gr-dipole-components"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "GR dipole local-frame field components (WS83 eqs. 12a-b)"
+statement = "For a dipole field in the Schwarzschild metric, with x = r/2M and mu the magnetic moment, the locally measured field components are B^theta^ = (mu sin theta / r^3)[6 x^3 (1-x^-1)^(1/2) ln(1-x^-1) + 6 x^2 (1-x^-1/2)/(1-x^-1)^(1/2)] and B^r^ = (2 mu cos theta / r^3)[-3 x^3 ln(1-x^-1) - 3 x^2 (1 + x^-1/2)]. At very large r they reduce to the flat-space dipole B^theta^ ~ mu sin theta/r^3, B^r^ ~ 2 mu cos theta/r^3."
+latex = 'B^{\hat\theta}=\frac{\mu\sin\theta}{r^3}\left[6x^3(1-x^{-1})^{1/2}\ln(1-x^{-1})+\frac{6x^2(1-x^{-1}/2)}{(1-x^{-1})^{1/2}}\right],\quad B^{\hat r}=\frac{2\mu\cos\theta}{r^3}\left[-3x^3\ln(1-x^{-1})-3x^2\left(1+\frac12 x^{-1}\right)\right]'
+source = "wasserman_shapiro_1983_gr_dipole"
+locator = "eqs. 12a-b, p. 1040 (PDF p. 5)"
+anchor = "in agreement with the usual flat space results for a magnetic dipole"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: omitted conditions added to validity (static, axisymmetric vacuum exterior; G = c = 1; r > 2M; x = r c^2/(2GM) with mass in grams), quoted from WS83.txt L187-188, L201; dependency edge to surface.py01-gr-dipole-a-of-x removed (components do not consume a). Anchor L289 unchanged." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Fresh extraction remains garbled; independently read PDF pp. 4–5 visually. Both components and asymptotes match [WS83.txt:256–289](/home/tobias/Projects/neutronstars/refs/wasserman_shapiro_1983_gr_dipole.txt:256). Anchor L289 is correctly located. Added conditions and geometrized units match L179–201; dependency removal is correct." }]
+validity = "Static, axisymmetric vacuum exterior (WS83: \"We consider static, pure magnetic fields only\", \"We ignore any effects due to magnetospheric plasma\", \"In addition, we consider azimuthally\" symmetric fields), Schwarzschild background, r > 2M. WS83 uses geometrized units \"we have adopted geometrized units with G = c\" = 1; with the project convention (mass in grams) x_WS = r c^2/(2 G M) = r/r_g."
+depends_on = []
+notes = "Text layer garbled; latex read off the page image (pdftoppm -f 5 -l 5 -r 150): eq. 12a, 12b, 13a, 13b and the definition 'x = r/2M' under eq. 10 are visible and agree with the transcription above. Here theta is the Schwarzschild polar angle from the dipole axis (project theta_B at the surface r = R) and the hats denote the local orthonormal static tetrad. Polar field, eq. 14: B_s = (3 mu/4M^3)[-ln(1-x_s^-1) - (1 + x_s^-1/2)/x_s], x_s = R_s/2M; not transcribed separately. Equivalent to B_r^(chi=0) = 2 mu/R^3 * bracket, normalising by it gives surface.py01-gr-dipole-magnitude. Not independently re-derived here (recompute route: solve WS83 eq. 3 for A_phi, eq. 10, and project, eqs. 11a-b). Magnetic moment mu here is written \\mu_{mag} in the project notation (the bare mu is the direction cosine)."
+
+[[entry]]
+id = "surface.field-colatitude-from-geometry"
+kind = "pipeline"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Magnetic colatitude of a surface point from obliquity and rotation phase"
+statement = "Project convention: the magnetic colatitude chi = theta_B of a surface point is the angle between the outward normal of that point and the magnetic axis. With the rotation axis as z, the magnetic axis at colatitude Psi_pole from the rotation axis and azimuth phi_rot (the rotation phase), and the surface point at colatitude theta_surf and azimuth phi_surf, the spherical law of cosines gives cos theta_B = cos Psi_pole cos theta_surf + sin Psi_pole sin theta_surf cos(phi_surf - phi_rot). For the geometric sub-observer surface point (the sub-observer point, theta_surf = theta_los, phi_surf = 0 by choice of azimuth origin) this is cos theta_B = cos i cos alpha_B + sin i sin alpha_B cos phi_rot with i = theta_los the inclination of the line of sight to the rotation axis and alpha_B = Psi_pole the magnetic obliquity."
+latex = '\cos\theta_B=\cos\Psi_{pole}\cos\theta_{surf}+\sin\Psi_{pole}\sin\theta_{surf}\cos(\phi_{surf}-\phi_{rot});\quad \text{sub-observer point: }\cos\chi=\cos i\cos\alpha_B+\sin i\sin\alpha_B\cos\phi_{rot}'
+source = "PRD"
+locator = "Scope, In"
+anchor = "surface temperature and field maps constrained by the observed pulse"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: frame wording changed to \"non-rotating frame with z along the rotation axis\"; phi_surf = phi_0 + phi_rot for a material point (constant magnetic colatitude); depends_on reduced to surface.notation-geometry; moving-observer rule added. PRD anchor unchanged." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: replaced 'point at the centre of the observed disc' with 'geometric sub-observer surface point' in statement (one occurrence). R1 frame, material-point motion and dependency corrections are correct; PRD:33 anchor is valid. Replace “point at the centre of the observed disc” with **“geometric sub-observer surface point”**. Their identification is not generally preserved for the moving camera: this follows from the aberration transformation in [James.txt:1175–1181](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.txt:1175). The dot-product formula survives unchanged. Status set to blessed under the SCHEMA rule for kind = pipeline: an applied gpt fix verdict also suffices." }]
+depends_on = ["surface.notation-geometry"]
+notes = "This is our convention, not a published formula; no source is cited for the geometry beyond the spherical law of cosines. Symbols: Psi_pole (alpha_B above, the magnetic obliquity) = angle between rotation and magnetic axes, in [0, pi], project symbol \\Psi_{pole} (surface.notation-geometry, GH83 Fig. 3); theta_los (i above) in [0, pi] project symbol; phi_rot = Omega t rotation phase in [0, 2pi); theta_surf and phi_surf the surface point's spherical coordinates in the non-rotating frame with z along the rotation axis (new symbols, notation additions); a material point of the star has phi_surf = phi_0 + phi_rot, so its magnetic colatitude is constant in time; for a moving observer use the observer's actual azimuth in the general formula (phi_surf = 0 for the sub-observer point is a choice of azimuth origin, valid for a fixed observer). Derivation (steps): unit vectors m = (sin Psi cos phi_rot, sin Psi sin phi_rot, cos Psi) and n = (sin theta_s cos phi_s, sin theta_s sin phi_s, cos theta_s); cos theta_B = m.n, which expands to the formula. theta_B lies in [0, pi] (arccos, no quadrant ambiguity); the antipodal point of the magnetic pole has theta_B = pi, where B_r changes sign but the magnitude B(chi) of surface.py01-gr-dipole-magnitude is even in cos chi. Degenerate cases: Psi_pole = 0 gives theta_B = theta_surf (aligned); sub-observer point with i = alpha_B gives cos theta_B = cos^2 i + sin^2 i cos phi_rot. Sanity values (hand): i = 60 deg, alpha_B = 30 deg: phi_rot = 0 gives theta_B = 30 deg, phi_rot = pi gives theta_B = 90 deg. Entry also needs the viewer frame handedness fixed in the implementation (sense of rotation); not fixed here. Spine: feeds pipeline.surface-maps-field."
+
+[[entry]]
+id = "obs.rxj1856-position-walter2010"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 nominal coordinates (Walter+2010, as printed)"
+statement = "The nominal coordinates of RX J185635-3754 that Walter et al. (2010) use for the parallactic ellipse: alpha = 18h 56m 35.11s, delta = -37 deg 54' 30.5''. The paper prints no epoch or reference frame for this pair in the text (the field-star table header gives J2000 for the field-star positions, not for this sentence)."
+value = "alpha = 18h56m35.11s, delta = -37d54m30.5s"
+units = "h m s (RA); deg arcmin arcsec (Dec)"
+uncertainty = "not stated (positions given to 0.01 s = 0.15 arcsec in RA and 0.1 arcsec in Dec)"
+source = "walter_2010_rxj1856_distance"
+locator = "Methodology, subsubsection 'Determination of Parallactic Ellipse', tex l.480"
+anchor = "for the nominal coordinates"
+anchor_tex = '''$\alpha=18^{\rm h}56^{\rm m}35.11^{\rm s}$ and $\delta=-37^\circ 54' 30.5''$.'''
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and both coordinates match walter_2010_rxj1856_distance.txt:371-373. Acceptance covers the explicitly qualified nominal pair as printed. Table 4 contains a different NS position (L910) with epoch 2003.624 (L913); that metadata cannot establish the nominal pair's epoch or frame." }]
+depends_on = []
+notes = "MISSING: epoch and frame. The sentence only says 'nominal coordinates of the target'; the proper motion is 331.2 mas/yr (obs.rxj1856-proper-motion-total), so a position without an epoch drifts by about 0.33 arcsec per year, and the epoch must be fixed before the Gaia re-projection of the background sky (pipeline.sky-radiance). The J2000 label in the tex l.1312 table header applies to the field-star table, not to this pair; do not assume. Gaia DR3 epoch-2016.0 ICRS position of the neutron star's optical counterpart, if any, must come from the Gaia fetch (next session) or the catalogue, not from this entry. Proper motion and parallax are not duplicated here: see obs.rxj1856-proper-motion-total (Table 3 mean row, 331.2 mas/yr, PA 100.3 deg), obs.rxj1856-parallax-walter2010-text (8.18 mas) and obs.rxj1856-parallax-walter2010-table3 (8.16 mas), obs.rxj1856-distance. Conversion (derivation): alpha = (18 + 56/60 + 35.11/3600) h x 15 deg/h = 284.1462917 deg; delta = -(37 + 54/60 + 30.5/3600) deg = -37.9084722 deg. Reviewer pointer (codex r1): Table 4 (txt L910) holds a different NS position, \"NS   18 56 35.795 -37 54 35.54\", with footnote at L913 \"Positions are referenced to the NOMAD-1 catalog position of star 9, and are epoch 2003.624\"; it does not establish the epoch or frame of the nominal pair. Datum unchanged. The proper-motion entry is context only, not a computational dependency (edge removed). Correction from sky2-r1 review: Walter 2010 footnote states the Table 4 position is epoch 2003.624 (refs/walter_2010_rxj1856_distance.txt:913, \"and are epoch 2003.624.\"; also .tex:1339; Table 4 NS row declination -37 54 35.54 at txt:910); the nominal pair in this entry remains without a printed epoch."

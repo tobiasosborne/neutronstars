@@ -1,0 +1,559 @@
+1988ApJ. . .327. .477H
+
+
+                         The Astrophysical Journal, 327:477-484,1988 April 1
+                         © 1988. The American Astronomical Society. All rights reserved. Printed in U.S.A.
+
+
+
+
+                                        A FAST AND ACCURATE METHOD FOR EVALUATING THE NONRELATIVISTIC FREE-FREE
+                                                           GAUNT FACTOR FOR HYDROGENIC IONS
+                                                                                                          D. G. Hummer1
+                                                                 Joint Institute for Laboratory Astrophysics, University of Colorado and National Bureau of Standards
+                                                                                          Received 1987 August 10; accepted 1987 September 22
+                                                                                       ABSTRACT
+                                         A two-dimensional Chebyshev expansion of the nonrelativistic hydrogenic free-free Gaunt factor is present-
+                                       ed which can be evaluated extremely rapidly and which gives a maximum relative error of 0.7% over a very
+                                       wide range of temperatures and frequencies: —4.0 < log (hv/kT) < 1.5 and —3.0 < log (Z2 Ry/kT) < 3. This
+                                       expansion is obtained from numerical values computed primarily from the exact expressions of Karzas and
+                                       Latter, augmented by certain analytic approximations that are valid in regions of the energy plane where the
+                                       series given by Karzas and Latter become computationally intractable. A brief table of thermally averaged
+                                       Gaunt factors is given that covers the ranges of m = hv/kT and y2 = Z2 Ry/kT mentioned above in intervals
+                                       of 0.25 dex.
+                                       Subject headings: atomic processes — numerical methods
+
+                                                                                       I. INTRODUCTION
+                            Although the calculation by Karzas and Latter (1961 ; hereafter KL) of the Gaunt factor for nonrelativistic free-free transitions of
+                         a hydrogenic ion has, for many years, provided the primary source for these data, the utility of their work has been limited by the
+                         graphical form in which their results are presented. In conjunction with a new, ab initio calculation of opacities for stellar envelopes
+                         by the “Opacity Project” (Seaton 1987), the need was felt for a fast and accurate method of generating the free-free absorption
+                         coefficient for hydrogenic ions. Such a method would also be very useful in the modeling of stellar atmospheres and winds, where
+                         previously a variety of approximations and functional fits to published graphical and tabular material have been used; these
+                         procedures are of only moderate accuracy.
+                            We have therefore used the expansion derived by KL to obtain primary values of the free-free Gaunt factor as a function of the
+                         initial and final electron energies, augmented by various analytical approximations valid in certain regions of the energy plane for
+                         which the expressions given by KL become computationally intractable. The thermal averages are computed numerically, and the
+                         resulting values of ^ff(T, v) are fitted to a two-dimensional Chebyshev expansion in logarithmic temperature and frequency
+                         variables. We believe our primary values to be accurate to better than 0.3%. Although we have obtained fits with a maximum error
+                         of less than 0.01 %, we give here a smaller set of coefficients with an rms fitting error of 0.1 % and a maximum fitting error of 0.7%.
+
+                                                                                     II. BASIC EQUATIONS
+                            The cross section for free-free absorption in the field of a nucleus of charge Z involving a transition from                                to Ef can be written as
+                                                                                                                                      2
+                                                                                                                               32n e
+                                                                                        d(Tff(Ei        Ef) =       rif)alZ2                                                               (2.1)
+                                                                                                                               3^3 he
+                         where the cofactor of g{{ is the classical cross section (Kramers 1932). The quantities rji f are related to the initial and final energies
+                         (for photon absorption) by
+                                                                                    rjtf = Z2 RyIEuf ,                                                          (2.2)
+                         and the energy hv of the absorbed photon by
+                                                                                                                             hv
+                                                                                                                jL__!                                                                      (2.3)
+                                                                                                                rj2f~ r¡f + Z2 Ry '
+
+                                                                                                   a) The Expressions of Karzas and Latter
+                            KL have expressed the free-free Gaunt factor in terms of series solutions of certain differential equations related to hypergeomet-
+                         ric functions. Their result can be written compactly in a form that is advantageous for numerical evaluation,
+                                       nf) = Stîv^C'î/A1 - k)2]2[1 - exP (-2707;)]-‘[exp        - l]“‘Gofa,-, If)
+                                                                                    x [(1 + K2 + 2r¡2)G0(rij, r\f) — %(t]2 + k2)(1 + 77/)G 1(77,-,                              — K
+                                                                                                                                                                                    ) ] > (2-4)
+
+                             1
+                                 Staff member, Quantum Physics Division, National Bureau of Standards.
+                                                                                                                       477
+
+
+                                           © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+                         478                                                              HUMMER                                                             Vol. 327
+                         where
+                                                                                       K = t1f/rn < 1 .                                                     (2.5)
+                            The functions Gfyi, t],), 1 = 0, 1, are expressed as series solutions of ordinary, real differential equations, which have different
+                         forms for values of
+                                                                                    X=-4t]it]f/(r]i-rif)2                                                        (2.6)
+                         smaller or larger than unity in absolute magnitude. KL expressed these solutions as power series in x or 1/x and gave recursion
+                         relations for the coefficients. Since, however, both x and the coefficients depend on rji and r¡f9 a separate evaluation of the coefficients,
+                         followed by multiplication by a power of x or 1/x, and then summation is not particularly efficient. We have therefore derived
+                         recursion relations for the terms in the summation rather than the coefficients. Thus, for | x | < 1, we have
+                                                                                        oo
+                                                                          Gfai, »?/) = E an(z; li’ '?/) > 1 = 0, 1 ,                                             (2.7)
+                                                                                       n—0
+                         where
+                                                                  a0 = 1 ,      al= 2[r,2f - k(1 + 1)2]/[(1 - k)2(1 + 1)] ,                                      (2.8)
+                         and
+                            a„[n(2l + 1 + n)] = «„-j {4^/(1 - k)2 - 4k[(m - l)(2n + 4/ + 1) + (/ + 1)2]/(1 - k)2}
+                                                                                        - a„_2{4ri2/(l - k)2 - 16k2[(« - 2)(n + 21) + (l + 1)2]/(1 - k)4} . (2.9)
+                            For I x I > 1 we define y =—1/x and write
+                                                                  GiiVi, r]j) = y + 1[cos (A In y)A,(y) + sin (A In y)B,(y)] ,                                 (2.10)
+                         where
+                                                                                       ¿ = itii - *1/) ■                                                        (2.11)
+                           The functions A^y) and B^y) are expressed as
+                                                                             00                            00
+                                                                    ^iCv) = E an(i;         »     Biiy) = E bn(1’’ 'll’ Vf) ’                                   (2.12)
+                                                                            n=0                           n—0
+                         where for / = 0
+                                                                                   a0 = 2C sin (q0)/^/n ,                                                      (2.13)
+                         and for / = 1
+                                                                       a, = 12C[(1 + ^2X1 + r,2)r112 sin                  ;                                    (2.14)
+                         for / = 0 and 1, fr0 is given by the same expressions as a0 but with cosine replacing sine. Here
+                                                             C = {sinh (ntif) sinh (-TU/J/sinh             - i/,)]»?^/^, - r]f)}1J2 ,                          (2.15)
+                                                             «o = M'//-»?,•)-ffo(»7/) + M'fi) >                                                                (2.16)
+                                                             <ïi = <2o - tan-1 ^ + tan-1 jji,                                                                  (2.17)
+
+
+                                                                                 Coil) = arg r(l + iq).                                                        (2.18)
+                         For 7/ < 1, <70 is readily evaluated from (Abramowitz 1952)
+                                                                           Coil) = - We + E          - tan-1 r]/m),                                            (2.19)
+                                                                                         m= 1
+                         and for r¡ > 1,
+                                                                                                    Br
+                                                                    Coil) = 4 + 'fOn t]     D- ^Wr-Or,
+                                                                                               E       2 1                                                     (2.20)
+                                                                                                        '- ]’
+                         here >'t is Euler’s constant ( = 0.57721 ...) and the coefficients Br are the Bernoulli numbers.
+                           The terms for n = 1,2,... are generated recursively by
+                                                                       a                                                                                      (2.21a)
+                                                                        n — Anb„ + Bnbn_2 + C„a„-l + Dnan-2 ,
+                         and
+                                                                     &„ = -^„«,.-1 - ßn0n-2 + CA-l + OA-2 ,                                                  (2.21b)
+
+
+
+
+                                    © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+                         No. 1, 1988                               NONRELATIVISTIC FREE-FREE GAUNT FACTOR                                                            479
+
+                         where
+                                                       An = —À[3n - 2 + 21(1 4- 1) + 4A2 + 2M/]/^/h[4 + (n/A)2] ,                                                 (2.22a)
+                                                                   3                        2       2           2
+                                                       Bn = -2 [> - 4 + 21(1 + 1) + 22 ]/fy^ w[4 + (n/2) ] ,                                                      (2.22b)
+                                                                                                        2                                      2
+                                                       Cn = {1(1 + 1) - (n - l)(2n - 1) + n,rif - 62 [1 - (1/n)]}/^- ^[4 + (n/2) ] ,                              (2.22c)
+                                                               2                                2               2                          2
+                                                       Dn = 2 {/(/ + 1) - (n - l)(n - 2) - 32 [1 - (2/n)])/^ ^^ + (n/2) ] .                                       (2.22d)
+                         We set a_ ! =b_1 =0. The introduction of the ratio k in equations (2.4) and (2.22) much improves the numerical properties of these
+                         relations when ^1. Recursion of terms eliminates certain overflow and underflow problems, but otherwise does not appear to
+                         change the stability of the recursion process.
+                                                                        b) Approximate Forms for g^rk, rj f)
+                            Although the above equations work well throughout much of that part of the (rjh rj^-plane which is of interest here, there are
+                         regions in which it becomes computationally intractable and other analytic forms must be used. Both series (2.7) and (2.12) diverge
+                         for x = — 1 and, consequently, converge poorly for x near — 1 (or y near 1). This difficulty is easily overcome by quadratic Lagrange
+                         interpolation across the “ convergence gap,” along the curve in the plane generated by the sequence of (rjh r¡f) points used in the
+                         particular calculation under consideration.
+                            Although KL do not mention having used approximation formulae for certain limiting cases, we found it necessary to do so. A
+                         very useful collection of such formulae and a discussion of their regions of validity is given by Brussard and van de Hulst (1962;
+                         hereafter BvdH). An exact limiting case for = oo has been derived by Biedenharn and Thaler (1956) and by Guggenberger (1957)
+                         in terms of Coulomb functions, from which one can derive an asymptotic expansion of the form
+                                                                   dtA^i = °o> ty/) ~ 1 + X cnrlf2nl3 >                                             (2.23a)
+                                                                                          n= 1
+                         Guggenberger (1957) gives values of the cn,n= 1, 3; we have calculated the coefficients through n = 8 which appear in Table 1. For
+                         rjf < 1.7, BvdH give the expression
+                                                                            ^ =oo,^)« (2^3/71X1(2.23b)
+                         which is accurate to better than 1% for 7/ < 1. In practice we have used these expressions where rji > 200and r¡f <0A rji.
+                           In the classical limit in which both r\i and rjf > 1, a number of authors (see BvdH) have derived an exact limiting form that can be
+                         expressed in terms of Hankel functions involving
+                                                                                                                                                                   (2-24)
+                         For £ > 1 Grant (1958) derived the asymptotic expansion
+                                                             gïArii, *//)-!+ 0.21775<r2/3 - 0.01312<T4/3 + * * ’ ,                  £> 1 ,                        (2.25a)
+                         while for ^ < 1 we have obtained (see Appendix)
+                                                                                —                   Umax
+                                                             gcft(>?i,ri/) = (y3/7t)[ye + ln({/2)]e’'fZ'a„T:(i),     0<ç< 1 .                                   (2.25b)
+                                                                                                    n=0
+                         Here T* is the nth-shifted Chebyshev polynomial, and the prime indicates that the first term is halved. The coefficients are given in
+                         Table 2 for n = 0 (1) 9; with nmax = 6 the maximum relative error is 0.004, while for nmax = 9 it is 0.0006. The sum in equation (2.25b)
+                         is readily evaluated without calculating the polynomials by using Clenshaw’s (1961) summation algorithm. In practice we have used
+                         the classical results (2.25) when > 20 and rjf > 0.1716^^ (i.e., for | x | < 1). Strictly speaking both rji and rjf should be > 1, so this
+                         lower limit for r¡f is really too small. However, a computational procedure using the KL equations breaks down when rjh rjand ¿
+                         are all large. This is the weakest part of our calculation and leads to uncertainties of order 1% in the evaluation of g{f(rji, rjf) for these
+                         values of the parameters.
+                                                                                                                                        TABLE 2
+                                                                                                                            Coefficients an for the Classical
+                                                                                                                               Approximation Equation3
+                                                      TABLE 1
+                                            Coefficients cn for Asymptotic                                                          n                   an
+                                             Expansion of g^rji = oo, rjf)                                          0                                1.47864486
+                                                                                                                    1                              -1.72329012
+                                                  n                                                                 2                                0.14420320
+                                        1                            0.17282604                                     3                                0.05744888
+                                        2                          -0.04959570                                      4                                0.01668957
+                                        3                          -0.01714286                                      5                                0.01580779
+                                        4                            0.00204498                                     6                                0.00464268
+                                        5                          -0.00243945                                      7                                0.00385156
+                                        6                          -0.00120387                                      8                                0.00116196
+                                        7                            0.00071814                                     9                                0.00101967
+                                        8                          -0.00026971                                          a
+                                                                                                                            Eq. (2.25b).
+
+
+
+
+                                    © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+                          480                                                               HUMMER                                                           Vol. 327
+                                                                                  c) Thermal Average
+                            The thermal average is carried out using the expressions of KL,
+
+                                                                             df((y2, U) =    dieoff7?;(t), r]/(t)] ,                                            (2.26)
+                         where
+                                                                                 = y/s/t,       rif(t) = y/(u + t)112                                           (2.27)
+                         and
+                                                                          u = hv/kT ,       y2 = Z2 Ry/kT .                                                     (2.28)
+                         The thermally averaged free-free absorption coefficient is then (cm “1 Hz "1 sr " ^
+                                                                                   72p6 /97rm\1/2
+                                                                 W71 = «,«,5fKr.v)5^(—) a-e-n.                                                                  (2.29)
+
+                            The integral was evaluated by repeated application of Simpson’s rule using the points t = 0 (0.01) 0.05 (0.05) 8.0. This choice was
+                         arrived at after a series of convergence tests, which lead us to believe that the relative integration errors are less than 0.001 and that
+                         the values of gff are accurate to at least 0.003, again on the relative scale. Although, as mentioned above, some of the values of
+                         GfÁtfb tff) are uncertain to within 1%, they4 enter the integral of t with very small weight; all of the values computed with KL’s
+                         method are accurate to at least 1 part in 10 . For the convenience of those who occasionally need values of g{{, we give in Table 3 a
+                         tabulation at the values log y2 = - 3.0 (0.25) 3.0 and log u = - 4.0(0.25) 1.5.
+                                                                                   d) Chebyshev Expansion
+                            We have fitted a two-dimensional Chebyshev expansion to our primary data over the intervals 10-3 < y2 < 103 and
+                          10-4 <u< 101-5, using the procedure described by Clenshaw (1961). Our final results take the form
+                                                                              n
+                                                                 (My2, u) = X' Cj<y2)T/xu),          xu = (2 log « - 2.5)/5.5 ,                               (2.30)
+                                                                             j= 0
+                         where
+                                                                                   m
+                                                                        Cj(y2) = I' Du T¿xg),          xg = (log y2)/3 .                                      (2.31)
+                                                                                  i=0
+                         The coefficients Dij are given in Table 4 for / = 0,10 and j = 0, 7, which reproduces the primary data on the grid in u and y2 given in
+                         Table 3 with an rms fitting error of 0.001 and a maximum fitting error of 0.007. Although slightly larger values of n and m reduced
+                         the maximum fitting error by an order of magnitude, it was felt that for practical work the choice n = l and m = 10 is sufficient.
+                            With the Clenshaw summation algorithm on the order of 100 multiplications are required to evaluate the eight coefficients Cn for
+                         a given value of y2. For each value of u at that value of y2, i.e., for each frequency at that temperature, only eight multiplications are
+                         required to evaluate ¿/ff, if a table of values of log v is computed initially and stored. We believe that this method of generating
+                         QfÁT> v) is both considerably more accurate and much faster than any now in use. A Fortran subroutine based on this analysis can
+                         be obtained from the author; it will also be included among a suite of programs for the evaluation of exact radiative data for
+                         hydrogenic ions to be published elsewhere (Storey and Hummer 1988).
+                                                   III. COMPARISON WITH ANALYTIC APPROXIMATIONS AND OTHER CALCULATIONS
+                            A number of analytic approximations for g(f have appeared in the literature; a good discussion is given by BvdH. We consider
+                         three of them :
+                            1) A long-wavelength approximation given by Scheuer (1960),
+                                         gtf.siy2’ “) = -(V^C! In y2 + In (u/y2) - In 4 + fyE] = -0.55133(£ In y2 + In « + 0.056745) ;                          (3.1)
+                           2) A high-energy approximation due to El wert (1954),
+                                                       0ff,E(T2, «) = (x/3/rc)[ln 4 - yE-In n] = 0.55133 [0.80888 - In «] ;                                     (3.2)
+                           3) A result based on an asymptotic formula of Menzel and Pekeris (Grant 1958 ; Seaton 1987),
+                                                     0ff,Mp(72> w) = 1 + 0.1728(tt/y2)1/3(l + lu'1) - 0.0496(w/y2)2/3(l + ftU1 + ftT2).                         (3.3)
+                            We have compared these formulae with our primary data from which Table 3 is drawn, and plotted in Figure 1 the regions in
+                         which each approximation gave results within +10% of our results. For each value of y2, the last u value to give agreement within
+                         this tolerance was plotted; these points were then connected by straight lines, so the boundaries of these areas are somewhat
+                         artificial but the point is clear. Even at this relatively low level of accuracy, the three approximations considered here leave large and
+                         important areas of the (m, y2)-plane uncovered. At the 1% level, only a tiny fraction of the plane in Figure 1 is covered. Of course, the
+                         validity of these formulae extends (and improves) in certain directions beyond the part of the plane considered here.
+                            No significant discrepancies with the graphical presentation of gff given by KL were discovered.
+
+
+
+
+                                    © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+                         No. 1, 1988                          NONRELATIVISTIC FREE-FREE GAUNT FACTOR                                                              481
+                            Recently, Itoh, Nakagawa, and Kohyama (1985) and Nakagawa, Kohyama, and Itoh (1987) have published very extensive
+                         calculations of free-free hydrogenic Gaunt factors, which include both relativistic effects in the evaluation of       rjf) as well as the
+                         effects of electron degeneracy in the evaluation of the thermal average, where the Fermi-Dirac distribution is employed in place of
+                         the Maxwellian. Itoh et al give polynomial fits in temperature and frequency to their results for certain values of the chemical
+                         potential, and Nakagawa et al provide extensive tables. The case with the weakest degeneracy for which they present data is that
+                         with r¡ = —6.0. For the largest values of y2 common to their work and ours, and for the smallest values of u, their values of ¿/ff at
+                         rj = — 6.0 are very slightly smaller than ours. However, it is easily seen by graphical extrapolation of the data of Nakagawa et al to
+                            =—oo that our results agree to at least 0.3%.
+
+                           I am indebted to S. A. Voels for his assistance in printing Tables 3 and 4. The computations reported here were performed on the
+                         JILA VAX-8600. This work was supported in part by the National Science Foundation through grant AST 85-05919 and in part by
+
+
+                                                                                        TABLE 3
+                                                                         Thermally Averaged Gaunt Factor gf{(y2, u)
+                                                                                           A.
+                                                                                                      log y2
+                            log u       -3.000   -2.750     -2.500   -2.250    -2.000    -1.750        -1.500      -1.250   -1.000   -0.750   -0.500   -0.250   0.000
+                          -4.00.        5.516     5.514     5.510    5.504     5.494      5.479            5.456    5.422   5.375    5.311    5.228    5.126    5.007
+                          -3.75.        5.201     5.199     5.195    5.189     5.179      5.164            5.141    5.108   5.061    4.998    4.915    4.814    4.696
+                          -3.50.        4.885     4.883     4.880    4.874     4.865      4.850            4.828    4.795   4.749    4.686    4.604    4.504    4.387
+                          -3.25.        4.570     4.569     4.565    4.560     4.551      4.537            4.515    4.483   4.438    4.376    4.296    4.197    4.082
+                          -3.00.        4.256     4.254     4.252    4.247     4.239      4.225            4.204    4.173   4.129    4.069    3.990    3.894    3.781
+                          -2.75.        3.942     3.941     3.939    3.935     3.928      3.915            3.896    3.866   3.824    3.766    3.690    3.596    3.486
+                          -2.50.        3.630     3.630     3.629    3.626     3.619      3.609            3.591    3.564   3.524    3.468    3.395    3.304    3.198
+                          -2.25.        3.319     3.320     3.321    3.319     3.315      3.306            3.291    3.266   3.229    3.177    3.108    3.022    2.921
+                          -2.00.        3.012     3.014     3.016    3.016     3.015      3.009            2.997    2.976   2.943    2.896    2.832    2.751    2.656
+                          -1.75.        2.708     2.712     2.716    2.719     2.720      2.718            2.710    2.694   2.667    2.626    2.568    2.494    2.407
+                          -1.50.        2.409     2.415     2.421    2.428     2.433      2.436            2.434    2.424   2.404    2.370    2.320    2.255    2.176
+                          -1.25.        2.118     2.126     2.135    2.145     2.155      2.164            2.169    2.167   2.155    2.131    2.091    2.036    1.967
+                          -1.00.        1.837     1.846     1.858    1.872     1.888      1.904            1.917    1.925   1.924    1.911    1.883    1.839    1.783
+                          -0.75.        1.569     1.580     1.595    1.613     1.634      1.657            1.680    1.700   1.712    1.712    1.698    1.667    1.624
+                          -0.50.        1.317     1.330     1.347    1.368     1.394      1.425            1.457    1.490   1.517    1.533    1.535    1.521    1.491
+                          -0.25.        1.087     1.101     1.119    1.143     1.172      1.208            1.250    1.294   1.337    1.372    1.393    1.396    1.382
+                           0.00.        0.881     0.895     0.914    0.938     0.970      1.009            1.057    1.112   1.170    1.223    1.265    1.290    1.294
+                           0.25.        0.703     0.716     0.734    0.758     0.789      0.830            0.881    0.942   1.011    1.081    1.145    1.192    1.218
+                           0.50.        0.552     0.564     0.581    0.603     0.633      0.672            0.723    0.786   0.860    0.943    1.024    1.095    1.145
+                           0.75.        0.428     0.438     0.453    0.473     0.500      0.536            0.583    0.644   0.719    0.806    0.900    0.991    1.066
+                           1.00.        0.328     0.337     0.350    0.367     0.390      0.421            0.463    0.519   0.589    0.675    0.774    0.877    0.973
+                           1.25.        0.250     0.258     0.268    0.282     0.301      0.328            0.363    0.412   0.475    0.554    0.650    0.756    0.865
+                           1.50.        0.190     0.196     0.204    0.215     0.231      0.252            0.282    0.322   0.376    0.446    0.533    0.636    0.748
+                                                                                         B.
+                                                                                                  log y2
+                            log u       0.250     0.500     0.750     1.000     1.250     1.500            1.750   2.000    2.250    2.500    2.750    3.000
+                          -4.00.        4.874     4.732     4.584     4.434    4.282      4.131            3.981   3.831    3.682    3.535    3.390    3.247
+                          -3.75.        4.564     4.423     4.277     4.128    3.979      3.830            3.682   3.535    3.390    3.247    3.106    2.968
+                          -3.50.        4.257     4.117     3.973     3.827    3.680      3.534            3.389   3.247    3.106    2.968    2.833    2.701
+                          -3.25.        3.953     3.816     3.675     3.531    3.388      3.246            3.106   2.968    2.833    2.701    2.572    2.448
+                          -3.00.        3.655     3.521     3.383     3.243    3.104      2.967            2.833   2.701    2.572    2.448    2.328    2.213
+                          -2.75.        3.363     3.233     3.099     2.965    2.832      2.700            2.573   2.449    2.329    2.213    2.103    1.998
+                          -2.50.        3.080     2.955     2.827     2.698    2.572      2.449            2.329   2.214    2.103    1.998    1.899    1.804
+                          -2.25.        2.808     2.689     2.568     2.447    2.329      2.214            2.104   1.999    1.899    1.806    1.718    1.637
+                          -2.00.        2.550     2.439     2.325     2.213    2.104      2.000            1.901   1.807    1.719    1.638    1.562    1.494
+                          -1.75.        2.309     2.206     2.102     2.001    1.902      1.809            1.722   1.640    1.564    1.495    1.432    1.375
+                          -1.50.        2.088     1.995     1.902     1.811    1.724      1.643            1.567   1.498    1.434    1.377    1.326    1.280
+                          -1.25.        1.890     1.808     1.726     1.647    1.572      1.502            1.439   1.381    1.329    1.283    1.242    1.206
+                          -1.00.        1.717     1.647     1.576     1.509    1.446      1.387            1.335   1.288    1.246    1.210    1.178    1.150
+                          -0.75.        1.570     1.512     1.453     1.397    1.345      1.297            1.254   1.217    1.184    1.155    1.131    1.110
+                          -0.50.        1.450     1.403     1.355     1.309    1.267      1.228            1.194   1.164    1.138    1.116    1.097    1.081
+                          -0.25.        1.355     1.320     1.282     1.244    1.210      1.179            1.151   1.127    1.107    1.089    1.073    1.061
+                           0.00.        1.281     1.257     1.228     1.199    1.171      1.145            1.123   1.102    1.086    1.071    1.058    1.048
+                           0.25.        1.222     1.211     1.191     1.168    1.145      1.124            1.105   1.089    1.074    1.060    1.049    1.040
+                           0.50.        1.171     1.176     1.166     1.150    1.131      1.113            1.096   1.081    1.068    1.055    1.044    1.035
+                           0.75.        1.117     1.142     1.146     1.138    1.124      1.109            1.094   1.080    1.067    1.057    1.043    1.035
+                           1.00.        1.050     1.100     1.124     1.129    1.121      1.109            1.096   1.083    1.070    1.059    1.048    1.038
+                           1.25.        0.964     1.041     1.090     1.114    1.118      1.112            1.101   1.088    1.076    1.064    1.055    1.044
+                           1.50.        0.860     0.959     1.036     1.085    1.107      1.112            1.106   1.096    1.084    1.073    1.062    1.053
+
+
+
+
+                                    © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+
+
+                                                             co n m m CO CO CO co co rl-
+                                                             <NI OI OnI OI <NI «OI IOI t—I ©I COI TfI
+                                                             ©
+                                                             t^- ON  OO CO
+                                                                        ON VO  NO  CO OO   NO
+                                                                                           ©©        00
+                                                             »o
+                                                                 00
+                                                                 CO
+                                                                 T-H
+                                                                     CS
+                                                                     NO
+                                                                     <n CO
+                                                                        r- NO
+                                                                           CX)
+                                                                               ^ ON
+                                                                               O   00
+                                                                                   CN
+                                                                                       Tf
+                                                                                       CN
+                                                                                       (N  NO
+                                                                                           On CN ■'—<
+                                                                                              CO
+                                                                                              »O
+                                                             O   CO  t— ÍN -h On
+                                                                               -H -rH
+                                                                                   CN OO   ON t~'CN~ t}-
+                                                                                                     NO
+                                                             00
+                                                             NO
+                                                             »o ©
+                                                                 ©
+                                                                 IO On
+                                                                     cs ©©
+                                                                     lO ©  vo
+                                                                           rt on
+                                                                               ON ntn
+                                                                                   ^ vo
+                                                                                       ro vo
+                                                                                           On
+                                                                                       VO CO co
+                                                                                              ■>—v cot-h
+                                                             co rf co CO H <N r-H T-H r-^ NO
+                                                               I             I I            I I
+                                                             <N <N <N CO CO Tt CO Tt CO VO Tf
+                                                              I NOI NOI NOI Tf-I I »OI OOI COI CNI CNI
+                                                             VO
+                                                             -H OO
+                                                                NO <N   CN CN ON ©  On ©CO ' COV *oCN
+                                                             ON
+                                                             VO ON
+                                                             Tf (N
+                                                                    VO
+                                                                    © CO 1-H co
+                                                                    CM           r- CO © CO
+                                                                                    On     OO CO
+                                                                                           CO  T-H c■
+                                                                                                   CO
+                                                             NO VO
+                                                             ©  NO ON   >0  CN   CO »-H -H -H
+                                                                    NO NO © 00 00 NO Tf VO ON  ©   r-
+                                                             oo
+                                                             VO oo
+                                                                00 r^- CO   CO VO C" ©
+                                                                        NO VO           ON Tt
+                                                                                           00 T-h
+                                                                                               CO NO
+                                                                                                   oq
+                                                             rt ^-h CN OO ON <          CN CN ON On
+                                                              I I            I           I I
+
+                                                  PQ
+                                                  J
+                                                  PQ                                            00
+                                                                                                On vo
+                                                                                                   t"
+                                                  <                                             CO
+                                                                                                OO ©
+                                                                                                   CN
+                                                  H                                      t-h co oo On
+                                                                                         t—  ro CO
+                                                                                         vo CO  CN ON
+                                                                                                   ©
+                                                                                         CO <N —V OO
+
+
+                                                       U     T-H CN CN CN
+                                                             VOI I ©I OOI
+                                                             vo CN
+                                                             CN  co oo CO
+                                                                 «O ON
+                                                                    t-h
+                                                             t-h CN     NO
+
+
+
+
+                                                                                         co co co rf
+                                                                                         © till
+                                                                                             CO  ©   NO
+                                                                                         r-
+                                                                                         On  no
+                                                                                             Tf  co
+                                                                                                 CN  CN
+                                                                                         ON
+                                                                                         co  00
+                                                                                             t-h »O
+                                                                                                 rNj f"
+                                                                                                     CN
+                                                                                         CO
+                                                                                         vn CN
+                                                                                             vn  CO
+                                                                                                 oo CO
+                                                                                                     vn
+                                                                                         vo
+                                                                                         t-h NO ON T-H
+                                                                                             CO  CO  NO
+                                                                                         On t-h cn co
+                                                                                           I          I
+
+                                                             © T-H           CN CO CN Tj- CO VO Tfr
+                                                             + OnI COI CNI CNI ©I NOI -vtI t-hI CNI ©I
+                                                             VO
+                                                             f- 00 © CO CO      »O VO
+                                                                             Ov VO       VO co
+                                                                                             VO ©
+                                                                                                Tt  CN
+                                                                                                    00
+                                                               ■ CO vo CO 00 vo T-H» co
+                                                                                r-   OO
+                                                                                     NO
+                                                                                         vo
+                                                                                         T-H
+                                                                                         CO  CN
+                                                                                             CN CN
+                                                                                                NO  t-h
+                                                                                                    On
+                                                                    CO CN, TH no CN  r"  co
+                                                                                         r-  CO
+                                                                                             oo «O
+                                                                                                r-  ON
+                                                                                                    t-h
+                                                                          :) CO
+                                                                             8?      ©   NO  On
+                                                                                C^ r- vo P OO Htco  On
+                                                                                       V CN Ht CO OO
+                                                                  I I           7                     I
+
+
+
+                                                                   v CN CO nt »O no C^- OO On ©
+
+
+
+
+                         © American Astronomical Society • Provided by the NASA Astrophysics Data System
+                                                                NONRELATIVISTIC FREE-FREE GAUNT FACTOR                                                                           483
+198 8ApJ. . .327.
+
+
+
+
+                                                                                                    log y'
+                                                   2
+                      Fig. 1.—Regions of the (u, y )-plane in which the named analytic approximations are within ± 10% of the accurate values. Regions are bounded by straight line
+                    connecting grid points that lie just within region of agreement. Right boundary of El wert region is only approximate since its terminus lies beyond log u = -4.0.
+                    Regions of increasing accuracy lie beyond the boundaries of the figure.
+
+                    the National Aeronautics and Space Administration through grant NAGW-766 to the University of Colorado. The final stages of
+                    this work were carried out at University College London with the support of NATO grant RG.86/0471.
+
+
+                                                                                            APPENDIX
+                      Grant (1958) writes the classical expression as (Grant’s ^ is defined as the negative of ours)
+
+                                                                            éiff(Ç) = - (^y^KS) Jz Ki((z)                     .                                                  (Al)
+
+                    From the well-known integral representation of the modified Bessel function of the second kind
+
+                                                                                 Xv(z) = J dte~zcosh(t) cosh (vf),                                                              (A2)
+
+                    we have
+
+                                                                                 K,^) = |0°iiie“«cosh<')cos(^),                                                                 (A3)
+
+                    and
+
+                                                                           X^(z)|z=(* == - i dte~^cosh(t) cosh (t) cos (¿í) .                                                   (A4)
+                                                                      dz                  Jo
+                    Equations (A3) and (A4) are both manifestly real and easy to integrate numerically. The result given in the text (eq. [2.25b]) is
+                    obtained by dividing out the nonanalytic part of K^) and the fitting the results of the numerical integrations using Clenshaw’s
+                    (1961) procedure.
+
+
+
+
+                                 © American Astronomical Society • Provided by the NASA Astrophysics Data System
+1988ApJ. . .327. .477H
+
+
+                         484                                                                   HUMMER
+                                                                                                 REFERENCES
+                         Abramowitz, M. 1952, Tables of Coulomb Wave Functions, Vol. 1                  Itoh, N., Nakagawa, M., and Kohyama, Y. 1985, Ap. J., 294,17.
+                            (Washington, DC :NBS Applied Math. Ser., No. 17).                           Karzas, W. J., and Latter, R. 1961, Ap. J. Suppl., 6,167.
+                         Biedenharn, L. C, and Thaler, R. M. 1956, Phys. Rev., 104,1643.                Kramers, H. A. 1923, Phil. Mag., 46,836.
+                         Brussard, P. J., and van de Hulst, H. C. 1962, Rev. Mod. Phys., 34,507.        Menzel, D. H., and Pekeris, C. L. 1935, M.N.R.A.S., 96, 77.
+                         Clenshaw, C. W. 1961, in Modern Computing Methods (2d ed.; London: Nat.        Nakagawa, M., Kohyama, Y., and Itoh, N. 1987, Ap. J. Suppl, 63,661.
+                            Physical Lab., Notes on Appl. Sei., No. 16), p. 76.                         Scheuer, P. A. G. 1960, M.N.R.A.S., 120,231.
+                         El wert, G. 1954, Zs. Naturforschung, 9A, 637.                                 Seaton, M. J. 1987, J. Phys. B, in press.
+                         Grant, I. P. 1958, M.N.R.A.S., 118,241.                                        Storey, M. J., and Hummer, D. G. 1988, Computer Phys. Comm., submitted.
+                         Guggenberger, T. 1957, Zs. Phys., 149,523.
+
+
+                         D. G. Hummer: Joint Institute for Laboratory Astrophysics, University of Colorado, Boulder, CO                       80309-0440
+
+
+
+
+                                      © American Astronomical Society                           Provided by the NASA Astrophysics Data System
+

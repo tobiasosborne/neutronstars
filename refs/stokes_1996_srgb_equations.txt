@@ -1,0 +1,32 @@
+Transcription of the equation images in refs/stokes_1996_srgb.html
+(Stokes, Anderson, Chandrasekar, Motta 1996, "A Standard Default Color Space
+for the Internet - sRGB", W3C). The W3C page embeds the equations as GIF
+images stored in refs/data/stokes_1996_srgb_img/. Each line below was read off
+the named image by Claude (Fable 5.1) on 2026-10-23 and is to be re-checked
+against the image by any reviewer blessing an entry that anchors here.
+Equation labels follow the html text ("(1.1)" etc.).
+
+srgb09.gif  (1.1)  XYZ -> linear sRGB:
+  R_sRGB = 3.2410*X - 1.5374*Y - 0.4986*Z
+  G_sRGB = -0.9692*X + 1.8760*Y + 0.0416*Z
+  B_sRGB = 0.0556*X - 0.2040*Y + 1.0570*Z
+
+srgb10.gif  condition for (1.2a):  R_sRGB, G_sRGB, B_sRGB <= 0.00304
+srgb11.gif  (1.2a)  R'_sRGB = 12.92 * R_sRGB   (same for G', B')
+srgb12.gif  condition for (1.2b):  R_sRGB, G_sRGB, B_sRGB > 0.00304
+srgb13.gif  (1.2b)  R'_sRGB = 1.055 * R_sRGB^(1.0/2.4) - 0.055   (same for G', B')
+
+srgb17.gif  (1.6)  R'_sRGB = R_8bit / 255.0   (same for G', B')
+srgb18.gif  condition for (1.7a):  R_sRGB, G_sRGB, B_sRGB <= 0.03928
+srgb19.gif  (1.7a)  R_sRGB = R'_sRGB / 12.92   (same for G, B)
+srgb20.gif  condition for (1.7b):  R_sRGB, G_sRGB, B_sRGB > 0.03928
+srgb21.gif  (1.7b)  R_sRGB = ((R'_sRGB + 0.055) / 1.055)^2.4   (same for G, B)
+
+srgb22.gif  (1.8)  linear sRGB -> XYZ:
+  X = 0.4124*R_sRGB + 0.3576*G_sRGB + 0.1805*B_sRGB
+  Y = 0.2126*R_sRGB + 0.7152*G_sRGB + 0.0722*B_sRGB
+  Z = 0.0193*R_sRGB + 0.1192*G_sRGB + 0.9505*B_sRGB
+
+Note: the thresholds in this 1996 W3C text are 0.00304 and 0.03928. The later
+IEC 61966-2-1:1999 standard is not in refs/; any entry using 0.0031308 or
+0.04045 has no local source and must not be blessed.

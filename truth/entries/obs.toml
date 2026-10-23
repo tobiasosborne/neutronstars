@@ -1,0 +1,808 @@
+# truth/entries/obs.toml -- RX J1856.5-3754 observational data and fit assumptions (proposed, not yet reviewed).
+
+[[entry]]
+id = "obs.rxj1856-parallax-walter2010-text"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 weighted-mean parallax (Walter+2010, text)"
+statement = "Weighted mean of the five independent astrometric fits to the eight HST/ACS-HRC epochs of RX J185635-3754 (models A1-A4 and B; model T excluded), as quoted in the text of Sec. 2.3. The authors adopt the mean of the individual-measurement errors, 0.8 mas, as the representative uncertainty because the five fits share the same data."
+value = 8.18
+units = "mas"
+uncertainty = "0.8 mas (mean error of the individual measurements, adopted as true uncertainty)"
+source = "walter_2010_rxj1856_distance"
+locator = "Sec. 2.3 (p. 14)"
+anchor = "weighted mean parallax of 8.18 mas corresponds to a"
+anchor_tex = 'The weighted mean parallax of 8.18~mas corresponds to a distance of 123~pc.'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-walter2010-differential-parallax"]
+notes = "Differs slightly from the Table 3 'mean' row (8.16 +/- 0.27 mas); both are printed in the paper and recorded separately. Parallax is differential (relative to reference stars)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Text gives 8.18 mas and adopts 0.8 mas because the five estimates share data." }]
+
+[[entry]]
+id = "obs.rxj1856-parallax-walter2010-table3"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 mean parallax (Walter+2010, Table 3)"
+statement = "Mean parallax of RX J1856.5-3754 from the Table 3 'mean' row (mean of the astrometric fit models, excluding model T), with the same row giving the mean total proper motion and position angle."
+value = 8.16
+units = "mas"
+uncertainty = "0.27 mas (as printed in Table 3 mean row)"
+source = "walter_2010_rxj1856_distance"
+locator = "Table 3, mean row"
+anchor = "331.2 ±2.0   100.3 ± 0.3    8.16 ±0.27"
+anchor_tex = 'mean& 331.2 $\pm$2.0 & 100.3 $\pm$ 0.3 & 8.16 $\pm$0.27'
+ocr = "good"
+status = "blessed"
+notes = "Table 3 uncertainty (0.27) is smaller than the 0.8 mas adopted in the text; the paper explains the text value as the mean of individual errors because the fits are not independent."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table 3 prints 8.16 ±0.27 mas; model T is explicitly excluded. The disagreement with the prose is acknowledged." }]
+
+[[entry]]
+id = "obs.rxj1856-distance"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 distance (Walter+2010 best estimate)"
+statement = "Best estimate of the distance to RX J185635-3754 after adding 0.1 mas to the positive side of the parallax error budget to allow for the non-zero absolute parallax of the reference stars. The 1-sigma region is stated as 108 to 134 pc. Before this allowance the text gives 123 +11 -13 pc; the abstract quotes 123 +11 -15 pc."
+value = 123.0
+units = "pc"
+uncertainty = "+11 / -15 pc (1 sigma)"
+source = "walter_2010_rxj1856_distance"
+locator = "Sec. 2.3 (p. 15) and abstract"
+anchor = "Our best estimate of the distance is 123+11"
+anchor_tex = 'distance by about 2~pc. Our best estimate of the distance is'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-parallax-walter2010-text", "obs.approx-walter2010-differential-parallax"]
+notes = "PRD R5 uses 123 pc. Superscript/subscript uncertainty is split across two lines in the extraction ('123+11' / '-15 pc'); checked intact. Uncertainty -13 appears for the pre-allowance value on p. 14."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Best estimate is 123 +11 −15 pc after the reference-star allowance; stated 1σ interval is 108–134 pc." }]
+
+[[entry]]
+id = "obs.rxj1856-proper-motion-total"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 total proper motion (Walter+2010, Table 3 mean)"
+statement = "Mean total proper motion of RX J1856.5-3754 from the HST/ACS-HRC astrometric fits (Table 3, 'mean' row, column mu). The position angle in the same row is 100.3 +/- 0.3 deg."
+value = 331.2
+units = "mas/yr"
+uncertainty = "2.0 mas/yr (as printed)"
+source = "walter_2010_rxj1856_distance"
+locator = "Table 3, mean row"
+anchor = "331.2 ±2.0   100.3 ± 0.3    8.16 ±0.27"
+anchor_tex = 'mean& 331.2 $\pm$2.0 & 100.3 $\pm$ 0.3 & 8.16 $\pm$0.27'
+ocr = "good"
+status = "blessed"
+notes = "Position angle 100.3 +/- 0.3 deg (same row) not given a separate entry (entry budget); Table 3 header gives PA in deg. Not specified in the table whether PA is east of north; do not assume."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Mean row gives μ = 331.2 ±2.0 mas/yr and PA = 100.3 ±0.3 degrees." }]
+
+[[entry]]
+id = "obs.rxj1856-f475w-magnitude-walter2010"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 ACS/HRC F475W magnitude (Walter+2010)"
+statement = "Apparent F475W magnitude of the neutron star: the mean of the corrected instrumental magnitudes over the 8 HRC visits (img2xym HRC code), converted with the F475W photometric zero point. The uncertainty is the standard deviation over the 8 visits; no variability is seen."
+value = 25.36
+units = "mag (F475W; magnitude system not stated in this sentence)"
+uncertainty = "0.15 mag (std. dev. over 8 visits)"
+source = "walter_2010_rxj1856_distance"
+locator = "Sec. 2.3 (p. 15)"
+anchor = "magnitude of the neutron star is 25.36±0.15."
+anchor_tex = 'The F475W magnitude of the neutron star is 25.36$\pm$0.15. This magnitude'
+ocr = "good"
+status = "blessed"
+notes = "Do not compare with the Kaplan+2011 STMAG tables without checking the photometric system and aperture correction; the sentence does not say STMAG or Vegamag."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "25.36 ±0.15, eight-visit scatter and conversion procedure match. The entry correctly leaves the magnitude system unidentified; this cannot yet calibrate R5." }]
+
+[[entry]]
+id = "obs.approx-walter2010-differential-parallax"
+kind = "approximation"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "Differential parallax; reference stars at large distance"
+statement = "The parallax is measured differentially against background reference stars, so it is a lower limit to the absolute parallax. The authors argue from colour-magnitude arguments that the reference stars lie at 10 kpc or more, so the mean absolute parallax of the reference stars is below 0.1 mas, and they add 0.1 mas to the error budget on the positive side (decreasing the lower distance bound by about 2 pc)."
+validity = "Holds if the reference stars have mean absolute parallax < 0.1 mas (distances of order 10 kpc or more); assumed from a crude colour-magnitude analysis."
+source = "walter_2010_rxj1856_distance"
+locator = "Sec. 2.3 (p. 14)"
+anchor = "mean absolute parallax of the reference stars is <0.1 mas, and that the relative parallax is"
+anchor_tex = 'crude analysis that the mean absolute parallax of the reference stars is'
+ocr = "good"
+status = "blessed"
+notes = "Also the five fit methods are not independent (same data); weighted mean error not reduced."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Differential lower-limit interpretation, crude reference-star analysis and positive-side 0.1 mas allowance are supported." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-bb-r-over-d"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray blackbody normalisation R/d (Kaplan+2011 Table 2)"
+statement = "Blackbody normalisation R/d for RX J1856.5-3754 listed in the table of X-ray blackbodies, taken from Burwitz et al. (2003) (reference 6); the table note states that the normalisation and temperature are as viewed by an observer at infinity. The same row lists NH = 0.95 +/- 0.03 (1e20 cm^-2) and kT = 63.5 +/- 0.2 eV."
+value = 36.7
+units = "km/kpc"
+uncertainty = "0.8 km/kpc"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 2, row 1856.5-3754"
+anchor = "1856.5−3754        0.95 ± 0.03      63.5 ± 0.2    36.7 ± 0.8      6"
+anchor_tex = '1856.5$-$3754 & $0.95\pm0.03$ & $\phn63.5\pm0.2$ & $36.7\pm0.8$'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-xray-kt-chandra"]
+notes = "Equals 4.4 km (d/120 pc) of Burwitz Table 2 scaled to 1 kpc to within rounding (4.4 * 1000/120 = 36.7); do not derive, taken as printed."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table gives 36.7 ±0.8 km/kpc, attributes it to Burwitz, and specifies observer-at-infinity parameters." }]
+
+[[entry]]
+id = "obs.rxj1856-flux-density-2500"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 absorbed flux density at 2500 A (Kaplan+2011 Table 5)"
+statement = "Absorbed flux density F_lambda at 2500 Angstrom from the single power-law fit to the HST optical/UV photometry (including the space-based photometry of van Kerkwijk & Kulkarni 2001), with extinction fixed at the nominal A_V,ref = 0.05 mag."
+value = 4.25
+units = "1e-18 erg cm^-2 s^-1 A^-1"
+uncertainty = "0.07 (same units)"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 5, row 1856.5-3754"
+anchor = "1856.5−3754     0.05           4.25 ± 0.07"
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-kaplan2011-extinction", "obs.approx-kaplan2011-powerlaw-excess"]
+notes = "Table note: 'absorbed' = not corrected for extinction."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table 5 gives 4.25 ±0.07 in the stated CGS/Å units at fixed nominal extinction 0.05 mag; its note explicitly says absorbed flux." }]
+
+[[entry]]
+id = "obs.rxj1856-optical-excess-2500"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 optical excess at 2500 A (Kaplan+2011)"
+statement = "Optical/UV excess: the factor by which the measured optical/UV flux density at 2500 Angstrom exceeds the extrapolation of the X-ray blackbody (Burwitz 2003 parameters), computed with synphot through the filter response curves. The same table row gives 7.1 +/- 0.4 at 1500 A and 7.3 +/- 0.3 at 4700 A."
+value = 7.1
+units = "1 (ratio of measured to X-ray-blackbody-extrapolated flux)"
+uncertainty = "0.3 (includes X-ray fit uncertainties)"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 5, row 1856.5-3754, column 2500 A"
+anchor = "1856.5−3754     0.05           4.25 ± 0.07           7.1 ± 0.4    7.1 ± 0.3    7.3 ± 0.3"
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-kaplan2011-powerlaw-excess"]
+notes = "Column assignment (1500/2500/4700 A) from Table 5 header. The 1500 A value 7.1 +/- 0.4 is recorded here in the statement only (entry budget)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Header and row confirm 7.1 ±0.3 at 2500 Å, versus 7.1 ±0.4 at 1500 Å; X-ray uncertainties are included." }]
+
+[[entry]]
+id = "obs.rxj1856-optical-excess-4700"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 optical excess at 4700 A (Kaplan+2011)"
+statement = "Optical excess at 4700 Angstrom (appropriate for the F475W filter): ratio of the measured flux density to the X-ray blackbody extrapolation, from the power-law fit to the HST photometry."
+value = 7.3
+units = "1 (ratio of measured to X-ray-blackbody-extrapolated flux)"
+uncertainty = "0.3"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 5, row 1856.5-3754, column 4700 A"
+anchor = "1856.5−3754     0.05           4.25 ± 0.07           7.1 ± 0.4    7.1 ± 0.3    7.3 ± 0.3"
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-kaplan2011-powerlaw-excess"]
+notes = "Burwitz+2003 independently state the optical flux is about a factor of 7 above the X-ray blackbody continuation."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "7.3 ±0.3 is correctly assigned to 4700 Å; the note identifies its relevance to F475W." }]
+
+[[entry]]
+id = "obs.rxj1856-optuv-powerlaw-index"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 optical/UV power-law index alpha (Kaplan+2011)"
+statement = "Spectral index alpha of the single power law F_lambda proportional to lambda^-alpha fitted to the optical/UV photometry; a Rayleigh-Jeans spectrum has alpha = 4. The same row lists d(alpha)/d(A_V) = 1.9 and chi^2/DOF = 2.6/2."
+value = 3.94
+units = "1 (F_lambda ~ lambda^-alpha)"
+uncertainty = "0.06"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 5, row 1856.5-3754"
+anchor = "3.94 ± 0.06     1.9      2.6/2"
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-kaplan2011-powerlaw-excess"]
+notes = "Text (Sec. 4.1) says RX J1856.5-3754 has a nearly thermal spectrum, close to F_lambda ~ lambda^-4."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "α = 3.94 ±0.06, derivative 1.9 and χ²/DOF = 2.6/2 match; the source defines Fλ ∝ λ⁻α." }]
+
+[[entry]]
+id = "obs.stmag-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "obs"
+name = "STMAG photometric system"
+statement = "All Kaplan et al. photometry is in the STMAG system, defined so that a source of constant F_lambda has constant magnitude, with F_lambda in erg cm^-2 s^-1 A^-1."
+latex = "\\mathrm{STMAG} = -2.5\\log_{10} F_\\lambda - 21.1"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Sec. 2.3 (p. 5)"
+anchor = "magnitude: STMAG = −2.5 log10 Fλ − 21.1 with Fλ in"
+anchor_tex = 'magnitude: ${\rm STMAG}=-2.5\log_{10} F_{\lambda}-21.1$ with'
+ocr = "good"
+status = "blessed"
+notes = "Unit line 'erg cm-2 s-1 A-1' is on the following text line of the extraction. Needed to turn a rendered F_lambda into an STMAG for PRD R5."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Formula, sign, constant and units match, but replace locator with `\"Sec. 2.3 (p. 5)\"`; the anchor belongs to Photometry, not Sec. 2.2." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor is in Sec. 2.3, p. 5. `STMAG = −2.5 log10 Fλ − 21.1`, constant-Fλ convention and CGS/Å units match refs/kaplan_2011_rxj1856_spectrum.txt:343–346." }]
+
+[[entry]]
+id = "obs.rxj1856-extrapolated-stmag-f475w"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray-blackbody-extrapolated STMAG, ACS/WFC F475W"
+statement = "Predicted (not measured) STMAG in ACS/WFC F475W obtained by passing the extrapolated, reddened X-ray blackbody through the filter response with synphot. The measured photometry exceeds this by the optical excess. The 1-sigma uncertainty is from the X-ray spectral uncertainties only."
+value = 27.13
+units = "mag (STMAG)"
+uncertainty = "0.05 mag (1 sigma, X-ray spectral uncertainty only)"
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Table 4, row 1856.5-3754, column ACS/WFC F475W"
+anchor = "1856.5−3754     25.16 ± 0.05    26.96 ± 0.05     27.13 ± 0.05"
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.stmag-definition"]
+notes = "Column assignment (WFPC2 F300W, F450W, ACS/WFC F475W, STIS/CCD 50CCD, ACS/WFC F606W, ...) from Table 4 header. Row also gives F606W (ACS/WFC) 28.05 +/- 0.05."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "ACS/WFC F475W prediction is 27.13 ±0.05 STMAG; uncertainties explicitly exclude other systematic terms. Correctly labelled predicted." }]
+
+[[entry]]
+id = "obs.approx-kaplan2011-extinction"
+kind = "approximation"
+provenance = "fit"
+reimplement = "Own the extinction (audit Part B A34 L3 / Part C M2): fit A_V to our own model with the extinction curve as a measured-curve dataset, or recompute grain extinction by Mie theory with a dust model; X-ray ISM photoabsorption via A34 L2 (photoionisation cross-sections of H, He, C, N, O, Ne, Fe)."
+ownership = "stub"
+domain = "obs"
+name = "Extinction from X-ray column density (Kaplan+2011)"
+statement = "Reddening applied to the extrapolated X-ray spectrum is fixed to the value implied by the X-ray column density, A_V = N_H / (1.79e21 cm^-2) (Predehl & Schmitt 1995), with the Cardelli, Clayton & Mathis (1989) extinction curve (gal3 in synphot) and E(B-V) = A_V/3.1. A_V cannot be fitted uniquely from the optical/UV data because it is degenerate with the power-law index."
+validity = "Small extinction (A_V <~ 0.1 mag, A_1400 <~ 0.3 mag). For fiducial N_H = 10^20 cm^-2, +/-50% in A_V changes extrapolated photometry by 0.03-0.09 mag; these uncertainties scale with N_H, and alpha generally changes by <0.1."
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Sec. 3.1 (p. 6)"
+anchor = "AV = NH /1.79 × 1021 cm−2 (Predehl & Schmitt 1995;"
+anchor_tex = '$A_V=N_{\rm H}/\expnt{1.79}{21}\,{\rm cm}^{-2}$'
+ocr = "good"
+status = "blessed"
+notes = "The relation is stated to vary for different sight lines."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace sensitivity clause with `\"For fiducial N_H = 10^20 cm^-2, ±50% in A_V changes extrapolated photometry by 0.03–0.09 mag; these uncertainties scale with N_H, and alpha generally changes by <0.1.\"` Those qualifications are currently missing." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor, conversion, gal3 prescription and degeneracy match Kaplan:410–418. The corrected fiducial column, proportional scaling and 0.03–0.09-mag sensitivity match 429–443." }]
+
+[[entry]]
+id = "obs.approx-kaplan2011-powerlaw-excess"
+kind = "approximation"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "Optical/UV as one power law; excess relative to X-ray blackbody (Kaplan+2011)"
+statement = "The HST optical/UV data are fitted with a single power law F_lambda ~ lambda^-alpha (Rayleigh-Jeans: alpha = 4), optimising alpha and normalisation with A_V held fixed. The optical excess is defined as the ratio of the measured flux to the extrapolated, reddened X-ray blackbody passed through the HST filter curves with synphot. The X-ray blackbody is taken from published fits, and only its blackbody component is used for the extrapolation."
+validity = "Optical/UV well into the Rayleigh-Jeans tail of the X-ray blackbody; 5% systematic included on F140LP for aperture correction."
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Sec. 3.1-3.2 (pp. 6)"
+anchor = "expected STMAG as a function of ex"
+anchor_tex = 'compute the expected STMAG as a function of extinction $A_V$ and'
+ocr = "good"
+status = "blessed"
+notes = "Single-power-law fit for RX J1856.5-3754 has chi^2/DOF = 2.6/2 (Table 5)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor is in the specified section; fixed-extinction fitting, α convention, F140LP systematic and filter-integrated reddened extrapolation are supported." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-nh-chandra"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 hydrogen column density (Burwitz+2003, Chandra LETGS)"
+statement = "Interstellar absorption column density from the single-blackbody fit to the Chandra LETGS (505 ks) spectrum. Other instruments in the same table give 0.18-1.46 (1e20 cm^-2); the paper attributes differences to calibration systematics."
+value = 0.95
+units = "1e20 cm^-2"
+uncertainty = "0.03 (1e20 cm^-2)"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Table 2, Chandra LETGS row"
+anchor = "Chandra         LETGS          0.95±0.03    63.5±0.2"
+anchor_tex = '{\em Chandra} &LETGS        & 0.95&$\pm$0.03 & 63.5&$\pm$0.2'
+ocr = "good"
+status = "blessed"
+notes = "Header row of Table 2 labels the column nH in 1e20 cm^-2."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Chandra row gives 0.95 ±0.03 ×10²⁰ cm⁻²; instrument differences and their calibration interpretation match." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-kt-chandra"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray blackbody kT_inf (Burwitz+2003, Chandra LETGS)"
+statement = "Apparent (observer-at-infinity) blackbody temperature kT^inf_bb from the single-blackbody fit to the Chandra LETGS 505 ks spectrum; the other XMM instruments give 62.6-63.4 eV and ROSAT 56.7 eV."
+value = 63.5
+units = "eV"
+uncertainty = "0.2 eV"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Table 2, Chandra LETGS row"
+anchor = "Chandra         LETGS          0.95±0.03    63.5±0.2"
+anchor_tex = '{\em Chandra} &LETGS        & 0.95&$\pm$0.03 & 63.5&$\pm$0.2'
+ocr = "good"
+status = "blessed"
+notes = "Text of Sec. 3 repeats 63.5 +/- 0.2 eV. B01 (55 ks) gave 63.0 +/- 1.0 eV."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "63.5 ±0.2 eV and the comparison values match. The paper explicitly uses distant-observer temperatures throughout." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-rinf-chandra"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray blackbody radius R_inf (Burwitz+2003, Chandra LETGS)"
+statement = "Apparent blackbody radius R^inf_bb of the X-ray emitting region (as seen by a distant observer) from the Chandra LETGS fit, scaled to a distance of 120 pc; it scales linearly with distance."
+value = 4.4
+units = "km (d/120 pc)"
+uncertainty = "0.1 km (d/120 pc)"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Table 2, Chandra LETGS row"
+anchor = "Chandra         LETGS          0.95±0.03    63.5±0.2    4.4±0.1"
+anchor_tex = '{\em Chandra} &LETGS        & 0.95&$\pm$0.03 & 63.5&$\pm$0.2'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-xray-kt-chandra"]
+notes = "True parameters relate to apparent ones via T = T^inf (1 - r_g/R)^-1/2, R = R^inf (1 - r_g/R)^1/2 (Sec. 1.1)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "4.4 ±0.1 km ×(d/120 pc), apparent-radius interpretation and redshift relations match." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-flux-chandra"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray flux 0.1-1.0 keV (Burwitz+2003, Chandra LETGS)"
+statement = "Model X-ray flux in the 0.1-1.0 keV band for the Chandra LETGS blackbody fit; no uncertainty is printed in Table 2. The same row lists the bolometric luminosity L_bol = 4.1e31 erg/s (for d = 120 pc)."
+value = 1.14
+units = "1e-11 erg cm^-2 s^-1"
+uncertainty = "not stated in source"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Table 2, Chandra LETGS row"
+anchor = "Chandra         LETGS          0.95±0.03    63.5±0.2    4.4±0.1               1.14"
+anchor_tex = '{\em Chandra} &LETGS        & 0.95&$\pm$0.03 & 63.5&$\pm$0.2'
+ocr = "good"
+status = "blessed"
+notes = "Whether the flux is absorbed or unabsorbed is not stated in the table header; check before use."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table prints 1.14 ×10⁻¹¹ erg cm⁻² s⁻¹ for 0.1–1.0 keV and Lbol = 4.1 ×10³¹ erg/s. Acceptance covers that reported quantity only; absorbedness remains unspecified." }]
+
+[[entry]]
+id = "obs.rxj1856-optical-excess-burwitz"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 optical-to-X-ray-blackbody flux ratio (Burwitz+2003)"
+statement = "The optical data follow the Rayleigh-Jeans law with an intensity about a factor of 7 larger than the continuation of the X-ray blackbody (kT 63 eV, R 4.4 km (d/120 pc)), which led Pons et al. (2002) to a two-component interpretation."
+value = 7.0
+units = "1 (about)"
+uncertainty = "not stated ('about a factor of 7')"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Sec. 5 (p. 5)"
+anchor = "a factor of 7 larger than that given by the continuation"
+anchor_tex = 'with an intensity about a factor of 7 larger than that given by the'
+ocr = "good"
+status = "blessed"
+notes = "Compare Kaplan+2011 Table 5 (7.1 +/- 0.3 at 2500 A) and Ho+2007 (6-7)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Approximate factor seven, Rayleigh–Jeans interpretation and attribution to Pons are faithfully reported." }]
+
+[[entry]]
+id = "obs.rxj1856-xray-pulsed-fraction-limit"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 X-ray periodic variation upper limit (Burwitz+2003)"
+statement = "Upper limit on periodic variation of the X-ray flux from the XMM-Newton EPIC-pn data (Z_1^2,max = 33.3) in the 1e-3 to 50 Hz range, assuming a sine-like signal, at 2 sigma confidence."
+value = 1.3
+units = "% (upper limit, 2 sigma)"
+uncertainty = "n/a (upper limit)"
+source = "burwitz_2003_rxj1856_xray"
+locator = "Sec. 4 (p. 3) and abstract"
+anchor = "into an upper limit of 1.3% (at a 2σ confidence level) on"
+anchor_tex = '$Z^2_{1,{\rm max}}=33.3$, that translates into an upper limit of'
+ocr = "good"
+status = "rejected"
+notes = "Superseded by the detection of ~1% pulsations (van Kerkwijk & Kaplan 2008 amplitude 0.96 +/- 0.06 %)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Historically supported, including frequency range, sinusoidal assumption and 2σ confidence, but superseded by the amplitude detection already included; no separate Milestones 1–3 need established." }]
+
+[[entry]]
+id = "obs.approx-burwitz2003-two-component"
+kind = "approximation"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "Two-component blackbody model of the optical excess (Burwitz+2003)"
+statement = "The X-ray and optical data are fitted by two blackbodies: a hot X-ray-emitting component (kT^inf 63.5 eV, R^inf 4.4 km at 120 pc) and a cool component from the rest of the surface (about 80% of the area, per Pons et al. 2002) responsible for the optical flux. Alternatively a one-component 63 eV blackbody with R^inf ~ 12.3 km requires an X-ray emissivity of about 0.15 of a blackbody, as for a condensed-matter surface."
+validity = "Model-dependent interpretation of the factor-7 optical excess; the soft component must not contribute in X-rays (kT_opt < 33.6 eV, 3 sigma)."
+source = "burwitz_2003_rxj1856_xray"
+locator = "Sec. 5-6 (pp. 5-6)"
+anchor = "body component emitted from about 80% of the NS sur"
+ocr = "good"
+status = "blessed"
+notes = "One-component emissivity factor 0.15 from Sec. 6 'we find this factor to be about 0.15' (p. 6)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Source supports both proposed interpretations, the approximate 80% cool area, 33.6 eV upper limit and Chandra-based emissivity factor ≈0.15." }]
+
+[[entry]]
+id = "obs.rxj1856-spin-period"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 spin period (van Kerkwijk & Kaplan 2008, coherent solution)"
+statement = "Spin period of RX J1856.5-3754 from the coherent timing solution (epoch t0 = MJD 53000.000009(3)). Table 2 note: uncertainties quoted are twice the formal 1-sigma uncertainties."
+value = 7.05520288
+units = "s"
+uncertainty = "2e-8 s (printed (2) in last digit; = twice formal 1 sigma per Table 2 note)"
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2, coherent column"
+anchor = "P (s) . . . . . . . . . . . . .    7.05521(3)      7.05520288(2)"
+anchor_tex = 'P (s)\dotfill & 7.05521(3) & 7.05520288(2)'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-vkk2008-dipole-spindown"]
+notes = "Coherent solution assumed correct by the authors (one solution far more likely than the others); the incoherent column gives only 7.05521(3) s."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Period and uncertainty match, but replace epoch with `\"t0 = MJD 53000.000009(3)\"`. 53000.0 belongs to the incoherent column. PDF page 3 confirms alignment." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Coherent-column anchor gives `7.05520288(2) s`; corrected epoch is `53000.000009(3)` ( refs/vankerkwijk_kaplan_2008_rxj1856_timing.txt:168–174). Twice-formal-1σ uncertainty is explicit at 187." }]
+
+[[entry]]
+id = "obs.rxj1856-period-derivative"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 period derivative (van Kerkwijk & Kaplan 2008)"
+statement = "Period derivative from the coherent timing solution. The corresponding frequency derivative is -5.98(14)e-16 Hz/s (abstract); the 2-sigma upper limit from frequencies alone is |nu-dot| < 1.3e-14 Hz/s."
+value = 2.97
+units = "1e-14 s s^-1"
+uncertainty = "0.07 (1e-14 s/s; twice formal 1 sigma per Table 2 note)"
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2, coherent column"
+anchor = "20(40)           2.97(7)"
+anchor_tex = '$\dot P$ ($10^{-14}{\rm~s~s^{-1}}$)\dotfill & 20(40) & 2.97(7)'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-spin-period"]
+notes = "Pdot anchor row label contains a combining dot over P; the matched fragment is the value cells."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Coherent Ṗ = 2.97(7) ×10⁻¹⁴ s/s, frequency derivative and twice-formal-1σ convention match." }]
+
+[[entry]]
+id = "obs.rxj1856-dipole-field"
+kind = "datum"
+provenance = "derivable"
+ownership = "stub"
+domain = "obs"
+name = "RX J1856.5-3754 inferred dipole field B_dip (van Kerkwijk & Kaplan 2008)"
+statement = "Magnetic field strength inferred from the coherent spin-down assuming spin-down by magnetic dipole radiation, B_dip = 3.2e19 sqrt(P Pdot) G. The incoherent analysis gives only B_dip < 7e13 G."
+value = 1.5
+units = "1e13 G"
+uncertainty = "not stated in source (no uncertainty printed)"
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2, coherent column"
+anchor = "Bdip (1013 G) . . . . .                <7                1.5"
+anchor_tex = '$B_{\rm dip}$ ($10^{13}$~G)\dotfill & $<\!7$ & 1.5'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-vkk2008-dipole-spindown", "obs.rxj1856-period-derivative"]
+notes = "Equatorial/polar convention of the 3.2e19 coefficient is not stated in the source note. Ho+2007 fit gives B ~ (3-4)e12 G, lower by a factor 4-5."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table gives 1.5 ×10¹³ G; PDF page 3 confirms the square-root formula and dipole-braking qualification. Polar/equatorial convention is appropriately left unresolved." }]
+
+[[entry]]
+id = "obs.rxj1856-characteristic-age"
+kind = "datum"
+provenance = "derivable"
+ownership = "stub"
+domain = "obs"
+name = "RX J1856.5-3754 characteristic age (van Kerkwijk & Kaplan 2008)"
+statement = "Characteristic age tau_char = P/(2 Pdot) from the coherent solution, assuming initial period P0 much less than P and constant magnetic field. The paper notes it exceeds the cooling and kinematic ages (kinematic ~0.4 Myr, cooling ~0.5 Myr) by almost a factor of ten."
+value = 3.8
+units = "Myr"
+uncertainty = "not stated in source (no uncertainty printed)"
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2, coherent column"
+anchor = "τchar (Myr) . . . . . . .             > 0.17             3.8"
+anchor_tex = '$\tau_{\rm char}$ (Myr)\dotfill & $>\!0.17$ & 3.8'
+ocr = "good"
+status = "rejected"
+depends_on = ["obs.approx-vkk2008-dipole-spindown", "obs.rxj1856-period-derivative"]
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "3.8 Myr, assumptions and comparison ages are supported, but Milestones 1–3 contain no age or thermal-evolution calculation requiring this separate entry." }]
+
+[[entry]]
+id = "obs.rxj1856-pulse-amplitude"
+kind = "datum"
+provenance = "measured"
+ownership = "leaf"
+domain = "obs"
+name = "RX J1856.5-3754 fractional pulsation amplitude (van Kerkwijk & Kaplan 2008)"
+statement = "Best estimate of the fractional amplitude of the X-ray pulsations, from a weighted average of background- and bias-corrected amplitudes over the observations (chi^2 = 12.2 for 10 DOF). Individual observations give 0.65-1.3 %."
+value = 0.96
+units = "% (fractional amplitude of sinusoid)"
+uncertainty = "0.06 %"
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Sec. 3 (p. 2)"
+anchor = "the amplitude is 0.96 ± 0.06% (χ2 = 12.2 for 10 degrees of"
+anchor_tex = 'the best estimate of the amplitude is~$0.96\pm0.06$\%'
+ocr = "good"
+status = "blessed"
+notes = "Amplitude a of a sinusoidal fit; the paper does not call it a pulsed fraction f_P = (Fmax-Fmin)/(Fmax+Fmin), though for a sinusoid they coincide; do not equate silently."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Source explicitly gives background/bias correction, weighted mean 0.96 ±0.06% and χ² = 12.2/10. Sinusoidal amplitude is correctly distinguished from a general pulse-fraction definition." }]
+
+[[entry]]
+id = "obs.approx-vkk2008-dipole-spindown"
+kind = "approximation"
+provenance = "derivable"
+ownership = "stub"
+domain = "obs"
+name = "Dipole spin-down inference of B, Edot, tau_char (van Kerkwijk & Kaplan 2008)"
+statement = "B_dip, spin-down luminosity and characteristic age are derived assuming spin-down by magnetic dipole radiation: B_dip = 3.2e19 sqrt(P Pdot) G, tau_char = P/(2 Pdot) assuming P0 << P and constant field, and Edot = 1e45 I_45 4 pi^2 nu nudot with I = 1e45 I_45 g cm^2 (Edot = 3.3e30 erg/s in Table 2)."
+validity = "Holds if braking is purely by dipole radiation, P0 << P and B constant; the result relies on the coherent solution being the correct cycle count (983/1000 simulated recoveries by the trial-and-error method)."
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2 note and Sec. 5 (pp. 3-4)"
+anchor = "magnetic field; Bdip = 3.2 × 1019"
+anchor_tex = '$B_{\rm dip}=\expnt{3.2}{19}\sqrt{P{\dot P}}$ is the'
+ocr = "poor"
+status = "rejected"
+notes = "Superscript/product layout of the B_dip formula is garbled in the extraction (sqrt sign lost); read the formula from the PDF page before use. Marked ocr=poor."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Page extraction and PDF image confirm the printed plus-sign energy formula. With the source’s negative ν̇ it gives −3.346 ×10³⁰ erg/s for I45 = 1, contradicting the positive tabulated 3.3 ×10³⁰. The combined claim needs its sign convention resolved from local evidence." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-b-field"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: magnetic field (B = 4e12 G model)"
+statement = "Magnetic field strength (perpendicular to the surface) of the partially ionised hydrogen atmosphere model plotted as the main fit. A B = 3e12 G model gives very similar results; the abstract states B ~ (3-4)e12 G, an effective average over the surface."
+value = 4000000000000.0
+units = "G"
+uncertainty = "not a fitted parameter; fields of 3e12 and 4e12 G both tried (range 3-4e12 G in abstract)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Fig. 8 caption and Table 1"
+anchor = "spectrum with B = 4 × 1012 G, yH = 1.2 g cm−2 ,"
+anchor_tex = 'model spectrum with $B=4\times 10^{12}$~G, $\ycol=1.2\mbox{ g cm$^{-2}$}$,'
+ocr = "good"
+status = "blessed"
+notes = "At B > 1e13 G bound/cyclotron features would appear in the observable band (Sec. 4). B was varied manually, not fitted."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Replace locator with `\"Fig. 8 caption and Table 1\"`. The anchor belongs to Figure 8; Figure 7 is the residual plot. The field value and manually selected status are supported." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor belongs to Fig. 8 and specifies `4 × 10¹² G` ( refs/ho_2007_rxj1856_thin_atm.txt:477–484). Perpendicular orientation, manual selection and surface-average interpretation are supported at 157–160, 361–368, 41–43." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-column-depth"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: hydrogen column depth y_H"
+statement = "Hydrogen atmosphere column depth (mass per area down to the condensed surface) of the thin-atmosphere models in Table 1, same for B = 3e12 and 4e12 G; the abstract states y_H ~ 1 g/cm^2 and Sec. 5.2 gives y_H ~ 1-2 g/cm^2."
+value = 1.2
+units = "g cm^-2"
+uncertainty = "not stated (varied manually, not fitted)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Table 1"
+anchor = "yH (g cm−2 )           1.2            1.2"
+anchor_tex = '$\ycol$ (g cm$^{-2}$) & 1.2 & 1.2 & \\'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-ho2007-b-field"]
+notes = "The required thickness increases with B (continuum opacity of the dominant mode decreases with B)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table 1 gives 1.2 g cm⁻² for both atmosphere models; manual variation and the approximate 1–2 g cm⁻² range are supported." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-nh"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: column density N_H (B = 4e12 G)"
+statement = "Best-fit interstellar absorption column density from the Chandra LETG fit with the B = 4e12 G atmosphere. The B = 3e12 G fit gives 1.18(2) and the blackbody fit 0.91(1) (all 1e20 cm^-2). Numbers in parentheses are 68% confidence limits in the last digit(s)."
+value = 1.3
+units = "1e20 cm^-2"
+uncertainty = "0.02 (68% confidence)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Table 1, atmosphere B = 4e12 G column"
+anchor = "NH (1020 cm−2 )     1.18(2)       1.30(2)      0.91(1)"
+anchor_tex = '\nh ($10^{20}\mbox{ cm}^{-2}$) & 1.18(2) & 1.30(2) & 0.91(1)'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-ho2007-b-field"]
+notes = "Column order Atmosphere(B=3), Atmosphere(B=4), Blackbody read from the table header."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "PDF page 6 confirms B = 4 column 1.30(2), comparison values and 68% confidence convention." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-tinf"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: temperature T_inf (B = 4e12 G)"
+statement = "Best-fit observer-frame temperature T^inf = Teff/(1+z_g) of the atmosphere model, for B = 4e12 G; B = 3e12 G gives 4.34(3) and the blackbody fit 7.36(1) (all 1e5 K). The paper gives kT^inf = 37 eV in Sec. 6 and T^inf = 4.3e5 K in the abstract."
+value = 4.34
+units = "1e5 K"
+uncertainty = "0.02 (68% confidence)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Table 1, atmosphere B = 4e12 G column"
+anchor = "T ∞ (105 K)         4.34(3)       4.34(2)      7.36(1)"
+anchor_tex = '\tinfty ($10^5$~K) & 4.34(3) & 4.34(2) & 7.36(1)'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-ho2007-b-field"]
+v1_ref = "archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl:33"
+notes = "v1 render script used T_inf = 4.3e5 K."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "B = 4 column is 4.34(2) ×10⁵ K; comparison columns and 37 eV summary match." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-teff"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere model: effective temperature"
+statement = "Effective temperature of the B = 4e12 G, y_H = 1.2 g/cm^2, T^inf = 4.3e5 K atmosphere model (local, not redshifted), stated in the caption of the model temperature-profile figure."
+value = 530000.0
+units = "K"
+uncertainty = "not stated in source"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Fig. 2 caption"
+anchor = "horizontal line indicates the effective temperature (Teff = 5.3 ×"
+anchor_tex = 'The short-dashed horizontal line indicates the effective temperature'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.rxj1856-ho2007-tinf"]
+v1_ref = "archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl:34"
+notes = "Superscript '5' of 10^5 K is on the next text line. T^inf = Teff/(1+z_g): 5.3e5/4.3e5 = 1.23, consistent with z_g = 0.22 (not derived in the entry)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Figure 2 explicitly specifies B = 4 ×10¹² G, T∞ = 4.3 ×10⁵ K, thin column 1.2 g cm⁻² and local Teff = 5.3 ×10⁵ K." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-rinf"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: radiation radius R_inf (B = 4e12 G)"
+statement = "Radius R^inf = Rem (1+z_g) of the emitting area from the atmosphere fit, assuming a distance of 140 pc (d140 = 1); it scales linearly with distance. The authors adopt a conservative ~30% radius uncertainty (the distance uncertainty); the formal fit uncertainty is below 10%. The text gives Rem ~ 14 km after correcting for z_g ~ 0.22."
+value = 17.0
+units = "km (d/140 pc)"
+uncertainty = "~30% (conservative, from distance uncertainty; formal fit uncertainty < 10%)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Table 1 and footnote b"
+anchor = "R∞ (d140 km)b          17            17          5.0"
+anchor_tex = '\rinfty ($d_{140}$~km)\footnote{The formal fit uncertainty is $< 10\%$.'
+ocr = "good"
+status = "blessed"
+depends_on = ["obs.approx-ho2007-assumptions"]
+v1_ref = "archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl:35"
+notes = "Blackbody fit in the same table gives R^inf = 5.0 km. Distance dependence matters: Walter+2010 gives 123 pc, not 140 pc."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table and footnote support 17(d/140 pc) km and conservative ≈30% uncertainty; physical emission radius ≈14 km is explicitly reported later." }]
+
+[[entry]]
+id = "obs.rxj1856-ho2007-redshift"
+kind = "datum"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 thin-atmosphere fit: gravitational redshift z_g (B = 4e12 G)"
+statement = "Gravitational redshift z_g, with (1+z_g) = (1 - 2GM/Rc^2)^-1/2, fitted together with N_H, T^inf and R^inf to the Chandra LETG data, for the B = 4e12 G atmosphere. The B = 3e12 G model gives 0.27(2); the abstract states z_g ~ 0.22. The blackbody column has no z_g."
+value = 0.22
+units = "1"
+uncertainty = "0.02 (68% confidence)"
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Table 1, atmosphere B = 4e12 G column"
+anchor = "zg                  0.27(2)       0.22(2)"
+anchor_tex = '$\zg$ & 0.27(2) & 0.22(2) & \\'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+depends_on = ["obs.rxj1856-ho2007-b-field"]
+v1_ref = "archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl:31"
+notes = "The zg row of Table 1 has only two numbers; assignment to the B=3 and B=4 columns is by horizontal alignment with the other rows. Reviewer must confirm on the page image. v1 used z_gr = 0.22."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Add `image_verified = true`: PDF page 6 was inspected and confirms 0.22(2) under B = 4, 0.27(2) under B = 3, and a blank blackbody cell." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and 68% convention match Ho:348–353. Fresh page-6 extraction and visual inspection confirm `0.22(2)` under B = 4, `0.27(2)` under B = 3, and blank blackbody cell. Redshift definition matches 87–88." }]
+
+[[entry]]
+id = "obs.approx-ho2007-assumptions"
+kind = "approximation"
+provenance = "code"
+reimplement = "Do not consume Ho+2007's fitted values (A34/A35): run our own maximum-likelihood fit of (T_inf, R_inf, z, N_H, B, envelope parameters) with the forward model of our own atmosphere grid plus exact Schwarzschild GR to the measured HST photometry, the 123 pc distance and the Chandra LETG spectrum; verify that Ho+2007 Table 1 is recovered under Ho-like assumptions."
+ownership = "stub"
+domain = "obs"
+name = "Ho+2007 fit assumptions: distance, M, R, field orientation, single T and B"
+statement = "The fit assumes a distance of 140 (+/-40) pc (from Kaplan, van Kerkwijk & Anderson 2002), a magnetic field aligned perpendicular to the surface, and a single temperature and field that represent surface averages. Surface gravity g = (1+z_g)GM/R^2 is set to 1.1e14 cm/s^2 using M = 1.4 Msun, R = 14 km, z_g = 0.2, and the pulsation calculation assumes M = 1.4 Msun and R = 14 km. Temperature and field are varied over four magnetic-latitude regions (Table 2) for phase-resolved spectra and light curves. The optical/UV comparison fixes A_V = 0.12 mag and R_V = 3.1, using Cardelli et al. with O'Donnell corrections. Uniqueness of the fit is not claimed."
+validity = "Emergent spectra vary little for g around 2e14 cm/s^2 (Pavlov+1995); fits are not a rigorous parameter search."
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Sec. 1 footnote 1, Sec. 2 (p. 3), Sec. 4-5.1"
+anchor = "R = 14 km, and zg = 0.2)"
+anchor_tex = '($g=1.1\times 10^{14}$~cm~s$^{-2}$ with $M=1.4M_\odot$, $R=14$~km,'
+ocr = "good"
+status = "blessed"
+v1_ref = "archive/v1/scripts/render_rxj1856_visible_magnetic_atmosphere.jl:47"
+notes = "Table 2 (B, Teff, Theta_B per magnetic latitude band, e.g. 0-10 deg: 6e12 G, 7e5 K, 0 deg; 70-90 deg: 3e12 G, 4e5 K, 90 deg) is not given separate entries (entry budget)."
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Add `\"The optical/UV comparison fixes A_V = 0.12 mag and R_V = 3.1, using Cardelli et al. with O'Donnell corrections.\"` Replace “only for the pulse-fraction estimate” with `\"for phase-resolved spectra and light curves\"`." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor and gravity assumptions match Ho:149–160. Distance ( 75–78), extinction prescription ( 498–502), surface averages and four-region phase-resolved calculation ( 547–570) support the corrected statement." }]
+
+[[entry]]
+id = "obs.notation-rxj1856-spectral"
+kind = "notation"
+domain = "obs"
+name = "Notation for RX J1856 spectral/atmosphere observables (Ho+2007)"
+statement = "Apparent (observer-frame) and local quantities used for X-ray blackbody and atmosphere fits of RX J1856.5-3754."
+symbols = [
+  { sym = "T_{eff}^\\infty", sym_source = "T^\\infty", aliases = ["T^\\infty", "T_eff^inf", "T_eff^∞"], meaning = "redshifted (apparent) effective temperature seen by a distant observer, T_eff^inf = T_eff sqrt(1 - r_g/R) = T_eff/(1 + z_g)", meaning_source = "apparent temperature at infinity, T^inf = Teff/(1+z_g)", units = "K" },
+  { sym = "R_{em}^\\infty", sym_source = "R^\\infty", meaning = "apparent (radiation) radius at infinity, R^inf = Rem (1+z_g)", units = "km" },
+  { sym = "R_{em}", meaning = "physical size of the emission region", units = "km" },
+  { sym = "z_g", sym_source = "z_g^{fit}", aliases = ["z", "z_g^{fit}"], meaning = "gravitational redshift, 1 + z_g = (1 - r_g/R)^(-1/2) = (1 - x_g)^(-1/2)", meaning_source = "fitted gravitational redshift (same quantity as z_g elsewhere; suffix avoids a symbol clash), (1+z_g) = (1 - 2GM/Rc^2)^-1/2", units = "1" },
+  { sym = "N_H", sym_source = "N_H^{fit}", aliases = ["N_H^{fit}"], meaning = "interstellar hydrogen column density along the line of sight to the source", meaning_source = "interstellar hydrogen column density fitted to RX J1856 spectra (X-ray absorption)", units = "cm^-2" },
+  { sym = "y_H", meaning = "hydrogen column depth of the thin atmosphere (mass per area)", units = "g cm^-2" },
+  { sym = "D", sym_source = "d", aliases = ["d"], meaning = "distance from the observer to the star (D >> R)", meaning_source = "distance to the neutron star", units = "pc" },
+  { sym = "\\theta_{Bn}", sym_source = "\\Theta_B", aliases = ["Theta", "\\Theta_B", "\\theta_B^{(n)}", "θ_Bn"], meaning = "angle between the magnetic field B and the local surface normal n", meaning_source = "angle between the magnetic field and the surface normal; maps to rt theta_Bn (\\theta_{Bn}) with conversion deg -> rad = pi/180", units = "deg" },
+]
+conflicts_with = ["const.notation-atomic", "eos.notation-structure", "gr.notation-potekhin", "opacity.notation-modes-polarization", "rt.notation-cond-energies-geometry", "rt.notation-spw09", "surface.notation-geometry", "surface.notation-observer-frame"]
+adopted = false
+conflict_notes = ["theta_B: Magnetic colatitude keeps \\theta_B. PC03/PLCH04 k-B angle -> \\theta_{kB}; SPW09/Pot12/Ho07 field-normal angle -> \\theta_{Bn}.", "R_inf: Apparent stellar radius is R^\\infty (one spelling). CODATA Rydberg R_inf -> R_{Ry}; Ho07 emission-region apparent radius -> R_{em}^\\infty."]
+source = "ho_2007_rxj1856_thin_atm"
+locator = "Sec. 1; Sec. 2; Tables 1-2; Sec. 5.1"
+anchor = "where T ∞ = Teff /(1 + zg ), R∞ = Rem (1 + zg ), and"
+anchor_tex = 'where $\tinfty=\teff/(1+\zg)$, $\rinfty=\rem(1+\zg)$,'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Extend locator to `\"Sec. 1; Sec. 2; Tables 1–2; Sec. 5.1\"`: the current passage does not define every listed symbol. Explicitly map ΘB to `rt`’s θBn, including degrees-to-radians conversion." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor explicitly defines apparent temperature, emission radius and redshift ( Ho:85–88). Column units match 339–348; ΘB definition and degree units match 157–160, 532–538. The normal-angle mapping is explicit." }]
+
+[[entry]]
+id = "obs.notation-rxj1856-photometry"
+kind = "notation"
+domain = "obs"
+name = "Notation for RX J1856 photometry (Kaplan+2011)"
+statement = "Quantities used in the optical/UV photometry and excess tables of Kaplan et al. (2011)."
+symbols = [
+  { sym = "F_\\lambda", meaning = "flux density per unit wavelength", units = "erg cm^-2 s^-1 A^-1" },
+  { sym = "\\alpha_{opt}", meaning = "(paper symbol alpha) optical/UV power-law index, F_lambda ~ lambda^-alpha (Rayleigh-Jeans: 4)", units = "1" },
+  { sym = "A_V", meaning = "visual extinction", units = "mag" },
+  { sym = "R^\\infty_{bb}/D", sym_source = "R/d", meaning = "X-ray blackbody normalisation (apparent radius per distance)", units = "km kpc^-1" },
+  { sym = "\\mathrm{STMAG}", meaning = "magnitude in the STMAG system", units = "mag" },
+]
+conflicts_with = ["const.notation-atomic", "gr.notation-geometry", "gr.notation-pechenick", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "rt.notation-cond-energies-geometry", "rt.notation-spw09", "surface.notation-geometry"]
+adopted = false
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}."]
+source = "kaplan_2011_rxj1856_spectrum"
+locator = "Sec. 3.1 and Table 5; Sec. 2.3 and Table 2"
+anchor = "power-law index α (defined such that Fλ ∝ λ−α ), and the χ2"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Adopt `\\alpha_opt` with explicit mapping to the paper’s α; bare α collides with existing meanings. Extend locator to include `\"Sec. 2.3 and Table 2\"` for STMAG and R/d." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor defines `Fλ ∝ λ⁻α` ( Kaplan:885–886); αopt explicitly maps to paper α. Apparent R/d and units match 320–334; STMAG matches 343–346." }]
+
+[[entry]]
+id = "obs.notation-rxj1856-timing"
+kind = "notation"
+domain = "obs"
+name = "Notation for RX J1856 timing (van Kerkwijk & Kaplan 2008)"
+statement = "Timing quantities of Table 2 of van Kerkwijk & Kaplan (2008)."
+symbols = [
+  { sym = "P_{spin}", aliases = ["P_spin", "P_{1856}", "P (vK&K08)", "p (GH83)"], meaning = "spin (rotation) period of the neutron star", meaning_source = "spin period of RX J1856.5-3754 (alias of the P_{1856} spelling used earlier)", units = "s" },
+  { sym = "\\dot P", meaning = "period derivative", units = "s s^-1" },
+  { sym = "\\nu_{spin}", meaning = "spin frequency (paper symbol nu)", units = "Hz" },
+  { sym = "\\dot\\nu_{spin}", meaning = "spin frequency derivative (paper symbol nu-dot)", units = "Hz s^-1" },
+  { sym = "B_{dip}", meaning = "dipole magnetic field inferred from spin-down", units = "G" },
+  { sym = "\\tau_{char}", meaning = "characteristic age P/(2 Pdot)", units = "Myr" },
+]
+conflicts_with = ["gr.notation-radiation"]
+adopted = false
+conflict_notes = ["nu: nu is a photon frequency. Spin frequency -> \\nu_{spin}."]
+source = "vankerkwijk_kaplan_2008_rxj1856_timing"
+locator = "Table 2 note"
+anchor = "is the characteristic age, as-"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Adopt `\\nu_spin` and `\\dot\\nu_spin`, explicitly alias `P_{1856}` to `P_spin`, and omit `\\dot E` until its sign convention is resolved. Source ν means spin frequency here." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor is the Table 2 characteristic-age definition ( Timing:181–184). Listed quantities and units match 169–178. Spin-frequency aliases are explicit; the disputed energy formula is omitted." }]

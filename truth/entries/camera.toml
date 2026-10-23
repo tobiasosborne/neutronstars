@@ -1,0 +1,220 @@
+# Camera lane: static tetrad, local Lorentz boost, aberration, Doppler factor,
+# general frequency ratio g, I_nu transformation, and the camera projection convention.
+# GAPS rows 1.4 and 1.6. Harvested 2026-10-23. All entries proposed; reviews are added by the codex step.
+
+[[entry]]
+id = "gr.static-tetrad"
+kind = "equation"
+domain = "gr"
+name = "Static orthonormal tetrad in Schwarzschild coordinates"
+statement = "In Schwarzschild coordinates (t, r, theta, phi), with metric ds^2 = -(1 - r_s/r) c^2 dt^2 + dr^2/(1 - r_s/r) + r^2 (dtheta^2 + sin^2 theta dphi^2) and Schwarzschild radius r_s = 2GM/c^2, the local tetrad of the static observer is e_(t) = [c (1 - r_s/r)^(1/2)]^(-1) d/dt, e_(r) = (1 - r_s/r)^(1/2) d/dr, e_(theta) = r^(-1) d/dtheta, e_(phi) = (r sin theta)^(-1) d/dphi. The dual tetrad is theta^(t) = c (1 - r_s/r)^(1/2) dt, theta^(r) = dr/(1 - r_s/r)^(1/2), theta^(theta) = r dtheta, theta^(phi) = r sin theta dphi."
+latex = '\mathbf{e}_{(t)}=\frac{1}{c\sqrt{1-r_s/r}}\partial_t,\qquad \mathbf{e}_{(r)}=\sqrt{1-\frac{r_s}{r}}\,\partial_r,\qquad \mathbf{e}_{(\vartheta)}=\frac{1}{r}\partial_\vartheta,\qquad \mathbf{e}_{(\varphi)}=\frac{1}{r\sin\vartheta}\partial_\varphi'
+source = "muller_grave_2009_spacetimes"
+locator = "Sect. 2.2.1, eq. 2.2.6 (metric eq. 2.2.1, dual tetrad eq. 2.2.7), PDF p. 22 (printed p. 18)"
+anchor = 'In Schwarzschild coordinates $\left\{t\in\setR,r\in\setR^{+},\vartheta\in(0,\pi),\varphi\in[0,2\pi)\right\}$, the Schwarzschild metric reads'
+anchor_tex = '\Clt{t} = \frac{1}{c\sqrt{1-r_s/r}}\partial_t, \qquad \Clt{r} = \sqrt{1-\frac{r_s}{r}}\partial_r,\qquad \Clt{\vartheta} = \frac{1}{r}\partial_{\vartheta}, \qquad \Clt{\varphi} = \frac{1}{r\sin\vartheta}\partial_{\varphi}.'
+ocr = "good"
+validity = "coordinate range 0 < vartheta < pi (source: Schwarzschild coordinates with vartheta in (0, pi)); exterior vacuum region r > r_s (the source requires well-behaved metric coefficients, Sect. 1.4.6); signature (-,+,+,+), eta_(i)(j) = diag(-1, 1, 1, 1)"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: validity now states the source's coordinate restriction 0 < vartheta < pi (anchor, muller_grave_2009_spacetimes.txt:1280-1287); gr.schwarzschild-line-element added to depends_on and the stale absence note removed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: TeX anchors, metric, four legs and dual match [text:1280–1287,1330–1339](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:1280). R1 coordinate restriction and dependency fixes are applied. In validity, replace `'Sect. 1.4.4'` with `'Sect. 1.4.6'`: the “well behaved” condition occurs at [text:481–491](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:481)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "R2 correction complete: validity cites Sect. 1.4.6, matching the “well behaved” condition at [text:481–491](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:481). Both TeX anchors match byte-for-byte; all tetrad legs and dual factors agree with [text:1330–1339](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:1330)." }]
+depends_on = ["gr.schwarzschild-radius", "gr.schwarzschild-line-element"]
+notes = "Source macro \\Clt{x} is \\mathbf{e}_{(x)} (refs/muller_grave_2009_spacetimes.tex:108). The latex was checked against the rendered PDF page 22 (pdftoppm -r 150): all four legs, the factor c in e_(t) and the square roots match. The source's r_s = 2GM/c^2 is the project's r_g (gr.schwarzschild-radius). Dependency gr.schwarzschild-line-element (gr_geodesic.toml) is listed in depends_on. The same source prints that line element with g_rr = 1/(1 - r_s/r) (eq. 2.2.1). Checks run by the harvester: (1) sympy gives g_{mu nu} e_(i)^mu e_(j)^nu = diag(-1, 1, 1, 1) exactly with the eq. 2.2.1 metric. (2) The spatial legs equal the James et al. 2015 FIDO basis (refs/james_2015_interstellar.tex eq. A.3, label eq:FIDObasis) at a = 0: sqrt(Delta)/rho - (1 - 2/r)^(1/2) = 0, 1/rho - 1/r = 0, 1/varpi - 1/(r sin theta) = 0 (sympy, M = 1); at a = 0 also alpha = (1 - 2/r)^(1/2) and omega = 0, so the FIDO is the static observer. (3) u = c e_(t) has u^t = (1 - r_s/r)^(-1/2), which is the blessed gr.static-observer-four-velocity in G = c = 1. (4) With p_t = -1 and p_phi = b in the equatorial plane, the static-frame components give sin xi = p^(phi)/p^(t) = (b/r0)(1 - r_g/r0)^(1/2); numerically 0.19493588689617927 for b = 4, r0 = 20 (r_g = 1), identical to gr.observer-sky-angle. The spatial legs are also implied by Wasserman & Shapiro 1983 eqs. 11a-b (see gr.static-tetrad-field-projection)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.static-tetrad-field-projection"
+kind = "equation"
+domain = "gr"
+name = "Field tensor on the static Schwarzschild tetrad (Wasserman & Shapiro)"
+statement = "For a static, axisymmetric, purely magnetic field in a Schwarzschild background (only A_phi nonzero; geometrized units G = c = 1; x = r/2M), Wasserman & Shapiro project the field tensor F_{mu nu} onto a local orthonormal tetrad and obtain F_{phi-hat r-hat} = (1 - x^-1)^(1/2) F_{phi r}/(r sin theta) = B^{theta-hat} and F_{phi-hat theta-hat} = F_{phi theta}/(r^2 sin theta) = -B^{r-hat}, the locally measured field components."
+latex = 'F_{\hat\phi\hat r}=\frac{(1-x^{-1})^{1/2}F_{\phi r}}{r\sin\theta}=B^{\hat\theta},\qquad F_{\hat\phi\hat\theta}=\frac{F_{\phi\theta}}{r^2\sin\theta}=-B^{\hat r},\qquad x\equiv r/2M'
+source = "wasserman_shapiro_1983_gr_dipole"
+locator = "Sect. II, eqs. 11a-11b, p. 1040 (PDF p. 5); x = r/2M defined after eq. 10"
+anchor = "project it onto a local orthonormal tetrad,"
+ocr = "poor"
+image_verified = true
+validity = "static axisymmetric magnetic field (A_0 = 0, A = A_phi(r, theta)) outside the star, no magnetospheric plasma; G = c = 1"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor matches [text:258](/home/tobias/Projects/neutronstars/refs/wasserman_shapiro_1983_gr_dipole.txt:258); PDF pp. 4-5 image check: hatted components, square root, denominators, minus sign and G=c=1 agree; static, magnetic, axisymmetric, vacuum conditions match text:178-201." }]
+depends_on = ["gr.static-tetrad"]
+notes = "Read off the rendered PDF page 5 (pdftoppm -f 5 -l 5 -r 150): the text before eq. 11 says 'To relate F_mu nu to the locally measured magnetic field, B, we project it onto a local orthonormal tetrad, e_lambda-hat. For the Schwarzschild metric this yields'; eq. 11a reads F_{phi-hat r-hat} = (1 - x^-1)^{1/2} F_{phi r} / (r sin theta) = B^{theta-hat}; eq. 11b reads F_{phi-hat theta-hat} = F_{phi theta} / (r^2 sin theta) = -B^{r-hat}; x = r/2M is defined after eq. 10. The text layer (refs/wasserman_shapiro_1983_gr_dipole.txt:258-265) loses the hats, the square root and the fraction bars. The paper does not print the tetrad legs themselves. Harvester's inference: F_{phi-hat r-hat} = e_phi-hat^mu e_r-hat^nu F_{mu nu} with e_r-hat = (1 - 2M/r)^(1/2) d/dr and e_phi-hat = (r sin theta)^(-1) d/dphi, and F_{phi-hat theta-hat} with e_theta-hat = r^(-1) d/dtheta, reproduce both printed factors, since (1 - x^-1)^(1/2) = (1 - 2M/r)^(1/2). This is an independent cross-check of the spatial legs of gr.static-tetrad. The B-component identifications (B^theta-hat, -B^r-hat) are also relevant to the surface-field lane (eqs. 12a-b give the dipole field)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.camera-four-velocity-static-frame"
+kind = "equation"
+domain = "gr"
+name = "Four-velocity from speed and direction in a local tetrad"
+statement = "Relative to a local tetrad e_(i), a timelike direction is identified with the four-velocity u = c gamma (e_(0) + beta n), with n = sin chi cos xi e_(1) + sin chi sin xi e_(2) + cos chi e_(3) a unit spatial vector, beta the speed in units of c measured by the observer e_(0), and gamma = 1/sqrt(1 - beta^2); then <u, u> = c^2 gamma^2 (-1 + beta^2) = -c^2 for signature +2. Applied to the static tetrad at the camera position (gr.static-tetrad), this gives the camera four-velocity from its speed beta and direction of motion n measured by the local static observer."
+latex = '\mathbf{u}=c\gamma\left(\mathbf{e}_0+\beta\mathbf{n}\right),\qquad \mathbf{u}^2=\left<\mathbf{u},\mathbf{u}\right>_{\mathbf{g}}=c^2\gamma^2\left(-1+\beta^2\right)=-c^2,\quad \mathrm{sign}(\mathbf{g})=+2'
+source = "muller_grave_2009_spacetimes"
+locator = "Sect. 1.4.5, eqs. 1.4.17-1.4.18, PDF p. 9 (printed p. 5)"
+anchor = 'A timelike direction can be identified with an initial four-velocity $\mathbf{u}=c\gamma\left(\mathbf{e}_0+\beta\mathbf{n}\right)$, where'
+anchor_tex = '\boldsymbol{\upsilon} = \upsilon^{(0)}\mathbf{e}_{(0)} + \psi\left(\sin\chi\cos\xi\,\mathbf{e}_{(1)}+\sin\chi\sin\xi\,\mathbf{e}_{(2)} + \cos\chi\,\mathbf{e}_{(3)}\right) = \upsilon^{(0)}\mathbf{e}_{(0)} + \psi\mathbf{n}.'
+ocr = "good"
+validity = "0 <= beta < 1; signature +2 only (the source prints \\mp c^2 and sign(g) = \\pm 2; the fixed -c^2 here corresponds to +2); the source writes e_0 for e_(0) in eq. 1.4.18"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: latex now ends c^2 gamma^2 (-1 + beta^2) = -c^2, sign(g) = +2 (the fixed negative value cannot also represent signature -2, despite the source's printed \\mp). Check, c=1, beta=0.6, n=(0.3,-0.5,sqrt(0.66)): expected u.u=-1, computed -1.0, error 0, tolerance 1e-14." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "TeX anchors and transcription match [text:448–459](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:448). R1 correctly restricts the negative norm to signature `+2`; the factor `c`, positive velocity sign and unit direction agree. Camera application is explicitly identified as ours." }]
+depends_on = ["gr.static-tetrad", "gr.static-observer-four-velocity"]
+notes = "The second sentence of the statement (application to the camera) is the harvester's, not the source's. Check: beta = 0 gives u = c e_(t) = (1 - r_s/r)^(-1/2) d/dt, the blessed gr.static-observer-four-velocity (G = c = 1). Numerical check (c = 1, beta = 0.6, n = (0.3, -0.5, sqrt(0.66))): u.u = -1.0000000000000002 against expected -1 (tolerance 1e-14). This equation fixes the sign convention of the boost: the camera moves with +beta n relative to e_(0), so its tetrad's time leg must be u/c = gamma(e_(0) + beta n) (see gr.tetrad-lorentz-transformation). Canonical symbols: u = u^\\mu_{cam}, beta = \\beta_{cam}, gamma = \\gamma_{cam}, n = \\hat v_{cam} (truth/harvest/notation_additions_camera.md)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.tetrad-lorentz-transformation"
+kind = "equation"
+domain = "gr"
+name = "Lorentz transformation of a local tetrad (boost)"
+statement = "Any other local tetrad is obtained from a local tetrad e_(k) by e-hat_(i) = A_i^k e_(k), with A an element of the Lorentz group O(1,3): A^T eta A = eta and (det A)^2 = 1. The source prints the Lorentz transformation in the direction of the unit vector n^a, with gamma = 1/sqrt(1 - beta^2), as Lambda_0^0 = gamma, Lambda_a^0 = -beta gamma n_a, Lambda_0^a = -beta gamma n^a, Lambda_b^a = (gamma - 1) n^a n_b + delta^a_b. Used as A, the printed matrix gives e-hat_(0) = gamma (e_(0) - beta n^a e_(a)), the frame of an observer moving with 3-velocity -beta n relative to e_(0). The tetrad of a camera moving with +beta n, whose time leg is u/c = gamma (e_(0) + beta n) (gr.camera-four-velocity-static-frame), uses the same matrix with beta -> -beta, which is the inverse of the printed one: e_(0)^cam = gamma (e_(0) + beta n^a e_(a)), e_(a)^cam = beta gamma n_a e_(0) + [(gamma - 1) n_a n^b + delta_a^b] e_(b)."
+latex = '\hat{\mathbf{e}}_{(i)}=A_i^k\mathbf{e}_{(k)},\qquad \Lambda_0^0=\gamma,\quad \Lambda_a^0=-\beta\gamma n_a,\quad \Lambda_0^a=-\beta\gamma n^a,\quad \Lambda_b^a=(\gamma-1)n^an_b+\delta^a_b,\qquad \gamma=1/\sqrt{1-\beta^2}'
+source = "muller_grave_2009_spacetimes"
+locator = "Sect. 1.4.2, eqs. 1.4.6-1.4.7, PDF p. 8 (printed p. 4)"
+anchor = "Instead of the above found local tetrad that was directly constructed from the spacetime metric, we can also use any other local tetrad"
+anchor_tex = '\Lambda_0^0 = \gamma,\qquad \Lambda_a^0 = -\beta\gamma n_a,\qquad \Lambda_0^a = -\beta\gamma n^a,\qquad \Lambda_b^a = (\gamma-1)n^an_b+\delta^a_b.'
+ocr = "good"
+validity = "|beta| < 1; n a unit 3-vector in the spatial frame of e_(0); beta measured by the observer e_(0); pure boost (no rotation)"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchors and every matrix component match [TeX:393-401](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.tex:393), [text:366-375](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:366). The entry distinguishes the printed matrix's negative velocity time leg from the inverse required for a camera moving with positive velocity." }]
+depends_on = ["gr.camera-four-velocity-static-frame"]
+notes = "Index placement read off the rendered PDF page 8 (pdftoppm -r 150): Lambda^0_0 = gamma, Lambda^0_a = -beta gamma n_a, Lambda^a_0 = -beta gamma n^a, Lambda^a_b = (gamma - 1) n^a n_b + delta^a_b, as in the tex; the text layer (refs/muller_grave_2009_spacetimes.txt:376) loses it. Interpretation (harvester): in e-hat_(i) = A_i^k e_(k) the lower index is the new leg and the upper the old, so the printed Lambda read as A gives e-hat_(0) = gamma e_(0) - beta gamma n^a e_(a). The source does not say whether Lambda is meant as A or as the component (passive) transformation, which is its inverse. Numerical checks (beta = 0.6, n = (0.3, -0.5, sqrt(0.66))): max |Lambda^T eta Lambda - eta| = 2.2e-16 (tolerance 1e-14); the printed Lambda as A gives e-hat_(0) the spatial velocity (-0.18, 0.30, -0.487) = -beta n; Lambda(-beta) equals the matrix inverse of the printed Lambda (numpy allclose). The +beta form is consistent with James et al. 2015 eq. A.9 (gr.camera-aberration), which this boost reproduces to 2.2e-16 for 1000 random directions. MISPRINT in the source: the line before eq. 1.4.7 gives n^a = (sin chi cos xi, sin chi sin xi, cos xi)^T, which is not a unit vector; eq. 1.4.17 has cos chi as the third component, which is the unit vector. Canonical symbols: beta = \\beta_{cam}, gamma = \\gamma_{cam}, Lambda = \\Lambda_{boost}, n = \\hat v_{cam}."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.tetrad-vector-components"
+kind = "equation"
+domain = "gr"
+name = "Local (tetrad) and coordinate components of a direction"
+statement = "A null or timelike direction with respect to a local tetrad e_(i) is upsilon = upsilon^(0) e_(0) + psi n, with n = sin chi cos xi e_(1) + sin chi sin xi e_(2) + cos chi e_(3); for a null direction psi = 1 and upsilon^(0) = +-1, the sign giving the time direction. Local components upsilon^(i) and coordinate components upsilon^mu are related by upsilon^mu = upsilon^(i) e_(i)^mu and upsilon^(i) = theta^(i)_mu upsilon^mu, where the dual tetrad satisfies theta^(i)_mu e_(j)^mu = delta^(i)_(j) and theta^(b)_mu = eta^(a)(b) e_(a)mu."
+latex = '\boldsymbol{\upsilon}=\upsilon^{(0)}\mathbf{e}_{(0)}+\psi\left(\sin\chi\cos\xi\,\mathbf{e}_{(1)}+\sin\chi\sin\xi\,\mathbf{e}_{(2)}+\cos\chi\,\mathbf{e}_{(3)}\right),\qquad \upsilon^{\mu}=\upsilon^{(i)}e_{(i)}^{\mu},\qquad \upsilon^{(i)}=\theta^{(i)}_{\mu}\upsilon^{\mu},\qquad \theta_{\mu}^{(b)}=\eta^{(a)(b)}e_{(a)\mu}'
+source = "muller_grave_2009_spacetimes"
+locator = "Sect. 1.4, eqs. 1.4.1, 1.4.5b, 1.4.17, 1.4.19, PDF pp. 7-9 (printed pp. 3-5)"
+anchor = 'The transformations between a local direction $\upsilon^{(i)}$ and its coordinate representation $\upsilon^{\mu}$ read'
+anchor_tex = '\upsilon^{\mu} = \upsilon^{(i)}e_{(i)}^{\mu} \qquad\text{and}\qquad \upsilon^{(i)}=\theta^{(i)}_{\mu}\upsilon^{\mu}.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: notes corrected to p^(0) = E_obs/c = -p_mu u^mu/c; p^(0) itself is not the measured energy when c is explicit." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "TeX anchors, direction decomposition, dual relation and component transformations match [text:307–363](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:307) and [448–478](/home/tobias/Projects/neutronstars/refs/muller_grave_2009_spacetimes.txt:448). R1 correctly changes the notes to `p^(0)=E_obs/c=-p_mu u^mu/c`." }]
+depends_on = ["gr.static-tetrad"]
+notes = "Consequence used by gr.frequency-ratio-general (harvester's derivation): with eta^(0)(0) = -1, theta^(0)_mu = -e_(0)mu, so the time component of a photon four-momentum in a tetrad whose time leg is e_(0) = u/c is p^(0) = theta^(0)_mu p^mu = -p_mu u^mu / c = E_obs/c, where E_obs = -p_mu u^mu is the energy measured by the observer u; p^(0) itself is E_obs/c, not the energy, when c is explicit. Consequence used by the camera projection (gr.camera-projection-convention): a photon arriving from camera-sky direction N (unit vector toward its apparent source, James et al. 2015 eq. A.8) propagates along -N, so its camera-tetrad components are p^(i) = p^(0) (1, -N^a) and its coordinate components p^mu = p^(i) e_(i)^mu with the camera tetrad e_(i) = e_(i)^cam. depends_on lists gr.static-tetrad because the pipeline applies these relations to that tetrad and its boost; the relations themselves hold for any orthonormal tetrad."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.camera-aberration"
+kind = "equation"
+domain = "gr"
+name = "Relativistic aberration between camera and static (FIDO) frames"
+statement = "A camera moves with speed beta relative to the local FIDO (the static observer when a = 0) along its own Cartesian basis vector e_y = B. e_x is perpendicular to e_y and lies in the plane of e_r-hat and e_phi-hat, and e_z completes a right-handed set. A point (theta_cs, phi_cs) on the camera's local sky defines the unit vector N = (sin theta_cs cos phi_cs, sin theta_cs sin phi_cs, cos theta_cs), which points in the direction of the incoming ray. The ray's direction of motion n_F measured by the FIDO, in Cartesian axes aligned with the camera's, is n_F,y = (-N_y + beta)/(1 - beta N_y), n_F,x = -sqrt(1 - beta^2) N_x/(1 - beta N_y), n_F,z = -sqrt(1 - beta^2) N_z/(1 - beta N_y)."
+latex = 'N_x=\sin\theta_{cs}\cos\phi_{cs},\;N_y=\sin\theta_{cs}\sin\phi_{cs},\;N_z=\cos\theta_{cs};\qquad n_{F\,y}=\frac{-N_y+\beta}{1-\beta N_y},\quad n_{F\,x}=\frac{-\sqrt{1-\beta^2}N_x}{1-\beta N_y},\quad n_{F\,z}=\frac{-\sqrt{1-\beta^2}N_z}{1-\beta N_y}'
+source = "james_2015_interstellar"
+locator = "App. A.1, eqs. A.8-A.9, p. 31; camera frame Sect. 2.1 items 1-3"
+anchor = "Using the equations for  relativistic aberration, compute the direction of motion"
+anchor_tex = 'n_{F\,y}  = {-N_y + \beta \over 1-\beta N_y}\;, \;\;'
+ocr = "good"
+validity = "Kerr FIDO frame in Boyer-Lindquist coordinates, M = 1; for a = 0 the FIDO is the static Schwarzschild observer; camera velocity along e_y (a general direction B is handled by the rotation eq. A.10, not transcribed here; A.10 requires kappa = sqrt(1 - B_theta_hat^2) = sqrt(B_r_hat^2 + B_phi_hat^2) > 0, because its printed divisions by kappa fail for purely polar motion; A.9 itself is unaffected); |beta| < 1"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: validity qualifies the referenced rotation A.10 with kappa = sqrt(1 - B_theta_hat^2) > 0, since its printed divisions by kappa fail for purely polar motion (james_2015_interstellar.txt:1186-1191); A.9 itself unaffected." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Both TeX anchors and every sign, square root and denominator match [text:1172–1181](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.txt:1172). R1 correctly limits the referenced A.10 rotation to `kappa>0`, consistent with its divisions by `kappa` at [1186–1192](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.txt:1186)." }]
+depends_on = ["gr.static-tetrad", "gr.tetrad-lorentz-transformation"]
+notes = "Equations A.8 and A.9 were checked against the rendered PDF page 31 (pdftoppm -r 110); they match the tex. The camera frame {e_x, e_y, e_z} is defined in Sect. 2.1 item 3 (refs/james_2015_interstellar.tex:224-245). Direction convention: N points toward where the ray comes from; the ray's propagation direction in the camera frame is n = -N (App. A.2, 'orthogonal to the ray direction ${\\bf n} = - {\\bf N}$', refs/james_2015_interstellar.tex:1573). n_F is a propagation direction. Numerical check by the harvester (1000 random beta in (-0.99, 0.99) and directions N): boost the camera-frame photon p = E(1, -N) into the FIDO frame, in which the camera moves along +y. The resulting p^a/p^0 agrees with eq. A.9 to max |dn| = 2.2e-16 (tolerance 1e-12). |n_F| = 1 follows algebraically: (beta - N_y)^2 + (1 - beta^2)(1 - N_y^2) = (1 - beta N_y)^2. a = 0 reduction (sympy): alpha = (1 - 2/r)^(1/2), omega = 0, and the FIDO spatial basis (eq. A.3) equals the spatial legs of gr.static-tetrad. Aberration is purely kinematic, so eq. A.9 holds for any pair of orthonormal frames related by a boost along y. Canonical symbols: N = \\hat N_{cam}, theta_cs = \\theta_{cam}, phi_cs = \\phi_{cam}, n_F = \\hat n_{st}, beta = \\beta_{cam}."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.camera-blueshift-celestial"
+kind = "equation"
+domain = "gr"
+name = "Camera blueshift of light from a source at rest at infinity"
+statement = "In Kerr (Boyer-Lindquist, M = 1), the ratio of the frequency f_c seen by the camera to the frequency f' seen by the source at rest on the celestial sphere is f_c/f' = [sqrt(1 - beta^2)/(1 - beta N_y)] [(1 - b omega)/alpha]. The camera moves with speed beta along e_y relative to the local FIDO. N is the camera-sky direction of the incoming ray. b is the ray's axial angular momentum, with p_t = -1. alpha and omega are evaluated at the camera."
+latex = '''\frac{f_c}{f'}=\left(\frac{\sqrt{1-\beta^2}}{1-\beta N_y}\right)\left(\frac{1-b\omega}{\alpha}\right)'''
+source = "james_2015_interstellar"
+locator = "App. A.1, step (vii), eq. A.16, p. 33"
+anchor = '''Compute the light's blue shift, i.e.\ the ratio of its frequency $f_c$ as seen by the camera to'''
+anchor_tex = ' \left(\frac{\sqrt{1-\beta^2}}{1- \beta N_y }\right)'
+ocr = "good"
+validity = "source at rest on the celestial sphere (r = infinity); camera outside the horizon; Kerr with M = 1, G = c = 1"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchors and complete A.16 expression match [TeX:1322-1327](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.tex:1322), [text:1251-1256](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.txt:1251). Stationary source at infinity and normalized axial momentum correctly qualified; Schwarzschild reduction follows from text:1129-1139." }]
+depends_on = ["gr.camera-aberration", "gr.frequency-ratio-general"]
+notes = "a = 0 reduction (harvester): omega = 2ar/Sigma^2 = 0 and alpha = rho sqrt(Delta)/Sigma = (1 - 2M/r_c)^(1/2), checked with sympy; so f_c/f' = [sqrt(1 - beta^2)/(1 - beta N_y)] (1 - 2M/r_c)^(-1/2) = [sqrt(1 - beta^2)/(1 - beta N_y)] (1 - r_g/r_c)^(-1/2). The two factors are: (i) the camera-to-FIDO frequency ratio, the special-relativistic Doppler factor gr.doppler-factor-sr. It equals E_cam/E_F for the boosted null vector to 3.3e-16 relative error over 1000 random cases. (ii) the FIDO-measured energy E_F = 1/(alpha + omega varpi n_F,phi) of eq. A.11 at a = 0, i.e. 1/alpha = -p_mu u^mu_static with p_t = -1. Static camera (beta = 0) at a = 0: f_c/f' = (1 - r_g/r_c)^(-1/2). This is the gravitational blueshift of starlight falling to r_c, the inverse of gr.frequency-redshift with emitter and observer roles exchanged. A Kerr version of the general ratio gr.frequency-ratio-general with u_em the static observer at infinity."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.doppler-factor-sr"
+kind = "equation"
+domain = "gr"
+name = "Special-relativistic Doppler factor of the moving camera"
+statement = "A camera moves with speed beta relative to the local static observer. For a photon arriving from camera-sky direction N, the ratio of the frequency the camera measures to the frequency the static observer at the same event measures is nu_cam/nu_st = sqrt(1 - beta^2)/(1 - beta N_y) = 1/[gamma (1 - beta cos theta_v)]. Here N_y = cos theta_v, and theta_v is the angle, in the camera frame, between the camera velocity e_y and the direction toward the ray's apparent source. Far from the star (alpha -> 1, omega -> 0) this factor is the whole of f_c/f' in eq. A.16."
+latex = '''\left.\frac{f_c}{f'}\right|_{\alpha=1,\ \omega=0}=\frac{\sqrt{1-\beta^2}}{1-\beta N_y}'''
+source = "james_2015_interstellar"
+locator = "App. A.1, eq. A.16, first factor (limit alpha -> 1, omega -> 0); also the bundle-size factor in eq. A.26"
+anchor = "its frequency $f'$ as seen by the source at rest on the celestial sphere, from"
+anchor_tex = ' \left(\frac{\sqrt{1-\beta^2}}{1- \beta N_y }\right)'
+ocr = "good"
+validity = "special relativity in the local frame: any two observers at one event whose relative speed is beta along e_y; |beta| < 1"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchors match A.16's first factor, text:1251-1256. Boost derivation confirms local interpretation and camera-frame angle convention. Independent test, 1000 boosts: max relative Doppler error 2.66e-15, tolerance 1e-12." }]
+depends_on = ["gr.camera-blueshift-celestial", "gr.camera-aberration", "gr.tetrad-lorentz-transformation"]
+notes = "Derivation (harvester): in the camera frame the photon is p = E(1, -N). In the static frame, where the camera moves with +beta along y, p^0_st = gamma E (1 - beta N_y). Hence nu_cam/nu_st = 1/[gamma (1 - beta N_y)] = sqrt(1 - beta^2)/(1 - beta N_y), the first factor of eq. A.16. The same factor rescales bundle angular sizes in James eq. A.26 (refs/james_2015_interstellar.tex:1545-1549). Check over 1000 random beta in (-0.99, 0.99) and directions: relative error 3.3e-16 against the explicit boost (tolerance 1e-12). Limits: N_y = +1 (source dead ahead) gives sqrt((1 + beta)/(1 - beta)), a blueshift for beta > 0; N_y = 0 gives sqrt(1 - beta^2), the transverse Doppler redshift. This is the R2 far-field check target (PRD R2: 'Aberration and Doppler reduce to special relativity far from the star'). Rybicki & Lightman Ch. 4 (GAPS 1.6) is a book and was not fetched. Canonical symbols: \\mathcal{D}_{cam} for the factor, \\nu_{st} for the static-observer frequency."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.frequency-ratio-general"
+kind = "equation"
+domain = "gr"
+name = "General frequency ratio g = (p.u_cam)/(p.u_em)"
+statement = "Dexter & Agol define g = nu_0/nu, with nu_0 (nu) the observed (emitted) frequency, and print dl = -p_alpha u^alpha d(lambda) as the proper length differential measured along the ray by the emitting particle u. The following is derived here, not printed there. For a photon of four-momentum p^mu, a timelike observer with four-velocity u^mu, u_mu u^mu = -c^2, has tetrad time leg e_(0) = u/c and measures local energy component p^(0) = -p_mu u^mu/c (gr.tetrad-vector-components), so h nu = c p^(0) = -p_mu u^mu with E = h nu. For emitter u_em and camera u_cam this gives g = nu_0/nu = (p_mu u^mu_cam)/(p_mu u^mu_em)."
+latex = 'g\equiv\nu_0/\nu,\qquad h\nu=c\,p^{(0)}=-p_\mu u^\mu,\quad u_\mu u^\mu=-c^2\;\Rightarrow\; g=\frac{p_\mu u^\mu_{cam}}{p_\mu u^\mu_{em}}'
+source = "dexter_agol_2009_kerr"
+locator = "Sect. 7, Line Emission subsection, text after eq. 70 (g), p. 11; Radiative Transfer subsection, text after eq. 72 (-p_alpha u^alpha), p. 12"
+anchor = 'where $g \equiv \nu_0/\nu$ is the redshift, and $\nu_0$ ($\nu$) is the observed (emitted) frequency.'
+anchor_tex = 'where $dl =  -p_\alpha u^\alpha d\lambda$ is the proper length differential measured along the ray'
+ocr = "good"
+validity = "geometric optics (photon on a null geodesic, no plasma dispersion); both four-velocities timelike, future-directed, unit-normalised with u_mu u^mu = -c^2; p_mu u^mu evaluated at the respective events on the same ray"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: claim reduced to what is printed. Dexter & Agol print only g = nu_0/nu and dl = -p_alpha u^alpha d(lambda); the ratio form is a stated derivation. Argument completed with h nu = c p^(0) = -p_mu u^mu (u_mu u^mu = -c^2), correcting 'energy component'; local energy component and E = h nu quoted in notes (grep -F -c: Kohri 1, CODATA 2)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "fix", note = "applied: Anchors match; the ratio is now honestly identified as derived. The tetrad argument, [photon-energy component](/home/tobias/Projects/neutronstars/refs/kohri_yamada_2002_vacuum.txt:90) and [CODATA `E=hν`](/home/tobias/Projects/neutronstars/refs/tiesinga_2021_codata2018.txt:3429) support that derivation; CODATA PDF p. 44 was independently viewed. However, replace the notes’ `'emitter-frame photon energy per unit affine parameter'` with `'proper-length rate dℓ/dλ in Dexter & Agol’s normalization'`: their printed relation is `dℓ/dλ=-p_alpha u^alpha` ([text:930–933](/home/tobias/Projects/neutronstars/refs/dexter_agol_2009_kerr.txt:930))." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 3, verdict = "accept", note = "R2 correction complete: notes now identify `-p·u` as the “proper-length rate dℓ/dλ in Dexter & Agol’s normalization,” matching [text:930–933](/home/tobias/Projects/neutronstars/refs/dexter_agol_2009_kerr.txt:930). Both TeX anchors match byte-for-byte. The source’s [frequency definition](/home/tobias/Projects/neutronstars/refs/dexter_agol_2009_kerr.txt:872) is distinguished from the explicitly derived contraction ratio." }]
+depends_on = ["gr.tetrad-vector-components", "gr.camera-four-velocity-static-frame", "gr.static-tetrad"]
+notes = "Local energy component, quoted verbatim from refs/kohri_yamada_2002_vacuum.txt:90-92: 'ω the photon energy' (k = (ω, k⊥, 0, k∥) is the energy-momentum 4-vector of the photon). E = h nu, quoted verbatim from refs/tiesinga_2021_codata2018.txt:3429: 'The energy of a photon with frequency ν expressed in unit Hz is E ¼ hν in unit J.' (CODATA PDF p. 44 image-verified by the reviewer). Derivation (harvester): Dexter & Agol print g = nu_0/nu. They also print dl = -p_alpha u^alpha dlambda as the proper length element measured along the ray by the emitter u, i.e. -p.u is the proper-length rate dℓ/dλ in Dexter & Agol’s normalization. By gr.tetrad-vector-components, p^(0) = -p_mu u^mu/c is the local energy component (E_obs/c) on a tetrad with time leg e_(0) = u/c, so E_obs = c p^(0) = -p_mu u^mu = h nu. Taking the ratio at the two events gives g = (p.u_cam)/(p.u_em), with the unknown normalisation of p cancelling. The ratio form itself is not printed in any local source. Reduction to gr.frequency-redshift: in Schwarzschild a static observer has u^mu = (1 - r_g/r)^(-1/2) delta^mu_t (gr.static-observer-four-velocity, G = c = 1), and p_t is conserved along the ray. Hence g = p_t u^t_cam/(p_t u^t_em) = (1 - r_g/R)^(1/2)/(1 - r_g/r_c)^(1/2) for a static emitter at R and a static camera at r_c. Numerically, with r_g = 1, R = 3, r_c = 50: g = 0.8247860988423227 against the closed form 0.8247860988423225. For r_c = 1e12 g = 0.8164965809281344 -> (1 - r_g/R)^(1/2) = 0.816496580927726, which is gr.frequency-redshift (nu/nu_0 = (1 - r_g/R)^(1/2)); the difference is 4e-13, of order r_g/(2 r_c). Moving camera, emitter at infinity: g reproduces James eq. A.16 (gr.camera-blueshift-celestial) at a = 0. Canonical symbol: g_{shift} = \\nu_{cam}/\\nu (bare g is surface gravity)."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.intensity-g-cubed"
+kind = "equation"
+domain = "gr"
+name = "Specific intensity transformation I_nu,obs = g^3 I_nu,em"
+statement = "Along a ray with no emission, absorption or scattering between emitter and observer, the observed specific intensity at observed frequency nu_0 is I_nu0 = g^3 I_nu, where g = nu_0/nu and I_nu is the emitted specific intensity at nu = nu_0/g. This follows from the invariance of I_nu/nu^3 (the source cites Misner, Thorne & Wheeler 1973). For the camera: I_nu,cam(nu_cam) = g^3 I_nu,em(nu_cam/g)."
+latex = 'I_{\nu_0}=g^3I_{\nu}'
+source = "dexter_agol_2009_kerr"
+locator = "Sect. 7, Line Emission subsection, eq. 70, p. 11"
+anchor = 'The observed intensity is computed by exploiting the invariance of $I_\nu / \nu^3$'
+anchor_tex = ' I_{\nu_0} = g^3 I_{\nu}'
+ocr = "good"
+validity = "spectral (per unit frequency) intensity; vacuum propagation between emitter and camera (transparent, collisionless exterior); g evaluated on the same ray"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Both anchors match [TeX:631-637](/home/tobias/Projects/neutronstars/refs/dexter_agol_2009_kerr.tex:631); I_nu0=g^3 I_nu, frequency assignments and MTW attribution agree with text:867-873. Transparent-propagation restriction appropriately limits the statement." }]
+depends_on = ["gr.invariant-inu-over-nu3", "gr.frequency-ratio-general"]
+v1_ref = "archive/v1/src/pipeline/render.jl:136"
+notes = "One-line derivation from the blessed gr.invariant-inu-over-nu3: I_cam/nu_cam^3 = I_em/nu_em^3 gives I_cam = (nu_cam/nu_em)^3 I_em = g^3 I_em. The same result is the tau = 0, j = 0 case of Dexter & Agol's formal solution (eq. 74, refs/dexter_agol_2009_kerr.tex:687-689; equation number from the text layer). James et al. 2015 Fig. 15 caption states it as 'Liouville's theorem, $I_\\nu \\propto \\nu^3$' (refs/james_2015_interstellar.tex:977-978). Static star seen from infinity: g = (1 - r_g/R)^(1/2) = 1/(1 + z_g), which gives the pipeline form I_nu,obs(nu) = (1 + z_g)^(-3) I_nu,em((1 + z_g) nu), as in v1 render.jl:136. Integrating over nu gives the bolometric g^4 law of gr.intensity-transformation: I = (1 - r_g/R)^2 I_0. Canonical spellings: I_\\nu(x_{pix},y_{pix},\\nu_{cam}) for the camera intensity, g_{shift} for g."
+provenance = "derivable"
+ownership = "stub"
+
+[[entry]]
+id = "gr.camera-projection-convention"
+kind = "pipeline"
+domain = "gr"
+name = "Camera projection: pixel to camera-sky direction (pinhole or equidistant)"
+statement = "Project convention for mapping a pixel to a direction on the camera's local sky, in the rest frame of the camera tetrad e_(a)^cam (gr.static-tetrad boosted by gr.tetrad-lorentz-transformation to u_cam). The optical axis is the unit vector a_cam. Image-right u_x and image-up u_y complete an orthonormal triad with u_x x u_y = -a_cam, so the image is unmirrored when viewed looking along a_cam. A pixel at (x_pix, y_pix) has offsets (dx, dy) from the optical-axis pixel (x_pix,0, y_pix,0), with dy positive toward image-up. Its image radius is r_pix = (dx^2 + dy^2)^(1/2) and its azimuth phi_field = atan2(dy, dx). The field angle from the optical axis is theta_field = arctan(r_pix/f_cam) for a pinhole (rectilinear) camera, valid for theta_field < pi/2, or theta_field = r_pix/f_cam for an equidistant fisheye. The focal length f_cam is in pixels and must satisfy f_cam > 0. The field angle is restricted to 0 <= theta_field <= pi (pinhole: 0 <= theta_field < pi/2); the full field of view of the image, rather than theta_field, may exceed pi. On the optical axis (r_pix = 0, theta_field = 0) N_cam(0) = a_cam. The pixel's sky direction is N_cam = cos theta_field a_cam + sin theta_field (cos phi_field u_x + sin phi_field u_y). It points toward the apparent source of the incoming ray, as N in James et al. 2015 eq. A.8. The photon propagates along -N_cam, with p = (h nu_cam/c)(e_(0)^cam - N^a e_(a)^cam), i.e. p^(0) = h nu_cam/c and h nu_cam = c p^(0) = -p_mu u^mu_cam (gr.frequency-ratio-general, gr.tetrad-vector-components)."
+source = "PRD"
+locator = "The shot, Frame"
+anchor = "the camera's local tetrad. Aberration, Doppler, and gravitational"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "applied: f_cam > 0 required; N_cam(0) = a_cam defined; equidistant field angle restricted to 0 <= theta_field <= pi (the full field of view, not this angle, may exceed pi); unsupported James claim of a neutron-star image above 2 pi sr deleted (its example is a Kerr black-hole shadow, james_2015_interstellar.txt:825-860); sourced photon-energy normalization h nu_cam = c p^(0) = -p_mu u^mu_cam attached from gr.frequency-ratio-general. kind = pipeline, so the applied gpt fix suffices to bless under the SCHEMA rule; r2 confirmation still requested." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "[PRD anchor:19–20](/home/tobias/Projects/neutronstars/PRD.md:19) matches; projection maps are explicitly project conventions. All R1 corrections are applied: positive focal length, defined axial direction, bounded field angle, removed neutron-star attribution and explicit photon-energy normalization. Propagation along `-N` agrees with [James text:1415](/home/tobias/Projects/neutronstars/refs/james_2015_interstellar.txt:1415)." }]
+depends_on = ["gr.static-tetrad", "gr.tetrad-lorentz-transformation", "gr.tetrad-vector-components", "gr.camera-aberration", "gr.frequency-ratio-general"]
+notes = "Numerical check of the applied constraints (1000 random axes, pixel offsets, f_cam in 100-2000 px; pinhole and equidistant maps): N_cam(0) = a_cam expected difference 0, computed 0, tolerance 1e-14; |N_cam| = 1 expected 1, max error 3.3e-16, tolerance 1e-14; N_cam.a_cam = cos theta_field max error 4.4e-16, tolerance 1e-14. OPEN PRD DECISION: PRD.md does not choose between the pinhole and the equidistant projection, and does not fix f_cam or the field of view. Pinhole: straight lines stay straight, the field is limited to < pi, and pixel solid angle shrinks as cos^3 theta_field toward the edge. Equidistant: the field angle is linear in r_pix, and the full field of view (the cone of directions covered by the image) may exceed pi, while theta_field itself stays within [0, pi]. No source in refs/ establishes that a neutron-star image can exceed 2 pi sr; the James et al. 2015 example (Sect. 3.5, refs/james_2015_interstellar.txt:825-860) concerns a Kerr black-hole shadow, so the wide-field need is an open question for the PRD. Also open: (i) how the pointing a_cam ('tracking the star or fixed inertial', PRD The shot, Pointing) is defined and transported along the worldline; (ii) the raster storage order of y_pix, which is separate from the image-up convention fixed here; (iii) the pixel solid angle, which the radiance-to-flux step needs. The two projection maps and the handedness rule are project definitions. No file in refs/ prints them, and they make no physical claim. The physics they feed (N, aberration, p^mu) is sourced in the entries listed in depends_on. Both maps give theta_field = r_pix/f_cam + O(r_pix^3) near the axis, so they agree for a narrow field. Resolves the r1 objection on pipeline.camera-tetrad-projection that the direction convention was undefined: N is the sightline toward the source, and the propagation direction is -N. Canonical symbols: f_{cam}, r_{pix}, \\theta_{field}, \\phi_{field}, \\hat a_{cam}, \\hat N_{cam}, x_{pix}, y_{pix}."
+provenance = "convention"
+ownership = "leaf"

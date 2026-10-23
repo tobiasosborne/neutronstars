@@ -1,0 +1,795 @@
+                                                                Equation of state of fully ionized electron-ion plasmas.
+                                                             II. Extension to relativistic densities and to the solid phase
+
+                                                                               Alexander Y. Potekhin1,∗ and Gilles Chabrier2
+                                                                        1
+                                                                        Ioffe Physical-Technical Institute, 194021 St. Petersburg, Russia
+                                                      2
+                                                        Ecole Normale Supérieure de Lyon, CRAL (UMR CNRS No. 5574), 69364 Lyon Cedex 07, France
+                                                                                     (Phys. Rev. E 62 (2000) 8554–8563)
+
+
+
+                                                                                                           electric function, as well as the local-field correction aris-
+                                          The analytic equation of state of nonideal Coulomb plas-         ing from electron correlation effects, following the model
+                                      mas consisting of pointlike ions immersed in a polarizable           developed in Ref. [2]. In the relativistic regime, similar
+                                      electron background [G. Chabrier and A. Y. Potekhin, Phys.
+                                                                                                           calculations were done using the Jancovici [3] dielectric
+                                      Rev. E 58, 4941 (1998)] is improved, and its applicability
+                                                                                                           function.
+arXiv:astro-ph/0009261v2 3 Apr 2002
+
+
+
+
+                                      range is considerably extended. First, the fit of the electron
+                                                                                                              Since the electron screening is weak at high densities,
+                                      screening contribution in the free energy of the Coulomb liq-
+                                      uid is refined at high densities where the electrons are rela-       and since the bulk of calculations have been performed
+                                      tivistic. Second, we calculate the screening contribution for        using the nonrelativistic model, our fit for the ie contribu-
+                                      the Coulomb solid (bcc and fcc) and derive an analytic fitting       tion was not very accurate at ρ >       6      −3
+                                                                                                                                              ∼ 10 g cm , where the
+                                      expression. Third, we propose a simple approximation to the          electrons are relativistic. Because of the same weakness
+                                      internal and free energy of the liquid one-component plasma          of the screening, this inaccuracy in the ie contribution
+                                      of ions, accurate within the numerical errors of the most re-        at high ρ did not deteriorate the overall accuracy for the
+                                      cent Monte Carlo simulations. We obtain an updated value             excess part of the free energy, which sums up the ion-ion
+                                      of the coupling parameter at the solid-liquid phase transition       (ii), electron-electron (ee), and ie contributions. There
+                                      for the one-component plasma: Γm = 175.0 ± 0.4 (1σ).                 are, however, physical problems which require an accu-
+                                                                                                           rate evaluation of the ie part even at high densities (an
+                                      PACS numbers: 52.25.Ub, 52.25.Kn, 05.70.Ce, 97.20.Rp                 example is mentioned below). In this paper we present
+                                                                                                           a modification of the analytic formula [1] for the ie free
+                                                                                                           energy which improves significantly the accuracy in the
+                                                                                                           domain of relativistic electrons, keeping unchanged the
+                                                           I. INTRODUCTION
+                                                                                                           previous nonrelativistic results.
+                                                                                                              Second, we calculate the ie part of the free energy
+                                         Fully ionized electron-ion plasmas (EIP) are encoun-              for a Coulomb solid, where the ions form either a body-
+                                      tered in laboratory experiments, in stellar and planetary            centered-cubic (bcc) or face-centered-cubic (fcc) lattice.
+                                      interiors, in supernova explosions, etc. From the theoret-           The calculation is performed in a perturbation approxi-
+                                      ical point of view, the free energy of fully ionized EIP pro-        mation, which is accurate because the screening is weak.
+                                      vides the reference system for models aimed at describing            We employ an analytic expression for the ion structure
+                                      the thermodynamic properties of partially ionized plas-              factor S(k) of a Coulomb crystal, obtained in Ref. [4] in
+                                      mas. Thus the studies of EIP are of both theoretical and             the harmonic approximation for large wave numbers k
+                                      practical interest.                                                  outside the first Brillouin zone. For small k, we supple-
+                                         In a previous paper [1] we have calculated thermody-              ment it by an exact limiting form of S(k). We evalu-
+                                      namic quantities of Coulomb plasmas consisting of point-             ate the screening contribution for both the classical and
+                                      like ions immersed in a compressible, polarizable elec-              quantum harmonic crystals and construct a fitting for-
+                                      tron background and devised analytic fitting formulae                mula which accurately reproduces our numerical results.
+                                      for these quantities. The calculations were based on a                  The above mentioned improvements of the equation
+                                      linear-response theory for the ion-electron (ie) interac-            of state are significant at densities ρ >           6
+                                                                                                                                                         ∼ 10 g cm .
+                                                                                                                                                                     −3
+                                      tion, which is valid as long as the typical ie interaction           Such densities cannot be reached in the laboratory, but
+                                      energy (Ze)2 /2a0 (where a0 is the Bohr radius, and Ze               they are commonly encountered in the interiors of white
+                                      is the ion charge) is smaller than the kinetic energy of             dwarfs and envelopes of neutron stars (e.g., Ref. [5]).
+                                      the electrons. This condition is fulfilled either at tem-               In addition, we present simple formulae for the excess
+                                      peratures T >      5 2                        >
+                                                    ∼ 10 Z K or at densities ρ ∼ AZ g cm ,
+                                                                                          2     −3
+                                                                                                           internal and free energies of a classical one-component
+                                      where A is the ion mass number. For the nonrelativis-                plasma (OCP) liquid, which take into account the most
+                                      tic regime, i.e., at densities ρ ≪ 106 g cm−3 , finite-              recent Monte Carlo (MC) results [6,7], and which are ac-
+                                      temperature effects were included in the electronic di-              curate for any values of the Coulomb coupling parameter
+                                                                                                           from the gaseous phase to the dense liquid regime. An-
+                                                                                                           alyzing various results for the free energy of the OCP
+                                                                                                           liquid and solid, we revise the value of the coupling pa-
+                                       ∗
+                                           Electronic address: palex@astro.ioffe.rssi.ru                   rameter at the solid-liquid phase transition.
+
+
+                                                                                                       1
+   In the next section, we describe the basic parameters                  where ρ6 = ρ/(106 g cm−3 ) and T6 = T /(106 K). In the
+of the EIP. In Sec. III, we consider the OCP liquid and                   nonrelativistic plasma (xr ≪ 1), θ ≈ 0.543 rs /Γe . In
+determine its freezing point. In Sec. IV, we present an                   the ultrarelativistic case (xr ≫ 1), θ ≈ (263 Γe )−1
+                                                                                                                            √ . If
+improved fit to the free-energy contribution due to the                   the electrons are nondegenerate (θ ≫ 1), kTF ae ≈ 3Γe .
+electron screening in a Coulomb liquid. In Sec. V, we                     For strongly degenerate electrons (θ ≪ 1),
+evaluate an analogous contribution for a Coulomb solid
+                                                                                                                   1/4
+and fit it by an analytic expression.                                                      kTF ae ≈ 0.185 (1 + x−2
+                                                                                                                r )    .             (8)
+
+                                                                          The ion quantum parameter η is expressed through xr
+     II. THERMODYNAMIC PARAMETERS                                         and Γ as
+                                                                                                √
+                                                                                    η ≈ 0.3428 Γ xr Z −7/6 A−1/2 .        (9)
+   We consider EIP consisting of pointlike ions and elec-
+trons. The basic dimensionless parameters are the elec-                      Within the aforementioned approximation of weak
+tron density parameter rs and the ion coupling parameter                  electron-ion coupling, the total Helmholtz free energy
+Γ:                                                                        Ftot can be written as
+         ae            (Ze)2                          e2
+  rs =      ,     Γ=          = Γe Z 5/3 ,   Γe =           .   (1)                           (i)    (e)
+                                                                                  Ftot = Fid + Fid + Fee + Fii + Fie ,              (10)
+         a0            kB T a                       kB T ae
+                                                                                   (i,e)
+Here, kB is the Boltzmann constant, ae = ( 43 πne )−1/3                   where Fid denote the ideal free energy of ions and elec-
+is the mean inter-electron distance, a = ( 43 πni )−1/3 =                 trons, respectively, and the last three terms represent
+                                                                                                                                 (i)
+ae Z 1/3 is the mean inter-ion distance, and ne (ni ) de-                 an excess free energy arising from interactions. Fid is
+notes the electron (ion) number density. Γe has a mean-                   the free energy of an ideal Boltzmann gas. For the elec-
+                                                                                                                              (e)
+ing of the coupling parameter for nondegenerate elec-                     trons at arbitrary degeneracy and relativism, Fid can
+trons.                                                                    be expressed through Fermi-Dirac integrals and approx-
+   Quantization of the ionic motion is important if T ≪                   imated by analytic formulae [1]. An analytic parameter-
+Tp = h̄ωp /kB , where ωp = (4πZ 2 e2 ni /mi )1/2 is the ion               ization for the nonideal (exchange and correlation) part
+                                                                                                                                     nr
+plasma frequency, mi being the ion mass. A correspond-                    of the free energy of the nonrelativistic electrons, Fee      ,
+ing dimensionless parameter is                                            has been given in Ref. [9]. For the relativistic electrons,
+                              p                                           the exchange free energy Fxrel has been given, e.g., in Ref.
+                η = Tp /T = Γ 3/RS ,                    (2)               [10], while the correlation corrections are negligible be-
+                                                                          cause they contain an additional small factor ∼ αf ln |αf |
+where                                                                     [11], where αf ≈ 1/137 is the fine-structure constant. In
+                       ami          mi                                    practice, we use the following interpolation between the
+                                 2         7/3
+                RS =       2 (Ze) = m rs Z                      (3)       nonrelativistic and relativistic regimes: if Γe ≥ 0.07 and
+                        h̄           e
+                                                                          rs ≤ 0.13, we set
+is the ion density parameter. We neglect ion quantum-                                      nr
+exchange effects, which is justified if RS ≫ Γ (see, e.g.,                  Fee = (1 − ξ) Fee + ξ Fxrel ,                    (11)
+Ref. [8]).                                                                    ξ = exp[−(Γe /0.07 − 0.9)−2 − (0.13/rs − 0.9)−2 ];
+   The electrons are characterized by the degeneracy pa-
+                                                                                                       nr
+rameter θ and the relativity parameter xr ,                               otherwise we set Fee = Fee      . The interpolation is suffi-
+                                                                          ciently smooth, because Fee and Fxrel closely match each
+                                                                                                      nr
+
+                θ = T /TF ,     xr = pF /(me c),                (4)       other at the chosen boundary between the two regimes.
+                                                                             In the following sections we consider the last two terms
+where TF is the Fermi temperature, c is the speed of                      in Eq. (10), which represent the excess free energy of an
+light, and pF = h̄ (3π 2 ne )1/3 is the Fermi momentum.                   OCP of ions and the contribution due to the ion-electron
+The electron screening properties are determined by the                   interactions, respectively.
+Thomas-Fermi wave number
+                                     1/2
+              kTF = 4πe2 ∂ne /∂µ          ,          (5)                        III. OCP AND MELTING TRANSITION
+
+where µ is the electron chemical potential.
+                                                                            Liquid and solid phases of the OCP have been studied
+  For these parameters, the following estimates are ac-
+                                                                          extensively by various analytic and numerical methods.
+curate within 0.005%:
+                                                                          All the thermodynamic functions of the classical OCP
+  xr ≈ 0.014005 rs−1 ≈ 1.0088 (ρ6 Z/A) ,
+                                              1/3
+                                                                (6)       can be expressed as functions of the only parameter Γ.
+                                                                          At Γ ≪ 1, a diagrammatic cluster expansion yields
+       22.547 xr           5930 p             
+  Γe ≈           , θ−1 ≈            1 + x2r − 1 ,               (7)
+           T6               T6
+
+
+                                                                      2
+                   √
+                                                                                     Γ 2 − B4
+                                                                                                           
+                                                                                                   B1 B2
+                                                     
+         Uii        3 3/2         3            CE   1
+uii ≡           =−    Γ − 3Γ3       ln(3Γ) +      −                           +Γ2 B3 2         −              .            (17)
+        Ni kB T    2              8             2   3                               (Γ + B4 )2   (Γ + B2 )2
+           9/2
+                    √
+        −Γ (1.6875 3 ln Γ − 0.23511) + · · · ,     (12)
+where CE = 0.57721 . . . is the Euler constant. Here, the
+first term is the Debye-Hückel energy, the second one is
+due to Abe [12], and the ∼ Γ9/2 one is due to Cohen
+and Murphy [13]. Since Fii vanishes at high T , it can be
+obtained from Uii by integration:
+                     Z Γ
+             Fii           uii (Γ′ ) ′
+     fii ≡         =                dΓ               (13)
+           Ni kB T      0    Γ′
+             Γ3/2
+                                          
+                      3   3
+         =−   √    −Γ       ln Γ + 0.24225
+                3         8
+           −Γ9/2 (0.64952 ln Γ − 0.19658) + · · · .   (14)
+   The above analytic expansion is not applicable for
+Γ> ∼ 1. The most accurate up to date numerical results
+for the internal energy of the liquid OCP at 1 ≤ Γ ≤ 200
+have been obtained by MC simulations by DeWitt and
+Slattery [6] and by Caillol [7]. These authors have also
+constructed analytic fits to their data with the standard
+deviations comparable to the numerical MC noise. Un-
+fortunately, these fits cannot be extended to small Γ,
+which hampers obtaining the free energy by Eq. (13).
+On the other hand, the hypernetted-chain (HNC) result
+for Fii at Γ = 1 is slightly inaccurate because the HNC
+approximation neglects the so called bridge functions in
+the diagrammatic representation of the interactions. To
+circumvent the difficulty, DeWitt and Slattery [14] used
+small differences between HNC and MC at Γ = 0.8 and
+0.6 to get the corrected value of fii (Γ = 1) = −0.4368.
+   We propose a different approach. We consider the pa-
+rameterization
+             
+                  A1        A3
+                                 
+                                       B1 Γ 2    B3 Γ 2             FIG. 1.       Upper panel: comparison of the fit (15)
+         3/2
+ uii = Γ       √        +          +          + 2       ,        (solid line) with the Debye-Hückel (DH), Abe [12], and Co-
+                Γ + A2     Γ+1        Γ + B2    Γ + B4           hen-Murphy [13] (CM) approximations (dot-dashed lines),
+                                                      (15)       with the MC results (circles) and the fit (dotted line) of
+                √            √                                   Ref. [6] (DWS), and with some of our HNC results (trian-
+where A3 = − 3/2 − A1 / A2 . The terms in square                 gles). Lower panel: residual differences between the fit (15)
+brackets have been used in Ref. [1], the term with B1            and (i) the analytic expansion (12) (dot-dashed line), (ii)
+provides an adjustment of the fit to the MC data at              results of HNC calculations (triangles), (iii) MC results of
+large Γ, and the last term adjusts to Eq. (12) at small Γ.       Ref. [6] (open circles), and (iv) numerical results of Ref. [7]
+The best-fit parameters with respect to the data [6,7] are       (MC+extrapolation).
+given in Table I. Then the free energy can be obtained
+from Eq. (13):                                                     Comparison of Eq. (15) with Eq. (12) at Γ < 1 and
+         hp                    p                      i        with the MC data from Refs. [6,7] at Γ ≥ 1, supplemented
+                                                                 by some of our HNC calculations, is given in Fig. 1. The
+                                           p
+fii = A1     Γ(A2 + Γ) − A2 ln     Γ/A2 + 1 + Γ/A2
+         h√             √ i                                      upper panel displays the ratio uii /Γ3/2 (which is constant
+   +2A3     Γ − arctan Γ                                         in the Debye-Hückel approximation). The magnitude of
+                                                                 the possible error is demonstrated by the lower panel.
+                                              Γ2
+                                             
+                          Γ       B3                             Here, the dot-dashed line shows the difference between
+   +B1 Γ − B2 ln 1 +           +      ln 1 +        . (16)
+                         B2        2          B4                 the approximation (15) with the second set of param-
+                                                                 eters and expansion (12), while various symbols show
+The corresponding expression for heat capacity is                residual differences between the same approximation and
+   CV,ii   Γ3/2
+                
+                      Γ−1          A1 A2
+                                                                numerical (HNC and MC) results. The distribution of
+         =        A3          −                                  the residuals around zero looks irregular, which indicates
+  Ni kB      2       (Γ + 1)2   (Γ + A2 )3/2
+
+                                                             3
+that they represent a numerical noise of the MC calcula-                 IV. ELECTRON SCREENING IN A COULOMB
+tions rather than an error of the fit (15). In addition, we                             LIQUID
+have checked that the difference between our fit to the
+free energy, Eq. (16), and the one in Ref. [6] (at Γ ≥ 1) is               We now consider electron polarization effects in the
+of the order of the aforementioned small uncertainty in                 EIP. In the previous paper [1], we have calculated Fie
+fii (Γ = 1).                                                            using the model developed in Ref. [2] for nonrelativistic
+   More complicated interpolations between the low- and                 EIP. The HNC equations have been solved numerically
+high-Γ limits were proposed previously [15,16]. By con-                 for an effective screened inter-ion potential Veff , which is
+struction, they reproduce exactly Eq. (12) at Γ → 0 and                 the sum of the bare ionic potential and the induced po-
+the fits to MC results at Γ ≫ 1. Compared with the                      larization potential, to obtain Fii +Fie and corresponding
+present fit, however, those interpolations have somewhat                contributions to the internal energy (Uii + Uie ) and pres-
+larger differences from the HNC results at 0.1 < Γ < 1.                 sure (Pii + Pie ). The same equations solved for the bare
+                                                                        Coulomb potential give Fii , Uii , and Pii . The difference
+                                                                        represents the screening (ie) part. Inclusion of the finite-
+                                                                        temperature effects in Veff provides a correct treatment
+                                                                        of the thermodynamic quantities over a wide range of
+                                                                        values of Γ from the Debye-Hückel limit Γ ≪ 1 to the
+                                                                        strong-coupling limit Γ ≫ 1 for various rs and Z.
+                                                                           Relativistic calculations have been performed employ-
+                                                                        ing the same HNC technique but with the Jancovici [3]
+                                                                        dielectric function ε(k, xr ), which is appropriate at strong
+                                                                        degeneracy (θ ≪ 1) and arbitrary xr . The results are in
+                                                                        good agreement with those obtained by Yakovlev and
+                                                                        Shalybkov [11], who have used an equation
+   FIG. 2. Difference between the free energy of the solid
+                                                                                  Fie        Γa ∞
+                                                                                                Z
+OCP given by a 3-parameter fit of Ref. [20] and parameter-
+                                                                         fie ≡          =−             S(k, Γ) [ε(k, xr ) − 1] dk, (18)
+izations for the liquid OCP according to Refs. [19] (SDD;                      Ni kB T       π 0
+short-dashed line), [6] (dotted line), Eq. (16) (solid line), and
+for the solid according to Dubin [18] (dot-dashed line). The            where S(k, Γ) is the static structure factor of ions (i.e.,
+long-dashed lines marked “FH” correspond to the 4-parame-               the Fourier transform of the ion radial distribution
+ter fit and to the ±1σ-uncertainty of the 3-parameter fit in            function). Equation (18) has been derived by Galam
+Ref. [20].                                                              and Hansen [21] using a thermodynamic perturbation
+                                                                        scheme, which can be represented as an expansion in
+   The freezing of Coulomb OCP liquid into a bcc crystal                powers of kTF . We have repeated the calculations [11]
+occurs when the free energy of the solid becomes lower                  using a more recent and accurate S(k, Γ) [22] than in the
+than that of the liquid at Γ = Γm . Nagara et al. [17]                  original work; the change in fie due to this update does
+and Dubin [18], having improved a previous treatment of                 not exceed 4%.
+anharmonic corrections to the free energy of the Coulomb                   Note that Eq. (18) differs from the standard first-order
+crystal, obtained Γm = 172 ± 1. However, these authors                  perturbation approximation by a replacement of [1 − 1/ε]
+employed an older fit [19] (SDD) for the liquid. Figure 2               by [ε − 1]. The resulting difference ≈ (kTF a)3 /6 has the
+shows the differences between fii for the solid and liquid              same order of magnitude as the second-order perturba-
+OCP given by various parameterizations. For the solid,                  tion correction [21]. Our HNC calculations with the Jan-
+we have adopted the three-parameter fit by Farouki and                  covici dielectric function at xr <∼ 1 and Γ ≥ 1 coincide
+Hamaguchi [20] to their molecular dynamics simulations                  within 2% with the results of Ref. [11], whereas the sub-
+in the range 170 ≤ Γ ≤ 400. The horizontal long-dashed                  stitution of [1 − 1/ε] in Eq. (18) yields a considerable
+lines correspond to the standard deviation of that fit.                 difference: for example, for Γ = 1 and Z = 26 this differ-
+The line between them represents a four-parameter fit                   ence approaches 40% even at large xr . We conclude that
+[20] in the same Γ interval. The dot-dashed line shows                  the approximation (18) is very accurate at high densities.
+the difference between the fit of Ref. [20] and that by                    The screening contribution to the free energy of the
+Dubin [18]. The value of Γm indicated above is given by                 Coulomb liquid at 0 < rs <                <
+                                                                                                     ∼ 1, 0 < Γ ∼ 300, and 1 ≤
+the intersection of the latter line with the short-dashed               Z ≤ 26 has been fitted by the expression [1]
+one (SDD). Using updated results for the OCP liquid                                                    √
+(either Ref. [6] or our Eq. (16), represented by the dotted                        Fie             cDH Γe + cTF aΓνe g1 h1
+                                                                          fie ≡          = −Γe        √                 , (19)
+and solid line, respectively) and the OCP solid [20], we                        Ni kB T          1 + b Γe + ag2 Γνe /rs h2
+obtain Γm = 175.0 ± 0.4.                                                                   √ 
+                                                                        where cDH = (Z/ 3) (1 + Z)3/2 − 1 − Z 3/2 ensures ex-
+                                                                                                                      
+                                                                        act transition to the Debye-Hückel limit at Γ → 0,
+                                                                        cTF = (18/175) (12/π)2/3Z 7/3 1 − Z −1/3 + 0.2 Z −1/2
+
+                                                                    4
+reproduces the Thomas-Fermi limit [23] at Z → ∞, the                    A more accurate relativistic correction reads
+parameters a = 1.11 Z 0.475, b = 0.2 + 0.078 (ln Z)2 , and
+ν = 1.16 + 0.08 ln Z provide a low-order approximation                                               1 + x2r /5
+                                                                        h1 (xr ) =                                               . (21)
+to Fie for intermediate rs and Γ, and the functions                                  1 + 0.18 Z −1/4xr + 0.37 Z −1/2x2r + x2r /5
+
+     g1 = 1 + 0.78 21 + Γe (Z/rs )3
+                                   −1
+                                        (Γe /Z)1/2 ,                    The resulting uie [Eq. (20)] is plotted by the solid lines in
+                                                                        Fig. 3. There is now a good agreement with the thermo-
+                                                rs3
+                                          
+              Z −1                1                                     dynamic perturbation expansion [11] at large Γ for any
+     g2 = 1 +         1+
+                 9        0.001 Z 2 + 2Γe 1 + 6 rs2                     xr , without deteriorating the accuracy of the old fit in the
+                                                                        nonrelativistic domain. Quantitatively, for 1 < Γ < 100
+improve the fit at relatively large rs . The results of our             and xr < 0.25, the difference between the fit and the
+nonrelativistic finite-temperature HNC calculations are                 HNC results is typically 2–3%, with maximum 8% for
+reproduced by setting h1 and h2 equal to unity; these                   Z = 1, Γ = 100 and rs = 2.074 (the maximum rs value
+factors come into play in the relativistic case.                        used in the calculations). Note that the model of EIP has
+                                                                        only marginal physical relevance at such large values of rs
+                                                                        and Γ because of the incipient bound-state formation. On
+                                                                        the other hand, at very strong coupling (Γ ≥ 100) and
+                                                                        relativistic densities (xr > 0.1), the results of Ref. [11]
+                                                                        and of our relativistic HNC calculations are reproduced
+                                                                        by our fit with typical deviation of 1–3% (maximum 4.3%
+                                                                        at Z = 6, Γ = 100, and xr = 10).
+
+
+
+
+                                                                           FIG. 4.    Absolute values of the heat capacity of fully
+                                                                        ionized liquid carbon at T = 106 K and 107 K. Dotted
+   FIG. 3. Calculated (filled circles) and fitted (solid lines)         curves show the contributions of the electrons (heavy line –
+normalized contribution to the internal energy due to polar-            ideal Fermi-gas contribution, light line – exchange and cor-
+ization, uie , as function of Γ at different values of xr , Z = 6       relation correction), dashed lines – contributions of the ions
+(left panel) and as function of xr at two values of Z, Γ = 150          (long dashes – ideal-gas part, short dashes – correlation part),
+(right panel). For comparison, approximations [1] (dotted               and dot-dashed curves – ion-electron (polarization) correc-
+lines) and [11] (dashed lines) are also shown.                          tion. The latter curves end at Γ = 175. The dips on the ee
+                                                                        and ie curves signify a change of sign. For the ii and ie contri-
+                                                                        butions, present approximations (heavy lines) are compared
+   In the latter case, the asymptotic behavior of Eq. (19)
+                                                                        with those in Refs. [6] (DWS) and [11] (YS) (light lines).The
+at Γp → ∞ should change from fie ∝ Γrs to fie ∝                         heavy solid line shows the sum of all terms.
+Γrs 1 + x2r . This is achieved simply by setting h2 =
+(1 + x2r )−1/2 . Then the zero-temperature Thomas-Fermi                    The heat capacity per ion in units of kB , CV /Ni kB ,
+limit [23] (rs ≪ 1, Γ → ∞, Z → ∞) is reproduced ex-                     of the classical EIP liquid is shown in Fig. 4 for Z = 6,
+actly.                                                                  T = 106 K and 107 K. These plasma conditions can oc-
+   The factor h1 is devised to correct the fit at finite Z              cur, for example, in interiors of some giant stars or in
+in the relativistic domain. A form chosen previously [1]                accreted envelopes of neutron stars [24]. Various con-
+was not very accurate, as illustrated by the dotted lines               tributions, shown in the figure, correspond to separate
+in Fig. 3 for the internal energy                                       terms in Eq. (10). At relatively low densities, the main
+                                                                        contribution is that of the electrons, with the limiting
+       uie ≡ Uie /(Ni kB T ) = ∂fie (rs , Γ)/∂ ln Γ.        (20)
+
+                                                                    5
+value 32 Z = 9. With increasing ρ, the electron gas be-            ment would consist in calculating the dynamical matrix
+comes degenerate, and its heat capacity decreases. Then            and solving a corresponding dispersion relation for the
+CV is determined by the ion liquid. The Coulomb (ii)               phonon spectrum. The first-order perturbation approxi-
+contribution slightly exceeds the kinetic one ( 23 ) near          mation for the dynamical matrix of a classical Coulomb
+freezing. According to the equipartition theorem, in a             solid with the polarization corrections, based on an ef-
+classical ionic crystal the potential and kinetic contribu-        fective inter-ion potential, was derived by Pollock and
+tions are each equal to 23 (apart from small anharmonic            Hansen [26]. In a quantum crystal, strictly speaking, one
+corrections). This means that freezing is accompanied by           would have to consider the electron-phonon interactions,
+a drop of CV , equal to the excess of the potential contri-        in order to calculate the perturbed spectrum.
+bution over the kinetic one in the ionic liquid just before           As mentioned above, the polarization of the electron
+freezing. We see however that this excess (and hence the           gas is weak at the high densities we are interested in. This
+drop) is not large.                                                suggests a simpler, semiclassical perturbation approach
+   The values of CV,ii determined by Eq. (17) (thick               to evaluate the polarization corrections. The ionic crys-
+dashes) and derived from the fit in Ref. [6] (thin dashes)         tal without ie interactions is a natural reference model.
+are close to each other near the freezing. With decreas-           Note that the effective inter-ion potential in the adia-
+ing density, however, a large difference develops, which           batic perturbation approximation [26] is just the electro-
+is natural because the formula in Ref. [6] is not applica-         static potential, common to the liquid and solid phases.
+ble at small Γ. Of the same origin is the striking dis-            The difference of this potential from the bare Coulomb
+crepancy between the approximations for CV,ie derived              potential can be considered as perturbation. Then we
+from Eq. (19) (thick dot-dashed curve) and from the fit            can apply the Galam-Hansen [21] perturbation theory,
+in Ref. [11] (YS), seen at low ρ. In this domain, our              which is based on the exact expression for the free en-
+fit describes the change of sign of CV,ie from negative            ergy involving an integration over a coupling parameter
+in the strong-coupling regime to positive in the Debye-            related to the “strength” of the perturbation. Thus we
+Hückel domain. However, an appreciable difference with            recover Eq.R (18) in the case of solid, with S(k) replaced
+Ref. [11] persists even at large ρ, where both fits describe       by (4π)−1 S(k)dΩ, where dΩ is a solid angle element in
+fie equally well (within uncertainties in the structure fac-       the direction of k.
+tor). This reflects insufficient accuracy of the present-day          The resulting polarization correction (18) does not take
+determination of the functional form of S(k, Γ) for the            into account quantum aspects of the ie (electron-phonon)
+strongly coupled Coulomb liquid.                                   interactions, but it allows us to study effects arising
+                                                                   from quantum modifications of the ion-ion correlations.
+                                                                   These correlations are described by the structure factor
+  V. ELECTRON SCREENING IN A COULOMB                               S, which depends in this case on k, Γ, and η.
+                 SOLID
+
+            A. Perturbation approximation                                              B. Structure factor
+
+
+   At high densities and below a certain temperature, the            In a crystal, the static structure factor is given by
+ionic Coulomb plasma forms a Wigner crystal. For ex-
+                                                                                    1 X ik·(Ri −Rj ) ik·ûi −ik·ûj
+ample, interiors of cool white dwarfs [25] are expected              S(k, Γ, η) =          e         e     e          ,        (22)
+                                                                                    Ni i,j                          T
+to be in the solid state. The cooling is governed essen-
+tially by the compressibility and heat capacity of their
+interiors, whose central regions are compressed to rel-            where ûi is an operator of ion displacement from an equi-
+ativistic densities. In that case, the main contributions          librium lattice position Ri , and h. . .iT denotes the canon-
+to the internal energy (the zero-temperature electron-gas          ical average. The structure factor (22) can be decom-
+kinetic energy and the ion electrostatic part) do not de-          posed into elastic (or static-lattice) and inelastic parts,
+pend on temperature, so that the heat capacity is entirely
+determined by small temperature-dependent corrections.                     S(k, Γ, η) = S ′ (k, Γ, η) + S ′′ (k, Γ, η).        (23)
+Therefore, evaluation of the polarization corrections for
+the Coulomb solid is important for astrophysical appli-            The elastic part is (e.g., Ref. [27])
+cations.                                                                                                      X′
+   Since the maximum ion frequency in the solid is quite
+                                                                      ′
+                                                                     Ssol (k, Γ, η) = (2π)3 ni e−2W (k,Γ,η)        δ(k − G),   (24)
+small compared to the electron plasma frequency, one                                                          G
+can use the adiabatic (i.e., Born-Oppenheimer) approx-                    P′
+imation, which allows to decouple the electron and ion             where G denotes a summation over all reciprocal lat-
+dynamics. Even so, a calculation of the thermodynamic              tice vectors G but G = 0, and e−2W ≡ hexp(ik · û)i2T is
+functions of a Coulomb solid with allowance for the ie             the Debye-Waller factor. In isotropic (e.g., cubic) crys-
+interactions is a complex problem. A rigorous treat-               tals, one has
+
+
+                                                               6
+             2 W (k, Γ, η) = rT2 (Γ, η) k 2 /3,            (25)        S ′′ (k, Γ, η) ≈ S0′′ (k, Γ, η) ≡ 1 − exp[−2W (k, Γ, η)]. (33)
+
+where rT2 = hû2 iT is the mean-squared ion displacement              As argued in Ref. [4], this approximation is good for use
+(cf. [27]). In a harmonic crystal,                                    in integrals over k at k > qBZ . In papers addressed to
+             "                                  #                    the transport properties of Coulomb plasmas [4,30], in-
+        a2 η µ−1                                                      tegrals over k were truncated from below at k = qBZ . In
+                      
+   2                    ωp          1
+  rT =             +                               , (26)             Eq. (30), however, it is essential to recover the correct
+          Γ     2       ων exp(h̄ων /kB T ) − 1 ph
+                                                                      limiting behavior of S ′′ (k) at k → 0, since [ε − 1] ∝ k −2
+where ν ≡ (q, s), s = 1, 2, 3 enumerates phonon modes,                becomes large in this limit. Therefore we use a piecewise
+q is a phonon wave vector, ων is the frequency, h. . .iph             approximation:
+denotes averaging over phonon wave vectors and polar-                             ′′
+                                                                                   S0                                 (k ≥ k1 ),
+izations, and µn ≡ h(ων /ωp )n iph . In the classical limit               S ′′ =                                                 (34)
+                                                                                   S1′′ ≡ 21 k 2 [∂ 2 S ′′ /∂k 2 ]k→0 (k < k1 ),
+(η → 0), rT2 = µ−2 a2 /Γ; and in the quantum limit
+(η → ∞), rT2 ∼ µ−1 a2 η/(2Γ). Numerical values of µ−1                 where the parameter k1 will be determined below. The
+and µ−2 are given in Table II. At arbitrary η, a con-                 exact result for classical Coulomb plasmas [31] reads
+venient analytic approximation to rT2 is provided by a                S1′′ (k) = (ka)2 /(3Γ). In general case, S1′′ (k) can be found
+model of the harmonic Coulomb crystal [28] which treats               from Eq. (31). At small k, the expression in the square
+two acoustic modes as degenerate Debye modes with                     brackets in Eq. (31) can be replaced by v(R)k 2 , which
+ων = α ωp q/qBZ , where qBZ = (6π 2 ni )1/3 is the equiv-             corresponds to the one-phonon approximation. Chang-
+alent radius of the Brillouin zone, and the longitudinal              ing the order of averaging and summation, we see that
+mode as an Einstein mode with ων = γωp . Accuracy of                  the summation yields delta function δ(k ± q − G); there-
+this model for the thermodynamics of the bcc Coulomb                  fore q = ±k as long as k < min G ≈ 2qBZ . Hence, only
+crystal has been demonstrated in Ref. [29], where the val-            the longitudinal phonon mode contributes in this limit.
+ues α = 0.399 and γ = 0.899 have been derived from the                The frequency of this mode in a Coulomb crystal tends
+requirement that the model should reproduce the exact                 to ωp at small q (e.g., [26]), which enables us to perform
+values of µ−2 and µ2 = 13 . For the fcc lattice we obtain             averaging in Eq. (32). Finally we obtain
+α = 0.413 and γ = 0.892. Using this model, we can
+calculate the second term in Eq. (26), which yields                                                  (ka)2   η
+                                                                                  S1′′ (k, Γ, η) =                 .             (35)
+                                          Z αη                                                        6Γ tanh(η/2)
+         a2 µ−1 η
+                                                      
+   2                      η            2         t dt
+  rT =            +                +                     .
+         Γ     2     3γ (eγη − 1) α3 η 0 et − 1                         In order to test our approximation (34) and to find
+                                                                      the optimum value of k1 , let us consider the electrostatic
+                                                           (27)       energy Uel-st of a Coulomb crystal,
+This approximation ensures the correct classical and                             Uel-st   Γa ∞
+                                                                                              Z
+quantum limits. Between these limits, the maximum de-                  uel-st ≡         =         [S(k) − 1] dk = u′ + u′′ , (36)
+                                                                                Ni kB T    π 0
+viation from accurate numerical results [33] reaches 1.6%
+at η ≈ 9 for both bcc and fcc lattices.                               where, according to Eqs. (23) and (24),
+  According to Eq. (23), Eq. (18) can be rewritten as
+                                                                                            3Γ X′ e−2W (G,Γ,η)
+         ′
+  fie = fie     ′′
+            + fie  ,                                       (28)                      u′ =                                        (37)
+                                                                                             2      (Ga)2
+                                                                                                 G
+   ′       3Γ X    ′ ε(G, xr ) − 1
+  fie =−                           exp[−2W (G, Γ, η)],     (29)
+            2           (Ga)2                                         is the static-lattice part. Baiko et al. [32] have shown
+              G
+                                                                      that
+           Γa ∞ ′′
+              Z
+   ′′
+  fie =−              S (k, Γ, η) [ε(k, xr ) − 1] dk.      (30)                                      r
+            π 0                                                                  u′             rT2     3 a
+                                                                                     = −CM + 2 +               + ···,
+                                                                                 Γ              2a      π 2rT
+  The inelastic part of the structure factor of a harmonic
+crystal reads [4]                                                     where the terms not explicitly written are exponentially
+                         h            i                               small at large Γ. For the inelastic contribution, our model
+                X               2
+   S ′′ = e−2W     eik·R ev(R)k − 1 ,                 (31)            yields u′′ = u′′0 + u′′1 , where
+                   R                                                                                        r
+                                                                            Γa ∞ ′′                            3 Γa
+                                                                                Z
+                   (k · eν )2
+                                                     
+         3h̄                       cos(q · R)                          ′′
+                                                                      u0 =          [S0 (k) − 1] dk = −              ,            (38)
+ v(R) =                                                    (32)              π 0                              π 2rT
+        2mi           k2      ων tanh(h̄ων /2kB T )   ph
+                                                                            Γa k1 ′′
+                                                                                Z
+                                                                       ′′
+(where eν is a phonon polarization vector). A straight-               u1 =          [S1 (k) − S0′′ (k)] dk
+                                                                             π 0
+forward use of this expression is impractical because of a                                              "       √             #
+slow convergence of the sum. For this reason, we employ                     (k1 a)3      η           Γa           3π    rT k1
+                                                                          =                       −       k1 −       erf √      . (39)
+the approximation [4]:                                                        18π tanh(η/2)          π          2 rT       3
+
+
+                                                                  7
+  On the other hand, in the harmonic lattice approxi-                 1 ≤ Z ≤ 92. Not all combinations of the considered pa-
+mation, Uel-st = −Ni CM (Ze)2 /a + Uv /2, where the first             rameters are physically relevant; for instance, at Z = 1
+term represents the energy of a perfect ionic lattice in              and large xr the ion-exchange effects neglected in our
+uniform electron background, CM being the Madelung                    study become important. The use of such extended set
+constant (Table II), and, from the virial theorem, the                of parameters, however, delivers robustness to a fitting
+second term is one half of the vibrational energy of a                formula presented below.
+harmonic crystal,
+                  "                           #
+                     ων       η            µ1 η
+   Uv = 3 Ni kB T                       +         . (40)
+                     ωp eηων /ωp − 1 ph     2
+
+We determine k1 so as to recover the classical limit
+uel-st = −CM Γ + 3/2 at η = 0 and Γ → ∞. This yields
+                           1/3
+            k1      µ−2 − 3
+               =                 ≈ 0.94.         (41)
+           qBZ      µ−2 − 1
+Figure 5 shows uel-st calculated from Eqs. (37)–(39) for
+the bcc crystal at finite η and Γ (dot-dashed lines), com-
+pared with a calculation in which S ′′ is set equal to S0′′ at
+any k (dotted lines) and with results of numerical calcula-
+tions [33]. We see that our modification of the structure
+factor at k < 0.94 qBZ provides a significant improve-
+ment over the model without such modification (denoted
+as HL1 in Ref. [32]).
+
+
+
+
+                                                                         FIG. 6.     Normalized polarization correction fie to the
+                                                                      free energy of a Coulomb crystal. Left panel: log10 (−fie /Γ)
+                                                                      against log10 Γ at Z = 6 for several values of xr . Right panel:
+                                                                      log10 (−fie /Γ) against log10 xr at Γ = 103 for several values
+                                                                      of Z. Solid lines: a classical solid; dot-dashed lines: quantum
+                                                                      effects included. On the left panel, dotted lines show the re-
+                                                                      sults for the classical solid with simplified structure factors,
+                                                                      and dashed lines show the results in a liquid.
+
+                                                                         Some results of our calculations are shown in Fig. 6.
+                                                                      Solid lines correspond to the piecewise approximation
+                                                                      (34) of the structure factor in the classical case (η → 0).
+                                                                      Dashed lines on the left panel reproduce calculations in
+                                                                      the liquid with S(k, Γ) from Ref. [22]. The upper and
+                                                                      lower dotted lines at every value of xr show, respectively,
+                                                                      the results of calculations with the inelastic part of the
+   FIG. 5. Normalized electrostatic energy of a bcc Coulomb           structure factor replaced by S0′′ (as in the HL1 model of
+crystal calculated using the approximate structure factor             Ref. [32]) and by 0 (as in Refs. [4,30]). Compared to these
+given by Eq. (34) (solid lines) compared with analogous calcu-        simplified approximations, the present model provides a
+lations with a model structure factor, Eq. (33) (dotted lines),
+                                                                      smaller discontinuity of fie at the freezing point (near
+and with accurate numerical calculations [33] (triangles). Up-
+                                                                      the ends of the dashed lines). On the other hand, the
+per curve of each type or symbol corresponds to Γ = 200
+                                                                      divergence of the dotted curves towards smaller Γ shows
+and lower one to Γ = 500. Long-dashed line displays the
+Madelung limit.
+                                                                      that the result is still model-dependent. This model de-
+                                                                      pendence disappears at Γ >  ∼ 3000, since the static-lattice
+                                                                      contribution becomes relatively large.
+                         C. Results                                      In reality, at large values of Γ and small values of xr
+                                                                      shown in Fig. 6, the quantization of ionic vibrations be-
+                                                                      comes important. This quantization considerably modi-
+  Using Eqs. (28)–(30) and (33)–(35), we have calculated
+                                                                      fies the structure factor. This effect is taken into account
+the polarization correction fie over a wide range of pa-
+                                                                      by letting η to be finite in Eqs. (27) and (35). Results
+rameters: 80 ≤ Γ ≤ 3 × 104 , 10−2 ≤ xr ≤ 102 , and
+
+                                                                  8
+of the calculations, where η was determined from Eq. (9)
+assuming A = 2Z, are plotted in Fig. 6 by dot-dashed
+lines. The curves on the left panel become flat as η be-
+comes large, which corresponds to an approximate pro-
+portionality fie ∝ Γ. As a consequence, the polarization
+contribution to the specific heat, CV,ie , goes to zero at
+large η (but remains one of the leading contributions, as
+shown below).
+   The numerical results can be fitted by the expression
+
+        fie = −f∞ (xr ) Γ [1 + A(xr ) (Q(η)/Γ)s ] ,    (42)
+
+where
+                                     p
+              f∞ (x) = aTF Z 2/3 b1 1 + b2 /x2 ,
+                       b3 + a3 x2
+               A(x) =              ,
+                        1 + b4 x2
+                       p
+               Q(η) = 1 + (qη)2 ,
+
+and parameters s and b1 –b4 depend on Z:
+                                                                     FIG. 7. Upper panel: difference between polarization cor-
+                                                                   rections to the free energy in the solid and liquid phases at
+             h                                i−1
+          s = 1 + 0.01 (ln Z)3/2 + 0.097 Z −2     ,                Γ = 175, xr = 1, 3, 10. Lower panel: Coulomb coupling
+         b1 = 1 − a1 Z −0.267 + 0.27 Z −1 ,                        parameter at the melting point when polarization corrections
+                                                                   are taken into account.
+                   2.25 1 + a2 Z 5 + 0.222 Z 6
+         b2 = 1 + 1/3                          ,
+                   Z          1 + 0.222 Z 6                           As mentioned in Sec. V A, our treatment of the screen-
+         b3 = a4 /(1 + ln Z),                                      ing contribution is approximate. Nevertheless, we can
+         b4 = 0.395 ln Z + 0.347 Z −3/2.                           use these results in order to demonstrate the importance
+                                                                   of the polarization corrections. On the upper panel of
+The parameter aTF , related to cTF in Eq. (19), is cho-            Fig. 7, the difference ∆fie between fie values in the solid
+sen so as to reproduce the Thomas-Fermi limit [23] at              and liquid Coulomb plasmas at the OCP melting point
+Z → ∞: aTF = (54/175)(12/π)1/3 αf = 0.00352. The                   Γ = 175 is plotted against Z for three values of xr . The
+numerical parameters a1 –a4 and q are slightly different           largest xr = 10 represents virtually the ultrarelativis-
+for bcc and fcc crystals; they are given in Table III.             tic limit. When compared to Fig. 2, this plot shows that
+  For a classical crystal, an average error of the fit is 1%       ∆fie is sufficiently large to affect Γm . This effect is shown
+for all Z, xr , and Γ, and the maximum error is 3.1% at            on the lower panel of Fig. 7, where we have plotted our
+Z = 92, Γ >         4
+              ∼ 10 , and xr ≈ 2. In the quantum case               estimate of Γm at xr = 1 and xr ≫ 1. Since ∆fie re-
+(η 6= 0), the fit is accurate for Z ≥ 3 only. In the range         mains finite at any xr , the classical OCP value Γm = 175
+3 ≤ Z ≤ 30, an average error is 1%, and a maximum 3%               is never exactly recovered even at arbitrarily large ρ.
+occurs at Z = 3, Γ ≈ 100, and xr ≈ 2.                                 Another important effect of the polarization correc-
+                                                                   tions in the solid phase is that on the specific heat CV .
+                                                                   By differentiation of Eq. (42), we obtain
+                        D. Discussion
+                                                                           uie = −f∞ Γ 1 + A (1 − s/Q2 ) (Q/Γ)s ,
+                                                                                                                    
+                                                                                                                              (43)
+                                                                                          1−s
+   The results presented in Fig. 6 indicate that, although               CV,ie             Γ        (qη)2 − 1 + s
+the polarization in a Coulomb crystal is very weak, it                         = f∞ sA                            .           (44)
+                                                                        Ni kB              Q             Q3
+does not vanish even at arbitrarily large Γ and xr . As in
+the case of strongly coupled liquid, fie is roughly propor-        In a classical crystal, CV,ie is only a small negative cor-
+tional to (kTF a)2 , which tends to a finite limit at rela-        rection to the total CV ≈ 3Ni kB . When T decreases
+tivistic densities. The order of magnitude of the screening        much below Tp , the heat capacity of an ionic crystal [29]
+correction δie = Fie /Ftot for a classical Coulomb plasma          goes to zero as CV,i ≈ 1.6Ni kB π 4 /(αη)3 ∝ T 3 , whereas
+at arbitrarily high densities is given by the Thomas-Fermi         the ie contribution becomes positive and decreases as
+result [23], which is reproduced by Eq. (42) at Γ → ∞
+and Z → ∞: δie ≈ 0.004 Z 2/3. Quantitative difference                CV,ie ∼ Ni kB f∞ sA (RS /3q 2 )(1−s)/2 (qη)−1 ∝ T,      (45)
+of the perturbation result at finite Z from the Thomas-
+Fermi limit is quite noticeable, ∼ Z −0.3 .                        at the same rate as the heat capacity of a strongly de-
+                                                                   generate electron gas [11],
+
+                                                               9
+                                      p
+      CV,e ∼ ZNi (kB T /me c2 ) π 2    1 + x2r /x2r .   (46)
+
+Equation (45), derived from the fit (42), agrees with
+the limiting expression at η → ∞ which follows from
+Eqs. (18), (24), (33), and (27):
+                     "
+      CV,ie     π 2 X′ ε(G, xr ) − 1
+             ∼ 3
+      Ni kB    α η                3
+                        G
+                     3 Z ∞
+                                               
+                  2a                        2
+               −           [ε(k, xr ) − 1] k dk . (47)
+                  9π k1
+
+Thus CV,ie becomes larger than CV,i at sufficiently low
+T , which probably signifies that the thermodynamic per-
+turbation theory is violated at this T .
+   The discussed effect is of anharmonic nature. Indeed,
+the harmonic approximation for the Hamiltonian leads
+to the Debye law CV ∝ T 3 , regardless of inclusion of the
+polarization correction in the force matrix. Therefore
+the dependence CV,ie ∝ T in Eqs. (45) and (47) is due
+to the use of the full Coulomb potential (not only its                 FIG. 8.    Absolute values of heat capacity of carbon at
+harmonic part) in the ie interaction energy, which has              high densities for two values of T . The contributions of free
+led to Eq. (18).                                                    electrons, ionic OCP, and electron-ion interaction are shown
+   It is also noteworthy that the modification of the OCP           by dotted, thin solid, and dot-dashed lines, respectively. The
+structure factor by the quantum effects renders CV,ie pos-          thick curve shows the total value. The dashed part of the
+itive. A plain extrapolation of the ie contribution from            latter curve corresponds to the region where the thermody-
+the liquid regime into the solid would be completely in-            namic perturbation theory used in the calculation of CV,ie is
+appropriate, as it would result in a negative total heat            not reliable.
+capacity.
+   The behavior of different contributions to the heat ca-             An improvement of the ii part enables us to deter-
+pacity in the solid phase as function of ρ and T is il-             mine accurately the classical OCP melting point. The
+lustrated in Fig. 8. Here we consider 12 C at 105 K and             Coulomb coupling parameter at the phase transition is
+106 K. In the latter case (the bottom panel) one can see            found to be Γm ≈ 175, slightly larger than a previ-
+also the discontinuities at the liquid-solid phase transi-          ously determined value. An improvement of the ie part
+tion at ρ ≈ 105 g cm−3 , discussed above. As in a liquid,           in the liquid phase yields a better precision at densities
+we can safely neglect the exchange correction, which at             ρ>     6      −3
+                                                                      ∼ 10 g cm , where the electrons are relativistic. Fi-
+xr ≫ 1 is as small as −(αf /2π) CV,e ∼ −10−3 CV,e . At              nally, our estimates of the ie part of the free energy of
+relatively low densities, CV is determined mainly by the            a Coulomb crystal show that it is important for applica-
+ionic contribution. As Tp becomes greater than T with               tions. For example, our results demonstrate that it af-
+increasing density, the phonon contribution to CV freezes           fects the melting of a classical Coulomb crystal and may
+out rapidly, and CV becomes determined by the degen-                contribute appreciably to the heat capacity of a quantum
+erate electron gas, polarized by the electric field of ions.        crystal. Since our calculations for the Coulomb solid are
+   This may have important consequences for astrophys-              based on an approximate method and performed using
+ical applications. In particular, the heat capacity of old          an approximate structure factor, the latter results can
+white dwarfs, whose temperature is so low that their in-            be considered as estimates only. These estimates show,
+teriors are formed of quantum Coulomb crystals [25],                however, that the polarization corrections in Coulomb
+may be substantially influenced by the polarization ef-             crystals are not as unimportant as it was often believed;
+fects [34].                                                         they deserve to be studied further using more elaborate
+                                                                    methods.
+
+                    VI. SUMMARY
+                                                                                   ACKNOWLEDGMENTS
+   We have improved analytic approximations [1] for the
+contributions to the free energy of a Coulomb liquid due               We thank F. Douchin and L. Segretain for useful dis-
+to the ii and ie correlations. In addition, we have sug-            cussions, H. E. DeWitt and T. Kahlbaum for helpful com-
+gested an approximation for the ie contribution to the              munications, and D. A. Baiko and D. G. Yakovlev for crit-
+free energy of a Coulomb crystal.                                   ical remarks. A.Y.P. is grateful to the theoretical astro-
+                                                                    physics group at the Ecole Normale Supérieure de Lyon
+
+                                                               10
+for hospitality and financial support. The work of A.Y.P.            [29] G. Chabrier, Astrophys. J. 414, 695 (1993).
+has been partially supported by INTAS Grant No. 96-542               [30] A. Y. Potekhin, D. A. Baiko, P. Haensel, and D. G.
+and RFBR Grant No. 99-02-18099.                                           Yakovlev, Astron. Astrophys. 346, 345 (1999).
+                                                                     [31] P. Vieillefosse and J. P. Hansen, Phys. Rev. A 12, 1106
+                                                                          (1975).
+                                                                     [32] D. A. Baiko, D. G. Yakovlev, H. E. DeWitt, and W. L.
+                                                                          Slattery, Phys. Rev. E 61, 1912 (2000).
+                                                                     [33] D. A. Baiko, Ph.D. thesis, Ioffe Phys.-Tech. Institute, St.
+                                                                          Petersburg, 2000.
+ [1] G. Chabrier and A. Y. Potekhin, Phys. Rev. E 58, 4941           [34] G. Chabrier, P. Brassard, G. Fontaine, and D. Saumon,
+     (1998).                                                              Astrophys. J. , in press
+ [2] G. Chabrier, J. Phys. (Paris) 51, 1607 (1990).
+ [3] B. Jancovici, Nuovo Cimento, 25, 428 (1962).
+ [4] D. A. Baiko, A. D. Kaminker, A. Y. Potekhin, and D. G.                          TABLE I. Parameters of Eq. (15).a
+     Yakovlev, Phys. Rev. Lett. 81, 5556 (1998).
+                                                                         data       −A1         A2          B1        B2   −B3         B4
+ [5] S. L. Shapiro and S. A. Teukolsky, Black Holes, White
+     Dwarfs, and Neutron Stars: The Physics of Compact Ob-           Ref. [6] 0.9070   0.62954 4.56[−3] 211.6 1.0[−4] 4.62[−3]
+     jects (Wiley, New York, 1983).                                  Ref. [7] 0.907347 0.62849 4.50[−3] 170.0 8.4[−5] 3.70[−3]
+ [6] H. E. DeWitt and W. Slattery, Contrib. Plasma Phys.
+                                                                     a
+     39, 97 (1999).                                                      Powers of 10 are given in square brackets.
+ [7] J. M. Caillol, J. Chem. Phys. 111, 6538 (1999).
+ [8] M. D. Jones and D. M. Ceperley, Phys. Rev. Lett. 76,
+     4572 (1996).                                                               TABLE II. Parameters of Coulomb crystals [33].
+ [9] S. Ichimaru, H. Iyetomi, and S. Tanaka, Phys. Rep. 149,
+                                                                     lattice type       µ−2          µ−1         µ1               CM
+     91 (1987).
+[10] W. Stolzmann and T. Blöcker, Astron. Astrophys., 314,                bcc         12.973 2.798 55 0.511 3875 0.895 929 255 682
+     1024 (1996)                                                           fcc         12.143 2.719 82 0.513 1940 0.895 873 615 195
+[11] D. G. Yakovlev and D. A. Shalybkov, Astrophys. Space
+     Phys. Rev. 7, 311 (1989).
+[12] R. Abe, Progr. Theor. Phys., 21, 475 (1959).
+[13] E. G. D. Cohen and T. J. Murphy, Phys. Fluids 12, 1404                          TABLE III. Parameters of Eq. (42).
+     (1969).
+                                                                     lattice type          a1              a2         a3    a4          q
+[14] H. E. DeWitt (private communication).
+[15] T. Kahlbaum, in Physics of Strongly Coupled Plasmas,                  bcc            1.1866       0.684      17.9     41.5        0.205
+     edited by W. D. Kraeft and M. Schlanges (World Scien-                 fcc            1.1857       0.663      17.1     40.0        0.212
+     tific, Singapore, 1996), p. 99.
+[16] W. Stolzmann and T. Blöcker, Contrib. Plasma Phys.
+     39, 105 (1999).
+[17] H. Nagara, Y. Nagata, and T. Nakamura, Phys. Rev. A,
+     36, 1859 (1987).
+[18] D. H. E. Dubin, Phys. Rev. A 42, 4972 (1990).
+[19] W. L. Slattery, G. D. Doolen, and H. E. DeWitt, Phys.
+     Rev. A 26, 2255 (1982).
+[20] R. T. Farouki and S. Hamaguchi, Phys. Rev. E 47, 4330
+     (1993).
+[21] S. Galam and J. P. Hansen, Phys. Rev. A 14, 816 (1976).
+[22] D. A. Young, E. M. Corey, and H. E. DeWitt, Phys. Rev.
+     A 44, 6508 (1991).
+[23] E. E. Salpeter, Astrophys. J. 134, 669 (1961).
+[24] A. Y. Potekhin, G. Chabrier, and D. G. Yakovlev, As-
+     tron. Astrophys. 323, 415 (1997).
+[25] L. Segretain, G. Chabrier, M. Hernanz, E. Garcı́a-Berro,
+     J. Isern, and R. Mochkovitch, Astrophys. J. 434, 641
+     (1994).
+[26] E. L. Pollock and J. P. Hansen, Phys. Rev. A 8, 3110
+     (1973).
+[27] C. Kittel, Quantum Theory of Solids (Wiley, New York,
+     1963).
+[28] G. Chabrier, N. W. Ashcroft, and H. E. DeWitt, Nature
+     360, 48 (1992).
+
+
+                                                                11
+

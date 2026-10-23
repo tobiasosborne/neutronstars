@@ -1,0 +1,12 @@
+# Notation additions (radiance lane)
+
+Dictionary row format: `| sym | meaning | units | source spellings | defining entry | note |`.
+
+| `B_\lambda` | blackbody (Planck) intensity per unit wavelength, B_lambda = B_nu c/lambda^2 | erg s^-1 cm^-3 sr^-1 (per cm; per nm with 1 nm = 1e-7 cm) | `B_lambda` (rt.planck-function-blambda, Marr & Wilkin 2011) | rt.planck-function-blambda | Companion of the existing `B_\nu(T)`; not the same function as B_nu with lambda = c/nu substituted. |
+| `K_{cd}` | luminous efficacy of monochromatic radiation of frequency 540e12 Hz, exactly 683 lm/W (SI defining constant) | lm W^-1 | `K_cd` (BIPM SI Brochure, printed `Kcd`) | colour.k-cd-luminous-efficacy | Subscript is a text label (cd), braced per spelling rules. |
+| `\sigma` (in rt.planck-integral-stefan-boltzmann latex) | Stefan-Boltzmann constant as printed by Marr & Wilkin | erg cm^-2 s^-1 K^-4 | `σ` / `\sigma` | const.notation-fundamental | Entry latex keeps the paper's `\sigma`; canonical symbol is `\sigma_{SB}` (existing row). No dictionary change. |
+| `R^\infty` (rescaled) | apparent radius at a stated distance; write `R^\infty(123\,\mathrm{pc})` for the rescaled value | km | `R∞ (d140 km)` | surface.rxj1856-rinf-ho2007-rescaled-123pc | Existing canonical `R^\infty`; this only fixes the call form with an explicit distance argument. `d_{140} = d/(140 pc)` is the Ho07 scaled distance. |
+| `k_B` | Boltzmann constant | J K^-1 (erg K^-1 CGS) | `k` (Marr & Wilkin 2011, eqs. 1-2) | rt.planck-function-bnu, rt.planck-function-blambda | Review r1 bridge: source `k` -> project `k_B`. |
+| `\sigma_{SB}` | Stefan-Boltzmann constant | erg cm^-2 s^-1 K^-4 | `σ` / `\sigma` (Marr & Wilkin eq. 9) | rt.planck-integral-stefan-boltzmann | Review r1 bridge: source `\sigma` -> project `\sigma_{SB}`. Replaces the "no dictionary change" row above. |
+| `D` | distance to the source | pc (cm CGS) | `d` (Marr-independent; Ho 2007 `d`, `d_{140}`) | surface.rxj1856-rinf-ho2007-rescaled-123pc | Review r1 bridge: source `d` -> project `D`; `d_{140} = D/(140 pc)`. |
+| `R_{em}^\infty` | Ho 2007's apparent emission radius R^inf (before the Sec. 6 redshift step to R_em) | km | `R∞` (Ho 2007 Sec. 6, `\rinfty`) | surface.rxj1856-rinf-ho2007-rescaled-123pc | Review r1 bridge: written `R_{em}^\infty` to avoid colliding with the whole-star `R^\infty` row above; supersedes that row's call form `R^\infty(123 pc)` for this entry. |

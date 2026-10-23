@@ -1,0 +1,487 @@
+# truth/entries/colour.toml -- colour domain: Reinhard et al. 2002 tone mapping and Stokes et al. 1996 sRGB.
+# Stokes equations are GIF images; equation text is read from refs/data/stokes_1996_srgb_img and cross-listed in refs/stokes_1996_srgb_equations.txt, so ocr = poor and anchors are nearby prose.
+
+[[entry]]
+id = "colour.reinhard-log-average-luminance"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Log-average (world) luminance, Reinhard eq. 1"
+statement = "Reinhard et al. define the log-average luminance of the scene, used as an approximation to the scene key, from the world luminance L_w(x,y) of all N pixels with a small offset delta that avoids the singularity at black pixels. AS PRINTED in this tech report (p. 4 page image) the prefactor 1/N stands outside the exponential, i.e. (1/N) exp(sum log(delta+L_w)), which is not the geometric mean described by the prose name 'log-average'; the form exp((1/N) sum log(delta+L_w)) would be the geometric mean. Record the printed form and flag it; the reboot must not silently pick one."
+latex = "\\bar{L}_w = \\frac{1}{N}\\exp\\left(\\sum_{x,y}\\log\\left(\\delta + L_w(x,y)\\right)\\right)"
+source = "reinhard_2002_tonemapping"
+locator = "eq. 1 (p. 4)"
+anchor = "view the log-average luminance as a useful approximation to the"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor matches Reinhard txt 188-197; p.4 image shows 1/N outside exp; printed form flagged in statement." }]
+depends_on = ["colour.notation-reinhard-luminance", "colour.notation-reinhard-parameters"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:163"
+notes = "Layout text of the equation is split across lines (1/N above, sum below); form read from the rendered page 4 image. Printed form appears to contain a typo relative to the stated intent (log-average); verify against the SIGGRAPH 2002 published version before implementing. v1 code never computed L_avg (default L_avg=1.0)."
+
+[[entry]]
+id = "colour.reinhard-scaled-luminance"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Scaled luminance with key value a, Reinhard eq. 2"
+statement = "The world luminance is linearly scaled so that the log-average luminance maps to the key value a (default middle-grey 0.18), giving the scaled luminance L(x,y) that is the input of the tone-mapping operators."
+latex = "L(x,y) = \\frac{a}{\\bar{L}_w} L_w(x,y)"
+source = "reinhard_2002_tonemapping"
+locator = "eq. 2 (p. 4)"
+anchor = "where L(x, y) is a scaled luminance and a = 0.18."
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and eq. 2 match; fraction and subscripts visually confirmed." }]
+depends_on = ["colour.reinhard-log-average-luminance", "colour.notation-reinhard-luminance", "colour.notation-reinhard-parameters"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:165"
+notes = "Fraction a over L-bar_w is split across lines in the text extraction; read from page 4 image."
+
+[[entry]]
+id = "colour.reinhard-simple-operator"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Simple global tone-mapping operator, Reinhard eq. 3"
+statement = "The simple global operator maps the scaled luminance L to display luminance Ld = L/(1+L): high luminances are compressed by about 1/L, low luminances are left scaled by 1."
+latex = "L_d(x,y) = \\frac{L(x,y)}{1 + L(x,y)}"
+source = "reinhard_2002_tonemapping"
+locator = "eq. 3 (p. 4)"
+anchor = "tone mapping operator with these characteristics is given by:"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor, denominator and asymptotics match; eq. 3 visually confirmed." }]
+depends_on = ["colour.reinhard-scaled-luminance"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:166"
+notes = "v1 tone_map_reinhard implements eq. 3 applied to key*L/L_avg."
+
+[[entry]]
+id = "colour.reinhard-white-operator"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Global operator with burn-out Lwhite, Reinhard eq. 4"
+statement = "Extension of eq. 3 allowing high luminances to burn out in a controllable fashion: a blend between eq. 3 and a linear mapping, with L_white the smallest luminance mapped to pure white."
+latex = "L_d(x,y) = \\frac{L(x,y)\\left(1 + \\frac{L(x,y)}{L_{\\rm white}^{2}}\\right)}{1 + L(x,y)}"
+source = "reinhard_2002_tonemapping"
+locator = "eq. 4 (p. 4)"
+anchor = "where Lwhite is the smallest luminance that will be mapped to pure"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Optional burn-out extension; not needed for Milestones 1-3." }]
+depends_on = ["colour.reinhard-simple-operator", "colour.notation-reinhard-luminance"]
+notes = "Not implemented in v1 (v1 uses eq. 3 only). The extracted layout is garbled; formula read from page 4 image."
+
+[[entry]]
+id = "colour.reinhard-lwhite-limits"
+kind = "result"
+provenance = "derivable"
+ownership = "stub"
+domain = "colour"
+name = "Limits of the Lwhite operator"
+statement = "If L_white is set to the maximum scene luminance L_max or higher, no burn-out occurs; if L_white is set to infinity the operator of eq. 4 reverts to eq. 3."
+latex = "L_{\\rm white}\\to\\infty:\\ \\text{eq. 4}\\to\\text{eq. 3}"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, text after eq. 4"
+anchor = "function reverts to Equation 3."
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Needed only for optional white operator." }]
+depends_on = ["colour.reinhard-white-operator", "colour.reinhard-simple-operator"]
+
+[[entry]]
+id = "colour.reinhard-lwhite-default"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Default choice of Lwhite"
+statement = "By default L_white is set to the maximum luminance in the scene, L_max; applied to low-dynamic-range scenes (L_max < 1) this gives a subtle contrast enhancement."
+latex = "L_{\\rm white} = L_{\\max}"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, text after eq. 4"
+anchor = "maximum luminance in the scene. If this default is applied to scenes"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Needed only for optional white operator." }]
+depends_on = ["colour.reinhard-white-operator"]
+
+[[entry]]
+id = "colour.reinhard-key-default"
+kind = "constant"
+domain = "colour"
+name = "Default key value a = 0.18"
+statement = "For normal-key scenes, the authors choose a = 0.18 in eq. 2 to target middle-grey, before tone compression."
+latex = "a = 0.18"
+value = 0.18
+units = "1"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, before eq. 2"
+anchor = "of the displayed image, or 0.18 on a scale from zero to one."
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "accepted reviewer wording" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Anchor matches; a=0.18 middle-grey target agrees." }]
+depends_on = ["colour.reinhard-scaled-luminance"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:163"
+
+[[entry]]
+id = "colour.reinhard-key-range"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Typical range of key value a"
+statement = "Reinhard et al. typically vary a from 0.18 up to 0.36 and 0.72, and down to 0.09 and 0.045, for high-key and low-key images (examples 0.09, 0.18, 0.36, 0.72 in Figure 5)."
+latex = "a \\in \\{0.045, 0.09, 0.18, 0.36, 0.72\\}"
+value = "0.045 to 0.72"
+units = "1"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, after eq. 2"
+anchor = "different values of a. We typically vary a from 0.18 up to 0.36 and"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Optional presets; unnecessary for Milestones 1-3." }]
+notes = "The value field is a range string because the source gives a discrete set of typical values."
+
+[[entry]]
+id = "colour.reinhard-key-value-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Key value"
+statement = "The value of the parameter a in eq. 2 is called the key value, because it relates to the key of the image after applying the scaling."
+latex = "\\text{key value} \\equiv a"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, after eq. 2"
+anchor = "of parameter a the “key value”, because it relates to the key of the"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor and definition match." }]
+depends_on = ["colour.reinhard-scaled-luminance"]
+
+[[entry]]
+id = "colour.reinhard-log-average-as-key"
+kind = "approximation"
+domain = "colour"
+name = "Log-average luminance as scene key"
+statement = "The log-average luminance of the scene is taken as a useful approximation to the subjective key of the scene; eq. 2 scales the estimated scene key to a before tone compression (middle-grey 0.18 for normal-key scenes); for low-key or high-key images the user chooses a different a."
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, section 3.1"
+anchor = "view the log-average luminance as a useful approximation to the"
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "reviewer wording" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Heuristic attribution and user adjustment match." }]
+depends_on = ["colour.reinhard-log-average-luminance"]
+validity = "Normal-key scenes with a=0.18; low-key/high-key scenes require a user-chosen a (0.045 to 0.72 typical). Not a physical quantity: an aesthetic exposure choice."
+notes = "Candidate APPROXIMATION node for the display model of the PRD: exposure is an explicit choice, not physics."
+
+[[entry]]
+id = "colour.reinhard-global-limitation"
+kind = "approximation"
+domain = "colour"
+name = "Global operator loses detail at very high dynamic range"
+statement = "For many high-dynamic-range images the compression of the global operators (eq. 3, eq. 4) preserves detail in low-contrast areas, but for very high dynamic range images important detail is still lost; the authors then use a local dodging-and-burning operator."
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, after eq. 4"
+anchor = "dynamic range images important detail is still lost."
+ocr = "good"
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "reviewer wording" }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Qualitative detail-loss warning matches; no numeric threshold." }]
+depends_on = ["colour.reinhard-simple-operator"]
+validity = "Qualitative limitation: very high dynamic range can lose detail; no universal adequacy threshold is established."
+notes = "Relevant to PRD: the 15-decade dynamic range of the flyby makes the display model a scientific choice."
+
+[[entry]]
+id = "colour.reinhard-bounded-output"
+kind = "result"
+provenance = "derivable"
+ownership = "stub"
+domain = "colour"
+name = "Eq. 3 output bounded to the displayable range"
+statement = "The simple operator is guaranteed to bring all luminances within a displayable range (for L >= 0, L_d = L/(1+L) lies in [0,1)); high luminances are scaled by approximately 1/L and low luminances by 1."
+latex = "L \\ge 0 \\Rightarrow 0 \\le L_d < 1"
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, after eq. 3"
+anchor = "Note that high luminances are scaled by approximately 1/L, while"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Anchor matches; interval is a correctly flagged consequence for finite L>=0." }]
+depends_on = ["colour.reinhard-simple-operator"]
+notes = "The source states only 'guaranteed to bring all luminances with a displayable range'; the interval [0,1) is the elementary consequence of eq. 3 for L>=0, stated here as the checkable form."
+
+[[entry]]
+id = "colour.zone-system-middle-grey"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Middle grey is 18% reflectance (zone V)"
+statement = "In the Zone System, a surface the photographer perceives as middle-grey is typically mapped to print zone V, which corresponds to 18% reflectance of the print; this motivates the default key value 0.18."
+latex = "\\text{zone V} \\leftrightarrow 0.18"
+value = 0.18
+units = "1"
+source = "reinhard_2002_tonemapping"
+locator = "p. 3, section 2"
+anchor = "mapped to zone V, which corresponds to the 18% reflectance of the"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Historical motivation; not needed." }]
+depends_on = ["colour.reinhard-key-default"]
+
+[[entry]]
+id = "colour.reinhard-dynamic-range-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Dynamic range of a scene (computer graphics)"
+statement = "In computer graphics the dynamic range of a scene is expressed as the ratio of the highest scene luminance to the lowest scene luminance; photographers instead use the ratio of the highest and lowest luminance regions where detail is visible, expressed in zones (differences of log scene luminance)."
+latex = "\\mathrm{DR} = L_{\\max} / L_{\\min}"
+source = "reinhard_2002_tonemapping"
+locator = "p. 3, section 2 (Dynamic range)"
+anchor = "scene is expressed as the ratio of the highest scene luminance"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Ratio and photographic distinction match; introduced notation disclosed." }]
+notes = "L_min is not given a symbol in the source; the symbol is introduced here only to write the ratio."
+
+[[entry]]
+id = "colour.notation-reinhard-luminance"
+kind = "notation"
+domain = "colour"
+name = "Luminance symbols of the Reinhard operator"
+statement = "Luminance quantities used by the Reinhard global tone-mapping operator. L_w is the world luminance per pixel; L-bar_w its log-average; L the scaled luminance; L_d the display luminance in [0,1); L_max the maximum scene luminance; L_white the smallest luminance mapped to pure white. The source does not state physical units for L_w; L, L_d are dimensionless."
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, section 3.1"
+anchor = "is the “world” luminance for pixel"
+ocr = "good"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "L_d in [0,1) is false for eq. 4 (burn-out); CGS/stilb assertion not established locally." }]
+notes = "L_white enters eq. 4 as L(x,y)/L_white^2 where L is scaled and dimensionless, so L_white is a scaled (dimensionless) luminance; the paper's L_max (= max of Lw) is in world units. The source is loose about this distinction; the reboot must define L_white and L_max in the same space (see the L_white default entry, which sets L_white=L_max)."
+symbols = [
+  { sym = "L_w", meaning = "world luminance of pixel (x_pix,y_pix), scene luminance before scaling; source-unspecified units (absolute CGS/stilb is not asserted)", units = "source-unspecified (luminance)" },
+  { sym = "\\bar{L}_w", meaning = "log-average luminance of the scene (eq. 1), same units as L_w", units = "source-unspecified (luminance)" },
+  { sym = "L_{sc}(x_{pix},y_{pix})", sym_source = "L(x,y)", aliases = ["L(x,y)"], meaning = "scaled luminance after key scaling, eq. 2", units = "1" },
+  { sym = "L_d", meaning = "display luminance output of the tone-mapping operator, eq. 3-4; eq. 4 permits values above 1 when L_sc exceeds L_white", units = "1" },
+  { sym = "L_{max}", meaning = "maximum scaled luminance in the scene, L_max = max L_sc (for use with eq. 4, alongside L_white)", units = "1" },
+  { sym = "L_{white}", meaning = "smallest scaled luminance mapped to pure white, eq. 4 (threshold in scaled luminance, same scale as L_sc)", units = "1" },
+]
+conflicts_with = ["eos.notation-structure"]
+adopted = false
+conflict_notes = ["L: Bare L retired. PPP15 local luminosity -> L_{ph}; Reinhard scaled luminance -> L_{sc}(x_{pix},y_{pix})."]
+
+[[entry]]
+id = "colour.notation-reinhard-parameters"
+kind = "notation"
+domain = "colour"
+name = "Parameters of the Reinhard operator"
+statement = "Parameters of the Reinhard global operator: pixel position, total pixel count, black-pixel offset and key value."
+source = "reinhard_2002_tonemapping"
+locator = "p. 4, eq. 1-2 text"
+anchor = "total number of pixels in the image and δ is a small value to avoid"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "a_key meaning replaced per reviewer; text confirmed vs Reinhard 195-211." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Pixel count, offset, key definitions agree." }]
+notes = "Subscripts pix, L, key added to the paper's N, delta, a to avoid clashes with other domains in the shared notation dictionary."
+symbols = [
+  { sym = "x_{pix}", sym_source = "x", aliases = ["(x,y)"], meaning = "pixel x coordinate in the image", units = "1" },
+  { sym = "y_{pix}", sym_source = "y", aliases = ["(x,y)"], meaning = "pixel y coordinate in the image", units = "1" },
+  { sym = "N_{pix}", meaning = "total number of pixels in the image (paper symbol N)", units = "1" },
+  { sym = "\\delta_{L}", meaning = "small offset added to luminance to avoid the singularity at black pixels (paper symbol delta)", units = "same as L_w" },
+  { sym = "a_{key}", meaning = "key value, key value; target scaled luminance in eq. 2, before tone compression; paper symbol a; default 0.18", units = "1" },
+]
+conflicts_with = ["colour.notation-chromaticity", "rt.notation-mcphac"]
+adopted = false
+conflict_notes = ["y: Chromaticity keeps x, y, z. Reinhard pixel position -> (x_{pix},y_{pix}); McPHAC column depth y -> m."]
+
+[[entry]]
+id = "colour.notation-cie-xyz"
+kind = "notation"
+domain = "colour"
+name = "CIE XYZ and sRGB tristimulus symbols"
+statement = "CIE 1931 XYZ tristimulus values of the scene and the linear and non-linear sRGB tristimulus values used in the sRGB specification."
+source = "stokes_1996_srgb"
+locator = "eq. 1.1, 1.2"
+anchor = "sRGB tristimulus values for the illuminated objects of the scene"
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "unconfirmed normalisation assertion removed; symbols supported by Stokes 786-806." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "CIE XYZ and linear/encoded sRGB supported; unsupported normalisation removed." }]
+notes = "XYZ normalisation is unspecified here; no absolute radiance-to-XYZ scale is established."
+symbols = [
+  { sym = "X", meaning = "CIE 1931 tristimulus value X", units = "same as Y" },
+  { sym = "Y", meaning = "CIE 1931 tristimulus value Y (luminance-like; photometric normalisation not stated in this source)", units = "source-unspecified" },
+  { sym = "Z", meaning = "CIE 1931 tristimulus value Z", units = "same as Y" },
+]
+conflicts_with = ["opacity.notation-particles-plasma", "rt.notation-cond-matter-dielectric"]
+adopted = true
+adopted_syms = ["Z"]
+conflict_notes = ["Z: Bare Z is the CIE tristimulus value. Ion charge number -> Z_{ion} (mass number A -> A_{ion})."]
+
+[[entry]]
+id = "colour.srgb-xyz-to-linear-matrix"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "CIE XYZ to linear sRGB matrix (Stokes eq. 1.1)"
+statement = "sRGB tristimulus values are linear combinations of CIE 1931 XYZ values via the 3x3 matrix given in the sRGB proposal, quoted to four decimal places."
+latex = "\\begin{pmatrix}R_{sRGB}\\\\G_{sRGB}\\\\B_{sRGB}\\end{pmatrix}=\\begin{pmatrix}3.2410&-1.5374&-0.4986\\\\-0.9692&1.8760&0.0416\\\\0.0556&-0.2040&1.0570\\end{pmatrix}\\begin{pmatrix}X\\\\Y\\\\Z\\end{pmatrix}"
+source = "stokes_1996_srgb"
+locator = "eq. 1.1"
+anchor = "sRGB tristimulus values for the illuminated objects of the scene"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. 1.1 coefficients and signs confirmed on srgb09.gif." }]
+depends_on = ["colour.notation-cie-xyz"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:135"
+notes = "Values read from refs/data/stokes_1996_srgb_img/srgb09.gif (equation is an image; absent from the .txt). Stokes 1996 rounds to 4 d.p.; v1 used 3.2406255 etc. attributed to IEC 61966-2-1 (not in refs/), so v1 values are NOT supported by a local source."
+
+[[entry]]
+id = "colour.srgb-transfer-linear"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB encoding, linear segment (Stokes eq. 1.2a)"
+statement = "For linear sRGB values at or below the threshold 0.00304 the non-linear value is 12.92 times the linear value."
+latex = "R_{sRGB},G_{sRGB},B_{sRGB}\\le 0.00304:\\quad R'_{sRGB}=12.92\\times R_{sRGB}\\ (\\text{same for }G,B)"
+source = "stokes_1996_srgb"
+locator = "eq. 1.2a"
+anchor = "to nonlinear sR'G'B' values as follows:"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. 1.2a confirmed on srgb10/11.gif." }]
+depends_on = ["colour.notation-cie-xyz"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:148"
+notes = "Read from srgb10.gif and srgb11.gif. Threshold is 0.00304 in Stokes 1996; v1 used 0.0031308 (IEC 61966-2-1 revision) -- unsupported by local sources."
+
+[[entry]]
+id = "colour.srgb-transfer-power"
+kind = "equation"
+domain = "colour"
+name = "sRGB encoding, power segment (Stokes eq. 1.2b)"
+statement = "For linear sRGB values above 0.00304 the non-linear value is 1.055 times the linear value raised to 1/2.4, minus 0.055."
+latex = "R_{sRGB},G_{sRGB},B_{sRGB}> 0.00304:\\quad R'_{sRGB}=1.055\\times R_{sRGB}^{(1.0/2.4)}-0.055\\ (\\text{same for }G,B)"
+source = "stokes_1996_srgb"
+locator = "eq. 1.2b"
+anchor = "to nonlinear sR'G'B' values as follows:"
+ocr = "poor"
+image_verified = true
+provenance = "convention"
+ownership = "leaf"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "disputed: srgb13.gif read directly shows R'=1.055*R^(1.0/2.4)-0.055, G'=...G..., B'=...B... on three rows; no repeated red input. Entry unchanged." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Vision of srgb12/13.gif confirms >0.00304, 1.055, 1/2.4, 0.055." }]
+depends_on = ["colour.notation-cie-xyz", "colour.srgb-transfer-linear"]
+v1_ref = "archive/v1/src/colorimetry/cie_srgb.jl:150"
+notes = "Read from srgb12.gif and srgb13.gif."
+
+[[entry]]
+id = "colour.srgb-d65-white-chromaticity"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "D65 white chromaticity in sRGB definition"
+statement = "CIE chromaticities of Standard Illuminant D65 as given in Table 0.2: x=0.3127, y=0.3290, z=0.3583. NOTE the same document's Table 0.1 gives y=0.3291 for the illuminant white; internal inconsistency of the source."
+latex = "(x,y,z)_{D65}=(0.3127,\\,0.3290,\\,0.3583)"
+value = "0.3127, 0.3290, 0.3583"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2 (cf. Table 0.1)"
+anchor = "TABLE 0.2 CIE chromaticities for ITU-R BT.709 reference primaries and CIE standard illuminant"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Table 0.2 values match; 0.3291 conflict disclosed." }]
+notes = "Table 0.2 numbers are interleaved in the .txt; read from the HTML source of the table. Table 0.1 (txt line 621): x = 0.3127, y = 0.3291."
+
+[[entry]]
+id = "colour.srgb-primaries-chromaticity"
+kind = "datum"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB (ITU-R BT.709) primaries chromaticities"
+statement = "CIE chromaticities (x,y,z) of the red, green and blue primaries: red (0.6400,0.3300,0.0300), green (0.3000,0.6000,0.1000), blue (0.1500,0.0600,0.7900)."
+latex = "(x,y)_R=(0.6400,0.3300),\\ (x,y)_G=(0.3000,0.6000),\\ (x,y)_B=(0.1500,0.0600)"
+value = "R 0.6400,0.3300; G 0.3000,0.6000; B 0.1500,0.0600"
+units = "1"
+source = "stokes_1996_srgb"
+locator = "Table 0.2"
+anchor = "TABLE 0.2 CIE chromaticities for ITU-R BT.709 reference primaries and CIE standard illuminant"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All nine coordinates match HTML table." }]
+notes = "Read from the HTML table; values interleaved in the .txt."
+
+[[entry]]
+id = "colour.srgb-inverse-transfer-linear"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB decoding, linear segment (Stokes eq. 1.7a)"
+statement = "Inverse of eq. 1.2a: when the condition holds the linear value is the encoded value divided by 12.92. The condition is printed (srgb18.gif) as R_sRGB, G_sRGB, B_sRGB <= 0.03928, on the unprimed symbols; read as a threshold on the encoded values it matches 12.92 x 0.00304 = 0.0393 to 4 s.f. This reading is an editorial interpretation, not printed."
+latex = "R_{sRGB},G_{sRGB},B_{sRGB}\\le 0.03928:\\quad R_{sRGB}=R'_{sRGB}\\div 12.92"
+source = "stokes_1996_srgb"
+locator = "eq. 1.7a"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "printed condition transcribed faithfully (srgb18.gif verified); editorial reading separated." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "12.92x0.00304 = 0.03928 at 4 s.f., not 0.0393; statement wrong." }]
+depends_on = ["colour.srgb-transfer-linear"]
+notes = "Read from srgb18.gif, srgb19.gif. Printed condition uses unprimed symbols; latex records it as printed. Editorial reading: the threshold applies to the encoded (primed) values."
+
+[[entry]]
+id = "colour.srgb-inverse-transfer-power"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "sRGB decoding, power segment (Stokes eq. 1.7b)"
+statement = "Inverse of eq. 1.2b: for encoded values above 0.03928 the linear value is ((encoded + 0.055)/1.055) raised to 2.4. AS PRINTED the G and B rows of the image use R' in the right-hand side (copy-paste typo); the intended relation is per channel."
+latex = "R'_{sRGB}>0.03928:\\quad R_{sRGB}=\\left[\\frac{R'_{sRGB}+0.055}{1.055}\\right]^{2.4}\\ (\\text{same for }G,B)"
+source = "stokes_1996_srgb"
+locator = "eq. 1.7b"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "reject", note = "Entry as written is wrong: statement claims G/B rows use R' (srgb21.gif shows per-channel rows, so claim is false) and latex repairs the printed unprimed branch condition without flagging it. Replacement entry needed with printed condition R_sRGB,G_sRGB,B_sRGB > 0.03928." }]
+depends_on = ["colour.srgb-transfer-power", "colour.srgb-inverse-transfer-linear"]
+notes = "Read from srgb20.gif, srgb21.gif. Continuity check: 1.055*0.00304^(1/2.4)-0.055 = 0.0393 = 12.92*0.00304."
+
+[[entry]]
+id = "colour.srgb-linear-to-xyz-matrix"
+kind = "equation"
+provenance = "convention"
+ownership = "leaf"
+domain = "colour"
+name = "Linear sRGB to CIE XYZ matrix (Stokes eq. 1.8)"
+statement = "Inverse transformation from linear sRGB tristimulus values to CIE 1931 XYZ, with the four-decimal matrix of the sRGB proposal."
+latex = "\\begin{pmatrix}X\\\\Y\\\\Z\\end{pmatrix}=\\begin{pmatrix}0.4124&0.3576&0.1805\\\\0.2126&0.7152&0.0722\\\\0.0193&0.1192&0.9505\\end{pmatrix}\\begin{pmatrix}R_{sRGB}\\\\G_{sRGB}\\\\B_{sRGB}\\end{pmatrix}"
+source = "stokes_1996_srgb"
+locator = "eq. 1.8"
+anchor = "The reverse relationship is defined as follows;"
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. 1.8 confirmed on srgb22.gif." }]
+depends_on = ["colour.srgb-xyz-to-linear-matrix"]
+notes = "Read from srgb22.gif. The middle row (0.2126, 0.7152, 0.0722) gives the luminance Y of linear sRGB, relevant to applying the Reinhard operator to luminance only."

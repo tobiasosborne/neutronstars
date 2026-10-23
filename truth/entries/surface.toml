@@ -1,0 +1,790 @@
+# Domain "surface": dipole geometry, Greenstein-Hartke 1983 temperature relation,
+# Potekhin-Pons-Page 2015 Tb-Ts envelope fit (App. B), Teff definition, uniformity statements.
+# Every entry: status = "proposed". Poor-OCR equations were read off the PDF page images by the
+# proposer (image_verified left unset: a reviewer must re-read the page).
+
+# ------------------------------------------------------------------ NOTATION
+[[entry]]
+id = "surface.notation-geometry"
+kind = "notation"
+domain = "surface"
+name = "Surface/viewing geometry symbols (GH83, PPP15, PHC16)"
+statement = "Angles used for magnetic colatitude, field inclination, and the pole/line-of-sight geometry. Note the sources reuse the letter theta for different angles; the project symbols here are disambiguated."
+symbols = [
+  { sym = "\\theta_B", sym_source = "θ_B", aliases = ["beta (GH83)", "theta (PPP15)", "θ_B"], meaning = "magnetic colatitude: polar angle on the stellar surface measured from the magnetic axis (written beta in GH83 eq. 15 and theta in PPP15 App. B)", units = "rad", units_source = "1" },
+  { sym = "\\Phi_B", sym_source = "Φ", aliases = ["Φ_B"], meaning = "angle between the magnetic field lines and the local horizontal (surface tangent plane) (GH83 Fig. 1, Phi)", units = "rad" },
+  { sym = "\\Psi_{pole}", sym_source = "Ψ", aliases = ["Ψ_pole"], meaning = "geographic colatitude (angle from the rotation axis) of a magnetic pole (GH83 Fig. 3, Psi)", units = "rad" },
+  { sym = "\\theta_{los}", sym_source = "θ", aliases = ["θ_los"], meaning = "colatitude of the line of sight to the observer measured from the rotation axis (written theta in GH83 Fig. 3)", units = "rad" },
+  { sym = "\\phi_{rot}", sym_source = "φ", aliases = ["φ_rot"], meaning = "pulsar rotational phase, phi = Omega t (GH83 eq. 21 and Fig. 3 caption)", units = "rad" },
+  { sym = "\\psi_{pole}", sym_source = "α", aliases = ["α_pole"], meaning = "angle between the normal to a magnetic pole and the line of sight to the observer (GH83 Sect. III a; written alpha)", units = "rad" },
+]
+conflicts_with = ["const.notation-atomic", "gr.notation-geometry", "gr.notation-pechenick", "obs.notation-rxj1856-photometry", "obs.notation-rxj1856-spectral", "opacity.notation-modes-polarization", "opacity.notation-particles-plasma", "opacity.notation-photon-cyclotron", "rt.notation-cond-energies-geometry", "rt.notation-spw09"]
+adopted = true
+adopted_syms = ["theta_B"]
+conflict_notes = ["alpha: Bel02 emission angle keeps \\alpha. Renamed: Pech83 polar-cap radius -> \\theta_{cap}; CODATA/PLCH04 fine-structure -> \\alpha_f; PC03/PLCH04 cyclic polarisation index -> \\alpha_{pol}; Kaplan11 optical index -> \\alpha_{opt}; SPW09 B-k angle -> \\theta_{kB}; SPW09 albedo -> \\varpi_\\nu^j; GH83 pole-to-sight angle -> \\psi_{pole}; Pot12 incident/reflected k-B angles -> \\theta_{kB}^{(i)}, \\theta_{kB}^{(r)}, \\theta_{kB}^{(min)}.", "phi: Bel02 surface-element azimuth about the line of sight keeps \\phi. Pech83 orbit-plane azimuth -> \\phi_{orb}; SPW09/Pot12 photon azimuth about the normal -> \\varphi_k; GH83 rotation phase -> \\phi_{rot}.", "theta: RT ray angle to the surface normal keeps \\theta (mu = cos theta). Schwarzschild polar coordinate (Bel02, Pech83) -> \\theta_{Sch}; GH83 line-of-sight colatitude -> \\theta_{los}; Pot12 theta_k merged into \\theta.", "theta_B: Magnetic colatitude keeps \\theta_B. PC03/PLCH04 k-B angle -> \\theta_{kB}; SPW09/Pot12/Ho07 field-normal angle -> \\theta_{Bn}.", "beta: Bel02 bending angle keeps \\beta. PC03 beta_e, beta_p -> \\zeta_e, \\zeta_p (PHC16 spelling); PLCH04 mode parameter -> \\beta_{pol}; GH83 beta (magnetic colatitude) -> \\theta_B."]
+source = "greenstein_hartke_1983_surface_T"
+locator = "Figs. 1, 3; eqs. 15, 21"
+anchor = 'is the magnetic colatitude.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Definitions confirmed, including rotation phase in Fig. 3 (GH83 txt L107-110, L225-229, L280-281)." }]
+notes = "Symbol clash between sources: GH83 uses beta for magnetic colatitude and theta for line-of-sight colatitude; PPP15 App. B uses theta for magnetic colatitude. Adopted project symbols: theta_B and theta_los."
+
+[[entry]]
+id = "surface.notation-temperatures"
+kind = "notation"
+domain = "surface"
+name = "Temperature symbols for the surface thermal map"
+statement = "Local, polar, equatorial, boundary, effective and redshifted temperatures used in the surface-temperature literature."
+symbols = [
+  { sym = "T_s", meaning = "local effective surface temperature in the local reference frame at the stellar surface", units = "K" },
+  { sym = "T_{eff}", sym_source = "T_eff", meaning = "overall effective temperature of the star in the local frame, 4 pi sigma_SB R^2 T_eff^4 = L_ph = integral of F_ph dSigma (PPP15 eq. 39)", units = "K" },
+  { sym = "T_{eff}^\\infty", sym_source = "T_eff^∞", aliases = ["T^\\infty", "T_eff^inf", "T_eff^∞"], meaning = "redshifted (apparent) effective temperature seen by a distant observer, T_eff^inf = T_eff sqrt(1 - r_g/R) = T_eff/(1 + z_g)", meaning_source = "redshifted (apparent) effective temperature seen by a distant observer, T_eff sqrt(1 - r_g/R) (PPP15 eq. 40)", units = "K" },
+  { sym = "T_{pole}", sym_source = "T_pole", meaning = "surface temperature at the magnetic pole (T_pole in GH83 eq. 14; T_p in PPP15 App. B)", units = "K" },
+  { sym = "T_{eq}", sym_source = "T_eq", meaning = "surface temperature at the magnetic equator (PPP15 App. B, T_eq)", units = "K" },
+  { sym = "T_b", meaning = "temperature at the bottom of the heat-blanketing envelope (crust/envelope boundary, density rho_b) (PPP15 Sect. 5.1)", units = "K" },
+  { sym = "T_*", meaning = "temperature from the Appendix-B Ts fits evaluated without the neutrino-limit correction (B.4), used to define the flux F_b = sigma_SB T_*^4 (PPP15 App. B item 4)", units = "K" },
+]
+source = "potekhin_pons_page_2015_thermal"
+locator = "eqs. 39, 40; Sect. 5.1 (L1942-1943); App. B (L2674)"
+notes = "[r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] T_b: Sect. 5.1; App. B normalisation at L2674 \"T9 = Tb /109 K\", refs/potekhin_pons_page_2015_thermal.txt L1942-1943, verbatim \"temperature Tb at the crust/envelope boundary\"."
+anchor = 'introduce the overall effective temperature of the'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Local/global temperatures, redshift and uncorrected T_* agree with PPP15 txt L2098-2111, L2655-2685, L2714-2720." }]
+
+[[entry]]
+id = "surface.notation-envelope-fit"
+kind = "notation"
+domain = "surface"
+name = "Symbols of the PPP15 Appendix-B Tb-Ts fit"
+statement = "Dimensionless scaled variables and intermediate quantities in the analytical fit of surface temperature to envelope-bottom temperature, polar field and magnetic colatitude."
+symbols = [
+  { sym = "B_p", aliases = ["B_pole"], meaning = "magnetic field strength at the magnetic pole (PPP15 App. B)", units = "G" },
+  { sym = "B_{p,12}", sym_source = "B_12", aliases = ["B12 (PPP15 App. B)", "B_12"], meaning = "polar magnetic field B_p/(10^12 G) in Appendix B (PPP15 App. B: B12 = Bp/1012 G)", units = "1" },
+  { sym = "T_9", meaning = "T_b / 1e9 K", units = "1" },
+  { sym = "g_{14}", sym_source = "g_14", meaning = "surface gravity in units of 1e14 cm s^-2 (used in PPP15 eqs. 37, B.1, B.3; not defined explicitly in PPP15 itself)", units = "1" },
+  { sym = "T_{pole}^{(0)}", sym_source = "T_pole^(0)", meaning = "polar surface temperature from fit B.1, neglecting crustal neutrino emission (T_p^(0) in the paper)", units = "K" },
+  { sym = "T_{pole}^{(max)}", sym_source = "T_pole^(max)", meaning = "limiting polar surface temperature where the Tp(Tb) relation levels off due to crustal neutrino emission, eq. B.3", units = "K" },
+  { sym = "T_0^{B.2}", sym_source = "T_0", meaning = "dimensionless fit variable T_0 defined in eq. B.2 (not the GH83 reservoir temperature and not a dimensional temperature scale)", units = "1" },
+  { sym = "T_1^{B.2}", sym_source = "T_1", meaning = "dimensionless fit variable T_1 defined in eq. B.2", units = "1" },
+  { sym = "a^{B.2}", sym_source = "a", meaning = "exponent a = 0.337/(1 + 0.02 sqrt(B_{p,12})) in eq. B.2, with B_{p,12} the polar field in 1e12 G", units = "1" },
+  { sym = "a_1^{B.6}", meaning = "coefficient a_1 = a_2 T_9^{1/2}/3 in eq. B.6", units = "1" },
+  { sym = "a_2^{B.6}", meaning = "coefficient a_2 = 10 B_{p,12}/(T_9^{1/2} + 0.1 B_{p,12} T_9^{-1/4}) in eq. B.6, with B_{p,12} the polar field in 1e12 G", units = "1" },
+  { sym = "\\rho_b", sym_source = "ρ_b", meaning = "mass density at the bottom boundary of the heat-blanketing envelope (1e10 g cm^-3 for the Appendix-B fit)", units = "g cm^-3" },
+  { sym = "F_b", meaning = "heat flux density through the envelope bottom boundary rho = rho_b", units = "erg cm^-2 s^-1" },
+  { sym = "F_{ph}", sym_source = "F_ph", meaning = "local radial photon energy flux density at the stellar surface", units = "erg cm^-2 s^-1" },
+  { sym = "L_{ph}", sym_source = "L_ph", aliases = ["L", "L_ph"], meaning = "photon luminosity in the local reference frame at the stellar surface", units = "erg s^-1" },
+  { sym = "dS", sym_source = "dΣ", aliases = ["dΣ"], meaning = "proper surface element of the stellar surface, dS = R^2 d(cos psi) d phi", meaning_source = "surface element of the stellar surface (PPP15 eq. 39)", units = "cm^2" },
+]
+source = "potekhin_pons_page_2015_thermal"
+locator = "eqs. B.1-B.6, 37, 39"
+anchor = 'T9 = Tb /109 K, and B12 = Bp /1012 G. The limiting temperature, at which Tp (Tb ) levels off due to the'
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Fixed per reviewer: B_12 is the polar field; g_14 inferred provenance removed, explicit definition cited in notes (verified in refs txt L540, PPP15 L2674)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "reject", note = "Notes cite missing refs/potekhin_chabrier_2001_eos.txt and a non-verbatim quote; source g_14 to PY01 txt:540 instead." }]
+notes = "g_14 = g/(10^14 cm s^-2) is defined explicitly in refs/potekhin_yakovlev_2001_cooling.txt L539-540 (\"g14 ≡ g/1014 cm s−2\"), not in PPP15. Bracketed superscripts {B.2}/{B.6} are project disambiguators. [r1 fix applied, per-symbol re-source recorded here because check.py has no per-symbol source field] g_{14}: g_14 = g/(1e14 cm s^-2); replaces the missing-file citation, refs/potekhin_yakovlev_2001_cooling.txt L539-540, verbatim \"g14 ≡ g/1014 cm s−2\"."
+
+[[entry]]
+id = "surface.notation-conduction"
+kind = "notation"
+domain = "surface"
+name = "Heat-conduction and polar-cap symbols (GH83)"
+statement = "Symbols of the anisotropic heat-conduction model and the polar-cap/light-curve discussion of Greenstein and Hartke."
+symbols = [
+  { sym = "K_\\parallel", sym_source = "K_∥", meaning = "thermal conductivity along the magnetic field B (GH83 eq. 6)", units = "erg cm^-1 s^-1 K^-1" },
+  { sym = "K_\\perp", sym_source = "K_⊥", meaning = "thermal conductivity perpendicular to the magnetic field B (GH83 eq. 6); the anisotropic model assumes K_perp << K_par, the source also considers equality", units = "erg cm^-1 s^-1 K^-1" },
+  { sym = "K_{ab}^{cond}", sym_source = "K_ij", aliases = ["K_ij"], meaning = "thermal conductivity tensor K_ab, spatial indices a, b in {x, z} in the horizontal/vertical frame (GH83 eqs. 7-8); not the mode indices i, j", units = "erg cm^-1 s^-1 K^-1" },
+  { sym = "q_z", meaning = "upward heat-flux component at the surface, q_z(surface) = sigma T^4 (GH83 eqs. 10-11)", units = "erg cm^-2 s^-1" },
+  { sym = "L_{slab}", sym_source = "L", aliases = ["L", "L_slab"], meaning = "depth of the isothermal reservoir below the surface (written L in GH83 Fig. 1)", units = "cm" },
+  { sym = "R_{cap}", sym_source = "R_cap", meaning = "radius of the polar cap, R_cap = R^(3/2) [2 pi/(c P_spin)]^(1/2) << R (GH83 eq. 1, where the period is written p)", units = "cm" },
+  { sym = "P_{spin}", sym_source = "P_spin", aliases = ["P_spin", "P_{1856}", "P (vK&K08)", "p (GH83)"], meaning = "spin (rotation) period of the neutron star", meaning_source = "pulsar rotation period (written p in GH83 eq. 1)", units = "s" },
+  { sym = "M_{mod}", sym_source = "M", aliases = ["M", "M_mod"], meaning = "degree of modulation: (peak intensity - minimum intensity)/minimum intensity (GH83 eq. 23)", units = "1" },
+  { sym = "N_H", aliases = ["N_H^{fit}"], meaning = "interstellar hydrogen column density along the line of sight to the source", meaning_source = "hydrogen column density to the source (GH83 Sect. III)", units = "cm^-2" },
+  { sym = "T_{cap}", sym_source = "T_cap", meaning = "temperature of the heated polar cap (GH83 eq. 2-3)", units = "K" },
+  { sym = "T_{bg}", sym_source = "T", aliases = ["T", "T_bg"], meaning = "background temperature of the stellar surface outside the cap (written T in GH83 eqs. 2-3)", units = "K" },
+  { sym = "T_{res}", sym_source = "T_0", aliases = ["T_0", "T_res"], meaning = "temperature of the isothermal heat reservoir below the surface slab (written T_0 in GH83 Fig. 1)", units = "K" },
+  { sym = "T_{fit}", sym_source = "T_fit", meaning = "best-fit blackbody temperature of a synthesised spectrum (GH83 Sect. III c; the source describes it in prose, T_fit is project notation)", units = "K" },
+]
+source = "greenstein_hartke_1983_surface_T"
+locator = "eqs. 1-3, 6-11, 23; Sect. III c, pp. 289-290"
+anchor = 'We assume the thermal conductivity tensor to be diagonal in the primed system:'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator extended to cover T_bg, T_cap, T_fit." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Extended locator covers cap, conduction, modulation and fitted-temperature definitions; equations checked visually." }]
+notes = "GH83 uses sigma for the Stefan-Boltzmann constant in eq. 11 and 13."
+
+[[entry]]
+id = "surface.notation-observer-frame"
+kind = "notation"
+domain = "surface"
+name = "Local-frame versus observer-frame quantities and compactness"
+statement = "Symbols relating local-frame surface quantities to those seen by a distant observer."
+symbols = [
+  { sym = "R^\\infty", sym_source = "R^∞", aliases = ["R^inf", "R^∞", "R_inf", "R_infty"], meaning = "apparent radius of the star for a distant observer, R^inf = R/sqrt(1 - r_g/R) = R(1 + z_g)", meaning_source = "apparent radius for a remote observer, R/sqrt(1 - r_g/R) = R(1+z_g) (PPP15 eq. 40; PHC16 Sect. 2.3)", units = "cm" },
+  { sym = "x_g", aliases = ["u", "u (r_g/R)"], meaning = "compactness r_g/R = 2GM/(c^2 R) at the stellar surface", meaning_source = "compactness parameter x_g = 2GM/(c^2 R) = r_g/R (PHC16 Sect. 2)", units = "1" },
+  { sym = "z_g", aliases = ["z", "z_g^{fit}"], meaning = "gravitational redshift, 1 + z_g = (1 - r_g/R)^(-1/2) = (1 - x_g)^(-1/2)", meaning_source = "gravitational redshift, 1 + z_g = (1 - x_g)^{-1/2} (PHC16 Sect. 2)", units = "1" },
+  { sym = "L_{ph}^\\infty", sym_source = "L_ph^∞", aliases = ["L^inf", "L_ph^inf", "L_ph^∞"], meaning = "apparent photon luminosity for a distant observer, L_ph^inf = (1 - r_g/R) L_ph", meaning_source = "apparent photon luminosity for a remote observer, (1 - r_g/R) L_ph (PPP15 eq. 40)", units = "erg s^-1" },
+  { sym = "\\sigma_{SB}", sym_source = "σ_SB", aliases = ["sigma_SB", "σ", "σ_SB", "σ_sb"], meaning = "Stefan-Boltzmann constant", units = "erg cm^-2 s^-1 K^-4" },
+]
+conflicts_with = ["const.notation-atomic", "eos.notation-structure", "gr.notation-potekhin", "obs.notation-rxj1856-spectral"]
+adopted = true
+adopted_syms = ["R_inf"]
+conflict_notes = ["R_inf: Apparent stellar radius is R^\\infty (one spelling). CODATA Rydberg R_inf -> R_{Ry}; Ho07 emission-region apparent radius -> R_{em}^\\infty."]
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 2.1, p. 4; Sect. 2.3, p. 8"
+anchor = 'Stefan-Boltzmann law Lph'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator corrected: compactness/redshift defined in Sect. 2.1 (txt L169-172, verified)." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Corrected locator includes compactness/redshift definitions and apparent quantities; confirmed visually." }]
+notes = "R, r_g, x_g, z_g, sigma_SB are shared with the gr/const domains; dedup against those at merge."
+
+# ------------------------------------------------------------------ GH83
+[[entry]]
+id = "surface.gh83-cap-radius"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Polar cap radius (GH83 eq. 1)"
+statement = "Radius of the polar cap, defined by the last open field line of a dipole, for stellar radius R, period p and speed of light c; much smaller than R."
+latex = 'R_{\rm cap} = R^{3/2}\,(2\pi/c p)^{1/2} \ll R'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 1, p. 283"
+anchor = 'The radius of the polar cap is'
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Equation confirmed visually; open-magnetosphere cap sizing outside Milestones 1-3; last-open-line definition absent from locator." }]
+depends_on = ["surface.notation-conduction"]
+notes = "OCR garbles the equation; latex read from the page image (p. 283)."
+
+[[entry]]
+id = "surface.gh83-cap-dominance"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Condition for polar-cap emission to dominate (GH83 eqs. 2-3)"
+statement = "Blackbody emission of a polar cap of radius R_cap dominates that of the rest of the star when pi R_cap^2 T_cap^4 > 4 pi R^2 T^4, which with R = 1e6 cm becomes T_cap/T > 12 p^{1/4}."
+latex = '\pi R_{\rm cap}^2 T_{\rm cap}^4 > 4\pi R^2 T^4 \;\Rightarrow\; T_{\rm cap}/T > 12\,p^{1/4}\quad(R=10^6\ {\rm cm})'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eqs. 2-3, p. 284"
+anchor = 'Thermal emission from the cap will dominate that of the'
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Inequalities confirmed visually; magnetospheric cap dominance outside the requested cooling-surface work." }]
+depends_on = ["surface.gh83-cap-radius"]
+notes = "The unit of the period p is not stated beside eq. 3. Latex read from page image p. 284."
+
+[[entry]]
+id = "surface.gh83-isotropic-density"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Density above which conduction is isotropic (GH83 eqs. 4-5)"
+statement = "Conductivity becomes isotropic and temperature constant on horizontal surfaces once the one-dimensional electron Fermi energy greatly exceeds the cyclotron energy, rho >> 1e4 B_12^{3/2} g cm^-3, or once the Fermi energy exceeds the ionisation potential of the last atomic electron, rho >> 1.3e3 g cm^-3; both hold at very shallow depths."
+latex = '\rho \gg 10^4 B_{12}^{3/2}\ {\rm g\,cm^{-3}}\ (4);\qquad \rho \gg 1.3\times10^{3}\ {\rm g\,cm^{-3}}\ (5)'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eqs. 4-5, p. 284"
+anchor = 'condition obtains for densities'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Eq. (5) printed as doubled inequality per page image." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Image confirms both >> signs, 10^4 B12^3/2, 1.3e3 and g cm^-3; conditions match prose." }]
+notes = "B_12 is the field in units of 1e12 G. Latex read from page image p. 284."
+
+[[entry]]
+id = "surface.gh83-approx-1d-anisotropic-slab"
+kind = "approximation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "GH83 one-dimensional anisotropic-conduction slab"
+statement = "Heat conduction from an isothermal reservoir (temperature T_0, depth L) to a plane surface is treated as one-dimensional with field lines threading the slab at angle Phi to the horizontal; the conductivity tensor is diagonal along/across B, flux balances sigma T^4 at the surface, dT/dx is neglected against dT/dz (R >> L), dT/dz is taken constant over the star and the temperature dependence of K is ignored."
+validity = "Crustal layer thin compared with R; the isothermal reservoir lies below the thin anisotropic layer, where conditions (4)-(5) hold; K_perp/K_par small; blackbody surface emission; no polar-cap heating (a narrow step at the poles must be added if cap heating is important). Order-of-magnitude treatment: the authors state a detailed evaluation of dT/dz is beyond the paper."
+source = "greenstein_hartke_1983_surface_T"
+locator = "Sect. II b, pp. 284-285"
+anchor = 'is beyond the scope of this paper. By equation (12) it is to order of magnitude'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Validity clause replaced as proposed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Reservoir placement, neglected horizontal gradient, constant vertical gradient and ignored conductivity-T dependence match." }]
+depends_on = ["surface.gh83-isotropic-density"]
+notes = "PPP15 Sect. 5.3 later shows the 1D approximation overestimates blanketing for nearly tangential fields; see surface.ppp15-approx-1d-envelope."
+
+[[entry]]
+id = "surface.gh83-conductivity-tensor"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Conductivity tensor in the horizontal frame (GH83 eq. 8)"
+statement = "Rotating the diagonal tensor diag(K_par, K_perp) through the field inclination angle Phi gives the conductivity components in the horizontal (x) / vertical (z) frame."
+latex = 'K_{11}=K_\parallel\cos^2\Phi+K_\perp\sin^2\Phi,\quad K_{12}=K_{21}=(K_\parallel-K_\perp)\cos\Phi\sin\Phi,\quad K_{22}=K_\parallel\sin^2\Phi+K_\perp\cos^2\Phi'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 8, p. 285"
+anchor = 'and we obtain the conductivity in the unprimed system:'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All three components, cross-term sign and trigonometric factors match eq. (8), visually verified (txt L129-132)." }]
+depends_on = ["surface.notation-conduction", "surface.notation-geometry"]
+notes = "Latex read from page image p. 285."
+
+[[entry]]
+id = "surface.gh83-flux-balance"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Surface flux balance (GH83 eq. 11)"
+statement = "The heat flux arriving at the surface from below is balanced by blackbody emission from the surface."
+latex = 'q_z({\rm surface}) = \sigma T^4'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 11, p. 285"
+anchor = 'The boundary condition is that the flux arriving at the surface from below is balanced by the emission of blackbody'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. (11) and its blackbody boundary condition match (txt L140-142)." }]
+depends_on = ["surface.gh83-approx-1d-anisotropic-slab"]
+
+[[entry]]
+id = "surface.gh83-surface-flux-relation"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Surface temperature from the anisotropic slab (GH83 eq. 13)"
+statement = "With dT/dx neglected and K_22 ~ K_21, the surface temperature is related to the vertical temperature gradient and the conductivities along and across B, all evaluated at the surface."
+latex = '\sigma T^4 = -\left(K_\parallel\sin^2\Phi + K_\perp\cos^2\Phi\right)\frac{\partial T}{\partial z}'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 13, p. 285"
+anchor = 'where all quantities are evaluated at the surface.'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Minus sign, conductivity factors, derivative and surface evaluation match eq. (13), visually verified." }]
+depends_on = ["surface.gh83-conductivity-tensor", "surface.gh83-flux-balance"]
+notes = "Latex read from page image p. 285."
+
+[[entry]]
+id = "surface.gh83-temperature-distribution"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Greenstein-Hartke surface temperature distribution (GH83 eq. 14)"
+statement = "With dT/dz taken constant and K independent of T, the fourth power of the surface temperature is T_pole^4 times the sum of sin^2 Phi and (K_perp/K_par) cos^2 Phi, where Phi is the angle of the field lines to the horizontal and T_pole is the polar-cap temperature."
+latex = 'T^4 = T_{\rm pole}^4\left(\sin^2\Phi + \frac{K_\perp}{K_\parallel}\cos^2\Phi\right)'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 14, p. 285"
+anchor = 'where Tpole is the temperature at the polar cap and'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Fourth powers, conductivity ratio and assumed constant gradient match eq. (14), visually verified." }]
+depends_on = ["surface.gh83-surface-flux-relation"]
+v1_ref = "archive/v1/src/surface/dipole.jl:41"
+notes = "This, not a cos^2 interpolation T_eq + (T_pole-T_eq)cos^2(theta_B), is the relation GH83 actually state. Latex read from page image p. 285."
+
+[[entry]]
+id = "surface.gh83-dipole-field-inclination"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Dipole field inclination versus magnetic colatitude (GH83 eq. 15)"
+statement = "For a purely dipolar field the angle Phi between the field lines and the local horizontal satisfies tan Phi = 2 cot beta, where beta is the magnetic colatitude."
+latex = '\tan\Phi = 2\cot\beta'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 15, p. 285"
+anchor = 'is the magnetic colatitude.'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "tan Phi = 2 cot beta and magnetic-colatitude definition match eq. (15), visually verified." }]
+depends_on = ["surface.notation-geometry"]
+notes = "Latex read from page image p. 285. This is the only dipole-geometry relation stated in the three assigned sources; B_r, B_theta and |B| are not given (see skipped)."
+
+[[entry]]
+id = "surface.gh83-conduction-limits"
+kind = "result"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Limits of the GH83 temperature distribution"
+statement = "For isotropic conduction (K_perp = K_par) the temperature is constant over the star. As K_perp is reduced relative to K_par the equatorial regions cool, reaching absolute zero in this approximation for K_perp/K_par = 0; the authors note a significantly cooler magnetic equator is spread over a significant fraction of the stellar surface area."
+source = "greenstein_hartke_1983_surface_T"
+locator = "after eq. 15 / Fig. 2, p. 285"
+anchor = 'In the case of isotropic conduction'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Both limiting cases and the qualification \"in this approximation\" are stated explicitly (txt L164-169)." }]
+depends_on = ["surface.gh83-temperature-distribution", "surface.gh83-dipole-field-inclination"]
+notes = "Analytic limits usable as checks on an implementation of eq. 14 + eq. 15."
+
+[[entry]]
+id = "surface.gh83-pole-geometry-angle"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Pole-to-line-of-sight angle versus rotation phase (GH83 eq. 21)"
+statement = "For a magnetic pole at geographic colatitude Psi and an observer at colatitude theta, the cosine of the angle alpha between the pole normal and the line of sight varies with pulsar phase phi as given; a similar term is centred on the other pole."
+latex = '\cos\alpha(t) = \cos\theta\cos\Psi + \sin\theta\sin\Psi\cos\phi'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 21, p. 286"
+anchor = 'magnetic poles is at geographic colatitude'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Products, signs, phase dependence and angle definitions match eq. (21), visually verified." }]
+depends_on = ["surface.notation-geometry"]
+notes = "Latex read from page image p. 286. Only the pole direction is treated; colatitude of a general surface point is not given in the sources."
+
+[[entry]]
+id = "surface.gh83-modulation-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "surface"
+name = "Degree of modulation of a pulsed thermal light curve (GH83)"
+statement = "The degree of modulation M is defined as peak intensity minus minimum intensity divided by minimum intensity. For two small polar caps on a zero-temperature background M = tan(theta) tan(Psi) for a double pulse and M = 2/(cot(theta) cot(Psi) - 1) for a single pulse."
+latex = 'M \equiv \frac{I_{\max}-I_{\min}}{I_{\min}};\quad M=\tan\theta\tan\Psi\ (\text{double pulse}),\quad M=\frac{2}{\cot\theta\cot\Psi-1}\ (\text{single pulse})'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 23, p. 288"
+anchor = 'The degree of modulation M of the emission, defined as peak intensity minus minimum intensity divided by'
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Definition and both formulas match eq. (23); bundled small-cap model unnecessary for Milestones 1-3." }]
+depends_on = ["surface.notation-geometry"]
+notes = "This is GH83's pulsed-fraction-like measure; note it is NOT the (max-min)/(max+min) convention. The explicit formulas hold only for the small-cap, zero-background model. Latex read from page image p. 288."
+
+[[entry]]
+id = "surface.gh83-fwhm"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Full width at half maximum of the small-cap light curve (GH83 eq. 22)"
+statement = "FWHM of the light curve of a small polar cap on an effectively zero-temperature background; for perpendicular orientations theta = Psi = 90 deg the FWHM is 120 deg, and no solution exists when theta = Psi drops below 30 deg."
+latex = '{\rm FWHM} = 2\arccos\left[\tfrac12\left(1-\cot\theta\cot\Psi\right)\right]'
+source = "greenstein_hartke_1983_surface_T"
+locator = "eq. 22, p. 287"
+anchor = 'The light curve is very broad, with the full width at half-maximum given by'
+ocr = "poor"
+status = "rejected"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "drop", note = "Equation, 120 deg limit and 30 deg condition match the page image; small-cap pulse-width analysis unnecessary for Milestones 1-3." }]
+depends_on = ["surface.gh83-pole-geometry-angle"]
+notes = "Latex read from page image p. 287."
+
+[[entry]]
+id = "surface.gh83-approx-blackbody-emission"
+kind = "approximation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "GH83 pure-blackbody surface emission"
+statement = "Citing emissivity studies (Itoh 1975, Brinkman 1980, Cheng and Helfand 1983), the authors state that both the total luminosity and spectrum should not deviate grossly from the blackbody, and assume a pure blackbody form for the surface emission in all subsequent light-curve and spectrum calculations."
+validity = "Order-of-magnitude, 1983 treatment of the Einstein IPC band; the paper does not treat magnetised-atmosphere beaming or spectral hardening. The count-rate integral (eq. 18) contains only the cos(alpha) projection factor and no redshift or light-bending factors."
+source = "greenstein_hartke_1983_surface_T"
+locator = "Sect. III, p. 285"
+anchor = 'and in the following discussion we will assume a pure blackbody form.'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Correctly identifies an adopted assumption and attributes the emissivity claims (txt L172-174); eq. (18) limitations visually confirmed." }]
+notes = "The absence of redshift/light-bending in eq. 18 is read off the printed formula (page image p. 286); the paper does not say so in words."
+
+[[entry]]
+id = "surface.gh83-synthetic-spectrum-fit"
+kind = "datum"
+provenance = "code"
+drop_reason = "verification target only: published GH83 synthetic-fit number, never consumed by the flyby"
+ownership = "stub"
+domain = "surface"
+name = "Best-fit blackbody temperature of a synthesised GH83 spectrum"
+statement = "For the anisotropic-heating temperature distribution (eqs. 14-15) with T_pole = 1e6 K, K_perp/K_par = 0 and an orthogonal rotator (theta = Psi = 90 deg), N_H = 1e21 cm^-2, a blackbody fitted to the synthesised, rotation-averaged IPC spectrum has temperature 0.93e6 K with residuals below 10 percent over the spectral peak. Frozen at the pole-on phase T_fit = 0.95e6 K (residuals a few percent); at light-curve minimum (edge-on, looking at the magnetic equator) T_fit = 0.90e6 K."
+value = 0.93e6
+units = "K"
+uncertainty = "not reported"
+source = "greenstein_hartke_1983_surface_T"
+locator = "Sect. III c, pp. 289-290"
+anchor = 'The best-fit temperature was 0.93'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Locator extended to p. 290 (0.90 MK confirmed at txt L398); uncertainty field added." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Visually confirmed 0.93, 0.95, 0.90 MK, residuals, model parameters and ISM/IPC filtering." }]
+depends_on = ["surface.gh83-temperature-distribution"]
+notes = "Anchor line (OCR of x 10^6 K garbled). Numbers read in the PDF text; the 0.95 and 0.90 values are in the same Sect. III c. IPC-filtered 1983 numerical experiment, not a bolometric statement."
+
+[[entry]]
+id = "surface.gh83-spectrum-conclusion"
+kind = "result"
+provenance = "code"
+drop_reason = "verification target only: GH83 qualitative conclusion about observed spectra, not a render input"
+ownership = "stub"
+domain = "surface"
+name = "GH83 conclusion on blackbody character of the observed spectrum"
+statement = "Within GH83's locally blackbody models filtered through the ISM and Einstein IPC, fitted spectra are approximately blackbody: unless magnetospheric heating of the polar cap is fortuitously adjusted to balance that from the remainder of the star, the observed spectrum of a star with a non-uniform temperature distribution is blackbody in nature, and the best-fit temperature closely approximates that of the polar cap."
+source = "greenstein_hartke_1983_surface_T"
+locator = "Sect. III c, p. 290"
+anchor = 'We conclude that, unless magnetospheric heating of the polar cap is fortuitously adjusted to balance that from'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Statement qualified as proposed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Added model/instrument qualification preserves approximate character and hot-cap exception." }]
+depends_on = ["surface.gh83-synthetic-spectrum-fit"]
+notes = "Blackbody-model, Einstein IPC band statement; the opposite hot-spot-plus-background case gives a two-blackbody sum with ~100 percent off-peak residuals."
+
+# ------------------------------------------------------------------ PPP15
+[[entry]]
+id = "surface.ppp15-teff-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "surface"
+name = "Overall effective temperature of a star with non-uniform T_s (PPP15 eq. 39)"
+statement = "Because T_s is non-uniform over the surface in strong fields, the overall effective temperature T_eff is defined through the photon luminosity as the area integral of the local flux density; T_s, T_eff and L_ph refer to the local reference frame at the stellar surface."
+latex = '4\pi\sigma_{\rm SB}R^2 T_{\rm eff}^4 = L_{\rm ph} = \int F_{\rm ph}\,d\Sigma = \sigma_{\rm SB}\int T_{\rm s}^4\,d\Sigma'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 39, p. 41"
+anchor = 'introduce the overall effective temperature of the'
+anchor_tex = '4 \pi \sSB R^2 \Teff^4 ='
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Eq. (39), both integrals, fourth powers and local-frame interpretation match the page image (txt L2098-2107)." }]
+depends_on = ["surface.notation-temperatures", "surface.notation-envelope-fit"]
+notes = "Integral signs split across lines in the text layer; latex read from page image p. 41. T_eff^4 is therefore the surface average of T_s^4."
+
+[[entry]]
+id = "surface.phc16-ts-definition"
+kind = "definition"
+provenance = "convention"
+ownership = "leaf"
+domain = "surface"
+name = "Local effective surface temperature T_s (PHC16)"
+statement = "A local effective surface temperature T_s is defined by F_ph(theta, phi) = sigma_SB T_s^4, where F_ph is the local radial flux density at the surface point of polar angle theta and azimuth phi. Since L_ph is the integral of F_ph over the surface, T_eff^4 equals the surface average of T_s^4."
+latex = 'F_{\rm ph}(\theta,\varphi) = \sigma_{\rm SB} T_{\rm s}^4'
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 2.3, p. 8"
+anchor = 'relation Fph (θ , ϕ ) = σSB Ts4 , where Fph is the local radial flux density at the surface point'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Local radial flux definition and surface-average relation are explicit (txt L433-439)." }]
+depends_on = ["surface.ppp15-teff-definition"]
+notes = "In PHC16 the (theta, phi) are polar and azimuthal angles in the spherical coordinate system of the star (not magnetic colatitude)."
+
+[[entry]]
+id = "surface.ppp15-redshifted-quantities"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Redshifted (apparent) radius, temperature and luminosity (PPP15 eq. 40)"
+statement = "Apparent quantities detected by a distant observer, after Thorne (1977), in terms of the local-frame R, T_eff, L_ph and r_g."
+latex = 'R^\infty = R/\sqrt{1-r_g/R},\qquad T_{\rm eff}^\infty = T_{\rm eff}\sqrt{1-r_g/R},\qquad L_{\rm ph}^\infty = (1-r_g/R)\,L_{\rm ph}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 40, p. 41"
+anchor = 'frame at the neutron-star surface. The redshifted'
+anchor_tex = 'R^\infty = R / \sqrt{1-r_g/R},'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All three factors match eq. (40), visually verified; Thorne attribution retained." }]
+depends_on = ["surface.notation-observer-frame"]
+notes = "Latex read from page image p. 41. Consistent with PHC16 Sect. 2.3: T^inf = T/(1+z_g), R^inf = R(1+z_g), L^inf = L/(1+z_g)^2 = 4 pi sigma R^inf^2 (T^inf)^4."
+
+[[entry]]
+id = "surface.phc16-redshift-relations"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Gravitational redshift relations for thermal emission (PHC16)"
+statement = "With 1 + z_g = (1 - x_g)^{-1/2}, a thermal spectrum of effective temperature T_eff appears to a remote observer with T_eff^inf = T_eff/(1+z_g); the apparent radius is R^inf = R(1+z_g); the apparent luminosity is L^inf = L/(1+z_g)^2 = 4 pi sigma_SB (R^inf)^2 (T_eff^inf)^4 with local L = 4 pi sigma_SB R^2 T_eff^4."
+latex = '1+z_g=(1-x_g)^{-1/2},\quad T_{\rm eff}^\infty=T_{\rm eff}/(1+z_g),\quad R_\infty=R(1+z_g),\quad L^\infty_{\rm ph}=L_{\rm ph}/(1+z_g)^2=4\pi\sigma_{\rm SB}(R_\infty)^2(T_{\rm eff}^\infty)^4'
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 2.3, p. 8 (1+z_g definition: p. 4)"
+anchor = 'Stefan-Boltzmann law Lph'
+anchor_tex = 'temperature $\Teff^\infty = \Teff / (1+z_g)$.'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "LaTeX radius written R_inf as in source." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Image confirms R_inf subscript, temperature and luminosity redshift factors, Stefan-Boltzmann relation." }]
+depends_on = ["surface.notation-observer-frame"]
+notes = "Anchor line contains the L_ph^inf Stefan-Boltzmann statement; the 1+z_g=(1-x_g)^{-1/2} definition is on the line 'is the column density, where the factor 1 + zg = (1 - xg )-1/2 is the scale change due to the grav-'. Cross-checks eq. 40 of PPP15."
+
+[[entry]]
+id = "surface.ppp15-tb-ts-gudmundsson"
+kind = "equation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Gudmundsson et al. non-magnetic Tb-Ts fit (PPP15 eq. 37)"
+statement = "Fit by Gudmundsson et al. (1983) to numerical thermal structure of non-magnetised iron blanketing envelopes, relating the envelope-bottom temperature T_b to the surface temperature T_s6 = T_s/1e6 K and g_14; considered for log10 T_s[K] >= 5.25."
+latex = 'T_{\rm b} = 1.288\times10^{8}\left(T_{\rm s6}^4/g_{14}\right)^{0.455}\ {\rm K}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. 37, p. 38"
+anchor = 'fitted the numerical solutions by a remarkably simple'
+anchor_tex = 'T_\mathrm{b} = 1.288 \times 10^8 \,'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Unsupported claim deleted; note replaced as proposed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Image confirms 1.288e8, Ts6^4/g14, exponent 0.455, kelvin units, log10 Ts>=5.25; scope retained." }]
+depends_on = ["surface.notation-envelope-fit"]
+notes = "Reference fit for non-magnetic iron envelopes only. Latex read from the text layer 'Ts64 /g14' and eq. 37 line; reviewer to confirm exponents on the PDF page."
+
+[[entry]]
+id = "surface.ppp15-fit-b1-polar-temperature"
+kind = "equation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Polar surface temperature fit without neutrino losses (PPP15 eqs. B.1-B.2)"
+statement = "Effective surface temperature at the magnetic pole, neglecting crustal neutrino emission, as a function of envelope-bottom temperature T_b (via T_9), surface gravity g_14 and polar field B_12, for non-accreted envelopes."
+latex = 'T_{\rm p}^{(0)} = \left[g_{14}\left(T_1^4 + (1+0.15\sqrt{B_{12}})\,T_0^4\right)\right]^{1/4}\times10^6\ {\rm K};\ \ T_0=(15.7\,T_9^{3/2}+1.36\,T_9)^{0.3796},\ \ T_1 = 1.13\,B_{12}^{0.119}T_9^{a},\ \ a=0.337/(1+0.02\sqrt{B_{12}})'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eqs. B.1-B.2, p. 52"
+anchor = 'is approximately given by the expression'
+anchor_tex = 'T_0 = (15.7 T_9^{3/2}+1.36'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Every coefficient, exponent, square root and temperature factor matches eqs. (B.1)-(B.2), visually verified." }]
+depends_on = ["surface.notation-envelope-fit", "surface.ppp15-approx-fit-validity"]
+notes = "Equations garbled in the text layer; latex read from the page image p. 52 (crop at 260 dpi). T_9 = T_b/1e9 K, B_12 = B_p/1e12 G."
+
+[[entry]]
+id = "surface.ppp15-fit-b3-neutrino-limit"
+kind = "equation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Neutrino-limited polar temperature and corrected pole temperature (PPP15 eqs. B.3-B.4)"
+statement = "Limiting polar surface temperature at which T_p(T_b) levels off due to neutrino emission from the crust (B.3), and the corrected polar temperature that takes this limit into account (B.4)."
+latex = 'T_{\rm p}^{(\max)} = \left(5.2\,g_{14}^{0.65} + 0.093\sqrt{g_{14}B_{12}}\right)\times10^6\ {\rm K};\qquad T_{\rm p} = T_{\rm p}^{(0)}\left[1+\left(T_{\rm p}^{(0)}/T_{\rm p}^{(\max)}\right)^4\right]^{-1/4}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eqs. B.3-B.4, p. 52"
+anchor = 'The corrected surface temperature at the pole, which takes this limit into account, is reproduced by the'
+anchor_tex = 'T_\mathrm{p}^\mathrm{(max)}= (5.2 g_{14}^{0.65}+'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Gravity exponent, square-root product, fourth power and correction exponent match eqs. (B.3)-(B.4), visually verified." }]
+depends_on = ["surface.ppp15-fit-b1-polar-temperature"]
+notes = "Latex read from page image p. 52. For B <= 1e12 G the old fit may be used but T_s should be limited according to B.4."
+
+[[entry]]
+id = "surface.ppp15-fit-b5-pole-equator-ratio"
+kind = "equation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Polar-to-equatorial surface temperature ratio fit (PPP15 eq. B.5)"
+statement = "Rough fit for the ratio of the polar to the equatorial surface temperature as a function of T_9 and B_12. The ratio's numerically calculated dependence oscillates at B > 1e13 G; the fit converges to an average value there, with data deviations up to 35 percent, and typical errors of a few percent (up to 10 percent) for B <~ 3e12 G."
+latex = '\frac{T_{\rm p}}{T_{\rm eq}} = 1 + \frac{(1230\,T_9)^{3.35}B_{12}\sqrt{1+2B_{12}^2}}{(B_{12}+450\,T_9+119\,B_{12}T_9)^4} + \frac{0.0066\,B_{12}^{5/2}}{T_9^{1/2}+0.00258\,B_{12}^{5/2}}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. B.5, p. 52"
+anchor = 'The ratio of the polar to equatorial surface temperatures can be roughly evaluated as'
+anchor_tex = '1+ \frac{(1230\,T_9)^{3.35}\,B_{12}\,'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "\"true dependence\" replaced." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "B.5 matches visually incl. all coefficients and exponents; origin and 35%/10% deviations retained." }]
+depends_on = ["surface.notation-envelope-fit", "surface.ppp15-approx-fit-validity"]
+notes = "Latex read from page image p. 52 (crop at 260 dpi). Source says significant deviations affect only the nearly tangential-field equatorial region."
+
+[[entry]]
+id = "surface.ppp15-fit-b6-colatitude-profile"
+kind = "equation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Surface temperature versus magnetic colatitude (PPP15 eq. B.6)"
+statement = "Approximate dependence of the local surface temperature T_s on magnetic colatitude theta, interpolating between the polar temperature T_p (theta = 0) and the equatorial temperature T_eq (theta = pi/2), with coefficients a_1 and a_2 depending on T_9 and B_12."
+validity = "0 <= theta <= pi/2, the sampled magnetic-colatitude interval"
+latex = '\frac{T_{\rm s}(\theta)-T_{\rm eq}}{T_{\rm p}-T_{\rm eq}} = \frac{(1+a_1+a_2)\cos^2\theta}{1+a_1\cos\theta+a_2\cos^2\theta},\quad a_1=\frac{a_2T_9^{1/2}}{3},\quad a_2=\frac{10B_{12}}{T_9^{1/2}+0.1B_{12}T_9^{-1/4}}'
+source = "potekhin_pons_page_2015_thermal"
+locator = "eq. B.6, p. 52"
+anchor = '3. Finally, the dependence of the surface temperature on the magnetic colatitude θ is approximately'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Validity added." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "B.6 and both coefficients match visually; 0<=theta<=pi/2 restriction matches sampled interval." }]
+depends_on = ["surface.ppp15-fit-structure"]
+notes = "Latex read from page image p. 52 (crop at 260 dpi). By inspection the formula equals 1 at theta=0 and 0 at theta=pi/2 (T_p and T_eq limits). It is the PPP15 replacement for the cos^2 ansatz; note the a_1 = 0, a_2 = 0 limit gives T_s - T_eq = (T_p - T_eq) cos^2 theta."
+
+[[entry]]
+id = "surface.ppp15-fit-flux-recipe"
+kind = "equation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Flux through the envelope bottom with neutrino losses (PPP15 App. B item 4)"
+statement = "In the absence of crustal neutrino emission and in the plane-parallel approximation the boundary flux is F_b = sigma_SB T_s^4; if a significant part of the energy is carried away by neutrinos, evaluate F_b = sigma_SB T_*^4 with T_* given by the above Ts approximations without the correction (B.4)."
+latex = 'F_{\rm b} = \sigma_{\rm SB}T_{\rm s}^4\ (Q_\nu\simeq0);\qquad F_{\rm b} = \sigma_{\rm SB}T_*^4\ (\text{with neutrino losses})'
+source = "potekhin_pons_page_2015_thermal"
+locator = "App. B item 4, p. 52"
+anchor = 'the flux through the boundary by the relation'
+anchor_tex = 'plane-parallel approximation) $F_\mathrm{b}=\sSB\Ts^4$. It'
+ocr = "poor"
+image_verified = true
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Both flux prescriptions and omission of correction (B.4) agree with item 4, visually verified." }]
+depends_on = ["surface.ppp15-fit-b3-neutrino-limit"]
+notes = "Anchor on the intact prose line; formulas read from page image p. 52."
+
+[[entry]]
+id = "surface.ppp15-approx-fit-validity"
+kind = "approximation"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Domain of the PPP15 Appendix-B Tb-Ts fit"
+statement = "The fit B.1-B.6 was built on 2D magnetothermal data for non-accreted envelopes with a dipole field: rho_b = 1e10 g cm^-3, BSk21 EoS, 5 values of T_b (1e7-1e9 K), 5 values of B_p (1e11-1e15 G), 20 colatitudes 0..pi/2, supplemented by 1D polar calculations (36 T_b from 10^6.5 to 1e10 K, 9 B_p from 1e11 to 1e15 G). It includes crustal neutrino emission and supersedes Potekhin et al. (2003) for B > 1e12 G or T_b >~ 1e8 K. T_s is multiplied by a correction factor for electron-electron collisions obtained at B = 0."
+validity = "Non-accreted (heavy-element) envelopes; 10^6.5 K <~ T_b <~ 1e10 K; B_p <~ 1e15 G; dipole geometry; B.5 oscillations at B >> 1e13 G averaged over (deviations up to 35 percent). For B <~ 1e12 G the previous fit may be used with T_s limited by B.4."
+source = "potekhin_pons_page_2015_thermal"
+locator = "App. B, pp. 51-52"
+anchor = 'We stress that its use is restricted by non-accreted (i.e., composed of heavy'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Notes replaced as proposed." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Sampling, composition, field/T bounds, neutrino treatment, e-e correction and older-fit recommendation match." }]
+notes = "Appendix B excludes accreted envelopes; for B <~ 10^12 G the previous fit may be used, with the stated B.4 surface-temperature limit."
+
+[[entry]]
+id = "surface.ppp15-fit-structure"
+kind = "definition"
+provenance = "fit"
+reimplement = "A29 L0-L7: own 1-D magnetised envelope solve for T_s(Theta,B,g,T_b) (PPP2015 Eq. 38 + GH83 flux projection)"
+ownership = "stub"
+domain = "surface"
+name = "Three-stage structure of the PPP15 temperature-map fit"
+statement = "The fit consists of three stages: (1) surface temperature at the magnetic pole T_p as a function of T_b, g and B_p; (2) the ratio of polar to equatorial surface temperature T_p/T_eq; (3) the dependence of T_s on magnetic colatitude theta. The local T_s map T_s(theta) is thus fixed by (T_b, g, B_p) through T_p, T_eq and the profile B.6."
+latex = 'T_{\rm p}(T_b,g,B_p)\ \to\ T_{\rm p}/T_{\rm eq}\ \to\ T_{\rm s}(\theta)'
+source = "potekhin_pons_page_2015_thermal"
+locator = "App. B, p. 52"
+anchor = 'The fit consists of 3 stages: (1) an expression for the surface temperature at the magnetic pole, Tp , as'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "All three stages and their input quantities are explicitly stated (txt L2655-2657)." }]
+depends_on = ["surface.ppp15-fit-b1-polar-temperature", "surface.ppp15-fit-b5-pole-equator-ratio"]
+notes = "Entry id kept for dependency wiring; this is the algorithmic recipe, the numerical content is in eqs. B.1-B.6."
+
+[[entry]]
+id = "surface.ppp15-approx-1d-envelope"
+kind = "approximation"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "One-dimensional (radial) heat-blanketing approximation"
+statement = "Envelope thermal structure is computed in the 1D plane-parallel approximation with Fb = sigma_SB Ts^4 locally in the absence of neutrino energy losses in the envelope. It overestimates the heat-blanketing effect where the magnetic field is nearly tangential because heat then flows along field lines from hotter surface regions; for a dipole this is an equatorial band of width ~10 percent of the radius, which is also the coldest region, so its contribution to the total flux is negligible and the 1D approach reproduces the integrated observed flux. For magnetars with complex field geometry the 1D approach is not adequate and a 2D/3D treatment is required."
+validity = "Reliable where the field lines make a substantial angle to the surface (Kaminker et al. 2012, 2014); predicts too low surface temperatures where the tangential field dominates; adequate for integrated flux of dipole fields."
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 5.1; Sect. 5.3, pp. 38, 41-42"
+anchor = '1D approximation overestimates the heat blanketing effect in regions with nearly tan-'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Qualifier and Sect. 5.1 locator added." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Neutrino-free flux qualification and geometric limitations match; equatorial width and flux claims explicit." }]
+depends_on = ["surface.gh83-approx-1d-anisotropic-slab"]
+
+[[entry]]
+id = "surface.ppp15-anisotropic-conduction-nonuniform"
+kind = "result"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Non-uniform T_s from anisotropic conduction in strong fields"
+statement = "In strongly quantising fields heat conduction in the envelope is strongly anisotropic, so the effective local surface temperature T_s is non-uniform and depends on the magnetic-field geometry."
+source = "potekhin_pons_page_2015_thermal"
+locator = "Sect. 5.2, p. 40"
+anchor = 'Therefore the effective local surface temperature Ts is non-uniform and de-'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Nonuniform temperature and dependence on field geometry stated directly (txt L2084-2087)." }]
+depends_on = ["surface.gh83-conduction-limits"]
+
+[[entry]]
+id = "surface.phc16-nonuniform-modulation"
+kind = "result"
+provenance = "derivable"
+ownership = "stub"
+domain = "surface"
+name = "Non-uniform surface temperature and rotational modulation (PHC16)"
+statement = "Since thermal diffusion is anisotropic in a strong magnetic field, the temperature is non-uniform over the stellar surface, which can lead to modulation of the observed thermal flux as the star rotates."
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 2.3, p. 8"
+anchor = 'Since thermal diffusion is anisotropic in a strong magnetic field, the temperature is non-'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "Faithful conditional claim (\"can lead\" to modulation); ref. [69] retained in notes." }]
+depends_on = ["surface.ppp15-anisotropic-conduction-nonuniform"]
+notes = "PHC16 cites its ref. [69] for this statement; a fiducial B-field model is the relativistic dipole [72] (no formula given in PHC16)."
+
+# ------------------------------------------------------------------ RX J1856 dipole-fit datums (PHC16)
+[[entry]]
+id = "surface.phc16-rxj1856-polar-field"
+kind = "datum"
+provenance = "code"
+reimplement = "A34 L0: own maximum-likelihood fit of surface model to measured RX J1856 data"
+ownership = "stub"
+domain = "surface"
+name = "RX J1856.5-3754 piecewise-dipole fit: polar field"
+statement = "The thin magnetised-hydrogen-atmosphere-on-condensed-iron fit of RX J1856.5-3754 used a piecewise approximation to dipole-like distributions of magnetic field and temperature with polar field B_p of about 6e12 G."
+value = 6e12
+units = "G"
+uncertainty = "approximate ('~'); no error bar given"
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 5.1, p. 16"
+anchor = 'with the polar values Bp ∼ 6 × 1012 G, Ts ∼ 0.7 MK, whereas the overall effective temperature is'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "accept", note = "B_p ~ 6e12 G, model composition and piecewise dipole-like distributions explicitly reported as fit results (txt L776-783)." }]
+depends_on = ["surface.notation-envelope-fit"]
+notes = "The fit is that of ref. [101] as reviewed by PHC16; PHC16 notes the inferred field is much smaller than the spindown B_s ~ 1.5e13 G (obs domain, not harvested here)."
+
+[[entry]]
+id = "surface.phc16-rxj1856-polar-ts"
+kind = "datum"
+provenance = "code"
+reimplement = "A34 L0: own maximum-likelihood fit of surface model to measured RX J1856 data"
+ownership = "stub"
+domain = "surface"
+name = "RX J1856.5-3754 piecewise-dipole fit: polar surface temperature"
+statement = "The RX J1856 thin magnetised hydrogen atmosphere over condensed iron fit reviewed from ref. [101] has polar local T_s ~ 0.7 MK."
+value = 0.7e6
+units = "K"
+uncertainty = "approximate ('~'); no error bar given"
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 5.1, p. 16"
+anchor = 'with the polar values Bp ∼ 6 × 1012 G, Ts ∼ 0.7 MK, whereas the overall effective temperature is'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Statement made self-contained." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Model attribution and approximate local polar temperature 0.7 MK match." }]
+depends_on = ["surface.phc16-rxj1856-polar-field"]
+
+[[entry]]
+id = "surface.phc16-rxj1856-teff-inf"
+kind = "datum"
+provenance = "code"
+reimplement = "A34 L0: own maximum-likelihood fit of surface model to measured RX J1856 data"
+ownership = "stub"
+domain = "surface"
+name = "RX J1856.5-3754 overall redshifted effective temperature"
+statement = "The overall (redshifted) effective temperature in the RX J1856 thin hydrogen atmosphere over condensed iron fit reviewed from ref. [101] is T_eff^inf = 0.434 +/- 0.003 MK (1 sigma)."
+value = 0.434e6
+units = "K"
+uncertainty = "0.003e6 K (1 sigma)"
+source = "potekhin_ho_chabrier_2016_review"
+locator = "Sect. 5.1, p. 16"
+anchor = '= 0.434 ± 0.003 MK (1σ significance)'
+ocr = "good"
+status = "blessed"
+reviews = [{ reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 1, verdict = "fix", note = "Statement made self-contained." }, { reviewer = "codex_review.sh", model = "gpt-6.1-sol", round = 2, verdict = "accept", note = "Model attribution, redshifted temperature 0.434 +- 0.003 MK and 1 sigma designation match." }]
+depends_on = ["surface.phc16-rxj1856-polar-ts", "surface.ppp15-teff-definition"]
+notes = "Compare with the polar T_s ~ 0.7 MK to see the non-uniformity the fit requires; the Planck fit of the X-ray spectrum alone gives a 70 percent higher temperature (same PHC16 passage)."
